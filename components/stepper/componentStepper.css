@@ -1,0 +1,73 @@
+.stepper,
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepper__item,
+.step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+button.stepper__item,
+button.step {
+  cursor: pointer;
+}
+
+.stepper__num,
+.step__n {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background: var(--surface-section);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.stepper__item--done,
+.step--done {
+  color: var(--text-body);
+}
+
+.stepper__item--done .stepper__num,
+.step--done .step__n {
+  background: var(--color-data-700);
+  color: var(--color-white);
+}
+
+.stepper__item--current,
+.step--now {
+  background: var(--surface-raised);
+  color: var(--text-body);
+  box-shadow: var(--shadow-subtle);
+}
+
+.stepper__item--current .stepper__num,
+.step--now .step__n {
+  background: var(--color-amber);
+  color: var(--text-on-brand-2);
+}
+
+button.stepper__item:focus-visible,
+button.step:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-soft);
+}

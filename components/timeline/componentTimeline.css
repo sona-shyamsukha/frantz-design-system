@@ -1,0 +1,50 @@
+.timeline,
+.logg {
+  display: grid;
+  gap: var(--space-16);
+}
+
+.timeline__item,
+.loggrad {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: var(--space-16);
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.timeline__item:last-child,
+.loggrad:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.timeline__date,
+.loggdato {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline__body,
+.loggtekst {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.timeline__title,
+.loggtekst b {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 640px) {
+  .timeline__item,
+  .loggrad {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}

@@ -19,3 +19,9 @@
 @import './components/alert/componentAlert.css';
 @import './components/kpi/componentKpi.css';
 @import './components/nav/componentNav.css';
+@import './components/stepper/componentStepper.css';
+@import './components/progress/componentProgress.css';
+@import './components/slider/componentSlider.css';
+@import './components/optioncard/componentOptionCard.css';
+@import './components/table/componentTable.css';
+@import './components/timeline/componentTimeline.css';
