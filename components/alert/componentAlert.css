@@ -1,0 +1,66 @@
+.alert,
+.advarsel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-16);
+  border: 1px solid var(--color-warn-line);
+  border-radius: var(--radius-12);
+  background: var(--bg-danger-soft);
+  color: var(--color-warn);
+  font-size: var(--text-sm);
+}
+
+.alert--error,
+.advarsel {
+  background: var(--bg-danger-soft);
+  border-color: var(--color-warn-line);
+  color: var(--color-warn);
+}
+
+.alert--info {
+  background: var(--bg-info-soft);
+  border-color: var(--border-info-moderate);
+  color: var(--text-info-strong);
+}
+
+.alert--success {
+  background: var(--bg-success-soft);
+  border-color: var(--border-success-moderate);
+  color: var(--text-success-strong);
+}
+
+.alert--warning {
+  background: var(--bg-warning-soft);
+  border-color: var(--border-warning-moderate);
+  color: var(--text-warning-strong);
+}
+
+.alert__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+.alert__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert__title,
+.alert b,
+.advarsel b {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.alert__body {
+  color: inherit;
+}
+
+.alert[hidden],
+.advarsel[hidden] {
+  display: none;
+}

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frantz DS — Stilguide</title>
+<link rel="stylesheet" href="frantz-ds.css">
+<link rel="stylesheet" href="styles/docs.css">
+</head>
+<body class="ds-docs">
+
+<header class="ds-topbar">
+  <div class="ds-topbar__logo">
+    <span class="ds-topbar__mark">F</span>
+    Frantz DS <span class="ds-topbar__version">v0.2</span>
+  </div>
+  <nav class="ds-topbar__nav">
+    <a href="./style-guide.html" class="active">Stilguide</a>
+    <a href="./component-library.html">Komponentbibliotek</a>
+  </nav>
+  <span></span>
+</header>
+
+<nav class="ds-sidebar">
+  <div class="ds-sidebar__group">Modell</div>
+  <a class="ds-sidebar__link" href="#layers">Tokenlag</a>
+  <a class="ds-sidebar__link" href="#rules">Regler</a>
+
+  <div class="ds-sidebar__group">Identitet</div>
+  <a class="ds-sidebar__link" href="#logo">Logo</a>
+
+  <div class="ds-sidebar__group">Farge</div>
+  <a class="ds-sidebar__link" href="#palette">Fargepalett</a>
+  <a class="ds-sidebar__link" href="#backgrounds">Bakgrunner</a>
+  <a class="ds-sidebar__link" href="#borders">Kanter</a>
+  <a class="ds-sidebar__link" href="#text-colors">Tekst</a>
+  <a class="ds-sidebar__link" href="#status">Status</a>
+  <a class="ds-sidebar__link" href="#campaign">Kampanjestatus</a>
+
+  <div class="ds-sidebar__group">Typografi</div>
+  <a class="ds-sidebar__link" href="#fonts">Fonter</a>
+  <a class="ds-sidebar__link" href="#scale">Typeskala</a>
+  <a class="ds-sidebar__link" href="#leading">Linjeavstand</a>
+  <a class="ds-sidebar__link" href="#tracking">Tegnmellomrom</a>
+
+  <div class="ds-sidebar__group">Rom &amp; Form</div>
+  <a class="ds-sidebar__link" href="#spacing">Avstand</a>
+  <a class="ds-sidebar__link" href="#radius">Radius</a>
+  <a class="ds-sidebar__link" href="#shadow">Skygge</a>
+
+  <div class="ds-sidebar__group">Bevegelse &amp; Lag</div>
+  <a class="ds-sidebar__link" href="#motion">Bevegelse</a>
+  <a class="ds-sidebar__link" href="#zindex">Z-indeks</a>
+  <a class="ds-sidebar__link" href="#layout">Layout</a>
+</nav>
+
+<main class="ds-main">
+
+<section class="ds-section" id="layers">
+  <div class="ds-overline">Modell</div>
+  <div class="ds-title">Tokenlag</div>
+  <div class="ds-desc">Samme kjede som vokser-ds. Primitive tokens overstyres aldri. Komponenter leser bare semantiske tokens.</div>
+  <div class="layer-diagram">
+    <div class="layer-card">
+      <div class="layer-card__num" style="color:#1e6f92">Lag 1</div>
+      <div class="layer-card__title">Primitive</div>
+      <div class="layer-card__where">tokens/base.css</div>
+      <div class="layer-card__example">--color-navy: #0C3F59<br>--space-16: 1rem</div>
+    </div>
+    <div class="layer-card">
+      <div class="layer-card__num" style="color:#8a5709">Lag 2</div>
+      <div class="layer-card__title">Semantisk</div>
+      <div class="layer-card__where">tokens/base.css</div>
+      <div class="layer-card__example">--_brand-1: var(--color-navy)<br>--text-heading: var(--color-navy)</div>
+    </div>
+    <div class="layer-card">
+      <div class="layer-card__num" style="color:#0c3f59">Lag 3</div>
+      <div class="layer-card__title">Generert</div>
+      <div class="layer-card__where">color-mix() i base.css</div>
+      <div class="layer-card__example">--bg-brand-1-soft<br>--bg-brand-1-strong-hover</div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="rules">
+  <div class="ds-overline">Modell</div>
+  <div class="ds-title">Regler</div>
+  <div class="ds-desc">Hentet fra kampanjeportal-POC-en og design.md. Disse er ikke valgfrie.</div>
+  <div class="token-list">
+    <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Navy er primær handling. Amber er én nøkkelhandling per skjerm — aldri hvit tekst på amber.</span></div>
+    <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Kontroller: 8px radius. Paneler: 12px. Kort: 16px. Pills bare for filter/chip/status.</span></div>
+    <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Overskrifter: Montserrat 700, negativ tracking. Aldri italic på headings.</span></div>
+    <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Feil: #B3261E. Sideflate er hvit. Tonede paneler bærer hierarkiet.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="logo">
+  <div class="ds-overline">Identitet</div>
+  <div class="ds-title">Logo</div>
+  <div class="ds-desc">Ordmerke i sidemenyen. På mørk rail: hvit. Amber-mark brukes bare i dokumentasjonschrome, ikke i produktet.</div>
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Mørk bakgrunn — portal</div>
+    <div style="display:flex;align-items:center;height:72px;padding:0 28px;background:#072C40;border-radius:8px;color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.02em">Frantz</div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Lys bakgrunn</div>
+    <div style="display:flex;align-items:center;height:72px;padding:0 28px;background:#fff;border:1px solid #e2e9ee;border-radius:8px;color:#0C3F59;font-size:20px;font-weight:700;letter-spacing:-0.02em">Frantz</div>
+  </div>
+</section>
+
+<section class="ds-section" id="palette">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Fargepalett</div>
+  <div class="ds-desc">Rå merkeverdier fra kampanjeportal-POC-en. Semantiske tokens sitter på toppen — primitive farger endres aldri direkte. <span class="chip chip--l1">Lag 1</span></div>
+
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Navy — primær</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch__color" style="background:#0C3F59"></div><div class="swatch__info"><div class="swatch__name">--color-navy</div><div class="swatch__sub">#0C3F59 · headings, primary</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#072C40"></div><div class="swatch__info"><div class="swatch__name">--color-rail</div><div class="swatch__sub">#072C40 · sidemeny</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#145980"></div><div class="swatch__info"><div class="swatch__name">--color-navy-mid</div><div class="swatch__sub">#145980 · gradient</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#1E6F92"></div><div class="swatch__info"><div class="swatch__name">--color-navy-lift</div><div class="swatch__sub">#1E6F92</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#7FB3C9"></div><div class="swatch__info"><div class="swatch__name">--color-navy-soft</div><div class="swatch__sub">#7FB3C9</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#C3DCE7"></div><div class="swatch__info"><div class="swatch__name">--color-navy-pale</div><div class="swatch__sub">#C3DCE7</div></div></div>
+    </div>
+  </div>
+
+  <div class="ds-sub">
+    <div class="ds-sub__title">Amber — aksent</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch__color" style="background:#F7A323"></div><div class="swatch__info"><div class="swatch__name">--color-amber</div><div class="swatch__sub">#F7A323 · én nøkkelhandling</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#E08F12"></div><div class="swatch__info"><div class="swatch__name">--color-amber-hover</div><div class="swatch__sub">#E08F12</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#8A5709"></div><div class="swatch__info"><div class="swatch__name">--color-amber-ink</div><div class="swatch__sub">#8A5709 · AA på lys</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#FEF4E4"></div><div class="swatch__info"><div class="swatch__name">--color-amber-wash</div><div class="swatch__sub">#FEF4E4</div></div></div>
+    </div>
+  </div>
+
+  <div class="ds-sub">
+    <div class="ds-sub__title">Utvidet merkevare</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch__color" style="background:#EC624D"></div><div class="swatch__info"><div class="swatch__name">--color-coral</div><div class="swatch__sub">#EC624D</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#8378B5"></div><div class="swatch__info"><div class="swatch__name">--color-violet</div><div class="swatch__sub">#8378B5</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#4CB79A"></div><div class="swatch__info"><div class="swatch__name">--color-green</div><div class="swatch__sub">#4CB79A</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#187FB3"></div><div class="swatch__info"><div class="swatch__name">--color-blue-light</div><div class="swatch__sub">#187FB3</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#B3261E"></div><div class="swatch__info"><div class="swatch__name">--color-warn</div><div class="swatch__sub">#B3261E</div></div></div>
+    </div>
+  </div>
+
+  <div class="ds-sub">
+    <div class="ds-sub__title">Tekstramp</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch__color" style="background:#2E3D47"></div><div class="swatch__info"><div class="swatch__name">--color-text</div><div class="swatch__sub">#2E3D47 · brødtekst</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#44535D"></div><div class="swatch__info"><div class="swatch__name">--color-ink-700</div><div class="swatch__sub">#44535D</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#5B6B76"></div><div class="swatch__info"><div class="swatch__name">--color-ink-500</div><div class="swatch__sub">#5B6B76</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#8A97A0"></div><div class="swatch__info"><div class="swatch__name">--color-ink-400</div><div class="swatch__sub">#8A97A0</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#C4CDD3"></div><div class="swatch__info"><div class="swatch__name">--color-ink-200</div><div class="swatch__sub">#C4CDD3</div></div></div>
+    </div>
+  </div>
+
+  <div class="ds-sub">
+    <div class="ds-sub__title">Data-viz ramp</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch__color" style="background:#0C3F59"></div><div class="swatch__info"><div class="swatch__name">--color-data-900</div><div class="swatch__sub">#0C3F59</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#1E6F92"></div><div class="swatch__info"><div class="swatch__name">--color-data-700</div><div class="swatch__sub">#1E6F92</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#7FB3C9"></div><div class="swatch__info"><div class="swatch__name">--color-data-500</div><div class="swatch__sub">#7FB3C9</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#C3DCE7"></div><div class="swatch__info"><div class="swatch__name">--color-data-300</div><div class="swatch__sub">#C3DCE7</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:#E8EEF1"></div><div class="swatch__info"><div class="swatch__name">--color-data-100</div><div class="swatch__sub">#E8EEF1</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="backgrounds">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Bakgrunner</div>
+  <div class="ds-desc">Komponenter refererer disse — aldri primitive hex. <span class="chip chip--l2">Lag 2</span></div>
+  <div class="token-list">
+    <div class="token-row"><span class="token-row__name">--surface-default</span><div class="token-row__swatch" style="background:var(--surface-default);border:1px solid #eee"></div><div class="token-row__meta"><span class="token-row__value">#FFFFFF</span><span class="token-row__desc">Sideflate (POC: hvit)</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-subtle</span><div class="token-row__swatch" style="background:var(--surface-subtle)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-panel)</span><span class="token-row__desc">KPI, leseflater, innsatte områder</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-section</span><div class="token-row__swatch" style="background:var(--surface-section)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-panel-2)</span><span class="token-row__desc">Dypere panel, seksjon</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-raised</span><div class="token-row__swatch" style="background:var(--surface-raised);border:1px solid #eee"></div><div class="token-row__meta"><span class="token-row__value">#FFFFFF</span><span class="token-row__desc">Kort du betjener, modaler</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-inverse</span><div class="token-row__swatch" style="background:var(--surface-inverse)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-navy)</span><span class="token-row__desc">Mørke flater</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-rail</span><div class="token-row__swatch" style="background:var(--surface-rail)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-rail)</span><span class="token-row__desc">Portal-sidemeny</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="borders">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Kanter</div>
+  <div class="token-list">
+    <div class="token-row"><span class="token-row__name">--border-subtle</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-subtle)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-line-soft)</span><span class="token-row__desc">Tabellrader, svake skiller</span></div></div>
+    <div class="token-row"><span class="token-row__name">--border-default</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-default)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-line)</span><span class="token-row__desc">Kort, input, seksjoner</span></div></div>
+    <div class="token-row"><span class="token-row__name">--border-strong</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-strong)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-ink-200)</span><span class="token-row__desc">Uthevet kant, hover</span></div></div>
+    <div class="token-row"><span class="token-row__name">--border-focus</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-focus)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-navy)</span><span class="token-row__desc">Fokus på skjemafelt</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="text-colors">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Tekst</div>
+  <div class="token-list">
+    <div class="token-row"><span class="token-row__name">--text-heading</span><div style="width:38px;height:26px;display:flex;align-items:center;font-size:16px;font-weight:700;color:var(--text-heading)">Ag</div><div class="token-row__meta"><span class="token-row__value">#0C3F59</span><span class="token-row__desc">h1–h6</span></div></div>
+    <div class="token-row"><span class="token-row__name">--text-body</span><div style="width:38px;height:26px;display:flex;align-items:center;font-size:16px;color:var(--text-body)">Ag</div><div class="token-row__meta"><span class="token-row__value">#2E3D47</span><span class="token-row__desc">Brødtekst</span></div></div>
+    <div class="token-row"><span class="token-row__name">--text-muted</span><div style="width:38px;height:26px;display:flex;align-items:center;font-size:16px;color:var(--text-muted)">Ag</div><div class="token-row__meta"><span class="token-row__value">#5B6B76</span><span class="token-row__desc">Hjelpetekst, etiketter</span></div></div>
+    <div class="token-row"><span class="token-row__name">--text-faint</span><div style="width:38px;height:26px;display:flex;align-items:center;font-size:16px;color:var(--text-faint)">Ag</div><div class="token-row__meta"><span class="token-row__value">#8A97A0</span><span class="token-row__desc">Placeholder, disabled</span></div></div>
+    <div class="token-row"><span class="token-row__name">--text-on-dark</span><div style="width:38px;height:26px;border-radius:4px;background:var(--surface-inverse);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text-on-dark)">Ag</div><div class="token-row__meta"><span class="token-row__value">#FFFFFF</span><span class="token-row__desc">På --surface-inverse</span></div></div>
+    <div class="token-row"><span class="token-row__name">--text-on-dark-muted</span><div style="width:38px;height:26px;border-radius:4px;background:var(--surface-inverse);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-on-dark-muted)">Ag</div><div class="token-row__meta"><span class="token-row__value">rgba(255,255,255,0.72)</span><span class="token-row__desc">Sekundær på mørk</span></div></div>
+    <div class="token-row"><span class="token-row__name">--text-on-brand-2</span><div style="width:38px;height:26px;border-radius:4px;background:var(--color-amber);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text-on-brand-2)">Ag</div><div class="token-row__meta"><span class="token-row__value">#0C3F59</span><span class="token-row__desc">Tekst på amber — aldri hvit</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="status">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Status</div>
+  <div class="ds-desc">Hvert sett har 4 tokens: <code>bg-soft</code> · <code>border-moderate</code> · <code>text-moderate</code> · <code>text-strong</code>. Brukt i Alert og skjemfeil.</div>
+
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Success</div>
+    <div class="token-list">
+      <div class="token-row"><span class="token-row__name">--bg-success-soft</span><div class="token-row__swatch" style="background:var(--bg-success-soft)"></div><div class="token-row__meta"><span class="token-row__value">#DDF2EC</span><span class="token-row__desc">Bakgrunn</span></div></div>
+      <div class="token-row"><span class="token-row__name">--border-success-moderate</span><div class="token-row__swatch" style="background:var(--border-success-moderate)"></div><div class="token-row__meta"><span class="token-row__value">#4CB79A</span><span class="token-row__desc">Kant</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-success-moderate</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-success-moderate)">Ag</div><div class="token-row__meta"><span class="token-row__value">#2D705E</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-success-strong</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-success-strong)">Ag</div><div class="token-row__meta"><span class="token-row__value">#1E4C3F</span></div></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Info</div>
+    <div class="token-list">
+      <div class="token-row"><span class="token-row__name">--bg-info-soft</span><div class="token-row__swatch" style="background:var(--bg-info-soft)"></div><div class="token-row__meta"><span class="token-row__value">#DDF1F7</span></div></div>
+      <div class="token-row"><span class="token-row__name">--border-info-moderate</span><div class="token-row__swatch" style="background:var(--border-info-moderate)"></div><div class="token-row__meta"><span class="token-row__value">#187FB3</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-info-moderate</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-info-moderate)">Ag</div><div class="token-row__meta"><span class="token-row__value">#1E6F92</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-info-strong</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-info-strong)">Ag</div><div class="token-row__meta"><span class="token-row__value">#0C3F59</span></div></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Warning</div>
+    <div class="token-list">
+      <div class="token-row"><span class="token-row__name">--bg-warning-soft</span><div class="token-row__swatch" style="background:var(--bg-warning-soft)"></div><div class="token-row__meta"><span class="token-row__value">#FEF4E4</span></div></div>
+      <div class="token-row"><span class="token-row__name">--border-warning-moderate</span><div class="token-row__swatch" style="background:var(--border-warning-moderate)"></div><div class="token-row__meta"><span class="token-row__value">#F7A323</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-warning-moderate</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-warning-moderate)">Ag</div><div class="token-row__meta"><span class="token-row__value">#8A5709</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-warning-strong</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-warning-strong)">Ag</div><div class="token-row__meta"><span class="token-row__value">#6B4405</span></div></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Danger</div>
+    <div class="token-list">
+      <div class="token-row"><span class="token-row__name">--bg-danger-soft</span><div class="token-row__swatch" style="background:var(--bg-danger-soft)"></div><div class="token-row__meta"><span class="token-row__value">#FDECEA</span></div></div>
+      <div class="token-row"><span class="token-row__name">--border-danger-moderate</span><div class="token-row__swatch" style="background:var(--border-danger-moderate)"></div><div class="token-row__meta"><span class="token-row__value">#F2C7C2</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-danger-moderate</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-danger-moderate)">Ag</div><div class="token-row__meta"><span class="token-row__value">#B3261E</span></div></div>
+      <div class="token-row"><span class="token-row__name">--text-danger-strong</span><div style="width:38px;height:26px;display:flex;align-items:center;font-weight:700;font-size:15px;color:var(--text-danger-strong)">Ag</div><div class="token-row__meta"><span class="token-row__value">#8F1D17</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="campaign">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Kampanjestatus</div>
+  <div class="ds-desc">Frantz-spesifikke tokens. Badge-komponenten bruker POC-fargene (aktiv grønn, pause amber-wash, utkast grå).</div>
+  <div class="token-list">
+    <div class="token-row"><span class="token-row__name">--status-favourite</span><div class="token-row__swatch" style="background:var(--status-favourite)"></div><div class="token-row__meta"><span class="token-row__value">#8378B5</span></div></div>
+    <div class="token-row"><span class="token-row__name">--status-draft</span><div class="token-row__swatch" style="background:var(--status-draft)"></div><div class="token-row__meta"><span class="token-row__value">#EC624D</span></div></div>
+    <div class="token-row"><span class="token-row__name">--status-setup</span><div class="token-row__swatch" style="background:var(--status-setup)"></div><div class="token-row__meta"><span class="token-row__value">#F7A323</span></div></div>
+    <div class="token-row"><span class="token-row__name">--status-active</span><div class="token-row__swatch" style="background:var(--status-active)"></div><div class="token-row__meta"><span class="token-row__value">#4CB79A</span></div></div>
+    <div class="token-row"><span class="token-row__name">--status-paused</span><div class="token-row__swatch" style="background:var(--status-paused)"></div><div class="token-row__meta"><span class="token-row__value">#187FB3</span></div></div>
+    <div class="token-row"><span class="token-row__name">--status-ended</span><div class="token-row__swatch" style="background:var(--status-ended)"></div><div class="token-row__meta"><span class="token-row__value">#8B8B8B</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="fonts">
+  <div class="ds-overline">Typografi</div>
+  <div class="ds-title">Fonter</div>
+  <div class="ds-desc">Montserrat for både UI og display. Google Fonts, vekter 300–800.</div>
+  <div class="token-list">
+    <div class="token-row" style="grid-template-columns:220px 1fr">
+      <span class="token-row__name">--font-heading / --font-display</span>
+      <div class="token-row__meta"><span style="font-family:var(--font-heading);font-size:22px;font-weight:700;letter-spacing:-0.02em;color:var(--text-heading)">Montserrat</span><span class="token-row__desc">Overskrifter 700</span></div>
+    </div>
+    <div class="token-row" style="grid-template-columns:220px 1fr">
+      <span class="token-row__name">--font-body</span>
+      <div class="token-row__meta"><span style="font-family:var(--font-body);font-size:17px;color:var(--text-heading)">Montserrat</span><span class="token-row__desc">UI og brødtekst</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Skriftvekt</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-light</span><span style="font-size:15px;font-weight:300">300 — liten hjelpetekst</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-normal</span><span style="font-size:15px;font-weight:400">400 — brødtekst</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-medium</span><span style="font-size:15px;font-weight:500">500 — nav-lenker</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-semibold</span><span style="font-size:15px;font-weight:600">600 — knapper, etiketter</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-bold</span><span style="font-size:15px;font-weight:700">700 — overskrifter</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="scale">
+  <div class="ds-overline">Typografi</div>
+  <div class="ds-title">Typeskala</div>
+  <div class="ds-desc">POC-skala. html-base er 16px; --text-base er 15px (0.9375rem).</div>
+  <div class="col-head col-head--type"><span>Token</span><span>rem</span><span>px</span></div>
+  <div class="type-row"><span class="type-row__token">--text-4xl</span><span class="type-row__rem">3.5rem</span><span class="type-row__px">56</span><span style="font-family:var(--font-heading);font-size:var(--text-4xl);font-weight:700;letter-spacing:var(--tracking-display);color:var(--text-heading);line-height:1">Kampanje</span></div>
+  <div class="type-row"><span class="type-row__token">--text-3xl</span><span class="type-row__rem">2.25rem</span><span class="type-row__px">36</span><span style="font-family:var(--font-heading);font-size:var(--text-3xl);font-weight:700;letter-spacing:var(--tracking-display);color:var(--text-heading)">Overskrift 1</span></div>
+  <div class="type-row"><span class="type-row__token">--text-2xl</span><span class="type-row__rem">1.625rem</span><span class="type-row__px">26</span><span style="font-family:var(--font-heading);font-size:var(--text-2xl);font-weight:700;letter-spacing:var(--tracking-heading);color:var(--text-heading)">Overskrift 2</span></div>
+  <div class="type-row"><span class="type-row__token">--text-xl</span><span class="type-row__rem">1.25rem</span><span class="type-row__px">20</span><span style="font-size:var(--text-xl);font-weight:700;color:var(--text-heading)">Overskrift 3</span></div>
+  <div class="type-row"><span class="type-row__token">--text-lg</span><span class="type-row__rem">1.125rem</span><span class="type-row__px">18</span><span style="font-size:var(--text-lg);color:var(--text-body)">Korttittel / lead</span></div>
+  <div class="type-row"><span class="type-row__token">--text-base</span><span class="type-row__rem">0.9375rem</span><span class="type-row__px">15</span><span style="font-size:var(--text-base);color:var(--text-body)">Brødtekst — portalstandard</span></div>
+  <div class="type-row"><span class="type-row__token">--text-sm</span><span class="type-row__rem">0.8125rem</span><span class="type-row__px">13</span><span style="font-size:var(--text-sm);color:var(--text-body)">UI-etiketter, nav</span></div>
+  <div class="type-row"><span class="type-row__token">--text-xs</span><span class="type-row__rem">0.75rem</span><span class="type-row__px">12</span><span style="font-size:var(--text-xs);color:var(--text-muted)">Overlinjer, status, metadata</span></div>
+</section>
+
+<section class="ds-section" id="leading">
+  <div class="ds-overline">Typografi</div>
+  <div class="ds-title">Linjeavstand</div>
+  <div class="token-list">
+    <div class="token-row" style="grid-template-columns:220px 55px 1fr"><span class="token-row__name">--leading-tight</span><span class="token-row__value">1.2</span><span class="token-row__desc">Overskrifter</span></div>
+    <div class="token-row" style="grid-template-columns:220px 55px 1fr"><span class="token-row__name">--leading-snug</span><span class="token-row__value">1.35</span><span class="token-row__desc">Kompakt UI, checkbox-etiketter</span></div>
+    <div class="token-row" style="grid-template-columns:220px 55px 1fr"><span class="token-row__name">--leading-normal</span><span class="token-row__value">1.6</span><span class="token-row__desc">Brødtekst — frantz.no</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="tracking">
+  <div class="ds-overline">Typografi</div>
+  <div class="ds-title">Tegnmellomrom</div>
+  <div class="token-list">
+    <div class="token-row" style="grid-template-columns:200px 80px 1fr"><span class="token-row__name">--tracking-display</span><span class="token-row__value">-0.025em</span><span style="font-family:var(--font-heading);font-size:20px;font-weight:700;letter-spacing:-0.025em;color:var(--text-heading)">Display</span></div>
+    <div class="token-row" style="grid-template-columns:200px 80px 1fr"><span class="token-row__name">--tracking-heading</span><span class="token-row__value">-0.02em</span><span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:var(--text-heading)">Overskrift</span></div>
+    <div class="token-row" style="grid-template-columns:200px 80px 1fr"><span class="token-row__name">--tracking-label</span><span class="token-row__value">0.08em</span><span style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted)">Overlinje</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="spacing">
+  <div class="ds-overline">Rom &amp; Form</div>
+  <div class="ds-title">Avstand</div>
+  <div class="ds-desc">Tokennavn = pikselverdi. Verdier i rem. Skala fra kampanjeportal-POC-en.</div>
+  <div class="col-head col-head--space"><span>Token</span><span>rem</span><span>px</span></div>
+  <div class="space-row"><span class="token-row__name">--space-4</span><span class="type-row__rem">0.25rem</span><span class="type-row__px">4</span><div class="space-bar" style="width:4px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-8</span><span class="type-row__rem">0.5rem</span><span class="type-row__px">8</span><div class="space-bar" style="width:8px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-12</span><span class="type-row__rem">0.75rem</span><span class="type-row__px">12</span><div class="space-bar" style="width:12px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-16</span><span class="type-row__rem">1rem</span><span class="type-row__px">16</span><div class="space-bar" style="width:16px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-24</span><span class="type-row__rem">1.5rem</span><span class="type-row__px">24</span><div class="space-bar" style="width:24px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-32</span><span class="type-row__rem">2rem</span><span class="type-row__px">32</span><div class="space-bar" style="width:32px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-44</span><span class="type-row__rem">2.75rem</span><span class="type-row__px">44</span><div class="space-bar" style="width:44px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-64</span><span class="type-row__rem">4rem</span><span class="type-row__px">64</span><div class="space-bar" style="width:64px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-96</span><span class="type-row__rem">6rem</span><span class="type-row__px">96</span><div class="space-bar" style="width:96px"></div></div>
+</section>
+
+<section class="ds-section" id="radius">
+  <div class="ds-overline">Rom &amp; Form</div>
+  <div class="ds-title">Kantradius</div>
+  <div class="ds-desc">App-standard er <code>--radius-8</code>. Pills bare for filter, chip og status — ikke primærknapper i portalen.</div>
+  <div class="radius-row">
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-2)"></div><div class="radius-label">--radius-2<br>2px</div></div>
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-4)"></div><div class="radius-label">--radius-4<br>4px</div></div>
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-8)"></div><div class="radius-label">--radius-8<br>kontroller</div></div>
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-12)"></div><div class="radius-label">--radius-12<br>paneler</div></div>
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-16)"></div><div class="radius-label">--radius-16<br>kort</div></div>
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-full);width:88px;height:32px"></div><div class="radius-label">--radius-full<br>pill</div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="shadow">
+  <div class="ds-overline">Rom &amp; Form</div>
+  <div class="ds-title">Skygge</div>
+  <div class="shadow-row">
+    <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-subtle)"></div><div class="shadow-label">--shadow-subtle<br>hvile, betjen-kort</div></div>
+    <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-card)"></div><div class="shadow-label">--shadow-card<br>hevet kort</div></div>
+    <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-dialog)"></div><div class="shadow-label">--shadow-dialog<br>dialog</div></div>
+    <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--focus-ring-soft)"></div><div class="shadow-label">--focus-ring-soft<br>input</div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="motion">
+  <div class="ds-overline">Bevegelse &amp; Lag</div>
+  <div class="ds-title">Bevegelse</div>
+  <div class="ds-desc">Tokens finnes. Ingen mikrointeraksjoner er lagt på komponentene ennå.</div>
+  <div class="token-list">
+    <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__name">--ease-out</span><span class="token-row__desc">cubic-bezier(0.16, 1, 0.3, 1)</span></div>
+    <div class="token-row" style="grid-template-columns:200px 60px 1fr"><span class="token-row__name">--duration-fast</span><span class="token-row__value">150ms</span><span class="token-row__desc">Hover, farge</span></div>
+    <div class="token-row" style="grid-template-columns:200px 60px 1fr"><span class="token-row__name">--duration-base</span><span class="token-row__value">250ms</span><span class="token-row__desc">Standard</span></div>
+    <div class="token-row" style="grid-template-columns:200px 60px 1fr"><span class="token-row__name">--duration-slow</span><span class="token-row__value">350ms</span><span class="token-row__desc">Skuff, modal</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="zindex">
+  <div class="ds-overline">Bevegelse &amp; Lag</div>
+  <div class="ds-title">Z-indeks</div>
+  <div class="token-list">
+    <div class="zindex-row"><span class="token-row__name">--z-raised</span><span class="token-row__value">10</span><div class="zindex-bar" style="width:4%"></div></div>
+    <div class="zindex-row"><span class="token-row__name">--z-dropdown</span><span class="token-row__value">100</span><div class="zindex-bar" style="width:25%"></div></div>
+    <div class="zindex-row"><span class="token-row__name">--z-modal</span><span class="token-row__value">200</span><div class="zindex-bar" style="width:50%"></div></div>
+    <div class="zindex-row"><span class="token-row__name">--z-toast</span><span class="token-row__value">300</span><div class="zindex-bar" style="width:75%"></div></div>
+    <div class="zindex-row"><span class="token-row__name">--z-nav</span><span class="token-row__value">400</span><div class="zindex-bar" style="width:100%"></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="layout">
+  <div class="ds-overline">Bevegelse &amp; Lag</div>
+  <div class="ds-title">Layout</div>
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Containerbredder</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:190px 70px 1fr"><span class="token-row__name">--container-sm</span><span class="token-row__value">640px</span><div class="space-bar" style="width:40%"></div></div>
+      <div class="token-row" style="grid-template-columns:190px 70px 1fr"><span class="token-row__name">--container-md</span><span class="token-row__value">768px</span><div class="space-bar" style="width:48%"></div></div>
+      <div class="token-row" style="grid-template-columns:190px 70px 1fr"><span class="token-row__name">--container-lg</span><span class="token-row__value">1024px</span><div class="space-bar" style="width:64%"></div></div>
+      <div class="token-row" style="grid-template-columns:190px 70px 1fr"><span class="token-row__name">--container-xl</span><span class="token-row__value">1280px</span><div class="space-bar" style="width:80%"></div></div>
+      <div class="token-row" style="grid-template-columns:190px 70px 1fr"><span class="token-row__name">--container-2xl</span><span class="token-row__value">1440px</span><div class="space-bar" style="width:90%"></div></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Portal-skall</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:240px 70px 1fr"><span class="token-row__name">--rail-width</span><span class="token-row__value">232px</span><span class="token-row__desc">Sidemeny, desktop</span></div>
+      <div class="token-row" style="grid-template-columns:240px 70px 1fr"><span class="token-row__name">--topbar-height</span><span class="token-row__value">64px</span><span class="token-row__desc">Topplinje</span></div>
+      <div class="token-row" style="grid-template-columns:240px 70px 1fr"><span class="token-row__name">--page-padding-mobile</span><span class="token-row__value">16px</span><span class="token-row__desc">Horisontal marg mobil</span></div>
+      <div class="token-row" style="grid-template-columns:240px 70px 1fr"><span class="token-row__name">--page-padding-desktop</span><span class="token-row__value">32px</span><span class="token-row__desc">Horisontal marg desktop</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+var COPY_SVG = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+var CHECK_SVG = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+function copyToken(text, btn) {
+  navigator.clipboard.writeText(text).catch(function () {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+  btn.innerHTML = CHECK_SVG;
+  btn.classList.add('copied');
+  setTimeout(function () { btn.innerHTML = COPY_SVG; btn.classList.remove('copied'); }, 1500);
+}
+function makeCopyBtn(tokenName) {
+  var btn = document.createElement('button');
+  btn.className = 'copy-btn';
+  btn.title = 'Kopier ' + tokenName;
+  btn.innerHTML = COPY_SVG;
+  btn.addEventListener('click', function (e) { e.stopPropagation(); copyToken(tokenName, btn); });
+  return btn;
+}
+document.querySelectorAll('.swatch').forEach(function (sw) {
+  var nameEl = sw.querySelector('.swatch__name');
+  var colorEl = sw.querySelector('.swatch__color');
+  if (nameEl && colorEl) colorEl.appendChild(makeCopyBtn(nameEl.textContent.trim()));
+});
+document.querySelectorAll('.token-row').forEach(function (row) {
+  var nameEl = row.querySelector('.token-row__name');
+  if (nameEl) row.appendChild(makeCopyBtn(nameEl.textContent.trim()));
+});
+var sections = document.querySelectorAll('section[id]');
+var links = document.querySelectorAll('.ds-sidebar__link');
+var observer = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (!e.isIntersecting) return;
+    links.forEach(function (l) { l.classList.remove('active'); });
+    var a = document.querySelector('.ds-sidebar__link[href="#' + e.target.id + '"]');
+    if (a) a.classList.add('active');
+  });
+}, { rootMargin: '-52px 0px -70% 0px', threshold: 0 });
+sections.forEach(function (s) { observer.observe(s); });
+</script>
+</body>
+</html>

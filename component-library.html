@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frantz DS — Komponentbibliotek</title>
+<link rel="stylesheet" href="frantz-ds.css">
+<link rel="stylesheet" href="styles/docs.css">
+</head>
+<body class="ds-docs">
+
+<header class="ds-topbar">
+  <div class="ds-topbar__logo">
+    <span class="ds-topbar__mark">F</span>
+    Frantz DS <span class="ds-topbar__version">v0.2</span>
+  </div>
+  <nav class="ds-topbar__nav">
+    <a href="./style-guide.html">Stilguide</a>
+    <a href="./component-library.html" class="active">Komponentbibliotek</a>
+  </nav>
+  <span></span>
+</header>
+
+<div class="cl-layout">
+<aside class="cl-sidebar">
+  <div class="cl-tab-group">Skall</div>
+  <button class="cl-tab active" type="button" onclick="showTab('nav', this)">Portal-nav</button>
+
+  <div class="cl-tab-group">Handlinger</div>
+  <button class="cl-tab" type="button" onclick="showTab('button', this)">Knapp</button>
+
+  <div class="cl-tab-group">Skjema &amp; feedback</div>
+  <button class="cl-tab" type="button" onclick="showTab('form', this)">Skjemafelt</button>
+  <button class="cl-tab" type="button" onclick="showTab('choice', this)">Valg</button>
+  <button class="cl-tab" type="button" onclick="showTab('alert', this)">Varsel</button>
+  <button class="cl-tab" type="button" onclick="showTab('badge', this)">Status</button>
+
+  <div class="cl-tab-group">Innhold</div>
+  <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
+  <button class="cl-tab" type="button" onclick="showTab('kpi', this)">KPI</button>
+</aside>
+
+<div class="cl-main">
+
+<div class="cl-panel active" id="panel-nav">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Portal-nav</h2>
+      <span class="cl-component-class">.app .rail .nav .topbar</span>
+    </div>
+    <div class="cl-demo cl-demo--flush">
+      <p class="cl-note" style="padding:20px 32px 0">Sidemeny 232px, rail #072C40. Aktiv side får amber-ikon. Under 860px blir rail en skuff.</p>
+      <div class="app">
+        <aside class="rail">
+          <div class="railtopp"><div class="logo">Frantz</div></div>
+          <nav class="nav" aria-label="Hovedmeny">
+            <button type="button" class="nav__item" aria-current="page"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6.5 8 2l6 4.5V14H2z"/></svg>Hjem</button>
+            <button type="button" class="nav__item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 3.5h12M2 8h12M2 12.5h8"/></svg>Kampanjer</button>
+            <button type="button" class="nav__item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v10M3 8h10"/></svg>Ny kampanje</button>
+            <div class="nav__group">Ressurser</div>
+            <button type="button" class="nav__item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2.4"/></svg>Innstillinger</button>
+          </nav>
+        </aside>
+        <div class="main">
+          <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+          <div class="wrap"><h1 class="text-h2">Hjem</h1><p class="lede">Oversikt over kampanjene.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="app"&gt;
+  &lt;aside class="rail"&gt;
+    &lt;div class="railtopp"&gt;&lt;div class="logo"&gt;Frantz&lt;/div&gt;&lt;/div&gt;
+    &lt;nav class="nav"&gt;
+      &lt;button class="nav__item" aria-current="page"&gt;Hjem&lt;/button&gt;
+      &lt;button class="nav__item"&gt;Kampanjer&lt;/button&gt;
+      &lt;div class="nav__group"&gt;Ressurser&lt;/div&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+  &lt;div class="main"&gt;
+    &lt;header class="topbar"&gt;...&lt;/header&gt;
+    &lt;div class="wrap"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-button">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Knapp</h2>
+      <span class="cl-component-class">.btn</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note">Navy er standard primær. <code>btn--accent</code> er én nøkkelhandling per skjerm. Alias: <code>btn--kvit</code> = secondary.</p>
+      <span class="cl-variant">Varianter</span>
+      <div class="cl-row">
+        <button class="btn btn--primary">Ny kampanje</button>
+        <button class="btn btn--accent">Bestill kampanje</button>
+        <button class="btn btn--secondary">Avbryt</button>
+        <button class="btn btn--ghost">Vis alle</button>
+        <button class="btn btn--primary" disabled>Deaktivert</button>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;button class="btn btn--primary"&gt;Ny kampanje&lt;/button&gt;
+&lt;button class="btn btn--accent"&gt;Bestill kampanje&lt;/button&gt;
+&lt;button class="btn btn--secondary"&gt;Avbryt&lt;/button&gt;
+&lt;button class="btn btn--ghost"&gt;Vis alle&lt;/button&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-form">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Skjemafelt</h2>
+      <span class="cl-component-class">.felt .input .form-select</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note">1px kant, 8px radius, myk navy fokusring. POC-klasser <code>.felt</code> / <code>.input</code> er aliases.</p>
+      <div class="feltrad">
+        <div class="felt">
+          <label for="cl-tittel">Stillingsstittel</label>
+          <input class="input" id="cl-tittel" type="text" value="Sykepleier">
+          <span class="hjelp">Vises i annonsen.</span>
+        </div>
+        <div class="felt">
+          <label for="cl-sted">Sted</label>
+          <div class="form-select-wrap">
+            <select class="form-select" id="cl-sted">
+              <option>Oslo</option>
+              <option>Bergen</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="cl-sep"></div>
+      <div class="felt">
+        <label for="cl-err">Budsjett</label>
+        <input class="input input--error" id="cl-err" type="text" value="0">
+        <span class="form-error">Oppgi et budsjett over kr 5 000.</span>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Chips / filter</span>
+      <div class="chips">
+        <button type="button" class="chip" aria-pressed="true">Sykepleier</button>
+        <button type="button" class="chip">Lege</button>
+        <button type="button" class="chip">Jordmor</button>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="felt"&gt;
+  &lt;label for="tittel"&gt;Stillingsstittel&lt;/label&gt;
+  &lt;input class="input" id="tittel" type="text"&gt;
+  &lt;span class="hjelp"&gt;Vises i annonsen.&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-choice">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Valg</h2>
+      <span class="cl-component-class">.form-check .form-radio .form-toggle</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note">Checkbox følger POC-kanalvalg (navy-lift når på). Toggle er 51×27 som i profilhåndboka.</p>
+      <div class="cl-stack">
+        <label class="form-check">
+          <input class="form-check__input" type="checkbox" checked>
+          <span class="form-check__box"></span>
+          <span class="form-check__label">Finn.no</span>
+        </label>
+        <label class="form-radio">
+          <input class="form-radio__input" type="radio" name="dekning" checked>
+          <span class="form-radio__dot"></span>
+          <span class="form-radio__label">Regionalt</span>
+        </label>
+        <label class="form-toggle">
+          <input class="form-toggle__input" type="checkbox" checked>
+          <span class="form-toggle__track"></span>
+          <span class="form-toggle__label">Autopubliser</span>
+        </label>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;label class="form-check"&gt;
+  &lt;input class="form-check__input" type="checkbox"&gt;
+  &lt;span class="form-check__box"&gt;&lt;/span&gt;
+  &lt;span class="form-check__label"&gt;Finn.no&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-alert">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Varsel</h2>
+      <span class="cl-component-class">.alert .advarsel</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note"><code>.advarsel</code> er POC-alias for feil/fare.</p>
+      <div class="cl-stack">
+        <div class="advarsel"><div><b>Budsjettet er brukt opp</b>Kampanjen stopper i dag hvis du ikke øker rammen.</div></div>
+        <div class="alert alert--success"><div class="alert__content"><b>Kampanjen er bestilt</b><div class="alert__body">Du får bekreftelse når den er live.</div></div></div>
+        <div class="alert alert--info"><div class="alert__content"><b>Tips</b><div class="alert__body">Velg minst to kanaler.</div></div></div>
+        <div class="alert alert--warning"><div class="alert__content"><b>Ligger bak plan</b><div class="alert__body">Justér bud eller periode.</div></div></div>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="advarsel"&gt;&lt;b&gt;Budsjettet er brukt opp&lt;/b&gt;...&lt;/div&gt;
+&lt;div class="alert alert--success"&gt;...&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-badge">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Status</h2>
+      <span class="cl-component-class">.badge .pill</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note">POC-pills: aktiv, kladd, pause, avsluttet. Håndbok-varianter: oppsett, favoritt.</p>
+      <div class="cl-row">
+        <span class="badge badge--active">Aktiv</span>
+        <span class="badge badge--draft">Utkast</span>
+        <span class="badge badge--paused">Pauset</span>
+        <span class="badge badge--ended">Avsluttet</span>
+        <span class="badge badge--setup">Oppsett</span>
+        <span class="badge badge--favourite">Favoritt</span>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;
+&lt;span class="pill pill--pause"&gt;Pauset&lt;/span&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-card">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Kort</h2>
+      <span class="cl-component-class">.card</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note"><code>card--betjen</code> = hvit + ramme (du jobber). <code>card--les</code> = tonet, uten ramme. Statuskort har 20px fargefelt.</p>
+      <div class="cl-stack">
+        <div class="card card--betjen">
+          <div class="card__head"><div>
+            <h3 class="card__title">Trenger oppmerksomhet</h3>
+            <p class="card__hint">Kampanjer som ligger bak plan eller står på pause.</p>
+          </div></div>
+        </div>
+        <div class="card card--les">
+          <h3 class="card__title">Leseflate</h3>
+          <p class="card__hint">Tonet, uten ramme.</p>
+        </div>
+        <div class="card card--status card--status-green">
+          <h3 class="card__title">Aktiv kampanje</h3>
+          <p class="card__hint">Venstre fargefelt + 20 % tint.</p>
+        </div>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="card card--betjen"&gt;
+  &lt;h3 class="card__title"&gt;Trenger oppmerksomhet&lt;/h3&gt;
+  &lt;p class="card__hint"&gt;...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-kpi">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">KPI</h2>
+      <span class="cl-component-class">.nokkel .fakta</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note">Fire kolonner på desktop, to under 1180px. POC-klasser <code>.nokkel</code> / <code>.fakta</code>.</p>
+      <div class="nokkel">
+        <dl class="fakta"><dt>Aktive kampanjer</dt><dd>4</dd></dl>
+        <dl class="fakta"><dt>Søknadsklikk</dt><dd>1 284</dd></dl>
+        <dl class="fakta"><dt>Interessenter</dt><dd>86 leads</dd></dl>
+        <dl class="fakta"><dt>Budsjett i bruk</dt><dd>kr 48 200 <span>av kr 72 000</span></dd></dl>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="nokkel"&gt;
+  &lt;dl class="fakta"&gt;&lt;dt&gt;Aktive kampanjer&lt;/dt&gt;&lt;dd&gt;4&lt;/dd&gt;&lt;/dl&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.cl-panel').forEach(function (p) { p.classList.remove('active'); });
+  document.querySelectorAll('.cl-tab').forEach(function (t) { t.classList.remove('active'); });
+  var panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+function toggleCode(btn) {
+  var open = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!open));
+  btn.nextElementSibling.classList.toggle('open', !open);
+}
+function copyPre(btn) {
+  var pre = btn.closest('.cl-code').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText);
+  btn.textContent = 'Kopiert';
+  btn.classList.add('copied');
+  setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* =============================================================
+   PROJECT OVERRIDE TEMPLATE — Frantz Design System
+   Copy → tokens/client/[projectname].css → link AFTER frantz-ds.css
+
+   3-LAYER COLOUR MODEL
+   ─────────────────────────────────────────────────────────────
+   Layer 1  --my-brand-navy: #0C3F59        raw hex, no var()
+   Layer 2  --_brand-1: var(--my-brand-navy) maps to system slots
+   Layer 3  auto-generated in base.css via color-mix() — no action
+
+   RULE: Only override what changes. Everything else inherits.
+   ============================================================= */
+
+:root {
+
+  /* ── LAYER 1: BRAND PALETTE ─────────────────────────────────── */
+  --my-brand-primary:   #0C3F59;
+  --my-brand-secondary: #F7A323;
+  --my-brand-dark:      #072C40;
+
+
+  /* ── LAYER 2: SYSTEM MAPPING ────────────────────────────────── */
+  --_brand-1:        var(--my-brand-primary);
+  --_brand-2:        var(--my-brand-secondary);
+  --text-on-brand-1: #ffffff;
+  --text-on-brand-2: #0C3F59;
+
+  /* Surfaces — uncomment and set only what differs from defaults */
+  /* --surface-default:  #ffffff; */
+  /* --surface-subtle:   #f2f6f9; */
+  /* --surface-section:  #e8eef1; */
+  /* --surface-inverse:  var(--my-brand-dark); */
+
+  /* Text */
+  /* --text-heading:  #0c3f59; */
+  /* --text-body:     #2e3d47; */
+  /* --text-muted:    #5b6b76; */
+
+
+  /* ── TYPOGRAPHY (optional) ──────────────────────────────────── */
+  /*
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  --font-display: 'Inter', system-ui, sans-serif;
+  */
+
+
+  /* ── OTHER ADJUSTMENTS (optional) ───────────────────────────── */
+  /* --radius-8: 4px; */
+}

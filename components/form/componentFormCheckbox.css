@@ -1,0 +1,50 @@
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-check__input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.form-check__box {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border: 1.5px solid var(--color-ink-200);
+  border-radius: 6px;
+  background: var(--surface-raised);
+}
+
+.form-check__input:checked + .form-check__box {
+  background: var(--color-navy-lift);
+  border-color: var(--color-navy-lift);
+}
+
+.form-check__input:checked + .form-check__box::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid var(--color-white);
+  border-bottom: 2px solid var(--color-white);
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.form-check__input:focus-visible + .form-check__box {
+  box-shadow: var(--focus-ring-soft);
+}
+
+.form-check__label {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--text-body);
+}

@@ -1,0 +1,273 @@
+/* =============================================================
+   FRANTZ DESIGN SYSTEM — BASE TOKENS
+   Source of truth: frantz-kampanjeportal.html (POC) + design.md
+   Architecture mirrors vokser-ds: primitive → semantic → brand slot.
+   Default: Frantz brand. Override per project in tokens/client/[project].css
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+
+  /* ── COLOUR PALETTE (exact POC values) ──────────────────────── */
+
+  /* Navy (primary) */
+  --color-navy:        #0C3F59;   /* Primary brand — headings, nav, primary action */
+  --color-navy-mid:    #145980;   /* Gradient partner (frantz.no) */
+  --color-navy-lift:   #1E6F92;   /* Lighter navy — data, hover */
+  --color-navy-soft:   #7FB3C9;   /* Soft navy tint */
+  --color-navy-pale:   #C3DCE7;   /* Pale navy tint */
+  --color-rail:        #072C40;   /* Portal sidebar (darkest navy) */
+
+  /* Amber (accent) */
+  --color-amber:       #F7A323;   /* Accent — one key action per screen */
+  --color-amber-hover: #E08F12;
+  --color-amber-ink:   #8A5709;   /* Amber text that passes AA on light */
+  --color-amber-wash:  #FEF4E4;   /* Amber tint background */
+
+  /* Extended brand (charts / status) */
+  --color-coral:       #EC624D;
+  --color-violet:      #8378B5;
+  --color-green:       #4CB79A;
+  --color-blue-light:  #187FB3;
+
+  /* Ink / text ramp */
+  --color-ink-900:     #0C3F59;
+  --color-text:        #2E3D47;   /* Body text — most used on frantz.no */
+  --color-ink-700:     #44535D;
+  --color-ink-500:     #5B6B76;
+  --color-ink-400:     #8A97A0;
+  --color-ink-200:     #C4CDD3;
+
+  /* Surfaces */
+  --color-white:       #FFFFFF;
+  --color-black:       #000000;
+  --color-panel:       #F2F6F9;   /* Toned panel */
+  --color-panel-2:     #E8EEF1;   /* Deeper panel / section */
+  --color-line:        #E2E9EE;   /* Borders, dividers */
+  --color-line-soft:   #EFF3F6;   /* Subtle dividers */
+
+  /* Data-viz ramp (navy → pale) */
+  --color-data-900:    #0C3F59;
+  --color-data-700:    #1E6F92;
+  --color-data-500:    #7FB3C9;
+  --color-data-300:    #C3DCE7;
+  --color-data-100:    #E8EEF1;
+
+  /* Alert / danger */
+  --color-warn:        #B3261E;
+  --color-warn-wash:   #FDECEA;
+  --color-warn-line:   #F2C7C2;
+
+
+  /* ── SEMANTIC COLOUR ROLES ──────────────────────────────────── */
+  /* Components reference these — never the raw primitives above. */
+
+  --text-heading:       var(--color-navy);
+  --text-body:          var(--color-text);
+  --text-muted:         var(--color-ink-500);
+  --text-faint:         var(--color-ink-400);
+  --text-on-dark:       var(--color-white);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.72);
+
+  --border-default:     var(--color-line);
+  --border-strong:      var(--color-ink-200);
+  --border-subtle:      var(--color-line-soft);
+  --border-focus:       var(--color-navy);
+
+
+  /* ── BRAND SLOTS (system-internal) ──────────────────────────── */
+  /* Set these in a project override to re-skin every component.   */
+
+  --_brand-1: var(--color-navy);
+  --_brand-2: var(--color-amber);
+
+  --text-on-brand-1: var(--color-white);   /* white on navy — passes AA */
+  --text-on-brand-2: var(--color-navy);    /* navy on amber — AA (never white) */
+
+
+  /* ── BRAND-1 (navy) GENERATED TOKENS ────────────────────────── */
+
+  --bg-brand-1-soft:          color-mix(in oklch, var(--_brand-1), white 90%);
+  --bg-brand-1-moderate:      color-mix(in oklch, var(--_brand-1), white 55%);
+  --bg-brand-1-strong:        var(--_brand-1);
+  --bg-brand-1-strong-hover:  color-mix(in oklch, var(--_brand-1), black 18%);
+
+  --border-brand-1-soft:      color-mix(in oklch, var(--_brand-1), white 80%);
+  --border-brand-1-moderate:  color-mix(in oklch, var(--_brand-1), white 40%);
+  --border-brand-1-strong:    var(--_brand-1);
+
+  --text-brand-1-moderate:    color-mix(in oklch, var(--_brand-1), black 10%);
+  --text-brand-1-strong:      var(--_brand-1);
+
+
+  /* ── BRAND-2 (amber) GENERATED TOKENS ───────────────────────── */
+
+  --bg-brand-2-soft:          var(--color-amber-wash);
+  --bg-brand-2-moderate:      color-mix(in oklch, var(--_brand-2), white 55%);
+  --bg-brand-2-strong:        var(--_brand-2);
+  --bg-brand-2-strong-hover:  var(--color-amber-hover);
+
+  --border-brand-2-soft:      color-mix(in oklch, var(--_brand-2), white 80%);
+  --border-brand-2-moderate:  color-mix(in oklch, var(--_brand-2), white 40%);
+  --border-brand-2-strong:    var(--_brand-2);
+
+  --text-brand-2-moderate:    var(--color-amber-ink);
+  --text-brand-2-strong:      var(--color-amber-ink);
+
+
+  /* ── STRUCTURAL SURFACES ─────────────────────────────────────── */
+
+  --surface-default:  var(--color-white);   /* page (POC: white) */
+  --surface-subtle:   var(--color-panel);
+  --surface-section:  var(--color-panel-2);
+  --surface-raised:   var(--color-white);
+  --surface-inverse:  var(--color-navy);
+  --surface-rail:     var(--color-rail);
+  --rail-ink:         #9FBAC8;
+  --rail-line:        rgba(255, 255, 255, 0.09);
+  --rail-hover:       rgba(255, 255, 255, 0.07);
+  --rail-active:      rgba(255, 255, 255, 0.12);
+
+
+  /* ── STATUS COLOR SETS ───────────────────────────────────────── */
+  /* 4-token set per status: bg-soft, border-moderate, text-moderate, text-strong */
+
+  --bg-success-soft:          #DDF2EC;
+  --border-success-moderate:  #4CB79A;
+  --text-success-moderate:    #2D705E;
+  --text-success-strong:      #1E4C3F;
+
+  --bg-info-soft:             #DDF1F7;
+  --border-info-moderate:     #187FB3;
+  --text-info-moderate:       #1E6F92;
+  --text-info-strong:         #0C3F59;
+
+  --bg-warning-soft:          var(--color-amber-wash);
+  --border-warning-moderate:  var(--color-amber);
+  --text-warning-moderate:    var(--color-amber-ink);
+  --text-warning-strong:      #6B4405;
+
+  --bg-danger-soft:           var(--color-warn-wash);
+  --border-danger-moderate:   var(--color-warn-line);
+  --text-danger-moderate:     var(--color-warn);
+  --text-danger-strong:       #8F1D17;
+
+
+  /* ── CAMPAIGN STATUS COLORS (Frantz-specific) ───────────────── */
+
+  --status-favourite: var(--color-violet);   /* #8378B5 */
+  --status-draft:     var(--color-coral);     /* #EC624D */
+  --status-setup:     var(--color-amber);     /* #F7A323 */
+  --status-active:    var(--color-green);     /* #4CB79A */
+  --status-paused:    var(--color-blue-light); /* #187FB3 */
+  --status-ended:     #8B8B8B;
+
+
+  /* ── TYPOGRAPHY ─────────────────────────────────────────────── */
+  /* Montserrat for both UI and display. Headings 700 + negative tracking. */
+
+  --font-display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: var(--font-display);
+  --font-body:    'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Type scale (POC px in rem, base = 15px) */
+  --text-xs:    0.75rem;    /* 12px */
+  --text-sm:    0.8125rem;  /* 13px */
+  --text-base:  0.9375rem;  /* 15px */
+  --text-lg:    1.125rem;   /* 18px */
+  --text-xl:    1.25rem;    /* 20px */
+  --text-2xl:   1.625rem;   /* 26px */
+  --text-3xl:   2.25rem;    /* 36px */
+  --text-4xl:   3.5rem;     /* 56px */
+
+  /* Font weights */
+  --font-weight-light:    300;
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+  --font-weight-heading:  var(--font-weight-bold);
+  --font-weight-emphasis: var(--font-weight-semibold);
+
+  /* Leading */
+  --leading-tight:  1.2;
+  --leading-snug:   1.35;
+  --leading-normal: 1.6;
+
+  /* Tracking */
+  --tracking-display: -0.025em;
+  --tracking-heading: -0.02em;
+  --tracking-label:    0.08em;
+
+
+  /* ── SPACING (POC scale) ────────────────────────────────────── */
+
+  --space-4:    0.25rem;   /*  4px */
+  --space-8:    0.5rem;    /*  8px */
+  --space-12:   0.75rem;   /* 12px */
+  --space-16:   1rem;      /* 16px */
+  --space-24:   1.5rem;    /* 24px */
+  --space-32:   2rem;      /* 32px */
+  --space-44:   2.75rem;   /* 44px */
+  --space-64:   4rem;      /* 64px */
+  --space-96:   6rem;      /* 96px */
+
+
+  /* ── LAYOUT ─────────────────────────────────────────────────── */
+
+  --container-sm:   640px;
+  --container-md:   768px;
+  --container-lg:   1024px;
+  --container-xl:   1280px;
+  --container-2xl:  1440px;
+
+  --page-padding-mobile:  16px;
+  --page-padding-desktop: 32px;
+
+  --rail-width:     232px;
+  --topbar-height:  64px;
+
+
+  /* ── RADIUS ─────────────────────────────────────────────────── */
+
+  --radius-2:     2px;
+  --radius-4:     4px;
+  --radius-8:     8px;    /* Frantz default: app controls */
+  --radius-12:    12px;   /* panels */
+  --radius-16:    16px;   /* cards / marketing */
+  --radius-full:  999px;  /* pills (marketing only) */
+
+
+  /* ── SHADOW ─────────────────────────────────────────────────── */
+
+  --shadow-subtle: 0 1px 2px rgba(12, 63, 89, 0.05), 0 1px 1px rgba(12, 63, 89, 0.04);
+  --shadow-card:   0 8px 28px rgba(12, 63, 89, 0.10);
+  --shadow-dialog: 0 16px 48px rgba(12, 63, 89, 0.16), 0 4px 12px rgba(12, 63, 89, 0.08);
+
+  --focus-ring:      0 0 0 3px rgba(12, 63, 89, 0.35);
+  --focus-ring-soft: 0 0 0 3px rgba(12, 63, 89, 0.10);
+
+
+  /* ── MOTION ─────────────────────────────────────────────────── */
+
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 350ms;
+
+
+  /* ── Z-INDEX ────────────────────────────────────────────────── */
+
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-modal:    200;
+  --z-toast:    300;
+  --z-nav:      400;
+
+
+  /* ── GRADIENTS (frantz.no — marketing only) ─────────────────── */
+
+  --gradient-hero: linear-gradient(135deg, var(--color-navy), var(--color-navy-mid));
+  --gradient-band: linear-gradient(135deg, #0C3F59 0, #145980 50%, #0C3F59 100%);
+}

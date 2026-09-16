@@ -1,0 +1,73 @@
+.badge,
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+}
+
+.badge::before,
+.pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+.badge--active,
+.pill--aktiv {
+  background: #E4F1E9;
+  color: #1F6340;
+}
+
+.badge--draft,
+.pill--kladd {
+  background: var(--surface-section);
+  color: var(--text-muted);
+}
+
+.badge--paused,
+.pill--pause {
+  background: var(--color-amber-wash);
+  color: var(--color-navy);
+}
+
+.badge--paused::before,
+.pill--pause::before {
+  background: var(--color-amber);
+}
+
+.badge--ended,
+.pill--avsluttet {
+  background: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.badge--setup {
+  background: var(--color-amber-wash);
+  color: var(--color-amber-ink);
+}
+
+.badge--favourite {
+  background: #F3F1FB;
+  color: var(--color-violet);
+}
+
+.badge--default {
+  background: var(--surface-subtle);
+  color: var(--color-ink-700);
+}
+
+.badge--filled {
+  background: var(--color-navy);
+  color: var(--color-white);
+}
+
+.badge--filled::before {
+  background: var(--color-white);
+}
