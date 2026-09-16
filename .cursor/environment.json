@@ -1,0 +1,16 @@
+{
+  "name": "Frantz Design System",
+  "ports": [
+    {
+      "name": "static server",
+      "port": 8080
+    }
+  ],
+  "terminals": [
+    {
+      "name": "static-server",
+      "command": "python3 -m http.server 8080",
+      "description": "Serves the no-build design system. Open http://127.0.0.1:8080/style-guide.html"
+    }
+  ]
+}
