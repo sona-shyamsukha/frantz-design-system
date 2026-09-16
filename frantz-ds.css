@@ -10,6 +10,10 @@
 @import './components/form/componentFormCheckbox.css';
 @import './components/form/componentFormRadio.css';
 @import './components/form/componentFormToggle.css';
+@import './components/datepicker/componentDatepicker.css';
+@import './components/tooltip/componentTooltip.css';
+@import './components/breadcrumb/componentBreadcrumb.css';
+@import './components/pagination/componentPagination.css';
 @import './components/card/componentCard.css';
 @import './components/badge/componentBadge.css';
 @import './components/alert/componentAlert.css';

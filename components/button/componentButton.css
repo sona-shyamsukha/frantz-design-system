@@ -4,7 +4,7 @@
   justify-content: center;
   gap: var(--space-8);
   border: 1px solid transparent;
-  border-radius: var(--radius-8);
+  border-radius: var(--radius-full);
   padding: 14px var(--space-24);
   font-family: var(--font-body);
   font-size: var(--text-base);
@@ -55,7 +55,6 @@
 .btn--ghost {
   background: transparent;
   border-color: var(--border-default);
-  border-radius: var(--radius-full);
   padding: 7px var(--space-16);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);

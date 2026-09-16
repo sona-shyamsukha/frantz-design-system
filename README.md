@@ -28,6 +28,8 @@ Open **http://127.0.0.1:8080/style-guide.html**
 
 POC class names still work: `btn--kvit`, `card--betjen`, `pill--aktiv`, `advarsel`, `nokkel`, `fakta`.
 
+Datepicker, tooltip, breadcrumb and pagination live in the component library. Datepicker needs `interactions.js`.
+
 ```html
 <span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>
 ```
@@ -35,6 +37,6 @@ POC class names still work: `btn--kvit`, `card--betjen`, `pill--aktiv`, `advarse
 ## Constraints
 
 - Navy = default primary. Amber = one key action per screen. Never white text on amber.
-- Radius: 8px controls, 12px panels, 16px cards.
+- Radius: full pill on buttons. 8px fields, 12px panels, 16px cards.
 - Montserrat 700 + negative tracking on headings.
 - Error: `#B3261E`. Page surface is white.

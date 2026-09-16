@@ -233,10 +233,10 @@
 
   --radius-2:     2px;
   --radius-4:     4px;
-  --radius-8:     8px;    /* Frantz default: app controls */
+  --radius-8:     8px;    /* fields, nav items */
   --radius-12:    12px;   /* panels */
   --radius-16:    16px;   /* cards / marketing */
-  --radius-full:  999px;  /* pills (marketing only) */
+  --radius-full:  999px;  /* buttons, chips, status */
 
 
   /* ── SHADOW ─────────────────────────────────────────────────── */
@@ -261,6 +261,7 @@
 
   --z-raised:   10;
   --z-dropdown: 100;
+  --z-tooltip:  150;
   --z-modal:    200;
   --z-toast:    300;
   --z-nav:      400;

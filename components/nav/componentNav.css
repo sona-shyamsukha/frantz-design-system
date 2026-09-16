@@ -80,14 +80,9 @@
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  height: 22px;
-  color: var(--color-white);
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--tracking-heading);
+  display: block;
+  height: 20px;
+  width: auto;
 }
 
 .nav {

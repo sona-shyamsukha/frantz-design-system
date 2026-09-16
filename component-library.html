@@ -11,8 +11,8 @@
 
 <header class="ds-topbar">
   <div class="ds-topbar__logo">
-    <span class="ds-topbar__mark">F</span>
-    Frantz DS <span class="ds-topbar__version">v0.3</span>
+    <img class="ds-topbar__wordmark" src="assets/logo-frantz.png" alt="Frantz">
+    <span class="ds-topbar__version">DS v0.5</span>
   </div>
   <nav class="ds-topbar__nav">
     <a href="./style-guide.html">Stilguide</a>
@@ -25,15 +25,21 @@
 <aside class="cl-sidebar">
   <div class="cl-tab-group">Skall</div>
   <button class="cl-tab active" type="button" onclick="showTab('nav', this)">Portal-nav</button>
+  <button class="cl-tab" type="button" onclick="showTab('breadcrumb', this)">Sti</button>
 
   <div class="cl-tab-group">Handlinger</div>
   <button class="cl-tab" type="button" onclick="showTab('button', this)">Knapp</button>
 
   <div class="cl-tab-group">Skjema &amp; feedback</div>
   <button class="cl-tab" type="button" onclick="showTab('form', this)">Skjemafelt</button>
+  <button class="cl-tab" type="button" onclick="showTab('datepicker', this)">Dato</button>
   <button class="cl-tab" type="button" onclick="showTab('choice', this)">Valg</button>
+  <button class="cl-tab" type="button" onclick="showTab('tooltip', this)">Tooltip</button>
   <button class="cl-tab" type="button" onclick="showTab('alert', this)">Varsel</button>
   <button class="cl-tab" type="button" onclick="showTab('badge', this)">Status</button>
+
+  <div class="cl-tab-group">Lister</div>
+  <button class="cl-tab" type="button" onclick="showTab('pagination', this)">Paginering</button>
 
   <div class="cl-tab-group">Innhold</div>
   <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
@@ -48,11 +54,30 @@
       <h2 class="cl-component-name">Portal-nav</h2>
       <span class="cl-component-class">.app .rail .nav .topbar</span>
     </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Skallet for portalen. Sidemeny 232px, rail <code>#072C40</code>. Aktiv side settes med <code>aria-current="page"</code> — ikonet blir amber. Under 860px blir rail en skuff.</p>
+      <ul class="cl-rules">
+        <li>Bruk offisielt ordmerke i <code>.railtopp</code>, ikke tekst.</li>
+        <li>Én aktiv side om gangen. Ikon + label på alle punkter.</li>
+        <li>Gruppetittel <code>.nav__group</code> er ikke klikkbar.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Del</th><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td>Skall</td><td><code>.app</code></td><td>Grid: rail + main</td></tr>
+          <tr><td>Sidemeny</td><td><code>.rail</code></td><td>232px, mørk, fast på desktop</td></tr>
+          <tr><td>Logo</td><td><code>.logo</code></td><td>20px høy, amber wordmark</td></tr>
+          <tr><td>Punkt</td><td><code>.nav__item</code></td><td>Standard / hover hvit</td></tr>
+          <tr><td>Aktiv</td><td><code>[aria-current="page"]</code></td><td>Mørkere felt, amber-ikon</td></tr>
+          <tr><td>Gruppe</td><td><code>.nav__group</code></td><td>Seksjonslabel</td></tr>
+          <tr><td>Topplinje</td><td><code>.topbar</code></td><td>Konto til høyre, 64px</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="cl-demo cl-demo--flush">
-      <p class="cl-note" style="padding:20px 32px 0">Sidemeny 232px, rail #072C40. Aktiv side får amber-ikon. Under 860px blir rail en skuff.</p>
       <div class="app">
         <aside class="rail">
-          <div class="railtopp"><div class="logo">Frantz</div></div>
+          <div class="railtopp"><img class="logo" src="assets/logo-frantz.png" alt="Frantz"></div>
           <nav class="nav" aria-label="Hovedmeny">
             <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
             <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
@@ -67,14 +92,22 @@
         </div>
       </div>
     </div>
+    <div class="cl-demo">
+      <span class="cl-variant">Menypunkt — tilstander</span>
+      <p class="cl-note">Hover blir hvit tekst på <code>--rail-hover</code>. Prøv i demoen over. Her er default og aktiv isolert.</p>
+      <div class="cl-rail-strip">
+        <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Standard</button>
+        <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Aktiv side</button>
+      </div>
+    </div>
     <div class="cl-code">
       <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
       <div class="cl-code-body">
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
         <pre class="cl-code-pre"><code>&lt;div class="app"&gt;
   &lt;aside class="rail"&gt;
-    &lt;div class="railtopp"&gt;&lt;div class="logo"&gt;Frantz&lt;/div&gt;&lt;/div&gt;
-    &lt;nav class="nav"&gt;
+    &lt;div class="railtopp"&gt;&lt;img class="logo" src="assets/logo-frantz.png" alt="Frantz"&gt;&lt;/div&gt;
+    &lt;nav class="nav" aria-label="Hovedmeny"&gt;
       &lt;button class="nav__item" aria-current="page"&gt;
         &lt;span class="icon-lucide icon-lucide--house" aria-hidden="true"&gt;&lt;/span&gt;Hjem
       &lt;/button&gt;
@@ -94,6 +127,61 @@
   </div>
 </div>
 
+<div class="cl-panel" id="panel-breadcrumb">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Sti</h2>
+      <span class="cl-component-class">.breadcrumb</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Hvor du er i portalen. Brukes på kampanjedetalj og dype lister — ikke på Hjem. Siste ledd er nåværende side, ikke en lenke.</p>
+      <ul class="cl-rules">
+        <li>Start alltid fra en seksjon brukeren kan gå tilbake til, f.eks. Kampanjer.</li>
+        <li>Nåværende side: <code>aria-current="page"</code>, navy og semibold.</li>
+        <li>Maks fire ledd. Dypere hierarki hører hjemme i sidetittelen.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Del</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.breadcrumb</code></td><td><code>nav</code> med <code>aria-label="Sti"</code></td></tr>
+          <tr><td><code>.breadcrumb__item a</code></td><td>Foreldre. Hover blir navy.</td></tr>
+          <tr><td><code>[aria-current="page"]</code></td><td>Siste ledd, ikke klikkbar</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kampanjedetalj</span>
+      <nav class="breadcrumb" aria-label="Sti">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="#kampanjer">Kampanjer</a></li>
+          <li class="breadcrumb__item"><a href="#kampanje">Sykepleier Oslo</a></li>
+          <li class="breadcrumb__item"><span aria-current="page">Resultater</span></li>
+        </ol>
+      </nav>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">To ledd</span>
+      <nav class="breadcrumb" aria-label="Sti">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="#kampanjer">Kampanjer</a></li>
+          <li class="breadcrumb__item"><span aria-current="page">Ny kampanje</span></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;nav class="breadcrumb" aria-label="Sti"&gt;
+  &lt;ol class="breadcrumb__list"&gt;
+    &lt;li class="breadcrumb__item"&gt;&lt;a href="/kampanjer"&gt;Kampanjer&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="breadcrumb__item"&gt;&lt;a href="/kampanjer/12"&gt;Sykepleier Oslo&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="breadcrumb__item"&gt;&lt;span aria-current="page"&gt;Resultater&lt;/span&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="cl-panel" id="panel-button">
   <div class="cl-component">
     <div class="cl-component-header">
@@ -101,14 +189,61 @@
       <span class="cl-component-class">.btn</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note">Navy er standard primær. <code>btn--accent</code> er én nøkkelhandling per skjerm. Alias: <code>btn--kvit</code> = secondary.</p>
+      <p class="cl-note cl-note--wide">Primær handling i portalen. Full pill som på frantz.no. Navy er standard. Amber er én nøkkelhandling per skjerm — aldri hvit tekst på amber. Ikon er valgfritt og arver <code>currentColor</code>.</p>
+      <ul class="cl-rules">
+        <li>Én <code>btn--accent</code> / <code>btn--key</code> per visning.</li>
+        <li>Avbryt og tilbake: secondary. Lavt trykk: ghost.</li>
+        <li>Disabled: <code>disabled</code> — 40 % opacity, ingen hover.</li>
+        <li>Hover: mørkere navy / mørkere amber / sterkere kant.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.btn.btn--primary</code></td><td>Standard handling. Hvit tekst på navy.</td></tr>
+          <tr><td><code>.btn.btn--accent</code></td><td>Én nøkkelhandling. Navy tekst på amber. Alias <code>.btn--key</code>.</td></tr>
+          <tr><td><code>.btn.btn--secondary</code></td><td>Sekundær / avbryt. Alias <code>.btn--kvit</code>.</td></tr>
+          <tr><td><code>.btn.btn--ghost</code></td><td>Lavt trykk, mindre type. Samme pill som øvrige knapper.</td></tr>
+          <tr><td><code>.btn--sm</code> / <code>.btn--lg</code></td><td>Kompakt i tabell/kort, stor i tom tilstand.</td></tr>
+          <tr><td><code>.btn-group</code></td><td>Rekke med 12px gap.</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
       <span class="cl-variant">Varianter</span>
       <div class="cl-row">
+        <div class="cl-item"><button class="btn btn--primary">Ny kampanje</button><span class="cl-item__cap">primary — default</span></div>
+        <div class="cl-item"><button class="btn btn--accent">Bestill kampanje</button><span class="cl-item__cap">accent — én per skjerm</span></div>
+        <div class="cl-item"><button class="btn btn--secondary">Avbryt</button><span class="cl-item__cap">secondary</span></div>
+        <div class="cl-item"><button class="btn btn--ghost">Vis alle</button><span class="cl-item__cap">ghost</span></div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Med ikon</span>
+      <div class="cl-row">
+        <div class="cl-item"><button class="btn btn--primary"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button><span class="cl-item__cap">plus + primary</span></div>
+        <div class="cl-item"><button class="btn btn--accent"><span class="icon-lucide icon-lucide--megaphone" aria-hidden="true"></span>Bestill kampanje</button><span class="cl-item__cap">megaphone + accent</span></div>
+        <div class="cl-item"><button class="btn btn--secondary"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span>Last ned</button><span class="cl-item__cap">ikon + secondary</span></div>
+        <div class="cl-item"><button class="btn btn--ghost"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span>Forhåndsvis</button><span class="cl-item__cap">ikon + ghost</span></div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Størrelser</span>
+      <div class="cl-row">
+        <div class="cl-item"><button class="btn btn--primary btn--sm">Liten</button><span class="cl-item__cap">sm — 8/16 padding</span></div>
+        <div class="cl-item"><button class="btn btn--primary">Standard</button><span class="cl-item__cap">14/24 padding</span></div>
+        <div class="cl-item"><button class="btn btn--primary btn--lg">Stor</button><span class="cl-item__cap">lg — 16/32 padding</span></div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Deaktivert</span>
+      <div class="cl-row">
+        <div class="cl-item"><button class="btn btn--primary" disabled>Primary</button><span class="cl-item__cap">disabled</span></div>
+        <div class="cl-item"><button class="btn btn--accent" disabled>Accent</button><span class="cl-item__cap">disabled</span></div>
+        <div class="cl-item"><button class="btn btn--secondary" disabled>Secondary</button><span class="cl-item__cap">disabled</span></div>
+        <div class="cl-item"><button class="btn btn--ghost" disabled>Ghost</button><span class="cl-item__cap">disabled</span></div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Gruppe</span>
+      <div class="btn-group">
         <button class="btn btn--primary"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
-        <button class="btn btn--accent"><span class="icon-lucide icon-lucide--megaphone" aria-hidden="true"></span>Bestill kampanje</button>
         <button class="btn btn--secondary">Avbryt</button>
         <button class="btn btn--ghost">Vis alle</button>
-        <button class="btn btn--primary" disabled>Deaktivert</button>
       </div>
     </div>
     <div class="cl-code">
@@ -120,7 +255,9 @@
 &lt;/button&gt;
 &lt;button class="btn btn--accent"&gt;Bestill kampanje&lt;/button&gt;
 &lt;button class="btn btn--secondary"&gt;Avbryt&lt;/button&gt;
-&lt;button class="btn btn--ghost"&gt;Vis alle&lt;/button&gt;</code></pre>
+&lt;button class="btn btn--ghost"&gt;Vis alle&lt;/button&gt;
+&lt;button class="btn btn--primary btn--sm"&gt;Liten&lt;/button&gt;
+&lt;button class="btn btn--primary" disabled&gt;Deaktivert&lt;/button&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -133,35 +270,74 @@
       <span class="cl-component-class">.felt .input .form-select</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note">1px kant, 8px radius, myk navy fokusring. POC-klasser <code>.felt</code> / <code>.input</code> er aliases.</p>
+      <p class="cl-note cl-note--wide">Tekst, textarea, select og filter-chips. 1px kant, 8px radius, myk navy fokusring. POC-klasser <code>.felt</code> / <code>.input</code> / <code>.hjelp</code> er aliases for <code>.form-group</code> / <code>.form-input</code> / <code>.form-hint</code>.</p>
+      <ul class="cl-rules">
+        <li>Alltid synlig label. Hjelpetekst under feltet, feil under i rødt.</li>
+        <li>Feil: <code>.input--error</code> + <code>.form-error</code>. Fokus blir rød ring.</li>
+        <li>To kolonner: <code>.feltrad</code> / <code>.form-grid--2</code>. Én kolonne under 640px.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.felt</code> / <code>.form-group</code></td><td>Label + kontroll + hint/feil</td></tr>
+          <tr><td><code>.input</code> / <code>.form-input</code></td><td>Tekstfelt. Tom, fylt, fokus, feil, disabled</td></tr>
+          <tr><td><code>.form-textarea</code></td><td>Lang tekst, min 120px</td></tr>
+          <tr><td><code>.form-select</code></td><td>I <code>.form-select-wrap</code> for chevron</td></tr>
+          <tr><td><code>.chip</code></td><td>Filter. På: <code>aria-pressed="true"</code></td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Tilstander — tekst</span>
       <div class="feltrad">
         <div class="felt">
-          <label for="cl-tittel">Stillingsstittel</label>
+          <label for="cl-empty">Tom</label>
+          <input class="input" id="cl-empty" type="text" placeholder="Skriv stillingstittel">
+          <span class="hjelp">Placeholder i faint ink.</span>
+        </div>
+        <div class="felt">
+          <label for="cl-tittel">Fylt</label>
           <input class="input" id="cl-tittel" type="text" value="Sykepleier">
           <span class="hjelp">Vises i annonsen.</span>
         </div>
+      </div>
+      <div class="feltrad" style="margin-top:16px">
+        <div class="felt">
+          <label for="cl-err">Feil</label>
+          <input class="input input--error" id="cl-err" type="text" value="0">
+          <span class="form-error">Oppgi et budsjett over kr 5 000.</span>
+        </div>
+        <div class="felt">
+          <label for="cl-dis">Deaktivert</label>
+          <input class="input" id="cl-dis" type="text" value="Låst av rådgiver" disabled>
+          <span class="hjelp">Kan ikke endres her.</span>
+        </div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Select og textarea</span>
+      <div class="feltrad">
         <div class="felt">
           <label for="cl-sted">Sted</label>
           <div class="form-select-wrap">
             <select class="form-select" id="cl-sted">
               <option>Oslo</option>
               <option>Bergen</option>
+              <option>Trondheim</option>
             </select>
           </div>
         </div>
-      </div>
-      <div class="cl-sep"></div>
-      <div class="felt">
-        <label for="cl-err">Budsjett</label>
-        <input class="input input--error" id="cl-err" type="text" value="0">
-        <span class="form-error">Oppgi et budsjett over kr 5 000.</span>
+        <div class="felt">
+          <label for="cl-notat">Notat</label>
+          <textarea class="form-textarea" id="cl-notat" placeholder="Intern merknad til rådgiver"></textarea>
+        </div>
       </div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Chips / filter</span>
+      <p class="cl-note">Av: hvit + kant. På: navy fyll, hvit tekst. Hover på av: navy tekst.</p>
       <div class="chips">
         <button type="button" class="chip" aria-pressed="true">Sykepleier</button>
         <button type="button" class="chip">Lege</button>
         <button type="button" class="chip">Jordmor</button>
+        <button type="button" class="chip">Vernepleier</button>
       </div>
     </div>
     <div class="cl-code">
@@ -172,6 +348,169 @@
   &lt;label for="tittel"&gt;Stillingsstittel&lt;/label&gt;
   &lt;input class="input" id="tittel" type="text"&gt;
   &lt;span class="hjelp"&gt;Vises i annonsen.&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;input class="input input--error" id="budsjett" type="text"&gt;
+&lt;span class="form-error"&gt;Oppgi et budsjett over kr 5 000.&lt;/span&gt;
+
+&lt;button class="chip" aria-pressed="true"&gt;Sykepleier&lt;/button&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-datepicker">
+  <div class="cl-component cl-component--pop">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Dato</h2>
+      <span class="cl-component-class">.datepicker</span>
+    </div>
+    <div class="cl-demo cl-demo--pop">
+      <p class="cl-note cl-note--wide">Kampanjeperiode. Uke starter mandag. Format <code>dd.mm.åååå</code>. Navy = valgt. Amber-ring = i dag. Krever <code>interactions.js</code>.</p>
+      <ul class="cl-rules">
+        <li>Periode: to felt, <code>data-mode="range"</code>. Første klikk er start, andre er slutt.</li>
+        <li>Én dato: uten <code>data-mode</code>. Kalenderen lukkes ved valg.</li>
+        <li>Alltid synlig label. Feil: <code>.input--error</code> + <code>.form-error</code>.</li>
+        <li>Ikke native <code>type="date"</code> — utseendet varierer per nettleser.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.datepicker</code> + <code>data-datepicker</code></td><td>Rot. JS åpner panelet</td></tr>
+          <tr><td><code>data-mode="range"</code></td><td>Fra–til, kampanjeperiode</td></tr>
+          <tr><td><code>.datepicker__input</code></td><td>Readonly felt med kalenderikon</td></tr>
+          <tr><td><code>.datepicker__day--start / --end / --in</code></td><td>Periode i kalenderen</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kampanjeperiode</span>
+      <div class="datepicker datepicker--range" data-datepicker data-mode="range">
+        <div class="feltrad">
+          <div class="felt">
+            <label for="cl-fra">Fra</label>
+            <div class="datepicker__control">
+              <input class="input datepicker__input" id="cl-fra" type="text" value="16.09.2026" placeholder="dd.mm.åååå" autocomplete="off">
+              <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="felt">
+            <label for="cl-til">Til</label>
+            <div class="datepicker__control">
+              <input class="input datepicker__input" id="cl-til" type="text" value="30.09.2026" placeholder="dd.mm.åååå" autocomplete="off">
+              <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Én dato</span>
+      <div class="datepicker" data-datepicker style="max-width:280px">
+        <div class="felt">
+          <label for="cl-publiser">Publiseringsdato</label>
+          <div class="datepicker__control">
+            <input class="input datepicker__input" id="cl-publiser" type="text" placeholder="dd.mm.åååå" autocomplete="off">
+            <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Tilstander</span>
+      <div class="feltrad">
+        <div class="felt">
+          <label for="cl-dato-feil">Feil</label>
+          <div class="datepicker__control">
+            <input class="input input--error datepicker__input" id="cl-dato-feil" type="text" value="31.02.2026" readonly>
+            <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
+          </div>
+          <span class="form-error">Ugyldig dato.</span>
+        </div>
+        <div class="felt">
+          <label for="cl-dato-dis">Deaktivert</label>
+          <div class="datepicker datepicker--disabled">
+            <div class="datepicker__control">
+              <input class="input datepicker__input" id="cl-dato-dis" type="text" value="01.10.2026" disabled>
+              <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
+            </div>
+          </div>
+          <span class="hjelp">Låst av rådgiver.</span>
+        </div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kalender — september 2026</span>
+      <p class="cl-note">I dag har amber-ring. Valgt periode er navy + lys navy mellom.</p>
+      <div class="datepicker__panel">
+        <div class="datepicker__nav">
+          <button class="datepicker__nav-btn" type="button" aria-label="Forrige måned"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
+          <span class="datepicker__month">september 2026</span>
+          <button class="datepicker__nav-btn" type="button" aria-label="Neste måned"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+        </div>
+        <div class="datepicker__week">
+          <span class="datepicker__dow">Ma</span><span class="datepicker__dow">Ti</span><span class="datepicker__dow">On</span><span class="datepicker__dow">To</span><span class="datepicker__dow">Fr</span><span class="datepicker__dow">Lø</span><span class="datepicker__dow">Sø</span>
+        </div>
+        <div class="datepicker__grid">
+          <span class="datepicker__day datepicker__day--empty"></span>
+          <button class="datepicker__day" type="button">1</button>
+          <button class="datepicker__day" type="button">2</button>
+          <button class="datepicker__day" type="button">3</button>
+          <button class="datepicker__day" type="button">4</button>
+          <button class="datepicker__day" type="button">5</button>
+          <button class="datepicker__day" type="button">6</button>
+          <button class="datepicker__day" type="button">7</button>
+          <button class="datepicker__day" type="button">8</button>
+          <button class="datepicker__day" type="button">9</button>
+          <button class="datepicker__day" type="button">10</button>
+          <button class="datepicker__day" type="button">11</button>
+          <button class="datepicker__day" type="button">12</button>
+          <button class="datepicker__day" type="button">13</button>
+          <button class="datepicker__day" type="button">14</button>
+          <button class="datepicker__day" type="button">15</button>
+          <button class="datepicker__day datepicker__day--today datepicker__day--start datepicker__day--in" type="button">16</button>
+          <button class="datepicker__day datepicker__day--in" type="button">17</button>
+          <button class="datepicker__day datepicker__day--in" type="button">18</button>
+          <button class="datepicker__day datepicker__day--in" type="button">19</button>
+          <button class="datepicker__day datepicker__day--in" type="button">20</button>
+          <button class="datepicker__day datepicker__day--in" type="button">21</button>
+          <button class="datepicker__day datepicker__day--in" type="button">22</button>
+          <button class="datepicker__day datepicker__day--in" type="button">23</button>
+          <button class="datepicker__day datepicker__day--in" type="button">24</button>
+          <button class="datepicker__day datepicker__day--in" type="button">25</button>
+          <button class="datepicker__day datepicker__day--in" type="button">26</button>
+          <button class="datepicker__day datepicker__day--in" type="button">27</button>
+          <button class="datepicker__day datepicker__day--in" type="button">28</button>
+          <button class="datepicker__day datepicker__day--in" type="button">29</button>
+          <button class="datepicker__day datepicker__day--end datepicker__day--in" type="button">30</button>
+          <button class="datepicker__day datepicker__day--muted" type="button">1</button>
+          <button class="datepicker__day datepicker__day--muted" type="button">2</button>
+          <button class="datepicker__day datepicker__day--muted" type="button">3</button>
+          <button class="datepicker__day datepicker__day--muted" type="button">4</button>
+        </div>
+        <div class="datepicker__foot">
+          <button class="datepicker__today" type="button">I dag</button>
+          <button class="datepicker__clear" type="button">Tøm</button>
+        </div>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="datepicker" data-datepicker data-mode="range"&gt;
+  &lt;div class="feltrad"&gt;
+    &lt;div class="felt"&gt;
+      &lt;label for="fra"&gt;Fra&lt;/label&gt;
+      &lt;div class="datepicker__control"&gt;
+        &lt;input class="input datepicker__input" id="fra" type="text" placeholder="dd.mm.åååå"&gt;
+        &lt;span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="felt"&gt;
+      &lt;label for="til"&gt;Til&lt;/label&gt;
+      &lt;div class="datepicker__control"&gt;
+        &lt;input class="input datepicker__input" id="til" type="text" placeholder="dd.mm.åååå"&gt;
+        &lt;span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
       </div>
     </div>
@@ -185,22 +524,80 @@
       <span class="cl-component-class">.form-check .form-radio .form-toggle</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note">Checkbox følger POC-kanalvalg (navy-lift når på). Toggle er 51×27 som i profilhåndboka.</p>
+      <p class="cl-note cl-note--wide">Checkbox for flere valg (kanal). Radio for ett valg. Toggle for av/på. Alle bruker skjult native input + synlig markør, så tastatur og skjermleser fungerer.</p>
+      <ul class="cl-rules">
+        <li>Checkbox på: navy-lift fyll + hake. Radio på: navy prikk.</li>
+        <li>Toggle er 51×27 som i profilhåndboka. Av: navy knot på hvit. På: hvit knot på navy.</li>
+        <li>Disabled: 45 % opacity, ingen klikk.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.form-check</code></td><td>Flere kanaler / avkrysning</td></tr>
+          <tr><td><code>.form-radio</code></td><td>Ett valg i en gruppe (<code>name</code>)</td></tr>
+          <tr><td><code>.form-toggle</code></td><td>Binær innstilling, f.eks. autopubliser</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Checkbox</span>
       <div class="cl-stack">
+        <label class="form-check">
+          <input class="form-check__input" type="checkbox">
+          <span class="form-check__box"></span>
+          <span class="form-check__label">Av — Finn.no</span>
+        </label>
         <label class="form-check">
           <input class="form-check__input" type="checkbox" checked>
           <span class="form-check__box"></span>
-          <span class="form-check__label">Finn.no</span>
+          <span class="form-check__label">På — Finn.no</span>
         </label>
+        <label class="form-check">
+          <input class="form-check__input" type="checkbox" disabled>
+          <span class="form-check__box"></span>
+          <span class="form-check__label">Deaktivert av</span>
+        </label>
+        <label class="form-check">
+          <input class="form-check__input" type="checkbox" checked disabled>
+          <span class="form-check__box"></span>
+          <span class="form-check__label">Deaktivert på</span>
+        </label>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Radio — dekning</span>
+      <div class="cl-stack">
         <label class="form-radio">
           <input class="form-radio__input" type="radio" name="dekning" checked>
           <span class="form-radio__dot"></span>
           <span class="form-radio__label">Regionalt</span>
         </label>
+        <label class="form-radio">
+          <input class="form-radio__input" type="radio" name="dekning">
+          <span class="form-radio__dot"></span>
+          <span class="form-radio__label">Nasjonalt</span>
+        </label>
+        <label class="form-radio">
+          <input class="form-radio__input" type="radio" name="dekning-x" disabled>
+          <span class="form-radio__dot"></span>
+          <span class="form-radio__label">Deaktivert</span>
+        </label>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Toggle</span>
+      <div class="cl-stack">
+        <label class="form-toggle">
+          <input class="form-toggle__input" type="checkbox">
+          <span class="form-toggle__track"></span>
+          <span class="form-toggle__label">Av — Autopubliser</span>
+        </label>
         <label class="form-toggle">
           <input class="form-toggle__input" type="checkbox" checked>
           <span class="form-toggle__track"></span>
-          <span class="form-toggle__label">Autopubliser</span>
+          <span class="form-toggle__label">På — Autopubliser</span>
+        </label>
+        <label class="form-toggle">
+          <input class="form-toggle__input" type="checkbox" disabled>
+          <span class="form-toggle__track"></span>
+          <span class="form-toggle__label">Deaktivert</span>
         </label>
       </div>
     </div>
@@ -212,7 +609,85 @@
   &lt;input class="form-check__input" type="checkbox"&gt;
   &lt;span class="form-check__box"&gt;&lt;/span&gt;
   &lt;span class="form-check__label"&gt;Finn.no&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;label class="form-radio"&gt;
+  &lt;input class="form-radio__input" type="radio" name="dekning"&gt;
+  &lt;span class="form-radio__dot"&gt;&lt;/span&gt;
+  &lt;span class="form-radio__label"&gt;Regionalt&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;label class="form-toggle"&gt;
+  &lt;input class="form-toggle__input" type="checkbox"&gt;
+  &lt;span class="form-toggle__track"&gt;&lt;/span&gt;
+  &lt;span class="form-toggle__label"&gt;Autopubliser&lt;/span&gt;
 &lt;/label&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-tooltip">
+  <div class="cl-component cl-component--pop">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Tooltip</h2>
+      <span class="cl-component-class">.tooltip</span>
+    </div>
+    <div class="cl-demo cl-demo--pop">
+      <p class="cl-note cl-note--wide">Kort forklaring ved hover og tastaturfokus. Navy flate, maks 220px. Ikke for feil — det er <code>.form-error</code> / varsel.</p>
+      <ul class="cl-rules">
+        <li>Bruk ved KPI, merkelige felt og forkortelser. Ikke ved hver label.</li>
+        <li>Tekst i <code>data-tooltip</code>. Ikonknappen trenger <code>aria-label</code>.</li>
+        <li>Standard retning er opp. Sett <code>data-tooltip-pos</code> hvis den ellers klippes.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Attributt</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>data-tooltip</code></td><td>Teksten. Påkrevd</td></tr>
+          <tr><td><code>data-tooltip-pos="bottom"</code></td><td>Når det er lite plass over</td></tr>
+          <tr><td><code>data-tooltip-pos="left"</code> / <code>right</code></td><td>I tette rader og tabeller</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Ved label</span>
+      <div class="felt" style="max-width:280px">
+        <span class="tooltip-label">
+          <label for="cl-cpc">Kostnad per klikk</label>
+          <button class="tooltip" type="button" data-tooltip="Hva det koster å få ett relevant stillingsbesøk." aria-label="Hva betyr kostnad per klikk?">
+            <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
+          </button>
+        </span>
+        <input class="input" id="cl-cpc" type="text" value="kr 42" readonly>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Retning — hold over ikonene</span>
+      <div class="cl-tooltip-play">
+        <button class="tooltip" type="button" data-tooltip="Forklaring over feltet." aria-label="Tooltip opp">
+          <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
+        </button>
+        <button class="tooltip" type="button" data-tooltip="Forklaring under feltet." data-tooltip-pos="bottom" aria-label="Tooltip ned">
+          <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
+        </button>
+        <button class="tooltip" type="button" data-tooltip="Til venstre for ikonet." data-tooltip-pos="left" aria-label="Tooltip venstre">
+          <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
+        </button>
+        <button class="tooltip" type="button" data-tooltip="Til høyre for ikonet." data-tooltip-pos="right" aria-label="Tooltip høyre">
+          <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;span class="tooltip-label"&gt;
+  &lt;label for="cpc"&gt;Kostnad per klikk&lt;/label&gt;
+  &lt;button class="tooltip" type="button"
+    data-tooltip="Hva det koster å få ett relevant stillingsbesøk."
+    aria-label="Hva betyr kostnad per klikk?"&gt;
+    &lt;span class="icon-lucide icon-lucide--info" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/span&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -225,13 +700,32 @@
       <span class="cl-component-class">.alert .advarsel</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note"><code>.advarsel</code> er POC-alias for feil/fare.</p>
+      <p class="cl-note cl-note--wide">Innholdsbundet melding i flyten — ikke toast. Ikon 20px, 12px radius. <code>.advarsel</code> er POC-alias for feil.</p>
+      <ul class="cl-rules">
+        <li>Tittel i <code>&lt;b&gt;</code> eller <code>.alert__title</code>. Brød i <code>.alert__body</code>.</li>
+        <li>Feil = handling kreves. Warning = risiko. Success = bekreftelse. Info = tips.</li>
+        <li>Skjul med <code>hidden</code>.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.alert--error</code> / <code>.advarsel</code></td><td>Stopp, brukt budsjett, validering</td></tr>
+          <tr><td><code>.alert--warning</code></td><td>Bak plan, pause, sjekk</td></tr>
+          <tr><td><code>.alert--success</code></td><td>Bestilt, publisert</td></tr>
+          <tr><td><code>.alert--info</code></td><td>Tips, neste steg</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Typer</span>
       <div class="cl-stack">
         <div class="advarsel"><span class="icon-lucide icon-lucide--circle-alert" aria-hidden="true"></span><div><b>Budsjettet er brukt opp</b>Kampanjen stopper i dag hvis du ikke øker rammen.</div></div>
+        <div class="alert alert--warning"><span class="alert__icon icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span><div class="alert__content"><b>Ligger bak plan</b><div class="alert__body">Justér bud eller periode.</div></div></div>
         <div class="alert alert--success"><span class="alert__icon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div class="alert__content"><b>Kampanjen er bestilt</b><div class="alert__body">Du får bekreftelse når den er live.</div></div></div>
         <div class="alert alert--info"><span class="alert__icon icon-lucide icon-lucide--info" aria-hidden="true"></span><div class="alert__content"><b>Tips</b><div class="alert__body">Velg minst to kanaler.</div></div></div>
-        <div class="alert alert--warning"><span class="alert__icon icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span><div class="alert__content"><b>Ligger bak plan</b><div class="alert__body">Justér bud eller periode.</div></div></div>
       </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Bare tittel</span>
+      <div class="alert alert--info"><span class="alert__icon icon-lucide icon-lucide--info" aria-hidden="true"></span><div class="alert__content"><b>Lagret som utkast</b></div></div>
     </div>
     <div class="cl-code">
       <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
@@ -239,7 +733,15 @@
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
         <pre class="cl-code-pre"><code>&lt;div class="advarsel"&gt;
   &lt;span class="icon-lucide icon-lucide--circle-alert" aria-hidden="true"&gt;&lt;/span&gt;
-  &lt;b&gt;Budsjettet er brukt opp&lt;/b&gt;...
+  &lt;div&gt;&lt;b&gt;Budsjettet er brukt opp&lt;/b&gt;Kampanjen stopper i dag.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="alert alert--success"&gt;
+  &lt;span class="alert__icon icon-lucide icon-lucide--circle-check" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;div class="alert__content"&gt;
+    &lt;b&gt;Kampanjen er bestilt&lt;/b&gt;
+    &lt;div class="alert__body"&gt;Du får bekreftelse når den er live.&lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
       </div>
     </div>
@@ -253,14 +755,40 @@
       <span class="cl-component-class">.badge .pill</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note">POC-pills: aktiv, kladd, pause, avsluttet. Håndbok-varianter: oppsett, favoritt.</p>
+      <p class="cl-note cl-note--wide">Kampanjestatus og merkelapper. Alltid pill. Prikk via <code>::before</code>. <code>.pill</code> er POC-alias for <code>.badge</code>.</p>
+      <ul class="cl-rules">
+        <li>Bruk kampanjestatus på lister og kort — ikke som knapp.</li>
+        <li>Pause-prikk er amber. Øvrige prikker følger tekstfargen.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Alias</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.badge--active</code></td><td><code>.pill--aktiv</code></td><td>Live kampanje</td></tr>
+          <tr><td><code>.badge--draft</code></td><td><code>.pill--kladd</code></td><td>Utkast</td></tr>
+          <tr><td><code>.badge--paused</code></td><td><code>.pill--pause</code></td><td>Pauset</td></tr>
+          <tr><td><code>.badge--ended</code></td><td><code>.pill--avsluttet</code></td><td>Ferdig / stoppet</td></tr>
+          <tr><td><code>.badge--setup</code></td><td>—</td><td>Under oppsett</td></tr>
+          <tr><td><code>.badge--favourite</code></td><td>—</td><td>Favoritt</td></tr>
+          <tr><td><code>.badge--default</code></td><td>—</td><td>Nøytral merkelapp</td></tr>
+          <tr><td><code>.badge--filled</code></td><td>—</td><td>Navy fyll, sjelden</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kampanjestatus</span>
       <div class="cl-row">
-        <span class="badge badge--active">Aktiv</span>
-        <span class="badge badge--draft">Utkast</span>
-        <span class="badge badge--paused">Pauset</span>
-        <span class="badge badge--ended">Avsluttet</span>
-        <span class="badge badge--setup">Oppsett</span>
-        <span class="badge badge--favourite">Favoritt</span>
+        <div class="cl-item"><span class="badge badge--active">Aktiv</span><span class="cl-item__cap">active / aktiv</span></div>
+        <div class="cl-item"><span class="badge badge--draft">Utkast</span><span class="cl-item__cap">draft / kladd</span></div>
+        <div class="cl-item"><span class="badge badge--paused">Pauset</span><span class="cl-item__cap">paused / pause</span></div>
+        <div class="cl-item"><span class="badge badge--ended">Avsluttet</span><span class="cl-item__cap">ended / avsluttet</span></div>
+        <div class="cl-item"><span class="badge badge--setup">Oppsett</span><span class="cl-item__cap">setup</span></div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Andre</span>
+      <div class="cl-row">
+        <div class="cl-item"><span class="badge badge--favourite">Favoritt</span><span class="cl-item__cap">favourite</span></div>
+        <div class="cl-item"><span class="badge badge--default">Merkelapp</span><span class="cl-item__cap">default</span></div>
+        <div class="cl-item"><span class="badge badge--filled">Navy</span><span class="cl-item__cap">filled</span></div>
+        <div class="cl-item"><span class="pill pill--aktiv">Aktiv</span><span class="cl-item__cap">POC-alias .pill</span></div>
       </div>
     </div>
     <div class="cl-code">
@@ -268,7 +796,92 @@
       <div class="cl-code-body">
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
         <pre class="cl-code-pre"><code>&lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;
+&lt;span class="badge badge--draft"&gt;Utkast&lt;/span&gt;
 &lt;span class="pill pill--pause"&gt;Pauset&lt;/span&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-pagination">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Paginering</h2>
+      <span class="cl-component-class">.pagination</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Kampanjeliste og lange tabeller. Aktiv side er navy-pill. Forrige/neste er outline. Vis alltid hvor mange treff som finnes.</p>
+      <ul class="cl-rules">
+        <li>Aktiv side: <code>aria-current="page"</code>.</li>
+        <li>Første side: deaktiver Forrige. Siste: deaktiver Neste.</li>
+        <li>Over syv sider: ellipsis. Ikke vis alle sidetall.</li>
+        <li>Kompakt variant når det bare trengs forrige/neste.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.pagination__page</code></td><td>Sidetall. Aktiv = navy</td></tr>
+          <tr><td><code>.pagination__btn</code></td><td>Forrige / neste</td></tr>
+          <tr><td><code>.pagination__ellipsis</code></td><td>Hoppet over sider</td></tr>
+          <tr><td><code>.pagination__meta</code></td><td>Viser 1–10 av 48</td></tr>
+          <tr><td><code>.pagination--compact</code></td><td>Bare piler + sidetekst</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kampanjeliste</span>
+      <nav class="pagination" aria-label="Paginering">
+        <span class="pagination__meta">Viser 1–10 av 48 kampanjer</span>
+        <div class="pagination__pages">
+          <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
+          <button class="pagination__page" type="button" aria-current="page">1</button>
+          <button class="pagination__page" type="button">2</button>
+          <button class="pagination__page" type="button">3</button>
+          <span class="pagination__ellipsis" aria-hidden="true">…</span>
+          <button class="pagination__page" type="button">5</button>
+          <button class="pagination__btn" type="button" aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+        </div>
+      </nav>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Midt i listen</span>
+      <nav class="pagination" aria-label="Paginering">
+        <span class="pagination__meta">Viser 21–30 av 48 kampanjer</span>
+        <div class="pagination__pages">
+          <button class="pagination__btn" type="button" aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
+          <button class="pagination__page" type="button">1</button>
+          <span class="pagination__ellipsis" aria-hidden="true">…</span>
+          <button class="pagination__page" type="button">2</button>
+          <button class="pagination__page" type="button" aria-current="page">3</button>
+          <button class="pagination__page" type="button">4</button>
+          <span class="pagination__ellipsis" aria-hidden="true">…</span>
+          <button class="pagination__page" type="button">5</button>
+          <button class="pagination__btn" type="button" aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+        </div>
+      </nav>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kompakt</span>
+      <nav class="pagination pagination--compact" aria-label="Paginering">
+        <div class="pagination__pages">
+          <button class="pagination__btn" type="button" aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
+          <span class="pagination__meta">Side 2 av 12</span>
+          <button class="pagination__btn" type="button" aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+        </div>
+      </nav>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;nav class="pagination" aria-label="Paginering"&gt;
+  &lt;span class="pagination__meta"&gt;Viser 1–10 av 48 kampanjer&lt;/span&gt;
+  &lt;div class="pagination__pages"&gt;
+    &lt;button class="pagination__btn" type="button" disabled aria-label="Forrige side"&gt;…&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-current="page"&gt;1&lt;/button&gt;
+    &lt;button class="pagination__page" type="button"&gt;2&lt;/button&gt;
+    &lt;span class="pagination__ellipsis"&gt;…&lt;/span&gt;
+    &lt;button class="pagination__page" type="button"&gt;5&lt;/button&gt;
+    &lt;button class="pagination__btn" type="button" aria-label="Neste side"&gt;…&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -281,22 +894,53 @@
       <span class="cl-component-class">.card</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note"><code>card--betjen</code> = hvit + ramme (du jobber). <code>card--les</code> = tonet, uten ramme. Statuskort har 20px fargefelt.</p>
+      <p class="cl-note cl-note--wide"><code>card--betjen</code> er arbeidsflate: hvit, ramme, myk skygge. <code>card--les</code> er leseflate: tonet, uten ramme. Statuskort har 20px fargefelt til venstre.</p>
+      <ul class="cl-rules">
+        <li>Betjen når brukeren jobber. Les når innholdet bare vises.</li>
+        <li>Statuskort: 8px radius. Øvrige kort: 16px.</li>
+        <li>Handlinger i <code>.card__footer</code>. Tittel + hint i <code>.card__head</code>.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.card--betjen</code> / <code>.card--action</code></td><td>Skjema, redigering</td></tr>
+          <tr><td><code>.card--les</code> / <code>.card--read</code></td><td>Forklaring, oppsummering</td></tr>
+          <tr><td><code>.card--status-green</code></td><td>Aktiv / ok</td></tr>
+          <tr><td><code>.card--status-amber</code></td><td>Pause / obs</td></tr>
+          <tr><td><code>.card--status-coral</code></td><td>Fare / bak plan</td></tr>
+          <tr><td><code>.card--status-blue</code></td><td>Info / nøytral status</td></tr>
+          <tr><td><code>.card--status-violet</code></td><td>Favoritt / merke</td></tr>
+          <tr><td><code>.card--status-grey</code></td><td>Avsluttet</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Arbeid og les</span>
       <div class="cl-stack">
         <div class="card card--betjen">
           <div class="card__head"><div>
             <h3 class="card__title">Trenger oppmerksomhet</h3>
             <p class="card__hint">Kampanjer som ligger bak plan eller står på pause.</p>
+          </div><span class="badge badge--paused">Pauset</span></div>
+          <div class="card__body">Sykepleier Oslo — 12 dager igjen. Budsjett 82 % brukt.</div>
+          <div class="card__footer"><div class="btn-group">
+            <button class="btn btn--primary btn--sm">Åpne</button>
+            <button class="btn btn--ghost">Utsett</button>
           </div></div>
         </div>
         <div class="card card--les">
           <h3 class="card__title">Leseflate</h3>
-          <p class="card__hint">Tonet, uten ramme.</p>
+          <p class="card__hint">Tonet, uten ramme. Brukes til forklaring og bakgrunn — ikke til input.</p>
         </div>
-        <div class="card card--status card--status-green">
-          <h3 class="card__title">Aktiv kampanje</h3>
-          <p class="card__hint">Venstre fargefelt + 20 % tint.</p>
-        </div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Statuskort</span>
+      <div class="cl-card-grid">
+        <div class="card card--status card--status-green"><h3 class="card__title">Aktiv</h3><p class="card__hint">status-green</p></div>
+        <div class="card card--status card--status-amber"><h3 class="card__title">Pauset</h3><p class="card__hint">status-amber</p></div>
+        <div class="card card--status card--status-coral"><h3 class="card__title">Bak plan</h3><p class="card__hint">status-coral</p></div>
+        <div class="card card--status card--status-blue"><h3 class="card__title">Info</h3><p class="card__hint">status-blue</p></div>
+        <div class="card card--status card--status-violet"><h3 class="card__title">Favoritt</h3><p class="card__hint">status-violet</p></div>
+        <div class="card card--status card--status-grey"><h3 class="card__title">Avsluttet</h3><p class="card__hint">status-grey</p></div>
       </div>
     </div>
     <div class="cl-code">
@@ -304,9 +948,17 @@
       <div class="cl-code-body">
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
         <pre class="cl-code-pre"><code>&lt;div class="card card--betjen"&gt;
-  &lt;h3 class="card__title"&gt;Trenger oppmerksomhet&lt;/h3&gt;
-  &lt;p class="card__hint"&gt;...&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+  &lt;div class="card__head"&gt;
+    &lt;div&gt;
+      &lt;h3 class="card__title"&gt;Trenger oppmerksomhet&lt;/h3&gt;
+      &lt;p class="card__hint"&gt;...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;span class="badge badge--paused"&gt;Pauset&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="card__footer"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="card card--status card--status-green"&gt;...&lt;/div&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -319,12 +971,36 @@
       <span class="cl-component-class">.nokkel .fakta</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note">Fire kolonner på desktop, to under 1180px. POC-klasser <code>.nokkel</code> / <code>.fakta</code>.</p>
+      <p class="cl-note cl-note--wide">Nøkkeltall øverst på oversikt. Fire kolonner på desktop, to under 1180px, én under 640px. POC-klasser <code>.nokkel</code> / <code>.fakta</code> matcher <code>.kpi-grid</code> / <code>.kpi</code>.</p>
+      <ul class="cl-rules">
+        <li>Label uppercase, muted. Verdi navy, display-font.</li>
+        <li>Sekundær info i <code>&lt;span&gt;</code> inne i verdien, eller <code>.kpi__meta</code>.</li>
+        <li>Ikke mer enn fire i en rad. Ingen handling i KPI-cellen.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
+        <tbody>
+          <tr><td><code>.nokkel</code> / <code>.kpi-grid</code></td><td>Raden</td></tr>
+          <tr><td><code>.fakta</code> / <code>.kpi</code></td><td>Én celle</td></tr>
+          <tr><td><code>dt</code> / <code>.kpi__label</code></td><td>Navn</td></tr>
+          <tr><td><code>dd</code> / <code>.kpi__value</code></td><td>Tall</td></tr>
+          <tr><td><code>dd span</code> / <code>.kpi__meta</code></td><td>Kontekst, «av kr …»</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Fire nøkkeltall</span>
       <div class="nokkel">
         <dl class="fakta"><dt>Aktive kampanjer</dt><dd>4</dd></dl>
         <dl class="fakta"><dt>Søknadsklikk</dt><dd>1 284</dd></dl>
         <dl class="fakta"><dt>Interessenter</dt><dd>86 leads</dd></dl>
         <dl class="fakta"><dt>Budsjett i bruk</dt><dd>kr 48 200 <span>av kr 72 000</span></dd></dl>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Én celle</span>
+      <div class="kpi" style="max-width:240px">
+        <div class="kpi__label">Søknadsklikk</div>
+        <div class="kpi__value">1 284</div>
+        <div class="kpi__meta">+12 % mot forrige periode</div>
       </div>
     </div>
     <div class="cl-code">
@@ -333,6 +1009,10 @@
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
         <pre class="cl-code-pre"><code>&lt;div class="nokkel"&gt;
   &lt;dl class="fakta"&gt;&lt;dt&gt;Aktive kampanjer&lt;/dt&gt;&lt;dd&gt;4&lt;/dd&gt;&lt;/dl&gt;
+  &lt;dl class="fakta"&gt;
+    &lt;dt&gt;Budsjett i bruk&lt;/dt&gt;
+    &lt;dd&gt;kr 48 200 &lt;span&gt;av kr 72 000&lt;/span&gt;&lt;/dd&gt;
+  &lt;/dl&gt;
 &lt;/div&gt;</code></pre>
       </div>
     </div>
@@ -363,5 +1043,6 @@ function copyPre(btn) {
   setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
 }
 </script>
+<script src="components/js/interactions.js" defer></script>
 </body>
 </html>
