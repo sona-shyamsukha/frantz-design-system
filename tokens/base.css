@@ -1,7 +1,7 @@
 /* =============================================================
    FRANTZ DESIGN SYSTEM — BASE TOKENS
    Source of truth: frantz-kampanjeportal.html (POC) + design.md
-   Architecture mirrors vokser-ds: primitive → semantic → brand slot.
+   Architecture: primitive → semantic → brand slot.
    Default: Frantz brand. Override per project in tokens/client/[project].css
    ============================================================= */
 

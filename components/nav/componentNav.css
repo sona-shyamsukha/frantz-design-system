@@ -132,12 +132,12 @@
   color: var(--color-white);
 }
 
-.nav__item[aria-current="page"] svg {
+.nav__item[aria-current="page"] .icon-lucide {
   color: var(--color-amber);
   opacity: 1;
 }
 
-.nav__item svg {
+.nav__item .icon-lucide {
   flex: none;
   opacity: 0.85;
 }

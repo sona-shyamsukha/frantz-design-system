@@ -3,6 +3,8 @@
 @import './styles/typography.css';
 @import './styles/layout.css';
 
+@import './components/icon/lucide-icons.css';
+@import './components/icon/componentIcon.css';
 @import './components/button/componentButton.css';
 @import './components/form/componentForm.css';
 @import './components/form/componentFormCheckbox.css';

@@ -1,8 +1,10 @@
 # frantz-design-system
 
-No-build design system for the Frantz portal redesign. Architecture follows [vokser-ds](https://github.com/sona-shyamsukha/vokser-ds): tokens → semantic → components.
+Standalone, no-build design system for the Frantz portal redesign. Tokens → semantic roles → components. This repo is self-contained.
 
 Brand values come from the kampanjeportal POC and `design.md`.
+
+Icons are Lucide (MIT), shipped as CSS masks in `components/icon/`. No npm. No other design-system repo.
 
 ## Browse
 
@@ -12,7 +14,7 @@ python3 -m http.server 8080
 
 | File | What |
 |---|---|
-| [style-guide.html](style-guide.html) | Token spec — palette, type, space, rules |
+| [style-guide.html](style-guide.html) | Token spec — palette, type, icons, space, rules |
 | [component-library.html](component-library.html) | Component catalog — variants + HTML |
 
 Open **http://127.0.0.1:8080/style-guide.html**
@@ -25,6 +27,10 @@ Open **http://127.0.0.1:8080/style-guide.html**
 ```
 
 POC class names still work: `btn--kvit`, `card--betjen`, `pill--aktiv`, `advarsel`, `nokkel`, `fakta`.
+
+```html
+<span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>
+```
 
 ## Constraints
 

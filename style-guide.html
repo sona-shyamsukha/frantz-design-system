@@ -12,7 +12,7 @@
 <header class="ds-topbar">
   <div class="ds-topbar__logo">
     <span class="ds-topbar__mark">F</span>
-    Frantz DS <span class="ds-topbar__version">v0.2</span>
+    Frantz DS <span class="ds-topbar__version">v0.3</span>
   </div>
   <nav class="ds-topbar__nav">
     <a href="./style-guide.html" class="active">Stilguide</a>
@@ -28,6 +28,7 @@
 
   <div class="ds-sidebar__group">Identitet</div>
   <a class="ds-sidebar__link" href="#logo">Logo</a>
+  <a class="ds-sidebar__link" href="#icons">Ikon</a>
 
   <div class="ds-sidebar__group">Farge</div>
   <a class="ds-sidebar__link" href="#palette">Fargepalett</a>
@@ -59,7 +60,7 @@
 <section class="ds-section" id="layers">
   <div class="ds-overline">Modell</div>
   <div class="ds-title">Tokenlag</div>
-  <div class="ds-desc">Samme kjede som vokser-ds. Primitive tokens overstyres aldri. Komponenter leser bare semantiske tokens.</div>
+  <div class="ds-desc">Primitive tokens overstyres aldri. Komponenter leser bare semantiske tokens.</div>
   <div class="layer-diagram">
     <div class="layer-card">
       <div class="layer-card__num" style="color:#1e6f92">Lag 1</div>
@@ -91,6 +92,7 @@
     <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Kontroller: 8px radius. Paneler: 12px. Kort: 16px. Pills bare for filter/chip/status.</span></div>
     <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Overskrifter: Montserrat 700, negativ tracking. Aldri italic på headings.</span></div>
     <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Feil: #B3261E. Sideflate er hvit. Tonede paneler bærer hierarkiet.</span></div>
+    <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Ikoner: Lucide i denne repoen. Farge følger currentColor. Standard 16px.</span></div>
   </div>
 </section>
 
@@ -105,6 +107,74 @@
   <div class="ds-sub">
     <div class="ds-sub__title">Lys bakgrunn</div>
     <div style="display:flex;align-items:center;height:72px;padding:0 28px;background:#fff;border:1px solid #e2e9ee;border-radius:8px;color:#0C3F59;font-size:20px;font-weight:700;letter-spacing:-0.02em">Frantz</div>
+  </div>
+</section>
+
+<section class="ds-section" id="icons">
+  <div class="ds-overline">Identitet</div>
+  <div class="ds-title">Ikon</div>
+  <div class="ds-desc">Lucide som CSS-maske i denne repoen. Farge følger <code>currentColor</code>. Bruk: <code>&lt;span class="icon-lucide icon-lucide--house" aria-hidden="true"&gt;&lt;/span&gt;</code></div>
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Størrelser</div>
+    <div class="ds-icon-sizes">
+      <div class="ds-icon-size"><span class="icon-lucide icon-lucide--sm icon-lucide--house" aria-hidden="true"></span><span class="ds-icon-size__label">--sm 14</span></div>
+      <div class="ds-icon-size"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span><span class="ds-icon-size__label">default 16</span></div>
+      <div class="ds-icon-size"><span class="icon-lucide icon-lucide--md icon-lucide--house" aria-hidden="true"></span><span class="ds-icon-size__label">--md 20</span></div>
+      <div class="ds-icon-size"><span class="icon-lucide icon-lucide--lg icon-lucide--house" aria-hidden="true"></span><span class="ds-icon-size__label">--lg 24</span></div>
+    </div>
+    <div class="token-list" style="margin-top:16px">
+      <div class="token-row" style="grid-template-columns:220px 70px 1fr"><span class="token-row__name">.icon-lucide</span><span class="token-row__value">16px</span><span class="token-row__desc">Nav, knapp, tetthet</span></div>
+      <div class="token-row" style="grid-template-columns:220px 70px 1fr"><span class="token-row__name">.icon-lucide--sm</span><span class="token-row__value">14px</span><span class="token-row__desc">Kompakt</span></div>
+      <div class="token-row" style="grid-template-columns:220px 70px 1fr"><span class="token-row__name">.icon-lucide--md</span><span class="token-row__value">20px</span><span class="token-row__desc">Varsel</span></div>
+      <div class="token-row" style="grid-template-columns:220px 70px 1fr"><span class="token-row__name">.icon-lucide--lg</span><span class="token-row__value">24px</span><span class="token-row__desc">Tom tilstand, feature</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Sett</div>
+    <div class="ds-icon-grid">
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span><span class="ds-icon-cell__name">house</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span><span class="ds-icon-cell__name">list</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span><span class="ds-icon-cell__name">plus</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span><span class="ds-icon-cell__name">bar-chart-3</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span><span class="ds-icon-cell__name">image</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span><span class="ds-icon-cell__name">settings</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span><span class="ds-icon-cell__name">menu</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span><span class="ds-icon-cell__name">x</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span><span class="ds-icon-cell__name">log-out</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><span class="ds-icon-cell__name">search</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--filter" aria-hidden="true"></span><span class="ds-icon-cell__name">filter</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span><span class="ds-icon-cell__name">download</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span><span class="ds-icon-cell__name">upload</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span><span class="ds-icon-cell__name">pencil</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span><span class="ds-icon-cell__name">trash-2</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span><span class="ds-icon-cell__name">copy</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--external-link" aria-hidden="true"></span><span class="ds-icon-cell__name">external-link</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span><span class="ds-icon-cell__name">chevron-down</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span><span class="ds-icon-cell__name">chevron-left</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span><span class="ds-icon-cell__name">chevron-right</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--more-horizontal" aria-hidden="true"></span><span class="ds-icon-cell__name">more-horizontal</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span class="ds-icon-cell__name">circle-check</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span><span class="ds-icon-cell__name">info</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span><span class="ds-icon-cell__name">triangle-alert</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--circle-alert" aria-hidden="true"></span><span class="ds-icon-cell__name">circle-alert</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--pause" aria-hidden="true"></span><span class="ds-icon-cell__name">pause</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--play" aria-hidden="true"></span><span class="ds-icon-cell__name">play</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--heart" aria-hidden="true"></span><span class="ds-icon-cell__name">heart</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--circle-x" aria-hidden="true"></span><span class="ds-icon-cell__name">circle-x</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--megaphone" aria-hidden="true"></span><span class="ds-icon-cell__name">megaphone</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--calendar" aria-hidden="true"></span><span class="ds-icon-cell__name">calendar</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span><span class="ds-icon-cell__name">users</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span><span class="ds-icon-cell__name">target</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--wallet" aria-hidden="true"></span><span class="ds-icon-cell__name">wallet</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--trending-up" aria-hidden="true"></span><span class="ds-icon-cell__name">trending-up</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span><span class="ds-icon-cell__name">eye</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span><span class="ds-icon-cell__name">mail</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span><span class="ds-icon-cell__name">file-text</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span><span class="ds-icon-cell__name">link</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span class="ds-icon-cell__name">clock</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--map-pin" aria-hidden="true"></span><span class="ds-icon-cell__name">map-pin</span></div>
+      <div class="ds-icon-cell"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span><span class="ds-icon-cell__name">bookmark</span></div>
+    </div>
   </div>
 </section>
 

@@ -1,0 +1,12 @@
+.btn .icon-lucide {
+  width: 16px;
+  height: 16px;
+}
+
+.alert__icon.icon-lucide,
+.advarsel .icon-lucide {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  color: inherit;
+}

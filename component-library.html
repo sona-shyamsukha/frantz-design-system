@@ -12,7 +12,7 @@
 <header class="ds-topbar">
   <div class="ds-topbar__logo">
     <span class="ds-topbar__mark">F</span>
-    Frantz DS <span class="ds-topbar__version">v0.2</span>
+    Frantz DS <span class="ds-topbar__version">v0.3</span>
   </div>
   <nav class="ds-topbar__nav">
     <a href="./style-guide.html">Stilguide</a>
@@ -54,15 +54,15 @@
         <aside class="rail">
           <div class="railtopp"><div class="logo">Frantz</div></div>
           <nav class="nav" aria-label="Hovedmeny">
-            <button type="button" class="nav__item" aria-current="page"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6.5 8 2l6 4.5V14H2z"/></svg>Hjem</button>
-            <button type="button" class="nav__item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 3.5h12M2 8h12M2 12.5h8"/></svg>Kampanjer</button>
-            <button type="button" class="nav__item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v10M3 8h10"/></svg>Ny kampanje</button>
+            <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
             <div class="nav__group">Ressurser</div>
-            <button type="button" class="nav__item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2.4"/></svg>Innstillinger</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
           </nav>
         </aside>
         <div class="main">
-          <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+          <header class="topbar"><div class="topbar__who"><b>Oslo universitetssykehus</b><small>kari.hansen@ous.no</small></div></header>
           <div class="wrap"><h1 class="text-h2">Hjem</h1><p class="lede">Oversikt over kampanjene.</p></div>
         </div>
       </div>
@@ -75,8 +75,12 @@
   &lt;aside class="rail"&gt;
     &lt;div class="railtopp"&gt;&lt;div class="logo"&gt;Frantz&lt;/div&gt;&lt;/div&gt;
     &lt;nav class="nav"&gt;
-      &lt;button class="nav__item" aria-current="page"&gt;Hjem&lt;/button&gt;
-      &lt;button class="nav__item"&gt;Kampanjer&lt;/button&gt;
+      &lt;button class="nav__item" aria-current="page"&gt;
+        &lt;span class="icon-lucide icon-lucide--house" aria-hidden="true"&gt;&lt;/span&gt;Hjem
+      &lt;/button&gt;
+      &lt;button class="nav__item"&gt;
+        &lt;span class="icon-lucide icon-lucide--list" aria-hidden="true"&gt;&lt;/span&gt;Kampanjer
+      &lt;/button&gt;
       &lt;div class="nav__group"&gt;Ressurser&lt;/div&gt;
     &lt;/nav&gt;
   &lt;/aside&gt;
@@ -100,8 +104,8 @@
       <p class="cl-note">Navy er standard primær. <code>btn--accent</code> er én nøkkelhandling per skjerm. Alias: <code>btn--kvit</code> = secondary.</p>
       <span class="cl-variant">Varianter</span>
       <div class="cl-row">
-        <button class="btn btn--primary">Ny kampanje</button>
-        <button class="btn btn--accent">Bestill kampanje</button>
+        <button class="btn btn--primary"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+        <button class="btn btn--accent"><span class="icon-lucide icon-lucide--megaphone" aria-hidden="true"></span>Bestill kampanje</button>
         <button class="btn btn--secondary">Avbryt</button>
         <button class="btn btn--ghost">Vis alle</button>
         <button class="btn btn--primary" disabled>Deaktivert</button>
@@ -111,7 +115,9 @@
       <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
       <div class="cl-code-body">
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;button class="btn btn--primary"&gt;Ny kampanje&lt;/button&gt;
+        <pre class="cl-code-pre"><code>&lt;button class="btn btn--primary"&gt;
+  &lt;span class="icon-lucide icon-lucide--plus" aria-hidden="true"&gt;&lt;/span&gt;Ny kampanje
+&lt;/button&gt;
 &lt;button class="btn btn--accent"&gt;Bestill kampanje&lt;/button&gt;
 &lt;button class="btn btn--secondary"&gt;Avbryt&lt;/button&gt;
 &lt;button class="btn btn--ghost"&gt;Vis alle&lt;/button&gt;</code></pre>
@@ -221,18 +227,20 @@
     <div class="cl-demo">
       <p class="cl-note"><code>.advarsel</code> er POC-alias for feil/fare.</p>
       <div class="cl-stack">
-        <div class="advarsel"><div><b>Budsjettet er brukt opp</b>Kampanjen stopper i dag hvis du ikke øker rammen.</div></div>
-        <div class="alert alert--success"><div class="alert__content"><b>Kampanjen er bestilt</b><div class="alert__body">Du får bekreftelse når den er live.</div></div></div>
-        <div class="alert alert--info"><div class="alert__content"><b>Tips</b><div class="alert__body">Velg minst to kanaler.</div></div></div>
-        <div class="alert alert--warning"><div class="alert__content"><b>Ligger bak plan</b><div class="alert__body">Justér bud eller periode.</div></div></div>
+        <div class="advarsel"><span class="icon-lucide icon-lucide--circle-alert" aria-hidden="true"></span><div><b>Budsjettet er brukt opp</b>Kampanjen stopper i dag hvis du ikke øker rammen.</div></div>
+        <div class="alert alert--success"><span class="alert__icon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div class="alert__content"><b>Kampanjen er bestilt</b><div class="alert__body">Du får bekreftelse når den er live.</div></div></div>
+        <div class="alert alert--info"><span class="alert__icon icon-lucide icon-lucide--info" aria-hidden="true"></span><div class="alert__content"><b>Tips</b><div class="alert__body">Velg minst to kanaler.</div></div></div>
+        <div class="alert alert--warning"><span class="alert__icon icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span><div class="alert__content"><b>Ligger bak plan</b><div class="alert__body">Justér bud eller periode.</div></div></div>
       </div>
     </div>
     <div class="cl-code">
       <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
       <div class="cl-code-body">
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;div class="advarsel"&gt;&lt;b&gt;Budsjettet er brukt opp&lt;/b&gt;...&lt;/div&gt;
-&lt;div class="alert alert--success"&gt;...&lt;/div&gt;</code></pre>
+        <pre class="cl-code-pre"><code>&lt;div class="advarsel"&gt;
+  &lt;span class="icon-lucide icon-lucide--circle-alert" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;b&gt;Budsjettet er brukt opp&lt;/b&gt;...
+&lt;/div&gt;</code></pre>
       </div>
     </div>
   </div>

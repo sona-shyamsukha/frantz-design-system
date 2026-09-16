@@ -367,6 +367,48 @@ body.ds-docs {
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
+.ds-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 8px;
+}
+.ds-icon-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 88px;
+  padding: 16px 8px 12px;
+  border: 1px solid rgba(12,63,89,0.08);
+  border-radius: 6px;
+  background: #fff;
+  color: #0c3f59;
+}
+.ds-icon-cell .icon-lucide { width: 20px; height: 20px; }
+.ds-icon-cell__name {
+  color: #8a97a0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+}
+.ds-icon-sizes {
+  display: flex;
+  align-items: flex-end;
+  gap: 28px;
+}
+.ds-icon-size {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #0c3f59;
+}
+.ds-icon-size__label {
+  color: #8a97a0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+}
+
 .cl-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; }
 .cl-stack { display: flex; flex-direction: column; gap: 20px; }
 .cl-sep { height: 1px; margin: 32px 0; background: var(--border-default); }
