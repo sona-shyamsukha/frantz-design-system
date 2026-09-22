@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Ny kampanje — Materiell — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<style>
+  body { margin: 0; }
+  .cols { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: var(--space-32); align-items: start; margin-top: var(--space-32); }
+  .flow { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+
+  .panel[hidden] { display: none; }
+  .panel { margin-top: var(--space-24); padding-top: var(--space-24); border-top: 1px solid var(--border-subtle); }
+
+  .dropsone { padding: var(--space-32); border: 1px dashed var(--color-ink-200); border-radius: var(--radius-12); text-align: center; }
+  .dropsone b { display: block; color: var(--text-heading); margin-bottom: var(--space-4); }
+  .dropsone p { color: var(--text-muted); font-size: var(--text-sm); margin-bottom: var(--space-16); }
+  .dropsone small { display: block; margin-top: var(--space-12); color: var(--text-faint); font-size: var(--text-xs); }
+
+  .bygg-grid { display: grid; grid-template-columns: minmax(0,1fr) 260px; gap: var(--space-32); }
+  @media (max-width: 760px) { .bygg-grid { grid-template-columns: 1fr; } }
+
+  .annonse { border: 1px solid var(--border-default); border-radius: var(--radius-12); overflow: hidden; background: var(--surface-raised); }
+  .annonse__head { display: flex; align-items: center; gap: var(--space-8); padding: var(--space-12); }
+  .annonse__avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--color-navy); flex: none; }
+  .annonse__who b { display: block; font-size: var(--text-xs); color: var(--text-heading); }
+  .annonse__who span { display: block; font-size: 10px; color: var(--text-faint); }
+  .annonse__tekst { padding: 0 var(--space-12) var(--space-12); font-size: var(--text-sm); color: var(--text-body); }
+  .annonse__bilde { position: relative; height: 160px; background: var(--color-rail); display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-16); }
+  .annonse__bilde-label { color: var(--color-amber); font-size: 10px; font-weight: var(--font-weight-bold); text-transform: uppercase; letter-spacing: var(--tracking-label); margin-bottom: var(--space-4); }
+  .annonse__bilde-tittel { color: var(--color-white); font-family: var(--font-display); font-size: var(--text-lg); font-weight: var(--font-weight-bold); }
+  .annonse__footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-12); }
+  .annonse__footer div { font-size: 10px; color: var(--text-faint); line-height: 1.4; }
+  .annonse__footer div b { display: block; color: var(--text-heading); font-size: var(--text-xs); }
+
+</style>
+</head>
+<body>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <button type="button" class="nav__item" onclick="location.href='dashboard.html'"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
+      <button type="button" class="nav__item" onclick="location.href='campaigns.html'"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
+      <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+      <button type="button" class="nav__item" onclick="location.href='rapporter.html'"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</button>
+      <div class="nav__group">Ressurser</div>
+      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
+      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'">Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div><button class="btn btn--ghost" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span>Logg ut</button></header>
+
+    <div class="wrap">
+      <ol class="steps">
+        <li class="step step--done" onclick="location.href='ny-kampanje-1.html'"><span class="step__n">✓</span>Stillingen</li>
+        <li class="step step--done" onclick="location.href='ny-kampanje-2.html'"><span class="step__n">✓</span>Strategien</li>
+        <li class="step step--now"><span class="step__n">3</span>Materiell</li>
+        <li class="step"><span class="step__n">4</span>Bestilling</li>
+      </ol>
+
+      <h1 class="text-h2">Materiell</h1>
+      <p class="lede">Annonsen kandidatene faktisk ser. Velg om dere leverer materiellet selv, bygger det her, eller lar Frantz produsere det.</p>
+
+      <div class="cols">
+        <div class="flow">
+          <div class="card card--betjen">
+            <div class="choice-grid" id="valg-gruppe">
+              <button class="choice-card" type="button" aria-pressed="false" data-valg="ferdig">
+                <span class="choice-card__price">Gratis</span>
+                <span class="choice-card__name">Vi har ferdig materiell</span>
+                <span class="choice-card__desc">Dere laster opp annonser, logo og bilder i riktige mål.</span>
+              </button>
+              <button class="choice-card" type="button" aria-pressed="true" data-valg="bygg">
+                <span class="choice-card__price">Gratis</span>
+                <span class="choice-card__name">Bygg annonsen her</span>
+                <span class="choice-card__desc">Sett sammen annonsen i portalen med deres egen profil og bilder.</span>
+              </button>
+              <button class="choice-card" type="button" aria-pressed="false" data-valg="frantz">
+                <span class="choice-card__price">Fra kr 2 180/t</span>
+                <span class="choice-card__name">Frantz produserer</span>
+                <span class="choice-card__desc">Frantz lager innhold og utformer annonsen for dere.</span>
+              </button>
+            </div>
+
+            <div class="panel" id="panel-ferdig" hidden>
+              <div class="dropsone">
+                <b>Dra filene hit</b>
+                <p>Word, PDF, JPG eller PNG, maks 10 MB per fil.</p>
+                <button class="btn btn--ghost" type="button">Velg filer</button>
+                <small>Ingen filer lastet opp ennå.</small>
+              </div>
+            </div>
+
+            <div class="panel" id="panel-bygg">
+              <div class="bygg-grid">
+                <div>
+                  <div class="form-group">
+                    <label class="form-label" for="ann-tittel">Tittel i annonsen</label>
+                    <input class="form-input" type="text" id="ann-tittel" value="Bli med oss som sykepleier">
+                  </div>
+                  <div class="form-group" style="margin-top: var(--space-16)">
+                    <label class="form-label" for="ann-tekst">Kort tekst</label>
+                    <textarea class="form-textarea" id="ann-tekst" maxlength="125" style="min-height:80px">Vi søker deg som vil gjøre en forskjell for pasientene våre i Kristiansand.</textarea>
+                    <p class="form-hint">Maks 125 tegn. Vises over bildet i feeden.</p>
+                  </div>
+                </div>
+                <div class="annonse">
+                  <div class="annonse__head">
+                    <div class="annonse__avatar"></div>
+                    <div class="annonse__who"><b>Vokser AS</b><span>Sponset</span></div>
+                  </div>
+                  <p class="annonse__tekst" id="prev-tekst">Vi søker deg som vil gjøre en forskjell for pasientene våre i Kristiansand.</p>
+                  <div class="annonse__bilde">
+                    <div class="annonse__bilde-label">Ledig stilling</div>
+                    <div class="annonse__bilde-tittel" id="prev-tittel">Bli med oss som sykepleier</div>
+                  </div>
+                  <div class="annonse__footer">
+                    <div>VOKSER.NO<br><b id="prev-frist">Søknadsfrist 01.01.2027</b></div>
+                    <span class="btn btn--ghost" style="pointer-events:none">Les mer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" id="panel-frantz" hidden>
+              <div class="form-group">
+                <label class="form-label" for="frantz-brief">Hva skal annonsen få fram?</label>
+                <textarea class="form-textarea" id="frantz-brief" style="min-height:100px">Vis fram fagmiljøet og fleksible vakter. Bruk et ekte bilde fra avdelingen om mulig.</textarea>
+                <p class="form-hint">Frantz bruker dette som utgangspunkt. Estimert 3 timer for en stilling av denne typen.</p>
+              </div>
+              <div class="fakta" style="margin-top: var(--space-16); max-width:280px"><dt>Estimert produksjon, 3 timer</dt><dd>kr 6 540</dd></div>
+            </div>
+          </div>
+
+          <div class="card card--betjen">
+            <div class="form-group">
+              <label class="form-label" for="lenke">Lenke til stillingsannonsen</label>
+              <input class="form-input" type="url" id="lenke" value="https://vokser.no/ledige-stillinger/sykepleier">
+              <p class="form-hint">Kandidatene sendes hit fra kampanjesiden.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <aside>
+          <div class="summary-panel">
+            <div class="summary-panel__head">
+              <h2>Sammendrag</h2>
+              <p>Utkast 129070</p>
+            </div>
+            <div class="summary-panel__block">
+              <span class="summary-panel__label">Strategien</span>
+              <dl class="summary-row"><dt>Kanaler</dt><dd id="sum-kanaler">Meta</dd></dl>
+              <dl class="summary-row"><dt>Periode</dt><dd id="sum-periode">Til søknadsfrist</dd></dl>
+            </div>
+            <div class="summary-panel__block">
+              <span class="summary-panel__label">Materiell</span>
+              <dl class="summary-row"><dt>Type</dt><dd id="sum-materiell">Bygg annonsen her</dd></dl>
+            </div>
+            <div class="summary-panel__total">
+              <span>Totalsum</span>
+              <b id="sum-total">kr 36 500</b>
+            </div>
+            <div class="summary-panel__cta">
+              <button class="btn btn--primary" type="button" onclick="gaaVidere()">Videre til bestilling</button>
+              <button class="btn btn--secondary" type="button" onclick="location.href='ny-kampanje-2.html'">Tilbake</button>
+              <button class="btn btn--ghost" type="button" onclick="location.href='campaigns.html'">Lagre utkast</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var wizard = { tittel: 'Sykepleier', sted: 'Kristiansand (by)', frist: '2027-01-01', _budsjett: 36500, _kanaler: ['Meta'], _periode: 'Til søknadsfrist' };
+try {
+  var saved = JSON.parse(localStorage.getItem('fzWizard') || 'null');
+  if (saved) wizard = Object.assign(wizard, saved);
+} catch (e) {}
+
+document.getElementById('sum-kanaler').textContent = (wizard._kanaler || ['Meta']).join(', ');
+document.getElementById('sum-periode').textContent = wizard._periode || 'Til søknadsfrist';
+document.getElementById('sum-total').textContent = 'kr ' + Number(wizard._budsjett || 36500).toLocaleString('nb-NO');
+
+var MATERIELL_NAVN = { ferdig: 'Vi har ferdig materiell', bygg: 'Bygg annonsen her', frantz: 'Frantz produserer' };
+var valgtMateriell = 'bygg';
+
+document.getElementById('valg-gruppe').addEventListener('click', function (e) {
+  var btn = e.target.closest('.choice-card');
+  if (!btn) return;
+  this.querySelectorAll('.choice-card').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+  btn.setAttribute('aria-pressed', 'true');
+  valgtMateriell = btn.dataset.valg;
+  document.getElementById('sum-materiell').textContent = MATERIELL_NAVN[valgtMateriell];
+  ['ferdig', 'bygg', 'frantz'].forEach(function (k) {
+    document.getElementById('panel-' + k).hidden = (k !== valgtMateriell);
+  });
+});
+
+document.getElementById('ann-tittel').addEventListener('input', function () {
+  document.getElementById('prev-tittel').textContent = this.value;
+});
+document.getElementById('ann-tekst').addEventListener('input', function () {
+  document.getElementById('prev-tekst').textContent = this.value;
+});
+
+function gaaVidere() {
+  wizard._materiell = MATERIELL_NAVN[valgtMateriell];
+  localStorage.setItem('fzWizard', JSON.stringify(wizard));
+  location.href = 'ny-kampanje-4.html';
+}
+</script>
+
+<script src="../components/js/interactions.js"></script>
+</body>
+</html>

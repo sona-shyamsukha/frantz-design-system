@@ -1,0 +1,60 @@
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+@media (max-width: 860px) {
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.choice-card {
+  padding: var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+  text-align: left;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+
+.choice-card:hover {
+  border-color: var(--color-ink-400);
+}
+
+.choice-card__price {
+  display: inline-block;
+  margin-bottom: var(--space-8);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface-section);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.choice-card__name {
+  display: block;
+  color: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.choice-card__desc {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.choice-card[aria-pressed="true"] {
+  border-color: var(--color-navy-lift);
+  background: #EDF5F9;
+}
+
+.choice-card[aria-pressed="true"] .choice-card__price {
+  background: var(--color-navy-lift);
+  color: var(--color-white);
+}

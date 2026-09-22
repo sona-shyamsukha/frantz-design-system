@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css">
+<link rel="stylesheet" href="frantz-ds.css?v=8">
 <link rel="stylesheet" href="styles/docs.css">
 </head>
 <body class="ds-docs">
@@ -17,6 +20,7 @@
   <nav class="ds-topbar__nav">
     <a href="./style-guide.html">Stilguide</a>
     <a href="./component-library.html" class="active">Komponentbibliotek</a>
+    <a href="./portal-redesign.html">Portal redesign</a>
   </nav>
   <span></span>
 </header>
@@ -34,24 +38,28 @@
   <button class="cl-tab" type="button" onclick="showTab('form', this)">Skjemafelt</button>
   <button class="cl-tab" type="button" onclick="showTab('datepicker', this)">Dato</button>
   <button class="cl-tab" type="button" onclick="showTab('choice', this)">Valg</button>
-  <button class="cl-tab" type="button" onclick="showTab('optioncard', this)">Valgkort</button>
-  <button class="cl-tab" type="button" onclick="showTab('slider', this)">Skyvekontroll</button>
   <button class="cl-tab" type="button" onclick="showTab('tooltip', this)">Tooltip</button>
   <button class="cl-tab" type="button" onclick="showTab('alert', this)">Varsel</button>
   <button class="cl-tab" type="button" onclick="showTab('badge', this)">Status</button>
 
-  <div class="cl-tab-group">Prosess</div>
-  <button class="cl-tab" type="button" onclick="showTab('stepper', this)">Steg</button>
-  <button class="cl-tab" type="button" onclick="showTab('progress', this)">Fremdrift</button>
-
   <div class="cl-tab-group">Lister</div>
-  <button class="cl-tab" type="button" onclick="showTab('pagination', this)">Paginering</button>
   <button class="cl-tab" type="button" onclick="showTab('table', this)">Tabell</button>
+  <button class="cl-tab" type="button" onclick="showTab('pagination', this)">Paginering</button>
+  <button class="cl-tab" type="button" onclick="showTab('progress', this)">Fremdrift</button>
 
   <div class="cl-tab-group">Innhold</div>
   <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
   <button class="cl-tab" type="button" onclick="showTab('kpi', this)">KPI</button>
-  <button class="cl-tab" type="button" onclick="showTab('timeline', this)">Tidslinje</button>
+  <button class="cl-tab" type="button" onclick="showTab('summary', this)">Oppsummeringspanel</button>
+
+  <div class="cl-tab-group">Data</div>
+  <button class="cl-tab" type="button" onclick="showTab('funnel', this)">Trakt</button>
+
+  <div class="cl-tab-group">Veiviser</div>
+  <button class="cl-tab" type="button" onclick="showTab('steps', this)">Trinn</button>
+  <button class="cl-tab" type="button" onclick="showTab('slider', this)">Budsjettskyver</button>
+  <button class="cl-tab" type="button" onclick="showTab('selectcard', this)">Velgbart kort</button>
+  <button class="cl-tab" type="button" onclick="showTab('choicecard', this)">Valgkort</button>
 </aside>
 
 <div class="cl-main">
@@ -811,6 +819,92 @@
   </div>
 </div>
 
+<div class="cl-panel" id="panel-table">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Tabell</h2>
+      <span class="cl-component-class">.table</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Kampanjeliste og andre lange datasett. Rader er klikkbare til detaljvisning. Under 860px kollapser tabellen til stablede kort — hver celle får en synlig label.</p>
+      <ul class="cl-rules">
+        <li>Klikkbar rad: <code>tabindex="0"</code>, hover/fokus gir <code>--surface-subtle</code>.</li>
+        <li>Status vises som <code>.badge</code>, ikke som fri tekst.</li>
+        <li>Fremdrift i celle: bruk <code>.meter--sm</code> fra Fremdrift-komponenten.</li>
+        <li>Mobil: hver <code>&lt;td&gt;</code> må ha <code>data-label</code> for kortvisningen.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>.table</code></td><td>Selve tabellen</td></tr>
+          <tr><td><code>.table__title</code> / <code>.table__meta</code></td><td>Tittel + undertekst i en celle</td></tr>
+          <tr><td><code>.table__empty</code></td><td>Tomt resultat av filter/søk</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kampanjeliste</span>
+      <div class="card card--betjen" style="padding:0; overflow:hidden">
+        <table class="table">
+          <thead>
+            <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Budsjett</th><th>Søknadsklikk</th></tr>
+          </thead>
+          <tbody>
+            <tr tabindex="0">
+              <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041</span></td>
+              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
+              <td data-label="Kanaler">Meta, Nettsteder</td>
+              <td data-label="Budsjett">kr 48 200</td>
+              <td data-label="Søknadsklikk">
+                <div class="meter meter--sm" style="max-width:140px">
+                  <div class="meter__track"><div class="meter__bar" style="width:72%"></div></div>
+                  <span class="meter__value">72 av 100</span>
+                </div>
+              </td>
+            </tr>
+            <tr tabindex="0">
+              <td data-label="Kampanje"><span class="table__title">Intensivsykepleier Bergen</span><span class="table__meta">Bergen · #129055</span></td>
+              <td data-label="Status"><span class="badge badge--paused">Pause</span></td>
+              <td data-label="Kanaler">Meta</td>
+              <td data-label="Budsjett">kr 22 000</td>
+              <td data-label="Søknadsklikk">
+                <div class="meter meter--sm" style="max-width:140px">
+                  <div class="meter__track"><div class="meter__bar meter__bar--behind" style="width:34%"></div></div>
+                  <span class="meter__value">17 av 50</span>
+                </div>
+              </td>
+            </tr>
+            <tr tabindex="0">
+              <td data-label="Kampanje"><span class="table__title">Sykepleier Kristiansand</span><span class="table__meta">Kristiansand · #129070</span></td>
+              <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
+              <td data-label="Kanaler">—</td>
+              <td data-label="Budsjett">kr 36 500</td>
+              <td data-label="Søknadsklikk">Ikke startet</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;table class="table"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Kampanje&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr tabindex="0"&gt;
+      &lt;td data-label="Kampanje"&gt;
+        &lt;span class="table__title"&gt;Sykepleier Oslo&lt;/span&gt;
+        &lt;span class="table__meta"&gt;Oslo · #129041&lt;/span&gt;
+      &lt;/td&gt;
+      &lt;td data-label="Status"&gt;&lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="cl-panel" id="panel-pagination">
   <div class="cl-component">
     <div class="cl-component-header">
@@ -890,6 +984,57 @@
     &lt;button class="pagination__btn" type="button" aria-label="Neste side"&gt;…&lt;/button&gt;
   &lt;/div&gt;
 &lt;/nav&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-progress">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Fremdrift</h2>
+      <span class="cl-component-class">.meter</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Mål mot estimat: søknadsklikk på Hjem, tabellceller, og faktisk-mot-estimert på kampanjedetalj. Fargen forteller om kampanjen ligger foran eller bak plan.</p>
+      <ul class="cl-rules">
+        <li>Navy bar = foran eller på plan. Amber (<code>.meter__bar--behind</code>) = bak plan.</li>
+        <li>Verdi som tekst til høyre, aldri bare farge — for lesbarhet.</li>
+        <li><code>.meter--sm</code> i tette rader som tabellceller.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>.meter</code></td><td>Wrapper: track + verdi</td></tr>
+          <tr><td><code>.meter__track</code></td><td>Bakgrunnsspor</td></tr>
+          <tr><td><code>.meter__bar</code></td><td>Fylt del, bredde i %</td></tr>
+          <tr><td><code>.meter__bar--behind</code></td><td>Bak plan</td></tr>
+          <tr><td><code>.meter--sm</code></td><td>Smalere spor, 6px</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Foran plan</span>
+      <div class="meter" style="max-width:360px">
+        <div class="meter__track"><div class="meter__bar" style="width:72%"></div></div>
+        <span class="meter__value">72 av 100 estimert</span>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Bak plan</span>
+      <div class="meter" style="max-width:360px">
+        <div class="meter__track"><div class="meter__bar meter__bar--behind" style="width:34%"></div></div>
+        <span class="meter__value">17 av 50 estimert</span>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="meter"&gt;
+  &lt;div class="meter__track"&gt;
+    &lt;div class="meter__bar" style="width:72%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span class="meter__value"&gt;72 av 100 estimert&lt;/span&gt;
+&lt;/div&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -1027,62 +1172,51 @@
   </div>
 </div>
 
-<div class="cl-panel" id="panel-optioncard">
+<div class="cl-panel" id="panel-summary">
   <div class="cl-component">
     <div class="cl-component-header">
-      <h2 class="cl-component-name">Valgkort</h2>
-      <span class="cl-component-class">.optioncard .kanal</span>
+      <h2 class="cl-component-name">Oppsummeringspanel</h2>
+      <span class="cl-component-class">.summary-panel</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note cl-note--wide">Stort, klikkbart valg med tittel og forklaring — brukes når et vanlig avkryssingsfelt trenger mer kontekst, f.eks. valg av annonsekanal. Hver <code>.optioncard</code> pakker et skjult native felt, så tastatur og skjermleser fungerer. POC-klassen <code>.kanal</code> matcher.</p>
+      <p class="cl-note cl-note--wide">Sticky sidebar ved siden av en flow: kampanjeoppsett, bestilling, kampanjedetalj. Holder seg synlig mens hovedkolonnen scroller.</p>
       <ul class="cl-rules">
-        <li>Valgt: navy-lift ramme + fyll, hake i boksen. Bruk <code>checkbox</code> for flere, <code>radio</code> for ett.</li>
-        <li>Låst kort: stiplet ramme, tonet flate, kort forklaring i <code>.optioncard__lock</code>.</li>
-        <li>To kolonner på desktop, én under 640px.</li>
+        <li>Én total, tydelig nederst før CTA — ikke gjem den i en blokk.</li>
+        <li>Primærknapp øverst i <code>.summary-panel__cta</code>, sekundær under.</li>
+        <li>Maks 320–360px bred, ved siden av hovedflyten, ikke alene på siden.</li>
       </ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
         <tbody>
-          <tr><td><code>.optioncard-grid</code> / <code>.kanaler</code></td><td>Rutenett</td></tr>
-          <tr><td><code>.optioncard</code> / <code>.kanal</code></td><td>Ett valg</td></tr>
-          <tr><td><code>.optioncard__box</code></td><td>Markør (hake)</td></tr>
-          <tr><td><code>.optioncard--locked</code> / <code>.kanal--låst</code></td><td>Låst / ikke tilgjengelig</td></tr>
+          <tr><td><code>.summary-panel__head</code></td><td>Tittel + kontekst</td></tr>
+          <tr><td><code>.summary-panel__block</code></td><td>Gruppe av rader</td></tr>
+          <tr><td><code>.summary-row</code></td><td>Label + verdi (dt/dd)</td></tr>
+          <tr><td><code>.summary-panel__total</code></td><td>Totalsum, tonet bunn</td></tr>
+          <tr><td><code>.summary-panel__cta</code></td><td>Knapper</td></tr>
         </tbody>
       </table>
       <div class="cl-sep"></div>
-      <span class="cl-variant">Kanalvalg</span>
-      <div class="optioncard-grid">
-        <label class="optioncard">
-          <input class="optioncard__input" type="checkbox" checked>
-          <span class="optioncard__box"></span>
-          <span class="optioncard__body">
-            <span class="optioncard__title">Finn.no</span>
-            <span class="optioncard__desc">Stillingsannonse med regional målretting.</span>
-          </span>
-        </label>
-        <label class="optioncard">
-          <input class="optioncard__input" type="checkbox">
-          <span class="optioncard__box"></span>
-          <span class="optioncard__body">
-            <span class="optioncard__title">Meta</span>
-            <span class="optioncard__desc">Facebook og Instagram, bilde eller video.</span>
-          </span>
-        </label>
-        <label class="optioncard">
-          <input class="optioncard__input" type="checkbox">
-          <span class="optioncard__box"></span>
-          <span class="optioncard__body">
-            <span class="optioncard__title">Google Ads</span>
-            <span class="optioncard__desc">Søkeannonser på relevante stillingssøk.</span>
-          </span>
-        </label>
-        <div class="optioncard optioncard--locked">
-          <span class="optioncard__box"></span>
-          <span class="optioncard__body">
-            <span class="optioncard__title">Snapchat</span>
-            <span class="optioncard__desc">Kort videoannonse mot yngre målgruppe.</span>
-            <span class="optioncard__lock">Låst — krever Pluss-avtale</span>
-          </span>
+      <span class="cl-variant">Kampanjeoppsett</span>
+      <div style="max-width:340px">
+        <div class="summary-panel">
+          <div class="summary-panel__head">
+            <h2>Sammendrag</h2>
+            <p>Utkast 129070</p>
+          </div>
+          <div class="summary-panel__block">
+            <span class="summary-panel__label">Strategien</span>
+            <dl class="summary-row"><dt>Kanaler</dt><dd>Meta, Nettsteder</dd></dl>
+            <dl class="summary-row"><dt>Periode</dt><dd>Til søknadsfrist</dd></dl>
+            <dl class="summary-row"><dt>Dekning</dt><dd>Regionalt</dd></dl>
+          </div>
+          <div class="summary-panel__total">
+            <span>Totalsum</span>
+            <b>kr 36 500</b>
+          </div>
+          <div class="summary-panel__cta">
+            <button class="btn btn--primary">Videre til materiell</button>
+            <button class="btn btn--secondary">Lagre utkast</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1090,25 +1224,95 @@
       <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
       <div class="cl-code-body">
         <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;div class="optioncard-grid"&gt;
-  &lt;label class="optioncard"&gt;
-    &lt;input class="optioncard__input" type="checkbox" checked&gt;
-    &lt;span class="optioncard__box"&gt;&lt;/span&gt;
-    &lt;span class="optioncard__body"&gt;
-      &lt;span class="optioncard__title"&gt;Finn.no&lt;/span&gt;
-      &lt;span class="optioncard__desc"&gt;Stillingsannonse med regional målretting.&lt;/span&gt;
-    &lt;/span&gt;
-  &lt;/label&gt;
-
-  &lt;div class="optioncard optioncard--locked"&gt;
-    &lt;span class="optioncard__box"&gt;&lt;/span&gt;
-    &lt;span class="optioncard__body"&gt;
-      &lt;span class="optioncard__title"&gt;Snapchat&lt;/span&gt;
-      &lt;span class="optioncard__lock"&gt;Låst — krever Pluss-avtale&lt;/span&gt;
-    &lt;/span&gt;
+        <pre class="cl-code-pre"><code>&lt;div class="summary-panel"&gt;
+  &lt;div class="summary-panel__head"&gt;
+    &lt;h2&gt;Sammendrag&lt;/h2&gt;&lt;p&gt;Utkast 129070&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="summary-panel__block"&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Kanaler&lt;/dt&gt;&lt;dd&gt;Meta&lt;/dd&gt;&lt;/dl&gt;
+  &lt;/div&gt;
+  &lt;div class="summary-panel__total"&gt;&lt;span&gt;Totalsum&lt;/span&gt;&lt;b&gt;kr 36 500&lt;/b&gt;&lt;/div&gt;
+  &lt;div class="summary-panel__cta"&gt;
+    &lt;button class="btn btn--primary"&gt;Videre&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-funnel">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Trakt</h2>
+      <span class="cl-component-class">.funnel + funnel.js</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Fire trinn fra besøk til søknadsklikk. Tre bånd: tallene i kolonneoverskriftene øverst, grafikken i midten, frafallet nederst. Fanen bytter bare det midterste båndet.</p>
+      <ul class="cl-rules">
+        <li>Fargen går fra pale navy til amber. Amber er reservert for det siste trinnet — det eneste tallet som er et resultat.</li>
+        <li><b>Trakt</b> viser formen, <b>Stolper</b> gjør trinnene lette å sammenligne, <b>Lagdelt</b> viser hvilke kanaler volumet kommer fra.</li>
+        <li>Frafallsmerket blir rødlig over 45 % frafall i ett trinn.</li>
+        <li>Lagdelt-fanen vises bare når du sender inn <code>lag</code> (kanaldata).</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Del</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>data-trakt</code></td><td>Vertselementet. JS fyller det.</td></tr>
+          <tr><td><code>tegnTrakt(el, data)</code></td><td><code>{ verdier:[4], lag:[{navn,v,o}], skjulFaner }</code></td></tr>
+          <tr><td><code>data-visning</code></td><td>trakt / stolper / lagdelt</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <div id="cl-trakt" data-trakt data-visning="trakt"></div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div id="trakt" data-trakt data-visning="trakt"&gt;&lt;/div&gt;
+&lt;script src="components/js/funnel.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+tegnTrakt(document.getElementById('trakt'), {
+  verdier: [14280, 7711, 4935, 1284],
+  lag: [
+    { navn: 'Meta', v: [9100, 5020, 3240, 880], o: 1 },
+    { navn: 'Nettsteder og aviser', v: [4300, 2320, 1480, 350], o: 0.62 }
+  ]
+});
+&lt;/script&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-steps">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Trinn</h2>
+      <span class="cl-component-class">.steps</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Fremdrift i «Ny kampanje»-veiviseren. Fullførte trinn er klikkbare og går tilbake. Nåværende trinn får amber tallsirkel.</p>
+      <ul class="cl-rules">
+        <li>Maks fire trinn. Flere hører hjemme som egne sider, ikke flere pills.</li>
+        <li>Bare fullførte trinn (<code>.step--done</code>) er klikkbare — fremtidige trinn er ikke det.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>.step--done</code></td><td>Fullført, klikkbar, navy tallsirkel med ✓</td></tr>
+          <tr><td><code>.step--now</code></td><td>Nåværende, amber tallsirkel</td></tr>
+          <tr><td>(ingen klasse)</td><td>Fremtidig, grå, ikke klikkbar</td></tr>
+        </tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <ol class="steps">
+        <li class="step step--done"><span class="step__n">✓</span>Stillingen</li>
+        <li class="step step--now"><span class="step__n">2</span>Strategien</li>
+        <li class="step"><span class="step__n">3</span>Materiell</li>
+        <li class="step"><span class="step__n">4</span>Bestilling</li>
+      </ol>
     </div>
   </div>
 </div>
@@ -1116,257 +1320,104 @@
 <div class="cl-panel" id="panel-slider">
   <div class="cl-component">
     <div class="cl-component-header">
-      <h2 class="cl-component-name">Skyvekontroll</h2>
-      <span class="cl-component-class">.slider .range</span>
+      <h2 class="cl-component-name">Budsjettskyver</h2>
+      <span class="cl-component-class">.budsjett-slider</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note cl-note--wide">Native <code>input[type="range"]</code> med Frantz-stil: navy-lift knott med hvit ramme og kortskygge, tonet spor. Brukes for budsjett og andre kontinuerlige verdier. Pakk i <code>.slider</code> for å legge en skala under.</p>
-      <ul class="cl-rules">
-        <li>Bruk alltid <code>aria-label</code> eller tilknyttet <code>&lt;label&gt;</code>.</li>
-        <li>Vis gjeldende verdi i skalaen med <code>.slider__tick--strong</code>.</li>
-        <li>Tallverdi bør speiles i et felt eller en KPI ved siden av — sporet fylles ikke selv.</li>
-      </ul>
-      <div class="cl-sep"></div>
-      <span class="cl-variant">Budsjett</span>
-      <div class="slider" style="max-width:520px">
-        <input class="range" type="range" min="5000" max="80000" value="42000" step="1000" aria-label="Budsjett">
-        <div class="slider__scale">
-          <span class="slider__tick">kr 5 000</span>
-          <span class="slider__tick slider__tick--strong">kr 42 000 anbefalt</span>
-          <span class="slider__tick">kr 80 000</span>
-        </div>
-      </div>
-      <div class="cl-sep"></div>
-      <span class="cl-variant">Deaktivert</span>
-      <div class="slider" style="max-width:520px">
-        <input class="range" type="range" min="0" max="100" value="30" disabled aria-label="Deaktivert">
-      </div>
-    </div>
-    <div class="cl-code">
-      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
-      <div class="cl-code-body">
-        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;div class="slider"&gt;
-  &lt;input class="range" type="range" min="5000" max="80000"
-         value="42000" step="1000" aria-label="Budsjett"&gt;
-  &lt;div class="slider__scale"&gt;
-    &lt;span class="slider__tick"&gt;kr 5 000&lt;/span&gt;
-    &lt;span class="slider__tick slider__tick--strong"&gt;kr 42 000&lt;/span&gt;
-    &lt;span class="slider__tick"&gt;kr 80 000&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="cl-panel" id="panel-stepper">
-  <div class="cl-component">
-    <div class="cl-component-header">
-      <h2 class="cl-component-name">Steg</h2>
-      <span class="cl-component-class">.stepper .step</span>
-    </div>
-    <div class="cl-demo">
-      <p class="cl-note cl-note--wide">Stegindikator for flertrinns-flyt, f.eks. kampanjebyggeren. Fullførte steg får navy-tall, aktivt steg får amber-tall på hvit pille. POC-klassen <code>.step</code> matcher.</p>
-      <ul class="cl-rules">
-        <li>Ett aktivt steg om gangen — <code>.stepper__item--current</code>.</li>
-        <li>Fullførte steg er <code>.stepper__item--done</code>; kommende steg er nøytrale.</li>
-        <li>Bruk <code>&lt;button&gt;</code> for steg brukeren kan hoppe tilbake til.</li>
-      </ul>
+      <p class="cl-note cl-note--wide">Ett budsjett styrer kanaler, periode og dekning i veiviseren. Terskler markeres som stiplede streker under sporet, anbefalt verdi som en egen markør over.</p>
       <table class="cl-spec">
-        <thead><tr><th>Klasse</th><th>Tilstand</th></tr></thead>
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
         <tbody>
-          <tr><td><code>.stepper__item--done</code> / <code>.step--done</code></td><td>Fullført</td></tr>
-          <tr><td><code>.stepper__item--current</code> / <code>.step--now</code></td><td>Aktivt</td></tr>
-          <tr><td><code>.stepper__item</code> / <code>.step</code></td><td>Kommende</td></tr>
+          <tr><td><code>.budsjett-slider</code></td><td><code>input[type=range]</code>, navy kule-håndtak</td></tr>
+          <tr><td><code>.slider-wrap__mark</code></td><td>«Anbefalt»-markør, posisjoneres med <code>left: %</code></td></tr>
+          <tr><td><code>.ticks</code> / <code>.tick</code></td><td>Terskellinjer under sporet</td></tr>
         </tbody>
       </table>
       <div class="cl-sep"></div>
-      <span class="cl-variant">Kampanjebygger</span>
-      <ol class="stepper">
-        <li class="stepper__item stepper__item--done"><span class="stepper__num">1</span>Oppsett</li>
-        <li class="stepper__item stepper__item--current"><span class="stepper__num">2</span>Kanaler</li>
-        <li class="stepper__item"><span class="stepper__num">3</span>Budsjett</li>
-        <li class="stepper__item"><span class="stepper__num">4</span>Sammendrag</li>
-      </ol>
-    </div>
-    <div class="cl-code">
-      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
-      <div class="cl-code-body">
-        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;ol class="stepper"&gt;
-  &lt;li class="stepper__item stepper__item--done"&gt;
-    &lt;span class="stepper__num"&gt;1&lt;/span&gt;Oppsett
-  &lt;/li&gt;
-  &lt;li class="stepper__item stepper__item--current"&gt;
-    &lt;span class="stepper__num"&gt;2&lt;/span&gt;Kanaler
-  &lt;/li&gt;
-  &lt;li class="stepper__item"&gt;
-    &lt;span class="stepper__num"&gt;3&lt;/span&gt;Budsjett
-  &lt;/li&gt;
-&lt;/ol&gt;</code></pre>
+      <div class="slider-wrap" style="max-width:480px">
+        <span class="slider-wrap__mark" style="left:38%">Anbefalt</span>
+        <input class="budsjett-slider" type="range" min="15000" max="70000" step="500" value="36500">
+      </div>
+      <div class="ticks" style="max-width:480px">
+        <div class="tick" style="left:18%"><div class="tick__line"></div><div class="tick__txt">kr 25 000<br>Lengre periode</div></div>
+        <div class="tick tick--kort" style="left:27%"><div class="tick__line"></div><div class="tick__txt">kr 30 000<br>Nettsteder</div></div>
+        <div class="tick" style="left:55%"><div class="tick__line"></div><div class="tick__txt">kr 45 000<br>Remarketing</div></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="cl-panel" id="panel-progress">
+<div class="cl-panel" id="panel-selectcard">
   <div class="cl-component">
     <div class="cl-component-header">
-      <h2 class="cl-component-name">Fremdrift</h2>
-      <span class="cl-component-class">.progress .maal</span>
+      <h2 class="cl-component-name">Velgbart kort</h2>
+      <span class="cl-component-class">.select-card</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note cl-note--wide">Tynn fremdriftsindikator for mål og forbruk, f.eks. søknader mot måltall eller budsjett i bruk. Sett bredden på <code>.progress__bar</code> inline. POC-klassen <code>.maal</code> matcher.</p>
-      <ul class="cl-rules">
-        <li>Amber som standard. Bruk <code>--navy</code>, <code>--success</code> eller <code>--danger</code> for kontekst.</li>
-        <li>Tall hører hjemme i <code>.progress__label</code> — sporet alene er ikke nok.</li>
-        <li><code>--lg</code> gir 10px spor for viktige, frittstående mål.</li>
-      </ul>
+      <p class="cl-note cl-note--wide">Kanaler og tilvalg i veiviseren — samme mønster, to bruksmåter. Rutenett for kanaler (av/på + låst), liste for tilvalg (av/på + pris).</p>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-pressed="true"]</code></td><td>Valgt — navy kant, lys navy-fyll</td></tr>
+          <tr><td><code>.select-card--locked</code></td><td>Låst til budsjettet dekker <code>.select-card__lock</code></td></tr>
+          <tr><td><code>.select-card__price</code></td><td>Pris til høyre (tilvalg)</td></tr>
+          <tr><td><code>.select-card-grid</code> / <code>.select-card-list</code></td><td>2-kolonne rutenett vs. stablet liste</td></tr>
+        </tbody>
+      </table>
       <div class="cl-sep"></div>
-      <span class="cl-variant">Måloppnåelse</span>
-      <div class="cl-stack" style="max-width:420px">
-        <div class="progress">
-          <span class="progress__label">Søknader <b>128 / 200</b></span>
-          <span class="progress__track"><span class="progress__bar" style="width:64%"></span></span>
-        </div>
-        <div class="progress progress--navy">
-          <span class="progress__label">Visninger <b>18 400 / 25 000</b></span>
-          <span class="progress__track"><span class="progress__bar" style="width:74%"></span></span>
-        </div>
-        <div class="progress progress--danger progress--lg">
-          <span class="progress__label">Budsjett i bruk <b>kr 68 000 / kr 72 000</b></span>
-          <span class="progress__track"><span class="progress__bar" style="width:94%"></span></span>
-        </div>
+      <span class="cl-variant">Kanaler — rutenett med låst kort</span>
+      <div class="select-card-grid" style="margin-bottom:24px">
+        <button class="select-card" type="button" aria-pressed="true">
+          <span class="select-card__box"></span>
+          <span class="select-card__body"><span class="select-card__name">Meta</span><span class="select-card__desc">Facebook og Instagram</span></span>
+        </button>
+        <button class="select-card select-card--locked" type="button" aria-pressed="false">
+          <span class="select-card__box"></span>
+          <span class="select-card__body"><span class="select-card__name">Remarketing</span><span class="select-card__desc">Følger opp kandidater som har vist interesse</span><span class="select-card__lock">Låses opp ved kr 45 000</span></span>
+        </button>
       </div>
-    </div>
-    <div class="cl-code">
-      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
-      <div class="cl-code-body">
-        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;div class="progress"&gt;
-  &lt;span class="progress__label"&gt;Søknader &lt;b&gt;128 / 200&lt;/b&gt;&lt;/span&gt;
-  &lt;span class="progress__track"&gt;
-    &lt;span class="progress__bar" style="width:64%"&gt;&lt;/span&gt;
-  &lt;/span&gt;
-&lt;/div&gt;</code></pre>
+      <span class="cl-variant">Tilvalg — liste med pris</span>
+      <div class="select-card-list">
+        <button class="select-card" type="button" aria-pressed="true">
+          <span class="select-card__box"></span>
+          <span class="select-card__body"><span class="select-card__name">Leadgenerator med interessenter</span><span class="select-card__desc">Kandidater blir tilgjengelige med e-post.</span></span>
+          <span class="select-card__price">Uten tillegg</span>
+        </button>
+        <button class="select-card" type="button" aria-pressed="false">
+          <span class="select-card__box"></span>
+          <span class="select-card__body"><span class="select-card__name">Bildeproduksjon på arbeidsplassen</span><span class="select-card__desc">Fotograf på stedet.</span></span>
+          <span class="select-card__price">+ kr 6 500</span>
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="cl-panel" id="panel-table">
+<div class="cl-panel" id="panel-choicecard">
   <div class="cl-component">
     <div class="cl-component-header">
-      <h2 class="cl-component-name">Tabell</h2>
-      <span class="cl-component-class">.table .rad</span>
+      <h2 class="cl-component-name">Valgkort</h2>
+      <span class="cl-component-class">.choice-card</span>
     </div>
     <div class="cl-demo">
-      <p class="cl-note cl-note--wide">Datatabell for kampanjelister. Klikkbare rader, tabulære tall og innebygde status- og fremdriftskomponenter. Under 720px bryter hver rad til et kort — ingen vannrett rulling. POC-klassene <code>.tabell</code> / <code>.rad</code> matcher.</p>
-      <ul class="cl-rules">
-        <li>Pakk i <code>.table-scroll</code> for trygg vannrett rulling på mellomstore skjermer.</li>
-        <li>Bruk <code>.table__row--clickable</code> når hele raden er en lenke.</li>
-        <li>Tall får <code>.table__num</code> for tabulær justering.</li>
-      </ul>
+      <p class="cl-note cl-note--wide">Ett-av-tre-valg, f.eks. materiellsteg i veiviseren. Prisen sitter som en pill over navnet, ikke til høyre — dette er et valg, ikke en pris-sammenligning.</p>
       <div class="cl-sep"></div>
-      <span class="cl-variant">Kampanjeliste</span>
-      <div class="table-scroll">
-        <table class="table">
-          <thead>
-            <tr><th>Kampanje</th><th>Status</th><th>Søknader</th><th>Budsjett</th></tr>
-          </thead>
-          <tbody>
-            <tr class="table__row table__row--clickable">
-              <td><div class="table__title">Sykepleiere Oslo</div><div class="table__meta">Startet 12.08.2026</div></td>
-              <td><span class="badge badge--active">Aktiv</span></td>
-              <td><div class="maal" style="min-width:120px"><span class="maal__tekst">Mål <b>128 / 200</b></span><span class="maal__spor"><span class="maal__bar" style="width:64%"></span></span></div></td>
-              <td class="table__num">kr 42 000</td>
-            </tr>
-            <tr class="table__row table__row--clickable">
-              <td><div class="table__title">Jordmødre Bergen</div><div class="table__meta">Startet 01.09.2026</div></td>
-              <td><span class="badge badge--paused">Pauset</span></td>
-              <td><div class="maal" style="min-width:120px"><span class="maal__tekst">Mål <b>44 / 120</b></span><span class="maal__spor"><span class="maal__bar" style="width:37%"></span></span></div></td>
-              <td class="table__num">kr 28 000</td>
-            </tr>
-            <tr class="table__row table__row--clickable">
-              <td><div class="table__title">Vernepleiere Trondheim</div><div class="table__meta">Kladd</div></td>
-              <td><span class="badge badge--draft">Kladd</span></td>
-              <td><div class="maal" style="min-width:120px"><span class="maal__tekst">Mål <b>0 / 90</b></span><span class="maal__spor"><span class="maal__bar" style="width:0%"></span></span></div></td>
-              <td class="table__num">kr 0</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="cl-code">
-      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
-      <div class="cl-code-body">
-        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;div class="table-scroll"&gt;
-  &lt;table class="table"&gt;
-    &lt;thead&gt;
-      &lt;tr&gt;&lt;th&gt;Kampanje&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Søknader&lt;/th&gt;&lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr class="table__row table__row--clickable"&gt;
-        &lt;td&gt;
-          &lt;div class="table__title"&gt;Sykepleiere Oslo&lt;/div&gt;
-          &lt;div class="table__meta"&gt;Startet 12.08.2026&lt;/div&gt;
-        &lt;/td&gt;
-        &lt;td&gt;&lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;&lt;/td&gt;
-        &lt;td class="table__num"&gt;128 / 200&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;</code></pre>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="cl-panel" id="panel-timeline">
-  <div class="cl-component">
-    <div class="cl-component-header">
-      <h2 class="cl-component-name">Tidslinje</h2>
-      <span class="cl-component-class">.timeline .logg</span>
-    </div>
-    <div class="cl-demo">
-      <p class="cl-note cl-note--wide">Aktivitetslogg for en kampanje: dato til venstre, hendelse til høyre. Brukes på kampanjedetalj for å vise historikk. POC-klassen <code>.logg</code> matcher.</p>
-      <ul class="cl-rules">
-        <li>Datoer er tabulære og fete for skanning.</li>
-        <li>Hendelsestittel i <code>.timeline__title</code>, utfyllende tekst under.</li>
-        <li>Under 640px legger dato seg over teksten.</li>
-      </ul>
-      <div class="cl-sep"></div>
-      <span class="cl-variant">Kampanjelogg</span>
-      <div class="timeline" style="max-width:520px">
-        <div class="timeline__item">
-          <div class="timeline__date">12.08.2026</div>
-          <div class="timeline__body"><b class="timeline__title">Kampanje publisert</b>Annonsen gikk live på Finn.no og frantz.no.</div>
-        </div>
-        <div class="timeline__item">
-          <div class="timeline__date">18.08.2026</div>
-          <div class="timeline__body"><b class="timeline__title">Budsjett justert</b>Økt fra kr 32 000 til kr 42 000 av Kari Hansen.</div>
-        </div>
-        <div class="timeline__item">
-          <div class="timeline__date">02.09.2026</div>
-          <div class="timeline__body"><b class="timeline__title">Første 100 søknader</b>Måloppnåelse passerte 50 %.</div>
-        </div>
-      </div>
-    </div>
-    <div class="cl-code">
-      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
-      <div class="cl-code-body">
-        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-        <pre class="cl-code-pre"><code>&lt;div class="timeline"&gt;
-  &lt;div class="timeline__item"&gt;
-    &lt;div class="timeline__date"&gt;12.08.2026&lt;/div&gt;
-    &lt;div class="timeline__body"&gt;
-      &lt;b class="timeline__title"&gt;Kampanje publisert&lt;/b&gt;
-      Annonsen gikk live på Finn.no og frantz.no.
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+      <div class="choice-grid">
+        <button class="choice-card" type="button" aria-pressed="false">
+          <span class="choice-card__price">Gratis</span>
+          <span class="choice-card__name">Vi har ferdig materiell</span>
+          <span class="choice-card__desc">Dere laster opp annonser selv.</span>
+        </button>
+        <button class="choice-card" type="button" aria-pressed="true">
+          <span class="choice-card__price">Gratis</span>
+          <span class="choice-card__name">Bygg annonsen her</span>
+          <span class="choice-card__desc">Sett den sammen i portalen.</span>
+        </button>
+        <button class="choice-card" type="button" aria-pressed="false">
+          <span class="choice-card__price">Fra kr 2 180/t</span>
+          <span class="choice-card__name">Frantz produserer</span>
+          <span class="choice-card__desc">Frantz lager annonsen for dere.</span>
+        </button>
       </div>
     </div>
   </div>
@@ -1395,6 +1446,17 @@ function copyPre(btn) {
   btn.classList.add('copied');
   setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
 }
+</script>
+<script src="components/js/funnel.js"></script>
+<script>
+tegnTrakt(document.getElementById('cl-trakt'), {
+  verdier: [14280, 7711, 4935, 1284],
+  lag: [
+    { navn: 'Meta',                 v: [9100, 5020, 3240, 880], o: 1 },
+    { navn: 'Nettsteder og aviser', v: [4300, 2320, 1480, 350], o: 0.62 },
+    { navn: 'Remarketing',          v: [880, 371, 215, 54],     o: 0.34 }
+  ]
+});
 </script>
 <script src="components/js/interactions.js" defer></script>
 </body>

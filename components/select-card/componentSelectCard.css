@@ -1,0 +1,112 @@
+.select-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  width: 100%;
+  padding: var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+  text-align: left;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+
+.select-card:hover {
+  border-color: var(--color-ink-400);
+}
+
+.select-card__box {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border: 1.5px solid var(--color-ink-200);
+  border-radius: 6px;
+  background: var(--surface-raised);
+}
+
+.select-card[aria-pressed="true"] {
+  border-color: var(--color-navy-lift);
+  background: #EDF5F9;
+}
+
+.select-card[aria-pressed="true"] .select-card__box {
+  border-color: var(--color-navy-lift);
+  background: var(--color-navy-lift);
+}
+
+.select-card[aria-pressed="true"] .select-card__box::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid var(--color-white);
+  border-bottom: 2px solid var(--color-white);
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.select-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.select-card__name {
+  display: block;
+  color: var(--text-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.select-card__desc {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.select-card__price {
+  flex: none;
+  color: var(--text-heading);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.select-card--locked {
+  border-style: dashed;
+  background: var(--surface-subtle);
+}
+
+.select-card--locked .select-card__name,
+.select-card--locked .select-card__desc {
+  color: var(--text-faint);
+}
+
+.select-card__lock {
+  display: block;
+  margin-top: var(--space-8);
+  color: var(--color-navy);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.select-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+.select-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+@media (max-width: 640px) {
+  .select-card-grid {
+    grid-template-columns: 1fr;
+  }
+}

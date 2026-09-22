@@ -1,6 +1,17 @@
 .card {
+  min-width: 0;
   border-radius: var(--radius-16);
   padding: var(--space-32);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: var(--space-16);
+  }
+
+  .card__head {
+    flex-direction: column;
+  }
 }
 
 .card--action,

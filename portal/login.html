@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Logg inn — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<style>
+  html, body {
+    height: 100%;
+  }
+  body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-band);
+    font-family: var(--font-body);
+  }
+  .login {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--space-16);
+  }
+  .login__card {
+    padding: var(--space-44) var(--space-32);
+  }
+  .login__logo {
+    display: block;
+    height: 24px;
+    margin: 0 auto var(--space-32);
+  }
+  .login h1 {
+    color: var(--text-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    letter-spacing: var(--tracking-heading);
+  }
+  .login__lede {
+    margin: var(--space-8) 0 var(--space-32);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+  .login form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+  .login__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-4);
+  }
+  .login__row a {
+    color: var(--color-navy);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+  .login__row a:hover {
+    text-decoration: underline;
+  }
+  .login .btn--primary {
+    width: 100%;
+    margin-top: var(--space-8);
+  }
+  .login__footer {
+    margin-top: var(--space-32);
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="login">
+  <div class="card card--betjen login__card">
+    <img class="login__logo" src="../assets/logo-frantz.png" alt="Frantz">
+    <h1>Logg inn på kampanjeportalen</h1>
+    <p class="login__lede">For Vokser AS. Bruk kontoen medierådgiveren din har satt opp.</p>
+
+    <form onsubmit="event.preventDefault(); location.href='dashboard.html';">
+      <div class="form-group">
+        <label class="form-label" for="epost">E-post</label>
+        <input class="form-input" type="email" id="epost" name="epost" placeholder="navn@vokser.no" value="ss@vokser.no" autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="passord">Passord</label>
+        <input class="form-input" type="password" id="passord" name="passord" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <div class="login__row">
+        <label class="form-check">
+          <input class="form-check__input" type="checkbox" checked>
+          <span class="form-check__box"></span>
+          <span class="form-check__label">Husk meg</span>
+        </label>
+        <a href="#">Glemt passord?</a>
+      </div>
+
+      <button class="btn btn--primary" type="submit">Logg inn</button>
+    </form>
+
+    <p class="login__footer">Har du ikke tilgang? Kontakt din medierådgiver i Frantz.</p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -90,3 +90,40 @@
 .mb-4 { margin-bottom: var(--space-16); }
 .mb-6 { margin-bottom: var(--space-24); }
 .mb-8 { margin-bottom: var(--space-32); }
+
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--space-32);
+  align-items: start;
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  min-width: 0;
+}
+
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-12);
+}
+
+@media (max-width: 900px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-actions {
+    display: grid;
+  }
+}

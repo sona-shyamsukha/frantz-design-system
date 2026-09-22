@@ -1,0 +1,67 @@
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-32);
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px var(--space-16) 8px 8px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  color: var(--text-faint);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: default;
+}
+
+.step__n {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface-section);
+  color: var(--text-faint);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Fullført — klikkbart, går tilbake */
+.step--done {
+  border-color: var(--border-brand-1-soft);
+  background: var(--bg-brand-1-soft);
+  color: var(--text-brand-1-strong);
+  cursor: pointer;
+}
+
+.step--done:hover {
+  border-color: var(--color-navy-lift);
+}
+
+.step--done .step__n {
+  background: var(--color-navy-lift);
+  color: var(--color-white);
+}
+
+/* Nåværende — sidens tydeligste punkt */
+.step--now {
+  border-color: var(--color-navy);
+  background: var(--color-navy);
+  color: var(--color-white);
+  box-shadow: var(--shadow-subtle);
+}
+
+.step--now .step__n {
+  background: var(--color-amber);
+  color: var(--color-navy);
+}

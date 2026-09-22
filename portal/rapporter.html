@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Rapporter — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<style>
+  body { margin: 0; }
+  .table-card { padding: 0; overflow: hidden; margin-top: var(--space-24); }
+</style>
+</head>
+<body>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <button type="button" class="nav__item" onclick="location.href='dashboard.html'"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
+      <button type="button" class="nav__item" onclick="location.href='campaigns.html'"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
+      <button type="button" class="nav__item" onclick="location.href='ny-kampanje-1.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+      <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</button>
+      <div class="nav__group">Ressurser</div>
+      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
+      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'">Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div><button class="btn btn--ghost" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span>Logg ut</button></header>
+
+    <div class="wrap">
+      <h1 class="text-h2">Rapporter</h1>
+      <p class="lede">Avsluttede kampanjer med fullført resultat. Åpne en rapport for detaljer, eller last den ned som PDF.</p>
+
+      <div class="card card--betjen table-card">
+        <table class="table">
+          <thead>
+            <tr><th>Kampanje</th><th>Periode</th><th>Budsjett brukt</th><th>Søknadsklikk mot estimat</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr tabindex="0" onclick="location.href='rapport.html'">
+              <td data-label="Kampanje"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">Bodø · #128984 · Kari Hansen</span></td>
+              <td data-label="Periode">02.07 – 30.07.2026</td>
+              <td data-label="Budsjett brukt">kr 31 200</td>
+              <td data-label="Søknadsklikk">
+                <div class="meter meter--sm" style="max-width:140px">
+                  <div class="meter__track"><div class="meter__bar" style="width:100%"></div></div>
+                  <span class="meter__value">88 av 80</span>
+                </div>
+              </td>
+              <td data-label=""><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true" style="color:var(--text-faint)"></span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='rapport.html'">
+              <td data-label="Kampanje"><span class="table__title">Jordmor Ålesund</span><span class="table__meta">Ålesund · #128951 · Petter Aas</span></td>
+              <td data-label="Periode">08.06 – 22.06.2026</td>
+              <td data-label="Budsjett brukt">kr 16 800</td>
+              <td data-label="Søknadsklikk">
+                <div class="meter meter--sm" style="max-width:140px">
+                  <div class="meter__track"><div class="meter__bar meter__bar--behind" style="width:68%"></div></div>
+                  <span class="meter__value">27 av 40</span>
+                </div>
+              </td>
+              <td data-label=""><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true" style="color:var(--text-faint)"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../components/js/interactions.js"></script>
+</body>
+</html>

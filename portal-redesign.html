@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Frantz DS — Portal redesign</title>
+<link rel="stylesheet" href="frantz-ds.css?v=8">
+<link rel="stylesheet" href="styles/docs.css">
+<style>
+  .pr-main { padding-top: 52px; }
+  .pr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 900px;
+  }
+  @media (max-width: 900px) {
+    .pr-grid { grid-template-columns: 1fr; }
+  }
+  .pr-card { display: flex; flex-direction: column; gap: 4px; }
+  .pr-card__thumb {
+    display: grid;
+    place-items: center;
+    height: 96px;
+    margin-bottom: 16px;
+    border-radius: var(--radius-12);
+    background: var(--surface-rail);
+    color: var(--color-amber);
+  }
+  .pr-card__thumb .icon-lucide { width: 28px; height: 28px; }
+  .pr-card .card__footer { margin-top: 20px; }
+  .pr-list { max-width: 640px; padding-left: 18px; color: var(--text-body); font-size: 12.5px; line-height: 1.65; }
+  .pr-list li + li { margin-top: 6px; }
+  .pr-list code { padding: 1px 5px; border-radius: 3px; background: #f2f6f9; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+</style>
+</head>
+<body class="ds-docs">
+
+<header class="ds-topbar">
+  <div class="ds-topbar__logo">
+    <img class="ds-topbar__wordmark" src="assets/logo-frantz.png" alt="Frantz">
+    <span class="ds-topbar__version">DS v0.5</span>
+  </div>
+  <nav class="ds-topbar__nav">
+    <a href="./style-guide.html">Stilguide</a>
+    <a href="./component-library.html">Komponentbibliotek</a>
+    <a href="./portal-redesign.html" class="active">Portal redesign</a>
+  </nav>
+  <span></span>
+</header>
+
+<div class="pr-main">
+  <div class="ds-section">
+    <div class="ds-overline">Portal redesign</div>
+    <h1 class="ds-title" style="font-size: 22px;">Kampanjeportalen for Vokser AS</h1>
+    <p class="ds-desc" style="max-width: 640px;">Redesign av Frantz' kampanjebygger, bygget med tokenene og komponentene i dette biblioteket i stedet for prototypens egne stiler. Seks skjermer under viser hvordan de virkelige sidene vil se ut — klikk inn på hver for å se den fungerende siden.</p>
+
+    <div class="pr-grid">
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true" style="transform:scaleX(-1)"></span></div>
+        <h3 class="card__title">Innlogging</h3>
+        <p class="card__hint">Enkel innloggingsside for Vokser AS, med e-post og passord.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/login.html">Åpne siden</a></div>
+      </div>
+
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span></div>
+        <h3 class="card__title">Hjem</h3>
+        <p class="card__hint">Nøkkeltall, kampanjer som trenger oppmerksomhet, og status på aktive kampanjer.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/dashboard.html">Åpne siden</a></div>
+      </div>
+
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span></div>
+        <h3 class="card__title">Kampanjer</h3>
+        <p class="card__hint">Alle kampanjer, med søk, statusfiltre og fremdrift mot estimat.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/campaigns.html">Åpne siden</a></div>
+      </div>
+
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span></div>
+        <h3 class="card__title">Kampanje — resultater</h3>
+        <p class="card__hint">Resultat mot estimat, kanalfordeling, optimaliseringslogg og kampanjeside.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/campaign.html">Åpne siden</a></div>
+      </div>
+
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span></div>
+        <h3 class="card__title">Ny kampanje — veiviser</h3>
+        <p class="card__hint">Fire steg: stillingen, strategien med budsjettskyver, materiell med annonseforhåndsvisning, og bestilling.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje-1.html">Åpne siden</a></div>
+      </div>
+
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span></div>
+        <h3 class="card__title">Rapporter</h3>
+        <p class="card__hint">Avsluttede kampanjer, og den enkelte rapporten med endelig resultat mot estimat.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/rapporter.html">Åpne siden</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-overline">Bygget for dette</div>
+    <h2 class="ds-title">Nye komponenter</h2>
+    <p class="ds-desc">Prototypen brukte noen mønstre biblioteket ikke hadde ennå. De er nå lagt til som ordentlige, dokumenterte komponenter — se dem under <b>Lister</b> og <b>Innhold</b> i <a href="component-library.html" style="text-decoration:underline">Komponentbiblioteket</a>.</p>
+    <ul class="pr-list">
+      <li><code>.table</code> — datatabell med statusmerke og fremdriftsceller, kollapser til kort under 860px. Brukt i Kampanjer.</li>
+      <li><code>.meter</code> — fremdriftsstolpe for faktisk mot estimert. Brukt på Hjem, i tabellen og på kampanjedetalj.</li>
+      <li><code>.summary-panel</code> — sticky sammendragspanel med total og handlinger. Brukt på Hjem og kampanjedetalj.</li>
+      <li><code>.funnel</code> — trakt i tre visninger (trakt, stolper, lagdelt per kanal), med frafall per trinn. Brukt på Hjem og i veiviseren.</li>
+      <li><code>.steps</code> — trinnindikator for veiviseren.</li>
+      <li><code>.budsjett-slider</code> — budsjettskyver med terskler og anbefalt-markør.</li>
+      <li><code>.select-card</code> / <code>.choice-card</code> — kanaler, tilvalg og materiellvalg.</li>
+    </ul>
+    <p class="ds-desc" style="margin-top: 20px;">Innsikt har ingen egen side. Innholdet ligger nederst på <b>Hjem</b>, under «Samlet effekt» — med bare 5–7 kampanjer er det ingen grunn til å sende folk til en egen side for det.</p>
+  </div>
+</div>
+
+</body>
+</html>

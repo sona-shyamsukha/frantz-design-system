@@ -1,10 +1,4 @@
-.slider {
-  position: relative;
-}
-
-.range,
-.slider__input,
-.slider input[type="range"] {
+.budsjett-slider {
   -webkit-appearance: none;
   appearance: none;
   display: block;
@@ -16,73 +10,85 @@
   cursor: pointer;
 }
 
-.range::-webkit-slider-thumb,
-.slider__input::-webkit-slider-thumb,
-.slider input[type="range"]::-webkit-slider-thumb {
+.budsjett-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 28px;
   height: 28px;
   border: 5px solid var(--color-white);
-  border-radius: var(--radius-full);
-  background: var(--color-navy-lift);
+  border-radius: 50%;
+  background: var(--color-navy);
   box-shadow: var(--shadow-card);
   cursor: grab;
 }
 
-.range::-moz-range-thumb,
-.slider__input::-moz-range-thumb,
-.slider input[type="range"]::-moz-range-thumb {
+.budsjett-slider::-moz-range-thumb {
   width: 28px;
   height: 28px;
   border: 5px solid var(--color-white);
-  border-radius: var(--radius-full);
-  background: var(--color-navy-lift);
+  border-radius: 50%;
+  background: var(--color-navy);
   box-shadow: var(--shadow-card);
   cursor: grab;
 }
 
-.range:active::-webkit-slider-thumb,
-.slider input[type="range"]:active::-webkit-slider-thumb {
-  cursor: grabbing;
+.slider-wrap {
+  position: relative;
+  padding-top: var(--space-24);
 }
 
-.range:focus-visible,
-.slider__input:focus-visible,
-.slider input[type="range"]:focus-visible {
-  outline: none;
-}
-
-.range:focus-visible::-webkit-slider-thumb,
-.slider input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow: var(--shadow-card), var(--focus-ring);
-}
-
-.range:focus-visible::-moz-range-thumb,
-.slider input[type="range"]:focus-visible::-moz-range-thumb {
-  box-shadow: var(--shadow-card), var(--focus-ring);
-}
-
-.range:disabled,
-.slider input[type="range"]:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
-.slider__scale {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-8);
-  margin-top: var(--space-12);
-}
-
-.slider__tick {
+.slider-wrap__mark {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--color-navy);
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  font-weight: var(--font-weight-bold);
   white-space: nowrap;
 }
 
-.slider__tick--strong {
+.slider-wrap__mark::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  width: 1px;
+  height: 10px;
+  background: var(--color-amber);
+}
+
+.ticks {
+  position: relative;
+  height: 96px;
+  margin-top: var(--space-12);
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.tick__line {
+  width: 1px;
+  height: 20px;
+  margin: 0 auto var(--space-8);
+  background: var(--color-ink-200);
+}
+
+.tick--kort .tick__line {
+  height: 10px;
+}
+
+.tick__txt {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.tick--naa .tick__txt {
   color: var(--text-heading);
   font-weight: var(--font-weight-medium);
 }

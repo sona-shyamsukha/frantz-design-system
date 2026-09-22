@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Ny kampanje — Bestilling — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<style>
+  body { margin: 0; }
+  .cols { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: var(--space-32); align-items: start; margin-top: var(--space-32); }
+  .flow { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+
+  .sjekkliste { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  @media (max-width: 640px) { .sjekkliste { grid-template-columns: 1fr; } }
+  .sjekkrad { display: flex; align-items: center; gap: var(--space-12); font-size: var(--text-sm); color: var(--text-body); }
+  .sjekkrad .icon-lucide { flex: none; color: var(--color-navy-lift); }
+
+  #kvittering-view[hidden], #bestilling-view[hidden] { display: none; }
+  .kvittering { max-width: 480px; margin: var(--space-64) auto 0; text-align: center; padding: var(--space-44) var(--space-32); }
+  .kvittering__ikon { display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto var(--space-16); border-radius: 50%; background: var(--bg-success-soft); color: var(--text-success-strong); }
+  .kvittering h2 { color: var(--text-heading); font-size: var(--text-xl); font-weight: var(--font-weight-semibold); }
+  .kvittering p { margin-top: var(--space-12); color: var(--text-muted); font-size: var(--text-sm); }
+  .kvittering__id { margin-top: var(--space-16); color: var(--text-faint); font-size: var(--text-xs); }
+  .kvittering__cta { margin-top: var(--space-32); display: flex; justify-content: center; gap: var(--space-12); flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <button type="button" class="nav__item" onclick="location.href='dashboard.html'"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
+      <button type="button" class="nav__item" onclick="location.href='campaigns.html'"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
+      <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+      <button type="button" class="nav__item" onclick="location.href='rapporter.html'"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</button>
+      <div class="nav__group">Ressurser</div>
+      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
+      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'">Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div><button class="btn btn--ghost" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span>Logg ut</button></header>
+
+    <div class="wrap">
+      <div id="bestilling-view">
+        <ol class="steps">
+          <li class="step step--done" onclick="location.href='ny-kampanje-1.html'"><span class="step__n">✓</span>Stillingen</li>
+          <li class="step step--done" onclick="location.href='ny-kampanje-2.html'"><span class="step__n">✓</span>Strategien</li>
+          <li class="step step--done" onclick="location.href='ny-kampanje-3.html'"><span class="step__n">✓</span>Materiell</li>
+          <li class="step step--now"><span class="step__n">4</span>Bestilling</li>
+        </ol>
+
+        <h1 class="text-h2">Bestilling</h1>
+        <p class="lede">Siste gjennomgang før kampanjen settes i produksjon.</p>
+
+        <div class="cols">
+          <div class="flow">
+            <div class="card card--les">
+              <div class="card__head"><div>
+                <h3 class="card__title">Inkludert i kampanjen</h3>
+                <p class="card__hint">Dette følger med uansett budsjett.</p>
+              </div></div>
+              <div class="sjekkliste">
+                <div class="sjekkrad"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Kampanjeside med målgruppedata</div>
+                <div class="sjekkrad"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Distribusjon i valgte kanaler</div>
+                <div class="sjekkrad"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Remarketing</div>
+                <div class="sjekkrad"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Effektmåling i sanntid</div>
+                <div class="sjekkrad"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Digitale tvillinger</div>
+                <div class="sjekkrad"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Optimalisering underveis</div>
+              </div>
+            </div>
+
+            <div class="card card--betjen">
+              <div class="card__head"><div>
+                <h3 class="card__title">Tilvalg</h3>
+                <p class="card__hint">Legg til eller fjern etter behov.</p>
+              </div></div>
+              <div class="select-card-list" id="tilvalg-liste">
+                <button class="select-card" type="button" aria-pressed="true" data-pris="0">
+                  <span class="select-card__box"></span>
+                  <span class="select-card__body">
+                    <span class="select-card__name">Leadgenerator med interessenter</span>
+                    <span class="select-card__desc">Kandidater som melder interesse på kampanjesiden blir tilgjengelige for dere med e-post.</span>
+                  </span>
+                  <span class="select-card__price">Uten tillegg</span>
+                </button>
+                <button class="select-card" type="button" aria-pressed="false" data-pris="0">
+                  <span class="select-card__box"></span>
+                  <span class="select-card__body">
+                    <span class="select-card__name">Månedlig rapport på e-post</span>
+                    <span class="select-card__desc">Oppsummering av effekt sendt til bestiller og rekrutterer.</span>
+                  </span>
+                  <span class="select-card__price">Uten tillegg</span>
+                </button>
+                <button class="select-card" type="button" aria-pressed="false" data-pris="6500">
+                  <span class="select-card__box"></span>
+                  <span class="select-card__body">
+                    <span class="select-card__name">Bildeproduksjon på arbeidsplassen</span>
+                    <span class="select-card__desc">Fotograf på stedet. Egne bilder gir jevnt over høyere lesetid enn arkivbilder.</span>
+                  </span>
+                  <span class="select-card__price">+ kr 6 500</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="card card--betjen">
+              <div class="form-group">
+                <label class="form-label" for="kommentar">Kommentar til Frantz</label>
+                <textarea class="form-textarea" id="kommentar" placeholder="For eksempel ønsket oppstart, kontaktperson eller spesielle hensyn" style="min-height:90px"></textarea>
+                <p class="form-hint">Noe medierådgiveren bør vite før kampanjen settes opp?</p>
+              </div>
+            </div>
+
+          </div>
+
+          <aside>
+            <div class="summary-panel">
+              <div class="summary-panel__head">
+                <h2>Din bestilling</h2>
+                <p id="sum-navn">Sykepleier Kristiansand</p>
+              </div>
+              <div class="summary-panel__block">
+                <dl class="summary-row"><dt>Kampanjebudsjett</dt><dd id="sum-budsjett">kr 36 500</dd></dl>
+                <dl class="summary-row"><dt>Materiell</dt><dd id="sum-materiell">Bygg annonsen her</dd></dl>
+                <dl class="summary-row" id="sum-bilde-rad" hidden><dt>Bildeproduksjon</dt><dd>kr 6 500</dd></dl>
+              </div>
+              <div class="summary-panel__total">
+                <span>Totalsum</span>
+                <b id="sum-total">kr 36 500</b>
+              </div>
+              <div class="summary-panel__cta">
+                <button class="btn btn--primary" type="button" onclick="bestill()">Bestill kampanjen</button>
+                <button class="btn btn--secondary" type="button" onclick="location.href='ny-kampanje-3.html'">Tilbake</button>
+                <button class="btn btn--ghost" type="button" onclick="location.href='campaigns.html'">Lagre utkast</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="kvittering-view" hidden>
+        <div class="card card--les kvittering">
+          <div class="kvittering__ikon"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true" style="width:28px;height:28px"></span></div>
+          <h2>Kampanjen er bestilt</h2>
+          <p>Medierådgiveren din i Frantz går gjennom oppsettet og tar kontakt hvis noe mangler. Kampanjen starter så snart materiellet er godkjent.</p>
+          <p class="kvittering__id" id="kvittering-linje">Kampanje 129070 · Sykepleier i Kristiansand · kr 36 500</p>
+          <div class="kvittering__cta">
+            <button class="btn btn--primary" type="button" onclick="location.href='campaigns.html'">Se alle kampanjer</button>
+            <button class="btn btn--secondary" type="button" onclick="location.href='dashboard.html'">Til hjem</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var wizard = { tittel: 'Sykepleier', sted: 'Kristiansand (by)', _budsjett: 36500, _materiell: 'Bygg annonsen her' };
+try {
+  var saved = JSON.parse(localStorage.getItem('fzWizard') || 'null');
+  if (saved) wizard = Object.assign(wizard, saved);
+} catch (e) {}
+
+var basisBudsjett = Number(wizard._budsjett || 36500);
+document.getElementById('sum-navn').textContent = wizard.tittel + ' ' + wizard.sted.split(' ')[0];
+document.getElementById('sum-budsjett').textContent = 'kr ' + basisBudsjett.toLocaleString('nb-NO');
+document.getElementById('sum-materiell').textContent = wizard._materiell || 'Bygg annonsen her';
+
+function oppdaterTotal() {
+  var tillegg = 0;
+  document.querySelectorAll('#tilvalg-liste .select-card[aria-pressed="true"]').forEach(function (c) {
+    tillegg += Number(c.dataset.pris);
+  });
+  document.getElementById('sum-bilde-rad').style.display = tillegg === 0 ? 'none' : 'flex';
+  var total = basisBudsjett + tillegg;
+  document.getElementById('sum-total').textContent = 'kr ' + total.toLocaleString('nb-NO');
+  return total;
+}
+
+document.getElementById('tilvalg-liste').addEventListener('click', function (e) {
+  var card = e.target.closest('.select-card');
+  if (!card) return;
+  var paa = card.getAttribute('aria-pressed') === 'true';
+  card.setAttribute('aria-pressed', paa ? 'false' : 'true');
+  oppdaterTotal();
+});
+
+oppdaterTotal();
+
+function bestill() {
+  var total = oppdaterTotal();
+  document.getElementById('kvittering-linje').textContent = 'Kampanje 129070 · ' + wizard.tittel + ' i ' + wizard.sted.split(' ')[0] + ' · kr ' + total.toLocaleString('nb-NO');
+  document.getElementById('bestilling-view').hidden = true;
+  document.getElementById('kvittering-view').hidden = false;
+  localStorage.removeItem('fzWizard');
+  window.scrollTo(0, 0);
+}
+</script>
+
+<script src="../components/js/interactions.js"></script>
+</body>
+</html>
