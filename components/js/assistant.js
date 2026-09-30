@@ -6,24 +6,24 @@ class AssistantChat {
   static CAMPAIGNS = [
     {
       id: '129041', ref: '22 31', title: 'Sykepleier Oslo', badge: 'badge--active', status: 'Aktiv',
-      channels: 'Meta, Nettsteder', day: 'Dag 12 av 30', spent: 'kr 34 900', budget: 'kr 48 200',
+      channels: 'Meta, Nettsteder', day: 'Dag 25 av 30', spent: 'kr 34 900', budget: 'kr 48 200',
       clicks: '312', target: '380',
-      summary: 'Kampanjen går bedre enn plan. 312 personer har trykket «Søk». Det er 82 % av målet, og kampanjen er bare 40 % gjennom perioden.',
+      summary: 'Kampanjen går bedre enn plan. 312 personer har trykket «Søk». Det er 82 % av målet, og det er 5 dager igjen.',
       history: [['15.09.2026', 'Budsjett flyttet mot Meta'], ['08.09.2026', 'Målgruppen utvidet'], ['03.09.2026', 'Kampanjen startet']]
     },
     {
-      id: '129055', ref: '22 18', title: 'Intensivsykepleier Bergen', badge: 'badge--paused', status: 'Pause',
-      channels: 'Meta', day: 'Pauset i 3 dager', spent: 'kr 18 600', budget: 'kr 22 000',
-      clicks: '17', target: '50',
-      summary: 'Kampanjen ligger 17 % bak plan og står på pause. 17 av 50 søknadsklikk er nådd.',
-      history: [['20.09.2026', 'Kampanjen satt på pause'], ['14.08.2026', 'Kampanjen startet']]
+      id: '129072', ref: '22 40', title: 'Helsefagarbeider Tromsø', badge: 'badge--setup', status: 'Under arbeid',
+      channels: 'Meta, Nettsteder', day: 'Starter 05.10', spent: 'kr 0', budget: 'kr 28 000',
+      clicks: '0', target: '40',
+      summary: 'Annonsene er klare. Du må godkjenne dem innen 02.10, så kan kampanjen starte 05.10.',
+      history: [['29.09.2026', 'Annonsene er laget'], ['26.09.2026', 'Bestillingen er mottatt']]
     },
     {
-      id: '129068', ref: '22 38', title: 'Anestesisykepleier Stavanger', badge: 'badge--active', status: 'Aktiv',
-      channels: 'Meta, Nettsteder', day: 'Dag 14 av 21', spent: 'kr 9 200', budget: 'kr 29 400',
-      clicks: '9', target: '40',
-      summary: 'Kampanjen ligger bak plan. 9 av 40 søknadsklikk er nådd, og en tredjedel av perioden er igjen.',
-      history: [['17.09.2026', 'Nettsteder lagt til'], ['10.09.2026', 'Kampanjen startet']]
+      id: '129074', ref: '22 41', title: 'Barnehagelærer Drammen', badge: 'badge--ordered', status: 'Bestilt',
+      channels: 'Frantz anbefaler', day: 'Ønsket start 07.10', spent: 'kr 0', budget: 'kr 32 000',
+      clicks: '0', target: '45',
+      summary: 'Frantz har fått bestillingen. Martin Karlsen starter på den innen 1 arbeidsdag.',
+      history: [['30.09.2026', 'Bestillingen er mottatt']]
     }
   ];
 
@@ -540,9 +540,9 @@ class AssistantChat {
           ]
         });
       case 'logo':
-        return this.say('<p><b>Logoen mangler.</b> Jeg fant logoen fra kampanjen Intensivsykepleier Bergen (#129055). Skal jeg bruke den?</p>', {
+        return this.say('<p><b>Logoen mangler.</b> Jeg fant logoen fra kampanjen Sykepleier Bodø (#128984). Skal jeg bruke den?</p>', {
           chips: [
-            { label: 'Ja, bruk den', run: () => this.fill('logo', 'Logo fra #129055', 'ai') },
+            { label: 'Ja, bruk den', run: () => this.fill('logo', 'Logo fra #128984', 'ai') },
             { label: 'Last opp ny logo', icon: 'upload', run: () => this.fileInput.click() },
             human
           ]

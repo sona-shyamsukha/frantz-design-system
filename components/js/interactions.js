@@ -5,6 +5,11 @@
     var backdrop = document.getElementById("backdrop");
     if (burger) burger.setAttribute("aria-expanded", String(open));
     if (backdrop) backdrop.hidden = !open;
+    // Flytt fokus inn i menyen når den åpnes, og tilbake til burgeren når den lukkes.
+    var closeBtn = document.getElementById("menylukk");
+    if (open && closeBtn) closeBtn.focus();
+    var rail = document.getElementById("rail");
+    if (!open && burger && rail && rail.contains(document.activeElement)) burger.focus();
   }
 
   function initNav() {
@@ -14,6 +19,9 @@
     if (burger) burger.addEventListener("click", function () { setMenu(true); });
     if (closeBtn) closeBtn.addEventListener("click", function () { setMenu(false); });
     if (backdrop) backdrop.addEventListener("click", function () { setMenu(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && document.body.classList.contains("meny-apen")) setMenu(false);
+    });
   }
 
   var MONTHS = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
