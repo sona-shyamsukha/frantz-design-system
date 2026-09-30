@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Ny kampanje — Stillingen — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; }
+  .cols { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: var(--space-32); align-items: start; margin-top: var(--space-32); }
+  .flow { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+  .feltrad { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
+  @media (max-width: 640px) { .feltrad { grid-template-columns: 1fr; } }
+
+  .treff-kortet { padding: var(--space-16) var(--space-24); }
+  .treff-kort { display: flex; align-items: flex-start; gap: var(--space-12); margin: 0; color: var(--text-body); font-size: var(--text-base); }
+  .treff-kort .icon-lucide { flex: none; margin-top: 3px; color: var(--color-navy-lift); }
+  .treff-kort b { color: var(--text-heading); }
+  .treff-detaljer summary { margin-top: var(--space-8); margin-left: 32px; color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .treff { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-16); }
+  .treff__boks {
+    padding: var(--space-16);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-12);
+    background: var(--surface-raised);
+  }
+  .treff__boks--primar { border-color: var(--color-navy); background: var(--surface-section); }
+  .treff__overskrift {
+    margin: 0 0 var(--space-8);
+    color: var(--text-faint);
+    font-size: 11px;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+  .treff__tall { color: var(--color-navy); font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-display); line-height: 1; }
+  .treff__label { margin: var(--space-8) 0 0; color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .treff__forklaring { margin: 6px 0 0; color: var(--text-muted); font-size: var(--text-xs); line-height: 1.5; }
+  .treff__kilde { margin-top: var(--space-16); color: var(--text-faint); font-size: var(--text-xs); }
+  .treff__boks--tom { border-style: dashed; background: none; }
+  .treff__boks--tom .treff__tall { color: var(--text-faint); }
+  @media (max-width: 760px) { .treff { grid-template-columns: 1fr; } }
+
+  .malgruppe-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
+  .malgruppe-bar__valgt { color: var(--text-muted); font-size: var(--text-sm); }
+
+  .taksonomi {
+    margin-top: var(--space-16);
+    padding: var(--space-16);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-12);
+    background: var(--surface-subtle);
+  }
+  .taksonomi[hidden] { display: none; }
+
+  .taksonomi__topp {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    margin-bottom: var(--space-16);
+  }
+  .taksonomi__sok { position: relative; flex: 1; min-width: 0; }
+  .taksonomi__sok .icon-lucide {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+  }
+  .taksonomi__sok .form-input { padding-left: 40px; }
+
+  .taksonomi__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-16) var(--space-24);
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .taksonomi__grid { grid-template-columns: 1fr; }
+  }
+
+  .taksonomi__col {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 340px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .taksonomi__kolonnetittel {
+    margin: 0 0 var(--space-8) 12px;
+    color: var(--text-faint);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .taksonomi__bunn {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12);
+    margin-top: var(--space-16);
+    padding-top: var(--space-16);
+    border-top: 1px solid var(--border-default);
+  }
+  .taksonomi__bunn .taksonomi__sti { color: var(--text-muted); font-size: var(--text-sm); margin-right: auto; }
+
+  .taksonomi__item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 7px 12px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+  }
+  .taksonomi__item:hover { background: var(--surface-section); color: var(--color-navy); }
+  .taksonomi__item[aria-pressed="true"] {
+    background: var(--color-navy);
+    color: var(--color-white);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .taksonomi__tom {
+    padding: var(--space-16) 12px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .sum-tom { color: var(--text-faint); font-weight: var(--font-weight-medium); }
+
+  .sted-felt { position: relative; }
+
+  .sted-kontroll {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-height: 48px;
+    padding: 7px 10px 7px 14px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-8);
+    background: var(--surface-raised);
+    cursor: text;
+  }
+  .sted-kontroll:focus-within {
+    border-color: var(--color-navy);
+    box-shadow: var(--focus-ring-soft);
+  }
+  .sted-felt .sted-kontroll input#sted {
+    flex: 1 1 140px;
+    min-width: 140px;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    box-shadow: none;
+    background: none;
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    appearance: none;
+  }
+  .sted-felt .sted-kontroll input#sted::placeholder { color: var(--text-faint); }
+
+  .sted-liste { display: contents; }
+  .sted-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    padding: 3px 3px 3px 10px;
+    border-radius: var(--radius-full);
+    background: var(--surface-section);
+    color: var(--text-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+  }
+  .sted-tag small { color: var(--text-faint); font-weight: 400; }
+  .sted-tag button {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .sted-tag button:hover { background: var(--surface-raised); color: var(--color-navy); }
+
+  .sted-felt input#sted[hidden] { display: none; }
+  .sted-snarveier { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-8); }
+  .sted-tom {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-left: auto;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--text-faint);
+    cursor: pointer;
+  }
+  .sted-tom[hidden] { display: none; }
+  .sted-tom:hover { background: var(--surface-section); color: var(--color-navy); }
+
+  .sted-dropdown {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    right: 0;
+    left: 0;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-12);
+    background: var(--color-white);
+    box-shadow: 0 16px 36px rgba(16, 24, 40, .14);
+    scrollbar-width: thin;
+  }
+  .sted-dropdown[hidden] { display: none; }
+  .sted-verktoy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-default);
+  }
+  .sted-resultat {
+    max-height: 264px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .sted-gruppe {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 8px 14px 4px;
+    border-bottom: 1px solid var(--border-subtle, rgba(16,24,40,.06));
+    background: var(--color-white);
+    color: var(--text-faint);
+    font-size: 11px;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+
+  .sted-option {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    width: 100%;
+    padding: 7px 14px;
+    border: 0;
+    background: none;
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.3;
+    text-align: left;
+    cursor: pointer;
+  }
+  .sted-option:hover { background: var(--surface-section); }
+  .sted-option[aria-selected="true"] { background: var(--color-navy); color: var(--color-white); }
+  .sted-option[aria-selected="true"] .sted-option__type { color: rgba(255, 255, 255, .72); }
+  .sted-option b { font-weight: var(--font-weight-semibold); }
+  .sted-option[aria-selected="true"] b { color: var(--color-white); }
+  .sted-option mark { background: rgba(240, 160, 60, .32); color: inherit; border-radius: 3px; padding: 0 1px; }
+  .sted-option[aria-selected="true"] mark { background: rgba(255, 255, 255, .26); }
+  .sted-option__navn { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sted-option__type { flex: none; color: var(--text-faint); font-size: var(--text-xs); }
+
+  .sted-dropdown__tom { padding: var(--space-16) 14px; color: var(--text-muted); font-size: var(--text-sm); }
+  .sted-dropdown__flere {
+    padding: 8px 14px 4px;
+    color: var(--text-faint);
+    font-size: var(--text-xs);
+  }
+  .sted-snarvei {
+    padding: 4px 10px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    cursor: pointer;
+  }
+  .sted-snarvei:hover { border-color: var(--color-navy); color: var(--color-navy); }
+  .sted-snarvei[aria-pressed="true"] { border-color: var(--color-navy); background: var(--color-navy); color: var(--color-white); }
+</style>
+</head>
+<body data-assistant="form">
+
+<header class="mobiltopp">
+  <a href="../dashboard.html"><img class="logo" src="../../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="../dashboard.html"><img class="logo" src="../../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="../dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="../connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="../campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="../ny-kampanje.html" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="../rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="../assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="../mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="../innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='../login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+    <div class="wrap">
+      <ol class="steps">
+        <li class="step step--now"><span class="step__n">1</span>Stillingen</li>
+        <li class="step"><span class="step__n">2</span>Strategien</li>
+        <li class="step"><span class="step__n">3</span>Materiell</li>
+        <li class="step"><span class="step__n">4</span>Bestilling</li>
+      </ol>
+
+      <h1 class="text-h2">Stillingen</h1>
+      <p class="lede">Fortell oss hva du skal ansette til og hvor. Kandidatgrunnlaget kommer med én gang du skriver stillingstittelen.</p>
+
+      <div class="assist-banner">
+        <span class="assist-banner__icon"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
+        <p class="assist-banner__text"><b>Vil du heller chatte?</b>Lim inn bestillingen eller stillingslenken, så fyller assistenten ut skjemaet for deg.</p>
+        <button class="btn btn--secondary" type="button" onclick="FrantzAssist.startNew()"><span class="icon-lucide icon-lucide--clipboard-pen" aria-hidden="true"></span>Fyll ut med assistenten</button>
+      </div>
+
+      <div class="cols">
+        <div class="flow">
+          <div class="card card--betjen">
+            <div class="form-group">
+              <label class="form-label" for="tittel">Stillingstittel</label>
+              <input class="form-input" type="text" id="tittel" value="" placeholder="F.eks. sykepleier" autocomplete="off">
+              <p class="form-hint">Skriv tittelen, så finner vi målgruppen automatisk. Du kan justere den under.</p>
+            </div>
+
+            <div class="malgruppe-bar">
+              <button class="btn btn--secondary" type="button" id="btn-malgruppe" aria-expanded="false" aria-controls="malgruppe">
+                <span class="icon-lucide icon-lucide--filter" aria-hidden="true"></span>
+                Juster målgruppe for stillingen
+              </button>
+              <span class="malgruppe-bar__valgt" id="malgruppe-sti"></span>
+            </div>
+
+            <div class="taksonomi" id="malgruppe" hidden>
+              <div class="taksonomi__topp">
+                <div class="taksonomi__sok">
+                  <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
+                  <input class="form-input" type="search" id="sok-rolle" placeholder="Søk etter målgruppe" autocomplete="off">
+                </div>
+              </div>
+              <div class="taksonomi__grid">
+                <div>
+                  <p class="taksonomi__kolonnetittel">Næring</p>
+                  <div class="taksonomi__col" id="naring-liste" role="listbox" aria-label="Næring"></div>
+                </div>
+                <div>
+                  <p class="taksonomi__kolonnetittel">Yrkesgruppe</p>
+                  <div class="taksonomi__col" id="gruppe-liste" role="listbox" aria-label="Yrkesgruppe"></div>
+                </div>
+                <div>
+                  <p class="taksonomi__kolonnetittel">Stilling</p>
+                  <div class="taksonomi__col" id="rolle-liste" role="listbox" aria-label="Stilling"></div>
+                </div>
+              </div>
+              <div class="taksonomi__bunn">
+                <span class="taksonomi__sti" id="taksonomi-sti">Ingen målgruppe valgt</span>
+                <button class="btn btn--secondary" type="button" id="btn-avbryt-malgruppe">Avbryt</button>
+                <button class="btn btn--primary" type="button" id="btn-lukk-malgruppe">OK</button>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: var(--space-24)">
+              <label class="form-label" for="sted">Arbeidssted</label>
+              <div class="sted-felt">
+                <div class="sted-kontroll" id="sted-kontroll">
+                  <span class="sted-liste" id="sted-liste"></span>
+                  <input type="text" id="sted" placeholder="F.eks. Oslo, Kristiansand …" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sted-dropdown" aria-autocomplete="list">
+                </div>
+                <div class="sted-dropdown" id="sted-dropdown" hidden>
+                  <div class="sted-verktoy" id="sted-filter">
+                    <button class="sted-snarvei" type="button" data-type="" aria-pressed="true">Alle</button>
+                    <button class="sted-snarvei" type="button" data-type="fylke" aria-pressed="false">Fylke</button>
+                    <button class="sted-snarvei" type="button" data-type="kommune" aria-pressed="false">Kommune</button>
+                    <button class="sted-snarvei" type="button" data-type="by" aria-pressed="false">By</button>
+                    <button class="sted-snarvei" type="button" data-type="tettsted" aria-pressed="false">Tettsted</button>
+                  </div>
+                  <div class="sted-resultat" id="sted-resultat" role="listbox" aria-label="Arbeidssteder"></div>
+                </div>
+              </div>
+              <div class="sted-snarveier">
+                <button class="sted-snarvei" type="button" data-snarvei-sted="Hele Norge (landsdekkende)" aria-pressed="false">Hele Norge</button>
+                <button class="sted-snarvei" type="button" data-snarvei-sted="Hjemmekontor (fjernarbeid)" aria-pressed="false">Hjemmekontor</button>
+              </div>
+              <p class="form-hint">Velg ett eller flere steder. Kampanjen når folk som bor eller jobber i og rundt stedene.</p>
+            </div>
+            <div class="form-group" style="margin-top: var(--space-24)">
+              <label class="form-label" for="frist">Søknadsfrist</label>
+              <input class="form-input" type="date" id="frist" value="">
+            </div>
+          </div>
+
+          <div class="card card--les treff-kortet" id="kort-treff" hidden>
+            <p class="treff-kort"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span><span>Kampanjen kan nå rundt <b id="ut-kandidater-kort">—</b> personer som har vist interesse for lignende stillinger.</span></p>
+            <details class="treff-detaljer">
+              <summary>Vis tallene bak</summary>
+              <h3 class="card__title" id="treff-tittel" style="margin-top: var(--space-16)">Slik ser kandidatgrunnlaget ut</h3>
+              <p class="card__hint" id="treff-ingress" style="margin-bottom: var(--space-16)">Tallet viser hvor mange vi kan nå med kampanjen.</p>
+            <div class="treff" id="treff-grid">
+              <div class="treff__boks treff__boks--primar">
+                <p class="treff__overskrift">Datadrevet målgruppe</p>
+                <div class="treff__tall" id="ut-kandidater">—</div>
+                <p class="treff__label">Potensielle kandidater</p>
+                <p class="treff__forklaring">Personer som har vist interesse for lignende stillinger de siste 90 dagene. Dette er målgruppen kampanjen treffer direkte.</p>
+              </div>
+              <div class="treff__boks">
+                <p class="treff__overskrift">Arbeidsmarkedet</p>
+                <div class="treff__tall" id="ut-nasjonalt">—</div>
+                <p class="treff__label">Sysselsatte i Norge</p>
+                <p class="treff__forklaring">Alle som jobber i næringen i hele landet. Viser hvor stort yrket er nasjonalt.</p>
+              </div>
+              <div class="treff__boks" id="treff-regional">
+                <p class="treff__overskrift">Arbeidsmarkedet</p>
+                <div class="treff__tall" id="ut-regionalt">—</div>
+                <p class="treff__label" id="treff-regional-label">Sysselsatte i regionen</p>
+                <p class="treff__forklaring" id="treff-regional-tekst">Alle som jobber i næringen der du skal ansette. Viser hvor hard konkurransen er lokalt.</p>
+              </div>
+            </div>
+
+            <p class="treff__kilde">Kandidatgrunnlag: atferdsdata fra Frantz, siste 90 dager. Sysselsetting: SSB.</p>
+            </details>
+          </div>
+        </div>
+
+        <aside>
+          <div class="summary-panel">
+            <div class="summary-panel__head">
+              <h2>Sammendrag</h2>
+              <p>Utkast 129070</p>
+            </div>
+            <div class="summary-panel__block">
+              <span class="summary-panel__label">Stillingen</span>
+              <dl class="summary-row"><dt>Tittel</dt><dd id="sum-tittel" class="sum-tom">—</dd></dl>
+              <dl class="summary-row"><dt>Målgruppe</dt><dd id="sum-malgruppe" class="sum-tom">—</dd></dl>
+              <dl class="summary-row"><dt>Arbeidssted</dt><dd id="sum-sted" class="sum-tom">—</dd></dl>
+              <dl class="summary-row"><dt>Søknadsfrist</dt><dd id="sum-frist" class="sum-tom">—</dd></dl>
+            </div>
+            <div class="summary-panel__total">
+              <span>Potensielle kandidater</span>
+              <b id="sum-kandidater">—</b>
+            </div>
+            <div class="summary-panel__cta">
+              <button class="btn btn--primary" type="button" id="btn-videre" onclick="gaaVidere()" disabled>Videre til strategien</button>
+              <button class="btn btn--secondary" type="button" onclick="location.href='../campaigns.html'">Avbryt</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../data/frantz-data.js"></script>
+<script>
+var TAKS = window.FRANTZ_TAKSONOMI || [];
+var STEDER_ALLE = window.FRANTZ_STEDER || [];
+
+var ROLLE_DATA = {
+  'Sykepleier':            { kandidater: 27737, nasjonalt: 624605, regionalt: 15695, anbefalt: 36500 },
+  'Sykepleiere':           { kandidater: 27737, nasjonalt: 624605, regionalt: 15695, anbefalt: 36500 },
+  'Intensivsykepleier':    { kandidater: 6420,  nasjonalt: 144580, regionalt: 3630,  anbefalt: 45000 },
+  'Anestesisykepleier':    { kandidater: 4150,  nasjonalt: 93480,  regionalt: 2350,  anbefalt: 52000 },
+  'Geriatrisk sykepleier': { kandidater: 8900,  nasjonalt: 200450, regionalt: 5040,  anbefalt: 41000 },
+  'Helsesykepleier':       { kandidater: 7100,  nasjonalt: 159900, regionalt: 4020,  anbefalt: 40000 },
+  'Spesialsykepleier':     { kandidater: 9800,  nasjonalt: 220720, regionalt: 5550,  anbefalt: 43000 },
+  'Spesialsykepleiere':    { kandidater: 9800,  nasjonalt: 220720, regionalt: 5550,  anbefalt: 43000 },
+  'Oversykepleier':        { kandidater: 2100,  nasjonalt: 47300,  regionalt: 1190,  anbefalt: 48000 },
+  'Jordmor':               { kandidater: 5400,  nasjonalt: 121620, regionalt: 3060,  anbefalt: 42000 },
+  'Jordmødre':             { kandidater: 5400,  nasjonalt: 121620, regionalt: 3060,  anbefalt: 42000 },
+  'Lege':                  { kandidater: 12100, nasjonalt: 272530, regionalt: 6850,  anbefalt: 55000 },
+  'Bioingeniør':           { kandidater: 3800,  nasjonalt: 85580,  regionalt: 2150,  anbefalt: 38000 }
+};
+
+var valgtNaring = '';
+var valgtGruppe = '';
+var valgtRolle = '';
+var steder = [];
+var forrigeValg = null;
+var stedAktiv = -1;
+
+function $(id) { return document.getElementById(id); }
+function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
+function naringById(id) { return TAKS.filter(function (n) { return n.id === id; })[0]; }
+function gruppeById(naringId, id) {
+  var n = naringById(naringId);
+  if (!n) return null;
+  return n.grupper.filter(function (g) { return g.id === id; })[0];
+}
+
+function finnRolle(rolle) {
+  for (var i = 0; i < TAKS.length; i++) {
+    for (var j = 0; j < TAKS[i].grupper.length; j++) {
+      var g = TAKS[i].grupper[j];
+      if (g.navn === rolle || g.stillinger.indexOf(rolle) !== -1) {
+        return { naring: TAKS[i].id, gruppe: g.id };
+      }
+    }
+  }
+  return null;
+}
+
+function statsFor(rolle) {
+  if (ROLLE_DATA[rolle]) return ROLLE_DATA[rolle];
+  var n = 1800 + rolle.length * 210;
+  return { kandidater: n, nasjonalt: Math.round(n * 22.5), regionalt: Math.round(n * 0.566), anbefalt: 32000 };
+}
+
+function formatTall(n) { return Math.round(n).toLocaleString('nb-NO'); }
+function stedTekst() { return steder.join(', '); }
+
+function formatDato(iso) {
+  var d = new Date(iso + 'T00:00:00');
+  if (isNaN(d)) return iso;
+  return String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + d.getFullYear();
+}
+
+function soketekst() { return ($('sok-rolle').value || '').trim().toLowerCase(); }
+
+/* ---------- målgruppe: tre nivåer ---------- */
+
+function naringerForVisning() {
+  var q = soketekst();
+  var liste = TAKS;
+  if (!q) return liste;
+  return liste.filter(function (n) {
+    if (n.navn.toLowerCase().indexOf(q) !== -1) return true;
+    return n.grupper.some(function (g) {
+      if (g.navn.toLowerCase().indexOf(q) !== -1) return true;
+      return g.stillinger.some(function (s) { return s.toLowerCase().indexOf(q) !== -1; });
+    });
+  });
+}
+
+function grupperForVisning() {
+  var n = naringById(valgtNaring);
+  if (!n) return [];
+  var q = soketekst();
+  var liste = n.grupper;
+  if (!q) return liste;
+  var treff = liste.filter(function (g) {
+    if (g.navn.toLowerCase().indexOf(q) !== -1) return true;
+    return g.stillinger.some(function (s) { return s.toLowerCase().indexOf(q) !== -1; });
+  });
+  return treff;
+}
+
+function stillingerForVisning() {
+  var g = gruppeById(valgtNaring, valgtGruppe);
+  if (!g) return [];
+  var q = soketekst();
+  var liste = g.stillinger;
+  if (!q) return liste;
+  var treff = liste.filter(function (s) { return s.toLowerCase().indexOf(q) !== -1; });
+  return treff.length ? treff : liste;
+}
+
+function item(attr, verdi, navn, valgt) {
+  return '<button type="button" class="taksonomi__item" role="option" aria-selected="' + valgt + '" aria-pressed="' + valgt + '" data-' + attr + '="' + esc(verdi) + '">' + esc(navn) + '</button>';
+}
+
+function tegnTaksonomi() {
+  var naringer = naringerForVisning();
+  $('naring-liste').innerHTML = naringer.length
+    ? naringer.map(function (n) { return item('naring', n.id, n.navn, n.id === valgtNaring); }).join('')
+    : '<p class="taksonomi__tom">Ingen næring treffer søket.</p>';
+
+  var grupper = grupperForVisning();
+  $('gruppe-liste').innerHTML = !valgtNaring
+    ? '<p class="taksonomi__tom">Velg en næring.</p>'
+    : (grupper.length
+        ? grupper.map(function (g) { return item('gruppe', g.id, g.navn, g.id === valgtGruppe); }).join('')
+        : '<p class="taksonomi__tom">Ingen yrkesgrupper her.</p>');
+
+  var stillinger = stillingerForVisning();
+  $('rolle-liste').innerHTML = !valgtGruppe
+    ? '<p class="taksonomi__tom">Velg en yrkesgruppe.</p>'
+    : (stillinger.length
+        ? stillinger.map(function (s) { return item('rolle', s, s, s === valgtRolle); }).join('')
+        : '<p class="taksonomi__tom">Ingen stillinger her.</p>');
+
+  var n = naringById(valgtNaring);
+  var g = gruppeById(valgtNaring, valgtGruppe);
+  var sti = [n && n.navn, g && g.navn, valgtRolle].filter(Boolean).join(' › ');
+  $('taksonomi-sti').textContent = sti || 'Ingen målgruppe valgt';
+  $('malgruppe-sti').textContent = sti;
+}
+
+function velgNaring(id) {
+  if (valgtNaring !== id) {
+    valgtNaring = id;
+    valgtGruppe = '';
+    valgtRolle = '';
+  }
+  var g = grupperForVisning();
+  if (g.length === 1) valgtGruppe = g[0].id;
+  tegnTaksonomi();
+  oppdaterInnsikt();
+}
+
+function velgGruppe(id) {
+  if (valgtGruppe !== id) {
+    valgtGruppe = id;
+    valgtRolle = '';
+  }
+  var g = gruppeById(valgtNaring, id);
+  if (g && !g.stillinger.length) valgtRolle = g.navn;
+  tegnTaksonomi();
+  oppdaterInnsikt();
+}
+
+function velgRolle(rolle, fyllTittel) {
+  var sti = finnRolle(rolle);
+  if (sti) { valgtNaring = sti.naring; valgtGruppe = sti.gruppe; }
+  valgtRolle = rolle;
+  if (fyllTittel !== false) $('tittel').value = rolle;
+  tegnTaksonomi();
+  oppdaterInnsikt();
+}
+
+function apneMalgruppe() {
+  if ($('malgruppe').hidden) {
+    forrigeValg = { naring: valgtNaring, gruppe: valgtGruppe, rolle: valgtRolle, tittel: $('tittel').value };
+  }
+  $('malgruppe').hidden = false;
+  $('btn-malgruppe').setAttribute('aria-expanded', 'true');
+}
+
+function lukkMalgruppe() {
+  $('malgruppe').hidden = true;
+  $('btn-malgruppe').setAttribute('aria-expanded', 'false');
+}
+
+/* ---------- arbeidssted ---------- */
+
+function tegnSteder() {
+  $('sted-liste').innerHTML = steder.map(function (s, i) {
+    var d = delSted(s);
+    return '<span class="sted-tag">' + esc(d.navn) + ' <small>' + esc(d.type) + '</small>'
+         + '<button type="button" data-fjern-sted="' + i + '" aria-label="Fjern ' + esc(s) + '"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></span>';
+  }).join('');
+  $('sted').placeholder = steder.length ? 'Legg til et sted til …' : 'F.eks. Oslo, Kristiansand …';
+  $('sted').value = '';
+  Array.prototype.forEach.call(document.querySelectorAll('[data-snarvei-sted]'), function (b) {
+    b.setAttribute('aria-pressed', String(steder.indexOf(b.dataset.snarveiSted) !== -1));
+  });
+}
+
+var STED_TYPER = ['fylke', 'kommune', 'by', 'tettsted'];
+var STED_ETIKETT = { fylke: 'Fylker', kommune: 'Kommuner', by: 'Byer', tettsted: 'Tettsteder' };
+var stedFilter = '';
+var stedGrense = 40;
+
+function delSted(s) {
+  var m = s.match(/^(.*)\s\(([^)]+)\)$/);
+  return { hel: s, navn: m ? m[1] : s, type: m ? m[2] : '' };
+}
+
+function merk(navn, q) {
+  if (!q) return esc(navn);
+  var i = navn.toLowerCase().indexOf(q);
+  if (i === -1) return esc(navn);
+  return esc(navn.slice(0, i)) + '<mark>' + esc(navn.slice(i, i + q.length)) + '</mark>' + esc(navn.slice(i + q.length));
+}
+
+function stedTreff(q) {
+  q = (q || '').trim().toLowerCase();
+  var starter = [];
+  var inne = [];
+  for (var i = 0; i < STEDER_ALLE.length; i++) {
+    var hel = STEDER_ALLE[i];
+    if (steder.indexOf(hel) !== -1) continue;
+    var d = delSted(hel);
+    if (stedFilter && d.type !== stedFilter) continue;
+    if (!q) { starter.push(d); continue; }
+    var l = d.navn.toLowerCase();
+    if (l.indexOf(q) === 0) starter.push(d);
+    else if (l.indexOf(q) !== -1) inne.push(d);
+  }
+  starter.forEach(function (d) { d.rang = 0; });
+  inne.forEach(function (d) { d.rang = 1; });
+  var alle = starter.concat(inne);
+  alle.sort(function (a, b) {
+    var ta = STED_TYPER.indexOf(a.type);
+    var tb = STED_TYPER.indexOf(b.type);
+    if (ta !== tb) return ta - tb;
+    if (a.rang !== b.rang) return a.rang - b.rang;
+    return a.navn.localeCompare(b.navn, 'nb');
+  });
+  return alle;
+}
+
+function tegnStedDropdown(apne) {
+  var dd = $('sted-dropdown');
+  var liste = $('sted-resultat');
+  if (!apne) {
+    dd.hidden = true;
+    $('sted').setAttribute('aria-expanded', 'false');
+    stedAktiv = -1;
+    return;
+  }
+
+  var q = ($('sted').value || '').trim().toLowerCase();
+  var alle = stedTreff(q);
+  var vist = alle.slice(0, stedGrense);
+
+  if (!alle.length) {
+    liste.innerHTML = '<p class="sted-dropdown__tom">Ingen steder treffer søket.</p>';
+  } else {
+    var html = '';
+    var forrige = '';
+    vist.forEach(function (d, i) {
+      if (d.type !== forrige) {
+        forrige = d.type;
+        html += '<p class="sted-gruppe">' + esc(STED_ETIKETT[d.type] || d.type) + '</p>';
+      }
+      html += '<button type="button" class="sted-option" role="option" aria-selected="' + (i === stedAktiv) + '" data-sted="' + esc(d.hel) + '">'
+            + '<span class="sted-option__navn">' + merk(d.navn, q) + '</span>'
+            + '<span class="sted-option__type">' + esc(d.type) + '</span>'
+            + '</button>';
+    });
+    if (alle.length > vist.length) {
+      html += '<p class="sted-dropdown__flere">Viser ' + vist.length + ' av ' + alle.length + '. Skriv mer for å snevre inn.</p>';
+    }
+    liste.innerHTML = html;
+  }
+  dd.hidden = false;
+  $('sted').setAttribute('aria-expanded', 'true');
+}
+
+var HELE_NORGE = 'Hele Norge (landsdekkende)';
+var HJEMMEKONTOR = 'Hjemmekontor (fjernarbeid)';
+
+function leggTilSted(navn) {
+  if (!navn) return;
+  if (navn === HELE_NORGE) steder = [];
+  else steder = steder.filter(function (x) { return x !== HELE_NORGE; });
+  if (steder.indexOf(navn) === -1) steder.push(navn);
+  $('sted').value = '';
+  stedAktiv = -1;
+  tegnSteder();
+  tegnStedDropdown(false);
+  oppdaterInnsikt();
+}
+
+/* ---------- innsikt ---------- */
+
+function dash(el, verdi) {
+  el.textContent = verdi || '—';
+  el.classList.toggle('sum-tom', !verdi);
+}
+
+function oppdaterInnsikt() {
+  var rolle = valgtRolle;
+  var vis = !!rolle;
+  $('kort-treff').hidden = !vis;
+  $('btn-videre').disabled = !valgtRolle;
+
+  var tittel = $('tittel').value.trim() || valgtRolle;
+  var naring = naringById(valgtNaring);
+  var frist = $('frist').value;
+
+  dash($('sum-tittel'), tittel);
+  dash($('sum-malgruppe'), valgtRolle || (naring ? naring.navn : ''));
+  dash($('sum-sted'), stedTekst());
+  dash($('sum-frist'), frist ? formatDato(frist) : '');
+
+  if (!vis) {
+    $('sum-kandidater').textContent = '—';
+    return;
+  }
+
+  var data = statsFor(rolle);
+  var stedNavn = [];
+  steder.forEach(function (x) {
+    var n = delSted(x).navn;
+    if (stedNavn.indexOf(n) === -1) stedNavn.push(n);
+  });
+  $('treff-tittel').textContent = 'Slik ser kandidatgrunnlaget ut for ' + rolle.toLowerCase();
+  $('treff-ingress').textContent = stedNavn.length
+    ? 'Basert på ' + rolle.toLowerCase() + ' i ' + stedNavn[0] + '.'
+    : 'Velg et arbeidssted, så får du tall for regionen også.';
+
+  $('ut-kandidater').textContent = formatTall(data.kandidater);
+  $('ut-kandidater-kort').textContent = formatTall(data.kandidater);
+  $('ut-nasjonalt').textContent = formatTall(data.nasjonalt);
+  $('sum-kandidater').textContent = formatTall(data.kandidater);
+
+  var harSted = stedNavn.length > 0;
+  $('treff-regional').classList.toggle('treff__boks--tom', !harSted);
+  $('ut-regionalt').textContent = harSted ? formatTall(data.regionalt) : '—';
+  $('treff-regional-label').textContent = harSted
+    ? 'Sysselsatte i ' + stedNavn[0]
+    : 'Sysselsatte i regionen';
+  $('treff-regional-tekst').textContent = harSted
+    ? 'Alle som jobber i næringen der du skal ansette. Viser hvor hard konkurransen er lokalt.'
+    : 'Velg arbeidssted, så henter vi tallet for regionen.';
+}
+
+/* ---------- hendelser ---------- */
+
+$('btn-malgruppe').addEventListener('click', function () {
+  if ($('malgruppe').hidden) apneMalgruppe();
+  else lukkMalgruppe();
+});
+$('btn-lukk-malgruppe').addEventListener('click', lukkMalgruppe);
+$('btn-avbryt-malgruppe').addEventListener('click', function () {
+  if (forrigeValg) {
+    valgtNaring = forrigeValg.naring;
+    valgtGruppe = forrigeValg.gruppe;
+    valgtRolle = forrigeValg.rolle;
+    $('tittel').value = forrigeValg.tittel;
+  }
+  $('sok-rolle').value = '';
+  tegnTaksonomi();
+  oppdaterInnsikt();
+  lukkMalgruppe();
+});
+
+$('naring-liste').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-naring]');
+  if (b) velgNaring(b.dataset.naring);
+});
+$('gruppe-liste').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-gruppe]');
+  if (b) velgGruppe(b.dataset.gruppe);
+});
+$('rolle-liste').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-rolle]');
+  if (b) velgRolle(b.dataset.rolle, true);
+});
+
+$('sok-rolle').addEventListener('input', function () {
+  var q = soketekst();
+  if (q.length >= 2) {
+    var n = naringerForVisning();
+    if (n.length && !n.some(function (x) { return x.id === valgtNaring; })) {
+      valgtNaring = n[0].id;
+      valgtGruppe = '';
+    }
+    var g = grupperForVisning();
+    if (g.length && !g.some(function (x) { return x.id === valgtGruppe; })) valgtGruppe = g[0].id;
+  }
+  tegnTaksonomi();
+});
+
+function bestTreff(q) {
+  q = (q || '').trim().toLowerCase();
+  if (q.length < 3) return null;
+  var eksakt = null, starter = null, inne = null;
+  for (var i = 0; i < TAKS.length; i++) {
+    var n = TAKS[i];
+    for (var j = 0; j < n.grupper.length; j++) {
+      var g = n.grupper[j];
+      var kandidater = g.stillinger.length ? g.stillinger : [g.navn];
+      for (var k = 0; k < kandidater.length; k++) {
+        var navn = kandidater[k];
+        var l = navn.toLowerCase();
+        var treff = { naring: n.id, gruppe: g.id, rolle: navn };
+        if (l === q) { eksakt = eksakt || treff; }
+        else if (l.indexOf(q) === 0) { if (!starter || navn.length < starter.rolle.length) starter = treff; }
+        else if (l.indexOf(q) !== -1) { if (!inne || navn.length < inne.rolle.length) inne = treff; }
+      }
+    }
+  }
+  return eksakt || starter || inne;
+}
+
+var tittelTimer = null;
+
+function autoMatch() {
+  var q = $('tittel').value.trim();
+  if (!q) {
+    valgtNaring = '';
+    valgtGruppe = '';
+    valgtRolle = '';
+    $('sok-rolle').value = '';
+    tegnTaksonomi();
+    oppdaterInnsikt();
+    return;
+  }
+  var treff = bestTreff(q);
+  if (treff) {
+    valgtNaring = treff.naring;
+    valgtGruppe = treff.gruppe;
+    valgtRolle = treff.rolle;
+  } else {
+    valgtRolle = '';
+  }
+  $('sok-rolle').value = q;
+  tegnTaksonomi();
+  oppdaterInnsikt();
+}
+
+$('tittel').addEventListener('input', function () {
+  clearTimeout(tittelTimer);
+  tittelTimer = setTimeout(autoMatch, 250);
+});
+
+$('frist').addEventListener('input', oppdaterInnsikt);
+
+$('sted-filter').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-type]');
+  if (!b) return;
+  stedFilter = b.dataset.type;
+  Array.prototype.forEach.call(this.querySelectorAll('[data-type]'), function (x) {
+    x.setAttribute('aria-pressed', x.dataset.type === stedFilter);
+  });
+  stedAktiv = -1;
+  $('sted').focus();
+  tegnStedDropdown(true);
+});
+
+$('sted').addEventListener('focus', function () { tegnStedDropdown(true); });
+Array.prototype.forEach.call(document.querySelectorAll('[data-snarvei-sted]'), function (b) {
+  b.addEventListener('click', function () {
+    var i = steder.indexOf(b.dataset.snarveiSted);
+    if (i !== -1) { steder.splice(i, 1); tegnSteder(); oppdaterInnsikt(); }
+    else leggTilSted(b.dataset.snarveiSted);
+  });
+});
+$('sted').addEventListener('input', function () { stedAktiv = -1; tegnStedDropdown(true); });
+$('sted').addEventListener('keydown', function (e) {
+  var valg = Array.prototype.slice.call($('sted-dropdown').querySelectorAll('[data-sted]'));
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    if ($('sted-dropdown').hidden) { tegnStedDropdown(true); return; }
+    stedAktiv += (e.key === 'ArrowDown' ? 1 : -1);
+    if (stedAktiv < 0) stedAktiv = valg.length - 1;
+    if (stedAktiv >= valg.length) stedAktiv = 0;
+    tegnStedDropdown(true);
+    var akt = $('sted-dropdown').querySelectorAll('[data-sted]')[stedAktiv];
+    if (akt) akt.scrollIntoView({ block: 'nearest' });
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (stedAktiv >= 0 && valg[stedAktiv]) leggTilSted(valg[stedAktiv].dataset.sted);
+    else if (valg.length) leggTilSted(valg[0].dataset.sted);
+  } else if (e.key === 'Escape') {
+    tegnStedDropdown(false);
+  }
+});
+$('sted-dropdown').addEventListener('mousedown', function (e) {
+  var b = e.target.closest('[data-sted]');
+  if (b) { e.preventDefault(); leggTilSted(b.dataset.sted); }
+});
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('.sted-felt')) tegnStedDropdown(false);
+});
+$('sted-liste').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-fjern-sted]');
+  if (!b) return;
+  steder.splice(Number(b.dataset.fjernSted), 1);
+  tegnSteder();
+  oppdaterInnsikt();
+  $('sted').focus();
+});
+$('sted-kontroll').addEventListener('mousedown', function (e) {
+  if (e.target.closest('button')) return;
+  e.preventDefault();
+  $('sted').focus();
+  tegnStedDropdown(true);
+});
+
+function gaaVidere() {
+  if (!valgtRolle) return;
+  var data = statsFor(valgtRolle);
+  var naring = naringById(valgtNaring);
+  var gruppe = gruppeById(valgtNaring, valgtGruppe);
+  var wizard = {
+    tittel: $('tittel').value || valgtRolle,
+    spesialitet: valgtRolle,
+    naring: naring ? naring.navn : '',
+    gruppe: gruppe ? gruppe.navn : '',
+    sted: stedTekst() || 'Kristiansand (by)',
+    steder: steder.slice(),
+    frist: $('frist').value || '2027-01-01',
+    kandidater: data.kandidater,
+    nasjonalt: data.nasjonalt,
+    regionalt: data.regionalt,
+    anbefalt: data.anbefalt
+  };
+  localStorage.setItem('fzWizard', JSON.stringify(wizard));
+  location.href = 'ny-kampanje-2.html';
+}
+
+function gjenopprett() {
+  if (document.referrer.indexOf('ny-kampanje-2') === -1) return;
+  try {
+    var saved = JSON.parse(localStorage.getItem('fzWizard') || 'null');
+    if (!saved || !saved.spesialitet) return;
+    $('tittel').value = saved.tittel || saved.spesialitet;
+    $('frist').value = saved.frist || '';
+    steder = saved.steder && saved.steder.length ? saved.steder.slice() : (saved.sted ? [saved.sted] : []);
+    velgRolle(saved.spesialitet, false);
+  } catch (e) {}
+}
+
+/* ---------- utfylling fra Frantz-assistenten ---------- */
+
+function blink(el) {
+  el.classList.remove('assist-filled');
+  void el.offsetWidth;
+  el.classList.add('assist-filled');
+}
+
+document.addEventListener('assistant:fill', function (e) {
+  var d = e.detail || {};
+  if (d.title) {
+    $('tittel').value = d.title;
+    autoMatch();
+    if (!valgtRolle) {
+      // Ingen eksakt stilling: bruk den lengste kjente stillingen som tittelen slutter på («Intensivsykepleier» → «Sykepleier»)
+      var t = d.title.toLowerCase(), naermest = '';
+      TAKS.forEach(function (n) {
+        n.grupper.forEach(function (g) {
+          g.stillinger.forEach(function (s) {
+            var l = s.toLowerCase();
+            if (l.length > naermest.length && t.slice(-l.length) === l) naermest = s;
+          });
+        });
+      });
+      if (naermest) velgRolle(naermest, false);
+    }
+    blink($('tittel'));
+  }
+  if (d.place) {
+    var p = d.place.toLowerCase();
+    var treff = STEDER_ALLE.filter(function (s) { return s.toLowerCase() === p + ' (by)'; })[0] ||
+      STEDER_ALLE.filter(function (s) { return s.toLowerCase() === p + ' (kommune)'; })[0] ||
+      STEDER_ALLE.filter(function (s) { return s.toLowerCase().indexOf(p) === 0; })[0];
+    leggTilSted(treff || d.place);
+    blink($('sted-kontroll'));
+  }
+  if (d.deadline) {
+    var m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(d.deadline);
+    if (m) {
+      $('frist').value = m[3] + '-' + m[2] + '-' + m[1];
+      blink($('frist'));
+    }
+  }
+  oppdaterInnsikt();
+});
+
+gjenopprett();
+tegnSteder();
+tegnTaksonomi();
+oppdaterInnsikt();
+
+// Startet fra «Bestill kampanje» i Connect: fyll inn stillingen derfra
+(function () {
+  var p = new URLSearchParams(location.search);
+  if (!p.get('tittel')) return;
+  document.dispatchEvent(new CustomEvent('assistant:fill', { detail: { title: p.get('tittel'), place: p.get('sted') || '' } }));
+})();
+</script>
+
+<script src="../../components/js/interactions.js"></script>
+<script src="../../components/js/konto.js?v=2"></script>
+<script src="../../components/js/assistant-widget.js?v=4"></script>
+<script src="../../components/js/assistant.js?v=4"></script>
+</body>
+</html>

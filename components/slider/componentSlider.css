@@ -92,3 +92,69 @@
   color: var(--text-heading);
   font-weight: var(--font-weight-medium);
 }
+
+/* Budget control: an amount you can type, and a slider that follows it.
+   Logic: FrantzPicker.budsjett() in components/js/picker.js */
+.budsjett-kontroll__topp {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-12);
+  margin-bottom: var(--space-8);
+}
+
+.budsjett-kontroll__topp .form-label {
+  margin: 0;
+}
+
+.budsjett-kontroll__anbefalt {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-heading);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.budsjett-kontroll__anbefalt[hidden] {
+  display: none;
+}
+
+.budsjett-felt {
+  position: relative;
+}
+
+.budsjett-felt .form-input {
+  padding-left: 44px;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.budsjett-felt > span {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-semibold);
+}
+
+.budsjett-kontroll .slider-wrap {
+  margin-top: var(--space-12);
+}
+
+.budsjett-kontroll .slider-wrap__mark[hidden] {
+  display: none;
+}
+
+.slider-ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-8);
+  color: var(--text-faint);
+  font-size: var(--text-xs);
+}

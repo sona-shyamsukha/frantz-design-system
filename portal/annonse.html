@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Se annonsen — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; background: var(--surface-subtle); }
+  .visning { max-width: 440px; margin: 0 auto; padding: var(--space-32) var(--page-padding-mobile); }
+  .visning__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); }
+  .visning__topp img { height: 22px; }
+  .visning h1 { margin: var(--space-24) 0 var(--space-4); font-size: var(--text-xl); }
+  .visning__sub { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .utkast { margin-top: var(--space-16); }
+  .post { margin-top: var(--space-24); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-card); overflow: hidden; }
+  .post__hode { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); }
+  .post__logo { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--color-navy); color: var(--color-white); font-size: var(--text-xs); font-weight: var(--font-weight-bold); }
+  .post__hode b { display: block; color: var(--text-heading); font-size: var(--text-sm); }
+  .post__hode small { color: var(--text-muted); font-size: var(--text-xs); }
+  .post__tekst { margin: 0; padding: 0 var(--space-16) var(--space-12); font-size: var(--text-sm); color: var(--text-body); line-height: 1.5; }
+  .post__bilde { aspect-ratio: 1 / 1; display: grid; place-items: center; background: linear-gradient(160deg, var(--color-navy-mid), var(--color-navy)); color: var(--color-white); text-align: center; padding: var(--space-24); }
+  .post__bilde--video { aspect-ratio: 4 / 5; }
+  .post__bilde strong { display: block; margin-top: var(--space-12); font-size: var(--text-2xl); line-height: 1.2; }
+  .post__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); background: var(--surface-subtle); font-size: var(--text-xs); color: var(--text-muted); }
+  .post__bunn b { display: block; color: var(--text-heading); font-size: var(--text-sm); }
+  .visning__handling { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-24); }
+</style>
+</head>
+<body>
+<main class="visning">
+  <div class="visning__topp">
+    <img src="../assets/logo-frantz.png" alt="Frantz">
+    <button class="btn btn--ghost btn--sm" type="button" onclick="history.length > 1 ? history.back() : window.close()"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span> Lukk</button>
+  </div>
+  <h1 id="tittel">Se annonsen</h1>
+  <p class="visning__sub" id="sub">Slik ser annonsen ut for dem som ser den.</p>
+  <div class="alert alert--info utkast" id="utkast" hidden>
+    <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
+    <div>Dette er et utkast. Annonsen er ikke publisert ennå.</div>
+  </div>
+
+  <article class="post" aria-label="Forhåndsvisning av annonsen">
+    <div class="post__hode">
+      <span class="post__logo" aria-hidden="true">VA</span>
+      <div><b>Vokser AS</b><small id="kanal">Sponset</small></div>
+    </div>
+    <p class="post__tekst">Vi søker deg som vil gjøre en forskjell hver dag. Fast stilling, gode vilkår og et fagmiljø som tar vare på hverandre.</p>
+    <div class="post__bilde" id="bilde">
+      <div>
+        <span class="icon-lucide icon-lucide--lg" id="ikon" aria-hidden="true"></span>
+        <strong id="annonsenavn">«Annonse»</strong>
+      </div>
+    </div>
+    <div class="post__bunn">
+      <div><b>frantz.no/k/<span id="id">129041</span></b>Les hele stillingen</div>
+      <span class="btn btn--primary btn--sm" aria-hidden="true">Søk nå</span>
+    </div>
+  </article>
+
+  <div class="visning__handling">
+    <a class="btn btn--secondary" id="kampanjeside" href="#"><span class="icon-lucide icon-lucide--external-link" aria-hidden="true"></span> Åpne kampanjesiden</a>
+  </div>
+</main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var navn = q.get('navn') || 'Annonse', kanal = q.get('kanal') || 'Meta', type = q.get('type') || 'Bilde';
+  document.getElementById('tittel').textContent = navn;
+  document.getElementById('annonsenavn').textContent = '«' + navn + '»';
+  document.getElementById('kanal').textContent = 'Sponset · ' + kanal;
+  document.getElementById('sub').textContent = type + ' på ' + kanal + '. Slik ser annonsen ut for dem som ser den.';
+  document.getElementById('ikon').className = 'icon-lucide icon-lucide--lg icon-lucide--' + (type === 'Video' ? 'play' : 'image');
+  if (type === 'Video') document.getElementById('bilde').classList.add('post__bilde--video');
+  document.getElementById('id').textContent = q.get('id') || '129041';
+  document.getElementById('kampanjeside').href = 'https://frantz.no/k/' + (q.get('id') || '129041');
+  document.getElementById('utkast').hidden = q.get('utkast') !== '1';
+  document.title = navn + ' — Se annonsen — Frantz';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Innboks — Frantz rådgiver</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<link rel="stylesheet" href="../components/inbox/componentInbox.css?v=1">
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="admin-innboks.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app app--fill">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="admin-innboks.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="admin-innboks.html" aria-current="page"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span>Innboks</a>
+      <div class="nav__group">Kundeportal</div>
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Frantz · intern</b><small>Jonas Berg, rådgiver</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Frantz · intern</b><small>Jonas Berg, rådgiver</small></div></header>
+
+    <main class="inbox" data-advisor-inbox>
+      <section class="inbox__list" aria-labelledby="inbox-title">
+        <div class="inbox__listhead">
+          <h1 id="inbox-title">Innboks</h1>
+          <div class="inbox__filters">
+            <span class="inbox__filter" aria-current="true">Venter på meg · 1</span>
+            <span class="inbox__filter">AI håndterer · 2</span>
+            <span class="inbox__filter">Alle · 4</span>
+          </div>
+        </div>
+        <ul class="inbox__items">
+          <li>
+            <div class="inbox__item" aria-current="true">
+              <div class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></div>
+              <span class="inbox__preview">Vokser AS · Vil bytte hovedbildet på aktiv kampanje. Bilde vedlagt.</span>
+              <span class="inbox__state inbox__state--human" data-state>Venter på rådgiver</span>
+            </div>
+          </li>
+          <li>
+            <div class="inbox__item">
+              <div class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></div>
+              <span class="inbox__preview">Vokser AS · Ny bestilling #129077. AI fylte ut alle felt.</span>
+              <span class="inbox__state inbox__state--ai">AI håndterer</span>
+            </div>
+          </li>
+          <li>
+            <div class="inbox__item">
+              <div class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></div>
+              <span class="inbox__preview">Vokser AS · Spurte om rapportlenke. AI sendte lenken.</span>
+              <span class="inbox__state inbox__state--done">Løst av AI</span>
+            </div>
+          </li>
+          <li>
+            <div class="inbox__item">
+              <div class="inbox__row"><span class="inbox__name">Intensivsykepleier Bergen</span><span class="inbox__time">I går</span></div>
+              <span class="inbox__preview">Vokser AS · Pause. Venter på nytt budsjett fra kunden.</span>
+              <span class="inbox__state inbox__state--customer">Venter på kunde</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="case" aria-labelledby="case-title">
+        <header class="case__head">
+          <div>
+            <h2 class="case__title" id="case-title">Sykepleier Oslo</h2>
+            <p class="case__meta">#129041 · Deres ref. 22 31 · Vokser AS, Kari Hansen</p>
+          </div>
+          <div class="btn-group">
+            <span class="inbox__state inbox__state--human" data-state>Venter på rådgiver</span>
+            <button type="button" class="btn btn--secondary btn--sm" data-action="take-over"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span>Ta over samtalen</button>
+          </div>
+        </header>
+
+        <div class="case__body">
+          <div class="case__main">
+            <div class="case__panel case__panel--ai">
+              <h2><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>AI-sammendrag</h2>
+              <p>Kari vil bytte hovedbildet på en <b>aktiv</b> kampanje. Hun har lagt ved et nytt bilde. Kampanjen går på Meta og Nettsteder.</p>
+              <p>Kunden har godkjent materiell før, så det trengs trolig ikke ny forhåndsvisning.</p>
+              <p class="case__why">Sendt til deg fordi: endringer på aktive kampanjer skal gjøres av et menneske.</p>
+            </div>
+
+            <div class="case__thread" aria-label="Samtalen med kunden">
+              <span class="case__label">Samtalen</span>
+              <div class="msg msg--user">
+                <span class="msg__avatar"><span class="icon-lucide icon-lucide--user-round" aria-hidden="true"></span></span>
+                <div class="msg__body"><span class="msg__meta">Kari Hansen · 12:17</span><div class="msg__bubble">Trenger rapportlenken for 22 31</div></div>
+              </div>
+              <div class="msg msg--ai">
+                <span class="msg__avatar"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
+                <div class="msg__body"><span class="msg__meta">Frantz-assistenten · 12:17</span><div class="msg__bubble">Her er rapportlenken: frantz.no/r/129041</div></div>
+              </div>
+              <div class="msg msg--user">
+                <span class="msg__avatar"><span class="icon-lucide icon-lucide--user-round" aria-hidden="true"></span></span>
+                <div class="msg__body">
+                  <span class="msg__meta">Kari Hansen · 12:18</span>
+                  <div class="msg__bubble">Kan dere bytte hovedbildet til det vedlagte? Kunden vil heller ha et bilde fra sengeposten.</div>
+                  <div class="msg__files"><span class="file-chip"><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>nytt-hovedbilde.jpg</span></div>
+                </div>
+              </div>
+              <div class="msg msg--system"><div class="msg__body"><div class="msg__bubble"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span>Assistenten sendte saken til en rådgiver · 12:18</div></div></div>
+            </div>
+
+            <div class="alert alert--info" data-notice hidden role="status">
+              <div class="alert__content"><span class="alert__body"></span></div>
+            </div>
+
+            <div class="reply">
+              <div class="reply__head"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span><span>Utkast fra AI</span></div>
+              <label class="chat__sr" for="reply-input">Svar til kunden</label>
+              <textarea class="reply__input" id="reply-input">Hei Kari!
+
+Takk for det nye bildet. Jeg bytter hovedbildet i Meta og på kampanjesiden i dag. Du får beskjed her når det er gjort.
+
+Hilsen Jonas, Frantz</textarea>
+              <div class="reply__foot">
+                <span class="reply__note">Sendes i kampanjetråden og som svar i kundens e-posttråd.</span>
+                <button type="button" class="btn btn--primary btn--sm" data-action="send"><span class="icon-lucide icon-lucide--send" aria-hidden="true"></span>Godkjenn og send</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="case__side">
+            <div class="case__panel">
+              <h2><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Oppgaver fra AI</h2>
+              <ul class="case__tasks">
+                <li><label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box"></span><span class="form-check__label">Bytt hovedbilde i Meta (feed og story)</span></label></li>
+                <li><label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box"></span><span class="form-check__label">Bytt hovedbilde på kampanjesiden frantz.no/k/129041</span></label></li>
+                <li><label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box"></span><span class="form-check__label">Si fra til kunden når det er gjort</span></label></li>
+              </ul>
+            </div>
+            <div class="case__panel">
+              <h2><span class="icon-lucide icon-lucide--megaphone" aria-hidden="true"></span>Kampanjen</h2>
+              <dl class="case__facts">
+                <div><dt>Status</dt><dd>Aktiv</dd></div>
+                <div><dt>Kanaler</dt><dd>Meta, Nettsteder</dd></div>
+                <div><dt>Periode</dt><dd>Dag 12 av 30</dd></div>
+                <div><dt>Budsjett brukt</dt><dd>kr 34 900 av kr 48 200</dd></div>
+                <div><dt>Søknadsklikk</dt><dd>312 av 380</dd></div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../components/js/interactions.js"></script>
+<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/advisor-inbox.js?v=2"></script>
+</body>
+</html>

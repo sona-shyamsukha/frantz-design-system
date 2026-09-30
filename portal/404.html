@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fant ikke siden — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="/frantz-ds.css?v=30">
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--surface-subtle); }
+  .feilside { max-width: 440px; padding: var(--space-32) var(--page-padding-mobile); text-align: center; }
+  .feilside img { height: 26px; }
+  .feilside h1 { margin: var(--space-32) 0 var(--space-8); font-size: var(--text-2xl); }
+  .feilside p { margin: 0; color: var(--text-muted); }
+  .feilside__knapper { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-8); margin-top: var(--space-24); }
+</style>
+</head>
+<body>
+<main class="feilside">
+  <img src="/assets/logo-frantz.png" alt="Frantz">
+  <h1>Vi fant ikke siden</h1>
+  <p>Lenken kan være gammel, eller siden er flyttet. Kampanjene dine er trygge.</p>
+  <div class="feilside__knapper">
+    <a class="btn btn--primary" href="/portal/dashboard.html">Gå til Hjem</a>
+    <a class="btn btn--secondary" href="/portal/campaigns.html">Se kampanjene</a>
+  </div>
+</main>
+</body>
+</html>

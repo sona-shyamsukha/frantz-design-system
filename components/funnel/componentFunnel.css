@@ -254,3 +254,252 @@
     flex-wrap: wrap;
   }
 }
+
+/* --- Interactive, calm: chart first, small labels, card on hover or tap --- */
+.funnel__hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 var(--space-8);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.funnel__box--rolig {
+  padding: var(--space-16) var(--space-16) var(--space-8);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+}
+
+.funnel__graph--hover {
+  position: relative;
+}
+
+.funnel__graph--hover svg {
+  border-radius: var(--radius-8);
+}
+
+.funnel__sone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 25%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-8);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+/* Dashed lines between the steps, so each section reads as its own area */
+.funnel__sone + .funnel__sone {
+  border-left: 1px dashed rgba(12, 63, 89, 0.25);
+  border-radius: 0;
+}
+
+.funnel__sone:hover,
+.funnel__sone--aktiv {
+  background: rgba(12, 63, 89, 0.08);
+}
+
+.funnel__sone:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: -3px;
+}
+
+/* Small labels under the chart, like an axis */
+.funnel__akse {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: var(--space-8);
+}
+
+.funnel__akse-steg {
+  padding: var(--space-8);
+  border-radius: var(--radius-8);
+  text-align: center;
+}
+
+.funnel__akse-steg--aktiv {
+  background: var(--surface-subtle);
+}
+
+.funnel__akse-navn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.funnel__akse-navn i {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.funnel__akse-tall {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-heading);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.funnel__akse-rate {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-faint);
+  font-size: var(--text-xs);
+}
+
+.funnel__kort--laast {
+  border-color: var(--color-navy);
+}
+
+.funnel__kort[hidden] {
+  display: none;
+}
+
+.funnel__kort {
+  position: absolute;
+  bottom: 8px;
+  z-index: var(--z-tooltip);
+  width: 270px;
+  padding: 10px var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-dialog);
+  color: var(--text-body);
+  line-height: 1.4;
+  transform: translateX(8px);
+  pointer-events: none;
+}
+
+.funnel__kort--venstre {
+  transform: translateX(calc(-100% - 8px));
+}
+
+.funnel__kort-navn {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.funnel__kort-tall {
+  display: block;
+  color: var(--text-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.funnel__kort-hjelp {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+.funnel__kort dl {
+  margin: var(--space-8) 0 0;
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.funnel__kort dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: 1px 0;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+}
+
+.funnel__kort dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+.funnel__kort dt i {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.funnel__kort dd {
+  margin: 0;
+  color: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 640px) {
+  .funnel__akse-navn { font-size: var(--text-xs); }
+  .funnel__kort { width: 180px; }
+}
+
+/* --- Uke for uke: small line charts side by side --- */
+.ukegraf__rad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-16);
+}
+
+.ukegraf {
+  margin: 0;
+  padding: var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+}
+
+.ukegraf figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  font-size: var(--text-sm);
+}
+
+.ukegraf__navn {
+  color: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ukegraf__sum {
+  color: var(--text-muted);
+}
+
+.ukegraf svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ukegraf__akse {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+.ukegraf__akse span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ukegraf__akse span:first-child { align-items: flex-start; }
+.ukegraf__akse span:last-child { align-items: flex-end; }
+
+.ukegraf__akse b {
+  color: var(--text-heading);
+  font-size: var(--text-sm);
+}

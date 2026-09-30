@@ -8,7 +8,7 @@
 .form-label,
 .felt label {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
   color: var(--text-body);
 }
@@ -24,7 +24,7 @@
   background: var(--surface-raised);
   color: var(--text-body);
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: var(--text-input);
   appearance: none;
 }
 

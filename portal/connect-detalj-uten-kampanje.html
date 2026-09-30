@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>ConnectID 777845 — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; }
+
+  .liste__topp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-24);
+    margin-bottom: var(--space-24);
+  }
+  .liste__topp h1 { margin: 0; }
+
+  .search-wrap { position: relative; width: min(260px, 100%); flex: 1 1 200px; }
+  .liste__verktoy { display: flex; gap: var(--space-12); flex-wrap: wrap; }
+  @media (max-width: 640px) {
+    .liste__topp { flex-direction: column; align-items: stretch; }
+    .liste__verktoy { display: grid; width: 100%; }
+    .search-wrap { width: 100%; flex: none; }
+  }
+  .search-wrap .icon-lucide {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+  }
+  .search-wrap .form-input { padding-left: 40px; border-radius: var(--radius-full); }
+
+  .filtre { margin-bottom: var(--space-24); }
+
+  .table-card { padding: 0; overflow: hidden; }
+
+  .pagination-wrap { margin-top: var(--space-24); }
+
+  .cols { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--space-32); align-items: start; margin-top: var(--space-24); max-width: 820px; }
+
+  .connect__topp { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-16); }
+  .connect__topp h1 { margin: 0 0 var(--space-4); }
+  .connect__meta { display: flex; flex-wrap: wrap; gap: var(--space-24); color: var(--text-muted); font-size: var(--text-sm); }
+  .connect__meta b { color: var(--text-heading); font-weight: var(--font-weight-medium); }
+
+  .statusrad {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding-bottom: var(--space-16);
+    margin-bottom: var(--space-24);
+    border-bottom: 1px solid var(--border-default);
+  }
+  .statusrad__tittel { color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .statusrad__tekst { margin: 2px 0 0; color: var(--text-muted); font-size: var(--text-xs); }
+
+  .felt-rad { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
+  @media (max-width: 640px) { .felt-rad { grid-template-columns: 1fr; } }
+
+  .radio-rad { display: flex; gap: var(--space-24); margin-top: var(--space-8); }
+  .radio-rad label { display: inline-flex; align-items: center; gap: var(--space-8); color: var(--text-body); font-size: var(--text-sm); }
+
+  .bryter { display: flex; align-items: center; gap: var(--space-12); }
+  .bryter__spor {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    flex: none;
+    border-radius: var(--radius-full);
+    background: var(--color-ink-200, #d5dae2);
+    transition: background .15s;
+  }
+  .bryter__spor::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-white);
+    transition: transform .15s;
+  }
+  .bryter input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .bryter input:checked + .bryter__spor { background: var(--color-navy); }
+  .bryter input:checked + .bryter__spor::after { transform: translateX(18px); }
+  .bryter__tekst { color: var(--text-body); font-size: var(--text-sm); }
+
+  .kopi-rad { display: flex; gap: var(--space-8); }
+  .kopi-rad .form-input { flex: 1; }
+
+  .vis-liste { display: grid; }
+  .vis-liste details { border-top: 1px solid var(--border-default); }
+  .vis-liste summary {
+    padding: var(--space-16) 0;
+    color: var(--color-navy);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .vis-liste .vis-innhold { padding-bottom: var(--space-16); color: var(--text-muted); font-size: var(--text-sm); }
+
+  .skjema-bunn { display: flex; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-24); }
+
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Brødsmuler">
+        <a href="connect.html">Connect</a>
+        <span class="breadcrumb__sep" aria-hidden="true">/</span>
+        <span aria-current="page">777845</span>
+      </nav>
+
+      <div class="connect__topp">
+        <div>
+          <h1 class="text-h2">ConnectID 777845</h1>
+          <div class="connect__meta">
+            <span>Kampanje: <b>—</b></span>
+            <span>Opprettet: <b>23.09.2026 – 08.32</b></span>
+            <span>Sist oppdatert: <b>23.09.2026 – 08.32</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="card card--betjen">
+          <div class="statusrad">
+            <div>
+              <span class="statusrad__tittel">Status</span>
+              <p class="statusrad__tekst">ConnectID-en samler ikke inn data ennå. Den slås på når den kobles til en kampanje.</p>
+            </div>
+            <label class="bryter">
+              <input type="checkbox">
+              <span class="bryter__spor"></span>
+              <span class="bryter__tekst">Inaktiv</span>
+            </label>
+          </div>
+
+          <p class="card__hint" style="margin-bottom: var(--space-24)">For å måle effekten av annonseringen trenger Frantz litt informasjon i feltene under. Målingen knytter sammen dataene når det kommer trafikk inn på landingssiden, og danner grunnlaget for rapporten.</p>
+
+            <div class="alert alert--info" style="margin-bottom: var(--space-24)">
+              <span class="alert__icon icon-lucide icon-lucide--info" aria-hidden="true"></span>
+              <div class="alert__content">
+                <span class="alert__title">Ikke koblet til en kampanje ennå</span>
+                <span class="alert__body">ConnectID-en er inaktiv til den kobles til en kampanje. Fyll gjerne ut feltene nå, så er de klare.</span>
+              </div>
+            </div>
+
+          <div class="form-group">
+            <label class="form-label" for="c-tittel">Tittel</label>
+            <input class="form-input" type="text" id="c-tittel" value="Helsesykepleier Kristiansand">
+          </div>
+
+          <div class="felt-rad" style="margin-top: var(--space-16)">
+            <div class="form-group">
+              <label class="form-label" for="c-kat">Målgruppekategori</label>
+              <input class="form-input" type="text" id="c-kat" value="" placeholder="Søk etter målgruppe">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-isco">Yrkeskode (ISCO-08)</label>
+              <input class="form-input" type="text" id="c-isco" value="">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-16)">
+            <label class="bryter">
+              <input type="checkbox">
+              <span class="bryter__spor"></span>
+              <span class="bryter__tekst">Aktiver funksjon for interessenter</span>
+            </label>
+            <div class="radio-rad">
+              <label><input type="radio" name="verif" checked> E-post</label>
+              <label><input type="radio" name="verif"> Telefon</label>
+            </div>
+            <p class="form-hint">Verifiseringsmetode for dem som melder interesse uten å søke.</p>
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-16)">
+            <label class="form-label" for="c-prosjekt">Prosjektreferanse</label>
+            <input class="form-input" type="text" id="c-prosjekt" value="">
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-16)">
+            <label class="form-label" for="c-lenke">Lenke til landingsside</label>
+            <input class="form-input" type="url" id="c-lenke" value="https://vokser.no/ledige-stillinger/helsesykepleier">
+          </div>
+
+          <div class="felt-rad" style="margin-top: var(--space-16)">
+            <div class="form-group">
+              <label class="form-label" for="c-frist">Søknadsfrist</label>
+              <input class="form-input" type="date" id="c-frist" value="">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-rapport">Rapportlenke</label>
+              <div class="kopi-rad">
+                <input class="form-input" type="text" id="c-rapport" value="—" readonly>
+                <button class="btn btn--secondary" type="button"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="felt-rad" style="margin-top: var(--space-16)">
+            <div class="form-group">
+              <label class="form-label" for="c-fra">Måleperiode fra</label>
+              <input class="form-input" type="date" id="c-fra" value="2026-09-23">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-til">Måleperiode til</label>
+              <input class="form-input" type="date" id="c-til" value="">
+            </div>
+          </div>
+
+          <div class="vis-liste" style="margin-top: var(--space-24)">
+            <details>
+              <summary>Vis oppsett</summary>
+              <div class="vis-innhold">
+                <p>Legg denne koden på stillingssiden:</p>
+                <div class="sporing__kode">&lt;script src="https://connect.frantz.no/c.js" data-id="777845"&gt;&lt;/script&gt;</div>
+              </div>
+            </details>
+            <details>
+              <summary>Vis annonselenker</summary>
+              <div class="vis-innhold">Ingen annonselenker ennå. De kommer når kampanjen publiseres.</div>
+            </details>
+            <details>
+              <summary>Vis interessenter</summary>
+              <div class="vis-innhold">Ingen interessenter ennå.</div>
+            </details>
+          </div>
+
+          <div class="skjema-bunn">
+            <button class="btn btn--ghost" type="button" onclick="location.href='connect.html'">Avbryt</button>
+            <button class="btn btn--primary" type="button">Oppdater</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../components/js/interactions.js"></script>
+<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=4"></script>
+</body>
+</html>

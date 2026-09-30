@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Ny kampanje — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; }
+
+  .nk-topp { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-16); }
+  .nk-topp h1 { margin: 0; }
+  .lagret { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: var(--text-sm); }
+  .lagret .icon-lucide { color: var(--color-green); }
+
+  .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-32); align-items: start; margin-top: var(--space-24); }
+  .nk-skjema { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; }
+
+  .del { padding: var(--space-32); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); }
+  .del__topp { display: flex; align-items: baseline; gap: var(--space-12); margin-bottom: var(--space-24); }
+  .del__nr { display: grid; flex: none; place-items: center; width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font-size: var(--text-sm); font-weight: var(--font-weight-bold); transform: translateY(4px); }
+  .del__tittel { margin: 0; color: var(--text-heading); font-size: var(--text-lg); }
+  .del__hint { margin: 2px 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+
+  .felt + .felt { margin-top: var(--space-24); }
+  .felt-rad { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); margin-top: var(--space-24); }
+  .del__under { margin: var(--space-24) 0 var(--space-12); color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .vedlegg__typer { flex-basis: 100%; color: var(--text-muted); font-size: var(--text-sm); }
+  #avsender-felt[hidden], #sum-tillegg-rad[hidden] { display: none; }
+  .periode { position: relative; margin-top: var(--space-24); }
+  .periode__knapp { display: inline-flex; align-items: center; gap: var(--space-8); width: 100%; min-height: 44px; padding: 0 var(--space-12); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-heading); font: inherit; font-weight: var(--font-weight-semibold); text-align: left; cursor: pointer; }
+  .periode__knapp:hover { border-color: var(--color-navy); }
+  .periode__knapp #periode-tekst { flex: 1; }
+  .periode__snarveier { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-8); }
+  .periode__kalender { position: absolute; top: 76px; left: 0; z-index: 20; width: 320px; max-width: 100%; padding: var(--space-12); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
+  .periode__kalender[hidden] { display: none; }
+  .kal__topp { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-8); font-weight: var(--font-weight-semibold); color: var(--text-heading); }
+  .kal__topp button { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: var(--radius-8); background: none; cursor: pointer; }
+  .kal__topp button:hover { background: var(--surface-subtle); }
+  .kal__rutenett { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px 0; text-align: center; }
+  .kal__ukedag { padding: 4px 0; color: var(--text-muted); font-size: var(--text-xs); }
+  .kal__dag { height: 36px; border: 0; background: none; color: var(--text-body); font: inherit; font-size: var(--text-sm); cursor: pointer; }
+  .kal__dag:hover:not(:disabled) { background: var(--surface-subtle); border-radius: var(--radius-8); }
+  .kal__dag:disabled { color: var(--text-faint); cursor: default; opacity: .5; }
+  .kal__dag--i { background: rgba(12, 63, 89, 0.08); }
+  .kal__dag--start, .kal__dag--slutt { background: var(--color-navy); color: #fff; font-weight: var(--font-weight-semibold); }
+  .kal__dag--start { border-radius: var(--radius-8) 0 0 var(--radius-8); }
+  .kal__dag--slutt { border-radius: 0 var(--radius-8) var(--radius-8) 0; }
+  .kal__dag--start.kal__dag--slutt { border-radius: var(--radius-8); }
+  .kal__dag--frist { box-shadow: inset 0 -2px 0 var(--color-amber); }
+  .kal__hjelp { margin: var(--space-8) 0 0; color: var(--text-muted); font-size: var(--text-xs); }
+  .tillegg { display: grid; gap: var(--space-8); margin-bottom: var(--space-16); }
+  .tillegg__valg { display: flex; align-items: flex-start; gap: var(--space-12); padding: var(--space-12) var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); cursor: pointer; }
+  .tillegg__valg:has(input:checked) { border-color: var(--color-navy); background: rgba(12, 63, 89, 0.04); }
+  .tillegg__valg input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--color-navy); }
+  .tillegg__tekst { flex: 1; display: grid; gap: 2px; font-size: var(--text-sm); color: var(--text-muted); }
+  .tillegg__tekst b { color: var(--text-heading); font-size: var(--text-base); }
+  .tillegg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+  .opplastet { margin: var(--space-12) 0 var(--space-8); color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .del__sammendrag { display: none; margin: 2px 0 0; color: var(--text-body); font-size: var(--text-sm); }
+  .del__endre { display: none; margin-left: auto; padding: 6px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: inherit; font-size: var(--text-sm); font-weight: var(--font-weight-semibold); cursor: pointer; }
+  .del__neste { display: flex; justify-content: flex-end; margin-top: var(--space-24); }
+  .del--lukket { padding-block: var(--space-16); cursor: pointer; }
+  .del--lukket > :not(.del__topp) { display: none; }
+  .del--lukket .del__topp { align-items: center; margin-bottom: 0; }
+  .del--lukket .del__nr { transform: none; background: var(--text-success-strong, #2E7D4F); }
+  .del--lukket .del__hint { display: none; }
+  .del--lukket .del__sammendrag, .del--lukket .del__endre { display: block; }
+  /* Every field looks the same: 50px high, 16px inside, 16px text, same placeholder grey */
+  .nk-skjema .form-input, .nk-skjema .picker__felt, .periode__knapp { box-sizing: border-box; min-height: 50px; font-size: var(--text-input); }
+  .nk-skjema input.form-input { height: 50px; } /* the place field keeps min-height, so it can grow with many places */
+  .nk-skjema .picker__felt, .periode__knapp { padding-left: 16px; padding-right: 16px; }
+  .budsjett-felt .form-input { height: 50px; font-size: var(--text-input); }
+  .periode__knapp { color: var(--text-body); font-weight: var(--font-weight-normal); }
+  .periode__knapp--tom #periode-tekst, .nk-skjema input[type=date].tom { color: var(--text-faint); }
+  .valgfri { color: var(--text-faint); font-weight: var(--font-weight-normal); }
+  .lenke-rad { display: flex; gap: var(--space-8); }
+  .lenke-rad .form-input { flex: 1; }
+  .studio-valgfri { margin-top: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
+  .studio-valgfri > summary { display: grid; grid-template-columns: 36px minmax(0, 1fr) 16px; gap: var(--space-12); align-items: center; padding: var(--space-16); cursor: pointer; list-style: none; }
+  .studio-valgfri > summary::-webkit-details-marker { display: none; }
+  .studio-valgfri > summary b { color: var(--text-heading); }
+  .studio-valgfri > summary small { display: block; margin-top: 2px; color: var(--text-muted); font-size: var(--text-sm); }
+  .studio-valgfri__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--surface-subtle); color: var(--text-heading); }
+  .studio-valgfri__pil { color: var(--text-muted); transition: transform .15s; }
+  .studio-valgfri[open] .studio-valgfri__pil { transform: rotate(180deg); }
+  .studio-valgfri__innhold { padding: 0 var(--space-16) var(--space-16); border-top: 1px solid var(--border-subtle); padding-top: var(--space-16); }
+  .studio-valgfri .studio { grid-template-columns: 1fr; margin-top: 0; gap: var(--space-16); }
+  .studio-valgfri .studio > div:first-child { display: grid; grid-template-columns: 88px minmax(0, 1fr); column-gap: var(--space-12); align-items: start; }
+  .studio-valgfri .studio > div:first-child > .form-label { grid-column: 1 / -1; }
+  .studio-valgfri .studio__bilde { grid-row: 2 / span 2; width: 88px; aspect-ratio: 1; margin-top: 6px; }
+  .studio-valgfri .studio__bildeknapper { flex-wrap: wrap; margin-top: 6px; }
+  .studio-valgfri .studio > div:first-child .form-hint { margin-top: 6px; }
+  .studio-valgfri .studio__bildeknapper a { margin-left: 0 !important; }
+  .studio-valgfri .studio__farger { grid-template-columns: 1fr; gap: var(--space-16); }
+  .studio-valgfri .studio__forhand { margin-top: var(--space-16); }
+  .studio__eksempel { margin: 0; padding: var(--space-12) var(--space-16); border-bottom: 1px solid var(--border-subtle); font-size: var(--text-sm); color: var(--text-muted); }
+  .studio__merke { margin-top: var(--space-16); padding: var(--space-12) var(--space-16); border: 1px solid var(--border-subtle); border-radius: var(--radius-8); }
+  .studio__merke summary { display: flex; justify-content: space-between; gap: var(--space-8); cursor: pointer; font-size: var(--text-sm); font-weight: var(--font-weight-semibold); color: var(--text-heading); }
+  .studio__merke summary span { font-weight: 400; color: var(--text-muted); }
+  .studio__merke .studio__farger { margin-top: var(--space-12); padding-top: var(--space-12); }
+  .connect-kilde { margin-bottom: var(--space-24); }
+  .hentet { margin: var(--space-8) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .hentet[hidden] { display: none; }
+  .hentet--ok { color: var(--text-success-strong); }
+  .eksempel-lenke { margin-top: var(--space-4); padding: 0; border: 0; background: none; color: var(--text-link, var(--color-navy)); font: inherit; font-size: var(--text-sm); text-decoration: underline; cursor: pointer; }
+  .eksempel-lenke[hidden] { display: none; }
+  .auto-fylt { animation: autoFylt 2.4s var(--ease-out, ease-out); }
+  @keyframes autoFylt { 0%, 40% { background-color: #FFF4DC; box-shadow: 0 0 0 3px #F6D38A; } 100% { background-color: transparent; box-shadow: none; } }
+  @media (prefers-reduced-motion: reduce) { .auto-fylt { animation: none; } }
+
+  .beskrivelse { min-height: 150px; resize: vertical; line-height: var(--leading-normal); }
+  .vedlegg { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-12); padding: var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); color: var(--text-muted); font-size: var(--text-sm); }
+  .vedlegg.dra-over { border-color: var(--color-navy); background: var(--surface-subtle); }
+  .vedlegg__filer { display: flex; flex-wrap: wrap; gap: var(--space-8); width: 100%; }
+  .vedlegg__filer:empty { display: none; }
+
+  .valg-to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  .kanal-valg { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-16); }
+  .kanal-valg[hidden] { display: none; }
+  .kanal-knapp { display: inline-flex; align-items: center; gap: var(--space-8); padding: 8px 14px; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-body); font-family: var(--font-body); font-size: var(--text-base); cursor: pointer; }
+  .kanal-knapp:hover { border-color: var(--color-ink-400); }
+  .kanal-knapp[aria-pressed="true"] { border-color: var(--color-navy); background: var(--bg-brand-1-soft); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .logo-rad { display: flex; gap: 6px; margin-top: var(--space-12); }
+  .kanal-knapp { padding-left: 8px; }
+  .kanal-knapp .icon-lucide { display: none; width: 14px; height: 14px; }
+  .kanal-knapp[aria-pressed="true"] .icon-lucide { display: inline-block; }
+  .kanal-prikk--linkedin, .kanal-prikk--snapchat, .kanal-prikk--tiktok, .kanal-prikk--programmatisk { }
+  .kanal-prikk--snapchat { background: var(--color-amber); }
+  .kanal-prikk--tiktok { background: var(--color-ink-700, #333); }
+  .kanal-prikk--programmatisk { background: var(--color-navy-soft); }
+
+  .anslag { padding: var(--space-12) var(--space-16); border-top: 1px solid var(--border-subtle); background: var(--surface-subtle); font-size: var(--text-xs); }
+  .anslag__topp { display: flex; justify-content: space-between; gap: var(--space-8); color: var(--text-muted); font-weight: var(--font-weight-semibold); }
+  .anslag__topp b { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .anslag__liste { margin: 6px 0 0; }
+  .anslag__liste div { display: flex; justify-content: space-between; padding: 1px 0; }
+  .anslag__liste dt { color: var(--text-muted); }
+  .anslag__liste dd { margin: 0; color: var(--text-body); font-variant-numeric: tabular-nums; }
+  .anslag__advarsel { margin: var(--space-8) 0 0; color: var(--color-amber-ink); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .anslag__advarsel[hidden] { display: none; }
+
+  .bryter { margin-top: var(--space-24); padding-top: var(--space-24); border-top: 1px solid var(--border-subtle); }
+  .bryter .form-toggle__label { font-size: var(--text-base); }
+  .bryter { display: flex; align-items: center; gap: 6px; }
+  .form-label .tooltip { vertical-align: -3px; margin-left: 2px; }
+  .bryter p { margin: 4px 0 0 63px; color: var(--text-muted); font-size: var(--text-sm); }
+
+  .feil { margin: var(--space-8) 0 0; color: var(--text-danger, #B42318); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .feil[hidden] { display: none; }
+
+  /* Summary */
+  .oppsummering { position: sticky; top: var(--space-24); }
+  .oppsummering .summary-row dd { text-align: right; }
+  .kvittering { padding: var(--space-32); border-radius: var(--radius-16); background: var(--bg-brand-1-soft); }
+  .kvittering[hidden] { display: none; }
+  .kvittering h2 { margin: var(--space-12) 0 0; font-size: var(--text-xl); }
+  .kvittering p { color: var(--text-body); }
+  .kvittering .emne { padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+
+  @media (max-width: 1100px) {
+    .nk { grid-template-columns: 1fr; }
+    .oppsummering { position: static; }
+  }
+  @media (max-width: 640px) {
+    .del { padding: var(--space-16); }
+    .felt-rad, .valg-to { grid-template-columns: 1fr; }
+    .lenke-rad { flex-direction: column; }
+    .bryter p { margin-left: 0; }
+  }
+</style>
+</head>
+<body data-assistant="form">
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+
+    <div class="wrap">
+      <div class="nk-topp">
+        <div>
+          <h1 class="text-h2">Ny kampanje</h1>
+          <p class="lede">Fortell oss om stillingen og hva dere trenger. Frantz tar målrettingen.</p>
+        </div>
+        <span class="lagret" id="lagret" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span>Lagres av seg selv</span></span>
+      </div>
+
+      <div class="alert alert--info connect-kilde" id="connect-kilde" role="status" hidden>
+        <span class="icon-lucide icon-lucide--link alert__icon" aria-hidden="true"></span>
+        <div class="alert__content"><b id="connect-tittel">Henter stillingen fra Connect …</b><span class="alert__body" id="connect-tekst">Vi leser stillingsannonsen og fyller ut det vi finner.</span></div>
+      </div>
+
+      <div class="nk">
+        <form class="nk-skjema" id="skjema" novalidate autocomplete="off">
+
+          <section class="del" data-del="1" data-key="stilling" aria-labelledby="del1">
+            <div class="del__topp"><span class="del__nr">1</span><div><h2 class="del__tittel" id="del1">Stillingen</h2><p class="del__hint">Har dere en lenke til annonsen, henter vi stillingstittel, arbeidssted og søknadsfrist. Resten fyller dere ut selv.</p><p class="del__sammendrag" id="sammendrag1"></p></div><button class="del__endre" type="button" data-apne="1">Endre</button></div>
+
+            <div class="felt">
+              <label class="form-label" for="ref">Kampanjenavn / deres referanse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-posten." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-posten."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+              <input class="form-input" type="text" id="ref" placeholder="F.eks. oppdragsnummer 22 45">
+            </div>
+
+            <div class="felt">
+              <label class="form-label" for="lenke">Lenke til stillingsannonsen <span class="valgfri">(hvis dere har)</span></label>
+              <div class="lenke-rad">
+                <input class="form-input" type="url" id="lenke" placeholder="https://…">
+                <button class="btn btn--secondary" type="button" id="hent">Hent fra lenken</button>
+              </div>
+              <p class="hentet" id="hentet" hidden></p>
+              <p class="feil" id="feil-lenke" hidden>Lim inn lenken, eller skriv stillingstittelen under.</p>
+            </div>
+            <div class="felt">
+              <label class="form-label" for="stilling">Stillingstittel <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Frantz målretter også mot relaterte stillinger, ikke bare den du velger." aria-label="Mer info: Frantz målretter også mot relaterte stillinger, ikke bare den du velger."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+              <div class="picker" id="stilling-picker">
+                <div class="picker__felt">
+                  <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
+                  <input class="picker__input" id="stilling" type="text" placeholder="Begynn å skrive, f.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
+                </div>
+                <div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div>
+                <p class="picker__valgt" hidden></p>
+              </div>
+            </div>
+
+            <div class="felt">
+              <label class="form-label" for="sted">Arbeidssted <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Velg ett eller flere steder. Vi når folk som bor eller jobber i og rundt stedene." aria-label="Mer info: Velg ett eller flere steder. Vi når folk som bor eller jobber i og rundt stedene."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+              <div class="picker" id="sted-picker">
+                <div class="picker__felt">
+                  <span class="picker__chips" style="display:contents"></span>
+                  <input class="picker__input" id="sted" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
+                </div>
+                <div class="picker__liste" role="listbox" aria-label="Arbeidssteder" hidden></div>
+                <div class="picker__snarveier">
+                  <button class="picker__snarvei" type="button" data-sted-snarvei="Hele Norge (landsdekkende)" aria-pressed="false">Hele Norge</button>
+                  <button class="picker__snarvei" type="button" data-sted-snarvei="Hjemmekontor (fjernarbeid)" aria-pressed="false">Hjemmekontor</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="felt">
+              <label class="form-label" for="frist">Søknadsfrist <span class="valgfri">(valgfritt)</span></label>
+              <input class="form-input" type="date" id="frist">
+            </div>
+
+            <div class="felt">
+              <label class="form-label" for="beskrivelse">Beskrivelse <span class="valgfri">(valgfritt)</span></label>
+              <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="5" placeholder="Skriv med egne ord hva Frantz bør vite. F.eks. hvem dere vil nå, og om kunden skal godkjenne annonsen."></textarea>
+            </div>
+
+            <div class="del__neste"><button class="btn btn--primary" type="button" data-neste="1">Neste</button></div>
+          </section>
+
+          <section class="del" data-del="2" data-key="budsjett" aria-labelledby="del2">
+            <div class="del__topp"><span class="del__nr">2</span><div><h2 class="del__tittel" id="del2">Budsjett og periode</h2><p class="del__hint">Anslaget oppdateres når du endrer beløpet.</p><p class="del__sammendrag" id="sammendrag2"></p></div><button class="del__endre" type="button" data-apne="2">Endre</button></div>
+            <div class="budsjett-kontroll" id="budsjett-kontroll">
+              <div class="budsjett-kontroll__topp">
+                <label class="form-label" for="budsjett">Totalbudsjett <button type="button" class="tooltip" id="budsjett-tips" data-tooltip="Velg stilling og sted, så viser vi anbefalt budsjett." aria-label="Mer info: Velg stilling og sted, så viser vi anbefalt budsjett."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <button class="budsjett-kontroll__anbefalt" type="button" hidden>Bruk anbefalt</button>
+              </div>
+              <div class="budsjett-felt"><span>kr</span><input class="form-input" type="text" inputmode="numeric" id="budsjett" placeholder="Skriv beløpet eller bruk skyveren"></div>
+              <div class="slider-wrap">
+                <span class="slider-wrap__mark" hidden>Anbefalt</span>
+                <input class="budsjett-slider" type="range" min="8000" max="120000" step="500" aria-label="Budsjett">
+              </div>
+              <div class="slider-ends"><span>kr 8 000</span><span>kr 120 000</span></div>
+            </div>
+
+            <p class="anslag__advarsel" id="advarsel" hidden></p>
+
+            <div class="felt periode">
+              <span class="form-label" id="periode-lbl">Kampanjeperiode <button type="button" class="tooltip" data-tooltip="Vi anbefaler minst 3 uker. Slutt gjerne på søknadsfristen." aria-label="Mer info: Vi anbefaler minst 3 uker. Slutt gjerne på søknadsfristen."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></span>
+              <input type="hidden" id="start">
+              <input type="hidden" id="slutt">
+              <button class="periode__knapp" type="button" id="periode-knapp" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="periode-lbl periode-tekst">
+                <span class="icon-lucide icon-lucide--calendar" aria-hidden="true"></span>
+                <span id="periode-tekst">Velg periode</span>
+                <span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span>
+              </button>
+              <div class="periode__snarveier" role="group" aria-label="Varighet">
+                <button type="button" class="picker__snarvei" data-uker="2">2 uker</button>
+                <button type="button" class="picker__snarvei" data-uker="3">3 uker</button>
+                <button type="button" class="picker__snarvei" data-uker="4">4 uker</button>
+                <button type="button" class="picker__snarvei" data-uker="6">6 uker</button>
+                <button type="button" class="picker__snarvei" data-uker="frist">Til søknadsfristen</button>
+              </div>
+              <div class="periode__kalender" id="periode-kalender" role="dialog" aria-label="Velg kampanjeperiode" hidden></div>
+            </div>
+            <p class="anslag__advarsel" id="periode-hint" hidden></p>
+            <p class="feil" id="feil-periode" hidden>Kampanjeslutt må være etter kampanjestart.</p>
+
+            <div class="del__neste"><button class="btn btn--primary" type="button" data-neste="2">Neste</button></div>
+          </section>
+
+          <section class="del" data-del="3" data-key="kanaler" aria-labelledby="del3">
+            <div class="del__topp"><span class="del__nr">3</span><div><h2 class="del__tittel" id="del3">Kanaler og avsender</h2><p class="del__hint">La Frantz velge, eller velg selv.</p><p class="del__sammendrag" id="sammendrag3"></p></div><button class="del__endre" type="button" data-apne="3">Endre</button></div>
+            <div class="valg-to" role="group" aria-label="Hvem velger kanaler">
+              <button class="choice-card" type="button" data-kanalmodus="frantz" aria-pressed="true"><span class="choice-card__price">Anbefalt</span><span class="choice-card__name">Frantz anbefaler</span><span class="choice-card__desc">Vi velger kanalene som gir best resultat for budsjettet.</span><span class="logo-rad" aria-label="Vanligvis Meta og nettsteder, flere med større budsjett"><span class="kanal-logo kanal-logo--meta"></span><span class="kanal-logo kanal-logo--nettsteder"></span><span class="kanal-logo kanal-logo--linkedin"></span><span class="kanal-logo kanal-logo--programmatisk"></span></span></button>
+              <button class="choice-card" type="button" data-kanalmodus="selv" aria-pressed="false"><span class="choice-card__price">Du bestemmer</span><span class="choice-card__name">Jeg velger selv</span><span class="choice-card__desc">For når kunden har bestemt kanalene i medieplanen.</span></button>
+            </div>
+            <div class="kanal-valg" id="kanal-valg" hidden role="group" aria-label="Kanaler"></div>
+
+            <div class="felt" id="avsender-felt" style="margin-top: var(--space-24)">
+              <label class="form-label" for="avsender">Avsender <span class="valgfri">(valgfritt)</span></label>
+              <input class="form-input" type="text" id="avsender" placeholder="Hvilken Facebook-side annonsen skal vises fra">
+            </div>
+            <div class="del__neste"><button class="btn btn--primary" type="button" data-neste="3">Neste</button></div>
+          </section>
+
+          <section class="del" data-del="4" data-key="materiell" aria-labelledby="del4">
+            <div class="del__topp"><span class="del__nr">4</span><div><h2 class="del__tittel" id="del4">Materiell</h2><p class="del__hint">Valget påvirker totalprisen.</p><p class="del__sammendrag" id="sammendrag4"></p></div><button class="del__endre" type="button" data-apne="4">Endre</button></div>
+            <div class="valg-to" role="group" aria-label="Type materiell">
+              <button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="true"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Vi har ferdig materiell</span><span class="choice-card__desc">Dere har bilder, logo eller annonser klare til bruk.</span></button>
+              <button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Vi vil ha hjelp</span><span class="choice-card__desc">Frantz lager annonsen for dere.</span></button>
+            </div>
+            <div id="opplast-del">
+            <h3 class="del__under">Materiell til annonsene</h3>
+            <div class="vedlegg" id="vedlegg">
+              <span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>
+              <span>Dra filer hit, eller</span>
+              <button class="btn btn--ghost" type="button" id="velg-filer">Velg filer</button>
+              <span class="vedlegg__typer">Filtyper: zip, HTML5, mp4, docx, PDF, JPG og PNG. Maks 10 MB per fil.</span>
+              <input type="file" aria-label="Velg filer" id="filer" multiple hidden accept=".zip,.html,.htm,.mp4,.docx,.doc,.pdf,.jpg,.jpeg,.png">
+            </div>
+            <p class="opplastet" id="opplastet-tittel">Opplastede filer (0)</p>
+            <div class="vedlegg__filer" id="filliste"></div>
+            </div>
+            <details class="studio-valgfri" id="studio-del">
+              <summary><span class="studio-valgfri__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span><b>Lag annonsen selv</b> <span class="valgfri">(valgfritt)</span><small>Velg bilde og tekst, og se hvordan annonsen blir. Hopp over dette om dere vil at Frantz skal gjøre det.</small></span><span class="icon-lucide icon-lucide--chevron-down studio-valgfri__pil" aria-hidden="true"></span></summary>
+              <div class="studio-valgfri__innhold">
+              <div class="studio">
+                <div>
+                  <span class="form-label">Bilde</span>
+                  <div class="studio__bilde" id="st-bildefelt"><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
+                  <div class="studio__bildeknapper">
+                    <button class="btn btn--secondary btn--sm" type="button" id="st-fjern">Fjern</button>
+                    <button class="btn btn--primary btn--sm" type="button" id="st-last">Last opp</button>
+                    <a class="btn btn--ghost btn--sm" href="mediebibliotek.html" target="_blank" style="margin-left:auto"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span> Mediebibliotek</a>
+                    <input type="file" aria-label="Velg filer" id="st-fil" accept="image/*" hidden>
+                  </div>
+                  <p class="form-hint">Minst 1440 × 1440 piksler. Dra i bildet i forhåndsvisningen for å flytte det.</p>
+                </div>
+                <div class="studio__felt">
+                  <div class="form-group"><label class="form-label" for="st-tittel">Overskrift på bildet</label><input class="form-input" id="st-tittel" value="Bli en av oss"></div>
+                  <div class="form-group"><label class="form-label" for="st-stilling">Stillingstittel</label><input class="form-input" id="st-stilling" value="Stillingstittel"></div>
+                  <div class="form-group"><label class="form-label" for="st-tekst">Tekst i innlegget</label><textarea class="form-textarea" id="st-tekst" rows="3">Sjekk ut denne nye stillingen hos Vokser!</textarea></div>
+                </div>
+              </div>
+              <details class="studio__merke">
+                <summary>Farger og logo <span>Fra merkevaren deres · <a href="innstillinger.html#merkevare" target="_blank">Endre standard</a></span></summary>
+                <div class="studio__farger">
+                  <div>
+                    <label class="form-label" for="st-bg">Bakgrunnsfarge</label>
+                    <div class="hexfelt"><input type="color" id="st-bg" value="#f0d2d7" aria-label="Velg bakgrunnsfarge"><input class="form-input" id="st-bg-hex" value="#f0d2d7" aria-label="Bakgrunnsfarge som hex-kode" maxlength="7"></div>
+                    <label class="form-toggle form-toggle--liten studio__bryter"><input class="form-toggle__input" type="checkbox" role="switch" id="st-vis-bg" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis bakgrunnsfarge</span></label>
+                  </div>
+                  <div>
+                    <label class="form-label" for="st-chip">Bakgrunn bak stillingstittel</label>
+                    <div class="hexfelt"><input type="color" id="st-chip" value="#ffffff" aria-label="Velg farge bak stillingstittel"><input class="form-input" id="st-chip-hex" value="#ffffff" aria-label="Farge bak stillingstittel som hex-kode" maxlength="7"></div>
+                    <label class="form-toggle form-toggle--liten studio__bryter"><input class="form-toggle__input" type="checkbox" role="switch" id="st-vis-logo" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis logo på bildet</span></label>
+                  </div>
+                </div>
+              </details>
+              <div class="studio__forhand">
+                <p class="studio__eksempel">Eksempel på annonsen. Frantz tilpasser format og utseende til hver kanal.</p>
+                <div class="studio__scene">
+                  <article class="post" id="post" data-plattform="facebook">
+                    <header class="post__topp"><span class="post__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="post__mer" aria-hidden="true">···</span></header>
+                    <p class="post__tekst" id="pv-tekst"></p>
+                    <div class="post__kreativ" id="pv-kreativ">
+                      <div class="post__logo" id="pv-logo">vokser</div>
+                      <h4 class="post__tittel" id="pv-tittel"></h4>
+                      <div class="post__bilde" id="pv-bilde" title="Dra for å flytte bildet"></div>
+                      <span class="post__stilling" id="pv-stilling"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span><span></span></span>
+                    </div>
+                    <footer class="post__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="post__cta">Søk nå</span></footer>
+                  </article>
+                </div>
+              </div>
+              <p class="form-hint" style="margin-top:var(--space-12)">En rådgiver i Frantz ser over annonsen før den publiseres.</p>
+              </div>
+            </details>
+            <div class="del__neste"><button class="btn btn--primary" type="button" data-neste="4">Neste</button></div>
+          </section>
+
+          <section class="del" data-del="5" data-key="tillegg" aria-labelledby="del5">
+            <div class="del__topp"><span class="del__nr">5</span><div><h2 class="del__tittel" id="del5">Tillegg <span class="valgfri">(valgfritt)</span></h2><p class="del__hint">Legg til det dere trenger. Prisen kommer i tillegg til budsjettet.</p><p class="del__sammendrag" id="sammendrag5"></p></div><button class="del__endre" type="button" data-apne="5">Endre</button></div>
+            <div class="tillegg" role="group" aria-label="Tilleggsprodukter">
+              <label class="tillegg__valg"><input type="checkbox" data-tillegg="Tekstproduksjon" data-pris="0"><span class="tillegg__tekst"><b>Tekstproduksjon</b><span>Frantz skriver annonseteksten og teksten på kampanjesiden.</span></span><span class="tillegg__pris">+ kr 0</span></label>
+              <label class="tillegg__valg"><input type="checkbox" data-tillegg="Strategisk rådgivning" data-pris="8000"><span class="tillegg__tekst"><b>Strategisk rådgivning</b><span>En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.</span></span><span class="tillegg__pris">+ kr 8 000</span></label>
+            </div>
+            <div class="bryter">
+              <label class="form-toggle"><input class="form-toggle__input" type="checkbox" id="meld-interesse"><span class="form-toggle__track"></span><span class="form-toggle__label">Vis «Meld interesse»-knapp i annonsen</span></label> <button type="button" class="tooltip" data-tooltip="Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post." aria-label="Mer info: Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button>
+            </div>
+          </section>
+        </form>
+
+        <aside class="oppsummering">
+          <div class="summary-panel" id="sammendrag">
+            <div class="summary-panel__head">
+              <h2>Din bestilling</h2>
+              <p id="sum-tittel-topp">Ny kampanje</p>
+            </div>
+            <div class="summary-panel__block">
+              <dl class="summary-row"><dt>Stilling</dt><dd id="sum-stilling">—</dd></dl>
+              <dl class="summary-row"><dt>Sted</dt><dd id="sum-sted">—</dd></dl>
+              <dl class="summary-row"><dt>Kanaler</dt><dd id="sum-kanaler">Frantz anbefaler</dd></dl>
+              <dl class="summary-row"><dt>Trykker «Søk»</dt><dd id="sum-sok">—</dd></dl>
+              <dl class="summary-row" id="sum-tillegg-rad" hidden><dt>Tillegg</dt><dd id="sum-tillegg">—</dd></dl>
+            </div>
+            <div class="anslag" aria-live="polite">
+              <div class="anslag__topp"><span>Forventet resultat</span><b id="anslag-dybde">—</b></div>
+              <dl class="anslag__liste">
+                <div><dt>Visninger</dt><dd id="a-visninger">—</dd></div>
+                <div><dt>Klikk</dt><dd id="a-klikk">—</dd></div>
+                <div><dt>Besøk på siden</dt><dd id="a-besok">—</dd></div>
+              </dl>
+            </div>
+            <div class="summary-panel__total">
+              <span>Totalsum</span>
+              <b id="sum-total">—</b>
+            </div>
+            <div class="summary-panel__cta">
+              <button class="btn btn--accent" type="button" id="bestill">Bestill kampanjen</button>
+              <p style="margin:0; color: var(--text-muted); font-size: var(--text-sm)">En rådgiver sjekker bestillingen før noe publiseres. Svar kommer i én e-posttråd.</p>
+            </div>
+          </div>
+
+          <div class="kvittering" id="kvittering" hidden>
+            <span class="badge badge--active">Bestilt</span>
+            <h2>Takk, kampanjen er bestilt</h2>
+            <p>En rådgiver sjekker den nå. Alt om kampanjen kommer i én e-posttråd med dette emnet:</p>
+            <p class="emne" id="emne"></p>
+            <p>Svarer du på e-posten, havner svaret i tråden.</p>
+            <div class="btn-group">
+              <a class="btn btn--primary" href="dashboard.html">Til hjem</a>
+              <button class="btn btn--secondary" type="button" id="ny-igjen">Lag en ny</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="data/frantz-data.js"></script>
+<script src="../components/js/picker.js"></script>
+<script src="../components/js/reach-model.js"></script>
+<script>
+(function () {
+  var R = window.FrantzRekkevidde;
+  var $ = function (id) { return document.getElementById(id); };
+  var kr = function (n) { return 'kr ' + R.tall(n); };
+  var LAGER = 'fzNyKampanje';
+  var KANALER = [
+    { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
+    { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }, { navn: 'Programmatisk', k: 'programmatisk' }
+  ];
+
+  var tilstand = { rolle: '', kanalmodus: 'frantz', kanaler: ['Meta'], filer: [], materiell: 'ferdig' };
+
+  // Channel buttons
+  $('kanal-valg').innerHTML = KANALER.map(function (c) {
+    return '<button type="button" class="kanal-knapp" data-kanal="' + c.navn + '" aria-pressed="false"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn + '<span class="icon-lucide icon-lucide--check" aria-hidden="true"></span></button>';
+  }).join('');
+
+  var stilling = null, steder = null;
+  stilling = FrantzPicker.stilling($('stilling-picker'), {
+    onChange: function (v) { tilstand.rolle = v ? (v.rolle || v.tittel) : ''; oppdater(); lagre(); }
+  });
+  steder = FrantzPicker.steder($('sted-picker'), {
+    placeholder: 'Skriv et sted, f.eks. Kristiansand',
+    onChange: function () { oppdater(); lagre(); }
+  });
+
+  var budsjettKontroll = FrantzPicker.budsjett($('budsjett-kontroll'), { onChange: function () { oppdater(); lagre(); } });
+  function budsjett() { return budsjettKontroll.verdi(); }
+  function navnListe(liste) {
+    var n = liste.map(function (s) { return FrantzPicker.delSted(s).navn; });
+    return n.length > 1 ? n.slice(0, -1).join(', ') + ' og ' + n[n.length - 1] : n[0] || '';
+  }
+
+  function oppdater() {
+    if (!steder || !stilling || !budsjettKontroll) return; // the pickers report once while they start
+    var stederListe = steder.verdi();
+    var klar = tilstand.rolle && stederListe.length;
+    var b = budsjett();
+    var r = klar ? R.beregn({ rolle: tilstand.rolle, steder: stederListe, budsjett: b }) : null;
+    var forslag = klar ? R.beregn({ rolle: tilstand.rolle, steder: stederListe }) : null;
+
+    // Recommended budget from the reach model
+    budsjettKontroll.anbefalt(forslag ? forslag.anbefalt : undefined);
+    var bt = forslag ? 'Anbefalt for denne stillingen er ' + kr(forslag.anbefalt) + '.' : 'Velg stilling og sted, så viser vi anbefalt budsjett.';
+    $('budsjett-tips').dataset.tooltip = bt;
+    $('budsjett-tips').setAttribute('aria-label', 'Mer info: ' + bt);
+
+    ['visninger', 'klikk', 'besok'].forEach(function (k) { $('a-' + k).textContent = r && b ? R.spenn(r[k]) : '—'; });
+    $('anslag-dybde').textContent = r && b ? 'Når ' + Math.max(1, Math.round(r.dybde * 10)) + ' av 10 i målgruppen' : '—';
+    var advarsel = '';
+    if (b && b < 8000) advarsel = 'Under kr 8 000 gir lite for de fleste stillinger.';
+    else if (r && b && b < forslag.anbefalt * 0.6) advarsel = 'Budsjettet er lavt for denne stillingen. Anbefalt er ' + kr(forslag.anbefalt) + '.';
+    $('advarsel').hidden = !advarsel;
+    $('advarsel').textContent = advarsel;
+
+    $('frist').classList.toggle('tom', !$('frist').value);
+    // Summary
+    var tittel = $('stilling').value.trim();
+    $('sum-stilling').textContent = tittel || '—';
+    $('sum-sted').textContent = stederListe.length ? navnListe(stederListe) : '—';
+    $('sum-kanaler').textContent = tilstand.kanalmodus === 'frantz' ? 'Frantz anbefaler' : (tilstand.kanaler.join(', ') || '—');
+    $('sum-sok').textContent = r && b ? R.spenn(r.sok) : '—';
+    var valgt = Array.prototype.filter.call(document.querySelectorAll('[data-tillegg]'), function (x) { return x.checked; });
+    var tilleggSum = valgt.reduce(function (sum, x) { return sum + Number(x.dataset.pris); }, 0);
+    $('sum-tillegg-rad').hidden = !valgt.length;
+    $('sum-tillegg').textContent = valgt.map(function (x) { return x.dataset.tillegg; }).join(', ');
+    $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
+    $('sum-tittel-topp').textContent = tittel ? [tittel, stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' · ') : 'Ny kampanje';
+  }
+
+  function tegnKanaler() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-kanalmodus]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.kanalmodus === tilstand.kanalmodus));
+    });
+    $('kanal-valg').hidden = tilstand.kanalmodus !== 'selv';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-kanal]'), function (b) {
+      b.setAttribute('aria-pressed', String(tilstand.kanaler.indexOf(b.dataset.kanal) !== -1));
+    });
+  }
+  function tegnFiler() {
+    $('opplastet-tittel').textContent = 'Opplastede filer (' + tilstand.filer.length + ')';
+    $('filliste').innerHTML = tilstand.filer.map(function (f, i) {
+      return '<span class="picker-chip">' + f.replace(/[<>&]/g, '') + '<button type="button" data-fjern-fil="' + i + '" aria-label="Fjern ' + f.replace(/"/g, '') + '"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></span>';
+    }).join('');
+  }
+
+  /* ---------- Save by itself ---------- */
+  var lagreTimer = null;
+  function lagre() {
+    if (lasterInn) return;
+    clearTimeout(lagreTimer);
+    lagreTimer = setTimeout(function () {
+      var data = {
+        lenke: $('lenke').value, stilling: $('stilling').value, steder: steder.verdi(), frist: $('frist').value, ref: $('ref').value,
+        beskrivelse: $('beskrivelse').value, kanalmodus: tilstand.kanalmodus, kanaler: tilstand.kanaler, filer: tilstand.filer,
+        avsender: $('avsender').value, materiell: tilstand.materiell, meldInteresse: $('meld-interesse').checked, tillegg: Array.prototype.filter.call(document.querySelectorAll('[data-tillegg]'), function (x) { return x.checked; }).map(function (x) { return x.dataset.tillegg; }), budsjett: $('budsjett').value, start: $('start').value, slutt: $('slutt').value
+      };
+      try { localStorage.setItem(LAGER, JSON.stringify(data)); } catch (e) {}
+      var d = new Date();
+      $('lagret').lastChild.textContent = 'Lagret kl. ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }, 500);
+  }
+  var lasterInn = true;
+  function lastInn() {
+    var p = new URLSearchParams(location.search);
+    if (p.get('connect') && CONNECT[p.get('connect')]) { setTimeout(function () { fraConnect(p.get('connect')); }, 0); return; }
+    if (p.get('kladd') === '129070') { setTimeout(fraKladd, 0); return; }
+    if (p.get('tittel') || p.get('steder') || p.get('sted')) {
+      // Started from the calculator or from Connect
+      if (p.get('tittel')) stilling.set(p.get('tittel'));
+      var liste = (p.get('steder') || '').split('|').filter(Boolean);
+      if (!liste.length && p.get('sted')) { var f = FrantzPicker.finnSted(p.get('sted')); if (f) liste = [f]; }
+      steder.set(liste);
+      if (p.get('budsjett')) budsjettKontroll.set(Number(p.get('budsjett')));
+      return;
+    }
+    // The demo always starts with an empty form, so it looks like a new order.
+    // Set ?utkast=1 in the address to bring back the saved draft.
+    if (!p.get('utkast')) return;
+    var data = null;
+    try { data = JSON.parse(localStorage.getItem(LAGER) || 'null'); } catch (e) {}
+    if (!data) return;
+    $('lenke').value = data.lenke || '';
+    stilling.set(data.stilling || '');
+    steder.set(data.steder || []);
+    $('frist').value = data.frist || '';
+    $('ref').value = data.ref || '';
+    $('beskrivelse').value = data.beskrivelse || '';
+    tilstand.kanalmodus = data.kanalmodus || 'frantz';
+    tilstand.kanaler = data.kanaler || ['Meta'];
+    tilstand.filer = data.filer || [];
+    $('avsender').value = data.avsender || '';
+    tilstand.materiell = data.materiell || 'ferdig';
+    $('meld-interesse').checked = !!data.meldInteresse;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tillegg]'), function (x) { x.checked = (data.tillegg || []).indexOf(x.dataset.tillegg) !== -1; });
+    budsjettKontroll.set(Number(String(data.budsjett || '').replace(/\D/g, '')) || null);
+    $('start').value = data.start || '';
+    $('slutt').value = data.slutt || '';
+    $('lagret').lastChild.textContent = 'Utkastet ditt er hentet fram';
+  }
+
+  /* ---------- Fetch from the job link (demo) ----------
+     A real version reads the ad on the server. In the demo we know a few ads,
+     and for other links we read the title and place from the address. */
+  var ANNONSER = {
+    'sykepleier-akutt-kristiansand': {
+      tittel: 'Sykepleier', sted: 'kristiansand', frist: 21, ref: 'SSHF-2291',
+      avsender: 'Sørlandet sykehus'
+    }
+  };
+  var EKSEMPEL = 'https://www.finn.no/job/ad/sykepleier-akutt-kristiansand';
+  function dato(dager) {
+    var d = new Date(); d.setDate(d.getDate() + dager);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function marker(id) {
+    var el = $(id); if (!el) return;
+    el.classList.remove('auto-fylt'); void el.offsetWidth; el.classList.add('auto-fylt');
+  }
+  function lesAnnonse(url) {
+    var slug = (url.split(/[?#]/)[0].replace(/\/$/, '').split('/').pop() || '').toLowerCase();
+    if (ANNONSER[slug]) return ANNONSER[slug];
+    var ord = slug.split(/[-_]/).filter(function (o) { return o && !/^\d+$/.test(o); });
+    var sted = null;
+    for (var i = ord.length - 1; i > 0 && !sted; i--) if (FrantzPicker.finnSted(ord[i])) { sted = ord[i]; ord = ord.slice(0, i); }
+    var tittel = ord.join(' ');
+    return tittel ? { tittel: tittel.charAt(0).toUpperCase() + tittel.slice(1), sted: sted, frist: 28 } : null;
+  }
+  // Empty field: the button uses an example link, so the demo always works.
+  function hentTekst() { $('hent').textContent = 'Hent fra lenken'; }
+  $('lenke').addEventListener('input', hentTekst);
+  $('hent').addEventListener('click', function () {
+    if (!$('lenke').value.trim()) $('lenke').value = EKSEMPEL;
+    var url = $('lenke').value.trim();
+    var knapp = $('hent');
+    knapp.disabled = true;
+    knapp.textContent = 'Leser annonsen …';
+    $('hentet').hidden = false;
+    $('hentet').classList.remove('hentet--ok');
+    $('hentet').textContent = 'Frantz leser stillingsannonsen …';
+    setTimeout(function () {
+      knapp.disabled = false;
+      hentTekst();
+      var a = lesAnnonse(url);
+      if (!a) { hentTekst(); $('hentet').textContent = 'Vi fant ikke en stilling i lenken. Fyll inn feltene under.'; return; }
+      var fylt = [];
+      stilling.set(a.tittel); fylt.push('stillingstittel');
+      var sted = a.sted && FrantzPicker.finnSted(a.sted);
+      if (sted) { steder.leggTil(sted); fylt.push('arbeidssted'); }
+      if (a.frist) { $('frist').value = dato(a.frist); $('frist').classList.remove('tom'); fylt.push('søknadsfrist'); }
+      oppdater();
+      marker('stilling'); marker('sted'); marker('frist');
+      $('hentet').classList.add('hentet--ok');
+      $('hentet').textContent = 'Fylt ut ' + fylt.length + ' felt: ' + fylt.join(', ') + '. Sjekk at det stemmer.';
+      lagre();
+    }, 1400);
+  });
+
+  /* ---------- Started from Connect (demo) ----------
+     Connect already has the job ad, so we fill in what we know and say where it came from. */
+  var CONNECT = {
+    '777845': { id: '777845', arbeidsgiver: 'Sørlandet Helse', tittel: 'Helsesykepleier', sted: 'Kristiansand', frist: 24, ref: 'SH-2026-114',
+      lenke: 'https://jobb.sorlandethelse.no/stilling/777845-helsesykepleier-kristiansand', avsender: 'Sørlandet Helse',
+      beskrivelse: 'Helsesykepleier til skolehelsetjenesten i Kristiansand. 100 % fast stilling, dagtid. Krav: autorisasjon som sykepleier og videreutdanning i helsesykepleie.' },
+    '777851': { id: '777851', arbeidsgiver: 'Vestlandet Helse', tittel: 'Spesialsykepleier', sted: 'Bergen', frist: 30, ref: 'Nyåpnet post 4',
+      lenke: 'https://jobb.vestlandethelse.no/stilling/777851-spesialsykepleier-bergen', avsender: 'Vestlandet Helse',
+      beskrivelse: 'Spesialsykepleier til nyåpnet post 4, medisinsk avdeling. Flere faste stillinger, turnus. Intensiv- eller anestesierfaring er en fordel.' },
+    '777848': { id: '777848', arbeidsgiver: 'Nord-Norge Helse', tittel: 'Jordmor', sted: 'Tromsø', frist: 21, ref: 'NNH-J-0917',
+      lenke: 'https://jobb.nordnorgehelse.no/stilling/777848-jordmor-tromso', avsender: 'Nord-Norge Helse',
+      beskrivelse: 'Jordmor til fødeavdelingen i Tromsø. 80–100 % fast stilling i turnus. Vi tilbyr flytteordning og god opplæring.' }
+  };
+  function fraConnect(id) {
+    var a = CONNECT[id], boks = $('connect-kilde');
+    boks.hidden = false;
+    setTimeout(function () {
+      var fylt = [];
+      $('lenke').value = a.lenke; marker('lenke'); fylt.push('lenke');
+      stilling.set(a.tittel); marker('stilling'); fylt.push('stilling');
+      var sted = FrantzPicker.finnSted(a.sted);
+      if (sted) { steder.set([sted]); marker('sted'); fylt.push('arbeidssted'); }
+      $('frist').value = dato(a.frist); $('frist').classList.remove('tom'); marker('frist'); fylt.push('søknadsfrist');
+      $('ref').value = a.ref; marker('ref'); fylt.push('referanse');
+      $('beskrivelse').value = a.beskrivelse; marker('beskrivelse'); fylt.push('beskrivelse');
+      $('avsender').value = a.avsender; marker('avsender'); fylt.push('avsender');
+      $('start').value = dato(0); $('slutt').value = dato(a.frist); sjekkPeriode(); marker('periode-knapp'); fylt.push('periode');
+      oppdater();
+      if (sted && !budsjett()) {
+        var forslag = R.beregn({ rolle: tilstand.rolle || a.tittel, steder: steder.verdi() });
+        if (forslag && forslag.anbefalt) { budsjettKontroll.set(forslag.anbefalt); marker('budsjett'); fylt.push('anbefalt budsjett'); oppdater(); }
+      }
+      boks.classList.remove('alert--info'); boks.classList.add('alert--success');
+      $('connect-tittel').textContent = 'Hentet fra Connect: ' + a.tittel + ' ' + a.sted + ' · ConnectID ' + a.id;
+      $('connect-tekst').textContent = 'Vi fylte ut ' + fylt.length + ' felt fra annonsen til ' + a.arbeidsgiver + '. Sjekk at det stemmer, og velg kanaler og materiell.';
+      lagre();
+    }, 900);
+  }
+
+  /* ---------- Continue a draft (demo) ---------- */
+  function fraKladd() {
+    var boks = $('connect-kilde');
+    stilling.set('Sykepleier');
+    var sted = FrantzPicker.finnSted('Kristiansand'); if (sted) steder.set([sted]);
+    $('ref').value = 'Oppdrag 22 52';
+    $('frist').value = dato(30); $('frist').classList.remove('tom');
+    $('lenke').value = 'https://www.finn.no/job/ad/sykepleier-akutt-kristiansand';
+    $('beskrivelse').value = 'Sykepleier til akuttmottaket. To faste stillinger i turnus.';
+    oppdater();
+    boks.hidden = false;
+    boks.classList.remove('alert--info'); boks.classList.add('alert--warning');
+    boks.querySelector('.alert__icon').className = 'icon-lucide icon-lucide--pencil alert__icon';
+    $('connect-tittel').textContent = 'Du fortsetter kladden «Sykepleier Kristiansand»';
+    $('connect-tekst').textContent = 'Sist lagret i går kl. 14:12. Stillingen er fylt ut. Det som mangler: budsjett og periode, kanaler og avsender, og materiell.';
+  }
+
+  function kortDato(x) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(x || ''); return m ? m[3] + '.' + m[2] + '.' + m[1] : ''; }
+
+  /* ---------- Material ---------- */
+  function tegnMateriell() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-materiell]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.materiell === tilstand.materiell));
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-materiell]'), function (b) {
+    b.addEventListener('click', function () { tilstand.materiell = b.dataset.materiell; tegnMateriell(); lagre(); });
+  });
+
+  /* ---------- Sections close when you move on ----------
+     «Neste» shrinks a section to one line with a summary. Click it to open it again.
+     Sections do not close on their own: that moved the page while people clicked. */
+  function delSammendrag(n) {
+    var liste = steder.verdi();
+    var b = budsjett();
+    var deler = {
+      stilling: [$('ref').value.trim(), $('stilling').value.trim(), liste.length ? navnListe(liste) : '', kortDato($('frist').value) && 'frist ' + kortDato($('frist').value)],
+      materiell: [tilstand.materiell === 'hjelp' ? 'Frantz hjelper med materiellet' : (document.getElementById('studio-del').open ? 'Ferdig materiell, annonse laget her' : 'Ferdig materiell'), tilstand.filer.length ? tilstand.filer.length + ' filer' : ''],
+      kanaler: [tilstand.kanalmodus === 'frantz' ? 'Frantz anbefaler kanaler' : tilstand.kanaler.join(', '), $('avsender').value.trim() && 'avsender ' + $('avsender').value.trim()],
+      budsjett: [b ? kr(b) : '', $('start').value && $('slutt').value > $('start').value ? $('periode-tekst').textContent : ''],
+      tillegg: Array.prototype.filter.call(document.querySelectorAll('[data-tillegg]'), function (x) { return x.checked; }).map(function (x) { return x.dataset.tillegg; })
+        .concat($('meld-interesse').checked ? ['Meld interesse'] : [])
+    }[DELER[n - 1].dataset.key];
+    return deler.filter(Boolean).join(' · ') || (DELER[n - 1].dataset.key === 'tillegg' ? 'Ingen tillegg' : '');
+  }
+  var DELER = Array.prototype.slice.call(document.querySelectorAll('.del[data-del]'));
+  function lukk(del) {
+    var n = Number(del.dataset.del);
+    $('sammendrag' + n).textContent = delSammendrag(n) || 'Ikke fylt ut';
+    del.classList.add('del--lukket');
+  }
+  function apne(del) { del.classList.remove('del--lukket'); }
+  DELER.forEach(function (del) {
+    del.addEventListener('click', function (e) {
+      if (!del.classList.contains('del--lukket')) return;
+      e.preventDefault();
+      apne(del);
+      var forste = del.querySelector('input:not([type=hidden]), textarea, button.choice-card');
+      if (forste) forste.focus({ preventScroll: true });
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-neste]'), function (b) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation(); // the section's own click would open it again
+      var n = Number(b.dataset.neste);
+      lukk(DELER[n - 1]);
+      apne(DELER[n]);
+      DELER[n].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var forste = DELER[n].querySelector('input:not([type=hidden]), textarea, button.choice-card');
+      if (forste) setTimeout(function () { forste.focus({ preventScroll: true }); }, 350);
+    });
+  });
+
+  /* ---------- Events ---------- */
+  $('meld-interesse').addEventListener('change', lagre);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tillegg]'), function (x) { x.addEventListener('change', function () { oppdater(); lagre(); }); });
+  ['lenke', 'stilling'].forEach(function (id) { $(id).addEventListener('input', function () { if (this.value.trim()) $('feil-lenke').hidden = true; }); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-kanalmodus]'), function (b) {
+    b.addEventListener('click', function () { tilstand.kanalmodus = b.dataset.kanalmodus; tegnKanaler(); oppdater(); lagre(); });
+  });
+  $('kanal-valg').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-kanal]');
+    if (!b) return;
+    var i = tilstand.kanaler.indexOf(b.dataset.kanal);
+    if (i === -1) tilstand.kanaler.push(b.dataset.kanal); else tilstand.kanaler.splice(i, 1);
+    tegnKanaler(); oppdater(); lagre();
+  });
+  $('velg-filer').addEventListener('click', function () { $('filer').click(); });
+  $('filer').addEventListener('change', function () {
+    Array.prototype.forEach.call(this.files, function (f) { tilstand.filer.push(f.name); });
+    this.value = '';
+    tegnFiler(); lagre();
+  });
+  $('vedlegg').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('dra-over'); });
+  $('vedlegg').addEventListener('dragleave', function () { this.classList.remove('dra-over'); });
+  $('vedlegg').addEventListener('drop', function (e) {
+    e.preventDefault();
+    this.classList.remove('dra-over');
+    Array.prototype.forEach.call(e.dataTransfer.files, function (f) { tilstand.filer.push(f.name); });
+    tegnFiler(); lagre();
+  });
+  $('filliste').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-fjern-fil]');
+    if (!b) return;
+    tilstand.filer.splice(Number(b.dataset.fjernFil), 1);
+    tegnFiler(); lagre();
+  });
+  $('skjema').addEventListener('input', lagre);
+  $('skjema').addEventListener('change', lagre);
+
+  $('bestill').addEventListener('click', function () {
+    // A link or a job title is enough. Frantz finds the rest.
+    var manglerLenke = !$('lenke').value.trim() && !$('stilling').value.trim();
+    $('feil-lenke').hidden = !manglerLenke;
+    if (manglerLenke) { $('lenke').focus(); return; }
+    if (!sjekkPeriode()) { $('slutt').focus(); return; }
+    var ref = $('ref').value.trim();
+    var sted = steder.verdi()[0];
+    var tittel = [$('stilling').value.trim(), sted && FrantzPicker.delSted(sted).navn].filter(Boolean).join(' ') || 'Ny kampanje';
+    $('emne').textContent = '[#129078' + (ref ? ' · ' + ref : '') + '] ' + tittel;
+    $('sammendrag').hidden = true;
+    $('kvittering').hidden = false;
+    try { localStorage.removeItem(LAGER); } catch (e) {}
+    $('lagret').lastChild.textContent = 'Bestilt';
+    $('kvittering').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  $('ny-igjen').addEventListener('click', function () {
+    try { localStorage.removeItem(LAGER); } catch (e) {}
+    location.href = 'ny-kampanje.html';
+  });
+
+  // The assistant can fill the form too
+  document.addEventListener('assistant:fill', function (e) {
+    var d = e.detail || {};
+    if (d.title) stilling.set(d.title);
+    if (d.place) { var f = FrantzPicker.finnSted(d.place); if (f) steder.leggTil(f); }
+    if (d.deadline) { var m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(d.deadline); if (m) $('frist').value = m[3] + '-' + m[2] + '-' + m[1]; }
+    if (d.budget) { var n = Number(String(d.budget).replace(/\D/g, '')); if (n) budsjettKontroll.set(n); }
+    oppdater(); lagre();
+  });
+
+  var I_DAG = '2026-09-25';
+  function iso(d) { return d.toISOString().slice(0, 10); }
+  function dager(a, b) { return Math.round((new Date(b) - new Date(a)) / 86400000); }
+  function sjekkPeriode() {
+    var a = $('start').value, b = $('slutt').value;
+    visPeriode();
+    var feil = a && b && b <= a;
+    $('feil-periode').hidden = !feil;
+    if (a && b && !feil) {
+      var d = dager(a, b);
+      // Only show a note when the period is short. The length is already in the button.
+      $('periode-hint').hidden = d >= 21;
+      $('periode-hint').textContent = 'Kort periode. Vi anbefaler minst 3 uker for et godt resultat.';
+    } else {
+      $('periode-hint').hidden = true;
+    }
+    return !feil;
+  }
+  /* ---------- One period picker: pick start, then end, or one click on a length ---------- */
+  var MND = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'];
+  var kal = { mnd: null, venter: false };
+  function fraIso(x) { var m = x.split('-'); return new Date(+m[0], m[1] - 1, +m[2]); }
+  function tilIso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function kort(x) { var d = fraIso(x); return String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + d.getFullYear(); }
+  function visPeriode() {
+    var a = $('start').value, b = $('slutt').value;
+    $('periode-knapp').classList.toggle('periode__knapp--tom', !a);
+    if (!a) { $('periode-tekst').textContent = 'Velg periode'; return; }
+    if (!b || b <= a) { $('periode-tekst').textContent = kort(a) + ' – velg sluttdato'; return; }
+    var d = dager(a, b), u = d % 7 === 0 ? d / 7 + ' uker' : d + ' dager';
+    $('periode-tekst').textContent = kort(a) + ' – ' + kort(b) + ' · ' + u;
+  }
+  function settPeriode(a, b) {
+    $('start').value = a; $('slutt').value = b || '';
+    if (b) $('slutt').dataset.valgt = '1';
+    sjekkPeriode(); tegnKal(); lagre();
+  }
+  function tegnKal() {
+    var el = $('periode-kalender');
+    if (el.hidden) return;
+    var m = kal.mnd, forste = new Date(m.getFullYear(), m.getMonth(), 1);
+    var tomme = (forste.getDay() + 6) % 7, antall = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+    var a = $('start').value, b = $('slutt').value, f = $('frist').value;
+    var html = '<div class="kal__topp"><button type="button" data-kal="-1" aria-label="Forrige måned"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>' +
+      '<span>' + MND[m.getMonth()].charAt(0).toUpperCase() + MND[m.getMonth()].slice(1) + ' ' + m.getFullYear() + '</span>' +
+      '<button type="button" data-kal="1" aria-label="Neste måned"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button></div>' +
+      '<div class="kal__rutenett">' + ['ma', 'ti', 'on', 'to', 'fr', 'lø', 'sø'].map(function (d) { return '<span class="kal__ukedag">' + d + '</span>'; }).join('') +
+      new Array(tomme + 1).join('<span></span>');
+    for (var i = 1; i <= antall; i++) {
+      var x = tilIso(new Date(m.getFullYear(), m.getMonth(), i));
+      var k = 'kal__dag' + (x === a ? ' kal__dag--start' : '') + (x === b && !kal.venter ? ' kal__dag--slutt' : '') + (a && b && !kal.venter && x > a && x < b ? ' kal__dag--i' : '') + (x === f ? ' kal__dag--frist' : '');
+      html += '<button type="button" class="' + k + '" data-dag="' + x + '"' + (x < I_DAG || (kal.venter && x <= a) ? ' disabled' : '') + ' aria-label="' + i + '. ' + MND[m.getMonth()] + '">' + i + '</button>';
+    }
+    el.innerHTML = html + '</div><p class="kal__hjelp">' + (kal.venter ? 'Velg sluttdato.' : 'Trykk på startdato, så sluttdato.') + (f ? ' Søknadsfristen er markert med gult.' : '') + '</p>';
+  }
+  function apneKal(apne) {
+    $('periode-kalender').hidden = !apne;
+    $('periode-knapp').setAttribute('aria-expanded', String(apne));
+    if (apne) { kal.mnd = fraIso($('start').value || I_DAG); kal.mnd.setDate(1); kal.venter = false; tegnKal(); }
+  }
+  $('periode-knapp').addEventListener('click', function () { apneKal($('periode-kalender').hidden); });
+  $('periode-kalender').addEventListener('click', function (e) {
+    // The calendar redraws itself on each click. Stop here, so the «click outside» check
+    // does not see a removed day button and close the calendar.
+    e.stopPropagation();
+    var nav = e.target.closest('[data-kal]');
+    if (nav) { kal.mnd.setMonth(kal.mnd.getMonth() + Number(nav.dataset.kal)); tegnKal(); return; }
+    var dag = e.target.closest('[data-dag]');
+    if (!dag) return;
+    if (!kal.venter) { kal.venter = true; settPeriode(dag.dataset.dag, ''); }
+    else { kal.venter = false; settPeriode($('start').value, dag.dataset.dag); apneKal(false); $('periode-knapp').focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (!$('periode-kalender').hidden && e.target.isConnected && !e.target.closest('.periode')) apneKal(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !$('periode-kalender').hidden) { apneKal(false); $('periode-knapp').focus(); }
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-uker]'), function (b) {
+    b.addEventListener('click', function () {
+      var a = $('start').value || I_DAG;
+      if (b.dataset.uker === 'frist') {
+        if (!$('frist').value) { $('frist').focus(); return; }
+        settPeriode(a, $('frist').value);
+      } else {
+        var d = fraIso(a); d.setDate(d.getDate() + 7 * Number(b.dataset.uker));
+        settPeriode(a, tilIso(d));
+      }
+    });
+  });
+
+  $('start').min = I_DAG;
+  $('start').addEventListener('change', function () { $('slutt').min = this.value; sjekkPeriode(); });
+  $('slutt').addEventListener('change', sjekkPeriode);
+  // End date follows the application deadline until the user picks one
+  $('frist').addEventListener('change', function () {
+    this.classList.toggle('tom', !this.value);
+    if (!$('slutt').dataset.valgt && this.value) { $('slutt').value = this.value; sjekkPeriode(); }
+  });
+  $('slutt').addEventListener('input', function () { this.dataset.valgt = '1'; });
+
+  lastInn();
+  lasterInn = false;
+  sjekkPeriode();
+  tegnKanaler();
+  tegnMateriell();
+  hentTekst();
+  tegnFiler();
+  oppdater();
+})();
+</script>
+
+<script src="../components/js/annonse-studio.js"></script>
+<script src="../components/js/interactions.js"></script>
+<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=4"></script>
+</body>
+</html>

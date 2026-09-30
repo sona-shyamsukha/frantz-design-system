@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
 <style>
   body { margin: 0; }
 
@@ -37,7 +37,12 @@
   }
   .search-wrap .form-input { padding-left: 40px; border-radius: var(--radius-full); }
 
-  .filtre { margin-bottom: var(--space-24); }
+  .verktoy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
+  .verktoy .search-wrap { flex: 1 1 280px; width: auto; min-width: 0; }
+  .verktoy .form-select-wrap { flex: 0 1 220px; }
+  .verktoy .form-select { padding-top: 10px; padding-bottom: 10px; border-radius: var(--radius-full); font-size: var(--text-base); }
+  .table tr[hidden], .table__empty[hidden] { display: none; }
+  @media (max-width: 640px) { .verktoy .form-select-wrap { flex: 1 1 100%; } }
 
   .table-card { padding: 0; overflow: hidden; }
 
@@ -45,6 +50,7 @@
 </style>
 </head>
 <body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
 
 <header class="mobiltopp">
   <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
@@ -61,22 +67,24 @@
       <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
     </div>
     <nav class="nav" aria-label="Hovedmeny">
-      <button type="button" class="nav__item" onclick="location.href='dashboard.html'"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
-      <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
-      <button type="button" class="nav__item" onclick="location.href='ny-kampanje-1.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
-      <button type="button" class="nav__item" onclick="location.href='rapporter.html'"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</button>
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
-      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
-      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
       <b>Vokser AS</b><small>ss@vokser.no</small>
-      <button class="kontoknapp" type="button" onclick="location.href='login.html'">Logg ut</button>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
-  <div class="main">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div><button class="btn btn--ghost" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span>Logg ut</button></header>
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
 
     <div class="wrap">
       <div class="liste__topp">
@@ -85,45 +93,83 @@
           <p class="lede">Alle kampanjer på Vokser AS. Aktive kampanjer viser hvor langt de er mot forventet antall søknadsklikk.</p>
         </div>
         <div class="liste__verktoy">
-          <div class="search-wrap">
-            <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
-            <input class="form-input" type="search" placeholder="Søk på stillingstittel">
-          </div>
-          <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje-1.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+          <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
         </div>
       </div>
 
-      <div class="filtre">
-        <button class="filter" type="button" aria-pressed="true">Alle (7)</button>
-        <button class="filter" type="button" aria-pressed="false">Aktive (3)</button>
-        <button class="filter" type="button" aria-pressed="false">Kladd (1)</button>
-        <button class="filter" type="button" aria-pressed="false">Pause (1)</button>
-        <button class="filter" type="button" aria-pressed="false">Avsluttet (2)</button>
+      <div class="verktoy" role="search">
+        <div class="search-wrap">
+          <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
+          <label class="chat__sr" for="sok">Søk</label>
+          <input class="form-input" type="search" id="sok" placeholder="Søk på stilling, sted, referanse, bestiller eller ID" autocomplete="off">
+        </div>
+        <label class="sortering"><span class="chat__sr">Status</span>
+          <span class="form-select-wrap">
+            <select class="form-select" id="f-status">
+              <option value="">Alle statuser (9)</option>
+              <option value="Kladd">Kladd (1)</option>
+              <option value="Bestilt">Bestilt (1)</option>
+              <option value="Under arbeid">Under arbeid (1)</option>
+              <option value="Aktiv">Aktiv (3)</option>
+              <option value="Avsluttet">Avsluttet (3)</option>
+            </select>
+          </span>
+        </label>
+        <label class="sortering"><span class="chat__sr">Sorter etter</span>
+          <span class="form-select-wrap">
+            <select class="form-select" id="sortering">
+              <option value="nyeste">Nyeste først</option>
+              <option value="eldste">Eldste først</option>
+              <option value="tittel">Stilling A–Å</option>
+              <option value="budsjett">Høyest budsjett</option>
+            </select>
+          </span>
+        </label>
       </div>
 
-      <div class="card card--betjen table-card">
+      <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Søknadsklikk</th></tr>
+            <tr><th>Kampanje</th><th>Kampanjenavn / ref.</th><th>Status</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Søknadsklikk</th></tr>
           </thead>
-          <tbody>
-            <tr tabindex="0" onclick="location.href='campaign.html'">
+          <tbody id="rader">
+            <tr tabindex="0" data-status="Under arbeid" data-tittel="Helsefagarbeider Tromsø" data-start="2026-10-05" data-budsjett="28000" onclick="location.href='kampanje-under-arbeid.html'">
+              <td data-label="Kampanje"><span class="table__title">Helsefagarbeider Tromsø</span><span class="table__meta">Tromsø · #129072 · Kari Hansen</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 40</td>
+              <td data-label="Status"><span class="badge badge--setup">Under arbeid</span></td>
+              <td class="table__valgfri" data-label="Kanaler">Meta, Nettsteder</td>
+              <td data-label="Periode">05.10 – 02.11.2026</td>
+              <td data-label="Budsjett">kr 28 000</td>
+              <td data-label="Søknadsklikk">Godkjenn annonsene</td>
+            </tr>
+            <tr tabindex="0" data-status="Bestilt" data-tittel="Barnehagelærer Drammen" data-start="2026-10-07" data-budsjett="32000" onclick="location.href='kampanje-bestilt.html'">
+              <td data-label="Kampanje"><span class="table__title">Barnehagelærer Drammen</span><span class="table__meta">Drammen · #129074 · Kari Hansen</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 41</td>
+              <td data-label="Status"><span class="badge badge--ordered">Bestilt</span></td>
+              <td class="table__valgfri" data-label="Kanaler">Frantz anbefaler</td>
+              <td data-label="Periode">07.10 – 04.11.2026</td>
+              <td data-label="Budsjett">kr 32 000</td>
+              <td data-label="Søknadsklikk">Ikke startet</td>
+            </tr>
+            <tr tabindex="0" data-status="Aktiv" data-tittel="Sykepleier Oslo" data-start="2026-09-03" data-budsjett="48200" onclick="location.href='campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Kari Hansen</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 31</td>
               <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
-              <td data-label="Kanaler">Meta, Nettsteder</td>
+              <td class="table__valgfri" data-label="Kanaler">Meta, Nettsteder</td>
               <td data-label="Periode">03.09 – 03.10.2026</td>
               <td data-label="Budsjett">kr 48 200<span class="table__meta">kr 34 900 brukt</span></td>
               <td data-label="Søknadsklikk">
                 <div class="meter meter--sm" style="max-width:140px">
-                  <div class="meter__track"><div class="meter__bar" style="width:72%"></div></div>
-                  <span class="meter__value">72 av 100</span>
+                  <div class="meter__track"><div class="meter__bar" style="width:82%"></div></div>
+                  <span class="meter__value">312 av 380</span>
                 </div>
               </td>
             </tr>
-            <tr tabindex="0" onclick="location.href='campaign.html'">
+            <tr tabindex="0" data-status="Avsluttet" data-tittel="Intensivsykepleier Bergen" data-start="2026-08-14" data-budsjett="22000" onclick="location.href='rapport.html'">
               <td data-label="Kampanje"><span class="table__title">Intensivsykepleier Bergen</span><span class="table__meta">Bergen · #129055 · Kari Hansen</span></td>
-              <td data-label="Status"><span class="badge badge--paused">Pause</span></td>
-              <td data-label="Kanaler">Meta</td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 34</td>
+              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
+              <td class="table__valgfri" data-label="Kanaler">Meta</td>
               <td data-label="Periode">14.08 – 04.09.2026</td>
               <td data-label="Budsjett">kr 22 000<span class="table__meta">kr 18 600 brukt</span></td>
               <td data-label="Søknadsklikk">
@@ -133,10 +179,11 @@
                 </div>
               </td>
             </tr>
-            <tr tabindex="0" onclick="location.href='campaign.html'">
+            <tr tabindex="0" data-status="Aktiv" data-tittel="Sykepleier Trondheim" data-start="2026-08-28" data-budsjett="41500" onclick="location.href='campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Trondheim</span><span class="table__meta">Trondheim · #129062 · Petter Aas</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Høstrekruttering</td>
               <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
-              <td data-label="Kanaler">Meta, Nettsteder, Remarketing</td>
+              <td class="table__valgfri" data-label="Kanaler">Meta, Nettsteder, Gjenmarkedsføring</td>
               <td data-label="Periode">28.08 – 22.09.2026</td>
               <td data-label="Budsjett">kr 41 500<span class="table__meta">kr 37 100 brukt</span></td>
               <td data-label="Søknadsklikk">
@@ -146,10 +193,11 @@
                 </div>
               </td>
             </tr>
-            <tr tabindex="0" onclick="location.href='campaign.html'">
+            <tr tabindex="0" data-status="Aktiv" data-tittel="Anestesisykepleier Stavanger" data-start="2026-09-10" data-budsjett="29400" onclick="location.href='campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Anestesisykepleier Stavanger</span><span class="table__meta">Stavanger · #129068 · Petter Aas</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 38</td>
               <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
-              <td data-label="Kanaler">Meta, Nettsteder</td>
+              <td class="table__valgfri" data-label="Kanaler">Meta, Nettsteder</td>
               <td data-label="Periode">10.09 – 30.09.2026</td>
               <td data-label="Budsjett">kr 29 400<span class="table__meta">kr 9 200 brukt</span></td>
               <td data-label="Søknadsklikk">
@@ -159,18 +207,20 @@
                 </div>
               </td>
             </tr>
-            <tr tabindex="0" onclick="location.href='ny-kampanje-1.html'">
+            <tr tabindex="0" data-status="Kladd" data-tittel="Sykepleier Kristiansand" data-start="2027-01-01" data-budsjett="36500" onclick="location.href='kampanje-kladd.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Kristiansand</span><span class="table__meta">Kristiansand · #129070 · Kari Hansen</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref."><span class="table__meta">—</span></td>
               <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
-              <td data-label="Kanaler">—</td>
+              <td class="table__valgfri" data-label="Kanaler">—</td>
               <td data-label="Periode">Frist 01.01.2027</td>
               <td data-label="Budsjett">kr 36 500</td>
               <td data-label="Søknadsklikk">Ikke startet</td>
             </tr>
-            <tr tabindex="0" onclick="location.href='rapport.html'">
+            <tr tabindex="0" data-status="Avsluttet" data-tittel="Sykepleier Bodø" data-start="2026-07-02" data-budsjett="31200" onclick="location.href='rapport.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">Bodø · #128984 · Kari Hansen</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Sommervikar 2026</td>
               <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
-              <td data-label="Kanaler">Meta, Nettsteder</td>
+              <td class="table__valgfri" data-label="Kanaler">Meta, Nettsteder</td>
               <td data-label="Periode">02.07 – 30.07.2026</td>
               <td data-label="Budsjett">kr 31 200<span class="table__meta">kr 31 200 brukt</span></td>
               <td data-label="Søknadsklikk">
@@ -180,10 +230,11 @@
                 </div>
               </td>
             </tr>
-            <tr tabindex="0" onclick="location.href='rapport.html'">
+            <tr tabindex="0" data-status="Avsluttet" data-tittel="Jordmor Ålesund" data-start="2026-06-08" data-budsjett="16800" onclick="location.href='rapport.html'">
               <td data-label="Kampanje"><span class="table__title">Jordmor Ålesund</span><span class="table__meta">Ålesund · #128951 · Petter Aas</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 12</td>
               <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
-              <td data-label="Kanaler">Meta</td>
+              <td class="table__valgfri" data-label="Kanaler">Meta</td>
               <td data-label="Periode">08.06 – 22.06.2026</td>
               <td data-label="Budsjett">kr 16 800<span class="table__meta">kr 16 800 brukt</span></td>
               <td data-label="Søknadsklikk">
@@ -195,11 +246,12 @@
             </tr>
           </tbody>
         </table>
+        <p class="table__empty" id="ingen-treff" hidden>Ingen kampanjer passer. Prøv et annet søk, eller velg «Alle statuser».</p>
       </div>
 
       <div class="pagination-wrap">
         <nav class="pagination" aria-label="Paginering">
-          <span class="pagination__meta">Viser 1–7 av 7 kampanjer</span>
+          <span class="pagination__meta">Viser 1–9 av 9 kampanjer</span>
           <div class="pagination__pages">
             <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
             <button class="pagination__page" type="button" aria-current="page">1</button>
@@ -211,6 +263,45 @@
   </div>
 </div>
 
+<script>
+(function () {
+  var sok = document.getElementById('sok');
+  var sortering = document.getElementById('sortering');
+  var tbody = document.getElementById('rader');
+  var rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  var status = '';
+  function sorter() {
+    var f = {
+      nyeste: function (a, b) { return b.dataset.start.localeCompare(a.dataset.start); },
+      eldste: function (a, b) { return a.dataset.start.localeCompare(b.dataset.start); },
+      tittel: function (a, b) { return a.dataset.tittel.localeCompare(b.dataset.tittel, 'nb'); },
+      budsjett: function (a, b) { return Number(b.dataset.budsjett) - Number(a.dataset.budsjett); }
+    }[sortering.value];
+    rader.slice().sort(f).forEach(function (tr) { tbody.appendChild(tr); });
+  }
+  function filtrer() {
+    // Every word must match somewhere in the row, so «sykepleier oslo» narrows the list
+    var ord = sok.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    var vist = 0;
+    rader.forEach(function (tr) {
+      var tekst = tr.textContent.toLowerCase();
+      var ok = ord.every(function (o) { return tekst.indexOf(o) !== -1; }) && (!status || tr.dataset.status === status);
+      tr.hidden = !ok;
+      if (ok) vist++;
+    });
+    document.getElementById('ingen-treff').hidden = vist > 0;
+  }
+  document.getElementById('f-status').addEventListener('change', function () { status = this.value; filtrer(); });
+  sok.addEventListener('input', filtrer);
+  sok.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
+  sortering.addEventListener('change', sorter);
+  sorter();
+  filtrer();
+})();
+</script>
 <script src="../components/js/interactions.js"></script>
+<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=4"></script>
 </body>
 </html>

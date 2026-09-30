@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Rekkeviddekalkulator — Frantz</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  body { margin: 0; background: var(--surface-default); }
+
+  .kalk-topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-16) var(--space-32); background: var(--surface-rail); }
+  .kalk-topp img { height: 22px; }
+  .kalk-topp a { color: var(--text-on-dark); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); text-decoration: none; }
+
+  .kalk { max-width: 1180px; margin: 0 auto; padding: var(--space-44) var(--space-32) var(--space-64); }
+  .kalk h1 { margin: 0; }
+  .kalk .lede { max-width: 620px; }
+
+  /* Inputs */
+  .inndata {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-24);
+    margin-top: var(--space-32);
+    padding: var(--space-24);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-16);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-subtle);
+  }
+  .inndata .form-label { margin-bottom: var(--space-8); }
+
+  /* Result */
+  .resultat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-24); margin-top: var(--space-24); }
+  .res-kort { padding: var(--space-24); border-radius: var(--radius-16); background: var(--surface-subtle); }
+  .res-overskrift { margin: 0; color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .res-stort { margin: var(--space-4) 0 0; color: var(--text-heading); font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--font-weight-bold); line-height: 1.1; }
+  .res-tekst { margin: var(--space-8) 0 0; color: var(--text-body); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .res-tekst b { color: var(--text-heading); }
+
+  .dybde { margin-top: var(--space-24); }
+  .dybde__topp { display: flex; justify-content: space-between; gap: var(--space-12); color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .dybde__topp b { color: var(--text-heading); }
+  .dybde__spor { position: relative; height: 14px; margin-top: var(--space-8); overflow: hidden; border-radius: var(--radius-full); background: var(--surface-section); }
+  .dybde__fyll { height: 100%; border-radius: var(--radius-full); background: var(--color-navy); transition: width var(--duration-base) var(--ease-out); }
+
+  .tips { display: flex; gap: var(--space-12); margin-top: var(--space-24); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--bg-brand-2-soft); color: var(--text-body); font-size: var(--text-base); }
+  .tips .icon-lucide { flex: none; margin-top: 3px; color: var(--color-amber-ink); }
+  .tips[hidden] { display: none; }
+
+  .res-kort .results__steps { margin-top: var(--space-16); grid-template-columns: 1fr 1fr; }
+  .res-kort .results__step:nth-child(3)::before { display: none; }
+  .res-kort .results__value { font-size: var(--text-xl); }
+
+  .kanaler { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
+  .kanal { display: inline-flex; align-items: center; gap: var(--space-8); padding: 6px 12px; border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .kanal--av { background: none; border: 1px dashed var(--border-default); color: var(--text-faint); font-weight: var(--font-weight-medium); }
+  .kanal--av .kanal-prikk { opacity: 0.35; }
+
+  .kart-kort { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+  .kart-kort__topp { padding: var(--space-24) var(--space-24) var(--space-16); }
+  #kart { flex: 1; min-height: 420px; background: var(--surface-section); }
+  #kart .leaflet-tile-pane { filter: grayscale(1) contrast(0.9) brightness(1.05); }
+  .kart-forklaring { display: flex; flex-wrap: wrap; gap: var(--space-16); padding: var(--space-12) var(--space-24); color: var(--text-muted); font-size: var(--text-xs); }
+  .kart-forklaring i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: var(--radius-full); vertical-align: -2px; }
+
+  .kilde { margin-top: var(--space-16); color: var(--text-faint); font-size: var(--text-xs); }
+  .neste { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-24); }
+
+  @media (max-width: 960px) {
+    .inndata { grid-template-columns: 1fr; }
+    .resultat { grid-template-columns: 1fr; }
+    #kart { min-height: 320px; }
+  }
+  @media (max-width: 640px) {
+    .kalk { padding: var(--space-24) var(--space-16) var(--space-44); }
+    .kalk-topp { padding: var(--space-12) var(--space-16); }
+    .inndata, .res-kort { padding: var(--space-16); }
+    .kart-kort { padding: 0; }
+    .res-kort .results__steps { grid-template-columns: 1fr; }
+    .res-kort .results__step + .results__step::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="kalk-topp">
+  <img src="../assets/logo-frantz.png" alt="Frantz">
+  <a href="login.html">Logg inn</a>
+</header>
+
+<main class="kalk">
+  <h1 class="text-h2">Hva når dere for budsjettet?</h1>
+  <p class="lede">Velg stilling, sted og budsjett. Du ser med en gang hvor mange kampanjen kan nå, og hva dere kan vente dere.</p>
+
+  <section class="inndata" aria-label="Kampanjen">
+    <div>
+      <label class="form-label" for="stilling">Stilling</label>
+      <div class="picker" id="stilling-picker">
+        <div class="picker__felt">
+          <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
+          <input class="picker__input" id="stilling" type="text" placeholder="F.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" value="Sykepleier">
+        </div>
+        <div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div>
+        <p class="picker__valgt" hidden></p>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label" for="sted">Arbeidssted</label>
+      <div class="picker" id="sted-picker">
+        <div class="picker__felt">
+          <span class="picker__chips" style="display:contents"></span>
+          <input class="picker__input" id="sted" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
+        </div>
+        <div class="picker__liste" role="listbox" aria-label="Arbeidssteder" hidden></div>
+      </div>
+    </div>
+
+    <div class="budsjett-kontroll" id="budsjett-kontroll">
+      <div class="budsjett-kontroll__topp">
+        <label class="form-label" for="budsjett">Budsjett</label>
+        <button class="budsjett-kontroll__anbefalt" type="button" hidden>Bruk anbefalt</button>
+      </div>
+      <div class="budsjett-felt"><span>kr</span><input class="form-input" type="text" inputmode="numeric" id="budsjett" placeholder="Skriv beløpet"></div>
+      <div class="slider-wrap">
+        <span class="slider-wrap__mark" hidden>Anbefalt</span>
+        <input class="budsjett-slider" type="range" min="8000" max="120000" step="500" aria-label="Budsjett">
+      </div>
+      <div class="slider-ends"><span>kr 8 000</span><span>kr 120 000</span></div>
+    </div>
+  </section>
+
+  <section class="resultat" aria-live="polite" aria-label="Resultat">
+    <div class="res-kort">
+      <p class="res-overskrift">Målgruppen</p>
+      <p class="res-stort" id="ut-malgruppe">27 041</p>
+      <p class="res-tekst" id="ut-malgruppe-tekst">personer har vist interesse for lignende stillinger de siste 90 dagene.</p>
+
+      <div class="dybde">
+        <div class="dybde__topp"><span>Budsjettet når</span><b id="ut-dybde">6 av 10 i målgruppen</b></div>
+        <div class="dybde__spor"><div class="dybde__fyll" id="dybde-fyll" style="width:60%"></div></div>
+      </div>
+
+      <p class="tips" id="tips" hidden><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span><span id="tips-tekst"></span></p>
+
+      <p class="res-overskrift" style="margin-top: var(--space-24)">Forventet resultat</p>
+      <ol class="results__steps">
+        <li class="results__step"><span class="results__label">Visninger</span><span class="results__value" id="ut-visninger">—</span><span class="results__help">Hvor mange ganger annonsen blir vist.</span></li>
+        <li class="results__step"><span class="results__label">Klikk</span><span class="results__value" id="ut-klikk">—</span><span class="results__help">Hvor mange som klikker på annonsen.</span></li>
+        <li class="results__step"><span class="results__label">Besøk på siden</span><span class="results__value" id="ut-besok">—</span><span class="results__help">Hvor mange som leser om stillingen.</span></li>
+        <li class="results__step results__step--goal"><span class="results__label">Trykker «Søk»</span><span class="results__value" id="ut-sok">—</span><span class="results__help">Hvor mange som går videre til søknaden.</span></li>
+      </ol>
+
+      <p class="res-overskrift" style="margin-top: var(--space-24)">Kanaler i kampanjen</p>
+      <div class="kanaler" id="kanaler"></div>
+
+      <p class="kilde">Anslag basert på Frantz-data fra de siste 90 dagene og tidligere kampanjer. Tall fra SSB for arbeidsmarkedet.</p>
+
+      <div class="neste">
+        <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Bestill kampanjen</a>
+        <a class="btn btn--secondary" href="mailto:post@frantz.no?subject=Tilbud%20p%C3%A5%20kampanje" id="tilbud">Få dette som tilbud</a>
+      </div>
+    </div>
+
+    <div class="res-kort kart-kort">
+      <div class="kart-kort__topp">
+        <p class="res-overskrift">Hvor kampanjen vises</p>
+        <p class="res-tekst" id="ut-kart-tekst">Kampanjen når folk som bor eller jobber i og rundt Kristiansand.</p>
+      </div>
+      <div id="kart" role="img" aria-label="Kart over området kampanjen dekker"></div>
+      <div class="kart-forklaring">
+        <span><i style="background: var(--color-navy); opacity: .55"></i>Området kampanjen dekker</span>
+        <span><i style="background: var(--color-amber)"></i>Arbeidssted</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="data/frantz-data.js"></script>
+<script src="../components/js/picker.js"></script>
+<script src="../components/js/reach-model.js"></script>
+<script>
+(function () {
+  var R = window.FrantzRekkevidde;
+  var $ = function (id) { return document.getElementById(id); };
+  var kr = function (n) { return 'kr ' + R.tall(n); };
+
+  // Map positions for the larger places. Smaller places show in the text, not on the map.
+  var KART = {
+    'oslo': [59.913, 10.752, 30], 'bergen': [60.392, 5.324, 35], 'trondheim': [63.430, 10.395, 35], 'stavanger': [58.970, 5.733, 30],
+    'kristiansand': [58.146, 7.996, 30], 'drammen': [59.744, 10.204, 25], 'fredrikstad': [59.218, 10.929, 25], 'tromsø': [69.649, 18.955, 30],
+    'ålesund': [62.472, 6.149, 30], 'bodø': [67.280, 14.405, 30], 'sandnes': [58.852, 5.735, 20], 'sandefjord': [59.131, 10.216, 20],
+    'arendal': [58.461, 8.772, 25], 'tønsberg': [59.267, 10.408, 20], 'hamar': [60.795, 11.068, 25], 'haugesund': [59.413, 5.268, 25],
+    'larvik': [59.053, 10.027, 20], 'moss': [59.434, 10.658, 20], 'gjøvik': [60.795, 10.691, 25], 'lillehammer': [61.115, 10.466, 25],
+    'molde': [62.737, 7.160, 25], 'harstad': [68.798, 16.541, 25], 'alta': [69.968, 23.271, 30], 'narvik': [68.438, 17.427, 25],
+    'mo i rana': [66.313, 14.142, 25], 'kongsberg': [59.668, 9.650, 20], 'halden': [59.122, 11.388, 20], 'grimstad': [58.340, 8.593, 20],
+    'agder (fylke)': [58.6, 7.8, 110], 'akershus (fylke)': [59.9, 11.1, 70], 'buskerud (fylke)': [60.2, 9.3, 100], 'finnmark (fylke)': [70.0, 25.0, 190],
+    'innlandet (fylke)': [61.4, 10.3, 170], 'møre og romsdal (fylke)': [62.6, 7.4, 110], 'nordland (fylke)': [67.0, 14.6, 200], 'oslo (fylke)': [59.913, 10.752, 25],
+    'rogaland (fylke)': [59.0, 6.0, 90], 'telemark (fylke)': [59.4, 8.5, 80], 'troms (fylke)': [69.3, 19.0, 130], 'trøndelag (fylke)': [63.8, 11.0, 170],
+    'vestfold (fylke)': [59.2, 10.2, 40], 'vestland (fylke)': [60.9, 6.3, 150], 'østfold (fylke)': [59.3, 11.2, 45]
+  };
+  function kartPunkt(s) {
+    var d = FrantzPicker.delSted(s);
+    return d.type === 'fylke' ? KART[s.toLowerCase()] : KART[d.navn.toLowerCase()];
+  }
+  function navnListe(liste) {
+    var n = liste.map(function (s) { return FrantzPicker.delSted(s).navn; });
+    return n.length > 1 ? n.slice(0, -1).join(', ') + ' og ' + n[n.length - 1] : n[0] || '';
+  }
+
+  var rolle = 'Sykepleier';
+  var steder = ['Kristiansand (by)'];
+  var sisteAnbefalt = null;
+
+  // Map
+  var kart = L.map('kart', { scrollWheelZoom: false }).setView([64.5, 12], 4);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(kart);
+  var lag = L.layerGroup().addTo(kart);
+  var NAVY = getComputedStyle(document.documentElement).getPropertyValue('--color-navy').trim() || '#0C3F59';
+  var AMBER = getComputedStyle(document.documentElement).getPropertyValue('--color-amber').trim() || '#F7A323';
+
+  function tegnKart(dybde) {
+    lag.clearLayers();
+    var hele = steder.indexOf(FrantzPicker.HELE_NORGE) !== -1 || steder.indexOf(FrantzPicker.HJEMMEKONTOR) !== -1;
+    if (hele) {
+      ['oslo', 'bergen', 'trondheim', 'stavanger', 'kristiansand', 'tromsø', 'bodø', 'ålesund'].forEach(function (n) {
+        L.circle(KART[n].slice(0, 2), { radius: 90000, stroke: false, fillColor: NAVY, fillOpacity: 0.12 + dybde * 0.3 }).addTo(lag);
+      });
+    }
+    var grenser = null;
+    steder.forEach(function (s) {
+      var p = kartPunkt(s);
+      if (!p) return;
+      var c = L.circle(p.slice(0, 2), { radius: p[2] * 1000, color: NAVY, weight: 1.5, fillColor: NAVY, fillOpacity: 0.12 + dybde * 0.35 }).addTo(lag);
+      L.circleMarker(p.slice(0, 2), { radius: 7, color: '#fff', weight: 2, fillColor: AMBER, fillOpacity: 1 }).bindTooltip(FrantzPicker.delSted(s).navn).addTo(lag);
+      grenser = grenser ? grenser.extend(c.getBounds()) : c.getBounds();
+    });
+    if (hele || !grenser) kart.setView([64.5, 13], 4);
+    else kart.fitBounds(grenser, { padding: [48, 48], maxZoom: 8 });
+  }
+
+  function oppdater(nyttAnbefalt) {
+    if (!kontroll) return;
+    var forslag = R.beregn({ rolle: rolle, steder: steder });
+    kontroll.anbefalt(forslag.anbefalt);
+    if (nyttAnbefalt || sisteAnbefalt === null) { stille = true; kontroll.set(forslag.anbefalt); stille = false; }
+    sisteAnbefalt = forslag.anbefalt;
+    var r = R.beregn({ rolle: rolle, steder: steder, budsjett: kontroll.verdi() || 0 });
+
+    $('ut-malgruppe').textContent = R.tall(r.malgruppe);
+    var tiendeler = Math.max(1, Math.round(r.dybde * 10));
+    $('ut-dybde').textContent = r.dybde < 0.1 ? 'under 1 av 10 i målgruppen' : tiendeler + ' av 10 i målgruppen';
+    $('dybde-fyll').style.width = Math.round(r.dybde * 100) + '%';
+
+    $('ut-visninger').textContent = R.spenn(r.visninger);
+    $('ut-klikk').textContent = R.spenn(r.klikk);
+    $('ut-besok').textContent = R.spenn(r.besok);
+    $('ut-sok').textContent = R.spenn(r.sok);
+
+    $('kanaler').innerHTML = r.kanaler.map(function (c) {
+      return '<span class="kanal' + (c.med ? '' : ' kanal--av') + '"><span class="kanal-prikk kanal-prikk--' + c.k + '"></span>' +
+        c.navn + (c.med ? '' : ' · fra ' + kr(c.fra)) + '</span>';
+    }).join('');
+
+    var tips = '';
+    if (r.budsjett < 10000) tips = 'Under kr 10 000 gir lite for de fleste stillinger. Anbefalt for denne er ' + kr(r.anbefalt) + '.';
+    else if (r.dybde > 0.85) tips = 'Budsjettet når nesten hele målgruppen. Mer penger gir lite ekstra her. Legg heller til et sted til.';
+    else if (r.budsjett < r.anbefalt * 0.7) tips = 'Med ' + kr(r.anbefalt) + ' når kampanjen over halvparten av målgruppen.';
+    $('tips').hidden = !tips;
+    $('tips-tekst').textContent = tips;
+
+    var hele = steder.indexOf(FrantzPicker.HELE_NORGE) !== -1;
+    var hvor = !steder.length ? 'i Norge' : hele ? 'i hele Norge' : 'i og rundt ' + navnListe(steder);
+    $('ut-malgruppe-tekst').textContent = 'personer ' + hvor + ' har vist interesse for lignende stillinger de siste 90 dagene.';
+    $('ut-kart-tekst').textContent = !steder.length ? 'Velg et arbeidssted for å se området.'
+      : hele ? 'Kampanjen vises i hele Norge, mest der målgruppen bor.'
+      : 'Kampanjen når folk som bor eller jobber i og rundt ' + navnListe(steder) + '.';
+
+    $('bestill').href = 'ny-kampanje.html?tittel=' + encodeURIComponent($('stilling').value.trim()) +
+      '&steder=' + encodeURIComponent(steder.join('|')) + '&budsjett=' + r.budsjett;
+
+    tegnKart(r.dybde);
+  }
+
+  var stille = false;
+  var kontroll = FrantzPicker.budsjett($('budsjett-kontroll'), { onChange: function () { if (!stille) oppdater(false); } });
+
+  FrantzPicker.stilling($('stilling-picker'), {
+    onChange: function (v) {
+      var ny = v && v.rolle ? v.rolle : (v ? v.tittel : '');
+      if (ny === rolle) return;
+      rolle = ny;
+      oppdater(true);
+    }
+  }).set('Sykepleier');
+  FrantzPicker.steder($('sted-picker'), {
+    start: steder,
+    onChange: function (liste) { steder = liste; if (sisteAnbefalt !== null) oppdater(true); }
+  });
+
+  oppdater(true);
+})();
+</script>
+</body>
+</html>

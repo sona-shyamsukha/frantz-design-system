@@ -1,0 +1,44 @@
+/* Ad studio: build an ad and see a live preview per platform and format. Used in «Ny kampanje» → Materiell. */
+.annonse-studio { margin-top: var(--space-24); }
+.studio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-24); margin-top: var(--space-16); }
+.studio__bilde { display: grid; place-items: center; aspect-ratio: 16 / 9; margin-top: 6px; border-radius: var(--radius-12); background: linear-gradient(135deg, #7ea3ba, #2f5d7c) center / cover; color: rgb(255 255 255 / .8); }
+.studio__bilde.har-bilde .icon-lucide { display: none; }
+.studio__bildeknapper { display: flex; gap: var(--space-8); margin-top: var(--space-8); }
+.studio__felt { display: flex; flex-direction: column; gap: var(--space-12); }
+.studio__farger { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-24); margin-top: var(--space-24); padding-top: var(--space-24); border-top: 1px solid var(--border-subtle); }
+.hexfelt { display: flex; align-items: center; gap: var(--space-8); margin-top: 6px; }
+.hexfelt input[type=color] { flex: none; width: 44px; height: 44px; padding: 0; border: 1px solid var(--border-default); border-radius: var(--radius-8); background: none; cursor: pointer; }
+.hexfelt .form-input { font-family: ui-monospace, Menlo, monospace; text-transform: lowercase; }
+.studio__bryter { margin-top: var(--space-8); }
+.studio__forhand { margin-top: var(--space-24); border: 1px solid var(--border-subtle); border-radius: var(--radius-12); overflow: hidden; }
+.studio__valg { display: flex; align-items: center; gap: var(--space-16); padding: var(--space-12) var(--space-16); border-bottom: 1px solid var(--border-subtle); }
+.studio__valgnavn { width: 72px; font-size: var(--text-sm); color: var(--text-muted); }
+.studio__valg .filter { display: inline-flex; align-items: center; gap: 6px; }
+.studio__valg .filter img { width: 16px; height: 16px; }
+.studio__scene { display: grid; place-items: center; padding: var(--space-32) var(--space-16); background: radial-gradient(circle, var(--border-subtle) 1px, transparent 1px) 0 0 / 16px 16px, var(--surface-subtle); }
+.post { width: min(360px, 100%); border-radius: 12px; background: #fff; color: #1c1e21; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; box-shadow: 0 8px 28px rgb(10 25 40 / .14); overflow: hidden; }
+.post__topp { display: flex; align-items: center; gap: 8px; padding: 10px 12px 4px; }
+.post__topp b { display: block; font-size: 14px; }
+.post__topp small { font-size: 12px; color: #65676b; }
+.post__avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #0c3f59; color: #fff; font-weight: 700; }
+.post__mer { margin-left: auto; color: #65676b; letter-spacing: 1px; }
+.post__tekst { margin: 4px 12px 10px; font-size: 14px; line-height: 1.35; white-space: pre-wrap; }
+.post__kreativ { position: relative; display: flex; flex-direction: column; aspect-ratio: 4 / 5; padding: 18px 18px 0; background: var(--pv-bg, #f0d2d7); overflow: hidden; }
+.post__kreativ.uten-bg { background: #fff; }
+.post__logo { font-weight: 800; font-size: 15px; color: #0c3f59; letter-spacing: -.02em; }
+.post__logo[hidden] { display: none; }
+.post__tittel { margin: 10px 0 14px; font-size: 26px; line-height: 1.1; color: #0c1f2c; font-weight: 700; }
+.post__bilde { flex: 1; min-height: 80px; margin: 0 -18px; background: linear-gradient(135deg, #7ea3ba, #2f5d7c); background-size: cover; background-position: var(--pv-pos, 50% 50%); cursor: grab; touch-action: none; }
+.post__bilde.drar { cursor: grabbing; }
+.post__stilling { position: absolute; left: 18px; right: 18px; bottom: 16px; display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; background: var(--pv-chip, #fff); color: #0c1f2c; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgb(0 0 0 / .12); }
+.post__bunn { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; background: #f0f2f5; }
+.post__bunn small { display: block; font-size: 11px; color: #65676b; }
+.post__bunn b { font-size: 14px; }
+.post__cta { padding: 7px 12px; border-radius: 6px; background: #0B63D6; color: #fff; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.post[data-plattform="instagram"] .post__bunn { background: #fff; border-top: 1px solid #efefef; }
+.post[data-plattform="instagram"] .post__cta { background: #0095f6; }
+.post[data-plattform="instagram"] .post__tekst { order: 5; }
+.post[data-plattform="instagram"] { display: flex; flex-direction: column; }
+.post[data-plattform="linkedin"] .post__cta { background: none; color: #0a66c2; border: 1px solid #0a66c2; border-radius: 999px; }
+.post[data-plattform="linkedin"] .post__avatar { border-radius: 4px; }
+@media (max-width: 900px) { .studio, .studio__farger { grid-template-columns: 1fr; } }

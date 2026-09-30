@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Innstillinger — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; }
+  .sidefaner { display: flex; gap: var(--space-8); margin-top: var(--space-24); }
+  .sidefaner .filter { display: inline-flex; align-items: center; gap: 6px; }
+  .panel[hidden] { display: none; }
+  .panel { margin-top: var(--space-24); }
+  .panelhode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-16); }
+  .panelhode p { margin: 0; color: var(--text-muted); font-size: var(--text-sm); max-width: 60ch; }
+  .rad-hoyre { display: flex; align-items: center; gap: var(--space-16); flex-wrap: wrap; }
+  .table-card { padding: 0; overflow: hidden; }
+  .bruker { display: flex; align-items: center; gap: var(--space-12); }
+  .bruker .avatar { width: 36px; height: 36px; font-size: var(--text-xs); }
+  .bruker small { display: block; margin-top: 2px; color: var(--text-muted); font-size: var(--text-sm); }
+  tr.er-inaktiv td { color: var(--text-faint); }
+  tr.er-inaktiv .avatar { background: var(--color-ink-400); }
+  .skjema { margin-bottom: var(--space-16); }
+  .skjema[hidden] { display: none; }
+  .skjema__rad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-12); }
+  .skjema__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-16); }
+  .faktura-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-16); }
+  .faktura { display: flex; flex-direction: column; gap: 2px; font-size: var(--text-sm); }
+  .faktura__topp { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-8); margin-bottom: var(--space-8); }
+  .faktura__topp b { font-size: var(--text-base); color: var(--text-heading); }
+  .faktura span { color: var(--text-muted); }
+  .faktura.er-inaktiv { opacity: .6; }
+  .merke-arbeid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-24); align-items: start; }
+  .merke-arbeid__skjema { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; }
+  .merke-arbeid__vis { position: sticky; top: var(--space-24); }
+  .merke-tittel { margin: var(--space-8) 0 -12px; font-size: var(--text-lg); color: var(--text-heading); }
+  .merke-under { display: block; margin-top: var(--space-24); }
+  .logoopp { margin-top: var(--space-16); }
+  .logoopp__rad { display: flex; gap: var(--space-16); align-items: center; margin-top: 6px; }
+  .logoopp__bilde { display: grid; place-items: center; flex: none; width: 220px; height: 110px; padding: var(--space-12); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); background: var(--surface-subtle) center / contain no-repeat; background-origin: content-box; }
+  .logoopp__bilde--rund { width: 110px; border-radius: 50%; }
+  .logoopp__bilde.har-bilde .logoopp__tekst { display: none; }
+  .logoopp__tekst { font-size: 28px; font-weight: 800; letter-spacing: -.02em; color: var(--text-heading); }
+  .logoopp__bilde--rund .logoopp__tekst { font-size: 32px; }
+  .logoopp__knapper { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); }
+  .logoopp__knapper .form-hint { flex-basis: 100%; margin: 0; }
+  .logo-par { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-24); }
+  .logo-par .logoopp__rad { flex-direction: column; align-items: flex-start; }
+  .farger { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-24); margin-top: 6px; }
+  .farge { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: 8px 0; font-size: var(--text-sm); color: var(--text-body); border-bottom: 1px solid var(--border-subtle); }
+  .farge input[type=color] { flex: none; width: 36px; height: 28px; padding: 0; border: 1px solid var(--border-default); border-radius: 6px; background: none; cursor: pointer; }
+  .skrift { margin-top: var(--space-12); }
+  .skrift__rad { display: flex; gap: var(--space-8); margin-top: 6px; }
+  .skrift__rad { align-items: center; }
+  .skrift__rad [hidden] { display: none; }
+  .skrift__prove { margin: 6px 0 0; padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: #fff; color: var(--text-heading); font-size: 15px; line-height: 1.4; }
+  .skrift__prove--stor { font-size: 24px; font-weight: 700; line-height: 1.2; }
+  .banner { position: relative; aspect-ratio: 1; border-radius: var(--radius-12); overflow: hidden; background: linear-gradient(135deg, #7ea3ba, #1f4e6b); color: var(--bn-tittel); font-family: var(--bn-font); }
+  .banner::after { content: ""; position: absolute; inset: 0; background: var(--bn-filter); }
+  .banner__logo { position: absolute; top: 16px; left: 18px; z-index: 1; height: 28px; min-width: 60px; color: #fff; font-weight: 800; font-size: 18px; background: center left / contain no-repeat; }
+  .banner__logo.har-bilde { color: transparent; }
+  .banner__innhold { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 1; }
+  .banner__tittel { margin: 0; font-size: 26px; line-height: 1.1; font-family: var(--bn-font-tittel); }
+  .banner__kort { display: inline-block; margin-top: 10px; padding: 6px 10px; border-radius: 6px; background: var(--bn-boks); color: var(--bn-kort); font-size: 14px; }
+  .banner__les { display: block; margin-top: 10px; color: var(--bn-les); font-size: 13px; font-weight: 700; }
+  .banner-meta { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-12); font-size: var(--text-sm); }
+  .banner-meta b { display: block; color: var(--text-heading); }
+  .banner-meta small { color: var(--text-muted); font-size: var(--text-xs); }
+  .banner-meta__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-navy) center / cover; color: #fff; font-weight: 700; }
+  .banner-meta__ikon.har-bilde { color: transparent; }
+  @media (max-width: 1000px) { .merke-arbeid { grid-template-columns: 1fr; } .merke-arbeid__vis { position: static; max-width: 360px; } }
+  @media (max-width: 700px) { .farger, .logo-par { grid-template-columns: 1fr; } .logoopp__rad { flex-direction: column; align-items: flex-start; } .skrift__rad { flex-direction: column; } }
+  .merkefiler { margin: var(--space-12) 0 0; padding: 0; list-style: none; }
+  .merkefil { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: var(--space-12); align-items: center; padding: var(--space-8) 0; border-bottom: 1px solid var(--border-subtle); }
+  .merkefil__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-heading); }
+  .merkefil__navn b { display: block; font-size: var(--text-base); color: var(--text-heading); font-weight: var(--font-weight-medium); }
+  .merkefil__navn small { font-size: var(--text-sm); color: var(--text-muted); }
+  .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
+  @media (max-width: 900px) { .merke, .skjema__rad { grid-template-columns: 1fr; } .forhand { position: static; } }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+    <div class="wrap">
+      <h1 class="text-h2">Innstillinger</h1>
+      <p class="lede">Brukere, fakturamottakere og hvordan kampanjesidene og annonsene deres ser ut.</p>
+      <div class="sidefaner" role="tablist" aria-label="Innstillinger">
+        <button type="button" class="filter" role="tab" data-fane="brukere" aria-selected="true" aria-pressed="true"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Brukere</button>
+        <button type="button" class="filter" role="tab" data-fane="faktura" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--receipt" aria-hidden="true"></span>Fakturamottakere</button>
+        <button type="button" class="filter" role="tab" data-fane="merkevare" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span>Merkevare</button>
+      </div>
+
+      <section class="panel" id="panel-brukere" role="tabpanel" aria-label="Brukere">
+        <div class="panelhode">
+          <p>Alle som kan logge inn for Vokser AS. Slå av en bruker for å fjerne tilgangen uten å slette historikken.</p>
+          <div class="rad-hoyre">
+            <label class="form-toggle"><input class="form-toggle__input" type="checkbox" role="switch" id="kun-aktive" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis kun aktive</span></label>
+            <button class="btn btn--primary" type="button" data-vis="inviter"><span class="icon-lucide icon-lucide--user-plus" aria-hidden="true"></span> Inviter bruker</button>
+          </div>
+        </div>
+        <form class="card card--betjen skjema" id="inviter" hidden>
+          <h3 class="card__title" style="margin-bottom:var(--space-12)">Inviter en ny bruker</h3>
+          <div class="skjema__rad">
+            <div class="form-group"><label class="form-label" for="i-navn">Navn</label><input class="form-input" id="i-navn" required></div>
+            <div class="form-group"><label class="form-label" for="i-epost">E-post</label><input class="form-input" id="i-epost" type="email" required></div>
+            <div class="form-group"><label class="form-label" for="i-rolle">Rolle</label><div class="form-select-wrap"><select class="form-select" id="i-rolle"><option>Bestiller</option><option>Leser</option><option>Administrator</option></select></div></div>
+          </div>
+          <p class="form-hint" style="margin-top:var(--space-8)">Bestiller kan lage kampanjer. Leser kan se kampanjer og rapporter. Administrator kan også endre innstillinger.</p>
+          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Send invitasjon</button><button class="btn btn--ghost" type="button" data-skjul="inviter">Avbryt</button></div>
+        </form>
+        <div class="card card--betjen table-card">
+          <table class="table">
+            <thead><tr><th>Bruker</th><th>Rolle</th><th>Sist innlogget</th><th>Aktiv</th></tr></thead>
+            <tbody id="brukere"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-faktura" role="tabpanel" aria-label="Fakturamottakere" hidden>
+        <div class="panelhode">
+          <p>Hvem som får fakturaen. Dere velger fakturamottaker når dere bestiller en kampanje.</p>
+          <div class="rad-hoyre">
+            <label class="form-toggle"><input class="form-toggle__input" type="checkbox" role="switch" id="kun-aktive-f" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis kun aktive</span></label>
+            <button class="btn btn--primary" type="button" data-vis="ny-faktura"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny fakturamottaker</button>
+          </div>
+        </div>
+        <form class="card card--betjen skjema" id="ny-faktura" hidden>
+          <h3 class="card__title" style="margin-bottom:var(--space-12)">Ny fakturamottaker</h3>
+          <div class="skjema__rad">
+            <div class="form-group"><label class="form-label" for="f-navn">Firmanavn</label><input class="form-input" id="f-navn" required></div>
+            <div class="form-group"><label class="form-label" for="f-org">Organisasjonsnummer</label><input class="form-input" id="f-org" inputmode="numeric" placeholder="9 siffer" required></div>
+            <div class="form-group"><label class="form-label" for="f-epost">E-post for faktura</label><input class="form-input" id="f-epost" type="email" placeholder="faktura@firma.no"></div>
+            <div class="form-group"><label class="form-label" for="f-adr">Adresse</label><input class="form-input" id="f-adr"></div>
+            <div class="form-group"><label class="form-label" for="f-post">Postnummer og sted</label><input class="form-input" id="f-post" placeholder="3616 Kongsberg"></div>
+            <div class="form-group"><label class="form-label" for="f-ref">Fast referanse (valgfritt)</label><input class="form-input" id="f-ref" placeholder="F.eks. prosjektnummer"></div>
+          </div>
+          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre</button><button class="btn btn--ghost" type="button" data-skjul="ny-faktura">Avbryt</button></div>
+        </form>
+        <div class="faktura-grid" id="fakturaer"></div>
+      </section>
+
+      <section class="panel" id="panel-merkevare" role="tabpanel" aria-label="Merkevare" hidden>
+        <div class="panelhode"><p>Logo, farger og skrift for landingssidene og bannerne deres. Endringene gjelder nye kampanjer.</p></div>
+        <div class="merke-arbeid">
+          <div class="merke-arbeid__skjema">
+          <div class="card card--betjen">
+            <h3 class="card__title">Landingsside</h3>
+            <p class="card__hint">Siden kandidatene kommer til når de klikker på annonsen.</p>
+            <div class="logoopp">
+              <span class="form-label">Logo</span>
+              <div class="logoopp__rad">
+                <div class="logoopp__bilde" id="lp-logo-vis"><span class="logoopp__tekst">vokser</span></div>
+                <div class="logoopp__knapper">
+                  <button class="btn btn--primary btn--sm" type="button" data-last-logo="lp-logo"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp</button>
+                  <button class="btn btn--ghost btn--sm" type="button" data-fjern-logo="lp-logo">Fjern</button>
+                  <p class="form-hint">SVG eller PNG med gjennomsiktig bakgrunn. Minst 400 px bred.</p>
+                </div>
+              </div>
+              <input type="file" aria-label="Velg filer" id="lp-logo-fil" accept="image/png,image/svg+xml,image/jpeg" hidden>
+            </div>
+
+            <span class="form-label merke-under">Farger</span>
+            <div class="farger">
+              <label class="farge" for="c1"><span>Bakgrunn, side</span><input type="color" id="c1" value="#ffffff"></label><label class="farge" for="c2"><span>Bakgrunn, faktaboks</span><input type="color" id="c2" value="#eef3f6"></label><label class="farge" for="c3"><span>Bakgrunn, søkeknapp</span><input type="color" id="c3" value="#0c3f59"></label><label class="farge" for="c4"><span>Sidetekst</span><input type="color" id="c4" value="#33414c"></label><label class="farge" for="c5"><span>Titteltekst</span><input type="color" id="c5" value="#0c3f59"></label><label class="farge" for="c6"><span>Tekst på søkeknapp</span><input type="color" id="c6" value="#ffffff"></label><label class="farge" for="c7"><span>Tekst på «Les mer»-knapp</span><input type="color" id="c7" value="#0c3f59"></label>
+            </div>
+            <span class="form-label merke-under">Skrift</span>
+            <div class="skrift">
+              <span class="form-label">Overskrift</span>
+              <p class="skrift__prove skrift__prove--stor" data-prove="lp-f1">Vi søker deg som vil gjøre en forskjell</p>
+              <div class="skrift__rad">
+                <button class="btn btn--secondary btn--sm" type="button" data-last-skrift="lp-f1"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp skriftfil</button>
+                <button class="btn btn--ghost btn--sm" type="button" data-fjern-skrift="lp-f1" hidden>Fjern</button>
+              </div>
+              <input type="hidden" id="lp-f1" value="Montserrat, sans-serif">
+            </div>
+            <div class="skrift">
+              <span class="form-label">Sidetekst</span>
+              <p class="skrift__prove" data-prove="lp-f2">Bli med i et varmt og faglig sterkt team. Vi tilbyr fast stilling, god opplæring og fleksible vakter.</p>
+              <div class="skrift__rad">
+                <button class="btn btn--secondary btn--sm" type="button" data-last-skrift="lp-f2"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp skriftfil</button>
+                <button class="btn btn--ghost btn--sm" type="button" data-fjern-skrift="lp-f2" hidden>Fjern</button>
+              </div>
+              <input type="hidden" id="lp-f2" value="Montserrat, sans-serif">
+            </div>
+          </div>
+
+          <div class="card card--betjen" id="banner-kort">
+            <h3 class="card__title">Bannere</h3>
+            <p class="card__hint">Bildene som vises i annonsene på Meta og nettsteder.</p>
+            <div class="logo-par">
+            <div class="logoopp">
+              <span class="form-label">Logo</span>
+              <div class="logoopp__rad">
+                <div class="logoopp__bilde" id="bn-logo-vis"><span class="logoopp__tekst">vokser</span></div>
+                <div class="logoopp__knapper">
+                  <button class="btn btn--primary btn--sm" type="button" data-last-logo="bn-logo"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp</button>
+                  <button class="btn btn--ghost btn--sm" type="button" data-fjern-logo="bn-logo">Fjern</button>
+                  <p class="form-hint">Vises oppe til venstre i banneret.</p>
+                </div>
+              </div>
+              <input type="file" aria-label="Velg filer" id="bn-logo-fil" accept="image/png,image/svg+xml,image/jpeg" hidden>
+            </div>
+            <div class="logoopp">
+              <span class="form-label">Meta-logoikon</span>
+              <div class="logoopp__rad">
+                <div class="logoopp__bilde logoopp__bilde--rund" id="bn-ikon-vis"><span class="logoopp__tekst">v</span></div>
+                <div class="logoopp__knapper">
+                  <button class="btn btn--primary btn--sm" type="button" data-last-logo="bn-ikon"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp</button>
+                  <button class="btn btn--ghost btn--sm" type="button" data-fjern-logo="bn-ikon">Fjern</button>
+                  <p class="form-hint">Kvadratisk, minst 180 × 180 px. Vises ved siden av navnet i Meta-annonsen.</p>
+                </div>
+              </div>
+              <input type="file" aria-label="Velg filer" id="bn-ikon-fil" accept="image/png,image/svg+xml,image/jpeg" hidden>
+            </div>
+            </div>
+            <span class="form-label merke-under">Farger</span>
+            <div class="farger">
+              <label class="farge" for="b1"><span>Tittel</span><input type="color" id="b1" value="#ffffff"></label><label class="farge" for="b2"><span>Kort tekst</span><input type="color" id="b2" value="#0c3f59"></label><label class="farge" for="b3"><span>«Les mer»-tekst</span><input type="color" id="b3" value="#ffd27a"></label><label class="farge" for="b4"><span>Bakgrunnsboks for kort tekst</span><input type="color" id="b4" value="#ffffff"></label><label class="farge" for="b5"><span>Filter over bakgrunnsbilde</span><input type="color" id="b5" value="#0a1928"></label>
+            </div>
+            <div class="form-group" style="margin-top:var(--space-12)"><label class="form-label" for="bn-styrke">Styrke på filteret</label><input type="range" id="bn-styrke" min="0" max="80" value="35" style="width:100%"></div>
+            <span class="form-label merke-under">Skrift</span>
+            <div class="skrift">
+              <span class="form-label">Skrifttype, tittel</span>
+              <p class="skrift__prove skrift__prove--stor" data-prove="bn-f1">Vi søker deg som vil gjøre en forskjell</p>
+              <div class="skrift__rad">
+                <button class="btn btn--secondary btn--sm" type="button" data-last-skrift="bn-f1"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp skriftfil</button>
+                <button class="btn btn--ghost btn--sm" type="button" data-fjern-skrift="bn-f1" hidden>Fjern</button>
+              </div>
+              <input type="hidden" id="bn-f1" value="Montserrat, sans-serif">
+            </div>
+            <div class="skrift">
+              <span class="form-label">Skrifttype, kort tekst</span>
+              <p class="skrift__prove" data-prove="bn-f2">Fast stilling i Oslo</p>
+              <div class="skrift__rad">
+                <button class="btn btn--secondary btn--sm" type="button" data-last-skrift="bn-f2"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp skriftfil</button>
+                <button class="btn btn--ghost btn--sm" type="button" data-fjern-skrift="bn-f2" hidden>Fjern</button>
+              </div>
+              <input type="hidden" id="bn-f2" value="Montserrat, sans-serif">
+            </div>
+          </div>
+
+        <h2 class="merke-tittel">Merkevarefiler</h2>
+        <div class="card card--betjen">
+          <p class="card__hint" style="margin-top:0">Logoer, Meta-logoikon og profilhåndbok som brukes i kampanjene deres. Nye filer kan brukes med en gang.</p>
+          <ul class="merkefiler" id="merkefiler">
+              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Vokser logo, mørk</b><small>SVG · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Vokser logo, mørk"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
+              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Vokser logo, lys</b><small>SVG · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Vokser logo, lys"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
+              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Meta-logoikon</b><small>PNG, 400 × 400 · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Meta-logoikon"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
+              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Profilhåndbok 2026</b><small>PDF, 4,2 MB · lagt til 12.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Profilhåndbok 2026"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
+          </ul>
+          <button class="btn btn--secondary" type="button" data-last-opp-merke style="margin-top:var(--space-12)"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp nye filer</button>
+          <input type="file" aria-label="Velg filer" id="merke-fil" multiple hidden>
+        </div>
+
+        <div class="lagre-linje"><button class="btn btn--primary" type="button" id="lagre-merke">Lagre merkevare</button><span id="merke-lagret" hidden style="font-size:var(--text-sm);color:var(--text-success-strong)">Lagret. Gjelder for nye kampanjer.</span></div>
+          </div>
+          <aside class="merke-arbeid__vis">
+            <span class="summary-panel__label" style="display:block;margin-bottom:8px">Forhåndsvisning av banner</span>
+            <div class="banner" id="banner">
+              <span class="banner__logo" id="banner-logo">vokser</span>
+              <div class="banner__innhold">
+                <h4 class="banner__tittel">Vi søker sykepleiere</h4>
+                <span class="banner__kort">Fast stilling i Oslo</span>
+                <span class="banner__les">Les mer →</span>
+              </div>
+            </div>
+            <div class="banner-meta"><span class="banner-meta__ikon" id="bn-ikon-mini">v</span><span><b>Vokser AS</b><small>Sponset · slik vises Meta-logoikonet</small></span></div>
+          </aside>
+        </div>
+      <input type="file" aria-label="Velg filer" id="skrift-fil" accept=".woff,.woff2,.ttf,.otf" hidden>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+var brukere = [
+  { navn: 'Sona Shyamsukha', epost: 'ss@vokser.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
+  { navn: 'Kari Hansen', epost: 'kari.hansen@example.com', rolle: 'Bestiller', sist: '26.09.2026', aktiv: true },
+  { navn: 'Martin Berg', epost: 'martin.berg@example.com', rolle: 'Leser', sist: '14.08.2026', aktiv: true },
+  { navn: 'Ola Nordmann', epost: 'ola.nordmann@example.com', rolle: 'Bestiller', sist: '03.02.2026', aktiv: false }
+];
+var fakturaer = [
+  { navn: 'Vokser AS', org: '919 653 477', adr: 'Kirkegata 1', post: '3616 Kongsberg', epost: 'faktura@vokser.no', ref: '', aktiv: true },
+  { navn: 'Vokser AS, avd. Oslo', org: '919 653 477', adr: 'Storgata 10', post: '0155 Oslo', epost: 'oslo.faktura@vokser.no', ref: 'Prosjekt 22 31', aktiv: true },
+  { navn: 'Vokser Rekruttering', org: '923 456 789', adr: 'Kirkegata 1', post: '3616 Kongsberg', epost: 'faktura@vokser.no', ref: '', aktiv: false }
+];
+var initialer = function (n) { return n.split(' ').map(function (x) { return x[0]; }).join('').slice(0, 2).toUpperCase(); };
+var bryter = function (id, on, label, dis) { return '<label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" data-' + id + (on ? ' checked' : '') + (dis ? ' disabled' : '') + ' aria-label="' + label + '"><span class="form-toggle__track" aria-hidden="true"></span></label>'; };
+
+function tegnBrukere() {
+  var kun = document.getElementById('kun-aktive').checked;
+  document.getElementById('brukere').innerHTML = brukere.map(function (b, i) {
+    if (kun && !b.aktiv) return '';
+    return '<tr' + (b.aktiv ? '' : ' class="er-inaktiv"') + '><td data-label="Bruker"><div class="bruker"><span class="avatar" aria-hidden="true">' + initialer(b.navn) + '</span><div>' + b.navn + (b.meg ? ' <span class="badge badge--default">Deg</span>' : '') + '<small>' + b.epost + '</small></div></div></td>' +
+      '<td data-label="Rolle">' + b.rolle + '</td><td data-label="Sist innlogget">' + b.sist + '</td><td data-label="Aktiv">' + bryter('bruker="' + i + '"', b.aktiv, 'Aktiv: ' + b.navn, b.meg) + '</td></tr>';
+  }).join('');
+}
+function tegnFaktura() {
+  var kun = document.getElementById('kun-aktive-f').checked;
+  document.getElementById('fakturaer').innerHTML = fakturaer.map(function (f, i) {
+    if (kun && !f.aktiv) return '';
+    return '<div class="card card--betjen faktura' + (f.aktiv ? '' : ' er-inaktiv') + '"><div class="faktura__topp"><b>' + f.navn + '</b>' + bryter('faktura="' + i + '"', f.aktiv, 'Aktiv: ' + f.navn) + '</div>' +
+      '<span>Org.nr. ' + f.org + '</span><span>' + f.adr + ', ' + f.post + '</span><span>' + f.epost + '</span>' + (f.ref ? '<span>Ref.: ' + f.ref + '</span>' : '') + '</div>';
+  }).join('');
+}
+
+document.addEventListener('change', function (e) {
+  if (e.target.dataset.bruker !== undefined) { brukere[+e.target.dataset.bruker].aktiv = e.target.checked; tegnBrukere(); }
+  if (e.target.dataset.faktura !== undefined) { fakturaer[+e.target.dataset.faktura].aktiv = e.target.checked; tegnFaktura(); }
+  if (e.target.id === 'kun-aktive') tegnBrukere();
+  if (e.target.id === 'kun-aktive-f') tegnFaktura();
+});
+document.addEventListener('click', function (e) {
+  var v = e.target.closest('[data-vis]'); if (v) { var f = document.getElementById(v.dataset.vis); f.hidden = false; f.querySelector('input').focus(); }
+  var s = e.target.closest('[data-skjul]'); if (s) { var g = document.getElementById(s.dataset.skjul); g.reset(); g.hidden = true; }
+  var t = e.target.closest('[data-fane]'); if (t) visFane(t.dataset.fane, true);
+});
+document.getElementById('inviter').addEventListener('submit', function (e) {
+  e.preventDefault();
+  brukere.push({ navn: document.getElementById('i-navn').value, epost: document.getElementById('i-epost').value, rolle: document.getElementById('i-rolle').value, sist: 'Invitert i dag', aktiv: true });
+  this.reset(); this.hidden = true; tegnBrukere();
+});
+document.getElementById('ny-faktura').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var v = function (id) { return document.getElementById(id).value; };
+  fakturaer.push({ navn: v('f-navn'), org: v('f-org'), adr: v('f-adr'), post: v('f-post'), epost: v('f-epost'), ref: v('f-ref'), aktiv: true });
+  this.reset(); this.hidden = true; tegnFaktura();
+});
+function visFane(navn, oppdaterUrl) {
+  if (['brukere', 'faktura', 'merkevare'].indexOf(navn) === -1) navn = 'brukere';
+  document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.setAttribute('aria-pressed', på); });
+  ['brukere', 'faktura', 'merkevare'].forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
+  if (oppdaterUrl) history.replaceState(null, '', '#' + navn);
+}
+// Merkevare
+var bn = document.getElementById('banner');
+function hexRgba(h, a) { var n = parseInt(h.slice(1), 16); return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')'; }
+var bannerFarger = { b1: '--bn-tittel', b2: '--bn-kort', b3: '--bn-les', b4: '--bn-boks' };
+function tegnBanner() {
+  Object.keys(bannerFarger).forEach(function (id) { bn.style.setProperty(bannerFarger[id], document.getElementById(id).value); });
+  bn.style.setProperty('--bn-filter', hexRgba(document.getElementById('b5').value, document.getElementById('bn-styrke').value / 100));
+  bn.style.setProperty('--bn-font-tittel', document.getElementById('bn-f1').value);
+  bn.style.setProperty('--bn-font', document.getElementById('bn-f2').value);
+}
+function tegnProver() {
+  document.querySelectorAll('[data-prove]').forEach(function (p) { p.style.fontFamily = document.getElementById(p.dataset.prove).value; });
+}
+document.getElementById('panel-merkevare').addEventListener('input', function () { tegnBanner(); tegnProver(); });
+document.getElementById('panel-merkevare').addEventListener('change', function () { tegnBanner(); tegnProver(); });
+// Logo upload: shows the file in the box, and in the banner preview
+function settLogo(id, url) {
+  var vis = document.getElementById(id + '-vis');
+  vis.style.backgroundImage = url ? 'url("' + url + '")' : '';
+  vis.classList.toggle('har-bilde', !!url);
+  var mal = id === 'bn-logo' ? document.getElementById('banner-logo') : (id === 'bn-ikon' ? document.getElementById('bn-ikon-mini') : null);
+  if (mal) { mal.style.backgroundImage = url ? 'url("' + url + '")' : ''; mal.classList.toggle('har-bilde', !!url); }
+}
+document.querySelectorAll('[data-last-logo]').forEach(function (b) {
+  var id = b.dataset.lastLogo, fil = document.getElementById(id + '-fil');
+  b.addEventListener('click', function () { fil.click(); });
+  fil.addEventListener('change', function () { if (fil.files[0]) settLogo(id, URL.createObjectURL(fil.files[0])); });
+});
+document.querySelectorAll('[data-fjern-logo]').forEach(function (b) { b.addEventListener('click', function () { settLogo(b.dataset.fjernLogo, ''); }); });
+// Font upload: the new font is added to every font list and chosen for this field
+var skriftMal = null;
+document.querySelectorAll('[data-last-skrift]').forEach(function (b) {
+  b.addEventListener('click', function () { skriftMal = b.dataset.lastSkrift; document.getElementById('skrift-fil').click(); });
+});
+document.getElementById('skrift-fil').addEventListener('change', function () {
+  var f = this.files[0], mal = skriftMal, inp = this;
+  if (!f || !mal) return;
+  var familie = 'Egen ' + Date.now();
+  new FontFace(familie, 'url(' + URL.createObjectURL(f) + ')').load().then(function (font) {
+    document.fonts.add(font);
+    document.getElementById(mal).value = '"' + familie + '", sans-serif';
+    document.querySelector('[data-fjern-skrift="' + mal + '"]').hidden = false;
+    tegnBanner(); tegnProver();
+  }).catch(function () { alert('Vi klarte ikke å lese skriftfilen. Bruk WOFF, WOFF2, TTF eller OTF.'); });
+  inp.value = '';
+});
+document.querySelectorAll('[data-fjern-skrift]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var id = b.dataset.fjernSkrift;
+    document.getElementById(id).value = 'Montserrat, sans-serif';
+    b.hidden = true;
+    tegnBanner(); tegnProver();
+  });
+});
+document.getElementById('lagre-merke').addEventListener('click', function () {
+  try { localStorage.setItem('frantz-std-chip', document.getElementById('b4').value); } catch (e) {}
+  document.getElementById('merke-lagret').hidden = false;
+});
+document.querySelectorAll('[data-last-opp-merke]').forEach(function (b) { b.addEventListener('click', function () { document.getElementById('merke-fil').click(); }); });
+document.getElementById('merke-fil').addEventListener('change', function () {
+  var liste = document.getElementById('merkefiler');
+  Array.prototype.forEach.call(this.files, function (f) {
+    var li = document.createElement('li'); li.className = 'merkefil';
+    li.innerHTML = '<span class="merkefil__ikon"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span></span><span class="merkefil__navn"><b></b><small>Lastet opp i dag</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button>';
+    li.querySelector('b').textContent = f.name;
+    liste.appendChild(li);
+  });
+});
+tegnBanner(); tegnProver();
+tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
+</script>
+<script src="../components/js/interactions.js"></script>
+<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>E-posttråd — demo</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; background: var(--surface-subtle); }
+
+  .mail-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+    padding: var(--space-12) var(--space-32);
+    background: var(--surface-raised);
+    border-bottom: 1px solid var(--border-default);
+    font-size: var(--text-sm);
+  }
+  .mail-top__app { display: flex; align-items: center; gap: var(--space-8); color: var(--text-heading); font-weight: var(--font-weight-bold); }
+  .mail-top__demo { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+
+  .mail {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: var(--space-32) var(--space-32) var(--space-64);
+  }
+  .mail__subject { margin: 0; color: var(--text-heading); font-size: var(--text-xl); letter-spacing: var(--tracking-heading); }
+  .mail__count { margin-top: var(--space-4); color: var(--text-muted); font-size: var(--text-sm); }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    margin: var(--space-24) 0;
+  }
+  .compare__box { padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); font-size: var(--text-sm); }
+  .compare__box b { display: block; margin-bottom: var(--space-4); color: var(--text-heading); }
+  .compare__box ul { margin: 0; padding-left: var(--space-16); color: var(--text-muted); }
+  .compare__box--now { border-color: var(--border-success-moderate); background: var(--bg-success-soft); }
+  .compare__box--now ul { color: var(--text-success-strong); }
+
+  .mails { display: flex; flex-direction: column; gap: var(--space-12); margin: 0; padding: 0; list-style: none; }
+  .mailmsg { border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
+  .mailmsg__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); }
+  .mailmsg__avatar { display: grid; flex: none; place-items: center; width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--bg-brand-1-soft); color: var(--text-brand-1-strong); }
+  .mailmsg--advisor .mailmsg__avatar { background: var(--bg-brand-2-soft); color: var(--text-brand-2-strong); }
+  .mailmsg--me .mailmsg__avatar { background: var(--surface-section); color: var(--color-ink-700); }
+  .mailmsg__from { flex: 1; min-width: 180px; font-size: var(--text-sm); }
+  .mailmsg__from b { color: var(--text-heading); }
+  .mailmsg__from small { display: block; color: var(--text-muted); font-size: var(--text-xs); }
+  .mailmsg__time { color: var(--text-faint); font-size: var(--text-xs); }
+  .mailmsg__body { padding: 0 var(--space-16) var(--space-16) 60px; font-size: var(--text-sm); }
+  .mailmsg__body p + p { margin-top: var(--space-8); }
+  .mailmsg__body a { color: var(--text-heading); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
+  .mailmsg__tag { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-12); padding: 3px 9px; border-radius: var(--radius-full); background: var(--bg-success-soft); color: var(--text-success-strong); font-size: 11px; font-weight: var(--font-weight-bold); }
+
+  .mail__reply { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); padding: var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); color: var(--text-muted); font-size: var(--text-sm); }
+
+  @media (max-width: 700px) {
+    .mail-top, .mail { padding-left: var(--page-padding-mobile); padding-right: var(--page-padding-mobile); }
+    .compare { grid-template-columns: 1fr; }
+    .mailmsg__body { padding-left: var(--space-16); }
+  }
+</style>
+</head>
+<body>
+
+<header class="mail-top">
+  <span class="mail-top__app"><span class="icon-lucide icon-lucide--mail icon-lucide--md" aria-hidden="true"></span>Kari Hansens innboks (demo)</span>
+  <nav class="mail-top__demo" aria-label="Demo-sider">
+    <a class="btn btn--ghost" href="assistent.html"><span class="icon-lucide icon-lucide--user-round" aria-hidden="true"></span>Kunden i Frantz</a>
+    <a class="btn btn--ghost" href="admin-innboks.html"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span>Rådgiver hos Frantz</a>
+  </nav>
+</header>
+
+<main class="mail">
+  <h1 class="mail__subject">[#129077 · Deres ref. 22 45] Intensivsykepleier Tromsø</h1>
+  <p class="mail__count">4 meldinger i én tråd</p>
+
+  <div class="compare">
+    <div class="compare__box">
+      <b>Før</b>
+      <ul>
+        <li>En ny e-post for hver oppdatering</li>
+        <li>Ingen felles emne eller historikk</li>
+        <li>Kan ikke søke på egen referanse</li>
+      </ul>
+    </div>
+    <div class="compare__box compare__box--now">
+      <b>Nå</b>
+      <ul>
+        <li>Alle oppdateringer i én tråd</li>
+        <li>Kampanje-ID og deres referanse i emnet</li>
+        <li>Svar på e-post havner i tråden i Frantz</li>
+      </ul>
+    </div>
+  </div>
+
+  <ol class="mails">
+    <li class="mailmsg">
+      <div class="mailmsg__head">
+        <span class="mailmsg__avatar"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
+        <span class="mailmsg__from"><b>Frantz-assistenten</b><small>til Kari Hansen</small></span>
+        <span class="mailmsg__time">23.09.2026 · 12:16</span>
+      </div>
+      <div class="mailmsg__body">
+        <p>Hei Kari. Vi har mottatt bestillingen for Intensivsykepleier Tromsø: kr 35 000 på Meta og LinkedIn, fra snarest til 20.10.2026.</p>
+        <p>En rådgiver sjekker den nå. Du får en forhåndsvisning innen 1–2 virkedager.</p>
+      </div>
+    </li>
+    <li class="mailmsg mailmsg--advisor">
+      <div class="mailmsg__head">
+        <span class="mailmsg__avatar"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span></span>
+        <span class="mailmsg__from"><b>Jonas Berg, Frantz</b><small>til Kari Hansen</small></span>
+        <span class="mailmsg__time">24.09.2026 · 09:02</span>
+      </div>
+      <div class="mailmsg__body">
+        <p>Hei Kari! Forhåndsvisningen er klar: <a href="#">frantz.no/p/129077</a></p>
+        <p>Svar «OK» på denne e-posten, så publiserer vi.</p>
+      </div>
+    </li>
+    <li class="mailmsg mailmsg--me">
+      <div class="mailmsg__head">
+        <span class="mailmsg__avatar"><span class="icon-lucide icon-lucide--user-round" aria-hidden="true"></span></span>
+        <span class="mailmsg__from"><b>Kari Hansen</b><small>til Frantz</small></span>
+        <span class="mailmsg__time">24.09.2026 · 09:40</span>
+      </div>
+      <div class="mailmsg__body">
+        <p>OK, ser bra ut. Kunden har godkjent.</p>
+        <span class="mailmsg__tag"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Lagt inn i kampanjetråden i Frantz</span>
+      </div>
+    </li>
+    <li class="mailmsg">
+      <div class="mailmsg__head">
+        <span class="mailmsg__avatar"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
+        <span class="mailmsg__from"><b>Frantz-assistenten</b><small>til Kari Hansen</small></span>
+        <span class="mailmsg__time">24.09.2026 · 13:15</span>
+      </div>
+      <div class="mailmsg__body">
+        <p>Kampanjen er aktiv på Meta og LinkedIn.</p>
+        <p>Kampanjeside: <a href="#">frantz.no/k/129077</a><br>Rapport du kan sende til kunden: <a href="#">frantz.no/r/129077</a></p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="mail__reply"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span>Svar på denne e-posten for å skrive i kampanjetråden. Frantz ser svaret med en gang.</div>
+</main>
+
+</body>
+</html>

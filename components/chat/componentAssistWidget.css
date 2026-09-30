@@ -1,0 +1,245 @@
+/* =============================================================
+   ASSIST WIDGET — floating button that opens the Frantz-assistenten
+   in a side panel on every portal page. The chat inside is the same
+   .chat component as portal/assistent.html.
+   ============================================================= */
+
+.assist-fab {
+  display: inline-flex;
+  position: fixed;
+  right: var(--space-24);
+  bottom: var(--space-24);
+  z-index: 70;
+  align-items: center;
+  gap: var(--space-8);
+  height: 52px;
+  padding: 0 var(--space-24) 0 var(--space-16);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-1-strong);
+  box-shadow: var(--shadow-dialog);
+  color: var(--text-on-brand-1);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+
+/* Plass nederst så knappen ikke dekker det siste på siden. */
+body:has(.assist-fab) .wrap {
+  padding-bottom: calc(var(--space-96) + var(--space-16));
+}
+
+.assist-fab:hover {
+  background: var(--bg-brand-1-strong-hover);
+  transform: translateY(-1px);
+}
+
+.assist-fab:focus-visible {
+  outline: 3px solid var(--color-amber);
+  outline-offset: 3px;
+}
+
+.assist-fab .icon-lucide {
+  width: 22px;
+  height: 22px;
+  color: var(--color-amber);
+}
+
+.assist-open .assist-fab {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+
+/* --- Panel --- */
+
+.assist-panel {
+  display: flex;
+  position: fixed;
+  right: var(--space-24);
+  bottom: var(--space-24);
+  z-index: 70;
+  flex-direction: column;
+  width: 440px;
+  height: min(720px, calc(100dvh - 48px));
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-16);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-dialog);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  visibility: hidden;
+}
+
+.assist-open .assist-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assist-fab,
+  .assist-panel {
+    transition: none;
+  }
+}
+
+/* The chat fills the panel, with tighter spacing than the full page */
+.assist-panel .chat {
+  max-width: none;
+  height: 100%;
+}
+
+.assist-panel .chat__head {
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-12) var(--space-12) var(--space-16);
+}
+
+.assist-panel .chat__head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.assist-panel .chat__title,
+.assist-panel .chat__status {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-panel .chat__human {
+  margin-left: 0;
+}
+
+.assist-panel .chat__human span:not(.icon-lucide) {
+  display: none;
+}
+
+.assist-panel .chat__head .btn--ghost {
+  flex: none;
+  padding-left: var(--space-8);
+  padding-right: var(--space-8);
+}
+
+.assist-panel .chat__log {
+  padding: var(--space-16);
+}
+
+.assist-panel .composer {
+  padding: var(--space-8) var(--space-16) var(--space-16);
+}
+
+.assist-panel .draft__row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.assist-panel .draft__row .draft__value {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.assist-panel .draft__facts {
+  grid-template-columns: 1fr 1fr;
+}
+
+
+/* --- "Fill the form for me" banner on Ny kampanje --- */
+
+.assist-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+  padding: var(--space-16) var(--space-24);
+  border: 1px solid var(--border-brand-1-soft);
+  border-radius: var(--radius-12);
+  background: var(--bg-brand-1-soft);
+}
+
+.assist-banner__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-1-strong);
+  color: var(--color-amber);
+}
+
+.assist-banner__text {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-body);
+  font-size: var(--text-sm);
+}
+
+.assist-banner__text b {
+  display: block;
+  color: var(--text-heading);
+  font-size: var(--text-base);
+}
+
+.assist-banner .btn {
+  flex: none;
+}
+
+/* A field the assistant just filled in */
+.assist-filled {
+  animation: assist-filled 2.4s var(--ease-out);
+}
+
+@keyframes assist-filled {
+  0%, 40% { box-shadow: 0 0 0 3px var(--color-amber); }
+  100% { box-shadow: 0 0 0 3px transparent; }
+}
+
+
+@media (max-width: 860px) {
+  .assist-fab {
+    right: var(--space-16);
+    bottom: var(--space-16);
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .assist-fab__label {
+    display: none;
+  }
+
+  body.assist-open {
+    overflow: hidden;
+  }
+
+  .assist-panel {
+    inset: 0;
+    width: auto;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .assist-banner {
+    flex-wrap: wrap;
+    padding: var(--space-16);
+  }
+
+  .assist-banner .btn {
+    width: 100%;
+  }
+}
+
+/* Leave room at the end of the page, so the floating button never covers content */
+body:has(> .assist-fab) .wrap {
+  padding-bottom: calc(var(--space-64) + 52px);
+}

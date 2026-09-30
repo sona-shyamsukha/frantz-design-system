@@ -66,7 +66,7 @@
   --text-heading:       var(--color-navy);
   --text-body:          var(--color-text);
   --text-muted:         var(--color-ink-500);
-  --text-faint:         var(--color-ink-400);
+  --text-faint:         #5D6D78; /* 4.5:1 or more on white, subtle and section surfaces (WCAG AA) */
   --text-on-dark:       var(--color-white);
   --text-on-dark-muted: rgba(255, 255, 255, 0.72);
 
@@ -175,6 +175,7 @@
   --text-xs:    0.75rem;    /* 12px */
   --text-sm:    0.8125rem;  /* 13px */
   --text-base:  0.9375rem;  /* 15px */
+  --text-input: 1rem;       /* 16px, standard for text in form fields */
   --text-lg:    1.125rem;   /* 18px */
   --text-xl:    1.25rem;    /* 20px */
   --text-2xl:   1.625rem;   /* 26px */

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Connect — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<style>
+  body { margin: 0; }
+
+  .liste__topp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-24);
+    margin-bottom: var(--space-24);
+  }
+  .liste__topp h1 { margin: 0; }
+
+  .liste__topp .lede { max-width: 720px; }
+  @media (max-width: 640px) {
+    .liste__topp { flex-direction: column; align-items: stretch; }
+  }
+
+  /* Status tabs and sorting, then search and filters, right above the table */
+  .faner-rad {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12) var(--space-24);
+    margin-bottom: var(--space-16);
+  }
+  .faner { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+  .faner .filter { gap: 6px; font-size: var(--text-base); }
+  .faner .filter span { color: inherit; opacity: 0.7; font-weight: var(--font-weight-medium); }
+  .sortering { display: flex; align-items: center; gap: var(--space-8); color: var(--text-muted); font-size: var(--text-base); white-space: nowrap; }
+  .sortering .form-select-wrap { min-width: 200px; }
+  .sortering .form-select { padding-top: 10px; padding-bottom: 10px; border-radius: var(--radius-full); font-size: var(--text-base); }
+
+  .aktive {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+    color: var(--text-muted);
+    font-size: var(--text-base);
+  }
+  .aktive[hidden] { display: none; }
+  .aktiv-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 6px 5px 12px;
+    border: 1px solid var(--border-brand-1-soft);
+    border-radius: var(--radius-full);
+    background: var(--bg-brand-1-soft);
+    color: var(--text-heading);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
+  .aktiv-filter:hover { border-color: var(--color-navy); }
+
+  .verktoy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .search-wrap { position: relative; flex: 1 1 280px; min-width: 0; }
+  .search-wrap .icon-lucide {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+  }
+  .search-wrap .form-input { padding-left: 40px; border-radius: var(--radius-full); }
+  .verktoy .form-select-wrap { flex: 0 1 220px; }
+  .verktoy .form-select { padding-top: 10px; padding-bottom: 10px; border-radius: var(--radius-full); font-size: var(--text-sm); }
+  .nullstill {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-heading);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .table tr[hidden], .table__empty[hidden] { display: none; }
+  @media (max-width: 640px) {
+    .verktoy .form-select-wrap { flex: 1 1 100%; }
+    .faner { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 2px; }
+    .faner .filter { flex: none; }
+    .sortering { width: 100%; }
+    .sortering .form-select-wrap { flex: 1; min-width: 0; }
+  }
+
+  .table-card { padding: 0; overflow-x: auto; }
+
+  .pagination-wrap { margin-top: var(--space-24); }
+  .mangler { color: var(--text-faint); }
+  .table__id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text-muted); }
+  .table td[data-label="Status"] { white-space: nowrap; }
+  .table__meta .table__id { display: inline; }
+  .celle { display: block; min-width: 0; }
+  @media (max-width: 860px) { .celle { text-align: right; } }
+
+  @media (min-width: 861px) {
+    .table th, .table td { padding-left: 10px; padding-right: 10px; }
+    .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
+  }
+  .table td[data-label="Besøk"] { white-space: nowrap; }
+  .verktoy .form-select { font-size: var(--text-base); }
+  .pagination-wrap .pagination__meta { color: var(--text-body); font-size: var(--text-base); }
+  .pagination-wrap .pagination__meta b { color: var(--text-heading); }
+
+  .table__lenke { position: relative; z-index: 1; color: var(--text-heading); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
+  .table__lenke:hover { color: var(--color-navy-lift); }
+  .table .btn--sm { white-space: nowrap; }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+    <div class="wrap">
+      <div class="liste__topp">
+        <div>
+          <h1 class="text-h2">Connect</h1>
+          <p class="lede">Stillingene deres hos Frantz. Finn stillingen og bestill en kampanje, eller se hvor mange som har besøkt annonsen.</p>
+        </div>
+        <button class="btn btn--primary" type="button" onclick="location.href='connect-detalj-uten-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny ConnectID</button>
+      </div>
+
+      <div class="verktoy" role="search">
+        <div class="search-wrap">
+          <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
+          <label class="chat__sr" for="sok">Søk</label>
+          <input class="form-input" type="search" id="sok" placeholder="Søk på stilling, arbeidsgiver, prosjekt eller ID" autocomplete="off">
+        </div>
+        <label class="sortering"><span class="chat__sr">Status</span>
+          <span class="form-select-wrap">
+            <select class="form-select" id="f-status">
+              <option value="">Alle statuser</option>
+              <option value="Uten kampanje">Klar til å bestille</option>
+              <option value="Aktiv">Aktiv</option>
+              <option value="Pause">Pause</option>
+              <option value="Avsluttet">Avsluttet</option>
+            </select>
+          </span>
+        </label>
+        <label class="sortering"><span class="chat__sr">Sorter etter</span>
+          <span class="form-select-wrap">
+            <select class="form-select" id="sortering">
+              <option value="nyeste">Nyeste først</option>
+              <option value="eldste">Eldste først</option>
+              <option value="besok">Flest besøk</option>
+              <option value="tittel">Stilling A–Å</option>
+              <option value="arbeidsgiver">Arbeidsgiver A–Å</option>
+            </select>
+          </span>
+        </label>
+      </div>
+
+      <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
+        <table class="table">
+          <thead>
+            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanje</th><th>Deres prosjekt</th><th>Besøk</th><th>Kampanjeperiode</th><th>Status</th></tr>
+          </thead>
+          <tbody id="rader">
+            <tr tabindex="0" onclick="location.href='connect-detalj-uten-kampanje.html'" data-status="Uten kampanje" data-arbeidsgiver="Sørlandet Helse" data-tittel="Helsesykepleier Kristiansand" data-besok="0" data-start="2026-09-23">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Helsesykepleier Kristiansand</span><span class="table__meta">ConnectID <span class="table__id">777845</span></span></span></td>
+              <td data-label="Arbeidsgiver">Sørlandet Helse</td>
+              <td data-label="Kampanje"><a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=777845" onclick="event.stopPropagation()">Bestill</a></td>
+              <td data-label="Deres prosjekt"><span class="mangler">Ikke satt</span></td>
+              <td data-label="Besøk"><span class="mangler">Ingen ennå</span></td>
+              <td data-label="Kampanjeperiode"><span class="mangler">—</span></td>
+              <td data-label="Status"><span class="badge badge--draft">Uten kampanje</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj-uten-kampanje.html'" data-status="Uten kampanje" data-arbeidsgiver="Vestlandet Helse" data-tittel="Spesialsykepleier Bergen" data-besok="0" data-start="2026-09-22">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Spesialsykepleier Bergen</span><span class="table__meta">ConnectID <span class="table__id">777851</span></span></span></td>
+              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
+              <td data-label="Kampanje"><a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=777851" onclick="event.stopPropagation()">Bestill</a></td>
+              <td data-label="Deres prosjekt">Nyåpnet post 4</td>
+              <td data-label="Besøk"><span class="mangler">Ingen ennå</span></td>
+              <td data-label="Kampanjeperiode"><span class="mangler">—</span></td>
+              <td data-label="Status"><span class="badge badge--draft">Uten kampanje</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj-uten-kampanje.html'" data-status="Uten kampanje" data-arbeidsgiver="Nord-Norge Helse" data-tittel="Jordmor Tromsø" data-besok="0" data-start="2026-09-21">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Jordmor Tromsø</span><span class="table__meta">ConnectID <span class="table__id">777848</span></span></span></td>
+              <td data-label="Arbeidsgiver">Nord-Norge Helse</td>
+              <td data-label="Kampanje"><a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=777848" onclick="event.stopPropagation()">Bestill</a></td>
+              <td data-label="Deres prosjekt"><span class="mangler">Ikke satt</span></td>
+              <td data-label="Besøk"><span class="mangler">Ingen ennå</span></td>
+              <td data-label="Kampanjeperiode"><span class="mangler">—</span></td>
+              <td data-label="Status"><span class="badge badge--draft">Uten kampanje</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Aktiv" data-arbeidsgiver="Vestlandet Helse" data-tittel="Anestesisykepleier Stavanger" data-besok="610" data-start="2026-09-10">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Anestesisykepleier Stavanger</span><span class="table__meta">ConnectID <span class="table__id">777731</span></span></span></td>
+              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
+              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129068</a></td>
+              <td data-label="Deres prosjekt">Rekruttering Stavanger</td>
+              <td data-label="Besøk"><span class="celle"><span class="table__title">610</span><span class="table__meta">Siste: i går 16.02</span></span></td>
+              <td data-label="Kampanjeperiode">10.09 – 30.09.2026</td>
+              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Aktiv" data-arbeidsgiver="Oslo Sykehusdrift" data-tittel="Sykepleier Oslo" data-besok="3480" data-start="2026-09-01">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">ConnectID <span class="table__id">777689</span></span></span></td>
+              <td data-label="Arbeidsgiver">Oslo Sykehusdrift</td>
+              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129041</a></td>
+              <td data-label="Deres prosjekt">Rekruttering Oslo</td>
+              <td data-label="Besøk"><span class="celle"><span class="table__title">3 480</span><span class="table__meta">Siste: i dag 09.14</span></span></td>
+              <td data-label="Kampanjeperiode">01.09 – 31.10.2026</td>
+              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Avsluttet" data-arbeidsgiver="Trøndelag Helse" data-tittel="Sykepleier Trondheim" data-besok="1905" data-start="2026-08-28">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Sykepleier Trondheim</span><span class="table__meta">ConnectID <span class="table__id">777112</span></span></span></td>
+              <td data-label="Arbeidsgiver">Trøndelag Helse</td>
+              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129062</a></td>
+              <td data-label="Deres prosjekt">Nybygg Trondheim</td>
+              <td data-label="Besøk"><span class="celle"><span class="table__title">1 905</span><span class="table__meta">Siste: 22.09.2026</span></span></td>
+              <td data-label="Kampanjeperiode">28.08 – 22.09.2026</td>
+              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Pause" data-arbeidsgiver="Vestlandet Helse" data-tittel="Intensivsykepleier Bergen" data-besok="1240" data-start="2026-08-14">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Intensivsykepleier Bergen</span><span class="table__meta">ConnectID <span class="table__id">777702</span></span></span></td>
+              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
+              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129055</a></td>
+              <td data-label="Deres prosjekt">Rekruttering Bergen</td>
+              <td data-label="Besøk"><span class="celle"><span class="table__title">1 240</span><span class="table__meta">Siste: 21.09.2026</span></span></td>
+              <td data-label="Kampanjeperiode">14.08 – 04.09.2026</td>
+              <td data-label="Status"><span class="badge badge--paused">Pause</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Avsluttet" data-arbeidsgiver="Nordland Sykehjem" data-tittel="Sykepleier Bodø" data-besok="2110" data-start="2026-07-02">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">ConnectID <span class="table__id">777301</span></span></span></td>
+              <td data-label="Arbeidsgiver">Nordland Sykehjem</td>
+              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#128984</a></td>
+              <td data-label="Deres prosjekt">Rekruttering Bodø</td>
+              <td data-label="Besøk"><span class="celle"><span class="table__title">2 110</span><span class="table__meta">Siste: 30.07.2026</span></span></td>
+              <td data-label="Kampanjeperiode">02.07 – 30.07.2026</td>
+              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
+            </tr>
+            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Avsluttet" data-arbeidsgiver="Vestlandet Helse" data-tittel="Jordmor Ålesund" data-besok="840" data-start="2026-06-08">
+              <td data-label="Stilling"><span class="celle"><span class="table__title">Jordmor Ålesund</span><span class="table__meta">ConnectID <span class="table__id">777544</span></span></span></td>
+              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
+              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#128951</a></td>
+              <td data-label="Deres prosjekt">Sommervikarer</td>
+              <td data-label="Besøk"><span class="celle"><span class="table__title">840</span><span class="table__meta">Siste: 22.06.2026</span></span></td>
+              <td data-label="Kampanjeperiode">08.06 – 22.06.2026</td>
+              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table__empty" id="ingen-treff" hidden>Ingen stillinger passer. Prøv et annet søk, eller nullstill filtrene.</p>
+      </div>
+
+      <div class="pagination-wrap">
+        <nav class="pagination" aria-label="Paginering">
+          <span class="pagination__meta" id="side-meta" aria-live="polite">Viser <b>9</b> av 9 stillinger</span>
+          <div class="pagination__pages">
+            <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
+            <button class="pagination__page" type="button" aria-current="page">1</button>
+            <button class="pagination__btn" type="button" disabled aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var sok = document.getElementById('sok');
+  var sortering = document.getElementById('sortering');
+  var status = document.getElementById('f-status');
+  var tbody = document.getElementById('rader');
+  var rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+
+  function sorter() {
+    var sammenlign = {
+      nyeste: function (a, b) { return b.dataset.start.localeCompare(a.dataset.start); },
+      eldste: function (a, b) { return a.dataset.start.localeCompare(b.dataset.start); },
+      besok: function (a, b) { return Number(b.dataset.besok) - Number(a.dataset.besok); },
+      tittel: function (a, b) { return a.dataset.tittel.localeCompare(b.dataset.tittel, 'nb'); },
+      arbeidsgiver: function (a, b) { return a.dataset.arbeidsgiver.localeCompare(b.dataset.arbeidsgiver, 'nb') || a.dataset.tittel.localeCompare(b.dataset.tittel, 'nb'); }
+    }[sortering.value];
+    rader.slice().sort(sammenlign).forEach(function (tr) { tbody.appendChild(tr); });
+  }
+
+  function filtrer() {
+    // Every word must match somewhere in the row, so «sykepleier vestlandet» narrows the list
+    var ord = sok.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    var vist = 0;
+    rader.forEach(function (tr) {
+      var tekst = tr.textContent.toLowerCase();
+      var ok = ord.every(function (o) { return tekst.indexOf(o) !== -1; });
+      ok = ok && (!status.value || tr.dataset.status === status.value);
+      tr.hidden = !ok;
+      if (ok) vist++;
+    });
+    document.getElementById('ingen-treff').hidden = vist > 0;
+    document.getElementById('side-meta').innerHTML = 'Viser <b>' + vist + '</b> av ' + rader.length + ' stillinger';
+  }
+
+  status.addEventListener('change', filtrer);
+  sok.addEventListener('input', filtrer);
+  sok.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
+  sortering.addEventListener('change', sorter);
+
+  sorter();
+  filtrer();
+})();
+</script>
+
+<script src="../components/js/interactions.js"></script>
+<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=4"></script>
+</body>
+</html>

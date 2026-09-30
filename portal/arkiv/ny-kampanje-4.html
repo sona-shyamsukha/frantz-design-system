@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Ny kampanje — Bestilling — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<link rel="stylesheet" href="../../frantz-ds.css?v=30">
 <style>
   body { margin: 0; }
   .cols { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: var(--space-32); align-items: start; margin-top: var(--space-32); }
@@ -31,7 +31,7 @@
 <body>
 
 <header class="mobiltopp">
-  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <a href="../dashboard.html"><img class="logo" src="../../assets/logo-frantz.png" alt="Frantz"></a>
   <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
     <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
   </button>
@@ -41,26 +41,28 @@
 <div class="app">
   <aside class="rail" id="rail">
     <div class="railtopp">
-      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <a href="../dashboard.html"><img class="logo" src="../../assets/logo-frantz.png" alt="Frantz"></a>
       <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
     </div>
     <nav class="nav" aria-label="Hovedmeny">
-      <button type="button" class="nav__item" onclick="location.href='dashboard.html'"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
-      <button type="button" class="nav__item" onclick="location.href='campaigns.html'"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
-      <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
-      <button type="button" class="nav__item" onclick="location.href='rapporter.html'"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</button>
+      <a class="nav__item" href="../dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="../connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="../campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="../ny-kampanje.html" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="../rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="../assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
-      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
-      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+      <a class="nav__item" href="../mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="../innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
       <b>Vokser AS</b><small>ss@vokser.no</small>
-      <button class="kontoknapp" type="button" onclick="location.href='login.html'">Logg ut</button>
+      <button class="kontoknapp" type="button" onclick="location.href='../login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div><button class="btn btn--ghost" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span>Logg ut</button></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
 
     <div class="wrap">
       <div id="bestilling-view">
@@ -152,7 +154,7 @@
               <div class="summary-panel__cta">
                 <button class="btn btn--primary" type="button" onclick="bestill()">Bestill kampanjen</button>
                 <button class="btn btn--secondary" type="button" onclick="location.href='ny-kampanje-3.html'">Tilbake</button>
-                <button class="btn btn--ghost" type="button" onclick="location.href='campaigns.html'">Lagre utkast</button>
+                <button class="btn btn--ghost" type="button" onclick="location.href='../campaigns.html'">Lagre utkast</button>
               </div>
             </div>
           </aside>
@@ -166,8 +168,8 @@
           <p>Medierådgiveren din i Frantz går gjennom oppsettet og tar kontakt hvis noe mangler. Kampanjen starter så snart materiellet er godkjent.</p>
           <p class="kvittering__id" id="kvittering-linje">Kampanje 129070 · Sykepleier i Kristiansand · kr 36 500</p>
           <div class="kvittering__cta">
-            <button class="btn btn--primary" type="button" onclick="location.href='campaigns.html'">Se alle kampanjer</button>
-            <button class="btn btn--secondary" type="button" onclick="location.href='dashboard.html'">Til hjem</button>
+            <button class="btn btn--primary" type="button" onclick="location.href='../campaigns.html'">Se alle kampanjer</button>
+            <button class="btn btn--secondary" type="button" onclick="location.href='../dashboard.html'">Til hjem</button>
           </div>
         </div>
       </div>
@@ -218,6 +220,9 @@ function bestill() {
 }
 </script>
 
-<script src="../components/js/interactions.js"></script>
+<script src="../../components/js/interactions.js"></script>
+<script src="../../components/js/konto.js?v=2"></script>
+<script src="../../components/js/assistant-widget.js?v=4"></script>
+<script src="../../components/js/assistant.js?v=4"></script>
 </body>
 </html>

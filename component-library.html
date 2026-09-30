@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=8">
+<link rel="stylesheet" href="frantz-ds.css?v=10">
 <link rel="stylesheet" href="styles/docs.css">
 </head>
 <body class="ds-docs">
@@ -60,6 +60,9 @@
   <button class="cl-tab" type="button" onclick="showTab('slider', this)">Budsjettskyver</button>
   <button class="cl-tab" type="button" onclick="showTab('selectcard', this)">Velgbart kort</button>
   <button class="cl-tab" type="button" onclick="showTab('choicecard', this)">Valgkort</button>
+
+  <div class="cl-tab-group">AI-assistent</div>
+  <button class="cl-tab" type="button" onclick="showTab('chat', this)">Chat</button>
 </aside>
 
 <div class="cl-main">
@@ -349,11 +352,11 @@
       <div class="cl-sep"></div>
       <span class="cl-variant">Chips / filter</span>
       <p class="cl-note">Av: hvit + kant. På: navy fyll, hvit tekst. Hover på av: navy tekst.</p>
-      <div class="chips">
-        <button type="button" class="chip" aria-pressed="true">Sykepleier</button>
-        <button type="button" class="chip">Lege</button>
-        <button type="button" class="chip">Jordmor</button>
-        <button type="button" class="chip">Vernepleier</button>
+      <div class="quick-replies">
+        <button type="button" class="quick-reply" aria-pressed="true">Sykepleier</button>
+        <button type="button" class="quick-reply">Lege</button>
+        <button type="button" class="quick-reply">Jordmor</button>
+        <button type="button" class="quick-reply">Vernepleier</button>
       </div>
     </div>
     <div class="cl-code">
@@ -369,7 +372,7 @@
 &lt;input class="input input--error" id="budsjett" type="text"&gt;
 &lt;span class="form-error"&gt;Oppgi et budsjett over kr 5 000.&lt;/span&gt;
 
-&lt;button class="chip" aria-pressed="true"&gt;Sykepleier&lt;/button&gt;</code></pre>
+&lt;button class="quick-reply" aria-pressed="true"&gt;Sykepleier&lt;/button&gt;</code></pre>
       </div>
     </div>
   </div>
@@ -1418,6 +1421,76 @@ tegnTrakt(document.getElementById('trakt'), {
           <span class="choice-card__name">Frantz produserer</span>
           <span class="choice-card__desc">Frantz lager annonsen for dere.</span>
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="cl-panel" id="panel-chat">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Chat</h2>
+      <span class="cl-component-class">.chat .msg .quick-reply .draft .source-tag .handoff .composer</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Frantz-assistenten. Se <a href="portal/assistent.html">portal/assistent.html</a> for hele flyten. Logikken ligger i <code>components/js/assistant.js</code>.</p>
+      <ul class="cl-rules">
+        <li>Fire meldingstyper: <code>.msg--ai</code>, <code>.msg--user</code>, <code>.msg--advisor</code> (menneske hos Frantz) og <code>.msg--system</code> (hendelse).</li>
+        <li><code>.quick-reply--human</code> er alltid synlig. Brukeren skal alltid kunne be om et menneske.</li>
+        <li>Hvert felt i <code>.draft</code> viser hvor verdien kommer fra med <code>.source-tag</code>.</li>
+        <li>Amber brukes bare på én handling: «Bestill kampanjen».</li>
+      </ul>
+      <div class="cl-sep"></div>
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:640px">
+        <div class="msg msg--ai">
+          <span class="msg__avatar"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
+          <div class="msg__body"><span class="msg__meta">Frantz-assistenten · 12:15</span><div class="msg__bubble">Hei Kari. Hva vil du gjøre?</div>
+            <div class="quick-replies">
+              <button class="quick-reply" type="button"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Lag ny kampanje</button>
+              <button class="quick-reply" type="button"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Følg opp en kampanje</button>
+              <button class="quick-reply quick-reply--human" type="button"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span>Snakk med en rådgiver</button>
+            </div>
+          </div>
+        </div>
+        <div class="msg msg--user">
+          <span class="msg__avatar"><span class="icon-lucide icon-lucide--user-round" aria-hidden="true"></span></span>
+          <div class="msg__body"><span class="msg__meta">Du · 12:16</span><div class="msg__bubble">Trenger rapportlenken for 22 31</div>
+            <div class="msg__files"><span class="file-chip"><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>toppbilde.jpg</span></div>
+          </div>
+        </div>
+        <div class="msg msg--advisor">
+          <span class="msg__avatar"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span></span>
+          <div class="msg__body"><span class="msg__meta">Jonas · rådgiver hos Frantz · 12:40</span><div class="msg__bubble">Jeg bytter bildet i dag.</div></div>
+        </div>
+        <div class="msg msg--system"><div class="msg__body"><div class="msg__bubble"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Kampanje #129077 er bestilt</div></div></div>
+        <div class="typing" style="align-self:flex-start" aria-label="Assistenten skriver"><span></span><span></span><span></span></div>
+
+        <div class="draft">
+          <div class="draft__head"><div class="draft__title">Kampanjeutkast<span class="draft__sub">Intensivsykepleier · Tromsø</span></div><span class="source-tag source-tag--missing">1 felt mangler</span></div>
+          <div class="draft__rows">
+            <div class="draft__row"><span class="draft__label">Totalbudsjett</span><p class="draft__value">kr 30 000</p><span class="source-tag source-tag--text">Fra deg</span></div>
+            <div class="draft__row"><span class="draft__label">Søknadsfrist</span><p class="draft__value">20.10.2026</p><span class="source-tag source-tag--link">Fra stillingslenken</span></div>
+            <div class="draft__row"><span class="draft__label">Avsender</span><p class="draft__value">Vokser AS</p><span class="source-tag source-tag--ai">AI-forslag</span></div>
+            <div class="draft__row draft__row--missing"><span class="draft__label">Logo</span><p class="draft__value">—</p><span class="source-tag source-tag--missing">Mangler</span></div>
+          </div>
+          <div class="draft__foot"><span class="draft__note">Bestill-knappen kommer når alle felt er fylt ut.</span></div>
+        </div>
+
+        <div class="linkbox"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span><span class="linkbox__url">frantz.no/r/129041</span><button class="btn btn--ghost btn--sm" type="button">Kopier</button></div>
+
+        <div class="handoff">
+          <span class="handoff__icon"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span></span>
+          <div><b>Sendt til en rådgiver hos Frantz</b>Vanlig svartid er innen 4 timer på hverdager. Du får svaret her og på e-post, i samme tråd.</div>
+        </div>
+
+        <form class="composer" style="padding:0;border:0" onsubmit="return false">
+          <div class="composer__box">
+            <button type="button" class="composer__btn" aria-label="Legg ved filer"><span class="icon-lucide icon-lucide--paperclip icon-lucide--md" aria-hidden="true"></span></button>
+            <textarea class="composer__input" rows="1" aria-label="Skriv til assistenten" placeholder="Skriv eller lim inn bestillingen…"></textarea>
+            <button type="submit" class="composer__btn composer__btn--send" aria-label="Send"><span class="icon-lucide icon-lucide--send" aria-hidden="true"></span></button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

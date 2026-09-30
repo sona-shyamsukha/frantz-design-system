@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Ny kampanje — Strategien — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=9">
+<link rel="stylesheet" href="../../frantz-ds.css?v=30">
 <style>
   body { margin: 0; }
   .cols { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: var(--space-32); align-items: start; margin-top: var(--space-32); }
@@ -22,12 +22,79 @@
   @media (max-width: 640px) { .innsiktsband { grid-template-columns: 1fr; } }
 
   .card__head--row { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-16); }
-  .bud { display: flex; align-items: baseline; gap: var(--space-12); margin-bottom: var(--space-24); }
-  .bud__kr { color: var(--text-heading); font-family: var(--font-display); font-size: var(--text-4xl); font-weight: var(--font-weight-bold); line-height: 1; letter-spacing: var(--tracking-display); }
-  .bud__tag { font-size: var(--text-sm); font-weight: var(--font-weight-semibold); padding: 4px var(--space-12); border-radius: var(--radius-full); }
-  .bud__tag--anbefalt { background: var(--bg-brand-2-soft); color: var(--color-navy); }
-  .bud__tag--over { background: var(--bg-info-soft); color: var(--text-info-strong); }
-  .bud__tag--under { background: var(--bg-danger-soft); color: var(--color-warn); }
+  .bud { margin-bottom: var(--space-32); }
+  .bud__kr { display: block; color: var(--text-heading); font-family: var(--font-display); font-size: var(--text-4xl); font-weight: var(--font-weight-bold); line-height: 1.05; letter-spacing: var(--tracking-display); }
+  .bud__status {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+  .bud__status--anbefalt { color: var(--color-navy); }
+  .bud__status--over { color: var(--text-info-strong); }
+  .bud__status--under { color: var(--color-warn); }
+
+  .slider-wrap .ticks { height: 14px; margin-top: 6px; }
+  .slider-wrap .tick { width: auto; }
+  .slider-wrap .tick__line { height: 10px; margin-bottom: 0; }
+
+  .effekt { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .effekt__steg {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px var(--space-16);
+    align-items: baseline;
+  }
+  .effekt__navn { color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-medium); }
+  .effekt__tall { color: var(--color-navy); font-family: var(--font-display); font-size: var(--text-xl); font-weight: var(--font-weight-bold); line-height: 1; text-align: right; }
+  .effekt__bar {
+    grid-column: 1 / -1;
+    display: block;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--surface-section);
+    overflow: hidden;
+  }
+  .effekt__bar i { display: block; height: 100%; border-radius: var(--radius-full); background: var(--color-navy); }
+  .effekt__steg--mal .effekt__bar i { background: var(--color-amber); }
+  .effekt__steg--mal .effekt__tall { color: var(--color-amber-ink, var(--color-navy)); }
+  .effekt__andel { grid-column: 1 / -1; color: var(--text-faint); font-size: var(--text-xs); }
+  .effekt__kilde { margin: var(--space-16) 0 0; color: var(--text-faint); font-size: var(--text-xs); }
+
+  .slider-ends {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-8);
+    color: var(--text-faint);
+    font-size: var(--text-xs);
+  }
+
+  .milepaeler {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-8);
+    margin: var(--space-24) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .milepael {
+    display: grid;
+    align-content: start;
+    grid-template-columns: 18px 1fr;
+    align-items: center;
+    gap: 2px var(--space-8);
+    padding: var(--space-12);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-8);
+  }
+  .milepael__ikon { grid-row: span 2; color: var(--text-faint); }
+  .milepael__kr { color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .milepael__hva { color: var(--text-muted); font-size: var(--text-xs); line-height: 1.35; }
+  .milepael--paa { border-color: var(--color-navy); background: var(--surface-section); }
+  .milepael--paa .milepael__ikon { color: var(--color-navy); }
+  @media (max-width: 860px) { .milepaeler { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .milepaeler { grid-template-columns: 1fr; } }
 
   .fakta-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); margin-top: var(--space-24); }
   @media (max-width: 640px) { .fakta-row { grid-template-columns: 1fr; } }
@@ -44,7 +111,7 @@
 <body>
 
 <header class="mobiltopp">
-  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <a href="../dashboard.html"><img class="logo" src="../../assets/logo-frantz.png" alt="Frantz"></a>
   <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
     <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
   </button>
@@ -54,26 +121,28 @@
 <div class="app">
   <aside class="rail" id="rail">
     <div class="railtopp">
-      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <a href="../dashboard.html"><img class="logo" src="../../assets/logo-frantz.png" alt="Frantz"></a>
       <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
     </div>
     <nav class="nav" aria-label="Hovedmeny">
-      <button type="button" class="nav__item" onclick="location.href='dashboard.html'"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
-      <button type="button" class="nav__item" onclick="location.href='campaigns.html'"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
-      <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
-      <button type="button" class="nav__item" onclick="location.href='rapporter.html'"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</button>
+      <a class="nav__item" href="../dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="../connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="../campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="../ny-kampanje.html" aria-current="page"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="../rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="../assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
-      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
-      <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+      <a class="nav__item" href="../mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="../innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
       <b>Vokser AS</b><small>ss@vokser.no</small>
-      <button class="kontoknapp" type="button" onclick="location.href='login.html'">Logg ut</button>
+      <button class="kontoknapp" type="button" onclick="location.href='../login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div><button class="btn btn--ghost" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span>Logg ut</button></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
 
     <div class="wrap">
       <ol class="steps">
@@ -112,19 +181,43 @@
 
             <div class="bud">
               <span class="bud__kr" id="ut-budsjett">kr 36 500</span>
-              <span class="bud__tag bud__tag--anbefalt" id="ut-tag">Anbefalt for denne stillingen</span>
+              <span class="bud__status" id="ut-tag">Anbefalt for denne stillingen</span>
             </div>
 
             <div class="slider-wrap">
               <span class="slider-wrap__mark" id="mark-anbefalt" style="left:38%">Anbefalt</span>
-              <input class="budsjett-slider" type="range" id="slider" min="15000" max="70000" step="500" value="36500">
+              <input class="budsjett-slider" type="range" id="slider" min="15000" max="70000" step="500" value="36500" aria-describedby="milepael-liste">
+              <div class="ticks" aria-hidden="true">
+                <div class="tick" style="left:18%"><div class="tick__line"></div></div>
+                <div class="tick" style="left:27%"><div class="tick__line"></div></div>
+                <div class="tick" style="left:55%"><div class="tick__line"></div></div>
+                <div class="tick" style="left:82%"><div class="tick__line"></div></div>
+              </div>
+              <div class="slider-ends"><span>kr 15 000</span><span>kr 70 000</span></div>
             </div>
-            <div class="ticks">
-              <div class="tick" style="left:18%"><div class="tick__line"></div><div class="tick__txt">kr 25 000<br>Lengre periode</div></div>
-              <div class="tick tick--kort" style="left:27%"><div class="tick__line"></div><div class="tick__txt">kr 30 000<br>Nettsteder og aviser</div></div>
-              <div class="tick" style="left:55%"><div class="tick__line"></div><div class="tick__txt">kr 45 000<br>Remarketing</div></div>
-              <div class="tick tick--kort" style="left:82%"><div class="tick__line"></div><div class="tick__txt">kr 60 000<br>Nasjonal dekning</div></div>
-            </div>
+
+            <ul class="milepaeler" id="milepael-liste">
+              <li class="milepael" data-terskel="25000">
+                <span class="milepael__ikon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>
+                <span class="milepael__kr">kr 25 000</span>
+                <span class="milepael__hva">Lengre periode</span>
+              </li>
+              <li class="milepael" data-terskel="30000">
+                <span class="milepael__ikon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>
+                <span class="milepael__kr">kr 30 000</span>
+                <span class="milepael__hva">Nettsteder og aviser</span>
+              </li>
+              <li class="milepael" data-terskel="45000">
+                <span class="milepael__ikon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>
+                <span class="milepael__kr">kr 45 000</span>
+                <span class="milepael__hva">Remarketing</span>
+              </li>
+              <li class="milepael" data-terskel="60000">
+                <span class="milepael__ikon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>
+                <span class="milepael__kr">kr 60 000</span>
+                <span class="milepael__hva">Nasjonal dekning</span>
+              </li>
+            </ul>
           </div>
 
           <div class="alert alert--error" id="varsel" hidden>
@@ -186,7 +279,33 @@
               <h3 class="card__title">Forventet effekt</h3>
               <p class="card__hint">Estimert resultat av strategien over. Tallene oppdateres når du endrer budsjett eller kanaler.</p>
             </div></div>
-            <div id="effekt-trakt" data-trakt data-visning="trakt"></div>
+            <ol class="effekt">
+              <li class="effekt__steg">
+                <span class="effekt__navn">Relevante besøk</span>
+                <b class="effekt__tall" id="ef-besok">3 650</b>
+                <span class="effekt__bar"><i style="width:100%"></i></span>
+                <span class="effekt__andel" id="ef-besok-andel">utgangspunkt</span>
+              </li>
+              <li class="effekt__steg">
+                <span class="effekt__navn">Begynte å lese</span>
+                <b class="effekt__tall" id="ef-lese">1 971</b>
+                <span class="effekt__bar"><i id="ef-lese-bar" style="width:54%"></i></span>
+                <span class="effekt__andel" id="ef-lese-andel">54 % av besøkene</span>
+              </li>
+              <li class="effekt__steg">
+                <span class="effekt__navn">Leste hele annonsen</span>
+                <b class="effekt__tall" id="ef-lest">1 261</b>
+                <span class="effekt__bar"><i id="ef-lest-bar" style="width:35%"></i></span>
+                <span class="effekt__andel" id="ef-lest-andel">35 % av besøkene</span>
+              </li>
+              <li class="effekt__steg effekt__steg--mal">
+                <span class="effekt__navn">Trykket på søknad</span>
+                <b class="effekt__tall" id="ef-mal">88</b>
+                <span class="effekt__bar"><i id="ef-mal-bar" style="width:2.4%"></i></span>
+                <span class="effekt__andel" id="ef-mal-andel">2,4 % av besøkene</span>
+              </li>
+            </ol>
+            <p class="effekt__kilde">Basert på historiske tall for lignende kampanjer og valgene dine.</p>
           </div>
         </div>
 
@@ -216,7 +335,7 @@
             <div class="summary-panel__cta">
               <button class="btn btn--primary" type="button" onclick="gaaVidere()">Videre til materiell</button>
               <button class="btn btn--secondary" type="button" onclick="location.href='ny-kampanje-1.html'">Tilbake</button>
-              <button class="btn btn--ghost" type="button" onclick="location.href='campaigns.html'">Lagre utkast</button>
+              <button class="btn btn--ghost" type="button" onclick="location.href='../campaigns.html'">Lagre utkast</button>
             </div>
           </div>
         </aside>
@@ -225,7 +344,7 @@
   </div>
 </div>
 
-<script src="../components/js/funnel.js"></script>
+<script src="../../components/js/funnel.js"></script>
 <script>
 var DEFAULT_WIZARD = { tittel: 'Sykepleier', spesialitet: 'Sykepleier', sted: 'Kristiansand', steder: ['Kristiansand'], frist: '2027-01-01', kandidater: 27737, nasjonalt: 624605, regionalt: 15695, anbefalt: 36500 };
 var wizard = DEFAULT_WIZARD;
@@ -274,21 +393,35 @@ function recompute() {
   var mal = Math.round(lest * 0.07);
 
   document.getElementById('ut-budsjett').textContent = formatKr(budget);
-  tegnTrakt(document.getElementById('effekt-trakt'), { verdier: [besok, lese, lest, mal] });
+  var pst = function (n) { return (Math.round(n * 1000) / 10).toString().replace('.', ',') + ' %'; };
+  document.getElementById('ef-besok').textContent = formatTall(besok);
+  document.getElementById('ef-lese').textContent = formatTall(lese);
+  document.getElementById('ef-lest').textContent = formatTall(lest);
+  document.getElementById('ef-mal').textContent = formatTall(mal);
+  document.getElementById('ef-lese-bar').style.width = (lese / besok * 100) + '%';
+  document.getElementById('ef-lest-bar').style.width = (lest / besok * 100) + '%';
+  document.getElementById('ef-mal-bar').style.width = Math.max(mal / besok * 100, 1.5) + '%';
+  document.getElementById('ef-lese-andel').textContent = pst(lese / besok) + ' av besøkene';
+  document.getElementById('ef-lest-andel').textContent = pst(lest / besok) + ' av besøkene';
+  document.getElementById('ef-mal-andel').textContent = pst(mal / besok) + ' av besøkene';
 
   var delta = budget - wizard.anbefalt;
   var tagEl = document.getElementById('ut-tag');
-  tagEl.className = 'bud__tag';
+  tagEl.className = 'bud__status';
   if (Math.abs(delta) < 1000) {
-    tagEl.textContent = 'Anbefalt for denne stillingen';
-    tagEl.classList.add('bud__tag--anbefalt');
+    tagEl.textContent = 'Dette er anbefalt budsjett for denne stillingen.';
+    tagEl.classList.add('bud__status--anbefalt');
   } else if (delta > 0) {
-    tagEl.textContent = formatKr(delta) + ' over anbefalt';
-    tagEl.classList.add('bud__tag--over');
+    tagEl.textContent = formatKr(delta) + ' over anbefalt budsjett (' + formatKr(wizard.anbefalt) + ').';
+    tagEl.classList.add('bud__status--over');
   } else {
-    tagEl.textContent = formatKr(-delta) + ' under anbefalt';
-    tagEl.classList.add('bud__tag--under');
+    tagEl.textContent = formatKr(-delta) + ' under anbefalt budsjett (' + formatKr(wizard.anbefalt) + ').';
+    tagEl.classList.add('bud__status--under');
   }
+
+  document.querySelectorAll('#milepael-liste .milepael').forEach(function (m) {
+    m.classList.toggle('milepael--paa', budget >= Number(m.dataset.terskel));
+  });
 
   var kanalNavn = ['Meta'];
   document.querySelectorAll('#kanal-grid .select-card').forEach(function (card) {
@@ -352,6 +485,9 @@ initFraStilling();
 recompute();
 </script>
 
-<script src="../components/js/interactions.js"></script>
+<script src="../../components/js/interactions.js"></script>
+<script src="../../components/js/konto.js?v=2"></script>
+<script src="../../components/js/assistant-widget.js?v=4"></script>
+<script src="../../components/js/assistant.js?v=4"></script>
 </body>
 </html>
