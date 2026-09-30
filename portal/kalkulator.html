@@ -67,6 +67,8 @@
   #kart { flex: 1; min-height: 420px; background: var(--surface-section); }
   #kart .leaflet-control-attribution, #kart .leaflet-control-attribution a { color: var(--text-muted); }
   #kart .leaflet-control-attribution { background: rgba(255, 255, 255, 0.92); }
+  #kart.leaflet-container { background: #EAF2F6; }
+  #kart .leaflet-land-pane svg { max-width: none !important; max-height: none !important; }
   #kart .leaflet-tile-pane { filter: grayscale(1) contrast(0.9) brightness(1.05); }
   .kart-forklaring { display: flex; flex-wrap: wrap; gap: var(--space-16); padding: var(--space-12) var(--space-24); color: var(--text-muted); font-size: var(--text-xs); }
   .kart-forklaring i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: var(--radius-full); vertical-align: -2px; }
@@ -185,9 +187,10 @@
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="data/frantz-data.js"></script>
 <script src="../components/js/picker.js"></script>
-<script src="../components/js/reach-model.js"></script>
+<script src="../components/js/reach-model.js?v=2"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -223,7 +226,21 @@
 
   // Map
   var kart = L.map('kart', { scrollWheelZoom: false }).setView([64.5, 12], 4);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(kart);
+  // Bakgrunnskart uten kartfliser: Norge og nabolandene tegnes fra åpne landgrenser (Natural Earth).
+  // Flisetjenestene (OpenStreetMap, CARTO) blokkerer eller krever nøkkel.
+  kart.createPane('land'); kart.getPane('land').style.zIndex = 250;
+  var bakgrunn = L.layerGroup().addTo(kart);
+  kart.attributionControl.addAttribution('Kartdata © Natural Earth');
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(function (r) { return r.json(); }).then(function (topo) {
+    var land = topojson.feature(topo, topo.objects.countries).features;
+    var stil = getComputedStyle(document.documentElement);
+    land.filter(function (l) { return ['752', '246', '643', '208'].indexOf(String(l.id)) !== -1; }).forEach(function (l) {
+      L.geoJSON(l, { pane: 'land', interactive: false, style: { color: stil.getPropertyValue('--border-default').trim() || '#D7E0E5', weight: 1, fillColor: '#F4F7F9', fillOpacity: 1 } }).addTo(bakgrunn);
+    });
+    land.filter(function (l) { return String(l.id) === '578'; }).forEach(function (l) {
+      L.geoJSON(l, { pane: 'land', interactive: false, style: { color: stil.getPropertyValue('--color-data-500').trim() || '#7FB3C9', weight: 1, fillColor: stil.getPropertyValue('--color-data-100').trim() || '#E8EEF1', fillOpacity: 1 } }).addTo(bakgrunn);
+    });
+  }).catch(function () {});
   var lag = L.layerGroup().addTo(kart);
   var NAVY = getComputedStyle(document.documentElement).getPropertyValue('--color-navy').trim() || '#0C3F59';
   var AMBER = getComputedStyle(document.documentElement).getPropertyValue('--color-amber').trim() || '#F7A323';
