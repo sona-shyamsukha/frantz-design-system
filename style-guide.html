@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Stilguide</title>
-<link rel="stylesheet" href="frantz-ds.css?v=8">
-<link rel="stylesheet" href="styles/docs.css">
+<link rel="stylesheet" href="frantz-ds.css?v=42">
+<link rel="stylesheet" href="styles/docs.css?v=2">
 </head>
 <body class="ds-docs">
 
@@ -40,6 +40,8 @@
   <a class="ds-sidebar__link" href="#text-colors">Tekst</a>
   <a class="ds-sidebar__link" href="#status">Status</a>
   <a class="ds-sidebar__link" href="#campaign">Kampanjestatus</a>
+  <a class="ds-sidebar__link" href="#tints">Navy-toner</a>
+  <a class="ds-sidebar__link" href="#channels">Kanalfarger</a>
 
   <div class="ds-sidebar__group">Typografi</div>
   <a class="ds-sidebar__link" href="#fonts">Fonter</a>
@@ -117,7 +119,7 @@
 <section class="ds-section" id="palette">
   <div class="ds-overline">Farge</div>
   <div class="ds-title">Fargepalett</div>
-  <div class="ds-desc">Rå merkeverdier fra kampanjeportal-POC-en. Semantiske tokens sitter på toppen — primitive farger endres aldri direkte. <span class="chip chip--l1">Lag 1</span></div>
+  <div class="ds-desc">Rå merkeverdier fra kampanjeportal-POC-en. Semantiske tokens sitter på toppen — primitive farger endres aldri direkte. <span class="ds-chip ds-chip--l1">Lag 1</span></div>
 
   <div class="ds-sub ds-sub--flush">
     <div class="ds-sub__title">Navy — primær</div>
@@ -173,12 +175,25 @@
       <div class="swatch"><div class="swatch__color" style="background:#E8EEF1"></div><div class="swatch__info"><div class="swatch__name">--color-data-100</div><div class="swatch__sub">#E8EEF1</div></div></div>
     </div>
   </div>
+
+  <div class="ds-sub">
+    <div class="ds-sub__title">Toner — lys bakgrunn og lesbar tekst</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-coral-wash)"></div><div class="swatch__info"><div class="swatch__name">--color-coral-wash</div><div class="swatch__sub">#FFEEEB · kort, kladd</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-violet-wash)"></div><div class="swatch__info"><div class="swatch__name">--color-violet-wash</div><div class="swatch__sub">#F3F1FB · bestilt, favoritt</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-violet-ink)"></div><div class="swatch__info"><div class="swatch__name">--color-violet-ink</div><div class="swatch__sub">#5B4F99 · tekst på violet</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-clay-wash)"></div><div class="swatch__info"><div class="swatch__name">--color-clay-wash</div><div class="swatch__sub">#F4E6E0 · trakt, høy</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-clay-ink)"></div><div class="swatch__info"><div class="swatch__name">--color-clay-ink</div><div class="swatch__sub">#A8573F · tekst på clay</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-grey-wash)"></div><div class="swatch__info"><div class="swatch__name">--color-grey-wash</div><div class="swatch__sub">#E5E5E5 · kort, avsluttet</div></div></div>
+      <div class="swatch"><div class="swatch__color" style="background:var(--color-grey-ink)"></div><div class="swatch__info"><div class="swatch__name">--color-grey-ink</div><div class="swatch__sub">#333333 · kant, avsluttet</div></div></div>
+    </div>
+  </div>
 </section>
 
 <section class="ds-section" id="backgrounds">
   <div class="ds-overline">Farge</div>
   <div class="ds-title">Bakgrunner</div>
-  <div class="ds-desc">Komponenter refererer disse — aldri primitive hex. <span class="chip chip--l2">Lag 2</span></div>
+  <div class="ds-desc">Komponenter refererer disse — aldri primitive hex. <span class="ds-chip ds-chip--l2">Lag 2</span></div>
   <div class="token-list">
     <div class="token-row"><span class="token-row__name">--surface-default</span><div class="token-row__swatch" style="background:var(--surface-default);border:1px solid #eee"></div><div class="token-row__meta"><span class="token-row__value">#FFFFFF</span><span class="token-row__desc">Sideflate (POC: hvit)</span></div></div>
     <div class="token-row"><span class="token-row__name">--surface-subtle</span><div class="token-row__swatch" style="background:var(--surface-subtle)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-panel)</span><span class="token-row__desc">KPI, leseflater, innsatte områder</span></div></div>
@@ -186,7 +201,12 @@
     <div class="token-row"><span class="token-row__name">--surface-raised</span><div class="token-row__swatch" style="background:var(--surface-raised);border:1px solid #eee"></div><div class="token-row__meta"><span class="token-row__value">#FFFFFF</span><span class="token-row__desc">Kort du betjener, modaler</span></div></div>
     <div class="token-row"><span class="token-row__name">--surface-inverse</span><div class="token-row__swatch" style="background:var(--surface-inverse)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-navy)</span><span class="token-row__desc">Mørke flater</span></div></div>
     <div class="token-row"><span class="token-row__name">--surface-rail</span><div class="token-row__swatch" style="background:var(--surface-rail)"></div><div class="token-row__meta"><span class="token-row__value">var(--color-rail)</span><span class="token-row__desc">Portal-sidemeny</span></div></div>
-  </div>
+      <div class="token-row"><span class="token-row__name">--surface-selected</span><div class="token-row__swatch" style="background:var(--surface-selected);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#EDF5F9</span><span class="token-row__desc">Valgt kort eller valg</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-glass</span><div class="token-row__swatch" style="background:var(--surface-glass);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(255,255,255,.92)</span><span class="token-row__desc">Oppå bilde, kartkreditt</span></div></div>
+    <div class="token-row"><span class="token-row__name">--surface-on-dark-hover</span><div class="token-row__swatch" style="background:var(--surface-on-dark-hover);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(255,255,255,.08)</span><span class="token-row__desc">Hover på mørk flate</span></div></div>
+    <div class="token-row"><span class="token-row__name">--scrim</span><div class="token-row__swatch" style="background:var(--scrim);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgb(10 25 40 / .35)</span><span class="token-row__desc">Bak skuff og dialog</span></div></div>
+    <div class="token-row"><span class="token-row__name">--scrim-strong</span><div class="token-row__swatch" style="background:var(--scrim-strong);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(7,44,64,.55)</span><span class="token-row__desc">Bak mobilmeny</span></div></div>
+</div>
 </section>
 
 <section class="ds-section" id="borders">
@@ -197,6 +217,7 @@
     <div class="token-row"><span class="token-row__name">--border-default</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-default)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-line)</span><span class="token-row__desc">Kort, input, seksjoner</span></div></div>
     <div class="token-row"><span class="token-row__name">--border-strong</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-strong)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-ink-200)</span><span class="token-row__desc">Uthevet kant, hover</span></div></div>
     <div class="token-row"><span class="token-row__name">--border-focus</span><div style="width:38px;height:26px;display:flex;align-items:center"><div style="width:100%;height:2px;background:var(--border-focus)"></div></div><div class="token-row__meta"><span class="token-row__value">var(--color-navy)</span><span class="token-row__desc">Fokus på skjemafelt</span></div></div>
+    <div class="token-row"><span class="token-row__name">--border-on-dark</span><div style="width:38px;height:26px;border-radius:4px;background:var(--surface-inverse);display:flex;align-items:center;justify-content:center"><div style="width:100%;height:2px;background:var(--border-on-dark)"></div></div><div class="token-row__meta"><span class="token-row__value">rgba(255,255,255,.35)</span><span class="token-row__desc">Kant på mørk flate</span></div></div>
   </div>
 </section>
 
@@ -271,6 +292,37 @@
   </div>
 </section>
 
+<section class="ds-section" id="tints">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Navy-toner</div>
+  <div class="ds-desc">Gjennomsiktig navy for hover, valgt dag og stiplede linjer. Bruk disse i stedet for rgba() i komponenter.</div>
+  <div class="token-list">
+    <div class="token-row"><span class="token-row__name">--tint-navy-4</span><div class="token-row__swatch" style="background:var(--tint-navy-4);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(12,63,89,.04)</span><span class="token-row__desc">Svak markering, valgt rad</span></div></div>
+    <div class="token-row"><span class="token-row__name">--tint-navy-8</span><div class="token-row__swatch" style="background:var(--tint-navy-8);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(12,63,89,.08)</span><span class="token-row__desc">Dag i valgt periode</span></div></div>
+    <div class="token-row"><span class="token-row__name">--tint-navy-16</span><div class="token-row__swatch" style="background:var(--tint-navy-16);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(12,63,89,.16)</span><span class="token-row__desc">Hover på knapp i kalender</span></div></div>
+    <div class="token-row"><span class="token-row__name">--tint-navy-22</span><div class="token-row__swatch" style="background:var(--tint-navy-22);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(12,63,89,.22)</span><span class="token-row__desc">Hover på dag</span></div></div>
+    <div class="token-row"><span class="token-row__name">--tint-navy-30</span><div class="token-row__swatch" style="background:var(--tint-navy-30);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(12,63,89,.30)</span><span class="token-row__desc">Hover på dag i periode</span></div></div>
+    <div class="token-row"><span class="token-row__name">--border-dashed-navy</span><div class="token-row__swatch" style="background:var(--border-dashed-navy);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">rgba(12,63,89,.25)</span><span class="token-row__desc">Stiplet skillelinje</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="channels">
+  <div class="ds-overline">Farge</div>
+  <div class="ds-title">Kanalfarger</div>
+  <div class="ds-desc">Tredjeparts merkefarger. Kun for kanallogoer og annonseforhåndsvisning. Aldri til portalens egne flater. <span class="ds-chip ds-chip--gen">Tredjepart</span></div>
+  <div class="token-list">
+    <div class="token-row"><span class="token-row__name">--channel-meta</span><div class="token-row__swatch" style="background:var(--channel-meta);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#0866FF</span><span class="token-row__desc">Meta</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-instagram</span><div class="token-row__swatch" style="background:var(--channel-instagram);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#0095F6</span><span class="token-row__desc">Instagram</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-linkedin</span><div class="token-row__swatch" style="background:var(--channel-linkedin);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#0A66C2</span><span class="token-row__desc">LinkedIn</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-snapchat</span><div class="token-row__swatch" style="background:var(--channel-snapchat);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#FFFC00</span><span class="token-row__desc">Snapchat</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-tiktok</span><div class="token-row__swatch" style="background:var(--channel-tiktok);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#111111</span><span class="token-row__desc">TikTok</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-feed-bg</span><div class="token-row__swatch" style="background:var(--channel-feed-bg);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#F0F2F5</span><span class="token-row__desc">Feedbunn i forhåndsvisning</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-feed-ink</span><div class="token-row__swatch" style="background:var(--channel-feed-ink);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#1C1E21</span><span class="token-row__desc">Tekst i forhåndsvisning</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-feed-muted</span><div class="token-row__swatch" style="background:var(--channel-feed-muted);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#65676B</span><span class="token-row__desc">Dempet tekst i forhåndsvisning</span></div></div>
+    <div class="token-row"><span class="token-row__name">--channel-feed-cta</span><div class="token-row__swatch" style="background:var(--channel-feed-cta);border:1px solid var(--border-default)"></div><div class="token-row__meta"><span class="token-row__value">#0B63D6</span><span class="token-row__desc">CTA-knapp i forhåndsvisning</span></div></div>
+  </div>
+</section>
+
 <section class="ds-section" id="fonts">
   <div class="ds-overline">Typografi</div>
   <div class="ds-title">Fonter</div>
@@ -310,6 +362,7 @@
   <div class="type-row"><span class="type-row__token">--text-base</span><span class="type-row__rem">0.9375rem</span><span class="type-row__px">15</span><span style="font-size:var(--text-base);color:var(--text-body)">Brødtekst — portalstandard</span></div>
   <div class="type-row"><span class="type-row__token">--text-sm</span><span class="type-row__rem">0.8125rem</span><span class="type-row__px">13</span><span style="font-size:var(--text-sm);color:var(--text-body)">UI-etiketter, nav</span></div>
   <div class="type-row"><span class="type-row__token">--text-xs</span><span class="type-row__rem">0.75rem</span><span class="type-row__px">12</span><span style="font-size:var(--text-xs);color:var(--text-muted)">Overlinjer, status, metadata</span></div>
+  <div class="type-row"><span class="type-row__token">--text-2xs</span><span class="type-row__rem">0.6875rem</span><span class="type-row__px">11</span><span style="font-size:var(--text-2xs);color:var(--text-muted)">Tellere og mikroetiketter — aldri brødtekst</span></div>
 </section>
 
 <section class="ds-section" id="leading">
@@ -337,10 +390,13 @@
   <div class="ds-title">Avstand</div>
   <div class="ds-desc">Tokennavn = pikselverdi. Verdier i rem. Skala fra kampanjeportal-POC-en.</div>
   <div class="col-head col-head--space"><span>Token</span><span>rem</span><span>px</span></div>
+  <div class="space-row"><span class="token-row__name">--space-2</span><span class="type-row__rem">0.125rem</span><span class="type-row__px">2</span><div class="space-bar" style="width:2px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-4</span><span class="type-row__rem">0.25rem</span><span class="type-row__px">4</span><div class="space-bar" style="width:4px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-6</span><span class="type-row__rem">0.375rem</span><span class="type-row__px">6</span><div class="space-bar" style="width:6px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-8</span><span class="type-row__rem">0.5rem</span><span class="type-row__px">8</span><div class="space-bar" style="width:8px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-12</span><span class="type-row__rem">0.75rem</span><span class="type-row__px">12</span><div class="space-bar" style="width:12px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-16</span><span class="type-row__rem">1rem</span><span class="type-row__px">16</span><div class="space-bar" style="width:16px"></div></div>
+  <div class="space-row"><span class="token-row__name">--space-20</span><span class="type-row__rem">1.25rem</span><span class="type-row__px">20</span><div class="space-bar" style="width:20px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-24</span><span class="type-row__rem">1.5rem</span><span class="type-row__px">24</span><div class="space-bar" style="width:24px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-32</span><span class="type-row__rem">2rem</span><span class="type-row__px">32</span><div class="space-bar" style="width:32px"></div></div>
   <div class="space-row"><span class="token-row__name">--space-44</span><span class="type-row__rem">2.75rem</span><span class="type-row__px">44</span><div class="space-bar" style="width:44px"></div></div>
@@ -355,6 +411,7 @@
   <div class="radius-row">
     <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-2)"></div><div class="radius-label">--radius-2<br>2px</div></div>
     <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-4)"></div><div class="radius-label">--radius-4<br>4px</div></div>
+    <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-6)"></div><div class="radius-label">--radius-6<br>avkrysning</div></div>
     <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-8)"></div><div class="radius-label">--radius-8<br>felt</div></div>
     <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-12)"></div><div class="radius-label">--radius-12<br>paneler</div></div>
     <div class="radius-demo"><div class="radius-box" style="border-radius:var(--radius-16)"></div><div class="radius-label">--radius-16<br>kort</div></div>
@@ -369,6 +426,8 @@
     <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-subtle)"></div><div class="shadow-label">--shadow-subtle<br>hvile, betjen-kort</div></div>
     <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-card)"></div><div class="shadow-label">--shadow-card<br>hevet kort</div></div>
     <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-dialog)"></div><div class="shadow-label">--shadow-dialog<br>dialog</div></div>
+    <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--shadow-drawer)"></div><div class="shadow-label">--shadow-drawer<br>skuff</div></div>
+    <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--focus-ring-danger)"></div><div class="shadow-label">--focus-ring-danger<br>feil i felt</div></div>
     <div class="shadow-demo"><div class="shadow-box" style="box-shadow:var(--focus-ring-soft)"></div><div class="shadow-label">--focus-ring-soft<br>input</div></div>
   </div>
 </section>

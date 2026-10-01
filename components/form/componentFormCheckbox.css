@@ -19,9 +19,9 @@
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   border: 1.5px solid var(--color-ink-200);
-  border-radius: 6px;
+  border-radius: var(--radius-6);
   background: var(--surface-raised);
 }
 

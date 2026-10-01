@@ -28,7 +28,7 @@
 .choice-card__price {
   display: inline-block;
   margin-bottom: var(--space-8);
-  padding: 3px 10px;
+  padding: var(--space-4) var(--space-12);
   border-radius: var(--radius-full);
   background: var(--surface-section);
   color: var(--text-muted);
@@ -44,14 +44,14 @@
 
 .choice-card__desc {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--text-muted);
   font-size: var(--text-sm);
 }
 
 .choice-card[aria-pressed="true"] {
   border-color: var(--color-navy-lift);
-  background: #EDF5F9;
+  background: var(--surface-selected);
 }
 
 .choice-card[aria-pressed="true"] .choice-card__price {

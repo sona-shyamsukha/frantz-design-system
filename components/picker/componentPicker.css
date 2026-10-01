@@ -12,9 +12,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-6);
   min-height: 48px;
-  padding: 6px 12px;
+  padding: var(--space-6) var(--space-12);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-8);
   background: var(--surface-raised);
@@ -35,7 +35,7 @@
   flex: 1 1 140px;
   min-width: 120px;
   height: 34px;
-  padding: 0 4px;
+  padding: 0 var(--space-4);
   border: 0;
   outline: 0;
   background: none;
@@ -51,9 +51,9 @@
 .picker-chip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-4);
   max-width: 100%;
-  padding: 3px 3px 3px 10px;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-12);
   border-radius: var(--radius-full);
   background: var(--surface-section);
   color: var(--text-heading);
@@ -126,7 +126,7 @@
   justify-content: space-between;
   gap: var(--space-12);
   width: 100%;
-  padding: 9px var(--space-12);
+  padding: var(--space-8) var(--space-12);
   border: 0;
   border-radius: var(--radius-8);
   background: none;
@@ -196,7 +196,7 @@
 }
 
 .picker__snarvei {
-  padding: 5px 12px;
+  padding: var(--space-6) var(--space-12);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
   background: var(--surface-raised);

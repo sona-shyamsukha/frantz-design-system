@@ -18,7 +18,7 @@
 .form-select,
 .input {
   width: 100%;
-  padding: 12px var(--space-16);
+  padding: var(--space-12) var(--space-16);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-8);
   background: var(--surface-raised);
@@ -77,7 +77,7 @@
 .form-input--error:focus,
 .input--error:focus {
   border-color: var(--color-warn);
-  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.12);
+  box-shadow: var(--focus-ring-danger);
 }
 
 .form-grid,
@@ -127,7 +127,7 @@
   align-items: center;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
-  padding: 8px 15px;
+  padding: var(--space-8) var(--space-16);
   background: var(--surface-raised);
   color: var(--text-muted);
   font-family: var(--font-body);

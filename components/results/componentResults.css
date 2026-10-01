@@ -59,7 +59,7 @@
   left: calc(var(--space-12) / -2);
   transform: translate(-50%, -50%);
   color: var(--text-faint);
-  font-size: 20px;
+  font-size: var(--text-xl);
   line-height: 1;
 }
 
@@ -158,21 +158,21 @@
   flex: none;
   width: 22px;
   height: 22px;
-  border-radius: 6px;
+  border-radius: var(--radius-6);
   background: var(--text-faint);
 }
 .kanal-logo::after {
   content: "";
   position: absolute;
   inset: 4px;
-  background: #fff;
+  background: var(--color-white);
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
 }
-.kanal-logo--meta          { background: #0866FF; --logo: url("../../assets/kanaler/meta.svg"); }
-.kanal-logo--linkedin      { background: #0A66C2; --logo: url("../../assets/kanaler/linkedin.svg"); }
-.kanal-logo--snapchat      { background: #FFFC00; --logo: url("../../assets/kanaler/snapchat.svg"); }
-.kanal-logo--snapchat::after { background: #111; }
-.kanal-logo--tiktok        { background: #111;    --logo: url("../../assets/kanaler/tiktok.svg"); }
+.kanal-logo--meta          { background: var(--channel-meta); --logo: url("../../assets/kanaler/meta.svg"); }
+.kanal-logo--linkedin      { background: var(--channel-linkedin); --logo: url("../../assets/kanaler/linkedin.svg"); }
+.kanal-logo--snapchat      { background: var(--channel-snapchat); --logo: url("../../assets/kanaler/snapchat.svg"); }
+.kanal-logo--snapchat::after { background: var(--channel-tiktok); }
+.kanal-logo--tiktok        { background: var(--channel-tiktok);    --logo: url("../../assets/kanaler/tiktok.svg"); }
 .kanal-logo--nettsteder    { background: var(--kanal-nettsteder); --logo: url("../../assets/kanaler/nettsteder.svg"); }
 .kanal-logo--programmatisk { background: var(--kanal-remarketing); --logo: url("../../assets/kanaler/programmatisk.svg"); }

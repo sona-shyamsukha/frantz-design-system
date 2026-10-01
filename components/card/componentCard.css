@@ -44,18 +44,18 @@
   background: var(--color-navy);
 }
 
-.card--status-coral { background: #FFEEEB; }
+.card--status-coral { background: var(--color-coral-wash); }
 .card--status-coral::before { background: var(--color-coral); }
 .card--status-amber { background: var(--color-amber-wash); }
 .card--status-amber::before { background: var(--color-amber); }
-.card--status-violet { background: #F3F1FB; }
+.card--status-violet { background: var(--bg-violet-soft); }
 .card--status-violet::before { background: var(--color-violet); }
-.card--status-green { background: #DDF2EC; }
+.card--status-green { background: var(--bg-success-soft); }
 .card--status-green::before { background: var(--color-green); }
-.card--status-blue { background: #DDF1F7; }
+.card--status-blue { background: var(--bg-info-soft); }
 .card--status-blue::before { background: var(--color-navy); }
-.card--status-grey { background: #E5E5E5; }
-.card--status-grey::before { background: #333333; }
+.card--status-grey { background: var(--color-grey-wash); }
+.card--status-grey::before { background: var(--color-grey-ink); }
 
 .card__head {
   display: flex;

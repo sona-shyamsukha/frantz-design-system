@@ -9,7 +9,7 @@
 .datepicker__control .input,
 .datepicker__control .form-input,
 .datepicker__control .datepicker__input {
-  padding-right: 44px;
+  padding-right: var(--space-44);
 }
 
 .datepicker__icon {
@@ -92,7 +92,7 @@
 }
 
 .datepicker__week {
-  margin-bottom: 4px;
+  margin-bottom: var(--space-4);
 }
 
 .datepicker__dow {
@@ -100,7 +100,7 @@
   place-items: center;
   height: 28px;
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
   text-transform: uppercase;

@@ -13,6 +13,7 @@
 }
 
 .meter__bar {
+  display: block;
   height: 100%;
   border-radius: var(--radius-full);
   background: var(--color-navy);
@@ -29,6 +30,12 @@
   white-space: nowrap;
 }
 
-.meter--sm .meter__track {
+.meter--sm .meter__track,
+.meter__track--sm {
   height: 6px;
+}
+
+/* Data blue instead of brand navy, for bars that show a share of a total. */
+.meter__bar--data {
+  background: var(--color-data-700);
 }

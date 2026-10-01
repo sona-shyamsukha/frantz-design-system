@@ -31,6 +31,15 @@
   --color-green:       #4CB79A;
   --color-blue-light:  #187FB3;
 
+  /* Wash tints (soft backgrounds behind the extended brand colours) */
+  --color-coral-wash:  #FFEEEB;
+  --color-violet-wash: #F3F1FB;
+  --color-violet-ink:  #5B4F99;   /* Violet text that passes AA on its wash */
+  --color-clay-wash:   #F4E6E0;
+  --color-clay-ink:    #A8573F;
+  --color-grey-wash:   #E5E5E5;
+  --color-grey-ink:    #333333;
+
   /* Ink / text ramp */
   --color-ink-900:     #0C3F59;
   --color-text:        #2E3D47;   /* Body text — most used on frantz.no */
@@ -66,6 +75,7 @@
   --text-heading:       var(--color-navy);
   --text-body:          var(--color-text);
   --text-muted:         var(--color-ink-500);
+  --text-link:          var(--color-navy);
   --text-faint:         #5D6D78; /* 4.5:1 or more on white, subtle and section surfaces (WCAG AA) */
   --text-on-dark:       var(--color-white);
   --text-on-dark-muted: rgba(255, 255, 255, 0.72);
@@ -74,6 +84,10 @@
   --border-strong:      var(--color-ink-200);
   --border-subtle:      var(--color-line-soft);
   --border-focus:       var(--color-navy);
+  --border-on-dark:     rgba(255, 255, 255, 0.35);
+
+  --text-violet-strong: var(--color-violet-ink);
+  --bg-violet-soft:     var(--color-violet-wash);
 
 
   /* ── BRAND SLOTS (system-internal) ──────────────────────────── */
@@ -124,10 +138,26 @@
   --surface-raised:   var(--color-white);
   --surface-inverse:  var(--color-navy);
   --surface-rail:     var(--color-rail);
+  --surface-selected: #EDF5F9;               /* chosen card / option */
+  --surface-glass:    rgba(255, 255, 255, 0.92);
+  --surface-on-dark-hover: rgba(255, 255, 255, 0.08);
+  --scrim:            rgb(10 25 40 / 0.35);  /* behind drawers and dialogs */
+  --scrim-strong:     rgba(7, 44, 64, 0.55); /* behind the mobile menu */
   --rail-ink:         #9FBAC8;
+  --rail-ink-muted:   #8FAABA;
   --rail-line:        rgba(255, 255, 255, 0.09);
   --rail-hover:       rgba(255, 255, 255, 0.07);
   --rail-active:      rgba(255, 255, 255, 0.12);
+
+
+  /* ── NAVY TINTS (hover, range and selection overlays) ───────── */
+
+  --tint-navy-4:   rgba(12, 63, 89, 0.04);
+  --tint-navy-8:   rgba(12, 63, 89, 0.08);
+  --tint-navy-16:  rgba(12, 63, 89, 0.16);
+  --tint-navy-22:  rgba(12, 63, 89, 0.22);
+  --tint-navy-30:  rgba(12, 63, 89, 0.30);
+  --border-dashed-navy: rgba(12, 63, 89, 0.25);
 
 
   /* ── STATUS COLOR SETS ───────────────────────────────────────── */
@@ -172,6 +202,7 @@
   --font-body:    'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
   /* Type scale (POC px in rem, base = 15px) */
+  --text-2xs:   0.6875rem;  /* 11px, counters and micro-labels only */
   --text-xs:    0.75rem;    /* 12px */
   --text-sm:    0.8125rem;  /* 13px */
   --text-base:  0.9375rem;  /* 15px */
@@ -204,10 +235,13 @@
 
   /* ── SPACING (POC scale) ────────────────────────────────────── */
 
+  --space-2:    0.125rem;  /*  2px, hairline offsets */
   --space-4:    0.25rem;   /*  4px */
+  --space-6:    0.375rem;  /*  6px, inline gaps and chip padding */
   --space-8:    0.5rem;    /*  8px */
   --space-12:   0.75rem;   /* 12px */
   --space-16:   1rem;      /* 16px */
+  --space-20:   1.25rem;   /* 20px */
   --space-24:   1.5rem;    /* 24px */
   --space-32:   2rem;      /* 32px */
   --space-44:   2.75rem;   /* 44px */
@@ -234,6 +268,7 @@
 
   --radius-2:     2px;
   --radius-4:     4px;
+  --radius-6:     6px;    /* checkboxes, small tiles */
   --radius-8:     8px;    /* fields, nav items */
   --radius-12:    12px;   /* panels */
   --radius-16:    16px;   /* cards / marketing */
@@ -246,8 +281,29 @@
   --shadow-card:   0 8px 28px rgba(12, 63, 89, 0.10);
   --shadow-dialog: 0 16px 48px rgba(12, 63, 89, 0.16), 0 4px 12px rgba(12, 63, 89, 0.08);
 
+  --shadow-drawer: -12px 0 32px rgb(10 25 40 / 0.12);
+  --shadow-rail:   0 0 40px rgba(7, 44, 64, 0.35);
+
   --focus-ring:      0 0 0 3px rgba(12, 63, 89, 0.35);
+  --focus-ring-danger: 0 0 0 3px rgba(179, 38, 30, 0.12);
   --focus-ring-soft: 0 0 0 3px rgba(12, 63, 89, 0.10);
+
+
+  /* ── CHANNEL BRAND COLOURS (third-party, previews only) ─────── */
+  /* Used by channel logos and ad previews. Never for portal chrome. */
+
+  --channel-meta:       #0866FF;
+  --channel-instagram:  #0095F6;
+  --channel-linkedin:   #0A66C2;
+  --channel-snapchat:   #FFFC00;
+  --channel-tiktok:     #111111;
+  --channel-feed-bg:    #F0F2F5;
+  --channel-feed-ink:   #1C1E21;
+  --channel-feed-muted: #65676B;
+  --channel-feed-line:  #EFEFEF;
+  --channel-feed-cta:   #0B63D6;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-channel: -apple-system, "Segoe UI", Roboto, sans-serif;
 
 
   /* ── MOTION ─────────────────────────────────────────────────── */
@@ -271,5 +327,5 @@
   /* ── GRADIENTS (frantz.no — marketing only) ─────────────────── */
 
   --gradient-hero: linear-gradient(135deg, var(--color-navy), var(--color-navy-mid));
-  --gradient-band: linear-gradient(135deg, #0C3F59 0, #145980 50%, #0C3F59 100%);
+  --gradient-band: linear-gradient(135deg, var(--color-navy) 0, var(--color-navy-mid) 50%, var(--color-navy) 100%);
 }

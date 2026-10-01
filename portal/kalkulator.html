@@ -6,17 +6,14 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Rekkeviddekalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<title>Tilbudskalkulator — Frantz</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=42">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
-  body { margin: 0; background: var(--surface-default); }
+  body { margin: 0; }
 
-  .kalk-topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-16) var(--space-32); background: var(--surface-rail); }
-  .kalk-topp img { height: 22px; }
-  .kalk-topp a { color: var(--text-on-dark); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); text-decoration: none; }
 
-  .kalk { max-width: 1180px; margin: 0 auto; padding: var(--space-44) var(--space-32) var(--space-64); }
+  .kalk { margin: 0; }
   .kalk h1 { margin: 0; }
   .kalk .lede { max-width: 620px; }
 
@@ -50,7 +47,7 @@
   .dybde__fyll { height: 100%; border-radius: var(--radius-full); background: var(--color-navy); transition: width var(--duration-base) var(--ease-out); }
 
   .tips { display: flex; gap: var(--space-12); margin-top: var(--space-24); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--bg-brand-2-soft); color: var(--text-body); font-size: var(--text-base); }
-  .tips .icon-lucide { flex: none; margin-top: 3px; color: var(--color-amber-ink); }
+  .tips .icon-lucide { flex: none; margin-top: var(--space-4); color: var(--color-amber-ink); }
   .tips[hidden] { display: none; }
 
   .res-kort .results__steps { margin-top: var(--space-16); grid-template-columns: 1fr 1fr; }
@@ -58,7 +55,7 @@
   .res-kort .results__value { font-size: var(--text-xl); }
 
   .kanaler { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
-  .kanal { display: inline-flex; align-items: center; gap: var(--space-8); padding: 6px 12px; border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .kanal { display: inline-flex; align-items: center; gap: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
   .kanal--av { background: none; border: 1px dashed var(--border-default); color: var(--text-faint); font-weight: var(--font-weight-medium); }
   .kanal--av .kanal-prikk { opacity: 0.35; }
 
@@ -66,15 +63,15 @@
   .kart-kort__topp { padding: var(--space-24) var(--space-24) var(--space-16); }
   #kart { flex: 1; min-height: 420px; background: var(--surface-section); }
   #kart .leaflet-control-attribution, #kart .leaflet-control-attribution a { color: var(--text-muted); }
-  #kart .leaflet-control-attribution { background: rgba(255, 255, 255, 0.92); }
-  #kart.leaflet-container { background: #EAF2F6; }
+  #kart .leaflet-control-attribution { background: var(--surface-glass); }
+  #kart.leaflet-container { background: var(--color-data-100); }
   #kart .leaflet-land-pane svg { max-width: none !important; max-height: none !important; }
   #kart .leaflet-tile-pane { filter: grayscale(1) contrast(0.9) brightness(1.05); }
   .kart-forklaring { display: flex; flex-wrap: wrap; gap: var(--space-16); padding: var(--space-12) var(--space-24); color: var(--text-muted); font-size: var(--text-xs); }
-  .kart-forklaring i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: var(--radius-full); vertical-align: -2px; }
+  .kart-forklaring i { display: inline-block; width: 12px; height: 12px; margin-right: var(--space-6); border-radius: var(--radius-full); vertical-align: -2px; }
 
   .kilde { margin-top: var(--space-16); color: var(--text-faint); font-size: var(--text-xs); }
-  .neste { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-24); }
+  .neste { margin-top: var(--space-24); }
 
   @media (max-width: 960px) {
     .inndata { grid-template-columns: 1fr; }
@@ -82,9 +79,7 @@
     #kart { min-height: 320px; }
   }
   @media (max-width: 640px) {
-    .kalk { padding: var(--space-24) var(--space-16) var(--space-44); }
-    .kalk-topp { padding: var(--space-12) var(--space-16); }
-    .inndata, .res-kort { padding: var(--space-16); }
+      .inndata, .res-kort { padding: var(--space-16); }
     .kart-kort { padding: 0; }
     .res-kort .results__steps { grid-template-columns: 1fr; }
     .res-kort .results__step + .results__step::before { display: none; }
@@ -93,11 +88,44 @@
 </head>
 <body>
 
-<header class="kalk-topp">
-  <img src="../assets/logo-frantz.png" alt="Frantz">
-  <a href="login.html">Logg inn</a>
-</header>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
 
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="kalkulator.html" aria-current="page"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+    <div class="wrap">
 <main class="kalk">
   <h1 class="text-h2">Hva når dere for budsjettet?</h1>
   <p class="lede">Velg stilling, sted og budsjett. Du ser med en gang hvor mange kampanjen kan nå, og hva dere kan vente dere.</p>
@@ -166,7 +194,7 @@
 
       <p class="kilde">Anslag basert på Frantz-data fra de siste 90 dagene og tidligere kampanjer. Tall fra SSB for arbeidsmarkedet.</p>
 
-      <div class="neste">
+      <div class="neste btn-row btn-row--stack">
         <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Bestill kampanjen</a>
         <a class="btn btn--secondary" href="mailto:post@frantz.no?subject=Tilbud%20p%C3%A5%20kampanje" id="tilbud">Få dette som tilbud</a>
       </div>
@@ -185,6 +213,9 @@
     </div>
   </section>
 </main>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
@@ -235,15 +266,16 @@
     var land = topojson.feature(topo, topo.objects.countries).features;
     var stil = getComputedStyle(document.documentElement);
     land.filter(function (l) { return ['752', '246', '643', '208'].indexOf(String(l.id)) !== -1; }).forEach(function (l) {
-      L.geoJSON(l, { pane: 'land', interactive: false, style: { color: stil.getPropertyValue('--border-default').trim() || '#D7E0E5', weight: 1, fillColor: '#F4F7F9', fillOpacity: 1 } }).addTo(bakgrunn);
+      L.geoJSON(l, { pane: 'land', interactive: false, style: { color: stil.getPropertyValue('--border-default').trim(), weight: 1, fillColor: stil.getPropertyValue('--surface-subtle').trim(), fillOpacity: 1 } }).addTo(bakgrunn);
     });
     land.filter(function (l) { return String(l.id) === '578'; }).forEach(function (l) {
-      L.geoJSON(l, { pane: 'land', interactive: false, style: { color: stil.getPropertyValue('--color-data-500').trim() || '#7FB3C9', weight: 1, fillColor: stil.getPropertyValue('--color-data-100').trim() || '#E8EEF1', fillOpacity: 1 } }).addTo(bakgrunn);
+      L.geoJSON(l, { pane: 'land', interactive: false, style: { color: stil.getPropertyValue('--color-data-500').trim(), weight: 1, fillColor: stil.getPropertyValue('--color-data-100').trim(), fillOpacity: 1 } }).addTo(bakgrunn);
     });
   }).catch(function () {});
   var lag = L.layerGroup().addTo(kart);
-  var NAVY = getComputedStyle(document.documentElement).getPropertyValue('--color-navy').trim() || '#0C3F59';
-  var AMBER = getComputedStyle(document.documentElement).getPropertyValue('--color-amber').trim() || '#F7A323';
+  var NAVY = getComputedStyle(document.documentElement).getPropertyValue('--color-navy').trim();
+  var WHITE = getComputedStyle(document.documentElement).getPropertyValue('--color-white').trim();
+  var AMBER = getComputedStyle(document.documentElement).getPropertyValue('--color-amber').trim();
 
   function tegnKart(dybde) {
     lag.clearLayers();
@@ -258,7 +290,7 @@
       var p = kartPunkt(s);
       if (!p) return;
       var c = L.circle(p.slice(0, 2), { radius: p[2] * 1000, color: NAVY, weight: 1.5, fillColor: NAVY, fillOpacity: 0.12 + dybde * 0.35 }).addTo(lag);
-      L.circleMarker(p.slice(0, 2), { radius: 7, color: '#fff', weight: 2, fillColor: AMBER, fillOpacity: 1 }).bindTooltip(FrantzPicker.delSted(s).navn).addTo(lag);
+      L.circleMarker(p.slice(0, 2), { radius: 7, color: WHITE, weight: 2, fillColor: AMBER, fillOpacity: 1 }).bindTooltip(FrantzPicker.delSted(s).navn).addTo(lag);
       grenser = grenser ? grenser.extend(c.getBounds()) : c.getBounds();
     });
     if (hele || !grenser) kart.setView([64.5, 13], 4);
@@ -327,5 +359,8 @@
   oppdater(true);
 })();
 </script>
+
+<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/konto.js?v=2"></script>
 </body>
 </html>

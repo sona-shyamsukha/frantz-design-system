@@ -27,7 +27,7 @@
 .funnel__top-label {
   display: block;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: var(--text-2xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -35,7 +35,7 @@
 
 .funnel__top-value {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--color-navy);
   font-family: var(--font-display);
   font-size: var(--text-xl);
@@ -64,12 +64,12 @@
   width: 30px;
   height: 4px;
   margin-bottom: var(--space-12);
-  border-radius: 2px;
+  border-radius: var(--radius-2);
 }
 
 .funnel__step {
   color: var(--text-faint);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -77,7 +77,7 @@
 
 .funnel__name {
   min-height: 38px;
-  margin-top: 3px;
+  margin-top: var(--space-4);
   color: var(--color-navy);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
@@ -87,7 +87,7 @@
   margin-top: var(--space-8);
   color: var(--color-navy);
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: var(--text-2xl);
   font-weight: var(--font-weight-bold);
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -95,7 +95,7 @@
 }
 
 .funnel__of {
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--text-muted);
   font-size: var(--text-xs);
 }
@@ -125,14 +125,14 @@
 .funnel__legend span {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: var(--space-8);
 }
 
 .funnel__legend i {
   display: block;
   width: 13px;
   height: 13px;
-  border-radius: 3px;
+  border-radius: var(--radius-4);
   background: var(--color-navy-lift);
 }
 
@@ -163,8 +163,8 @@
 }
 
 .funnel__badge--high {
-  background: #F4E6E0;
-  color: #A8573F;
+  background: var(--color-clay-wash);
+  color: var(--color-clay-ink);
 }
 
 .funnel__badge--low {
@@ -179,17 +179,17 @@
 
 .funnel__foot-label {
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 
 .funnel__foot-pct {
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--color-navy);
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--tracking-heading);
   font-variant-numeric: tabular-nums;
@@ -200,7 +200,7 @@
 }
 
 .funnel__foot-sub {
-  margin-top: 1px;
+  margin-top: var(--space-2);
   color: var(--text-faint);
   font-size: var(--text-xs);
 }
@@ -243,7 +243,7 @@
   }
 
   .funnel__num {
-    font-size: 22px;
+    font-size: var(--text-xl);
   }
 
   .funnel__graph svg {
@@ -259,7 +259,7 @@
 .funnel__hint {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-6);
   margin: 0 0 var(--space-8);
   color: var(--text-muted);
   font-size: var(--text-sm);
@@ -295,13 +295,13 @@
 
 /* Dashed lines between the steps, so each section reads as its own area */
 .funnel__sone + .funnel__sone {
-  border-left: 1px dashed rgba(12, 63, 89, 0.25);
+  border-left: 1px dashed var(--border-dashed-navy);
   border-radius: 0;
 }
 
 .funnel__sone:hover,
 .funnel__sone--aktiv {
-  background: rgba(12, 63, 89, 0.08);
+  background: var(--tint-navy-8);
 }
 
 .funnel__sone:focus-visible {
@@ -329,7 +329,7 @@
 .funnel__akse-navn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-6);
   color: var(--text-muted);
   font-size: var(--text-sm);
 }
@@ -342,7 +342,7 @@
 
 .funnel__akse-tall {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--text-heading);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
@@ -350,7 +350,7 @@
 
 .funnel__akse-rate {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--text-faint);
   font-size: var(--text-xs);
 }
@@ -365,10 +365,10 @@
 
 .funnel__kort {
   position: absolute;
-  bottom: 8px;
+  bottom: var(--space-8);
   z-index: var(--z-tooltip);
   width: 270px;
-  padding: 10px var(--space-16);
+  padding: var(--space-12) var(--space-16);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-12);
   background: var(--surface-raised);
@@ -399,7 +399,7 @@
 
 .funnel__kort-hjelp {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--text-muted);
   font-size: var(--text-xs);
 }
@@ -414,7 +414,7 @@
   display: flex;
   justify-content: space-between;
   gap: var(--space-12);
-  padding: 1px 0;
+  padding: var(--space-2) 0;
   white-space: nowrap;
   font-size: var(--text-sm);
 }
@@ -422,7 +422,7 @@
 .funnel__kort dt {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-6);
   color: var(--text-muted);
 }
 

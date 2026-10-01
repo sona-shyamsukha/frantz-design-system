@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<link rel="stylesheet" href="../frantz-ds.css?v=42">
 <style>
   body { margin: 0; }
 
@@ -40,7 +40,7 @@
   .verktoy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
   .verktoy .search-wrap { flex: 1 1 280px; width: auto; min-width: 0; }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
-  .verktoy .form-select { padding-top: 10px; padding-bottom: 10px; border-radius: var(--radius-full); font-size: var(--text-base); }
+  .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-base); }
   .table tr[hidden], .table__empty[hidden] { display: none; }
   @media (max-width: 640px) { .verktoy .form-select-wrap { flex: 1 1 100%; } }
 
@@ -71,6 +71,7 @@
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
@@ -165,13 +166,13 @@
                 </div>
               </td>
             </tr>
-            <tr tabindex="0" data-status="Kladd" data-tittel="Sykepleier Kristiansand" data-start="2027-01-01" data-budsjett="36500" onclick="location.href='kampanje-kladd.html'">
+            <tr tabindex="0" data-status="Kladd" data-tittel="Sykepleier Kristiansand" data-start="2026-10-31" data-budsjett="0" onclick="location.href='ny-kampanje.html?kladd=129070'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Kristiansand</span><span class="table__meta">Kristiansand · #129070 · Kari Hansen</span></td>
-              <td class="table__valgfri" data-label="Kampanjenavn / ref."><span class="table__meta">—</span></td>
+              <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 52</td>
               <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
               <td class="table__valgfri" data-label="Kanaler">—</td>
-              <td data-label="Periode">Frist 01.01.2027</td>
-              <td data-label="Budsjett">kr 36 500</td>
+              <td data-label="Periode">Frist 31.10.2026</td>
+              <td data-label="Budsjett"><span class="table__meta">Ikke valgt</span></td>
               <td data-label="Søknadsklikk">Ikke startet</td>
             </tr>
             <tr tabindex="0" data-status="Avsluttet" data-tittel="Sykepleier Bodø" data-start="2026-07-02" data-budsjett="31200" onclick="location.href='rapport.html'">

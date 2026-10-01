@@ -36,7 +36,7 @@
 .timeline__title,
 .loggtekst b {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: var(--space-4);
   color: var(--text-heading);
   font-weight: var(--font-weight-semibold);
 }

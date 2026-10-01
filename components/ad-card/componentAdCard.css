@@ -1,0 +1,67 @@
+/* Ad card: preview tile for one ad draft or running ad, with its numbers and a link. */
+
+.ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-16);
+}
+
+.ad-card {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-8);
+  overflow: hidden;
+  font-size: var(--text-sm);
+}
+
+.ad-card__media {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  background: var(--surface-subtle);
+  color: var(--text-faint);
+  position: relative;
+}
+
+.ad-card__body {
+  padding: var(--space-12);
+}
+
+.ad-card__name {
+  color: var(--text-heading);
+  font-weight: var(--font-weight-medium);
+}
+
+.ad-card__channel {
+  margin-top: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+.ad-card__stats {
+  display: grid;
+  margin-top: var(--space-8);
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2) var(--space-8);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.ad-card__stats b {
+  color: var(--text-heading);
+  font-weight: var(--font-weight-medium);
+  text-align: right;
+}
+
+.ad-card__action {
+  margin-top: var(--space-12);
+  width: 100%;
+  justify-content: center;
+}
+
+.ad-card--best {
+  border-color: var(--border-success-moderate);
+}
+
+.ad-card__body .tag {
+  margin-top: var(--space-8);
+}

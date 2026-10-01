@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Connect — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<link rel="stylesheet" href="../frantz-ds.css?v=42">
 <style>
   body { margin: 0; }
 
@@ -36,11 +36,11 @@
     margin-bottom: var(--space-16);
   }
   .faner { display: flex; flex-wrap: wrap; gap: var(--space-8); }
-  .faner .filter { gap: 6px; font-size: var(--text-base); }
+  .faner .filter { gap: var(--space-6); font-size: var(--text-base); }
   .faner .filter span { color: inherit; opacity: 0.7; font-weight: var(--font-weight-medium); }
   .sortering { display: flex; align-items: center; gap: var(--space-8); color: var(--text-muted); font-size: var(--text-base); white-space: nowrap; }
   .sortering .form-select-wrap { min-width: 200px; }
-  .sortering .form-select { padding-top: 10px; padding-bottom: 10px; border-radius: var(--radius-full); font-size: var(--text-base); }
+  .sortering .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-base); }
 
   .aktive {
     display: flex;
@@ -55,8 +55,8 @@
   .aktiv-filter {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 6px 5px 12px;
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-6) var(--space-6) var(--space-12);
     border: 1px solid var(--border-brand-1-soft);
     border-radius: var(--radius-full);
     background: var(--bg-brand-1-soft);
@@ -85,7 +85,7 @@
   }
   .search-wrap .form-input { padding-left: 40px; border-radius: var(--radius-full); }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
-  .verktoy .form-select { padding-top: 10px; padding-bottom: 10px; border-radius: var(--radius-full); font-size: var(--text-sm); }
+  .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-sm); }
   .nullstill {
     padding: 0;
     border: 0;
@@ -102,7 +102,7 @@
   .table tr[hidden], .table__empty[hidden] { display: none; }
   @media (max-width: 640px) {
     .verktoy .form-select-wrap { flex: 1 1 100%; }
-    .faner { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 2px; }
+    .faner { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: var(--space-2); }
     .faner .filter { flex: none; }
     .sortering { width: 100%; }
     .sortering .form-select-wrap { flex: 1; min-width: 0; }
@@ -112,14 +112,14 @@
 
   .pagination-wrap { margin-top: var(--space-24); }
   .mangler { color: var(--text-faint); }
-  .table__id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text-muted); }
+  .table__id { font-family: var(--font-mono); color: var(--text-muted); }
   .table td[data-label="Status"] { white-space: nowrap; }
   .table__meta .table__id { display: inline; }
   .celle { display: block; min-width: 0; }
   @media (max-width: 860px) { .celle { text-align: right; } }
 
   @media (min-width: 861px) {
-    .table th, .table td { padding-left: 10px; padding-right: 10px; }
+    .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
   }
   .table td[data-label="Besøk"] { white-space: nowrap; }
@@ -127,7 +127,7 @@
   .pagination-wrap .pagination__meta { color: var(--text-body); font-size: var(--text-base); }
   .pagination-wrap .pagination__meta b { color: var(--text-heading); }
 
-  .table__lenke { position: relative; z-index: 1; color: var(--text-heading); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
+  .table__lenke { position: relative; z-index: 1; display: inline-flex; align-items: center; min-height: 24px; color: var(--text-heading); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
   .table__lenke:hover { color: var(--color-navy-lift); }
   .table .btn--sm { white-space: nowrap; }
 </style>
@@ -154,6 +154,7 @@
       <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>

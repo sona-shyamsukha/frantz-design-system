@@ -44,7 +44,7 @@
 
 .table__meta {
   display: block;
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--text-muted);
   font-size: var(--text-sm);
 }

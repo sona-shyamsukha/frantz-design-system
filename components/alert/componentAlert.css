@@ -40,7 +40,7 @@
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  margin-top: 1px;
+  margin-top: var(--space-2);
 }
 
 .alert__content {
@@ -52,7 +52,7 @@
 .alert b,
 .advarsel b {
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: var(--space-2);
   font-weight: var(--font-weight-semibold);
 }
 

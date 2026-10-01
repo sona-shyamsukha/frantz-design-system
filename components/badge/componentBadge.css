@@ -2,8 +2,8 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 11px;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-12);
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
   font-weight: var(--font-weight-bold);
@@ -21,8 +21,8 @@
 
 .badge--active,
 .pill--aktiv {
-  background: #E4F1E9;
-  color: #1F6340;
+  background: var(--bg-success-soft);
+  color: var(--text-success-strong);
 }
 
 .badge--draft,
@@ -45,8 +45,8 @@
 /* Bestilt: Frantz har fått bestillingen, men ikke startet. */
 .badge--ordered,
 .pill--bestilt {
-  background: #F3F1FB;
-  color: #5B4F99;
+  background: var(--bg-violet-soft);
+  color: var(--text-violet-strong);
 }
 
 .badge--ended,
@@ -67,8 +67,8 @@
 }
 
 .badge--favourite {
-  background: #F3F1FB;
-  color: var(--color-violet);
+  background: var(--bg-violet-soft);
+  color: var(--text-violet-strong);
 }
 
 .badge--default {

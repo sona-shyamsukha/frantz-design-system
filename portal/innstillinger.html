@@ -7,11 +7,11 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<link rel="stylesheet" href="../frantz-ds.css?v=42">
 <style>
   body { margin: 0; }
-  .sidefaner { display: flex; gap: var(--space-8); margin-top: var(--space-24); }
-  .sidefaner .filter { display: inline-flex; align-items: center; gap: 6px; }
+  .sidefaner { margin-top: var(--space-24); }
+  .sidefaner .filter { display: inline-flex; align-items: center; gap: var(--space-6); }
   .panel[hidden] { display: none; }
   .panel { margin-top: var(--space-24); }
   .panelhode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-16); }
@@ -19,8 +19,7 @@
   .rad-hoyre { display: flex; align-items: center; gap: var(--space-16); flex-wrap: wrap; }
   .table-card { padding: 0; overflow: hidden; }
   .bruker { display: flex; align-items: center; gap: var(--space-12); }
-  .bruker .avatar { width: 36px; height: 36px; font-size: var(--text-xs); }
-  .bruker small { display: block; margin-top: 2px; color: var(--text-muted); font-size: var(--text-sm); }
+  .bruker small { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
   tr.er-inaktiv td { color: var(--text-faint); }
   tr.er-inaktiv .avatar { background: var(--color-ink-400); }
   .skjema { margin-bottom: var(--space-16); }
@@ -28,7 +27,7 @@
   .skjema__rad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-12); }
   .skjema__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-16); }
   .faktura-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-16); }
-  .faktura { display: flex; flex-direction: column; gap: 2px; font-size: var(--text-sm); }
+  .faktura { display: flex; flex-direction: column; gap: var(--space-2); font-size: var(--text-sm); }
   .faktura__topp { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-8); margin-bottom: var(--space-8); }
   .faktura__topp b { font-size: var(--text-base); color: var(--text-heading); }
   .faktura span { color: var(--text-muted); }
@@ -36,40 +35,40 @@
   .merke-arbeid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-24); align-items: start; }
   .merke-arbeid__skjema { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; }
   .merke-arbeid__vis { position: sticky; top: var(--space-24); }
-  .merke-tittel { margin: var(--space-8) 0 -12px; font-size: var(--text-lg); color: var(--text-heading); }
+  .merke-tittel { margin: var(--space-8) 0 calc(var(--space-12) * -1); font-size: var(--text-lg); color: var(--text-heading); }
   .merke-under { display: block; margin-top: var(--space-24); }
   .logoopp { margin-top: var(--space-16); }
-  .logoopp__rad { display: flex; gap: var(--space-16); align-items: center; margin-top: 6px; }
+  .logoopp__rad { display: flex; gap: var(--space-16); align-items: center; margin-top: var(--space-6); }
   .logoopp__bilde { display: grid; place-items: center; flex: none; width: 220px; height: 110px; padding: var(--space-12); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); background: var(--surface-subtle) center / contain no-repeat; background-origin: content-box; }
   .logoopp__bilde--rund { width: 110px; border-radius: 50%; }
   .logoopp__bilde.har-bilde .logoopp__tekst { display: none; }
-  .logoopp__tekst { font-size: 28px; font-weight: 800; letter-spacing: -.02em; color: var(--text-heading); }
-  .logoopp__bilde--rund .logoopp__tekst { font-size: 32px; }
+  .logoopp__tekst { font-size: var(--text-2xl); font-weight: var(--font-weight-bold); letter-spacing: -.02em; color: var(--text-heading); }
+  .logoopp__bilde--rund .logoopp__tekst { font-size: var(--text-3xl); }
   .logoopp__knapper { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); }
   .logoopp__knapper .form-hint { flex-basis: 100%; margin: 0; }
   .logo-par { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-24); }
   .logo-par .logoopp__rad { flex-direction: column; align-items: flex-start; }
-  .farger { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-24); margin-top: 6px; }
-  .farge { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: 8px 0; font-size: var(--text-sm); color: var(--text-body); border-bottom: 1px solid var(--border-subtle); }
-  .farge input[type=color] { flex: none; width: 36px; height: 28px; padding: 0; border: 1px solid var(--border-default); border-radius: 6px; background: none; cursor: pointer; }
+  .farger { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-24); margin-top: var(--space-6); }
+  .farge { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-8) 0; font-size: var(--text-sm); color: var(--text-body); border-bottom: 1px solid var(--border-subtle); }
+  .farge input[type=color] { flex: none; width: 36px; height: 28px; padding: 0; border: 1px solid var(--border-default); border-radius: var(--radius-6); background: none; cursor: pointer; }
   .skrift { margin-top: var(--space-12); }
-  .skrift__rad { display: flex; gap: var(--space-8); margin-top: 6px; }
+  .skrift__rad { display: flex; gap: var(--space-8); margin-top: var(--space-6); }
   .skrift__rad { align-items: center; }
   .skrift__rad [hidden] { display: none; }
-  .skrift__prove { margin: 6px 0 0; padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: #fff; color: var(--text-heading); font-size: 15px; line-height: 1.4; }
-  .skrift__prove--stor { font-size: 24px; font-weight: 700; line-height: 1.2; }
-  .banner { position: relative; aspect-ratio: 1; border-radius: var(--radius-12); overflow: hidden; background: linear-gradient(135deg, #7ea3ba, #1f4e6b); color: var(--bn-tittel); font-family: var(--bn-font); }
+  .skrift__prove { margin: var(--space-6) 0 0; padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: var(--color-white); color: var(--text-heading); font-size: var(--text-base); line-height: 1.4; }
+  .skrift__prove--stor { font-size: var(--text-2xl); font-weight: var(--font-weight-bold); line-height: 1.2; }
+  .banner { position: relative; aspect-ratio: 1; border-radius: var(--radius-12); overflow: hidden; background: linear-gradient(135deg, var(--color-data-500), var(--color-navy-lift)); color: var(--bn-tittel); font-family: var(--bn-font); }
   .banner::after { content: ""; position: absolute; inset: 0; background: var(--bn-filter); }
-  .banner__logo { position: absolute; top: 16px; left: 18px; z-index: 1; height: 28px; min-width: 60px; color: #fff; font-weight: 800; font-size: 18px; background: center left / contain no-repeat; }
+  .banner__logo { position: absolute; top: var(--space-16); left: var(--space-16); z-index: 1; height: 28px; min-width: 60px; color: var(--color-white); font-weight: var(--font-weight-bold); font-size: var(--text-lg); background: center left / contain no-repeat; }
   .banner__logo.har-bilde { color: transparent; }
-  .banner__innhold { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 1; }
-  .banner__tittel { margin: 0; font-size: 26px; line-height: 1.1; font-family: var(--bn-font-tittel); }
-  .banner__kort { display: inline-block; margin-top: 10px; padding: 6px 10px; border-radius: 6px; background: var(--bn-boks); color: var(--bn-kort); font-size: 14px; }
-  .banner__les { display: block; margin-top: 10px; color: var(--bn-les); font-size: 13px; font-weight: 700; }
+  .banner__innhold { position: absolute; left: var(--space-16); right: var(--space-16); bottom: var(--space-16); z-index: 1; }
+  .banner__tittel { margin: 0; font-size: var(--text-2xl); line-height: 1.1; font-family: var(--bn-font-tittel); }
+  .banner__kort { display: inline-block; margin-top: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-6); background: var(--bn-boks); color: var(--bn-kort); font-size: var(--text-sm); }
+  .banner__les { display: block; margin-top: var(--space-8); color: var(--bn-les); font-size: var(--text-sm); font-weight: var(--font-weight-bold); }
   .banner-meta { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-12); font-size: var(--text-sm); }
   .banner-meta b { display: block; color: var(--text-heading); }
   .banner-meta small { color: var(--text-muted); font-size: var(--text-xs); }
-  .banner-meta__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-navy) center / cover; color: #fff; font-weight: 700; }
+  .banner-meta__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-navy) center / cover; color: var(--color-white); font-weight: var(--font-weight-bold); }
   .banner-meta__ikon.har-bilde { color: transparent; }
   @media (max-width: 1000px) { .merke-arbeid { grid-template-columns: 1fr; } .merke-arbeid__vis { position: static; max-width: 360px; } }
   @media (max-width: 700px) { .farger, .logo-par { grid-template-columns: 1fr; } .logoopp__rad { flex-direction: column; align-items: flex-start; } .skrift__rad { flex-direction: column; } }
@@ -104,6 +103,7 @@
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
@@ -293,7 +293,7 @@
         <div class="lagre-linje"><button class="btn btn--primary" type="button" id="lagre-merke">Lagre merkevare</button><span id="merke-lagret" hidden style="font-size:var(--text-sm);color:var(--text-success-strong)">Lagret. Gjelder for nye kampanjer.</span></div>
           </div>
           <aside class="merke-arbeid__vis">
-            <span class="summary-panel__label" style="display:block;margin-bottom:8px">Forhåndsvisning av banner</span>
+            <span class="summary-panel__label" style="display:block;margin-bottom:var(--space-8)">Forhåndsvisning av banner</span>
             <div class="banner" id="banner">
               <span class="banner__logo" id="banner-logo">vokser</span>
               <div class="banner__innhold">
@@ -330,7 +330,7 @@ function tegnBrukere() {
   var kun = document.getElementById('kun-aktive').checked;
   document.getElementById('brukere').innerHTML = brukere.map(function (b, i) {
     if (kun && !b.aktiv) return '';
-    return '<tr' + (b.aktiv ? '' : ' class="er-inaktiv"') + '><td data-label="Bruker"><div class="bruker"><span class="avatar" aria-hidden="true">' + initialer(b.navn) + '</span><div>' + b.navn + (b.meg ? ' <span class="badge badge--default">Deg</span>' : '') + '<small>' + b.epost + '</small></div></div></td>' +
+    return '<tr' + (b.aktiv ? '' : ' class="er-inaktiv"') + '><td data-label="Bruker"><div class="bruker"><span class="avatar avatar--md" aria-hidden="true">' + initialer(b.navn) + '</span><div>' + b.navn + (b.meg ? ' <span class="badge badge--default">Deg</span>' : '') + '<small>' + b.epost + '</small></div></div></td>' +
       '<td data-label="Rolle">' + b.rolle + '</td><td data-label="Sist innlogget">' + b.sist + '</td><td data-label="Aktiv">' + bryter('bruker="' + i + '"', b.aktiv, 'Aktiv: ' + b.navn, b.meg) + '</td></tr>';
   }).join('');
 }

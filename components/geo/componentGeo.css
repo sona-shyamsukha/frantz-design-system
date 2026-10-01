@@ -1,0 +1,91 @@
+/* Geo: where a campaign was shown. Map on one side, ranked places with bars on the other. */
+.geo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.geo__kanaler .filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.geo__liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.geo__rad {
+  padding: var(--space-12) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--text-sm);
+}
+
+.geo__rad:first-child { padding-top: 0; }
+.geo__rad .meter__track { margin-top: var(--space-6); }
+
+.geo__topp {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+.geo__navn {
+  color: var(--text-heading);
+  font-weight: var(--font-weight-medium);
+}
+
+.geo__andel {
+  color: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.geo__tall {
+  margin-top: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.kart {
+  height: 340px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-8);
+  background: var(--surface-default);
+}
+
+.kart__land {
+  fill: var(--color-data-100);
+  stroke: var(--color-data-500);
+  stroke-width: 0.8;
+}
+
+.kart__nabo {
+  fill: none;
+  stroke: var(--border-default);
+  stroke-width: 0.6;
+}
+
+.kart__sted circle {
+  transition: r var(--duration-base);
+  fill: var(--color-data-700);
+  fill-opacity: 0.55;
+  stroke: var(--color-data-700);
+  stroke-width: 1.5;
+}
+
+.kart__sted text {
+  font-size: var(--text-2xs);
+  font-weight: var(--font-weight-semibold);
+  fill: var(--text-heading);
+  paint-order: stroke;
+  stroke: var(--surface-default);
+  stroke-width: 3px;
+}
+
+@media (max-width: 700px) {
+  .geo { grid-template-columns: 1fr; }
+}

@@ -7,15 +7,15 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=10">
-<link rel="stylesheet" href="styles/docs.css">
+<link rel="stylesheet" href="frantz-ds.css?v=42">
+<link rel="stylesheet" href="styles/docs.css?v=2">
 </head>
 <body class="ds-docs">
 
 <header class="ds-topbar">
   <div class="ds-topbar__logo">
     <img class="ds-topbar__wordmark" src="assets/logo-frantz.png" alt="Frantz">
-    <span class="ds-topbar__version">DS v0.5</span>
+    <span class="ds-topbar__version">DS v0.6</span>
   </div>
   <nav class="ds-topbar__nav">
     <a href="./style-guide.html">Stilguide</a>
@@ -30,9 +30,12 @@
   <div class="cl-tab-group">Skall</div>
   <button class="cl-tab active" type="button" onclick="showTab('nav', this)">Portal-nav</button>
   <button class="cl-tab" type="button" onclick="showTab('breadcrumb', this)">Sti</button>
+  <button class="cl-tab" type="button" onclick="showTab('layout', this)">Sidekolonner</button>
+  <button class="cl-tab" type="button" onclick="showTab('drawer', this)">Skuff</button>
 
   <div class="cl-tab-group">Handlinger</div>
   <button class="cl-tab" type="button" onclick="showTab('button', this)">Knapp</button>
+  <button class="cl-tab" type="button" onclick="showTab('link', this)">Tekstlenke og knapperad</button>
 
   <div class="cl-tab-group">Skjema &amp; feedback</div>
   <button class="cl-tab" type="button" onclick="showTab('form', this)">Skjemafelt</button>
@@ -41,6 +44,8 @@
   <button class="cl-tab" type="button" onclick="showTab('tooltip', this)">Tooltip</button>
   <button class="cl-tab" type="button" onclick="showTab('alert', this)">Varsel</button>
   <button class="cl-tab" type="button" onclick="showTab('badge', this)">Status</button>
+  <button class="cl-tab" type="button" onclick="showTab('tag', this)">Merkelapp</button>
+  <button class="cl-tab" type="button" onclick="showTab('avatar', this)">Avatar</button>
 
   <div class="cl-tab-group">Lister</div>
   <button class="cl-tab" type="button" onclick="showTab('table', this)">Tabell</button>
@@ -51,9 +56,15 @@
   <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
   <button class="cl-tab" type="button" onclick="showTab('kpi', this)">KPI</button>
   <button class="cl-tab" type="button" onclick="showTab('summary', this)">Oppsummeringspanel</button>
+  <button class="cl-tab" type="button" onclick="showTab('quote', this)">Sitat</button>
+  <button class="cl-tab" type="button" onclick="showTab('metric', this)">Nøkkeltall</button>
+  <button class="cl-tab" type="button" onclick="showTab('adcard', this)">Annonsekort</button>
+  <button class="cl-tab" type="button" onclick="showTab('checklist', this)">Sjekkliste</button>
+  <button class="cl-tab" type="button" onclick="showTab('journey', this)">Hendelsesforløp</button>
 
   <div class="cl-tab-group">Data</div>
   <button class="cl-tab" type="button" onclick="showTab('funnel', this)">Trakt</button>
+  <button class="cl-tab" type="button" onclick="showTab('geo', this)">Geo-fordeling</button>
 
   <div class="cl-tab-group">Veiviser</div>
   <button class="cl-tab" type="button" onclick="showTab('steps', this)">Trinn</button>
@@ -1013,6 +1024,8 @@
           <tr><td><code>.meter__bar</code></td><td>Fylt del, bredde i %</td></tr>
           <tr><td><code>.meter__bar--behind</code></td><td>Bak plan</td></tr>
           <tr><td><code>.meter--sm</code></td><td>Smalere spor, 6px</td></tr>
+          <tr><td><code>.meter__track--sm</code></td><td>Smalt spor uten <code>.meter</code>-wrapper, for geo-lister</td></tr>
+          <tr><td><code>.meter__bar--data</code></td><td>Datablå fyll, for andel av en helhet</td></tr>
         </tbody>
       </table>
       <div class="cl-sep"></div>
@@ -1027,6 +1040,9 @@
         <div class="meter__track"><div class="meter__bar meter__bar--behind" style="width:34%"></div></div>
         <span class="meter__value">17 av 50 estimert</span>
       </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Smal stolpe, data-blå (andel av helheten)</span>
+      <div class="meter__track meter__track--sm" style="max-width:360px"><span class="meter__bar meter__bar--data" style="width:48%"></span></div>
     </div>
     <div class="cl-code">
       <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
@@ -1491,6 +1507,433 @@ tegnTrakt(document.getElementById('trakt'), {
             <button type="submit" class="composer__btn composer__btn--send" aria-label="Send"><span class="icon-lucide icon-lucide--send" aria-hidden="true"></span></button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="cl-panel" id="panel-tag">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Merkelapp</h2>
+      <span class="cl-component-class">.tag</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Liten merkelapp for type, antall eller sammenligning. For kampanjestatus bruker du <code>.badge</code>. For filter du kan slå av og på bruker du <code>.filter</code>.</p>
+      <ul class="cl-rules"><li>Alltid kort tekst. Én til tre ord, eller et tall med enhet.</li><li>Tone forteller noe, men teksten må stå alene — aldri bare farge.</li><li><code>.tag--overlay</code> krever en forelder med <code>position: relative</code>.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.tag</code></td><td>Grunnform: pill, 12px tekst, lys bakgrunn</td></tr><tr><td><code>.tag--raised</code></td><td>Hvit bakgrunn, på toned flate</td></tr><tr><td><code>.tag--outline</code></td><td>Kun kant, tonen styrer fargen</td></tr><tr><td><code>.tag--overlay</code></td><td>Oppå bilde eller video, øverst til venstre</td></tr><tr><td><code>.tag--accent</code></td><td>Amber, for «Ny»</td></tr><tr><td><code>.tag--xs</code></td><td>Mindre: 11px</td></tr><tr><td><code>.tag--muted / --info / --good / --warn</code></td><td>Tone</td></tr><tr><td><code>.tag--success</code></td><td>Fylt grønn, for bekreftelser</td></tr><tr><td><code>.tag--removable</code></td><td>Med fjern-knapp</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Tone</span>
+      <div class="cl-row"><div class="cl-item"><span class="tag">Standard</span><span class="cl-item__cap">tag</span></div><div class="cl-item"><span class="tag tag--info">6 vil bli kontaktet</span><span class="cl-item__cap">--info</span></div><div class="cl-item"><span class="tag tag--muted">Varsel før frist</span><span class="cl-item__cap">--muted</span></div><div class="cl-item"><span class="tag tag--good">20 % lavere</span><span class="cl-item__cap">--good</span></div><div class="cl-item"><span class="tag tag--warn">Svakere</span><span class="cl-item__cap">--warn</span></div><div class="cl-item"><span class="tag tag--success">Lagt inn</span><span class="cl-item__cap">--success</span></div></div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Flate og størrelse</span>
+      <div class="cl-row"><div class="cl-item"><span class="tag tag--outline tag--good">Beste annonse</span><span class="cl-item__cap">--outline --good</span></div><div class="cl-item"><span class="tag tag--outline tag--info">Likt snitt</span><span class="cl-item__cap">--outline --info</span></div><div class="cl-item"><span class="tag tag--accent tag--xs">Ny</span><span class="cl-item__cap">--accent --xs</span></div><div class="cl-item"><span class="tag tag--removable">sykepleier<button type="button" aria-label="Fjern taggen sykepleier">×</button></span><span class="cl-item__cap">--removable</span></div></div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Oppå bilde</span>
+      <div style="position:relative;width:200px;height:120px;border-radius:var(--radius-8);background:var(--surface-subtle)"><span class="tag tag--overlay">Video</span></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;span class="tag tag--info"&gt;6 vil bli kontaktet&lt;/span&gt;
+&lt;span class="tag tag--outline tag--good"&gt;Beste annonse&lt;/span&gt;
+&lt;span class="tag tag--accent tag--xs"&gt;Ny&lt;/span&gt;
+&lt;div style="position:relative"&gt;&lt;span class="tag tag--overlay"&gt;Video&lt;/span&gt;&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-avatar">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Avatar</h2>
+      <span class="cl-component-class">.avatar</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Initialer i en sirkel. Brukes for personer: brukerliste, rådgiver-sitat, samtaler.</p>
+      <ul class="cl-rules"><li>Maks to bokstaver. Alltid <code>aria-hidden="true"</code> når navnet står ved siden av.</li><li>Størrelse følger raden: 24 i brødtekst, 36 i lister, 48 som hovedelement.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.avatar</code></td><td>48px, navy</td></tr><tr><td><code>.avatar--md</code></td><td>36px</td></tr><tr><td><code>.avatar--sm</code></td><td>24px</td></tr><tr><td><code>.avatar--data</code></td><td>Datablå, for rådgiver-sitat</td></tr><tr><td><code>.avatar--soft</code></td><td>Lys navy</td></tr><tr><td><code>.avatar--muted</code></td><td>Grå, for kunden</td></tr><tr><td><code>.avatar--advisor</code></td><td>Amber-tone, for rådgiver</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Størrelser</span>
+      <div class="cl-row"><div class="cl-item"><span class="avatar" aria-hidden="true">KH</span><span class="cl-item__cap">48</span></div><div class="cl-item"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="cl-item__cap">--md 36</span></div><div class="cl-item"><span class="avatar avatar--sm" aria-hidden="true">KH</span><span class="cl-item__cap">--sm 24</span></div></div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Toner</span>
+      <div class="cl-row"><div class="cl-item"><span class="avatar avatar--md" aria-hidden="true">SS</span><span class="cl-item__cap">standard</span></div><div class="cl-item"><span class="avatar avatar--md avatar--data" aria-hidden="true">MK</span><span class="cl-item__cap">--data</span></div><div class="cl-item"><span class="avatar avatar--md avatar--soft" aria-hidden="true">KH</span><span class="cl-item__cap">--soft</span></div><div class="cl-item"><span class="avatar avatar--md avatar--muted" aria-hidden="true">MB</span><span class="cl-item__cap">--muted</span></div><div class="cl-item"><span class="avatar avatar--md avatar--advisor" aria-hidden="true">JB</span><span class="cl-item__cap">--advisor</span></div></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;span class="avatar avatar--md" aria-hidden="true"&gt;KH&lt;/span&gt;
+&lt;span class="avatar avatar--sm avatar--data" aria-hidden="true"&gt;MK&lt;/span&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-link">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Tekstlenke og knapperad</h2>
+      <span class="cl-component-class">.link .btn-row</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Tekstlenke for lav-trykk-handlinger som «Alle kampanjer» eller «Prøv eksempel». Knapperad holder knapper med lik avstand og fyller raden på mobil.</p>
+      <ul class="cl-rules"><li><code>.link</code> har alltid 24px høyt trykkområde, også med liten tekst.</li><li>Bruk <code>.link</code> for navigasjon til siden av innholdet. Bruk <code>.btn</code> for handlinger som endrer noe.</li><li><code>.btn-row--stack</code>: under 640px fyller hver knapp hele raden.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.link</code></td><td>Understreket tekst, 13px, 24px høyt trykkområde</td></tr><tr><td><code>.link--xs</code></td><td>12px</td></tr><tr><td><code>.btn-row</code></td><td>Knapper på rad, 12px mellomrom, bryter linjen</td></tr><tr><td><code>.btn-row--stack</code></td><td>Hver knapp full bredde på mobil</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Tekstlenke</span>
+      <div class="cl-row"><div class="cl-item"><a class="link" href="#">Alle kampanjer</a><span class="cl-item__cap">.link</span></div><div class="cl-item"><button class="link link--xs" type="button">Prøv eksempel 1</button><span class="cl-item__cap">.link--xs</span></div></div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Knapperad</span>
+      <div class="btn-row btn-row--stack"><button class="btn btn--primary" type="button">Godkjenn annonsene</button><button class="btn btn--secondary" type="button">Be om endring</button></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;a class="link" href="#"&gt;Alle kampanjer&lt;/a&gt;
+&lt;button class="link link--xs" type="button"&gt;Prøv eksempel 1&lt;/button&gt;
+
+&lt;div class="btn-row btn-row--stack"&gt;
+  &lt;button class="btn btn--primary" type="button"&gt;Godkjenn annonsene&lt;/button&gt;
+  &lt;button class="btn btn--secondary" type="button"&gt;Be om endring&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-quote">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Sitat</h2>
+      <span class="cl-component-class">.quote</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Rådgiverens egne ord om en kampanje, med hvem som skrev det. Kommer før tallene, så kunden først får en vurdering og deretter bevisene.</p>
+      <ul class="cl-rules"><li>Maks tre til fire linjer. Skriv i vi-form fra rådgiveren.</li><li>Alltid avsender og dato i <code>footer</code>.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.quote</code></td><td>Venstre kant i datablå, lys bakgrunn</td></tr><tr><td><code>.quote p</code></td><td>Selve vurderingen</td></tr><tr><td><code>.quote footer</code></td><td>Avatar, navn og dato</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Standard</span>
+      <blockquote class="quote" style="max-width:560px"><p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit.»</p><footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status 24.09.2026</footer></blockquote>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;blockquote class="quote"&gt;
+  &lt;p&gt;«Leverer svært bra sammenlignet med lignende kampanjer.»&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;span class="avatar avatar--sm avatar--data" aria-hidden="true"&gt;MK&lt;/span&gt;
+    Martin Karlsen, rådgiver i Frantz · Status 24.09.2026
+  &lt;/footer&gt;
+&lt;/blockquote&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-metric">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Nøkkeltall</h2>
+      <span class="cl-component-class">.metrics .metric</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Ett tall med forklaring og en sammenligning mot normalen. Brukes i rapport og kampanjedetalj. Tre i rad på bred skjerm, ett per rad på mobil.</p>
+      <ul class="cl-rules"><li>Sammenligning står i en <code>.tag</code> nederst: «20 % lavere», «25 % flere».</li><li>Tallet først, forklaringen under. Ikon er valgfritt.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.metrics</code></td><td>Rutenett: 3 kolonner, 1 på mobil</td></tr><tr><td><code>.metrics--channel</code></td><td>2 kolonner, for kanalsammenligning</td></tr><tr><td><code>.metric</code></td><td>Én flis</td></tr><tr><td><code>.metric__icon</code></td><td>Ikon i hvit sirkel</td></tr><tr><td><code>.metric__value</code></td><td>Tallet, 20px</td></tr><tr><td><code>.metric__label</code></td><td>Forklaring</td></tr><tr><td><code>.metric__foot</code></td><td>Bunnlinje med sammenligning</td></tr><tr><td><code>.metric__channel</code></td><td>Kanalnavn med prikk</td></tr><tr><td><code>.metrics__title</code></td><td>Mellomtittel over rutenettet</td></tr><tr><td><code>.metrics__note</code></td><td>Kort dom med ikon</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Tre nøkkeltall</span>
+      <div class="metrics" style="margin-top:0">
+        <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--wallet" aria-hidden="true"></span></span><div class="metric__value">kr 112</div><div class="metric__label">per «Søk»</div><div class="metric__foot">Normalt kr 140 <span class="tag tag--raised tag--good">20 % lavere</span></div></div>
+        <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span></span><div class="metric__value">312</div><div class="metric__label">trykket «Søk» så langt</div><div class="metric__foot">Normalt 250 <span class="tag tag--raised tag--good">25 % flere</span></div></div>
+        <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span></span><div class="metric__value">9</div><div class="metric__label">meldte interesse</div><div class="metric__foot">Normalt 7 <span class="tag tag--raised tag--good">29 % flere</span></div></div>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Per kanal</span>
+      <div class="metrics metrics--channel" style="margin-top:0">
+        <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--meta"></span>Meta</div><div class="metric__value">kr 100</div><div class="metric__label">per «Søk»</div></div>
+        <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder"></span>Nettsteder og aviser</div><div class="metric__value">kr 173</div><div class="metric__label">per «Søk»</div></div>
+      </div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="metrics"&gt;
+  &lt;div class="metric"&gt;
+    &lt;span class="metric__icon"&gt;&lt;span class="icon-lucide icon-lucide--wallet" aria-hidden="true"&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;div class="metric__value"&gt;kr 112&lt;/div&gt;
+    &lt;div class="metric__label"&gt;per «Søk»&lt;/div&gt;
+    &lt;div class="metric__foot"&gt;Normalt kr 140 &lt;span class="tag tag--raised tag--good"&gt;20 % lavere&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-adcard">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Annonsekort</h2>
+      <span class="cl-component-class">.ad-grid .ad-card</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Forhåndsvisning av én annonse: type, navn, kanal, tall og en lenke til hele annonsen. Brukes både når annonsen er et utkast og når den kjører.</p>
+      <ul class="cl-rules"><li>Beste annonse får <code>.ad-card--best</code> og en grønn merkelapp.</li><li>Bildefeltet viser type (<code>Video</code>, <code>Bilde</code>) som <code>.tag--overlay</code>.</li><li>Handlingen åpner annonsen i ny fane. Skjermleser får «åpnes i ny fane».</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.ad-grid</code></td><td>Rutenett, minst 180px per kort</td></tr><tr><td><code>.ad-card</code></td><td>Kortet</td></tr><tr><td><code>.ad-card--best</code></td><td>Grønn kant</td></tr><tr><td><code>.ad-card__media</code></td><td>Bilde- eller videofelt, 4:3</td></tr><tr><td><code>.ad-card__body</code></td><td>Innhold, 12px luft</td></tr><tr><td><code>.ad-card__name</code></td><td>Annonsetittel</td></tr><tr><td><code>.ad-card__channel</code></td><td>Kanal</td></tr><tr><td><code>.ad-card__stats</code></td><td>Tall i to kolonner</td></tr><tr><td><code>.ad-card__action</code></td><td>Full-bredde knapp</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Rutenett</span>
+      <div class="ad-grid" style="max-width:640px">
+        <div class="ad-card ad-card--best"><div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div><div class="ad-card__body"><div class="ad-card__name">«Hverdagshelter på Ullevål»</div><div class="ad-card__channel">Meta</div><div class="ad-card__stats"><span>Klikk</span><b>2 400</b><span>Klikkrate</span><b>4,0 %</b></div><a class="btn btn--secondary btn--sm ad-card__action" href="#">Se annonsen</a><span class="tag tag--outline tag--good">Beste annonse</span></div></div>
+        <div class="ad-card"><div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div><div class="ad-card__body"><div class="ad-card__name">«Fast stilling i Tromsø»</div><div class="ad-card__channel">Meta</div><div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,6 %</b></div><a class="btn btn--secondary btn--sm ad-card__action" href="#">Se annonsen</a></div></div>
+      </div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="ad-grid"&gt;
+  &lt;div class="ad-card ad-card--best"&gt;
+    &lt;div class="ad-card__media"&gt;&lt;span class="tag tag--overlay"&gt;Video&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="ad-card__body"&gt;
+      &lt;div class="ad-card__name"&gt;«Hverdagshelter på Ullevål»&lt;/div&gt;
+      &lt;div class="ad-card__channel"&gt;Meta&lt;/div&gt;
+      &lt;div class="ad-card__stats"&gt;&lt;span&gt;Klikk&lt;/span&gt;&lt;b&gt;2 400&lt;/b&gt;&lt;/div&gt;
+      &lt;a class="btn btn--secondary btn--sm ad-card__action" href="#"&gt;Se annonsen&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-checklist">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Sjekkliste</h2>
+      <span class="cl-component-class">.checklist</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Hva som er gjort og hva som mangler, én rad hver. Brukes på «Hva Frantz har gjort» og i kladd.</p>
+      <ul class="cl-rules"><li>Ikon + tekst. Fargen alene skal aldri bære betydningen.</li><li><code>.er-ok</code> gir grønt ikon. <code>.mangler</code> gir dempet ikon.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.checklist</code></td><td>Liste uten punkt</td></tr><tr><td><code>.checklist li</code></td><td>Rad med hårlinje over</td></tr><tr><td><code>.er-ok</code></td><td>Fullført</td></tr><tr><td><code>.mangler</code></td><td>Gjenstår</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Standard</span>
+      <ul class="checklist" style="max-width:420px">
+        <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><b>Bestillingen er mottatt</b><small>26.09.2026</small></span></li>
+        <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><b>Annonsene er laget</b><small>3 utkast på Meta og Nettsteder</small></span></li>
+        <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span><b>Du godkjenner annonsene</b><small>Frist 02.10</small></span></li>
+      </ul>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;ul class="checklist"&gt;
+  &lt;li class="er-ok"&gt;&lt;span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;b&gt;Bestillingen er mottatt&lt;/b&gt;&lt;small&gt;26.09.2026&lt;/small&gt;&lt;/span&gt;&lt;/li&gt;
+  &lt;li class="mangler"&gt;&lt;span class="icon-lucide icon-lucide--clock" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;b&gt;Du godkjenner annonsene&lt;/b&gt;&lt;small&gt;Frist 02.10&lt;/small&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-journey">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Hendelsesforløp</h2>
+      <span class="cl-component-class">.journey</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Hva som har skjedd i kampanjen. En prikk per steg på en loddrett linje. Det viktigste steget løftes ut i en toned boks.</p>
+      <ul class="cl-rules"><li><code>--key</code> for rådgiverens status. Bruk det én gang per liste.</li><li><code>--planned</code> for steg som ikke har skjedd ennå: dempet, stiplet prikk.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.journey</code></td><td>Listen</td></tr><tr><td><code>.journey__step</code></td><td>Ett steg: prikk og innhold</td></tr><tr><td><code>.journey__step--key</code></td><td>Løftet steg</td></tr><tr><td><code>.journey__step--planned</code></td><td>Planlagt, ikke skjedd</td></tr><tr><td><code>.journey__dot</code></td><td>Prikken</td></tr><tr><td><code>.journey__head</code></td><td>Dato og merkelapp</td></tr><tr><td><code>.journey__body</code></td><td>Overskrift og tekst</td></tr><tr><td><code>.journey__by</code></td><td>Hvem skrev det</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Standard</span>
+      <ol class="journey" style="max-width:480px">
+        <li class="journey__step"><span class="journey__dot"></span><div class="journey__body"><div class="journey__head"><span class="tag">Start</span><span>03.09.2026</span></div><h4>Kampanjen startet</h4><p>Annonsene ble publisert på Meta og Nettsteder.</p></div></li>
+        <li class="journey__step journey__step--key"><span class="journey__dot"></span><div class="journey__body"><div class="journey__head"><span class="tag tag--raised">Status</span><span>24.09.2026</span></div><h4>Vi ligger foran plan</h4><p>Meta gir billigst «Søk». Vi har flyttet budsjett dit.</p><p class="journey__by"><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Skrevet av Martin Karlsen</p></div></li>
+        <li class="journey__step journey__step--planned"><span class="journey__dot"></span><div class="journey__body"><div class="journey__head"><span class="tag">Sluttdato</span><span>03.10.2026 · planlagt</span></div><h4>Kampanjen avsluttes</h4></div></li>
+      </ol>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;ol class="journey"&gt;
+  &lt;li class="journey__step"&gt;
+    &lt;span class="journey__dot"&gt;&lt;/span&gt;
+    &lt;div class="journey__body"&gt;
+      &lt;div class="journey__head"&gt;&lt;span class="tag"&gt;Start&lt;/span&gt;&lt;span&gt;03.09.2026&lt;/span&gt;&lt;/div&gt;
+      &lt;h4&gt;Kampanjen startet&lt;/h4&gt;
+      &lt;p&gt;Annonsene ble publisert.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li class="journey__step journey__step--planned"&gt;…&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-geo">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Geo-fordeling</h2>
+      <span class="cl-component-class">.geo</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Hvor kampanjen ble vist. Kart på den ene siden, steder med andel og stolpe på den andre. Under 700px legges kartet over listen.</p>
+      <ul class="cl-rules"><li>Stolpen bruker <code>.meter__track--sm</code> med <code>.meter__bar--data</code>.</li><li>Kartet tegnes med Leaflet eller SVG. Fargene kommer fra <code>--color-data-*</code>.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.geo</code></td><td>Rutenett: kart og liste</td></tr><tr><td><code>.geo__liste</code></td><td>Listen</td></tr><tr><td><code>.geo__rad</code></td><td>Én rad</td></tr><tr><td><code>.geo__topp</code></td><td>Navn og andel</td></tr><tr><td><code>.geo__tall</code></td><td>Tall under stolpen</td></tr><tr><td><code>.kart</code></td><td>Kartramme, 340px høy</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Liste</span>
+      <ul class="geo__liste" style="max-width:360px">
+        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Oslo</span><span class="geo__andel">48 %</span></div><div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:48%"></span></div><div class="geo__tall">1 680 besøk</div></li>
+        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Viken</span><span class="geo__andel">27 %</span></div><div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:27%"></span></div><div class="geo__tall">940 besøk</div></li>
+        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Innlandet</span><span class="geo__andel">9 %</span></div><div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:9%"></span></div><div class="geo__tall">310 besøk</div></li>
+      </ul>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="geo"&gt;
+  &lt;div class="kart" id="kart"&gt;&lt;/div&gt;
+  &lt;ul class="geo__liste"&gt;
+    &lt;li class="geo__rad"&gt;
+      &lt;div class="geo__topp"&gt;&lt;span class="geo__navn"&gt;Oslo&lt;/span&gt;&lt;span class="geo__andel"&gt;48 %&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="meter__track meter__track--sm"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="geo__tall"&gt;1 680 besøk&lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-layout">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Sidekolonner</h2>
+      <span class="cl-component-class">.cols .flow .rowlist</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Hovedkolonne og 320px sidekolonne for detaljsider. Under 900px legges sidekolonnen under. Overskrift med handlinger ligger i <code>.detalj__topp</code>.</p>
+      <ul class="cl-rules"><li><code>.flow</code> stabler kort med 24px mellomrom.</li><li><code>.rowlist</code> legger hårlinjer mellom rader uten egen ramme.</li><li>På mobil fyller hver knapp i <code>.detalj__knapper</code> hele raden.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.cols</code></td><td>To kolonner: 1fr + 320px, 32px mellomrom</td></tr><tr><td><code>.flow</code></td><td>Stabel av kort, 24px</td></tr><tr><td><code>.rowlist</code></td><td>Rader med hårlinje mellom</td></tr><tr><td><code>.detalj__topp</code></td><td>Tittel, status og handlinger på én linje</td></tr><tr><td><code>.detalj__knapper</code></td><td>Handlinger, skyves til høyre</td></tr><tr><td><code>.sidefaner</code></td><td>Fane-rad under tittelen</td></tr><tr><td><code>.status-alert</code></td><td>Varsel rett under tittelen</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Oppsett</span>
+      <div class="detalj__topp" style="margin-top:0"><h3 style="margin:0">Sykepleier Oslo</h3><span class="badge badge--active">Aktiv</span><div class="detalj__knapper"><button class="btn btn--secondary" type="button">Se annonsene</button></div></div>
+      <div class="cols" style="margin-top:var(--space-16);grid-template-columns:minmax(0,1fr) 200px"><div class="flow"><div class="card card--betjen" style="margin:0">Hovedkolonne</div><div class="card card--betjen" style="margin:0">Neste kort</div></div><div class="card card--betjen" style="margin:0">Sidekolonne</div></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="detalj__topp"&gt;
+  &lt;h1&gt;Sykepleier Oslo&lt;/h1&gt;
+  &lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;
+  &lt;div class="detalj__knapper"&gt;&lt;button class="btn btn--secondary"&gt;Se annonsene&lt;/button&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cols"&gt;
+  &lt;div class="flow"&gt;&lt;section class="card"&gt;…&lt;/section&gt;&lt;/div&gt;
+  &lt;aside class="card"&gt;…&lt;/aside&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-drawer">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Skuff</h2>
+      <span class="cl-component-class">.drawer</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Panel som glir inn fra høyre over en dimmet side. Varsler, konto og mediedetaljer bruker den. Fokus flyttes inn og tilbake til knappen som åpnet den.</p>
+      <ul class="cl-rules"><li>Lukk med Esc, med lukk-knappen og med klikk på bakgrunnen.</li><li>Bredde 420px, aldri bredere enn skjermen.</li><li>Seksjoner i <code>.drawer__body</code> får hårlinje og luft av <code>.drawer__section</code>.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.drawer-backdrop</code></td><td>Dimmet bakgrunn (<code>--scrim</code>)</td></tr><tr><td><code>.drawer</code></td><td>Selve panelet, skygge <code>--shadow-drawer</code></td></tr><tr><td><code>.drawer__head</code></td><td>Tittel og lukk</td></tr><tr><td><code>.drawer__body</code></td><td>Innhold som kan rulle</td></tr><tr><td><code>.drawer__section</code></td><td>Seksjon med hårlinje over</td></tr><tr><td><code>.topbar__knapp</code></td><td>Rund knapp som åpner skuffen</td></tr><tr><td><code>.topbar__teller</code></td><td>Rød teller på knappen</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Åpen skuff (innrammet)</span>
+      <div style="position:relative;height:300px;overflow:hidden;transform:translateZ(0);border:1px solid var(--border-default);border-radius:var(--radius-12);background:var(--surface-subtle)">
+        <div class="drawer-backdrop" style="position:absolute"></div>
+        <aside class="drawer" style="position:absolute" aria-label="Eksempel"><div class="drawer__head"><h2 class="drawer__title">Varsler</h2><button class="btn btn--ghost btn--sm" type="button">Lukk</button></div><div class="drawer__body"><div class="drawer__section"><h3>Nye</h3><p style="margin:0;color:var(--text-muted);font-size:var(--text-sm)">Frantz venter på svar fra deg.</p></div><div class="drawer__section"><h3>Eldre</h3><p style="margin:0;color:var(--text-muted);font-size:var(--text-sm)">Kampanjen er bestilt.</p></div></div></aside>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Knapp med teller</span>
+      <button class="topbar__knapp" type="button" aria-label="Varsler" style="position:relative"><span class="icon-lucide icon-lucide--bell" aria-hidden="true"></span><span class="topbar__teller">3</span></button>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="drawer-backdrop"&gt;&lt;/div&gt;
+&lt;aside class="drawer" aria-labelledby="d-tittel"&gt;
+  &lt;div class="drawer__head"&gt;
+    &lt;h2 class="drawer__title" id="d-tittel"&gt;Varsler&lt;/h2&gt;
+    &lt;button class="btn btn--ghost btn--sm" type="button"&gt;Lukk&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="drawer__body"&gt;
+    &lt;div class="drawer__section"&gt;&lt;h3&gt;Nye&lt;/h3&gt;…&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;</code></pre>
       </div>
     </div>
   </div>

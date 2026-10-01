@@ -16,6 +16,8 @@
 .text-sm   { font-size: var(--text-sm);   line-height: var(--leading-normal); }
 .text-xs   { font-size: var(--text-xs);   line-height: var(--leading-normal); }
 
+small { font-size: var(--text-xs); }
+
 /* --- Label / eyebrow --- */
 .label {
   font-family: var(--font-body);

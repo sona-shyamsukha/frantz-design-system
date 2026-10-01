@@ -5,7 +5,7 @@
   gap: var(--space-8);
   border: 1px solid transparent;
   border-radius: var(--radius-full);
-  padding: 14px var(--space-24);
+  padding: var(--space-16) var(--space-24);
   font-family: var(--font-body);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
@@ -55,7 +55,7 @@
 .btn--ghost {
   background: transparent;
   border-color: var(--border-default);
-  padding: 7px var(--space-16);
+  padding: var(--space-8) var(--space-16);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-ink-700);
@@ -67,12 +67,12 @@
 }
 
 .btn--sm {
-  padding: 8px var(--space-16);
+  padding: var(--space-8) var(--space-16);
   font-size: var(--text-sm);
 }
 
 .btn--lg {
-  padding: 16px var(--space-32);
+  padding: var(--space-16) var(--space-32);
 }
 
 .btn:disabled,
@@ -87,4 +87,42 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-12);
+}
+
+/* Text link used as a standalone action. Keeps a 24px target even when the text is small. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-link);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: var(--space-4);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.link:hover { color: var(--color-navy-lift); }
+.link:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
+.link--xs { font-size: var(--text-xs); font-weight: var(--font-weight-medium); }
+
+/* Row of buttons. Wraps, and on phones --stack makes each button fill the row. */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+@media (max-width: 640px) {
+  .btn-row--stack > .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
 }

@@ -25,13 +25,16 @@
   flex: none;
   width: 6px;
   height: 6px;
-  margin: 0 10px 0 8px;
+  margin: 0 var(--space-8) 0 var(--space-8);
   border-top: 1.5px solid var(--color-ink-200);
   border-right: 1.5px solid var(--color-ink-200);
   transform: rotate(45deg);
 }
 
 .breadcrumb__item a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   color: var(--text-muted);
   text-decoration: none;
 }

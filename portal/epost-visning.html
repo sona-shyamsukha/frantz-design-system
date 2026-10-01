@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>E-posttråd — demo</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=30">
+<link rel="stylesheet" href="../frantz-ds.css?v=42">
 <style>
   body { margin: 0; background: var(--surface-subtle); }
 
@@ -58,7 +58,7 @@
   .mailmsg__body { padding: 0 var(--space-16) var(--space-16) 60px; font-size: var(--text-sm); }
   .mailmsg__body p + p { margin-top: var(--space-8); }
   .mailmsg__body a { color: var(--text-heading); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
-  .mailmsg__tag { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-12); padding: 3px 9px; border-radius: var(--radius-full); background: var(--bg-success-soft); color: var(--text-success-strong); font-size: 11px; font-weight: var(--font-weight-bold); }
+  .mailmsg .tag { margin-top: var(--space-12); }
 
   .mail__reply { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); padding: var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); color: var(--text-muted); font-size: var(--text-sm); }
 
@@ -133,7 +133,7 @@
       </div>
       <div class="mailmsg__body">
         <p>OK, ser bra ut. Kunden har godkjent.</p>
-        <span class="mailmsg__tag"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Lagt inn i kampanjetråden i Frantz</span>
+        <span class="tag tag--success tag--xs"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Lagt inn i kampanjetråden i Frantz</span>
       </div>
     </li>
     <li class="mailmsg">

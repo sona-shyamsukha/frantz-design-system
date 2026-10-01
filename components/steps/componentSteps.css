@@ -11,8 +11,8 @@
 .step {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px var(--space-16) 8px 8px;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16) var(--space-8) var(--space-8);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
   background: var(--surface-raised);

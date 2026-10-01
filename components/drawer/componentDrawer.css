@@ -3,7 +3,7 @@
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: rgb(10 25 40 / 0.35);
+  background: var(--scrim);
 }
 
 .drawer {
@@ -17,7 +17,7 @@
   width: min(420px, 100%);
   background: var(--surface-raised);
   border-left: 1px solid var(--border-default);
-  box-shadow: -12px 0 32px rgb(10 25 40 / 0.12);
+  box-shadow: var(--shadow-drawer);
 }
 
 .drawer[hidden],
@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-12);
-  padding: var(--space-20, 20px) var(--space-24);
+  padding: var(--space-20) var(--space-24);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -79,11 +79,11 @@
   right: -4px;
   min-width: 18px;
   height: 18px;
-  padding: 0 5px;
+  padding: 0 var(--space-6);
   border-radius: var(--radius-full);
   background: var(--text-danger-moderate);
   color: var(--color-white);
-  font-size: 11px;
+  font-size: var(--text-2xs);
   font-weight: var(--font-weight-semibold);
   line-height: 18px;
   text-align: center;
@@ -130,18 +130,7 @@ button.topbar__who:focus-visible { outline: none; box-shadow: var(--focus-ring);
 .varsel__tittel { font-size: var(--text-sm); color: var(--text-heading); }
 .varsel--ulest .varsel__tittel { font-weight: var(--font-weight-semibold); }
 .varsel--ulest .varsel__ikon { background: var(--color-data-100); }
-.varsel__tid { margin-top: 2px; font-size: var(--text-xs); color: var(--text-faint); }
-.varsel__prikk { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--color-coral); vertical-align: middle; }
+.varsel__tid { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--text-faint); }
+.varsel__prikk { display: inline-block; width: 8px; height: 8px; margin-right: var(--space-6); border-radius: 50%; background: var(--color-coral); vertical-align: middle; }
 .varsel:not(.varsel--ulest) .varsel__prikk { display: none; }
 
-.avatar {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-full);
-  background: var(--color-navy);
-  color: var(--color-white);
-  font-weight: var(--font-weight-semibold);
-}

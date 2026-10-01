@@ -1,0 +1,43 @@
+/* Checklist: what is done and what is missing, one row each. */
+
+.checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-12) 0;
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--text-sm);
+  color: var(--text-body);
+}
+
+.checklist li:first-child {
+  border-top: 0;
+}
+
+.checklist .icon-lucide {
+  flex: none;
+  margin-top: var(--space-2);
+}
+
+.checklist .er-ok .icon-lucide {
+  color: var(--text-success-strong);
+}
+
+.checklist .mangler .icon-lucide {
+  color: var(--text-faint);
+}
+
+.checklist b {
+  display: block;
+  color: var(--text-heading);
+  font-weight: var(--font-weight-medium);
+}
+
+.checklist small {
+  color: var(--text-muted);
+}

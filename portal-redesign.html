@@ -7,34 +7,34 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Portal redesign</title>
-<link rel="stylesheet" href="frantz-ds.css?v=8">
-<link rel="stylesheet" href="styles/docs.css">
+<link rel="stylesheet" href="frantz-ds.css?v=42">
+<link rel="stylesheet" href="styles/docs.css?v=2">
 <style>
   .pr-main { padding-top: 52px; }
   .pr-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: var(--space-16);
     max-width: 900px;
   }
   @media (max-width: 900px) {
     .pr-grid { grid-template-columns: 1fr; }
   }
-  .pr-card { display: flex; flex-direction: column; gap: 4px; }
+  .pr-card { display: flex; flex-direction: column; gap: var(--space-4); }
   .pr-card__thumb {
     display: grid;
     place-items: center;
     height: 96px;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-16);
     border-radius: var(--radius-12);
     background: var(--surface-rail);
     color: var(--color-amber);
   }
   .pr-card__thumb .icon-lucide { width: 28px; height: 28px; }
-  .pr-card .card__footer { margin-top: 20px; }
-  .pr-list { max-width: 640px; padding-left: 18px; color: var(--text-body); font-size: 12.5px; line-height: 1.65; }
-  .pr-list li + li { margin-top: 6px; }
-  .pr-list code { padding: 1px 5px; border-radius: 3px; background: #f2f6f9; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+  .pr-card .card__footer { margin-top: var(--space-20); }
+  .pr-list { max-width: 640px; padding-left: var(--space-20); color: var(--text-body); font-size: var(--text-sm); line-height: 1.65; }
+  .pr-list li + li { margin-top: var(--space-6); }
+  .pr-list code { padding: 1px var(--space-6); border-radius: var(--radius-4); background: var(--surface-subtle); font-family: var(--font-mono); font-size: var(--text-2xs); }
 </style>
 </head>
 <body class="ds-docs">
@@ -55,7 +55,7 @@
 <div class="pr-main">
   <div class="ds-section">
     <div class="ds-overline">Portal redesign</div>
-    <h1 class="ds-title" style="font-size: 22px;">Kampanjeportalen for Vokser AS</h1>
+    <h1 class="ds-title" style="font-size: var(--text-xl);">Kampanjeportalen for Vokser AS</h1>
     <p class="ds-desc" style="max-width: 640px;">Redesign av Frantz' kampanjebygger, bygget med tokenene og komponentene i dette biblioteket i stedet for prototypens egne stiler. Skjermene under viser hvordan de virkelige sidene vil se ut — klikk inn på hver for å se den fungerende siden.</p>
 
     <div class="pr-grid">
@@ -104,8 +104,8 @@
       <div class="card card--betjen pr-card">
         <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span></div>
         <h3 class="card__title">Ny kampanje</h3>
-        <p class="card__hint">Én side bygget på brukerintervjuene: stilling med forslag, flere steder, fritekst og vedlegg, kanaler, budsjett med anslag. Lagres av seg selv.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje.html">Åpne siden</a> <a class="btn btn--ghost btn--sm" href="portal/arkiv/ny-kampanje-1.html">Gammel veiviser</a></div>
+        <p class="card__hint">Bygget på brukerintervjuene: lim inn lenke, PDF eller tekst, og Frantz fyller ut. Dere sjekker det som er funnet og fyller bare ut det som mangler. Ingenting er obligatorisk. Lagres av seg selv.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje.html">Åpne siden</a> <a class="btn btn--ghost btn--sm" href="portal/arkiv/ny-kampanje-5.html">Forrige versjon</a> <a class="btn btn--ghost btn--sm" href="portal/arkiv/ny-kampanje-1.html">Gammel veiviser</a></div>
       </div>
 
       <div class="card card--betjen pr-card">
@@ -130,7 +130,7 @@
       <li><code>.budsjett-slider</code> — budsjettskyver med terskler og anbefalt-markør.</li>
       <li><code>.select-card</code> / <code>.choice-card</code> — kanaler, tilvalg og materiellvalg.</li>
     </ul>
-    <p class="ds-desc" style="margin-top: 20px;">Innsikt har ingen egen side. Innholdet ligger nederst på <b>Hjem</b>, under «Samlet effekt» — med bare 5–7 kampanjer er det ingen grunn til å sende folk til en egen side for det.</p>
+    <p class="ds-desc" style="margin-top: var(--space-20);">Innsikt har ingen egen side. Innholdet ligger nederst på <b>Hjem</b>, under «Samlet effekt» — med bare 5–7 kampanjer er det ingen grunn til å sende folk til en egen side for det.</p>
   </div>
 </div>
 

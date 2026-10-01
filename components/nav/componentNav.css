@@ -51,7 +51,7 @@
 }
 
 .konto small {
-  margin-top: 2px;
+  margin-top: var(--space-2);
   color: var(--rail-ink);
   font-size: var(--text-xs);
 }
@@ -63,7 +63,7 @@
   gap: var(--space-8);
   width: 100%;
   margin-top: var(--space-16);
-  padding: 10px;
+  padding: var(--space-12);
   border: 1px solid var(--rail-line);
   border-radius: var(--radius-8);
   background: none;
@@ -131,12 +131,12 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-2);
 }
 
 .nav__group {
   padding: var(--space-16) var(--space-8) var(--space-8);
-  color: #8FAABA;
+  color: var(--rail-ink-muted);
   font-size: var(--text-xs);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.09em;
@@ -148,7 +148,7 @@
   align-items: center;
   gap: var(--space-12);
   width: 100%;
-  padding: 9px var(--space-8) 9px var(--space-12);
+  padding: var(--space-8) var(--space-8) var(--space-8) var(--space-12);
   border: 0;
   border-radius: var(--radius-8);
   background: none;
@@ -242,7 +242,7 @@
     z-index: 40;
     align-items: center;
     justify-content: space-between;
-    padding: 11px var(--space-16);
+    padding: var(--space-12) var(--space-16);
     background: var(--surface-rail);
   }
 
@@ -271,11 +271,11 @@
     overflow-y: auto;
     border-right: 0;
     transform: translateX(-101%);
-    box-shadow: 0 0 40px rgba(7, 44, 64, 0.35);
   }
 
   body.meny-apen .rail {
     transform: none;
+    box-shadow: var(--shadow-rail);
   }
 
   .raillukk {
@@ -298,7 +298,7 @@
     position: fixed;
     inset: 0;
     z-index: 50;
-    background: rgba(7, 44, 64, 0.55);
+    background: var(--scrim-strong);
     opacity: 0;
     pointer-events: none;
   }

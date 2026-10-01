@@ -1,0 +1,47 @@
+/* Avatar: initials in a circle. Sizes: --sm 24, --md 36, default 48. */
+
+.avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-1-strong);
+  color: var(--text-on-brand-1);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+}
+
+.avatar--md {
+  width: 36px;
+  height: 36px;
+  font-size: var(--text-xs);
+}
+
+.avatar--sm {
+  width: 24px;
+  height: 24px;
+  font-size: var(--text-2xs);
+}
+
+.avatar--data {
+  background: var(--color-data-700);
+  color: var(--color-white);
+}
+
+.avatar--soft {
+  background: var(--bg-brand-1-soft);
+  color: var(--text-brand-1-strong);
+}
+
+.avatar--muted {
+  background: var(--surface-section);
+  color: var(--color-ink-700);
+}
+
+.avatar--advisor {
+  background: var(--bg-brand-2-soft);
+  color: var(--text-brand-2-strong);
+}
