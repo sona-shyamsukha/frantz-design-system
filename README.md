@@ -17,7 +17,12 @@ python3 -m http.server 8080
 | [style-guide.html](style-guide.html) | Token spec — palette, type, icons, space, rules |
 | [component-library.html](component-library.html) | Component catalog — variants + HTML |
 
+| [portal-redesign.html](portal-redesign.html) | Overview of the campaign portal prototype |
+| [portal/login.html](portal/login.html) | Start of the demo: login → Hjem → Ny kampanje → Kampanjer → Rapport |
+
 Open **http://127.0.0.1:8080/style-guide.html**
+
+Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-data.js`. `portal/arkiv/` keeps older versions of the wizard on purpose.
 
 ## Use
 
