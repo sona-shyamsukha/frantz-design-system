@@ -45,3 +45,41 @@
   background: var(--bg-brand-2-soft);
   color: var(--text-brand-2-strong);
 }
+
+/* Same family, with an icon instead of initials: chat, e-mail thread and advisor inbox.
+   Size 32px, tone from the sender. */
+.msg__avatar,
+.mailmsg__avatar,
+.chat__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  border-radius: var(--radius-full);
+}
+
+.msg__avatar,
+.mailmsg__avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-brand-1-soft);
+  color: var(--text-brand-1-strong);
+}
+
+.msg--user .msg__avatar,
+.mailmsg--me .mailmsg__avatar {
+  background: var(--surface-section);
+  color: var(--color-ink-700);
+}
+
+.msg--advisor .msg__avatar,
+.mailmsg--advisor .mailmsg__avatar {
+  background: var(--bg-brand-2-soft);
+  color: var(--text-brand-2-strong);
+}
+
+.chat__avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--bg-brand-1-strong);
+  color: var(--text-on-brand-1);
+}

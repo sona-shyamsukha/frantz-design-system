@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Mediebibliotek — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=44">
+<link rel="stylesheet" href="../frantz-ds.css?v=45">
 <style>
   body { margin: 0; }
   .verktoy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-24); }
@@ -32,6 +32,7 @@
   .kanalikoner img { width: 18px; height: 18px; }
   .detalj { position: sticky; top: var(--space-24); }
   .detalj[hidden] { display: none; }
+  .medie__bilde[data-lys], .detalj__bilde[data-lys] { color: var(--text-heading); }
   .detalj__bilde { display: grid; place-items: center; aspect-ratio: 1; border-radius: var(--radius-8); color: var(--color-white); }
   .detalj__navn { margin: var(--space-16) 0 0; font-size: var(--text-lg); color: var(--text-heading); }
   .detalj dl { margin: var(--space-12) 0 0; }
@@ -123,7 +124,7 @@ var medier = [
   { id: 5, navn: 'En dag på akutten', type: 'Video', format: '1080 × 1920', dato: '27.06.2026', farge: 'var(--color-navy-mid)', brukt: [['Sykepleier Bodø', 'rapport.html']], tagger: ['video'] },
   { id: 6, navn: 'Kontorlandskap Kongsberg', type: 'Bilde', format: '1200 × 628', dato: '14.05.2026', farge: 'var(--text-success-moderate)', brukt: [], tagger: ['kontor'] },
   { id: 7, navn: 'Vokser logo, mørk', type: 'Logo', format: 'SVG', dato: '02.03.2026', farge: 'var(--color-rail)', brukt: [['Alle kampanjesider', 'innstillinger.html#merkevare']], tagger: ['logo'] },
-  { id: 8, navn: 'Vokser logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
+  { id: 8, navn: 'Vokser logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', lys: true, farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
 ];
 var filter = 'alle', sok = '', valgt = null;
 var ikon = function (t) { return t === 'Video' ? 'play' : (t === 'Logo' ? 'palette' : 'image'); };
@@ -137,7 +138,7 @@ function tegnRutenett() {
   var html = '<button type="button" class="opplast" id="opplast"><span class="icon-lucide icon-lucide--upload icon-lucide--lg" aria-hidden="true"></span><b>Last opp filer</b><span>Dra filer hit, eller klikk for å velge</span></button>';
   html += liste.map(function (m) {
     return '<button type="button" class="medie" data-id="' + m.id + '" aria-pressed="' + (valgt === m.id) + '">' +
-      '<span class="medie__bilde" style="background:' + m.farge + '"><span class="tag tag--overlay">' + m.type + '</span><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></span>' +
+      '<span class="medie__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background:' + m.farge + '"><span class="tag tag--overlay">' + m.type + '</span><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></span>' +
       '<span class="medie__body"><span class="medie__navn" style="display:block">' + m.navn + '</span><span class="medie__meta" style="display:block">' + m.format + '</span>' +
       '<span class="kanalikoner">' + kanalIkoner(m) + '</span></span></button>';
   }).join('');
@@ -153,7 +154,7 @@ function tegnDetalj() {
   var p = passer[m.format] || [];
   d.innerHTML =
     '<div style="display:flex;justify-content:flex-end;margin:-4px -4px var(--space-8)"><button type="button" class="btn btn--ghost" data-lukk-detalj aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>' +
-    '<div class="detalj__bilde" style="background:' + m.farge + '"><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></div>' +
+    '<div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background:' + m.farge + '"><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></div>' +
     '<h2 class="detalj__navn">' + m.navn + '</h2>' +
     '<dl>' +
       '<dl class="summary-row"><dt>Type</dt><dd>' + m.type + '</dd></dl>' +
