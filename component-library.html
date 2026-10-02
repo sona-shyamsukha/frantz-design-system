@@ -7,8 +7,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=42">
-<link rel="stylesheet" href="styles/docs.css?v=2">
+<link rel="stylesheet" href="frantz-ds.css?v=43">
+<link rel="stylesheet" href="components/inbox/componentInbox.css?v=2">
+<link rel="stylesheet" href="styles/docs.css?v=3">
 </head>
 <body class="ds-docs">
 
@@ -46,11 +47,13 @@
   <button class="cl-tab" type="button" onclick="showTab('badge', this)">Status</button>
   <button class="cl-tab" type="button" onclick="showTab('tag', this)">Merkelapp</button>
   <button class="cl-tab" type="button" onclick="showTab('avatar', this)">Avatar</button>
+  <button class="cl-tab" type="button" onclick="showTab('picker', this)">Feltvelger</button>
 
   <div class="cl-tab-group">Lister</div>
   <button class="cl-tab" type="button" onclick="showTab('table', this)">Tabell</button>
   <button class="cl-tab" type="button" onclick="showTab('pagination', this)">Paginering</button>
   <button class="cl-tab" type="button" onclick="showTab('progress', this)">Fremdrift</button>
+  <button class="cl-tab" type="button" onclick="showTab('timeline', this)">Tidslinje</button>
 
   <div class="cl-tab-group">Innhold</div>
   <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
@@ -65,6 +68,7 @@
   <div class="cl-tab-group">Data</div>
   <button class="cl-tab" type="button" onclick="showTab('funnel', this)">Trakt</button>
   <button class="cl-tab" type="button" onclick="showTab('geo', this)">Geo-fordeling</button>
+  <button class="cl-tab" type="button" onclick="showTab('kanaler', this)">Kanalfarger og logoer</button>
 
   <div class="cl-tab-group">Veiviser</div>
   <button class="cl-tab" type="button" onclick="showTab('steps', this)">Trinn</button>
@@ -74,6 +78,10 @@
 
   <div class="cl-tab-group">AI-assistent</div>
   <button class="cl-tab" type="button" onclick="showTab('chat', this)">Chat</button>
+  <button class="cl-tab" type="button" onclick="showTab('fab', this)">Spør Frantz</button>
+
+  <div class="cl-tab-group">Rådgiver</div>
+  <button class="cl-tab" type="button" onclick="showTab('inbox', this)">Innboks (rådgiver)</button>
 </aside>
 
 <div class="cl-main">
@@ -1939,6 +1947,188 @@ tegnTrakt(document.getElementById('trakt'), {
   </div>
 </div>
 
+
+<div class="cl-panel" id="panel-picker">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Feltvelger</h2>
+      <span class="cl-component-class">.picker</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Felt med forslag mens du skriver. Én variant for stilling (velger én), én for steder (velger flere, vises som merkelapper). Trenger <code>picker.js</code> og <code>frantz-data.js</code>.</p>
+      <ul class="cl-rules"><li>Forslag åpnes under feltet. Piltaster flytter, Enter velger, Esc lukker.</li><li>Valgte steder står som <code>.picker-chip</code> inne i feltet og kan fjernes med ×.</li><li>Feltet er minst 48px høyt, likt andre felt på siden.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.picker</code></td><td>Rot, posisjonert for forslagslisten</td></tr><tr><td><code>.picker__felt</code></td><td>Rammen: merkelapper og tekstfelt deler boks</td></tr><tr><td><code>.picker__input</code></td><td>Selve tekstfeltet</td></tr><tr><td><code>.picker-chip</code></td><td>Valgt sted med fjern-knapp</td></tr><tr><td><code>.picker__liste</code></td><td>Forslagslisten</td></tr><tr><td><code>.picker__gruppe</code></td><td>Gruppetittel i listen</td></tr><tr><td><code>.picker__opt</code></td><td>Ett forslag</td></tr><tr><td><code>.picker__valgt</code></td><td>Bekreftelse etter valg</td></tr><tr><td><code>.picker__snarvei</code></td><td>Rask snarvei, f.eks. «Hele Norge»</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Stilling (velger én)</span>
+      <div style="max-width:360px"><label class="form-label" for="cl-stilling">Stilling</label>
+      <div class="picker" id="cl-stilling-picker"><div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="cl-stilling" type="text" placeholder="F.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div><p class="picker__valgt" hidden></p></div></div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Steder (velger flere)</span>
+      <div style="max-width:420px"><label class="form-label" for="cl-sted">Arbeidssted</label>
+      <div class="picker" id="cl-sted-picker"><div class="picker__felt"><span class="picker__chips" style="display:contents"></span><input class="picker__input" id="cl-sted" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="Arbeidssteder" hidden></div></div></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="picker" id="stilling-picker"&gt;
+  &lt;div class="picker__felt"&gt;
+    &lt;span class="icon-lucide icon-lucide--search" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;input class="picker__input" type="text" role="combobox" aria-expanded="false" aria-autocomplete="list"&gt;
+  &lt;/div&gt;
+  &lt;div class="picker__liste" role="listbox" hidden&gt;&lt;/div&gt;
+  &lt;p class="picker__valgt" hidden&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script src="data/frantz-data.js"&gt;&lt;/script&gt;
+&lt;script src="components/js/picker.js"&gt;&lt;/script&gt;
+&lt;script&gt;FrantzPicker.stilling(document.getElementById('stilling-picker'), { onChange: function (valg) {} });&lt;/script&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-kanaler">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Kanalfarger og logoer</h2>
+      <span class="cl-component-class">.kanal-prikk .kanal-logo</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Prikk og logo for annonsekanaler. Prikken står i lister og diagrammer. Logoen er en liten fargeflis med hvit merkevare, i stil med favicon.</p>
+      <ul class="cl-rules"><li>Fargene kommer fra <code>--kanal-*</code> (diagram) og <code>--channel-*</code> (tredjeparts merke). Aldri bruk dem til portalens egne flater.</li><li>Kanalnavnet skal alltid stå ved siden av prikken eller logoen.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.kanal-prikk</code></td><td>8px prikk med kanalfarge</td></tr><tr><td><code>.kanal-prikk--meta / --nettsteder / --remarketing / --linkedin / --nasjonal</code></td><td>Kanal</td></tr><tr><td><code>.kanal-logo</code></td><td>22px flis, rundet 6px</td></tr><tr><td><code>.kanal-logo--meta / --linkedin / --snapchat / --tiktok / --nettsteder / --programmatisk</code></td><td>Kanallogo</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Prikker</span>
+      <div class="cl-row"><div class="cl-item"><span class="kanal-prikk kanal-prikk--meta"></span> Meta<span class="cl-item__cap">meta</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--nettsteder"></span> Nettsteder og aviser<span class="cl-item__cap">nettsteder</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--remarketing"></span> Remarketing<span class="cl-item__cap">remarketing</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--linkedin"></span> LinkedIn<span class="cl-item__cap">linkedin</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--nasjonal"></span> Nasjonal<span class="cl-item__cap">nasjonal</span></div></div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Logoer</span>
+      <div class="cl-row"><div class="cl-item"><span class="kanal-logo kanal-logo--meta" aria-hidden="true"></span><span class="cl-item__cap">meta</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--linkedin" aria-hidden="true"></span><span class="cl-item__cap">linkedin</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--snapchat" aria-hidden="true"></span><span class="cl-item__cap">snapchat</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--tiktok" aria-hidden="true"></span><span class="cl-item__cap">tiktok</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--nettsteder" aria-hidden="true"></span><span class="cl-item__cap">nettsteder</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--programmatisk" aria-hidden="true"></span><span class="cl-item__cap">programmatisk</span></div></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;span class="kanal-prikk kanal-prikk--meta"&gt;&lt;/span&gt; Meta
+&lt;span class="kanal-logo kanal-logo--linkedin" aria-hidden="true"&gt;&lt;/span&gt; LinkedIn</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-inbox">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Innboks (rådgiver)</h2>
+      <span class="cl-component-class">.inbox</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Listen over saker i rådgiverens innboks, med filter og en statuslinje per sak. Valgt sak vises til høyre på siden (<code>.case</code>).</p>
+      <ul class="cl-rules"><li>Statusen bruker ikon og tekst, ikke bare farge.</li><li>Valgt sak markeres med <code>aria-current="true"</code>.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.inbox__list</code></td><td>Venstre kolonne</td></tr><tr><td><code>.inbox__filters</code></td><td>Filterrad</td></tr><tr><td><code>.inbox__filter</code></td><td>Ett filter</td></tr><tr><td><code>.inbox__item</code></td><td>Én sak</td></tr><tr><td><code>.inbox__name / .inbox__time</code></td><td>Navn og tid på samme linje</td></tr><tr><td><code>.inbox__preview</code></td><td>Forhåndsvisning</td></tr><tr><td><code>.inbox__state--human / --ai / --customer / --done</code></td><td>Hvem som har ballen</td></tr><tr><td><code>.case</code></td><td>Valgt sak: tittel, samtale og sidepanel</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Saksliste</span>
+      <section class="inbox__list" style="max-width:340px;border:1px solid var(--border-default);border-radius:var(--radius-12);height:auto"><div class="inbox__listhead"><h3 style="margin:0">Innboks</h3><div class="inbox__filters"><span class="inbox__filter" aria-current="true">Venter på meg · 1</span><span class="inbox__filter">Alle · 4</span></div></div>
+      <ul class="inbox__items"><li><div class="inbox__item" aria-current="true"><div class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></div><span class="inbox__preview">Vokser AS · Vil bytte hovedbildet på aktiv kampanje.</span><span class="inbox__state inbox__state--human">Venter på rådgiver</span></div></li>
+      <li><div class="inbox__item"><div class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></div><span class="inbox__preview">Vokser AS · Ny bestilling. AI fylte ut alle felt.</span><span class="inbox__state inbox__state--ai">AI håndterer</span></div></li>
+      <li><div class="inbox__item"><div class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></div><span class="inbox__preview">Vokser AS · Spurte om rapportlenke.</span><span class="inbox__state inbox__state--done">Løst av AI</span></div></li></ul></section>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;section class="inbox__list"&gt;
+  &lt;div class="inbox__listhead"&gt;
+    &lt;h1&gt;Innboks&lt;/h1&gt;
+    &lt;div class="inbox__filters"&gt;&lt;span class="inbox__filter" aria-current="true"&gt;Venter på meg · 1&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;ul class="inbox__items"&gt;
+    &lt;li&gt;&lt;div class="inbox__item" aria-current="true"&gt;
+      &lt;div class="inbox__row"&gt;&lt;span class="inbox__name"&gt;Sykepleier Oslo&lt;/span&gt;&lt;span class="inbox__time"&gt;2 min&lt;/span&gt;&lt;/div&gt;
+      &lt;span class="inbox__preview"&gt;Vil bytte hovedbildet.&lt;/span&gt;
+      &lt;span class="inbox__state inbox__state--human"&gt;Venter på rådgiver&lt;/span&gt;
+    &lt;/div&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/section&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-fab">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Spør Frantz</h2>
+      <span class="cl-component-class">.assist-fab</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Flytende knapp nederst til høyre som åpner assistenten i et panel. <code>assistant-widget.js</code> legger den til på hver portalside. Siden får ekstra bunnmarg så knappen ikke dekker siste innhold.</p>
+      <ul class="cl-rules"><li>Fast plassert, 24px fra kanten. Z-indeks <code>--z-*</code> over innhold, under skuff.</li><li>Åpent panel flytter fokus inn. Esc lukker og fokus går tilbake til knappen.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.assist-fab</code></td><td>Knappen: navy pill med ikon og tekst</td></tr><tr><td><code>.assist-panel</code></td><td>Chat-panelet</td></tr><tr><td><code>.assist-banner</code></td><td>Banner som foreslår assistenten på en side</td></tr><tr><td><code>.assist-filled</code></td><td>Markering av felt assistenten fylte ut</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Knapp (vist uten fast plassering)</span>
+      <button class="assist-fab" type="button" style="position:static" aria-label="Spør Frantz"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span><span class="assist-fab__label">Spør Frantz</span></button>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;script src="components/js/assistant-widget.js"&gt;&lt;/script&gt;
+&lt;script src="components/js/assistant.js"&gt;&lt;/script&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-timeline">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Tidslinje</h2>
+      <span class="cl-component-class">.timeline</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Dato til venstre og hva som skjedde til høyre. Enkel logg uten prikker og linje. Bruk <code>.journey</code> når steg skal henge sammen visuelt.</p>
+      <ul class="cl-rules"><li>Nyeste øverst.</li><li>Under 640px legges datoen over teksten.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.timeline</code></td><td>Listen</td></tr><tr><td><code>.timeline__item</code></td><td>Rad: dato og innhold</td></tr><tr><td><code>.timeline__date</code></td><td>Dato, 12px, tabelltall</td></tr><tr><td><code>.timeline__body</code></td><td>Innhold</td></tr><tr><td><code>.timeline__title</code></td><td>Overskrift i raden</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Standard</span>
+      <div class="timeline" style="max-width:520px"><div class="timeline__item"><span class="timeline__date">24.09.2026</span><div class="timeline__body"><span class="timeline__title">Status fra rådgiver</span>Vi ligger foran plan.</div></div><div class="timeline__item"><span class="timeline__date">15.09.2026</span><div class="timeline__body"><span class="timeline__title">Budsjett flyttet</span>Mer til Meta, som gir billigst «Søk».</div></div><div class="timeline__item"><span class="timeline__date">03.09.2026</span><div class="timeline__body"><span class="timeline__title">Kampanjen startet</span>Annonsene ble publisert.</div></div></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="timeline"&gt;
+  &lt;div class="timeline__item"&gt;
+    &lt;span class="timeline__date"&gt;24.09.2026&lt;/span&gt;
+    &lt;div class="timeline__body"&gt;&lt;span class="timeline__title"&gt;Status fra rådgiver&lt;/span&gt;Vi ligger foran plan.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 </div>
 
@@ -1964,6 +2154,12 @@ function copyPre(btn) {
 }
 </script>
 <script src="components/js/funnel.js"></script>
+<script src="portal/data/frantz-data.js"></script>
+<script src="components/js/picker.js"></script>
+<script>
+FrantzPicker.stilling(document.getElementById('cl-stilling-picker'), { onChange: function () {} });
+FrantzPicker.steder(document.getElementById('cl-sted-picker'), { onChange: function () {}, start: ['Kristiansand (by)'] });
+</script>
 <script>
 tegnTrakt(document.getElementById('cl-trakt'), {
   verdier: [14280, 7711, 4935, 1284],
