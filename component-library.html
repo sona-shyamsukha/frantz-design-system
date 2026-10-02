@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=43">
+<link rel="stylesheet" href="frantz-ds.css?v=44">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=2">
 <link rel="stylesheet" href="styles/docs.css?v=3">
 </head>
@@ -75,6 +75,7 @@
   <button class="cl-tab" type="button" onclick="showTab('slider', this)">Budsjettskyver</button>
   <button class="cl-tab" type="button" onclick="showTab('selectcard', this)">Velgbart kort</button>
   <button class="cl-tab" type="button" onclick="showTab('choicecard', this)">Valgkort</button>
+  <button class="cl-tab" type="button" onclick="showTab('adpreview', this)">Annonseforhåndsvisning</button>
 
   <div class="cl-tab-group">AI-assistent</div>
   <button class="cl-tab" type="button" onclick="showTab('chat', this)">Chat</button>
@@ -2124,6 +2125,49 @@ tegnTrakt(document.getElementById('trakt'), {
     &lt;div class="timeline__body"&gt;&lt;span class="timeline__title"&gt;Status fra rådgiver&lt;/span&gt;Vi ligger foran plan.&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="cl-panel" id="panel-adpreview">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Annonseforhåndsvisning</h2>
+      <span class="cl-component-class">.ad-preview</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Slik ser annonsen ut i feeden til hver kanal. Brukes i annonsestudioet i «Ny kampanje» og i forhåndsvisningen kunden åpner fra rapporten. Bildet kan dras for å flytte utsnittet.</p>
+      <ul class="cl-rules"><li>Dette er en etterlikning av tredjeparts-grensesnitt. Fargene kommer fra <code>--channel-*</code> og skal aldri brukes ellers i portalen.</li><li>Plattformen styres med <code>data-plattform</code>: <code>facebook</code>, <code>instagram</code> eller <code>linkedin</code>.</li><li>Portalens egen annonsevisning (<code>annonse.html</code>) bruker sin egen <code>.post</code>.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.ad-preview</code></td><td>Rammen, maks 360px bred</td></tr><tr><td><code>[data-plattform]</code></td><td>Velger kanalens CTA-farge og oppsett</td></tr><tr><td><code>.ad-preview__topp</code></td><td>Avsender og «Sponset»</td></tr><tr><td><code>.ad-preview__tekst</code></td><td>Annonsetekst</td></tr><tr><td><code>.ad-preview__kreativ</code></td><td>Bildeflate med logo og tittel, 4:5</td></tr><tr><td><code>.ad-preview__bilde</code></td><td>Bilde, kan dras</td></tr><tr><td><code>.ad-preview__stilling</code></td><td>Stillingsmerke oppå bildet</td></tr><tr><td><code>.ad-preview__bunn</code></td><td>Bunnlinje med lenketekst og CTA</td></tr><tr><td><code>.ad-preview__cta</code></td><td>Handlingsknapp</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Tre kanaler</span>
+      <div class="cl-row" style="align-items:flex-start;gap:var(--space-24)"><div class="cl-item"><article class="ad-preview" data-plattform="facebook"><header class="ad-preview__topp"><span class="ad-preview__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde"></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">facebook / meta</span></div><div class="cl-item"><article class="ad-preview" data-plattform="instagram"><header class="ad-preview__topp"><span class="ad-preview__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde"></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">instagram</span></div><div class="cl-item"><article class="ad-preview" data-plattform="linkedin"><header class="ad-preview__topp"><span class="ad-preview__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde"></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">linkedin</span></div></div>
+
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="facebook"&gt;
+  &lt;header class="ad-preview__topp"&gt;
+    &lt;span class="ad-preview__avatar"&gt;v&lt;/span&gt;
+    &lt;div&gt;&lt;b&gt;Vokser AS&lt;/b&gt;&lt;small&gt;Sponset&lt;/small&gt;&lt;/div&gt;
+  &lt;/header&gt;
+  &lt;p class="ad-preview__tekst"&gt;Vi søker sykepleiere til akuttmottaket.&lt;/p&gt;
+  &lt;div class="ad-preview__kreativ"&gt;
+    &lt;h4 class="ad-preview__tittel"&gt;Sykepleier, Kristiansand&lt;/h4&gt;
+    &lt;div class="ad-preview__bilde"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer class="ad-preview__bunn"&gt;
+    &lt;div&gt;&lt;small&gt;VOKSER.NO&lt;/small&gt;&lt;b&gt;Les mer om stillingen&lt;/b&gt;&lt;/div&gt;
+    &lt;span class="ad-preview__cta"&gt;Søk nå&lt;/span&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</code></pre>
       </div>
     </div>
   </div>
