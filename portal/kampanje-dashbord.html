@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Dashbord · Sykepleier Oslo — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=48">
+<style>
+  body { margin: 0; }
+  /* The portal's .wrap already gives the page its side padding. */
+  .wrap > .ko-canvas { padding: var(--space-24) 0 var(--space-44); }
+#dash-root { --dash-gutter: 0; }
+.ko-canvas {
+  --f-navy: #0C3F59; --f-navy-lift: #1E6F92; --f-navy-pale: #C3DCE7; --f-green: #4CB79A;
+  --f-text: #2E3D47; --f-muted: #5B6B76; --f-faint: #8A97A0; --f-ink-200: #C4CDD3;
+  --f-line: #E2E9EE; --f-line-soft: #EFF3F6; --f-panel: #F2F6F9; --f-section: #E8EEF1; --f-white: #FFFFFF;
+  --f-ok-bg: #DDF2EC; --f-ok: #1E4C3F; --f-bad-bg: #FDECEA; --f-bad: #B3261E;
+  --f-meta: #1E6F92; --f-nett: #4CB79A; --f-sok: #0C3F59; --f-vis: #C3DCE7;
+  --f-font: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --f-shadow: 0 1px 2px rgba(12, 63, 89, .05), 0 1px 1px rgba(12, 63, 89, .04);
+  --f-shadow-pop: 0 8px 28px rgba(12, 63, 89, .10);
+  --f-focus: 0 0 0 3px rgba(12, 63, 89, .35);
+  container: ko / inline-size;
+  padding: 32px clamp(16px, 4vw, 48px) 48px;
+  background: var(--f-white); color: var(--f-text);
+  font-family: var(--f-font); font-size: .9375rem; line-height: 1.5;
+}
+.ko { display: grid; gap: 40px; max-width: 76rem; margin-inline: auto; }
+.ko-head { display: grid; gap: 10px; }
+.ko-eyebrow { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; color: var(--f-muted); font-size: .8125rem; }
+.ko-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--f-ok-bg); color: var(--f-ok); font-size: .75rem; font-weight: 700; }
+.ko-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.ko-title { margin: 0; color: var(--f-navy); font-family: var(--f-font); font-size: 2.25rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.15; }
+.ko-lede { margin: 0; max-width: 64ch; color: var(--f-text); font-size: 1rem; line-height: 1.6; }
+.ko-canvas .ko-lede b { color: var(--f-navy); font-weight: 700; }
+.ko-section { display: grid; gap: 16px; }
+.ko-h2 { margin: 0; color: var(--f-navy); font-family: var(--f-font); font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.3; }
+.ko-sub { margin: -8px 0 0; color: var(--f-muted); font-size: .8125rem; }
+.ko-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.ko-grid--wide { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+@container ko (max-width: 46rem) { .ko-grid--wide { grid-template-columns: minmax(0, 1fr); } .ko-title { font-size: 1.625rem; } }
+.ko-kpis { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
+.ko-card { container: card / inline-size; min-width: 0; display: grid; gap: 12px; align-content: start; padding: 24px; background: var(--f-white); border: 1px solid var(--f-line); border-radius: 16px; box-shadow: var(--f-shadow); }
+.ko-card h3 { margin: 0; color: var(--f-navy); font-family: var(--f-font); font-size: 1.125rem; font-weight: 600; letter-spacing: -.01em; line-height: 1.35; }
+.ko-note { margin: 0; color: var(--f-muted); font-size: .8125rem; line-height: 1.5; }
+.ko-kpi { gap: 4px; }
+.ko-kpi__label { color: var(--f-muted); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.ko-kpi__value { margin-top: 4px; color: var(--f-navy); font-size: 2rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.ko-kpi__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 8px; color: var(--f-muted); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.ko-delta { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; background: var(--f-panel); color: var(--f-navy); font-weight: 700; }
+.ko-delta.is-good { background: var(--f-ok-bg); color: var(--f-ok); }
+.ko-delta.is-bad { background: var(--f-bad-bg); color: var(--f-bad); }
+.ko-chart { position: relative; min-width: 0; }
+.ko-chart svg { display: block; overflow: visible; }
+.ko-chart svg text { font-family: var(--f-font); font-size: 12px; fill: var(--f-muted); font-variant-numeric: tabular-nums; }
+.ko-chart svg text.ko-strong { fill: var(--f-navy); font-weight: 700; }
+.ko-chart--goal { min-height: 240px; }
+.ko-chart--days { min-height: 286px; }
+.ko-tip { position: absolute; z-index: 2; pointer-events: none; min-width: 9rem; padding: 8px 12px; background: var(--f-white); border: 1px solid var(--f-line); border-radius: 8px; box-shadow: var(--f-shadow-pop); color: var(--f-text); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.ko-tip[hidden] { display: none; }
+.ko-tip__t { margin-bottom: 4px; color: var(--f-muted); font-weight: 600; }
+.ko-tip__r { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.ko-canvas .ko-tip__r b { margin-left: auto; padding-left: 16px; color: var(--f-navy); font-weight: 700; }
+.ko-sw { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 50%; }
+.ko-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--f-muted); font-size: .75rem; }
+.ko-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.ko-progs { display: grid; gap: 20px; }
+.ko-prog { display: grid; gap: 6px; }
+.ko-prog__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 8px; font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.ko-prog__top > span:first-child { color: var(--f-muted); }
+.ko-canvas .ko-prog b { color: var(--f-navy); font-weight: 700; }
+.ko-track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--f-section); }
+.ko-track > span { display: block; width: 0; height: 100%; border-radius: 999px; }
+.ko-table-wrap { overflow-x: auto; }
+.ko-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.ko-table th { padding: 10px 8px; border-bottom: 1px solid var(--f-line); color: var(--f-muted); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-align: left; text-transform: uppercase; white-space: nowrap; }
+.ko-table td { padding: 12px 8px; border-bottom: 1px solid var(--f-line-soft); color: var(--f-text); font-size: .875rem; vertical-align: top; }
+.ko-table td:first-child { color: var(--f-navy); font-weight: 600; }
+.ko-table th:first-child, .ko-table td:first-child { padding-left: 0; }
+.ko-table th:last-child, .ko-table td:last-child { padding-right: 0; }
+.ko-table tbody tr:last-child td { border-bottom: 0; }
+.ko-table .num { text-align: right; white-space: nowrap; }
+.ko-cellbar { height: 6px; min-width: 3rem; margin-top: 6px; overflow: hidden; border-radius: 999px; background: var(--f-section); }
+.ko-cellbar > span { display: block; height: 100%; border-radius: 999px; }
+@container card (max-width: 26rem) { .ko-sec { display: none; } }
+.ko-seg { display: flex; flex-wrap: wrap; gap: 8px; justify-self: start; }
+.ko-seg button { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--f-line); border-radius: 999px; background: var(--f-white); color: var(--f-muted); font-family: var(--f-font); font-size: .8125rem; font-weight: 600; line-height: 1.2; cursor: pointer; }
+.ko-seg button:hover { color: var(--f-navy); }
+.ko-seg button[aria-pressed="true"] { background: var(--f-navy); border-color: var(--f-navy); color: var(--f-white); }
+.ko-seg button:focus-visible { outline: none; box-shadow: var(--f-focus); }
+.ko-steps { display: grid; min-height: 300px; align-content: start; }
+.ko-step { display: grid; grid-template-columns: minmax(8rem, 12rem) 5.5rem minmax(0, 1fr); align-items: center; gap: 4px 16px; padding-block: 12px; border-bottom: 1px solid var(--f-line-soft); }
+.ko-step:last-child { border-bottom: 0; }
+.ko-step__name { color: var(--f-navy); font-weight: 600; font-size: .875rem; }
+.ko-step__num { color: var(--f-navy); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.ko-step__rate { display: grid; gap: 6px; color: var(--f-muted); font-size: .75rem; font-variant-numeric: tabular-nums; }
+@container card (max-width: 30rem) { .ko-step { grid-template-columns: minmax(0, 1fr) auto; } .ko-step__rate { grid-column: 1 / -1; } }
+.ko-hbars { display: grid; gap: 14px; min-height: 180px; align-content: start; }
+.ko-hbar { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) auto; align-items: center; gap: 10px; font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.ko-hbar > div:first-child { color: var(--f-navy); font-weight: 600; }
+.ko-hbar__val { color: var(--f-muted); white-space: nowrap; }
+.ko-hbar__stack { display: flex; gap: 2px; height: 12px; }
+.ko-hbar__stack > span { height: 100%; min-width: 2px; border-radius: 999px; }
+.ko-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; color: var(--f-muted); font-size: .75rem; }
+.ko-fail__dot { width: .375rem; height: .375rem; border-radius: 50%; background: var(--f-bad); }
+.ko-foot { margin: 0; color: var(--f-muted); font-size: .75rem; }
+.ko-canvas [data-dash-source-state=empty] { color: transparent; }
+.ko-canvas [data-dash-source-state=refreshing] { opacity: .5; transition: opacity .35s; }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Sti">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
+          <li class="breadcrumb__item"><a href="campaign.html">Sykepleier Oslo</a></li>
+          <li class="breadcrumb__item"><span aria-current="page">Dashbord</span></li>
+        </ol>
+      </nav>
+<div class="ko-canvas">
+<div class="ko">
+  <header class="ko-head" id="topp">
+    <p class="ko-eyebrow">
+      <span class="ko-status" data-source="kampanje" data-field="status" data-row="0" data-fmt="text">—</span>
+      <span><span data-source="kampanje" data-field="start" data-row="0" data-fmt="date">—</span>–<span data-source="kampanje" data-field="slutt" data-row="0" data-fmt="datey">—</span></span>
+      <span>Eksempeldata fra prototypen</span>
+    </p>
+    <h1 class="ko-title" id="tittel" data-source="kampanje" data-field="navn" data-row="0" data-fmt="text">—</h1>
+    <p class="ko-lede" id="hovedfunn">Med dagens tempo ender kampanjen på rundt <b data-source="prognose" data-field="prognose" data-row="0" data-fmt="int">—</b> «Søk». Målet er <b data-source="kampanje" data-field="mal_sok" data-row="0" data-fmt="int">—</b>, <span id="mal-dom">—</span> Hvert «Søk» koster <b data-source="nokkeltall" data-field="verdi" data-where="nokkel=kr_per_sok" data-fmt="kr">—</b>, mot normalt <b data-source="nokkeltall" data-field="normalt" data-where="nokkel=kr_per_sok" data-fmt="kr">—</b>.</p>
+  </header>
+
+  <section class="ko-section" aria-labelledby="h-sa-langt">
+    <h2 class="ko-h2" id="h-sa-langt">Så langt</h2>
+    <p class="ko-sub">«Normalt» er snittet for lignende kampanjer for sykepleiere i Oslo-området etter like mange dager.</p>
+    <div class="ko-kpis">
+      <div class="ko-card ko-kpi" data-nokkel="sok">
+        <div class="ko-kpi__label">Trykket «Søk»</div>
+        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=sok" data-fmt="int">—</div>
+        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=sok" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=sok" data-fmt="int">—</span></span></div>
+      </div>
+      <div class="ko-card ko-kpi" data-nokkel="kr_per_sok">
+        <div class="ko-kpi__label">Kroner per «Søk»</div>
+        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=kr_per_sok" data-fmt="kr">—</div>
+        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=kr_per_sok" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=kr_per_sok" data-fmt="kr">—</span></span></div>
+      </div>
+      <div class="ko-card ko-kpi" data-nokkel="interesse">
+        <div class="ko-kpi__label">Meldte interesse</div>
+        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=interesse" data-fmt="int">—</div>
+        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=interesse" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=interesse" data-fmt="int">—</span></span></div>
+      </div>
+      <div class="ko-card ko-kpi" data-nokkel="visninger">
+        <div class="ko-kpi__label">Visninger</div>
+        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=visninger" data-fmt="int">—</div>
+        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=visninger" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=visninger" data-fmt="int">—</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ko-section" aria-labelledby="h-mal">
+    <h2 class="ko-h2" id="h-mal">Når vi målet?</h2>
+    <div class="ko-grid ko-grid--wide">
+      <div class="ko-card">
+        <h3 id="h-mal-graf">«Søk» totalt mot målet</h3>
+        <p class="ko-note">Hel linje er «Søk» så langt. Prikket linje viser hvor vi ender med samme tempo.</p>
+        <div class="ko-chart ko-chart--goal" id="mal-graf" data-source="kumulativ kampanje prognose"></div>
+      </div>
+      <div class="ko-card">
+        <h3 id="h-fremdrift">Budsjett og tid</h3>
+        <p class="ko-note" id="fremdrift-note">—</p>
+        <div class="ko-progs">
+          <div class="ko-prog">
+            <div class="ko-prog__top"><span>«Søk» av målet</span><span><b data-source="prognose" data-field="sok_hittil" data-row="0" data-fmt="int">—</b> av <span data-source="kampanje" data-field="mal_sok" data-row="0" data-fmt="int">—</span></span></div>
+            <div class="ko-track"><span id="bar-mal"></span></div>
+          </div>
+          <div class="ko-prog">
+            <div class="ko-prog__top"><span>Tid brukt</span><span>Dag <b data-source="kampanje" data-field="dag" data-row="0" data-fmt="int">—</b> av <span data-source="kampanje" data-field="dager" data-row="0" data-fmt="int">—</span></span></div>
+            <div class="ko-track"><span id="bar-tid"></span></div>
+          </div>
+          <div class="ko-prog">
+            <div class="ko-prog__top"><span>Budsjett brukt</span><span><b data-source="kampanje" data-field="brukt_andel" data-row="0" data-fmt="pct">—</b> av <span data-source="kampanje" data-field="budsjett_kr" data-row="0" data-fmt="kr">—</span></span></div>
+            <div class="ko-track"><span id="bar-budsjett"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ko-card">
+      <h3 id="h-dager">Dag for dag</h3>
+      <p class="ko-note">Visninger og «Søk» hver dag siden start. Tallene for i går kommer kl. 06.00 hver morgen.</p>
+      <div class="ko-chart ko-chart--days" id="dag-graf" data-source="dager"></div>
+    </div>
+  </section>
+
+  <section class="ko-section" aria-labelledby="h-kanaler">
+    <h2 class="ko-h2" id="h-kanaler">Kanaler og annonser</h2>
+    <div class="ko-grid">
+      <div class="ko-card">
+        <h3 id="h-kanal-tabell">Hva gir hver kanal?</h3>
+        <p class="ko-note">Kroner per «Søk» er brukte kroner delt på antall «Søk». Lavere er bedre.</p>
+        <div class="ko-table-wrap">
+          <table class="ko-table" id="tab-kanaler" data-source="kanaler" data-row-key="kanal">
+            <thead><tr><th data-field="kanal">Kanal</th><th class="num ko-sec" data-field="brukt_kr">Brukt</th><th class="num" data-field="sok">«Søk»</th><th class="num" data-field="kr_per_sok">Kr per «Søk»</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ko-card">
+        <h3 id="h-annonser">Annonser</h3>
+        <p class="ko-note">Klikkrate er andelen som klikket av dem som så annonsen.</p>
+        <div class="ko-table-wrap">
+          <table class="ko-table" id="tab-annonser" data-source="annonser" data-row-key="annonse">
+            <thead><tr><th data-field="annonse">Annonse</th><th class="ko-sec" data-field="kanal">Kanal</th><th class="ko-sec" data-field="type">Type</th><th class="num ko-sec" data-field="klikk">Klikk</th><th class="num" data-field="klikkrate">Klikkrate</th><th class="num" data-field="sok">«Søk»</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ko-section" aria-labelledby="h-trakt">
+    <h2 class="ko-h2" id="h-trakt">Fra visning til «Søk»</h2>
+    <div class="ko-card">
+      <p class="ko-note">Hvor mange som går videre fra ett trinn til det neste. «Søk» er det siste Frantz kan måle. Hvor mange som sendte søknaden, ser dere i deres eget rekrutteringssystem.</p>
+      <div class="ko-seg" role="group" aria-label="Velg kanal">
+        <button type="button" data-kanal="alle" aria-pressed="true">Alle kanaler</button>
+        <button type="button" data-kanal="meta" aria-pressed="false"><span class="ko-sw" data-sw="meta"></span>Meta</button>
+        <button type="button" data-kanal="nettsteder" aria-pressed="false"><span class="ko-sw" data-sw="nett"></span>Nettsteder og aviser</button>
+      </div>
+      <div class="ko-steps" id="trakt" data-source="trakt trakt_andel"></div>
+    </div>
+  </section>
+
+  <section class="ko-section" aria-labelledby="h-hvor">
+    <h2 class="ko-h2" id="h-hvor">Hvor ble annonsene vist?</h2>
+    <div class="ko-grid">
+      <div class="ko-card">
+        <h3 id="h-fylker">Per fylke</h3>
+        <p class="ko-note">Hvor personene var da de så annonsen.</p>
+        <div class="ko-legend"><span><span class="ko-sw" data-sw="meta"></span>Meta</span><span><span class="ko-sw" data-sw="nett"></span>Nettsteder og aviser</span></div>
+        <div class="ko-hbars ko-chart" id="fylke-graf" data-source="fylker fylke_total"></div>
+      </div>
+      <div class="ko-card">
+        <h3 id="h-nettsteder">Nettsteder og aviser</h3>
+        <p class="ko-note">Annonsene i denne kanalen vises på mange sider samtidig. «Andre» er mindre nettsteder med færre visninger hver.</p>
+        <div class="ko-table-wrap">
+          <table class="ko-table" id="tab-nettsteder" data-source="nettsteder" data-row-key="nettsted">
+            <thead><tr><th data-field="nettsted">Nettsted</th><th class="num" data-field="visninger">Visninger</th><th class="num" data-field="klikk">Klikk</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="ko-foot">Alle tall er eksempeldata fra prototypen (portal/campaign.html, Sykepleier Oslo). De er ikke ekte kampanjetall.</p>
+</div>
+</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+// Sample data: the same rows as the dashboard on claude.ai, taken from the campaign page.
+window.KO_DATA = {
+ "kampanje": [
+  {
+   "navn": "Sykepleier Oslo",
+   "status": "Aktiv",
+   "start": "2026-09-03",
+   "slutt": "2026-10-03",
+   "dag": "25",
+   "dager": "30",
+   "budsjett_kr": "48200",
+   "brukt_andel": "0.72",
+   "mal_sok": "380"
+  }
+ ],
+ "nokkeltall": [
+  {
+   "nokkel": "sok",
+   "verdi": "312",
+   "normalt": "250",
+   "bedre": "hoy"
+  },
+  {
+   "nokkel": "kr_per_sok",
+   "verdi": "112",
+   "normalt": "140",
+   "bedre": "lav"
+  },
+  {
+   "nokkel": "interesse",
+   "verdi": "9",
+   "normalt": "7",
+   "bedre": "hoy"
+  },
+  {
+   "nokkel": "visninger",
+   "verdi": "132600",
+   "normalt": "110000",
+   "bedre": "hoy"
+  }
+ ],
+ "dager": [
+  {
+   "dato": "2026-09-03",
+   "visninger": "1300",
+   "sok": "2"
+  },
+  {
+   "dato": "2026-09-04",
+   "visninger": "3383",
+   "sok": "5"
+  },
+  {
+   "dato": "2026-09-05",
+   "visninger": "5165",
+   "sok": "6"
+  },
+  {
+   "dato": "2026-09-06",
+   "visninger": "6094",
+   "sok": "8"
+  },
+  {
+   "dato": "2026-09-07",
+   "visninger": "6682",
+   "sok": "13"
+  },
+  {
+   "dato": "2026-09-08",
+   "visninger": "5288",
+   "sok": "10"
+  },
+  {
+   "dato": "2026-09-09",
+   "visninger": "5551",
+   "sok": "11"
+  },
+  {
+   "dato": "2026-09-10",
+   "visninger": "7034",
+   "sok": "12"
+  },
+  {
+   "dato": "2026-09-11",
+   "visninger": "5480",
+   "sok": "13"
+  },
+  {
+   "dato": "2026-09-12",
+   "visninger": "5120",
+   "sok": "14"
+  },
+  {
+   "dato": "2026-09-13",
+   "visninger": "6244",
+   "sok": "14"
+  },
+  {
+   "dato": "2026-09-14",
+   "visninger": "5292",
+   "sok": "12"
+  },
+  {
+   "dato": "2026-09-15",
+   "visninger": "4467",
+   "sok": "11"
+  },
+  {
+   "dato": "2026-09-16",
+   "visninger": "3420",
+   "sok": "11"
+  },
+  {
+   "dato": "2026-09-17",
+   "visninger": "4884",
+   "sok": "16"
+  },
+  {
+   "dato": "2026-09-18",
+   "visninger": "5332",
+   "sok": "17"
+  },
+  {
+   "dato": "2026-09-19",
+   "visninger": "4710",
+   "sok": "17"
+  },
+  {
+   "dato": "2026-09-20",
+   "visninger": "6046",
+   "sok": "16"
+  },
+  {
+   "dato": "2026-09-21",
+   "visninger": "6269",
+   "sok": "16"
+  },
+  {
+   "dato": "2026-09-22",
+   "visninger": "4044",
+   "sok": "12"
+  },
+  {
+   "dato": "2026-09-23",
+   "visninger": "4232",
+   "sok": "11"
+  },
+  {
+   "dato": "2026-09-24",
+   "visninger": "6495",
+   "sok": "14"
+  },
+  {
+   "dato": "2026-09-25",
+   "visninger": "7469",
+   "sok": "17"
+  },
+  {
+   "dato": "2026-09-26",
+   "visninger": "6462",
+   "sok": "16"
+  },
+  {
+   "dato": "2026-09-27",
+   "visninger": "6137",
+   "sok": "18"
+  }
+ ],
+ "trakt": [
+  {
+   "nr": "1",
+   "steg": "Visninger",
+   "alle": "132600",
+   "meta": "98300",
+   "nettsteder": "34300"
+  },
+  {
+   "nr": "2",
+   "steg": "Klikk",
+   "alle": "4150",
+   "meta": "3500",
+   "nettsteder": "650"
+  },
+  {
+   "nr": "3",
+   "steg": "Besøk på siden",
+   "alle": "3480",
+   "meta": "2940",
+   "nettsteder": "540"
+  },
+  {
+   "nr": "4",
+   "steg": "Begynte å lese",
+   "alle": "2900",
+   "meta": "2450",
+   "nettsteder": "450"
+  },
+  {
+   "nr": "5",
+   "steg": "Leste hele annonsen",
+   "alle": "1980",
+   "meta": "1650",
+   "nettsteder": "330"
+  },
+  {
+   "nr": "6",
+   "steg": "Trykket «Søk»",
+   "alle": "312",
+   "meta": "263",
+   "nettsteder": "49"
+  }
+ ],
+ "kanaler": [
+  {
+   "kanal": "Meta",
+   "brukt_kr": "26400",
+   "sok": "263",
+   "kr_per_sok": "100"
+  },
+  {
+   "kanal": "Nettsteder og aviser",
+   "brukt_kr": "8500",
+   "sok": "49",
+   "kr_per_sok": "173"
+  }
+ ],
+ "annonser": [
+  {
+   "annonse": "Hverdagshelter på Ullevål",
+   "kanal": "Meta",
+   "type": "Video",
+   "klikk": "2400",
+   "klikkrate": "0.040",
+   "sok": "180"
+  },
+  {
+   "annonse": "Fast stilling i Oslo",
+   "kanal": "Meta",
+   "type": "Bilde",
+   "klikk": "1100",
+   "klikkrate": "0.024",
+   "sok": "83"
+  },
+  {
+   "annonse": "Bli sykepleier hos oss",
+   "kanal": "Nettsteder og aviser",
+   "type": "Bilde",
+   "klikk": "650",
+   "klikkrate": "0.019",
+   "sok": "49"
+  }
+ ],
+ "nettsteder": [
+  {
+   "nettsted": "VG.no",
+   "visninger": "8900",
+   "klikk": "170"
+  },
+  {
+   "nettsted": "Aftenposten.no",
+   "visninger": "6400",
+   "klikk": "120"
+  },
+  {
+   "nettsted": "Dagbladet.no",
+   "visninger": "4200",
+   "klikk": "75"
+  },
+  {
+   "nettsted": "Nettavisen.no",
+   "visninger": "3600",
+   "klikk": "70"
+  },
+  {
+   "nettsted": "TV2.no",
+   "visninger": "3100",
+   "klikk": "60"
+  },
+  {
+   "nettsted": "Finn.no",
+   "visninger": "2800",
+   "klikk": "65"
+  },
+  {
+   "nettsted": "Andre (41 nettsteder)",
+   "visninger": "5300",
+   "klikk": "90"
+  }
+ ],
+ "fylker": [
+  {
+   "fylke": "Oslo",
+   "kanal": "Meta",
+   "visninger": "52000",
+   "klikk": "1900"
+  },
+  {
+   "fylke": "Akershus",
+   "kanal": "Meta",
+   "visninger": "26100",
+   "klikk": "900"
+  },
+  {
+   "fylke": "Østfold",
+   "kanal": "Meta",
+   "visninger": "8600",
+   "klikk": "320"
+  },
+  {
+   "fylke": "Buskerud",
+   "kanal": "Meta",
+   "visninger": "7200",
+   "klikk": "250"
+  },
+  {
+   "fylke": "Innlandet",
+   "kanal": "Meta",
+   "visninger": "4400",
+   "klikk": "130"
+  },
+  {
+   "fylke": "Oslo",
+   "kanal": "Nettsteder og aviser",
+   "visninger": "21000",
+   "klikk": "400"
+  },
+  {
+   "fylke": "Akershus",
+   "kanal": "Nettsteder og aviser",
+   "visninger": "8300",
+   "klikk": "160"
+  },
+  {
+   "fylke": "Østfold",
+   "kanal": "Nettsteder og aviser",
+   "visninger": "2600",
+   "klikk": "50"
+  },
+  {
+   "fylke": "Buskerud",
+   "kanal": "Nettsteder og aviser",
+   "visninger": "2400",
+   "klikk": "40"
+  }
+ ]
+};
+</script>
+<script>
+// A small stand-in for the dashboard runtime on claude.ai, so the same page code runs here.
+(function () {
+  var DATA = window.KO_DATA, calcs = {}, lyttere = [], planlagt = false, bredde = 0;
+  function data(id) {
+    if (DATA[id]) return { status: 'ok', data: DATA[id], columns: Object.keys(DATA[id][0] || {}), meta: [], refreshing: false };
+    var c = calcs[id];
+    if (c) {
+      if (!('verdi' in c)) c.verdi = c.fn.apply(null, c.inputs.map(function (i) { return data(i).data; }));
+      return { status: 'ok', data: c.verdi, meta: [], refreshing: false };
+    }
+    return { status: 'missing', data: [], meta: [] };
+  }
+  function kjor() { planlagt = false; lyttere.forEach(function (fn) { fn(); }); }
+  function snart() { if (!planlagt) { planlagt = true; requestAnimationFrame(kjor); } }
+  window.dash = {
+    data: data,
+    calc: function (id, def) { calcs[id] = { inputs: def.inputs, fn: def.fn }; },
+    onData: function (fn) { lyttere.push(fn); fn(); },
+    colors: []
+  };
+  var flate = document.querySelector('.ko-canvas');
+  if (window.ResizeObserver) new ResizeObserver(function (e) {
+    var b = Math.round(e[0].contentRect.width);
+    if (b !== bredde) { bredde = b; snart(); }
+  }).observe(flate);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(snart);
+})();
+</script>
+<script>
+dash.calc('avvik', {
+  title: 'Avvik fra normalt',
+  description: 'Hvor mye hvert nøkkeltall ligger over eller under snittet for lignende kampanjer.',
+  inputs: ['nokkeltall'],
+  fn: (nokkeltall) => nokkeltall.map(r => ({
+    nokkel: r.nokkel,
+    avvik: Math.round((Number(r.verdi) / Number(r.normalt) - 1) * 100) / 100
+  }))
+});
+
+dash.calc('prognose', {
+  title: '«Søk» mot målet',
+  description: '«Søk» så langt, og hvor mange det blir ved sluttdato med samme tempo som hittil.',
+  inputs: ['dager', 'kampanje'],
+  fn: (dager, kampanje) => {
+    const k = kampanje[0];
+    const hittil = dager.reduce((s, r) => s + Number(r.sok), 0);
+    return [{
+      sok_hittil: hittil,
+      prognose: Math.round(hittil / Number(k.dag) * Number(k.dager)),
+      mal_sok: Number(k.mal_sok),
+      andel_av_mal: Math.round(hittil / Number(k.mal_sok) * 100) / 100,
+      tid_brukt: Math.round(Number(k.dag) / Number(k.dager) * 100) / 100
+    }];
+  }
+});
+
+dash.calc('kumulativ', {
+  title: '«Søk» totalt per dag',
+  description: 'Summen av «Søk» fra start til og med hver dag.',
+  inputs: ['dager'],
+  fn: (dager) => {
+    let sum = 0;
+    return dager.map(r => ({ dato: r.dato, sok_totalt: (sum += Number(r.sok)) }));
+  }
+});
+
+dash.calc('trakt_andel', {
+  title: 'Andel som gikk videre',
+  description: 'Andelen på hvert trinn som også nådde neste trinn, for alle kanaler og per kanal.',
+  inputs: ['trakt'],
+  fn: (trakt) => {
+    const t = trakt.slice().sort((a, b) => Number(a.nr) - Number(b.nr));
+    const andel = (i, k) => i === 0 ? null : Math.round(Number(t[i][k]) / Number(t[i - 1][k]) * 1000) / 1000;
+    return t.map((r, i) => ({ steg: r.steg, alle: andel(i, 'alle'), meta: andel(i, 'meta'), nettsteder: andel(i, 'nettsteder') }));
+  }
+});
+
+dash.calc('fylke_total', {
+  title: 'Visninger per fylke',
+  description: 'Visninger og klikk per fylke for begge kanaler samlet, og fylkets andel av alle visninger.',
+  inputs: ['fylker'],
+  fn: (fylker) => {
+    const sum = fylker.reduce((s, r) => s + Number(r.visninger), 0);
+    const per = {};
+    fylker.forEach(r => {
+      const f = per[r.fylke] || (per[r.fylke] = { fylke: r.fylke, visninger: 0, klikk: 0 });
+      f.visninger += Number(r.visninger);
+      f.klikk += Number(r.klikk);
+    });
+    return Object.values(per)
+      .map(f => ({ ...f, andel: Math.round(f.visninger / sum * 1000) / 1000 }))
+      .sort((a, b) => b.visninger - a.visninger);
+  }
+});
+
+const nf = new Intl.NumberFormat('nb-NO');
+const pf0 = new Intl.NumberFormat('nb-NO', { style: 'percent', maximumFractionDigits: 0 });
+const pf1 = new Intl.NumberFormat('nb-NO', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const kr = v => 'kr ' + nf.format(v);
+const parse = s => new Date(String(s).slice(0, 10) + 'T00:00:00Z');
+const dd = d3.utcFormat('%d.%m');
+const ddy = d3.utcFormat('%d.%m.%Y');
+const signed = v => (v > 0 ? '+' : v < 0 ? '−' : '') + pf0.format(Math.abs(v));
+const FMT = {
+  text: v => String(v),
+  int: v => nf.format(Number(v)),
+  kr: v => kr(Number(v)),
+  pct: v => pf0.format(Number(v)),
+  signed: v => signed(Number(v)),
+  date: v => dd(parse(v)),
+  datey: v => ddy(parse(v))
+};
+const COL = () => ({ meta: 'var(--f-meta)', nett: 'var(--f-nett)', sok: 'var(--f-sok)' });
+const BAD = ['error', 'connect', 'declined', 'missing'];
+const rows = id => { const d = dash.data(id).data; return Array.isArray(d) ? d : []; };
+const stateOf = ids => {
+  const ds = ids.map(id => dash.data(id));
+  if (ds.some(d => BAD.includes(d.status))) return 'error';
+  if (ds.some(d => d.status !== 'ok')) return 'loading';
+  return 'ok';
+};
+let traktValg = 'alle';
+
+function failInto(el) {
+  el.replaceChildren();
+  const f = document.createElement('div'); f.className = 'ko-fail';
+  const dot = document.createElement('span'); dot.className = 'ko-fail__dot';
+  const t = document.createElement('span'); t.textContent = 'Kunne ikke lastes';
+  f.append(dot, t); el.appendChild(f);
+}
+function boxState(el, st) {
+  el.replaceChildren();
+  el.classList.toggle('dash-skeleton', st === 'loading');
+  if (st === 'error') failInto(el);
+}
+function makeTip(box) {
+  const t = document.createElement('div'); t.className = 'ko-tip'; t.hidden = true; box.appendChild(t);
+  return {
+    show(title, lines, x, y) {
+      t.replaceChildren();
+      const h = document.createElement('div'); h.className = 'ko-tip__t'; h.textContent = title; t.appendChild(h);
+      lines.forEach(([color, name, val]) => {
+        const r = document.createElement('div'); r.className = 'ko-tip__r';
+        if (color) { const s = document.createElement('span'); s.className = 'ko-sw'; s.style.background = color; r.appendChild(s); }
+        const n = document.createElement('span'); n.textContent = name;
+        const b = document.createElement('b'); b.textContent = val;
+        r.append(n, b); t.appendChild(r);
+      });
+      t.hidden = false;
+      const bw = box.clientWidth, tw = t.offsetWidth, th = t.offsetHeight;
+      let left = x + 14; if (left + tw > bw) left = x - tw - 14;
+      left = Math.max(0, Math.min(left, bw - tw));
+      let top = y - th - 10; if (top < 0) top = y + 14;
+      t.style.left = left + 'px'; t.style.top = top + 'px';
+    },
+    hide() { t.hidden = true; }
+  };
+}
+function measurer(svg) {
+  const g = svg.append('g').attr('aria-hidden', 'true');
+  return {
+    w: (s, cls) => { const t = g.append('text').attr('class', cls || null).text(s); const w = t.node().getComputedTextLength(); t.remove(); return w; },
+    done: () => g.remove()
+  };
+}
+
+function findRow(el) {
+  const rs = rows(el.dataset.source);
+  if (el.dataset.row != null) return rs[Number(el.dataset.row)];
+  const conds = (el.dataset.where || '').split('&').filter(Boolean).map(p => p.split('=').map(decodeURIComponent));
+  return rs.find(r => conds.every(([k, v]) => String(r[k]) === v));
+}
+function fillMarks() {
+  document.querySelectorAll('.ko-canvas [data-fmt]').forEach(el => {
+    const st = dash.data(el.dataset.source).status;
+    if (st === 'loading') { el.classList.add('dash-skeleton'); el.textContent = '—'; return; }
+    el.classList.remove('dash-skeleton');
+    const r = st === 'ok' ? findRow(el) : null;
+    const v = r ? r[el.dataset.field] : null;
+    el.textContent = v == null || v === '' ? '—' : FMT[el.dataset.fmt](v);
+  });
+}
+function colorDeltas() {
+  const nt = rows('nokkeltall'), av = rows('avvik');
+  document.querySelectorAll('.ko-canvas .ko-kpi').forEach(card => {
+    const el = card.querySelector('.ko-delta');
+    el.classList.remove('is-good', 'is-bad');
+    const n = nt.find(r => r.nokkel === card.dataset.nokkel), a = av.find(r => r.nokkel === card.dataset.nokkel);
+    if (!n || !a || !Number(a.avvik)) return;
+    const good = n.bedre === 'lav' ? Number(a.avvik) < 0 : Number(a.avvik) > 0;
+    el.classList.add(good ? 'is-good' : 'is-bad');
+  });
+}
+function words() {
+  const dom = document.getElementById('mal-dom'), note = document.getElementById('fremdrift-note');
+  const st = stateOf(['prognose', 'kampanje']);
+  [dom, note].forEach(el => el.classList.toggle('dash-skeleton', st === 'loading'));
+  const p = rows('prognose')[0], k = rows('kampanje')[0];
+  if (st !== 'ok' || !p || !k) { dom.textContent = '—'; note.textContent = '—'; return; }
+  const prog = Number(p.prognose), mal = Number(k.mal_sok);
+  dom.textContent = prog >= mal ? 'så vi når det.' : prog >= mal * 0.95 ? 'så det er innen rekkevidde.' : 'så vi havner under.';
+  note.textContent = Number(k.brukt_andel) <= Number(p.tid_brukt)
+    ? 'Budsjettet brukes litt saktere enn tiden går, så det holder ut perioden.'
+    : 'Budsjettet brukes raskere enn tiden går. Det kan ta slutt før sluttdatoen.';
+}
+function drawProgress() {
+  const c = COL();
+  const p = rows('prognose')[0] || {}, k = rows('kampanje')[0] || {};
+  const set = (id, v, color) => {
+    const el = document.getElementById(id);
+    el.style.width = (Number.isFinite(v) ? Math.max(0, Math.min(1, v)) * 100 : 0) + '%';
+    el.style.background = color;
+  };
+  set('bar-mal', Number(p.andel_av_mal), c.sok);
+  set('bar-tid', Number(p.tid_brukt), 'var(--f-navy-lift)');
+  set('bar-budsjett', Number(k.brukt_andel), 'var(--f-navy-lift)');
+}
+
+function drawGoal() {
+  const box = document.getElementById('mal-graf');
+  const st = stateOf(['kumulativ', 'kampanje', 'prognose']);
+  boxState(box, st);
+  if (st !== 'ok') return;
+  const k = rows('kampanje')[0], p = rows('prognose')[0];
+  const pts = rows('kumulativ').map(r => ({ d: parse(r.dato), v: Number(r.sok_totalt) }));
+  if (!k || !p || !pts.length) return;
+  const c = COL().sok;
+  const start = parse(k.start), slutt = parse(k.slutt), mal = Number(k.mal_sok), prog = Number(p.prognose);
+  const last = pts[pts.length - 1];
+  const W = Math.max(260, box.clientWidth), H = 240, mt = 24, mb = 26;
+  const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+    .attr('aria-label', `«Søk» totalt per dag. ${nf.format(last.v)} så langt, mål ${nf.format(mal)}, med dagens tempo rundt ${nf.format(prog)}.`);
+  const y = d3.scaleLinear([0, Math.max(mal, prog, last.v) * 1.05], [H - mb, mt]).nice();
+  const yt = y.ticks(4);
+  const m = measurer(svg);
+  const ml = d3.max(yt, t => m.w(nf.format(t))) + 10;
+  const goalLab = 'Mål ' + nf.format(mal), progLab = '≈ ' + nf.format(prog);
+  const mr = Math.max(m.w(goalLab), m.w(progLab, 'ko-strong')) + 14;
+  const xLabW = m.w('00.00');
+  m.done();
+  const x = d3.scaleUtc([start, slutt], [ml, W - mr]);
+
+  const grid = svg.append('g');
+  grid.selectAll('line').data(yt).join('line')
+    .attr('x1', ml).attr('x2', W - mr).attr('y1', d => y(d)).attr('y2', d => y(d))
+    .style('stroke', d => d === 0 ? 'var(--f-ink-200)' : 'var(--f-line)');
+  grid.selectAll('text').data(yt).join('text')
+    .attr('x', ml - 10).attr('y', d => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(d => nf.format(d));
+  const xt = x.ticks(Math.max(2, Math.min(6, Math.floor((W - ml - mr) / (xLabW * 2.4)))));
+  svg.append('g').selectAll('text').data(xt).join('text')
+    .attr('x', d => x(d)).attr('y', H - 6).attr('text-anchor', 'middle').text(d => dd(d));
+
+  svg.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(mal)).attr('y2', y(mal))
+    .style('stroke', 'var(--f-faint)').attr('stroke-dasharray', '4 4');
+
+  const gid = 'ko-grad-mal';
+  const grad = svg.append('defs').append('linearGradient').attr('id', gid).attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 1);
+  [[0, .26], [.25, .16], [.5, .08], [.75, .03], [1, 0]].forEach(([o, a]) =>
+    grad.append('stop').attr('offset', o).attr('style', `stop-color: ${c}; stop-opacity: ${a}`));
+  svg.append('path').datum(pts).attr('fill', `url(#${gid})`)
+    .attr('d', d3.area().x(d => x(d.d)).y0(y(0)).y1(d => y(d.v)));
+
+  svg.append('line').attr('x1', x(last.d)).attr('y1', y(last.v)).attr('x2', x(slutt)).attr('y2', y(prog))
+    .style('stroke', c).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-dasharray', '0.5 5');
+  svg.append('path').datum(pts).attr('fill', 'none').style('stroke', c)
+    .attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
+    .attr('d', d3.line().x(d => x(d.d)).y(d => y(d.v)));
+  svg.append('circle').attr('cx', x(last.d)).attr('cy', y(last.v)).attr('r', 3.5).style('fill', c);
+  svg.append('text').attr('class', 'ko-strong').attr('x', x(last.d)).attr('y', y(last.v) - 10)
+    .attr('text-anchor', 'middle').text(nf.format(last.v));
+
+  const gy = y(mal);
+  let py = y(prog);
+  if (Math.abs(py - gy) < 14) py = py >= gy ? gy + 14 : gy - 14;
+  svg.append('text').attr('x', W - mr + 8).attr('y', gy).attr('dy', '0.32em').text(goalLab);
+  svg.append('text').attr('class', 'ko-strong').attr('x', W - mr + 8).attr('y', py).attr('dy', '0.32em').style('fill', c).text(progLab);
+
+  const tip = makeTip(box);
+  const dot = svg.append('circle').attr('r', 4).style('fill', c).style('stroke', 'var(--f-white)').attr('stroke-width', 2).style('display', 'none');
+  const near = d3.bisector(d => d.d).center;
+  svg.append('rect').attr('x', ml).attr('y', mt).attr('width', W - mr - ml).attr('height', H - mb - mt).attr('fill', 'transparent')
+    .on('pointermove', ev => {
+      const [mx] = d3.pointer(ev, svg.node());
+      const d = pts[near(pts, x.invert(mx))];
+      dot.style('display', null).attr('cx', x(d.d)).attr('cy', y(d.v));
+      const [bx, by] = d3.pointer(ev, box);
+      tip.show(ddy(d.d), [[null, '«Søk» totalt', nf.format(d.v)]], bx, by);
+    })
+    .on('pointerleave', () => { dot.style('display', 'none'); tip.hide(); });
+}
+
+function drawDays() {
+  const box = document.getElementById('dag-graf');
+  const st = stateOf(['dager']);
+  boxState(box, st);
+  if (st !== 'ok') return;
+  const data = rows('dager').map(r => ({ d: parse(r.dato), vis: Number(r.visninger), sok: Number(r.sok) }));
+  if (!data.length) return;
+  const c = COL();
+  const panels = [
+    { key: 'vis', name: 'Visninger', color: 'var(--f-vis)' },
+    { key: 'sok', name: 'Trykket «Søk»', color: c.sok }
+  ];
+  const W = Math.max(260, box.clientWidth), ph = 100, top = 22, gap = 40, mb = 24;
+  const H = top + ph + gap + ph + mb;
+  const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`)
+    .attr('role', 'img').attr('aria-label', 'Visninger og «Søk» per dag siden start.');
+  panels.forEach((p, i) => {
+    p.y0 = top + i * (ph + gap);
+    p.y = d3.scaleLinear([0, d3.max(data, d => d[p.key]) || 1], [p.y0 + ph, p.y0]).nice();
+    p.ticks = p.y.ticks(3);
+  });
+  const m = measurer(svg);
+  const ml = d3.max(panels, p => d3.max(p.ticks, t => m.w(nf.format(t)))) + 10;
+  const labW = m.w('00.00');
+  m.done();
+  const mr = 4;
+  const x = d3.scaleBand(data.map(d => +d.d), [ml, W - mr]).padding(0.25);
+  const bw = x.bandwidth(), rx = Math.min(4, bw / 2);
+
+  panels.forEach(p => {
+    const g = svg.append('g');
+    g.selectAll('line').data(p.ticks).join('line')
+      .attr('x1', ml).attr('x2', W - mr).attr('y1', d => p.y(d)).attr('y2', d => p.y(d))
+      .style('stroke', d => d === 0 ? 'var(--f-ink-200)' : 'var(--f-line)');
+    g.selectAll('text').data(p.ticks).join('text')
+      .attr('x', ml - 10).attr('y', d => p.y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(d => nf.format(d));
+    svg.append('text').attr('class', 'ko-strong').attr('x', ml).attr('y', p.y0 - 10).text(p.name);
+    p.bars = svg.append('g').selectAll('rect').data(data).join('rect')
+      .attr('x', d => x(+d.d)).attr('width', bw)
+      .attr('y', d => p.y(d[p.key])).attr('height', d => Math.max(0, p.y0 + ph - p.y(d[p.key])))
+      .attr('rx', rx).style('fill', p.color);
+  });
+
+  const every = Math.max(1, Math.ceil((labW + 12) / x.step()));
+  svg.append('g').selectAll('text').data(data.filter((d, i) => i % every === 0)).join('text')
+    .attr('x', d => x(+d.d) + bw / 2).attr('y', H - 6).attr('text-anchor', 'middle').text(d => dd(d.d));
+
+  const tip = makeTip(box);
+  const hover = svg.append('g');
+  hover.selectAll('rect').data(data).join('rect')
+    .attr('x', d => x(+d.d) - (x.step() - bw) / 2).attr('width', x.step())
+    .attr('y', top - 4).attr('height', H - top - mb + 4).attr('fill', 'transparent')
+    .on('pointerenter pointermove', (ev, d) => {
+      panels.forEach(p => p.bars.style('opacity', b => b === d ? 1 : .35));
+      const [bx, by] = d3.pointer(ev, box);
+      tip.show(ddy(d.d), [['var(--f-vis)', 'Visninger', nf.format(d.vis)], [c.sok, 'Trykket «Søk»', nf.format(d.sok)]], bx, by);
+    });
+  hover.on('pointerleave', () => { panels.forEach(p => p.bars.style('opacity', 1)); tip.hide(); });
+}
+
+function drawTable(tableId, id, cols, sort) {
+  const tb = document.getElementById(tableId).tBodies[0];
+  const st = stateOf([id]);
+  tb.replaceChildren();
+  if (st !== 'ok') {
+    const td = tb.insertRow().insertCell(); td.colSpan = cols.length;
+    if (st === 'loading') { const s = document.createElement('span'); s.className = 'dash-skeleton'; s.textContent = '—'; td.appendChild(s); }
+    else failInto(td);
+    return;
+  }
+  const rs = rows(id).slice();
+  if (sort) rs.sort(sort);
+  const max = {};
+  cols.forEach(c => { if (c.bar) max[c.field] = d3.max(rs, r => Number(r[c.field])) || 1; });
+  rs.forEach(r => {
+    const tr = tb.insertRow();
+    cols.forEach(c => {
+      const td = tr.insertCell();
+      td.className = [c.num ? 'num' : '', c.sec ? 'ko-sec' : ''].join(' ').trim();
+      td.textContent = c.fmt ? c.fmt(r[c.field]) : String(r[c.field]);
+      if (c.bar) {
+        const b = document.createElement('div'); b.className = 'ko-cellbar';
+        const s = document.createElement('span');
+        s.style.width = (Number(r[c.field]) / max[c.field] * 100) + '%';
+        s.style.background = c.bar(r);
+        b.appendChild(s); td.appendChild(b);
+      }
+    });
+  });
+}
+function drawTables() {
+  const c = COL();
+  const kc = k => k === 'Meta' ? c.meta : c.nett;
+  drawTable('tab-kanaler', 'kanaler', [
+    { field: 'kanal' },
+    { field: 'brukt_kr', num: true, sec: true, fmt: FMT.kr },
+    { field: 'sok', num: true, fmt: FMT.int },
+    { field: 'kr_per_sok', num: true, fmt: FMT.kr, bar: r => kc(r.kanal) }
+  ], (a, b) => Number(a.kr_per_sok) - Number(b.kr_per_sok));
+  drawTable('tab-annonser', 'annonser', [
+    { field: 'annonse' },
+    { field: 'kanal', sec: true },
+    { field: 'type', sec: true },
+    { field: 'klikk', num: true, sec: true, fmt: FMT.int },
+    { field: 'klikkrate', num: true, fmt: v => pf1.format(Number(v)) },
+    { field: 'sok', num: true, fmt: FMT.int }
+  ], (a, b) => Number(b.sok) - Number(a.sok));
+  drawTable('tab-nettsteder', 'nettsteder', [
+    { field: 'nettsted' },
+    { field: 'visninger', num: true, fmt: FMT.int, bar: () => c.nett },
+    { field: 'klikk', num: true, fmt: FMT.int }
+  ]);
+}
+
+function drawTrakt() {
+  const box = document.getElementById('trakt');
+  const st = stateOf(['trakt', 'trakt_andel']);
+  boxState(box, st);
+  if (st !== 'ok') return;
+  const c = COL();
+  const color = traktValg === 'meta' ? c.meta : traktValg === 'nettsteder' ? c.nett : c.sok;
+  const t = rows('trakt').slice().sort((a, b) => Number(a.nr) - Number(b.nr)), andel = rows('trakt_andel');
+  t.forEach((r, i) => {
+    const row = document.createElement('div'); row.className = 'ko-step';
+    const name = document.createElement('div'); name.className = 'ko-step__name'; name.textContent = r.steg;
+    const num = document.createElement('div'); num.className = 'ko-step__num'; num.textContent = nf.format(Number(r[traktValg]));
+    const rate = document.createElement('div'); rate.className = 'ko-step__rate';
+    const a = andel.find(x => x.steg === r.steg);
+    const share = i === 0 || !a ? null : a[traktValg];
+    if (share == null) rate.textContent = 'Alle som så annonsen';
+    else {
+      const lab = document.createElement('span');
+      lab.textContent = (share < 0.1 ? pf1 : pf0).format(share) + ' gikk videre fra trinnet før';
+      const bar = document.createElement('div'); bar.className = 'ko-track';
+      const s = document.createElement('span'); s.style.width = Math.min(1, share) * 100 + '%'; s.style.background = color;
+      bar.appendChild(s); rate.append(lab, bar);
+    }
+    row.append(name, num, rate);
+    box.appendChild(row);
+  });
+}
+
+function drawFylker() {
+  const box = document.getElementById('fylke-graf');
+  const st = stateOf(['fylker', 'fylke_total']);
+  boxState(box, st);
+  if (st !== 'ok') return;
+  const c = COL(), f = rows('fylker'), tot = rows('fylke_total');
+  const max = d3.max(tot, r => Number(r.visninger)) || 1;
+  const kanaler = [['Meta', c.meta], ['Nettsteder og aviser', c.nett]];
+  const tip = makeTip(box);
+  tot.forEach(r => {
+    const parts = kanaler.map(([k, col]) => {
+      const q = f.find(x => x.fylke === r.fylke && x.kanal === k);
+      return [k, col, q ? Number(q.visninger) : 0, q ? Number(q.klikk) : 0];
+    });
+    const row = document.createElement('div'); row.className = 'ko-hbar';
+    const name = document.createElement('div'); name.textContent = r.fylke;
+    const track = document.createElement('div');
+    const stack = document.createElement('div'); stack.className = 'ko-hbar__stack';
+    stack.style.width = (Number(r.visninger) / max * 100) + '%';
+    parts.forEach(([, col, v]) => {
+      if (!v) return;
+      const s = document.createElement('span'); s.style.flex = String(v); s.style.background = col; stack.appendChild(s);
+    });
+    track.appendChild(stack);
+    const val = document.createElement('div'); val.className = 'ko-hbar__val';
+    val.textContent = nf.format(Number(r.visninger)) + ' · ' + pf0.format(Number(r.andel));
+    row.append(name, track, val);
+    row.addEventListener('pointermove', ev => {
+      const [bx, by] = d3.pointer(ev, box);
+      tip.show(r.fylke, parts.filter(p => p[2]).map(([k, col, v, kl]) => [col, k, `${nf.format(v)} visninger · ${nf.format(kl)} klikk`]), bx, by);
+    });
+    row.addEventListener('pointerleave', () => tip.hide());
+    box.appendChild(row);
+  });
+}
+
+document.querySelectorAll('.ko-canvas [data-kanal]').forEach(b => b.addEventListener('click', () => {
+  traktValg = b.dataset.kanal;
+  document.querySelectorAll('.ko-canvas [data-kanal]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  drawTrakt();
+}));
+
+dash.onData(() => {
+  document.querySelectorAll('.ko-canvas [data-sw]').forEach(s => { s.style.background = COL()[s.dataset.sw]; });
+  let first = null;
+  [fillMarks, colorDeltas, words, drawProgress, drawGoal, drawDays, drawTables, drawTrakt, drawFylker].forEach(fn => {
+    try { fn(); } catch (e) { if (!first) first = e; }
+  });
+  if (first) throw first;
+});
+</script>
+<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/konto.js?v=3"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=5"></script>
+</body>
+</html>
