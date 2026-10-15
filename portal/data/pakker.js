@@ -13,7 +13,10 @@ window.FZ_PAKKER = (function () {
     { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
     { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }
   ];
-  var TILLEGG = [{ navn: 'Tekstproduksjon', pris: 0 }, { navn: 'Strategisk rådgivning', pris: 8000 }];
+  var TILLEGG = [
+    { navn: 'Tekstproduksjon', pris: 0, tekst: 'Frantz skriver annonseteksten og teksten på kampanjesiden.' },
+    { navn: 'Strategisk rådgivning', pris: 8000, tekst: 'En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.' }
+  ];
 
   function les() {
     try {

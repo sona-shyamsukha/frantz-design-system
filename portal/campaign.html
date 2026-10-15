@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=55">
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-body); }
@@ -27,8 +27,6 @@
   .prospekt-teller { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-12); }
   .samtykke { display: grid; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); font-size: var(--text-sm); }
   .samtykke p { margin: 0; color: var(--text-body); }
-  .samtykke .form-check { display: flex; gap: var(--space-8); align-items: flex-start; color: var(--text-heading); }
-  .samtykke .form-check input { width: 18px; height: 18px; margin: var(--space-2) 0 0; flex: none; }
   .samtykke .btn { justify-self: start; }
   .epost { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: end; margin-bottom: var(--space-16); }
   .epost .form-group { flex: 1 1 240px; margin: 0; }
@@ -149,7 +147,7 @@
             </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-129041" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
             <div class="samtykke" data-samtykke-boks>
               <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
-              <label class="form-check"><input type="checkbox"> <span>Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
+              <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
               <button class="btn btn--primary" type="button" data-vis-liste disabled>Vis listen</button>
             </div>
             <div data-samtykke-liste hidden>

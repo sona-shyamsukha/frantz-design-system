@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=54">
+<link rel="stylesheet" href="frantz-ds.css?v=55">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=4">
 <link rel="stylesheet" href="styles/docs.css?v=6">
 </head>
@@ -613,13 +613,18 @@
         <li>Checkbox på: navy-lift fyll + hake. Radio på: navy prikk.</li>
         <li>Toggle er 51×27 som i profilhåndboka. Av: navy knot på hvit. På: hvit knot på navy.</li>
         <li>Disabled: 45 % opacity, ingen klikk.</li>
+        <li>Avkrysning når valget lagres med skjemaet. Bryter når endringen skjer med en gang.</li>
+        <li>Bruk alltid komponenten. Ikke lag egne avkrysningsbokser eller brytere, og ikke vis nettleserens egen boks.</li>
+        <li>Markøren (<code>__box</code>, <code>__track</code>) har <code>aria-hidden="true"</code>. Bryteren har <code>role="switch"</code>.</li>
       </ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
         <tbody>
           <tr><td><code>.form-check</code></td><td>Flere kanaler / avkrysning</td></tr>
+          <tr><td><code>.form-check--kort</code></td><td>Avkrysning med beskrivelse, logo eller pris, f.eks. tillegg</td></tr>
           <tr><td><code>.form-radio</code></td><td>Ett valg i en gruppe (<code>name</code>)</td></tr>
           <tr><td><code>.form-toggle</code></td><td>Binær innstilling, f.eks. autopubliser</td></tr>
+          <tr><td><code>.form-toggle--liten</code></td><td>Bryter i tabellrader og tette lister</td></tr>
         </tbody>
       </table>
       <div class="cl-sep"></div>
@@ -644,6 +649,20 @@
           <input class="form-check__input" type="checkbox" checked disabled>
           <span class="form-check__box"></span>
           <span class="form-check__label">Deaktivert på</span>
+        </label>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Checkbox — kort</span>
+      <div class="cl-stack">
+        <label class="form-check form-check--kort">
+          <input class="form-check__input" type="checkbox" checked>
+          <span class="form-check__box" aria-hidden="true"></span>
+          <span class="form-check__label"><b>Tekstproduksjon</b><br>Frantz skriver annonseteksten og teksten på kampanjesiden.</span>
+        </label>
+        <label class="form-check form-check--kort">
+          <input class="form-check__input" type="checkbox">
+          <span class="form-check__box" aria-hidden="true"></span>
+          <span class="form-check__label"><b>Strategisk rådgivning</b><br>En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.</span>
         </label>
       </div>
       <div class="cl-sep"></div>
@@ -683,6 +702,11 @@
           <span class="form-toggle__track"></span>
           <span class="form-toggle__label">Deaktivert</span>
         </label>
+        <label class="form-toggle form-toggle--liten">
+          <input class="form-toggle__input" type="checkbox" role="switch" checked>
+          <span class="form-toggle__track" aria-hidden="true"></span>
+          <span class="form-toggle__label">Liten — Håndtert</span>
+        </label>
       </div>
     </div>
     <div class="cl-code">
@@ -695,6 +719,9 @@
   &lt;span class="form-check__label"&gt;Finn.no&lt;/span&gt;
 &lt;/label&gt;
 
+&lt;!-- Kort: legg til form-check--kort --&gt;
+&lt;label class="form-check form-check--kort"&gt;…&lt;/label&gt;
+
 &lt;label class="form-radio"&gt;
   &lt;input class="form-radio__input" type="radio" name="dekning"&gt;
   &lt;span class="form-radio__dot"&gt;&lt;/span&gt;
@@ -702,8 +729,8 @@
 &lt;/label&gt;
 
 &lt;label class="form-toggle"&gt;
-  &lt;input class="form-toggle__input" type="checkbox"&gt;
-  &lt;span class="form-toggle__track"&gt;&lt;/span&gt;
+  &lt;input class="form-toggle__input" type="checkbox" role="switch"&gt;
+  &lt;span class="form-toggle__track" aria-hidden="true"&gt;&lt;/span&gt;
   &lt;span class="form-toggle__label"&gt;Autopubliser&lt;/span&gt;
 &lt;/label&gt;</code></pre>
       </div>

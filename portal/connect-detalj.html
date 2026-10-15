@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>ConnectID 777689 — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=55">
 <style>
   body { margin: 0; }
 
@@ -69,31 +69,6 @@
   .radio-rad { display: flex; gap: var(--space-24); margin-top: var(--space-8); }
   .radio-rad label { display: inline-flex; align-items: center; gap: var(--space-8); color: var(--text-body); font-size: var(--text-sm); }
 
-  .bryter { display: flex; align-items: center; gap: var(--space-12); }
-  .bryter__spor {
-    position: relative;
-    width: 40px;
-    height: 22px;
-    flex: none;
-    border-radius: var(--radius-full);
-    background: var(--color-ink-200);
-    transition: background .15s;
-  }
-  .bryter__spor::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--color-white);
-    transition: transform .15s;
-  }
-  .bryter input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .bryter input:checked + .bryter__spor { background: var(--color-navy); }
-  .bryter input:checked + .bryter__spor::after { transform: translateX(18px); }
-  .bryter__tekst { color: var(--text-body); font-size: var(--text-sm); }
 
   .kopi-rad { display: flex; gap: var(--space-8); }
   .kopi-rad .form-input { flex: 1; }
@@ -177,10 +152,10 @@
               <span class="statusrad__tittel">Status</span>
               <p class="statusrad__tekst">Når ConnectID-en er aktiv, samler vi inn data fra landingssiden.</p>
             </div>
-            <label class="bryter">
-              <input type="checkbox" checked>
-              <span class="bryter__spor"></span>
-              <span class="bryter__tekst">Aktiv</span>
+            <label class="form-toggle">
+              <input class="form-toggle__input" type="checkbox" role="switch" checked>
+              <span class="form-toggle__track" aria-hidden="true"></span>
+              <span class="form-toggle__label">Aktiv</span>
             </label>
           </div>
 
@@ -203,10 +178,10 @@
           </div>
 
           <div class="form-group" style="margin-top: var(--space-16)">
-            <label class="bryter">
-              <input type="checkbox" checked>
-              <span class="bryter__spor"></span>
-              <span class="bryter__tekst">Aktiver funksjon for interessenter</span>
+            <label class="form-toggle">
+              <input class="form-toggle__input" type="checkbox" role="switch" checked>
+              <span class="form-toggle__track" aria-hidden="true"></span>
+              <span class="form-toggle__label">Aktiver funksjon for interessenter</span>
             </label>
             <div class="radio-rad">
               <label><input type="radio" name="verif" checked> E-post</label>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=55">
 <style>
   body { margin: 0; }
 
@@ -58,6 +58,7 @@
   /* Channels: one list, Frantz's choices ticked first */
   .kanal-liste { display: grid; gap: var(--space-8); }
   .kanal-liste .flere__valg { align-items: center; }
+  .kanal-liste .flere__valg .form-check__box { margin-top: 0; }
   .kanal-liste .flere__tekst { flex-direction: row; display: flex; align-items: center; gap: var(--space-8); color: var(--text-heading); font-size: var(--text-base); }
   .kanal-liste .tag { margin-left: auto; }
   /* «Del for godkjenning» */
@@ -153,9 +154,8 @@
   .flere__pil { color: var(--text-muted); transition: transform .15s; }
   .flere[open] .flere__pil { transform: rotate(180deg); }
   .flere__innhold { display: grid; gap: var(--space-12); padding: var(--space-16); border-top: 1px solid var(--border-subtle); }
-  .flere__valg { display: flex; align-items: flex-start; gap: var(--space-12); padding: var(--space-12) var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); cursor: pointer; }
-  .flere__valg:has(input:checked) { border-color: var(--color-navy); background: var(--tint-navy-4); }
-  .flere__valg input { width: 18px; height: 18px; margin: var(--space-2) 0 0; accent-color: var(--color-navy); }
+  /* Option rows use the checkbox card variant. The box sits on the first line of the bold title. */
+  .flere__valg .form-check__box { margin-top: calc((1lh - 20px) / 2); }
   .flere__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
   .flere__tekst b { color: var(--text-heading); font-size: var(--text-base); }
   .flere__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
@@ -541,8 +541,8 @@
   }
   function byggTillegg(root) {
     root.innerHTML = '<div class="tillegg-liste" role="group" aria-label="Tilleggsprodukter">' + TILLEGG.map(function (t) {
-      return '<label class="flere__valg"><input type="checkbox" data-tillegg="' + t.navn + '"><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span></span><span class="flere__pris">+ kr ' + R.tall(t.pris) + '</span></label>';
-    }).join('') + '<label class="flere__valg"><input type="checkbox" data-meld><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span></label></div>';
+      return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-tillegg="' + t.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span></span><span class="flere__pris">+ kr ' + R.tall(t.pris) + '</span></label>';
+    }).join('') + '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-meld><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span></label></div>';
   }
   byggMateriell($('q-materiell-valg'));
   byggTillegg($('q-tillegg-valg'));
@@ -854,7 +854,7 @@
       sisteAnbefalt = anb.join('|');
       var rekke = KANALER.filter(function (c) { return anb.indexOf(c.navn) !== -1; }).concat(KANALER.filter(function (c) { return anb.indexOf(c.navn) === -1; }));
       $('kanal-valg').innerHTML = rekke.map(function (c) {
-        return '<label class="flere__valg"><input type="checkbox" data-kanal="' + c.navn + '"><span class="flere__tekst"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn +
+        return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-kanal="' + c.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn +
           (anb.indexOf(c.navn) !== -1 ? '<span class="tag tag--outline tag--xs">Frantz anbefaler</span>' : '') + '</span></label>';
       }).join('');
     }

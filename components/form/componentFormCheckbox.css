@@ -55,3 +55,16 @@
   opacity: 0.45;
   pointer-events: none;
 }
+
+/* Card variant: a bordered row, for options with a description, a logo or a price */
+.form-check--kort {
+  padding: var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+}
+
+.form-check--kort:has(.form-check__input:checked) {
+  border-color: var(--color-navy);
+  background: var(--tint-navy-4);
+}
