@@ -391,6 +391,7 @@
               <span class="form-label" id="pakke-lbl">Bruk en av pakkene deres <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Pakker er oppsett dere har lagret før. Alle i Vokser AS kan bruke dem." aria-label="Mer info: Pakker er oppsett dere har lagret før. Alle i Vokser AS kan bruke dem."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></span>
               <div class="pakke-valg" id="pakke-valg" role="group" aria-labelledby="pakke-lbl"></div>
               <p class="form-hint">En pakke fyller ut budsjett, kanaler, periode, materiell og tillegg. Dere kan endre alt etterpå.</p>
+              <a class="link pakke-knapp" href="innstillinger.html#pakker"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span> Se og lag pakker i Innstillinger</a>
               <p class="pakker__eller" id="pakker-eller">eller fyll ut selv</p>
             </div>
             <div class="mangler-blokker" id="mangler-blokker">
@@ -503,6 +504,7 @@
 </div>
 
 <script src="data/frantz-data.js"></script>
+<script src="data/pakker.js"></script>
 <script src="../components/js/picker.js"></script>
 <script src="../components/js/reach-model.js?v=2"></script>
 <script>
@@ -1002,23 +1004,13 @@
   /* ---------- Saved packages ----------
      Each firm keeps its own packages, with its own names. A package fills in everything that is
      not about the stilling itself. The demo keeps new packages in this browser only. */
-  var PAKKE_LAGER = 'fzPakker';
-  var PAKKER = [
-    { navn: 'Sykepleier standard', budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'], uker: 4, materiell: 'ferdig', tillegg: [], meld: true, brukt: 14 },
-    { navn: 'Helse stor', budsjett: 35000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], uker: 6, materiell: 'hjelp', tillegg: ['Tekstproduksjon'], meld: true, brukt: 6 },
-    { navn: 'Leder og spesialist', budsjett: 45000, kanaler: ['LinkedIn', 'Meta'], uker: 4, materiell: 'hjelp', tillegg: ['Strategisk rådgivning'], meld: false, brukt: 3 },
-    { navn: 'Rask utlysning', budsjett: 8000, kanaler: null, uker: 2, materiell: 'ferdig', tillegg: [], meld: false, brukt: 9 }
-  ];
-  try { PAKKER = PAKKER.concat(JSON.parse(localStorage.getItem(PAKKE_LAGER) || '[]')); } catch (e) {}
+  var PAKKER = FZ_PAKKER.alle();
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function pakkePris(p) { return p.budsjett + TILLEGG.reduce(function (s, t) { return s + (p.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0); }
-  function pakkeKanaler(p) { return p.kanaler ? p.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1') : 'Kanalene Frantz anbefaler'; }
   function tegnPakker() {
     $('pakke-valg').innerHTML = PAKKER.map(function (p, i) {
-      var logoer = (p.kanaler || []).map(function (n) { var k = KANALER.filter(function (c) { return c.navn === n; })[0]; return k ? '<span class="kanal-logo kanal-logo--' + k.k + '"></span>' : ''; }).join('');
-      var linjer = [pakkeKanaler(p), p.uker + ' uker', p.materiell === 'hjelp' ? 'Frantz lager annonsen' : 'Ferdig materiell'].concat(p.tillegg, p.meld ? ['Meld interesse'] : []);
+      var logoer = FZ_PAKKER.logoer(p), linjer = FZ_PAKKER.linjer(p);
       return '<button class="choice-card" type="button" data-pakke="' + i + '" aria-pressed="' + (tilstand.pakke === p.navn) + '">' +
-        '<span class="choice-card__price">' + kr(pakkePris(p)) + '</span><span class="choice-card__name">' + esc(p.navn) + '</span>' +
+        '<span class="choice-card__price">' + kr(FZ_PAKKER.pris(p)) + '</span><span class="choice-card__name">' + esc(p.navn) + '</span>' +
         '<span class="choice-card__desc">' + esc(linjer.join(' · ')) + '</span>' +
         '<span class="pakke__bunn"><span class="logo-rad" aria-hidden="true">' + logoer + '</span><span>' + (p.brukt ? 'Brukt ' + p.brukt + ' ganger' : 'Ny') + '</span></span></button>';
     }).join('');
@@ -1065,12 +1057,10 @@
     var navn = $('pakke-navn').value.trim(), f = $('feil-pakke');
     f.hidden = true;
     if (!budsjett()) { f.textContent = 'Velg budsjett først. En pakke må ha et budsjett.'; f.hidden = false; return; }
-    if (!navn) { f.textContent = 'Gi pakken et navn.'; f.hidden = false; $('pakke-navn').focus(); return; }
-    if (finnPakke(navn)) { f.textContent = 'Dere har allerede en pakke med dette navnet.'; f.hidden = false; $('pakke-navn').focus(); return; }
     var p = { navn: navn, budsjett: budsjett(), kanaler: tilstand.kanalmodus === 'frantz' ? null : tilstand.kanaler.slice(), uker: tilstand.til ? Math.max(1, Math.round((periodeDatoer().slutt - periodeDatoer().start) / 604800000)) : (tilstand.uker === 'frist' ? 3 : tilstand.uker),
       materiell: tilstand.materiell || 'ferdig', tillegg: tilstand.tillegg.slice(), meld: tilstand.meld, brukt: 0 };
-    PAKKER.push(p);
-    try { var egne = JSON.parse(localStorage.getItem(PAKKE_LAGER) || '[]'); egne.push(p); localStorage.setItem(PAKKE_LAGER, JSON.stringify(egne)); } catch (e) {}
+    var galt = FZ_PAKKER.leggTil(p);
+    if (galt) { f.textContent = galt; f.hidden = false; $('pakke-navn').focus(); return; }
     tilstand.pakke = navn;
     visPakkeNy(false);
     $('pakke-ok').textContent = 'Lagret som «' + navn + '». Pakken ligger klar neste gang noen i Vokser AS bestiller.';
