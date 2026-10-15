@@ -23,7 +23,7 @@ python3 -m http.server 8080
 
 Open **http://127.0.0.1:8080/style-guide.html**
 
-Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-data.js`. `portal/arkiv/` keeps older versions of the wizard on purpose.
+Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-data.js`.
 
 ## Use
 
