@@ -506,6 +506,7 @@
 <script src="../components/js/kanaler.js"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js"></script>
+<script src="data/connect.js"></script>
 <script src="../components/js/picker.js"></script>
 <script src="../components/js/reach-model.js?v=2"></script>
 <script>
@@ -1219,25 +1220,15 @@
 
   tegnKanaler(); tegnFiler(); oppdater();
   /* ---------- Start from somewhere else: Connect, a draft, the calculator or the assistant ---------- */
-  var CONNECT = {
-    '777845': { arbeidsgiver: 'Sørlandet Helse', tittel: 'Helsesykepleier', sted: 'Kristiansand', frist: 24, ref: 'SH-2026-114', avsender: 'Sørlandet Helse',
-      lenke: 'https://jobb.sorlandethelse.no/stilling/777845-helsesykepleier-kristiansand',
-      beskrivelse: 'Helsesykepleier til skolehelsetjenesten i Kristiansand. 100 % fast stilling, dagtid. Krav: autorisasjon som sykepleier og videreutdanning i helsesykepleie.' },
-    '777851': { arbeidsgiver: 'Vestlandet Helse', tittel: 'Spesialsykepleier', sted: 'Bergen', frist: 30, ref: 'Nyåpnet post 4', avsender: 'Vestlandet Helse',
-      lenke: 'https://jobb.vestlandethelse.no/stilling/777851-spesialsykepleier-bergen',
-      beskrivelse: 'Spesialsykepleier til nyåpnet post 4, medisinsk avdeling. Flere faste stillinger, turnus. Intensiv- eller anestesierfaring er en fordel.' },
-    '777848': { arbeidsgiver: 'Nord-Norge Helse', tittel: 'Jordmor', sted: 'Tromsø', frist: 21, ref: 'NNH-J-0917', avsender: 'Nord-Norge Helse',
-      lenke: 'https://jobb.nordnorgehelse.no/stilling/777848-jordmor-tromso',
-      beskrivelse: 'Jordmor til fødeavdelingen i Tromsø. 80–100 % fast stilling i turnus. Vi tilbyr flytteordning og god opplæring.' }
-  };
   function startMed(a, kilde) { tilstand.kilder = [kilde]; lukkStart(); vis(a); }
   var qp = new URLSearchParams(location.search);
   var dm = qp.get('demo');
   if (DEMO[dm]) kjorDemo(dm);
-  else if (CONNECT[qp.get('connect')]) {
-    var c = CONNECT[qp.get('connect')];
-    $('lenke').value = c.lenke; $('ref').value = c.ref;
-    startMed({ tittel: c.tittel, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), frist: c.frist, avsender: c.avsender, notat: c.beskrivelse }, 'stillingen i Connect');
+  else if (qp.get('connect') && FZ_CONNECT.finn(qp.get('connect'))) {
+    // Everything comes from the ConnectID, so the user does not type it again
+    var c = FZ_CONNECT.finn(qp.get('connect'));
+    $('lenke').value = c.lenke; $('ref').value = c.prosjekt || '';
+    startMed({ tittel: c.stilling, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), fristDato: c.frist, avsender: c.arbeidsgiver, notat: c.beskrivelse || '', meld: !!c.interessenter }, 'ConnectID ' + c.id);
   } else if (qp.get('kladd') === '129070') {
     $('lenke').value = 'https://www.finn.no/job/ad/sykepleier-akutt-kristiansand'; $('ref').value = 'Oppdrag 22 52';
     startMed({ tittel: 'Sykepleier', steder: [FrantzPicker.finnSted('Kristiansand')].filter(Boolean), frist: 30, notat: 'Sykepleier til akuttmottaket. To faste stillinger i turnus.' }, 'kladden din');

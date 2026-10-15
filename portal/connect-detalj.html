@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>ConnectID 777689 — Frantz kampanjeportal</title>
+<title>ConnectID — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=60">
 <style>
   body { margin: 0; }
@@ -50,24 +50,10 @@
   .connect__meta { display: flex; flex-wrap: wrap; gap: var(--space-24); color: var(--text-muted); font-size: var(--text-sm); }
   .connect__meta b { color: var(--text-heading); font-weight: var(--font-weight-medium); }
 
-  .statusrad {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-16);
-    padding-bottom: var(--space-16);
-    margin-bottom: var(--space-24);
-    border-bottom: 1px solid var(--border-default);
-  }
-  .statusrad__tittel { color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
-  .statusrad__tekst { margin: var(--space-2) 0 0; color: var(--text-muted); font-size: var(--text-xs); }
 
   .felt-rad { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
   @media (max-width: 640px) { .felt-rad { grid-template-columns: 1fr; } }
 
-  .radio-rad { display: flex; gap: var(--space-24); margin-top: var(--space-8); }
-  .radio-rad label { display: inline-flex; align-items: center; gap: var(--space-8); color: var(--text-body); font-size: var(--text-sm); }
 
 
   .kopi-rad { display: flex; gap: var(--space-8); }
@@ -84,7 +70,28 @@
   }
   .vis-liste .vis-innhold { padding-bottom: var(--space-16); color: var(--text-muted); font-size: var(--text-sm); }
 
-  .skjema-bunn { display: flex; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-24); }
+  .skjema-bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-24); }
+  .skjema-bunn [hidden] { display: none; }
+  #skjema .card__hint { margin-bottom: var(--space-24); }
+  #skjema > .form-group + .form-group, #skjema > .felt-rad, #skjema > .felt-rad + .form-group { margin-top: var(--space-16); }
+  #skjema .felt-rad > .form-group { margin-top: 0; }
+  .valgfri { color: var(--text-muted); font-weight: var(--font-weight-normal); }
+  .kampanje__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
+  .kampanje__topp .card__title { margin: 0; }
+  .kampanje__tekst { margin: 0 0 var(--space-16); color: var(--text-body); max-width: 60ch; }
+  .kampanje__siste { color: var(--text-muted); font-weight: var(--font-weight-normal); }
+  .kampanje__rapport { margin: var(--space-16) 0; }
+  #kampanjekort .summary-row + .summary-row { margin-top: var(--space-4); }
+  .interessenter { margin-top: var(--space-24); }
+  .verifisering { margin: var(--space-16) 0 0; padding: 0; border: 0; }
+  .verifisering[hidden] { display: none; }
+  .verifisering legend { margin-bottom: var(--space-8); padding: 0; }
+  .verifisering__valg { display: flex; flex-wrap: wrap; gap: var(--space-12) var(--space-24); }
+  .vis-liste details[hidden] { display: none; }
+  .feil { margin: var(--space-16) 0 0; color: var(--text-danger-moderate); font-weight: var(--font-weight-semibold); }
+  .status { margin: var(--space-16) 0 0; }
+  .status--ok { color: var(--text-success-strong); }
+  .feil[hidden], .status[hidden], .feil-side[hidden], .cols[hidden] { display: none; }
 
 </style>
 </head>
@@ -130,128 +137,220 @@
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
           <li class="breadcrumb__item"><a href="connect.html">Connect</a></li>
-          <li class="breadcrumb__item"><span aria-current="page">777689</span></li>
+          <li class="breadcrumb__item"><span aria-current="page" id="sti">ConnectID</span></li>
         </ol>
       </nav>
 
       <div class="connect__topp">
         <div>
-          <h1 class="text-h2">ConnectID 777689</h1>
-          <div class="connect__meta">
-            <span>Kampanje: <b>129041</b></span>
-            <span>Opprettet: <b>07.09.2026 – 11.46</b></span>
-            <span>Sist oppdatert: <b>07.09.2026 – 11.46</b></span>
-          </div>
+          <h1 class="text-h2" id="tittel">ConnectID</h1>
+          <div class="connect__meta" id="meta"></div>
         </div>
       </div>
 
-      <div class="cols">
-        <div class="card card--betjen">
-          <div class="statusrad">
-            <div>
-              <span class="statusrad__tittel">Status</span>
-              <p class="statusrad__tekst">Når ConnectID-en er aktiv, samler vi inn data fra landingssiden.</p>
-            </div>
-            <label class="form-toggle">
-              <input class="form-toggle__input" type="checkbox" role="switch" checked>
-              <span class="form-toggle__track" aria-hidden="true"></span>
-              <span class="form-toggle__label">Aktiv</span>
-            </label>
-          </div>
+      <p class="feil-side" id="ukjent" hidden>Vi finner ikke denne ConnectID-en. <a class="link" href="connect.html">Gå tilbake til Connect</a></p>
 
-          <p class="card__hint" style="margin-bottom: var(--space-24)">For å måle effekten av annonseringen trenger Frantz litt informasjon i feltene under. Målingen knytter sammen dataene når det kommer trafikk inn på landingssiden, og danner grunnlaget for rapporten.</p>
+      <div class="cols" id="innhold-cols">
+        <!-- The campaign: order one, or see the one that is running -->
+        <section class="card card--betjen" id="kampanjekort" aria-labelledby="kampanje-tittel"></section>
+
+        <!-- The job ad. These fields go with the campaign, so nobody types them twice. -->
+        <form class="card card--betjen" id="skjema" novalidate>
+          <h2 class="card__title" id="skjema-tittel">Stillingen</h2>
+          <p class="card__hint" id="skjema-hint">Frantz måler besøk på stillingsannonsen. Det du skriver her, blir med når du bestiller en kampanje.</p>
 
           <div class="form-group">
-            <label class="form-label" for="c-tittel">Tittel</label>
-            <input class="form-input" type="text" id="c-tittel" value="Sykepleier Oslo">
+            <label class="form-label" for="c-lenke">Lenke til stillingsannonsen</label>
+            <input class="form-input" type="url" id="c-lenke" placeholder="https://…" autocomplete="off">
+            <p class="form-hint">Siden der Frantz måler besøk. Legg sporingskoden der.</p>
           </div>
 
-          <div class="felt-rad" style="margin-top: var(--space-16)">
-            <div class="form-group">
-              <label class="form-label" for="c-kat">Målgruppekategori</label>
-              <input class="form-input" type="text" id="c-kat" value="Helse og sosial" placeholder="Søk etter målgruppe">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="c-isco">Yrkeskode (ISCO-08)</label>
-              <input class="form-input" type="text" id="c-isco" value="2221">
-            </div>
+          <div class="felt-rad">
+            <div class="form-group"><label class="form-label" for="c-stilling">Stilling</label><input class="form-input" type="text" id="c-stilling" autocomplete="off"></div>
+            <div class="form-group"><label class="form-label" for="c-sted">Sted</label><input class="form-input" type="text" id="c-sted" autocomplete="off"></div>
           </div>
 
-          <div class="form-group" style="margin-top: var(--space-16)">
+          <div class="felt-rad">
+            <div class="form-group"><label class="form-label" for="c-arbeidsgiver">Arbeidsgiver</label><input class="form-input" type="text" id="c-arbeidsgiver" autocomplete="off"></div>
+            <div class="form-group"><label class="form-label" for="c-prosjekt">Deres prosjekt <span class="valgfri">(valgfritt)</span></label><input class="form-input" type="text" id="c-prosjekt" placeholder="F.eks. oppdragsnummer" autocomplete="off"></div>
+          </div>
+
+          <div class="felt-rad">
+            <div class="form-group"><label class="form-label" for="c-frist">Søknadsfrist</label><input class="form-input" type="date" id="c-frist"></div>
+            <div class="form-group"><label class="form-label" for="c-kat">Målgruppekategori</label><input class="form-input" type="text" id="c-kat" placeholder="Søk etter målgruppe" autocomplete="off"></div>
+          </div>
+
+          <div class="felt-rad">
+            <div class="form-group"><label class="form-label" for="c-isco">Yrkeskode (ISCO-08)</label><input class="form-input" type="text" id="c-isco" inputmode="numeric" autocomplete="off"></div>
+          </div>
+
+          <div class="form-group interessenter">
             <label class="form-toggle">
-              <input class="form-toggle__input" type="checkbox" role="switch" checked>
+              <input class="form-toggle__input" type="checkbox" role="switch" id="c-interessenter">
               <span class="form-toggle__track" aria-hidden="true"></span>
-              <span class="form-toggle__label">Aktiver funksjon for interessenter</span>
+              <span class="form-toggle__label">La kandidater melde interesse uten å søke</span>
             </label>
-            <div class="radio-rad">
-              <label><input type="radio" name="verif" checked> E-post</label>
-              <label><input type="radio" name="verif"> Telefon</label>
-            </div>
-            <p class="form-hint">Verifiseringsmetode for dem som melder interesse uten å søke.</p>
-          </div>
-
-          <div class="form-group" style="margin-top: var(--space-16)">
-            <label class="form-label" for="c-prosjekt">Prosjektreferanse</label>
-            <input class="form-input" type="text" id="c-prosjekt" value="Rekruttering Oslo">
-          </div>
-
-          <div class="form-group" style="margin-top: var(--space-16)">
-            <label class="form-label" for="c-lenke">Lenke til landingsside</label>
-            <input class="form-input" type="url" id="c-lenke" value="https://vokser.no/ledige-stillinger/sykepleier">
-          </div>
-
-          <div class="felt-rad" style="margin-top: var(--space-16)">
-            <div class="form-group">
-              <label class="form-label" for="c-frist">Søknadsfrist</label>
-              <input class="form-input" type="date" id="c-frist" value="2026-10-01">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="c-rapport">Rapportlenke</label>
-              <div class="kopi-rad">
-                <input class="form-input" type="text" id="c-rapport" value="business.frantz.no/Insights/777689" readonly>
-                <button class="btn btn--secondary" type="button"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier</button>
+            <fieldset class="verifisering" id="verifisering">
+              <legend class="form-label">Bekreft kandidaten med</legend>
+              <div class="verifisering__valg">
+                <label class="form-radio"><input class="form-radio__input" type="radio" name="verif" value="epost"><span class="form-radio__dot"></span><span class="form-radio__label">E-post</span></label>
+                <label class="form-radio"><input class="form-radio__input" type="radio" name="verif" value="telefon"><span class="form-radio__dot"></span><span class="form-radio__label">Telefon</span></label>
               </div>
-            </div>
+            </fieldset>
           </div>
 
-          <div class="felt-rad" style="margin-top: var(--space-16)">
-            <div class="form-group">
-              <label class="form-label" for="c-fra">Måleperiode fra</label>
-              <input class="form-input" type="date" id="c-fra" value="2026-09-01">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="c-til">Måleperiode til</label>
-              <input class="form-input" type="date" id="c-til" value="2026-10-31">
-            </div>
-          </div>
-
-          <div class="vis-liste" style="margin-top: var(--space-24)">
+          <div class="vis-liste" id="vis-liste">
             <details>
-              <summary>Vis oppsett</summary>
+              <summary>Vis sporingskode</summary>
               <div class="vis-innhold">
-                <p>Legg denne koden på stillingssiden:</p>
-                <div class="sporing__kode">&lt;script src="https://connect.frantz.no/c.js" data-id="777689"&gt;&lt;/script&gt;</div>
+                <p>Legg denne koden på stillingsannonsen:</p>
+                <div class="sporing__kode" id="kode"></div>
               </div>
             </details>
-            <details>
+            <details id="vis-annonselenker">
               <summary>Vis annonselenker</summary>
-              <div class="vis-innhold">Meta: vokser.no/…?utm_source=meta · Nettsteder: vokser.no/…?utm_source=nett</div>
+              <div class="vis-innhold" id="annonselenker"></div>
             </details>
-            <details>
+            <details id="vis-interessenter">
               <summary>Vis interessenter</summary>
-              <div class="vis-innhold">7 interessenter registrert.</div>
+              <div class="vis-innhold" id="interesserte"></div>
             </details>
           </div>
+
+          <p class="feil" id="feil" role="alert" hidden></p>
+          <p class="status status--ok" id="lagret" role="status" hidden>Lagret.</p>
 
           <div class="skjema-bunn">
-            <button class="btn btn--ghost" type="button" onclick="location.href='connect.html'">Avbryt</button>
-            <button class="btn btn--primary" type="button">Oppdater</button>
+            <a class="btn btn--ghost" href="connect.html">Avbryt</a>
+            <button class="btn btn--secondary" type="submit" id="lagre">Lagre endringer</button>
+            <button class="btn btn--primary" type="button" id="bestill-bunn" hidden>Bestill kampanje</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+<script src="data/connect.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var tall = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); };
+  var qp = new URLSearchParams(location.search);
+  var ny = qp.has('ny');
+  var c = ny ? null : FZ_CONNECT.finn(qp.get('id') || '777689');
+
+  if (!ny && !c) { $('ukjent').hidden = false; $('innhold-cols').hidden = true; return; }
+
+  // Header
+  if (ny) {
+    document.title = 'Ny ConnectID — Frantz kampanjeportal';
+    $('sti').textContent = 'Ny ConnectID';
+    $('tittel').textContent = 'Ny ConnectID';
+    $('meta').innerHTML = '<span>Måler besøk på én stillingsannonse.</span>';
+  } else {
+    document.title = c.tittel + ' (ConnectID ' + c.id + ') — Frantz kampanjeportal';
+    $('sti').textContent = c.tittel;
+    $('tittel').textContent = c.tittel;
+    $('meta').innerHTML = '<span>ConnectID <b>' + c.id + '</b></span><span>' + esc(c.arbeidsgiver) + '</span><span>Opprettet <b>' + esc(c.opprettet) + '</b></span>';
+  }
+
+  // The campaign card
+  var kort = $('kampanjekort');
+  if (ny) {
+    kort.innerHTML = '<h2 class="card__title" id="kampanje-tittel">Trenger du en ConnectID?</h2>' +
+      '<p class="kampanje__tekst">Du trenger ikke lage en ConnectID for å bestille en kampanje. Frantz lager den for deg når du bestiller.</p>' +
+      '<a class="btn btn--secondary" href="ny-kampanje.html">Bestill kampanje i stedet</a>';
+  } else if (!c.kampanje) {
+    kort.innerHTML = '<div class="kampanje__topp"><h2 class="card__title" id="kampanje-tittel">Kampanje</h2><span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span></div>' +
+      '<p class="kampanje__tekst">Det er ingen kampanje for stillingen ennå. Bestill en, så starter målingen når kampanjen starter. Det du har fylt ut under, blir med.</p>' +
+      '<button class="btn btn--primary" type="button" id="bestill-topp">Bestill kampanje</button>';
+  } else {
+    var k = c.kampanje, rapport = k.status === 'Avsluttet';
+    kort.innerHTML = '<div class="kampanje__topp"><h2 class="card__title" id="kampanje-tittel">Kampanje #' + k.id + '</h2><span class="badge ' + FZ_CONNECT.badge(k.status) + '">' + k.status + '</span></div>' +
+      '<p class="kampanje__tekst">' + FZ_CONNECT.statusTekst(c) + '</p>' +
+      '<dl class="summary-row"><dt>Periode</dt><dd>' + k.fra + ' – ' + k.til + '</dd></dl>' +
+      '<dl class="summary-row"><dt>Besøk</dt><dd>' + tall(c.besok || 0) + ' <span class="kampanje__siste">· siste ' + esc(c.sisteBesok) + '</span></dd></dl>' +
+      '<div class="form-group kampanje__rapport"><label class="form-label" for="c-rapport">Rapportlenke</label><div class="kopi-rad">' +
+      '<input class="form-input" type="text" id="c-rapport" value="business.frantz.no/Insights/' + c.id + '" readonly>' +
+      '<button class="btn btn--secondary" type="button" id="kopier"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier</button></div></div>' +
+      '<a class="btn btn--primary" href="' + k.side + '">' + (rapport ? 'Åpne rapporten' : 'Åpne kampanjen') + '</a>';
+    var kp = $('kopier');
+    kp.addEventListener('click', function () {
+      try { navigator.clipboard.writeText($('c-rapport').value); } catch (e) {}
+      kp.lastChild.textContent = 'Kopiert';
+      setTimeout(function () { kp.lastChild.textContent = 'Kopier'; }, 2000);
+    });
+  }
+
+  // Fill the form
+  var felt = { lenke: 'c-lenke', stilling: 'c-stilling', sted: 'c-sted', arbeidsgiver: 'c-arbeidsgiver', prosjekt: 'c-prosjekt', frist: 'c-frist', kategori: 'c-kat', isco: 'c-isco' };
+  if (c) Object.keys(felt).forEach(function (k) { $(felt[k]).value = c[k] || ''; });
+  $('c-interessenter').checked = !!(c && c.interessenter);
+  var verif = (c && c.verifisering) || 'epost';
+  document.querySelectorAll('input[name="verif"]').forEach(function (r) { r.checked = r.value === verif; });
+  function visVerif() { $('verifisering').hidden = !$('c-interessenter').checked; }
+  $('c-interessenter').addEventListener('change', visVerif);
+  visVerif();
+
+  $('kode').textContent = '<script src="https://connect.frantz.no/c.js" data-id="' + (c ? c.id : 'ny') + '"><\/script>';
+  // Ad links and interested people exist only when a campaign has run
+  $('vis-annonselenker').hidden = $('vis-interessenter').hidden = !(c && c.kampanje);
+  if (c && c.kampanje) {
+    var lenke = c.lenke.replace(/^https?:\/\//, '');
+    $('annonselenker').textContent = 'Meta: ' + lenke + '?utm_source=meta · Nettsteder og aviser: ' + lenke + '?utm_source=nett';
+    $('interesserte').textContent = c.interessenter ? (c.interesserte || 0) + ' har meldt interesse.' : 'Funksjonen er slått av for denne stillingen.';
+  }
+
+  if (ny) {
+    $('skjema-hint').textContent = 'Lim inn lenken til stillingsannonsen. Frantz måler besøk der.';
+    $('lagre').textContent = 'Opprett ConnectID';
+    $('lagre').classList.replace('btn--secondary', 'btn--primary');
+  } else if (!c.kampanje) {
+    $('bestill-bunn').hidden = false;
+  } else {
+    $('skjema-hint').textContent = 'Frantz bruker dette til å måle besøk på stillingsannonsen.';
+  }
+
+  function verdier() {
+    var v = {};
+    Object.keys(felt).forEach(function (k) { v[k] = $(felt[k]).value.trim(); });
+    v.interessenter = $('c-interessenter').checked;
+    v.verifisering = (document.querySelector('input[name="verif"]:checked') || {}).value || 'epost';
+    return v;
+  }
+  function sjekk(v) {
+    var f = $('feil'), galt = '';
+    if (!/^https?:\/\/\S+\.\S+/.test(v.lenke)) galt = ['c-lenke', 'Lim inn lenken til stillingsannonsen. Den starter med https://.'];
+    else if (!v.stilling) galt = ['c-stilling', 'Skriv hvilken stilling det gjelder.'];
+    else if (!v.sted) galt = ['c-sted', 'Skriv hvor stillingen er.'];
+    f.hidden = !galt;
+    if (galt) { f.textContent = galt[1]; $(galt[0]).focus(); }
+    return !galt;
+  }
+  function lagre() {
+    var v = verdier();
+    if (!sjekk(v)) return null;
+    if (ny) return FZ_CONNECT.opprett(v);
+    FZ_CONNECT.lagre(c.id, v);
+    return c.id;
+  }
+
+  $('skjema').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var id = lagre();
+    if (!id) return;
+    if (ny) { location.href = 'connect-detalj.html?id=' + id; return; }
+    $('lagret').hidden = false;
+    setTimeout(function () { $('lagret').hidden = true; }, 3000);
+  });
+  // Save first, so Ny kampanje gets what the user just typed
+  function bestill() { var id = lagre(); if (id) location.href = 'ny-kampanje.html?connect=' + id; }
+  $('bestill-bunn').addEventListener('click', bestill);
+  if ($('bestill-topp')) $('bestill-topp').addEventListener('click', bestill);
+})();
+</script>
 
 <script src="../components/js/interactions.js?v=2"></script>
 <script src="../components/js/konto.js?v=4"></script>

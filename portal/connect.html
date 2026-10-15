@@ -111,6 +111,7 @@
   .table-card { padding: 0; overflow-x: auto; }
 
   .pagination-wrap { margin-top: var(--space-24); }
+  .connect__ekstra { margin: var(--space-24) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
   .mangler { color: var(--text-faint); }
   .table__id { font-family: var(--font-mono); color: var(--text-muted); }
   .table td[data-label="Status"] { white-space: nowrap; }
@@ -176,7 +177,7 @@
           <h1 class="text-h2">Connect</h1>
           <p class="lede">Stillingene deres hos Frantz. Finn stillingen og bestill en kampanje, eller se hvor mange som har besøkt annonsen.</p>
         </div>
-        <button class="btn btn--primary" type="button" onclick="location.href='connect-detalj-uten-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny ConnectID</button>
+        <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
       </div>
 
       <div class="verktoy" role="search">
@@ -189,7 +190,7 @@
           <span class="form-select-wrap">
             <select class="form-select" id="f-status">
               <option value="">Alle statuser</option>
-              <option value="Uten kampanje">Klar til å bestille</option>
+              <option value="Uten kampanje">Uten kampanje</option>
               <option value="Aktiv">Aktiv</option>
               <option value="Pause">Pause</option>
               <option value="Avsluttet">Avsluttet</option>
@@ -214,89 +215,7 @@
           <thead>
             <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanje</th><th>Deres prosjekt</th><th>Besøk</th><th>Kampanjeperiode</th><th>Status</th></tr>
           </thead>
-          <tbody id="rader">
-            <tr tabindex="0" onclick="location.href='connect-detalj-uten-kampanje.html'" data-status="Uten kampanje" data-arbeidsgiver="Sørlandet Helse" data-tittel="Helsesykepleier Kristiansand" data-besok="0" data-start="2026-09-23">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Helsesykepleier Kristiansand</span><span class="table__meta">ConnectID <span class="table__id">777845</span></span></span></td>
-              <td data-label="Arbeidsgiver">Sørlandet Helse</td>
-              <td data-label="Kampanje"><a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=777845" onclick="event.stopPropagation()">Bestill</a></td>
-              <td data-label="Deres prosjekt"><span class="mangler">Ikke satt</span></td>
-              <td data-label="Besøk"><span class="mangler">Ingen ennå</span></td>
-              <td data-label="Kampanjeperiode"><span class="mangler">—</span></td>
-              <td data-label="Status"><span class="badge badge--draft">Uten kampanje</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj-uten-kampanje.html'" data-status="Uten kampanje" data-arbeidsgiver="Vestlandet Helse" data-tittel="Spesialsykepleier Bergen" data-besok="0" data-start="2026-09-22">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Spesialsykepleier Bergen</span><span class="table__meta">ConnectID <span class="table__id">777851</span></span></span></td>
-              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
-              <td data-label="Kampanje"><a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=777851" onclick="event.stopPropagation()">Bestill</a></td>
-              <td data-label="Deres prosjekt">Nyåpnet post 4</td>
-              <td data-label="Besøk"><span class="mangler">Ingen ennå</span></td>
-              <td data-label="Kampanjeperiode"><span class="mangler">—</span></td>
-              <td data-label="Status"><span class="badge badge--draft">Uten kampanje</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj-uten-kampanje.html'" data-status="Uten kampanje" data-arbeidsgiver="Nord-Norge Helse" data-tittel="Jordmor Tromsø" data-besok="0" data-start="2026-09-21">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Jordmor Tromsø</span><span class="table__meta">ConnectID <span class="table__id">777848</span></span></span></td>
-              <td data-label="Arbeidsgiver">Nord-Norge Helse</td>
-              <td data-label="Kampanje"><a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=777848" onclick="event.stopPropagation()">Bestill</a></td>
-              <td data-label="Deres prosjekt"><span class="mangler">Ikke satt</span></td>
-              <td data-label="Besøk"><span class="mangler">Ingen ennå</span></td>
-              <td data-label="Kampanjeperiode"><span class="mangler">—</span></td>
-              <td data-label="Status"><span class="badge badge--draft">Uten kampanje</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Aktiv" data-arbeidsgiver="Vestlandet Helse" data-tittel="Anestesisykepleier Stavanger" data-besok="610" data-start="2026-09-10">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Anestesisykepleier Stavanger</span><span class="table__meta">ConnectID <span class="table__id">777731</span></span></span></td>
-              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
-              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129068</a></td>
-              <td data-label="Deres prosjekt">Rekruttering Stavanger</td>
-              <td data-label="Besøk"><span class="celle"><span class="table__title">610</span><span class="table__meta">Siste: i går 16.02</span></span></td>
-              <td data-label="Kampanjeperiode">10.09 – 30.09.2026</td>
-              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Aktiv" data-arbeidsgiver="Oslo Sykehusdrift" data-tittel="Sykepleier Oslo" data-besok="3480" data-start="2026-09-01">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">ConnectID <span class="table__id">777689</span></span></span></td>
-              <td data-label="Arbeidsgiver">Oslo Sykehusdrift</td>
-              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129041</a></td>
-              <td data-label="Deres prosjekt">Rekruttering Oslo</td>
-              <td data-label="Besøk"><span class="celle"><span class="table__title">3 480</span><span class="table__meta">Siste: i dag 09.14</span></span></td>
-              <td data-label="Kampanjeperiode">01.09 – 31.10.2026</td>
-              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Avsluttet" data-arbeidsgiver="Trøndelag Helse" data-tittel="Sykepleier Trondheim" data-besok="1905" data-start="2026-08-28">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Sykepleier Trondheim</span><span class="table__meta">ConnectID <span class="table__id">777112</span></span></span></td>
-              <td data-label="Arbeidsgiver">Trøndelag Helse</td>
-              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129062</a></td>
-              <td data-label="Deres prosjekt">Nybygg Trondheim</td>
-              <td data-label="Besøk"><span class="celle"><span class="table__title">1 905</span><span class="table__meta">Siste: 22.09.2026</span></span></td>
-              <td data-label="Kampanjeperiode">28.08 – 22.09.2026</td>
-              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Pause" data-arbeidsgiver="Vestlandet Helse" data-tittel="Intensivsykepleier Bergen" data-besok="1240" data-start="2026-08-14">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Intensivsykepleier Bergen</span><span class="table__meta">ConnectID <span class="table__id">777702</span></span></span></td>
-              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
-              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#129055</a></td>
-              <td data-label="Deres prosjekt">Rekruttering Bergen</td>
-              <td data-label="Besøk"><span class="celle"><span class="table__title">1 240</span><span class="table__meta">Siste: 21.09.2026</span></span></td>
-              <td data-label="Kampanjeperiode">14.08 – 04.09.2026</td>
-              <td data-label="Status"><span class="badge badge--paused">Pause</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Avsluttet" data-arbeidsgiver="Nordland Sykehjem" data-tittel="Sykepleier Bodø" data-besok="2110" data-start="2026-07-02">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">ConnectID <span class="table__id">777301</span></span></span></td>
-              <td data-label="Arbeidsgiver">Nordland Sykehjem</td>
-              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#128984</a></td>
-              <td data-label="Deres prosjekt">Rekruttering Bodø</td>
-              <td data-label="Besøk"><span class="celle"><span class="table__title">2 110</span><span class="table__meta">Siste: 30.07.2026</span></span></td>
-              <td data-label="Kampanjeperiode">02.07 – 30.07.2026</td>
-              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
-            </tr>
-            <tr tabindex="0" onclick="location.href='connect-detalj.html'" data-status="Avsluttet" data-arbeidsgiver="Vestlandet Helse" data-tittel="Jordmor Ålesund" data-besok="840" data-start="2026-06-08">
-              <td data-label="Stilling"><span class="celle"><span class="table__title">Jordmor Ålesund</span><span class="table__meta">ConnectID <span class="table__id">777544</span></span></span></td>
-              <td data-label="Arbeidsgiver">Vestlandet Helse</td>
-              <td data-label="Kampanje"><a class="table__lenke" href="campaign.html" onclick="event.stopPropagation()">#128951</a></td>
-              <td data-label="Deres prosjekt">Sommervikarer</td>
-              <td data-label="Besøk"><span class="celle"><span class="table__title">840</span><span class="table__meta">Siste: 22.06.2026</span></span></td>
-              <td data-label="Kampanjeperiode">08.06 – 22.06.2026</td>
-              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
-            </tr>
-          </tbody>
+          <tbody id="rader"></tbody>
         </table>
         <p class="table__empty" id="ingen-treff" hidden>Ingen stillinger passer. Prøv et annet søk, eller nullstill filtrene.</p>
       </div>
@@ -311,12 +230,40 @@
           </div>
         </nav>
       </div>
+      <!-- Rare case: the tracking code is needed before there is a campaign. Ordering makes a ConnectID by itself. -->
+      <p class="connect__ekstra">Trenger dere sporingskoden før kampanjen er bestilt? <a class="link" href="connect-detalj.html?ny">Lag en ConnectID uten kampanje</a></p>
     </div>
   </div>
 </div>
 
+<script src="data/connect.js"></script>
 <script>
 (function () {
+  // Rows come from the shared ConnectID list, so they match the ConnectID page and Ny kampanje
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var tall = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); };
+  var mangler = function (t) { return '<span class="mangler">' + t + '</span>'; };
+  document.getElementById('rader').innerHTML = FZ_CONNECT.alle().map(function (c) {
+    var k = c.kampanje;
+    return '<tr tabindex="0" data-href="connect-detalj.html?id=' + c.id + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-besok="' + (c.besok || 0) + '" data-start="' + c.start + '">' +
+      '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span><span class="table__meta">ConnectID <span class="table__id">' + c.id + '</span></span></span></td>' +
+      '<td data-label="Arbeidsgiver">' + esc(c.arbeidsgiver) + '</td>' +
+      '<td data-label="Kampanje">' + (k ? '<a class="table__lenke" href="' + k.side + '">#' + k.id + '</a>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Bestill</a>') + '</td>' +
+      '<td data-label="Deres prosjekt">' + (c.prosjekt ? esc(c.prosjekt) : mangler('Ikke satt')) + '</td>' +
+      '<td data-label="Besøk">' + (k ? '<span class="celle"><span class="table__title">' + tall(c.besok || 0) + '</span><span class="table__meta">Siste: ' + esc(c.sisteBesok) + '</span></span>' : mangler('Ingen ennå')) + '</td>' +
+      '<td data-label="Kampanjeperiode">' + (k ? k.fra + ' – ' + k.til : mangler('—')) + '</td>' +
+      '<td data-label="Status"><span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span></td></tr>';
+  }).join('');
+  // A click on the row opens the ConnectID. Links and buttons in the row keep their own target.
+  document.getElementById('rader').addEventListener('click', function (e) {
+    if (e.target.closest('a, button')) return;
+    var tr = e.target.closest('tr[data-href]'); if (tr) location.href = tr.dataset.href;
+  });
+  document.getElementById('rader').addEventListener('keydown', function (e) {
+    var tr = e.target.closest('tr[data-href]');
+    if (tr && e.target === tr && e.key === 'Enter') location.href = tr.dataset.href;
+  });
+
   var sok = document.getElementById('sok');
   var sortering = document.getElementById('sortering');
   var status = document.getElementById('f-status');
