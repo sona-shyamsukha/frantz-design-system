@@ -279,9 +279,12 @@
   --shadow-drawer: -12px 0 32px rgb(10 25 40 / 0.12);
   --shadow-rail:   0 0 40px rgba(7, 44, 64, 0.35);
 
-  --focus-ring:      0 0 0 3px rgba(12, 63, 89, 0.35);
-  --focus-ring-danger: 0 0 0 3px rgba(179, 38, 30, 0.12);
-  --focus-ring-soft: 0 0 0 3px rgba(12, 63, 89, 0.10);
+  /* Focus: solid rings so the indicator has 3:1 or more against the page (WCAG 1.4.11).
+     The white gap keeps the navy ring visible on navy buttons and the dark rail. */
+  --focus-ring:        0 0 0 2px var(--color-white), 0 0 0 4px var(--color-navy);
+  --focus-ring-danger: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-warn);
+  /* Fields: the 1px border turns into a 2px navy border, with a soft halo */
+  --focus-ring-soft:   0 0 0 1px var(--color-navy), 0 0 0 4px rgba(12, 63, 89, 0.10);
 
 
   /* ── CHANNEL BRAND COLOURS (third-party, previews only) ─────── */

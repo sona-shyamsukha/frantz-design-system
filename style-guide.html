@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Stilguide</title>
-<link rel="stylesheet" href="frantz-ds.css?v=51">
+<link rel="stylesheet" href="frantz-ds.css?v=52">
 <link rel="stylesheet" href="styles/docs.css?v=4">
 </head>
 <body class="ds-docs">
@@ -60,6 +60,11 @@
   <a class="ds-sidebar__link" href="#motion">Bevegelse</a>
   <a class="ds-sidebar__link" href="#zindex">Z-indeks</a>
   <a class="ds-sidebar__link" href="#layout">Layout</a>
+
+  <div class="ds-sidebar__group">Retningslinjer</div>
+  <a class="ds-sidebar__link" href="#breakpoints">Brytepunkter</a>
+  <a class="ds-sidebar__link" href="#writing">Tall og datoer</a>
+  <a class="ds-sidebar__link" href="#a11y">Fokus og tilgjengelighet</a>
 </nav>
 
 <main class="ds-main">
@@ -550,6 +555,120 @@
   </div>
 </section>
 
+<section class="ds-section" id="breakpoints">
+  <div class="ds-overline">Retningslinjer</div>
+  <div class="ds-title">Brytepunkter</div>
+  <div class="ds-desc">Tre bredder der oppsettet endrer seg. Bruk bare disse. Skriv dem som <code>@media (max-width: 860px)</code>. CSS-variabler virker ikke i media queries, så verdiene skrives som tall.</div>
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">De tre bruddene</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Mobil</span><span class="token-row__value">640px</span><span class="token-row__desc">Én kolonne. Knapper og felt i full bredde. Omvisningen legger seg nederst.</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Nettbrett</span><span class="token-row__value">860px</span><span class="token-row__desc">Sidemenyen blir en meny øverst til høyre. Chatten åpnes over hele skjermen.</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Liten desktop</span><span class="token-row__value">1180px</span><span class="token-row__desc">To kolonner blir én. Sidepanelet («Din bestilling», «Om kampanjen») flytter under innholdet.</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Brukes i dag, skal flyttes</div>
+    <div class="ds-desc">Noen komponenter bruker andre bredder. Flytt dem til nærmeste brudd når komponenten bygges på nytt.</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">480, 700, 720, 768</span><span class="token-row__value">→ 640</span><span class="token-row__desc">Resultater, kart, nøkkeltall, trakt, tabell, layout, typografi</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">900</span><span class="token-row__value">→ 860</span><span class="token-row__desc">Resultater, annonsestudio, layout</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">1024, 1100</span><span class="token-row__value">→ 1180</span><span class="token-row__desc">Layout, nøkkeltall</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="writing">
+  <div class="ds-overline">Retningslinjer</div>
+  <div class="ds-title">Tall og datoer</div>
+  <div class="ds-desc">Norsk skrivemåte, som Språkrådet anbefaler. Samme format overalt, også i e-post og eksport. Mellomrommet i tall og foran % er et hardt mellomrom, så tallet ikke brytes over to linjer. <code>toLocaleString('nb-NO')</code> lager det riktig.</div>
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Penger og tall</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">kr 8&nbsp;000</span><span class="token-row__desc">«kr» foran, mellomrom før tusen. Ikke «8000 kr», «kr 8000,-» eller «NOK».</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">12&nbsp;480 visninger</span><span class="token-row__desc">Mellomrom i tall fra 1&nbsp;000. Ikke punktum eller komma.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">2,4&nbsp;%</span><span class="token-row__desc">Komma som desimaltegn. Mellomrom foran %.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">1 kampanje, 2 kampanjer</span><span class="token-row__desc">Riktig entall og flertall. Ikke «kampanje(r)».</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">912&nbsp;34&nbsp;567</span><span class="token-row__desc">Mobilnummer i grupper på 3, 2 og 3. «+47» bare når landet er uklart.</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Dato og tid</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">07.10.2026</span><span class="token-row__desc">Dato i tabeller, skjema og oppsummeringer. To sifre på dag og måned.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">7. oktober 2026</span><span class="token-row__desc">Dato i løpende tekst og e-post. Måned med liten forbokstav.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">07.10</span><span class="token-row__desc">Kort dato på grafakser, når året står et annet sted.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">07.10.–21.10.2026</span><span class="token-row__desc">Periode med tankestrek (–), uten mellomrom.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">kl. 09.12</span><span class="token-row__desc">Klokkeslett med punktum, ikke kolon. To sifre på timen.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">I dag kl. 09.12</span><span class="token-row__desc">Nylige hendelser: «I dag», «I går», så dato. Ikke «for 3 timer siden».</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value" style="color:var(--text-heading)">uke 41</span><span class="token-row__desc">Ukenummer med liten «u».</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Aldri på skjermen</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value">2026-10-07</span><span class="token-row__desc">ISO-dato hører hjemme i data og <code>value</code>-attributter, ikke i tekst brukeren leser.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 1fr"><span class="token-row__value">10/7/2026</span><span class="token-row__desc">Amerikansk rekkefølge. Leses feil i Norge.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ds-section" id="a11y">
+  <div class="ds-overline">Retningslinjer</div>
+  <div class="ds-title">Fokus og tilgjengelighet</div>
+  <div class="ds-desc">Målet er WCAG 2.2 nivå AA på alle sider. Reglene under gjelder hver komponent og hver side.</div>
+  <div class="ds-sub ds-sub--flush">
+    <div class="ds-sub__title">Fokus</div>
+    <div class="ds-desc">Alt som kan klikkes, får en synlig ring når brukeren går med tastaturet. Bruk <code>:focus-visible</code>, så ringen ikke vises ved museklikk. Fjern aldri fokus uten å sette noe annet i stedet.</div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-24);margin-bottom:var(--space-24)">
+      <button class="btn btn--primary" type="button" style="box-shadow:var(--focus-ring)" tabindex="-1">Primærknapp</button>
+      <button class="btn btn--secondary" type="button" style="box-shadow:var(--focus-ring)" tabindex="-1">Sekundær</button>
+      <a class="link" href="#a11y" style="box-shadow:var(--focus-ring);border-radius:var(--radius-4)" tabindex="-1">Tekstlenke</a>
+      <input class="form-input" style="max-width:220px;border-color:var(--color-navy);box-shadow:var(--focus-ring-soft)" value="Felt i fokus" aria-label="Eksempel på felt i fokus" tabindex="-1">
+    </div>
+    <div class="token-list">
+      <div class="token-row"><span class="token-row__name">--focus-ring</span><div></div><div class="token-row__meta"><span class="token-row__value">2px hvitt + 2px navy</span><span class="token-row__desc">Knapper, lenker, kort og menyer. Den hvite kanten gjør ringen synlig på navy og på sidemenyen.</span></div></div>
+      <div class="token-row"><span class="token-row__name">--focus-ring-soft</span><div></div><div class="token-row__meta"><span class="token-row__value">2px navy kant + svak glød</span><span class="token-row__desc">Tekstfelt, nedtrekk og tekstområder.</span></div></div>
+      <div class="token-row"><span class="token-row__name">--focus-ring-danger</span><div></div><div class="token-row__meta"><span class="token-row__value">2px hvitt + 2px rød</span><span class="token-row__desc">Felt med feil.</span></div></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Kontrast</div>
+    <div class="ds-desc">Tekst trenger 4,5:1 mot bakgrunnen. Stor tekst (24px, eller 19px fet) og ikoner, kanter og fokusringer trenger 3:1.</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">--text-body på hvit</span><span class="token-row__value">11,2:1</span><span class="token-row__desc">Brødtekst</span></div>
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">--text-muted på hvit</span><span class="token-row__value">5,5:1</span><span class="token-row__desc">Hjelpetekst. Også på <code>--surface-subtle</code> (5,1:1).</span></div>
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">--text-faint på --surface-subtle</span><span class="token-row__value">4,9:1</span><span class="token-row__desc">Det lyseste grå som er lov for tekst</span></div>
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">hvit på navy</span><span class="token-row__value">11,2:1</span><span class="token-row__desc">Primærknapp</span></div>
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">navy på amber</span><span class="token-row__value">5,5:1</span><span class="token-row__desc">Amberknapp. Hvit på amber er bare 2,1:1, så aldri hvit tekst.</span></div>
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">--text-amber-strong på hvit</span><span class="token-row__value">6,1:1</span><span class="token-row__desc">Amber som tekst. Bruk aldri <code>--color-amber</code> som tekstfarge.</span></div>
+      <div class="token-row" style="grid-template-columns:260px 70px 1fr"><span class="token-row__name">--color-ink-400 på hvit</span><span class="token-row__value">3,0:1</span><span class="token-row__desc">For lyst til tekst. Bare til ikoner og kanter.</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Tekststørrelse</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-base</span><span class="token-row__value">15px</span><span class="token-row__desc">Minste størrelse for brødtekst og forklaringer</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-input</span><span class="token-row__value">16px</span><span class="token-row__desc">Tekst i felt. Mindre gjør at iPhone zoomer inn.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-xs</span><span class="token-row__value">12px</span><span class="token-row__desc">Minste størrelse for etiketter, status og tabelloverskrifter</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-2xs</span><span class="token-row__value">11px</span><span class="token-row__desc">Bare tellere, initialer og små merker med ett eller to ord</span></div>
+    </div>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Sjekk hver side</div>
+    <div class="token-list">
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Alt virker med tastatur alene. Rekkefølgen følger det brukeren ser. Esc lukker vinduer og menyer.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Klikkflater er minst 24 × 24 px. På mobil helst 44 × 44 px.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Farge er aldri eneste tegn. Status har alltid tekst, og feil har en melding som sier hva som er galt.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Ikonknapper har <code>aria-label</code>. Pynteikoner har <code>aria-hidden="true"</code>.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Hvert felt har en synlig etikett. Plassholdertekst er ikke en etikett.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Siden har <code>&lt;html lang="no"&gt;</code> og én <code>&lt;h1&gt;</code>.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Bevegelse stopper når brukeren har valgt redusert bevegelse. <code>styles/reset.css</code> gjør dette.</span></div>
+      <div class="token-row" style="grid-template-columns:1fr"><span class="token-row__desc">Siden virker med 200 % zoom og på 320px bredde, uten sidelengs scrolling.</span></div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <script>
@@ -583,7 +702,8 @@ document.querySelectorAll('.swatch').forEach(function (sw) {
 });
 document.querySelectorAll('.token-row').forEach(function (row) {
   var nameEl = row.querySelector('.token-row__name');
-  if (nameEl) row.appendChild(makeCopyBtn(nameEl.textContent.trim()));
+  // Only real tokens get a copy button, not labels like «Mobil»
+  if (nameEl && /^--[\w-]+$/.test(nameEl.textContent.trim())) row.appendChild(makeCopyBtn(nameEl.textContent.trim()));
 });
 var sections = document.querySelectorAll('section[id]');
 var links = document.querySelectorAll('.ds-sidebar__link');
