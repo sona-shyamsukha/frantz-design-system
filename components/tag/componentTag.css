@@ -36,8 +36,8 @@
 
 /* Amber highlight, for «Ny» */
 .tag--accent {
-  background: var(--bg-brand-2-strong);
-  color: var(--text-on-brand-2);
+  background: var(--bg-amber-strong);
+  color: var(--text-on-amber);
   font-weight: var(--font-weight-semibold);
 }
 

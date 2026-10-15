@@ -123,14 +123,14 @@
 .msg--user .msg__bubble {
   border-color: transparent;
   border-radius: var(--radius-16) var(--radius-4) var(--radius-16) var(--radius-16);
-  background: var(--bg-brand-1-strong);
-  color: var(--text-on-brand-1);
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
   white-space: pre-line;
 }
 
 .msg--advisor .msg__bubble {
-  border-color: var(--border-brand-2-moderate);
-  background: var(--bg-brand-2-soft);
+  border-color: var(--border-amber-moderate);
+  background: var(--bg-amber-soft);
 }
 
 .msg--system {
@@ -215,10 +215,10 @@
   align-items: center;
   gap: var(--space-8);
   padding: var(--space-8) var(--space-16);
-  border: 1px solid var(--border-brand-1-moderate);
+  border: 1px solid var(--border-navy-moderate);
   border-radius: var(--radius-full);
   background: var(--surface-raised);
-  color: var(--text-brand-1-strong);
+  color: var(--text-navy-strong);
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
@@ -228,7 +228,7 @@
 }
 
 .quick-reply:hover {
-  background: var(--bg-brand-1-soft);
+  background: var(--bg-navy-soft);
 }
 
 .quick-reply:focus-visible,
@@ -243,12 +243,12 @@
 }
 
 .quick-reply--human {
-  border-color: var(--border-brand-2-moderate);
-  color: var(--text-brand-2-strong);
+  border-color: var(--border-amber-moderate);
+  color: var(--text-amber-strong);
 }
 
 .quick-reply--human:hover {
-  background: var(--bg-brand-2-soft);
+  background: var(--bg-amber-soft);
 }
 
 .quick-replies--used .quick-reply {
@@ -326,12 +326,12 @@
 }
 
 .composer__btn--send {
-  background: var(--bg-brand-1-strong);
-  color: var(--text-on-brand-1);
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
 }
 
 .composer__btn--send:hover {
-  background: var(--bg-brand-1-strong-hover);
+  background: var(--bg-navy-strong-hover);
 }
 
 .composer__hint {
@@ -559,7 +559,7 @@
 }
 
 .source-tag--ai {
-  background: var(--bg-brand-2-soft);
+  background: var(--bg-amber-soft);
   color: var(--text-warning-strong);
 }
 
@@ -600,9 +600,9 @@
   align-items: flex-start;
   gap: var(--space-12);
   padding: var(--space-16);
-  border: 1px solid var(--border-brand-2-moderate);
+  border: 1px solid var(--border-amber-moderate);
   border-radius: var(--radius-12);
-  background: var(--bg-brand-2-soft);
+  background: var(--bg-amber-soft);
   color: var(--text-warning-strong);
   font-size: var(--text-sm);
 }
@@ -615,7 +615,7 @@
   height: 36px;
   border-radius: var(--radius-full);
   background: var(--surface-raised);
-  color: var(--text-brand-2-strong);
+  color: var(--text-amber-strong);
 }
 
 .handoff b {

@@ -17,27 +17,27 @@
 }
 
 .btn--primary {
-  background: var(--bg-brand-1-strong);
-  color: var(--text-on-brand-1);
-  border-color: var(--border-brand-1-strong);
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
+  border-color: var(--border-navy-strong);
 }
 
 .btn--primary:hover {
-  background: var(--bg-brand-1-strong-hover);
-  border-color: var(--bg-brand-1-strong-hover);
+  background: var(--bg-navy-strong-hover);
+  border-color: var(--bg-navy-strong-hover);
 }
 
 .btn--accent,
 .btn--key {
-  background: var(--bg-brand-2-strong);
-  color: var(--text-on-brand-2);
-  border-color: var(--border-brand-2-strong);
+  background: var(--bg-amber-strong);
+  color: var(--text-on-amber);
+  border-color: var(--border-amber-strong);
 }
 
 .btn--accent:hover,
 .btn--key:hover {
-  background: var(--bg-brand-2-strong-hover);
-  border-color: var(--bg-brand-2-strong-hover);
+  background: var(--bg-amber-strong-hover);
+  border-color: var(--bg-amber-strong-hover);
 }
 
 .btn--secondary,

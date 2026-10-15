@@ -74,7 +74,7 @@
   display: block;
   width: 36px;
   height: 3px;
-  background: var(--bg-brand-2-strong);
+  background: var(--bg-amber-strong);
   flex-shrink: 0;
 }
 

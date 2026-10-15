@@ -38,9 +38,9 @@
 
 /* Fullført — klikkbart, går tilbake */
 .step--done {
-  border-color: var(--border-brand-1-soft);
-  background: var(--bg-brand-1-soft);
-  color: var(--text-brand-1-strong);
+  border-color: var(--border-navy-soft);
+  background: var(--bg-navy-soft);
+  color: var(--text-navy-strong);
   cursor: pointer;
 }
 

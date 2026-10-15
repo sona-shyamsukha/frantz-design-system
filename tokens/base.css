@@ -1,8 +1,7 @@
 /* =============================================================
    FRANTZ DESIGN SYSTEM — BASE TOKENS
    Source of truth: frantz-kampanjeportal.html (POC) + design.md
-   Architecture: primitive → semantic → brand slot.
-   Default: Frantz brand. Override per project in tokens/client/[project].css
+   Architecture: primitive → semantic.
    ============================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&display=swap');
@@ -90,44 +89,40 @@
   --bg-violet-soft:     var(--color-violet-wash);
 
 
-  /* ── BRAND SLOTS (system-internal) ──────────────────────────── */
-  /* Set these in a project override to re-skin every component.   */
+  /* ── TEXT ON NAVY AND AMBER ─────────────────────────────────── */
 
-  --_brand-1: var(--color-navy);
-  --_brand-2: var(--color-amber);
-
-  --text-on-brand-1: var(--color-white);   /* white on navy — passes AA */
-  --text-on-brand-2: var(--color-navy);    /* navy on amber — AA (never white) */
+  --text-on-navy:  var(--color-white);   /* white on navy — passes AA */
+  --text-on-amber: var(--color-navy);    /* navy on amber — AA (never white) */
 
 
-  /* ── BRAND-1 (navy) GENERATED TOKENS ────────────────────────── */
+  /* ── NAVY TOKENS ────────────────────────────────────────────── */
 
-  --bg-brand-1-soft:          color-mix(in oklch, var(--_brand-1), white 90%);
-  --bg-brand-1-moderate:      color-mix(in oklch, var(--_brand-1), white 55%);
-  --bg-brand-1-strong:        var(--_brand-1);
-  --bg-brand-1-strong-hover:  color-mix(in oklch, var(--_brand-1), black 18%);
+  --bg-navy-soft:          color-mix(in oklch, var(--color-navy), white 90%);
+  --bg-navy-moderate:      color-mix(in oklch, var(--color-navy), white 55%);
+  --bg-navy-strong:        var(--color-navy);
+  --bg-navy-strong-hover:  color-mix(in oklch, var(--color-navy), black 18%);
 
-  --border-brand-1-soft:      color-mix(in oklch, var(--_brand-1), white 80%);
-  --border-brand-1-moderate:  color-mix(in oklch, var(--_brand-1), white 40%);
-  --border-brand-1-strong:    var(--_brand-1);
+  --border-navy-soft:      color-mix(in oklch, var(--color-navy), white 80%);
+  --border-navy-moderate:  color-mix(in oklch, var(--color-navy), white 40%);
+  --border-navy-strong:    var(--color-navy);
 
-  --text-brand-1-moderate:    color-mix(in oklch, var(--_brand-1), black 10%);
-  --text-brand-1-strong:      var(--_brand-1);
+  --text-navy-moderate:    color-mix(in oklch, var(--color-navy), black 10%);
+  --text-navy-strong:      var(--color-navy);
 
 
-  /* ── BRAND-2 (amber) GENERATED TOKENS ───────────────────────── */
+  /* ── AMBER TOKENS ───────────────────────────────────────────── */
 
-  --bg-brand-2-soft:          var(--color-amber-wash);
-  --bg-brand-2-moderate:      color-mix(in oklch, var(--_brand-2), white 55%);
-  --bg-brand-2-strong:        var(--_brand-2);
-  --bg-brand-2-strong-hover:  var(--color-amber-hover);
+  --bg-amber-soft:          var(--color-amber-wash);
+  --bg-amber-moderate:      color-mix(in oklch, var(--color-amber), white 55%);
+  --bg-amber-strong:        var(--color-amber);
+  --bg-amber-strong-hover:  var(--color-amber-hover);
 
-  --border-brand-2-soft:      color-mix(in oklch, var(--_brand-2), white 80%);
-  --border-brand-2-moderate:  color-mix(in oklch, var(--_brand-2), white 40%);
-  --border-brand-2-strong:    var(--_brand-2);
+  --border-amber-soft:      color-mix(in oklch, var(--color-amber), white 80%);
+  --border-amber-moderate:  color-mix(in oklch, var(--color-amber), white 40%);
+  --border-amber-strong:    var(--color-amber);
 
-  --text-brand-2-moderate:    var(--color-amber-ink);
-  --text-brand-2-strong:      var(--color-amber-ink);
+  --text-amber-moderate:    var(--color-amber-ink);
+  --text-amber-strong:      var(--color-amber-ink);
 
 
   /* ── STRUCTURAL SURFACES ─────────────────────────────────────── */
