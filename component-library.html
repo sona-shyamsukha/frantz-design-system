@@ -9,7 +9,7 @@
 <title>Frantz DS — Komponentbibliotek</title>
 <link rel="stylesheet" href="frantz-ds.css?v=54">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=4">
-<link rel="stylesheet" href="styles/docs.css?v=5">
+<link rel="stylesheet" href="styles/docs.css?v=6">
 </head>
 <body class="ds-docs">
 
@@ -29,63 +29,69 @@
 
 <div class="cl-layout">
 <aside class="cl-sidebar">
-  <div class="cl-tab-group">Skall</div>
-  <button class="cl-tab active" type="button" onclick="showTab('nav', this)">Portal-nav</button>
-  <button class="cl-tab" type="button" onclick="showTab('breadcrumb', this)">Sti</button>
-  <button class="cl-tab" type="button" onclick="showTab('layout', this)">Sidekolonner</button>
-  <button class="cl-tab" type="button" onclick="showTab('drawer', this)">Skuff</button>
+  <div class="cl-search">
+    <label class="cl-search__label" for="cl-sok">Søk i komponenter</label>
+    <input class="cl-search__input" id="cl-sok" type="search" placeholder="Søk, f.eks. knapp eller .btn" autocomplete="off">
+    <p class="cl-search__empty" id="cl-sok-tom" hidden>Ingen treff.</p>
+  </div>
+
+  <div class="cl-tab-group">Skall og navigasjon</div>
+  <button class="cl-tab active" type="button" data-tab="nav" data-sok="nav rail .app .rail .nav .topbar" onclick="showTab('nav', this)">Portal-nav</button>
+  <button class="cl-tab" type="button" data-tab="layout" data-sok="layout cols flow rowlist .cols .flow .rowlist" onclick="showTab('layout', this)">Sidekolonner</button>
+  <button class="cl-tab" type="button" data-tab="drawer" data-sok="drawer .drawer" onclick="showTab('drawer', this)">Skuff</button>
+  <button class="cl-tab" type="button" data-tab="breadcrumb" data-sok="breadcrumb .breadcrumb" onclick="showTab('breadcrumb', this)">Sti</button>
+  <button class="cl-tab" type="button" data-tab="pagination" data-sok="pagination .pagination" onclick="showTab('pagination', this)">Paginering</button>
 
   <div class="cl-tab-group">Handlinger</div>
-  <button class="cl-tab" type="button" onclick="showTab('button', this)">Knapp</button>
-  <button class="cl-tab" type="button" onclick="showTab('link', this)">Tekstlenke og knapperad</button>
+  <button class="cl-tab" type="button" data-tab="button" data-sok="button btn .btn" onclick="showTab('button', this)">Knapp</button>
+  <button class="cl-tab" type="button" data-tab="link" data-sok="link btn-row .link .btn-row" onclick="showTab('link', this)">Tekstlenke og knapperad</button>
+  <button class="cl-tab" type="button" data-tab="fab" data-sok="fab assist-fab .assist-fab" onclick="showTab('fab', this)">Spør Frantz</button>
 
-  <div class="cl-tab-group">Skjema &amp; feedback</div>
-  <button class="cl-tab" type="button" onclick="showTab('form', this)">Skjemafelt</button>
-  <button class="cl-tab" type="button" onclick="showTab('datepicker', this)">Dato</button>
-  <button class="cl-tab" type="button" onclick="showTab('choice', this)">Valg</button>
-  <button class="cl-tab" type="button" onclick="showTab('tooltip', this)">Tooltip</button>
-  <button class="cl-tab" type="button" onclick="showTab('alert', this)">Varsel</button>
-  <button class="cl-tab" type="button" onclick="showTab('badge', this)">Status</button>
-  <button class="cl-tab" type="button" onclick="showTab('tag', this)">Merkelapp</button>
-  <button class="cl-tab" type="button" onclick="showTab('avatar', this)">Avatar</button>
-  <button class="cl-tab" type="button" onclick="showTab('picker', this)">Feltvelger</button>
+  <div class="cl-tab-group">Skjema</div>
+  <button class="cl-tab" type="button" data-tab="form" data-sok="form form-input form-select form-textarea felt input .felt .input .form-select" onclick="showTab('form', this)">Skjemafelt</button>
+  <button class="cl-tab" type="button" data-tab="datepicker" data-sok="datepicker .datepicker" onclick="showTab('datepicker', this)">Dato</button>
+  <button class="cl-tab" type="button" data-tab="choice" data-sok="choice form-check form-radio form-toggle .form-check .form-radio .form-toggle" onclick="showTab('choice', this)">Valg</button>
+  <button class="cl-tab" type="button" data-tab="picker" data-sok="picker .picker" onclick="showTab('picker', this)">Feltvelger</button>
+  <button class="cl-tab" type="button" data-tab="slider" data-sok="slider budsjett-slider .budsjett-slider" onclick="showTab('slider', this)">Budsjettskyver</button>
+  <button class="cl-tab" type="button" data-tab="selectcard" data-sok="selectcard select-card .select-card" onclick="showTab('selectcard', this)">Velgbart kort</button>
+  <button class="cl-tab" type="button" data-tab="choicecard" data-sok="choicecard choice-card .choice-card" onclick="showTab('choicecard', this)">Valgkort</button>
 
-  <div class="cl-tab-group">Lister</div>
-  <button class="cl-tab" type="button" onclick="showTab('table', this)">Tabell</button>
-  <button class="cl-tab" type="button" onclick="showTab('pagination', this)">Paginering</button>
-  <button class="cl-tab" type="button" onclick="showTab('progress', this)">Fremdrift</button>
-  <button class="cl-tab" type="button" onclick="showTab('timeline', this)">Tidslinje</button>
+  <div class="cl-tab-group">Tilbakemelding</div>
+  <button class="cl-tab" type="button" data-tab="alert" data-sok="alert advarsel .alert .advarsel" onclick="showTab('alert', this)">Varsel</button>
+  <button class="cl-tab" type="button" data-tab="tooltip" data-sok="tooltip .tooltip" onclick="showTab('tooltip', this)">Tooltip</button>
+  <button class="cl-tab" type="button" data-tab="progress" data-sok="progress meter .meter" onclick="showTab('progress', this)">Fremdrift</button>
+
+  <div class="cl-tab-group">Merker</div>
+  <button class="cl-tab" type="button" data-tab="badge" data-sok="badge pill .badge .pill" onclick="showTab('badge', this)">Status</button>
+  <button class="cl-tab" type="button" data-tab="tag" data-sok="tag .tag" onclick="showTab('tag', this)">Merkelapp</button>
+  <button class="cl-tab" type="button" data-tab="avatar" data-sok="avatar .avatar" onclick="showTab('avatar', this)">Avatar</button>
 
   <div class="cl-tab-group">Innhold</div>
-  <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
-  <button class="cl-tab" type="button" onclick="showTab('kpi', this)">KPI</button>
-  <button class="cl-tab" type="button" onclick="showTab('piksel', this)">Sporingskode</button>
-  <button class="cl-tab" type="button" onclick="showTab('summary', this)">Oppsummeringspanel</button>
-  <button class="cl-tab" type="button" onclick="showTab('quote', this)">Sitat</button>
-  <button class="cl-tab" type="button" onclick="showTab('metric', this)">Nøkkeltall</button>
-  <button class="cl-tab" type="button" onclick="showTab('adcard', this)">Annonsekort</button>
-  <button class="cl-tab" type="button" onclick="showTab('checklist', this)">Sjekkliste</button>
-  <button class="cl-tab" type="button" onclick="showTab('journey', this)">Hendelsesforløp</button>
-  <button class="cl-tab" type="button" onclick="showTab('tour', this)">Omvisning</button>
+  <button class="cl-tab" type="button" data-tab="card" data-sok="card .card" onclick="showTab('card', this)">Kort</button>
+  <button class="cl-tab" type="button" data-tab="summary" data-sok="summary summary-panel .summary-panel" onclick="showTab('summary', this)">Oppsummeringspanel</button>
+  <button class="cl-tab" type="button" data-tab="checklist" data-sok="checklist .checklist" onclick="showTab('checklist', this)">Sjekkliste</button>
+  <button class="cl-tab" type="button" data-tab="quote" data-sok="quote .quote" onclick="showTab('quote', this)">Sitat</button>
+  <button class="cl-tab" type="button" data-tab="table" data-sok="table .table" onclick="showTab('table', this)">Tabell</button>
+  <button class="cl-tab" type="button" data-tab="piksel" data-sok="piksel .piksel piksel.js" onclick="showTab('piksel', this)">Sporingskode</button>
 
-  <div class="cl-tab-group">Data</div>
-  <button class="cl-tab" type="button" onclick="showTab('funnel', this)">Trakt</button>
-  <button class="cl-tab" type="button" onclick="showTab('geo', this)">Geo-fordeling</button>
-  <button class="cl-tab" type="button" onclick="showTab('kanaler', this)">Kanalfarger og logoer</button>
+  <div class="cl-tab-group">Data og tall</div>
+  <button class="cl-tab" type="button" data-tab="kpi" data-sok="kpi nokkel fakta kpi-grid .nokkel .fakta" onclick="showTab('kpi', this)">KPI</button>
+  <button class="cl-tab" type="button" data-tab="metric" data-sok="metric metrics .metrics .metric" onclick="showTab('metric', this)">Nøkkeltall</button>
+  <button class="cl-tab" type="button" data-tab="funnel" data-sok="funnel .funnel + funnel.js" onclick="showTab('funnel', this)">Trakt</button>
+  <button class="cl-tab" type="button" data-tab="geo" data-sok="geo .geo" onclick="showTab('geo', this)">Geo-fordeling</button>
+  <button class="cl-tab" type="button" data-tab="kanaler" data-sok="kanaler kanal-prikk kanal-logo .kanal-prikk .kanal-logo" onclick="showTab('kanaler', this)">Kanalfarger og logoer</button>
 
-  <div class="cl-tab-group">Veiviser</div>
-  <button class="cl-tab" type="button" onclick="showTab('steps', this)">Trinn</button>
-  <button class="cl-tab" type="button" onclick="showTab('slider', this)">Budsjettskyver</button>
-  <button class="cl-tab" type="button" onclick="showTab('selectcard', this)">Velgbart kort</button>
-  <button class="cl-tab" type="button" onclick="showTab('choicecard', this)">Valgkort</button>
-  <button class="cl-tab" type="button" onclick="showTab('adpreview', this)">Annonseforhåndsvisning</button>
+  <div class="cl-tab-group">Tid og hendelser</div>
+  <button class="cl-tab" type="button" data-tab="timeline" data-sok="timeline .timeline" onclick="showTab('timeline', this)">Tidslinje</button>
+  <button class="cl-tab" type="button" data-tab="journey" data-sok="journey .journey" onclick="showTab('journey', this)">Hendelsesforløp</button>
 
-  <div class="cl-tab-group">AI-assistent</div>
-  <button class="cl-tab" type="button" onclick="showTab('chat', this)">Chat</button>
-  <button class="cl-tab" type="button" onclick="showTab('fab', this)">Spør Frantz</button>
-
-  <div class="cl-tab-group">Rådgiver</div>
-  <button class="cl-tab" type="button" onclick="showTab('inbox', this)">Innboks (rådgiver)</button>
+  <div class="cl-tab-group">Mønstre</div>
+  <button class="cl-tab" type="button" data-tab="steps" data-sok="steps .steps" onclick="showTab('steps', this)">Trinn</button>
+  <button class="cl-tab" type="button" data-tab="tour" data-sok="tour .tour tour.js" onclick="showTab('tour', this)">Omvisning</button>
+  <button class="cl-tab" type="button" data-tab="chat" data-sok="chat msg composer .chat .msg .quick-reply .draft .source-tag .handoff .composer" onclick="showTab('chat', this)">Chat</button>
+  <button class="cl-tab" type="button" data-tab="inbox" data-sok="inbox .inbox" onclick="showTab('inbox', this)">Innboks</button>
+  <button class="cl-tab" type="button" data-tab="adcard" data-sok="adcard ad-card .ad-grid .ad-card" onclick="showTab('adcard', this)">Annonsekort</button>
+  <button class="cl-tab" type="button" data-tab="adpreview" data-sok="adpreview ad-preview .ad-preview" onclick="showTab('adpreview', this)">Annonseforhåndsvisning</button>
 </aside>
 
 <div class="cl-main">
@@ -96,6 +102,12 @@
       <h2 class="cl-component-name">Portal-nav</h2>
       <span class="cl-component-class">.app .rail .nav .topbar</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Skallet rundt hver side i portalen: sidemeny, topplinje og innhold.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke inne i en side. For å vise hvor brukeren er, bruk Sti.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('breadcrumb')">Sti</button><button type="button" class="cl-see" onclick="showTab('layout')">Sidekolonner</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (18 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Skallet for portalen. Sidemeny 232px, rail <code>#072C40</code>. Aktiv side settes med <code>aria-current="page"</code> — ikonet blir amber. Under 860px blir rail en skuff.</p>
       <ul class="cl-rules">
@@ -175,6 +187,12 @@
       <h2 class="cl-component-name">Sti</h2>
       <span class="cl-component-class">.breadcrumb</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Sider to nivåer ned eller mer, så brukeren ser hvor de er og kan gå tilbake.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke på Hjem eller sider rett under menyen.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('nav')">Portal-nav</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-dashbord.html">Dashbord · Sykepleier Oslo</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hvor du er i portalen. Brukes på kampanjedetalj og dype lister — ikke på Hjem. Siste ledd er nåværende side, ikke en lenke.</p>
       <ul class="cl-rules">
@@ -230,6 +248,12 @@
       <h2 class="cl-component-name">Knapp</h2>
       <span class="cl-component-class">.btn</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Handlinger som gjør noe: lagre, bestille, sende, åpne.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for å gå til en annen side i løpende tekst. Bruk Tekstlenke.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('link')">Tekstlenke og knapperad</button><button type="button" class="cl-see" onclick="showTab('fab')">Spør Frantz</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (23 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Primær handling i portalen. Full pill som på frantz.no. Navy er standard. Amber er én nøkkelhandling per skjerm — aldri hvit tekst på amber. Ikon er valgfritt og arver <code>currentColor</code>.</p>
       <ul class="cl-rules">
@@ -311,6 +335,12 @@
       <h2 class="cl-component-name">Skjemafelt</h2>
       <span class="cl-component-class">.felt .input .form-select</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Tekst, tall og valg fra en liste, med etikett og hjelpetekst.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for valg mellom få synlige alternativer. Bruk Valg eller Valgkort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('choice')">Valg</button><button type="button" class="cl-see" onclick="showTab('picker')">Feltvelger</button><button type="button" class="cl-see" onclick="showTab('datepicker')">Dato</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (20 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Tekst, textarea, select og filter-chips. 1px kant, 8px radius, myk navy fokusring. POC-klasser <code>.felt</code> / <code>.input</code> / <code>.hjelp</code> er aliases for <code>.form-group</code> / <code>.form-input</code> / <code>.form-hint</code>.</p>
       <ul class="cl-rules">
@@ -407,6 +437,12 @@
       <h2 class="cl-component-name">Dato</h2>
       <span class="cl-component-class">.datepicker</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Velge én dato eller en periode, som kampanjestart og -slutt.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for fødselsdato eller datoer langt frem. Bruk et vanlig felt.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('form')">Skjemafelt</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a></dd>
+    </dl>
     <div class="cl-demo cl-demo--pop">
       <p class="cl-note cl-note--wide">Kampanjeperiode. Uke starter mandag. Format <code>dd.mm.åååå</code>. Navy = valgt. Amber-ring = i dag. Krever <code>interactions.js</code>.</p>
       <ul class="cl-rules">
@@ -565,6 +601,12 @@
       <h2 class="cl-component-name">Valg</h2>
       <span class="cl-component-class">.form-check .form-radio .form-toggle</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Avkrysning for flere valg, radio for ett valg, bryter for av og på.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke når hvert valg trenger forklaring eller pris. Bruk Velgbart kort eller Valgkort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('selectcard')">Velgbart kort</button><button type="button" class="cl-see" onclick="showTab('choicecard')">Valgkort</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (19 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Checkbox for flere valg (kanal). Radio for ett valg. Toggle for av/på. Alle bruker skjult native input + synlig markør, så tastatur og skjermleser fungerer.</p>
       <ul class="cl-rules">
@@ -675,6 +717,12 @@
       <h2 class="cl-component-name">Tooltip</h2>
       <span class="cl-component-class">.tooltip</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Kort forklaring av et ord eller ikon, ved hover og tastaturfokus.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for feil eller noe brukeren må se. Bruk Varsel.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('alert')">Varsel</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
+    </dl>
     <div class="cl-demo cl-demo--pop">
       <p class="cl-note cl-note--wide">Kort forklaring ved hover og tastaturfokus. Navy flate, maks 220px. Ikke for feil — det er <code>.form-error</code> / varsel.</p>
       <ul class="cl-rules">
@@ -741,6 +789,12 @@
       <h2 class="cl-component-name">Varsel</h2>
       <span class="cl-component-class">.alert .advarsel</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Melding i flyten som brukeren må lese: feil, advarsel, info, bekreftelse.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for korte forklaringer. Bruk Tooltip.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('tooltip')">Tooltip</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/admin-innboks.html">Innboks</a><a class="cl-used" href="portal/annonse.html">Se annonsen</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/godkjenning.html">Godkjenn kampanjen</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Innholdsbundet melding i flyten — ikke toast. Ikon 20px, 12px radius. <code>.advarsel</code> er POC-alias for feil.</p>
       <ul class="cl-rules">
@@ -796,6 +850,12 @@
       <h2 class="cl-component-name">Status</h2>
       <span class="cl-component-class">.badge .pill</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Kampanjestatus: aktiv, under arbeid, avsluttet.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for type eller antall. Bruk Merkelapp.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('tag')">Merkelapp</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/godkjenning.html">Godkjenn kampanjen</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Kampanjestatus og merkelapper. Alltid pill. Prikk via <code>::before</code>. <code>.pill</code> er POC-alias for <code>.badge</code>.</p>
       <ul class="cl-rules">
@@ -851,6 +911,12 @@
       <h2 class="cl-component-name">Tabell</h2>
       <span class="cl-component-class">.table</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Lange lister med flere kolonner som skal sammenlignes.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for tre-fire tall. Bruk Nøkkeltall.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('pagination')">Paginering</button><button type="button" class="cl-see" onclick="showTab('metric')">Nøkkeltall</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Kampanjeliste og andre lange datasett. Rader er klikkbare til detaljvisning. Under 860px kollapser tabellen til stablede kort — hver celle får en synlig label.</p>
       <ul class="cl-rules">
@@ -937,6 +1003,12 @@
       <h2 class="cl-component-name">Paginering</h2>
       <span class="cl-component-class">.pagination</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Lister med mer enn 20 rader, som kampanjelisten.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke på korte lister. Vis alt.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('table')">Tabell</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect.html">Connect</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Kampanjeliste og lange tabeller. Aktiv side er navy-pill. Forrige/neste er outline. Vis alltid hvor mange treff som finnes.</p>
       <ul class="cl-rules">
@@ -1021,6 +1093,12 @@
       <h2 class="cl-component-name">Fremdrift</h2>
       <span class="cl-component-class">.meter</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Hvor langt et tall har kommet mot et mål, som klikk mot estimat.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for steg i en flyt. Bruk Trinn.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('steps')">Trinn</button><button type="button" class="cl-see" onclick="showTab('metric')">Nøkkeltall</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Mål mot estimat: søknadsklikk på Hjem, tabellceller, og faktisk-mot-estimert på kampanjedetalj. Fargen forteller om kampanjen ligger foran eller bak plan.</p>
       <ul class="cl-rules">
@@ -1077,6 +1155,12 @@
       <h2 class="cl-component-name">Kort</h2>
       <span class="cl-component-class">.card</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Samle innhold som hører sammen i en flate.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke rundt hele siden eller kort inni kort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('summary')">Oppsummeringspanel</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/login.html">Logg inn</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide"><code>card--betjen</code> er arbeidsflate: hvit, ramme, myk skygge. <code>card--les</code> er leseflate: tonet, uten ramme. Statuskort har 20px fargefelt til venstre.</p>
       <ul class="cl-rules">
@@ -1154,6 +1238,12 @@
       <h2 class="cl-component-name">KPI</h2>
       <span class="cl-component-class">.nokkel .fakta</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Fire tall øverst på en oversikt, uten forklaring.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke når tallet trenger forklaring eller sammenligning. Bruk Nøkkeltall.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('metric')">Nøkkeltall</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/dashboard.html">Hjem</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Nøkkeltall øverst på oversikt. Fire kolonner på desktop, to under 1180px, én under 640px. POC-klasser <code>.nokkel</code> / <code>.fakta</code> matcher <code>.kpi-grid</code> / <code>.kpi</code>.</p>
       <ul class="cl-rules">
@@ -1209,6 +1299,12 @@
       <h2 class="cl-component-name">Oppsummeringspanel</h2>
       <span class="cl-component-class">.summary-panel</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Fakta som skal være synlige mens brukeren scroller: bestilling, kampanjeoppsett.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke på smale sider uten sidekolonne.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('layout')">Sidekolonner</button><button type="button" class="cl-see" onclick="showTab('card')">Kort</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/godkjenning.html">Godkjenn kampanjen</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Sticky sidebar ved siden av en flow: kampanjeoppsett, bestilling, kampanjedetalj. Holder seg synlig mens hovedkolonnen scroller.</p>
       <ul class="cl-rules">
@@ -1278,6 +1374,12 @@
       <h2 class="cl-component-name">Trakt</h2>
       <span class="cl-component-class">.funnel + funnel.js</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Hvor mange som går videre fra steg til steg, fra visning til «Søk».</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for tall som ikke henger sammen.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('metric')">Nøkkeltall</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Fire trinn fra besøk til søknadsklikk. Tre bånd: tallene i kolonneoverskriftene øverst, grafikken i midten, frafallet nederst. Fanen bytter bare det midterste båndet.</p>
       <ul class="cl-rules">
@@ -1323,6 +1425,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Trinn</h2>
       <span class="cl-component-class">.steps</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Vise hvor brukeren er i en flyt med to til fire steg.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for fremdrift mot et tall. Bruk Fremdrift.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('progress')">Fremdrift</button><button type="button" class="cl-see" onclick="showTab('checklist')">Sjekkliste</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span class="cl-about__none">Ikke brukt i portalen ennå.</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Fremdrift i «Ny kampanje»-veiviseren. Fullførte trinn er klikkbare og går tilbake. Nåværende trinn får amber tallsirkel.</p>
       <ul class="cl-rules">
@@ -1345,6 +1453,18 @@ tegnTrakt(document.getElementById('trakt'), {
         <li class="step"><span class="step__n">4</span>Bestilling</li>
       </ol>
     </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;ol class="steps"&gt;
+  &lt;li class="step step--done"&gt;&lt;span class="step__n"&gt;✓&lt;/span&gt;Stillingen&lt;/li&gt;
+  &lt;li class="step step--now" aria-current="step"&gt;&lt;span class="step__n"&gt;2&lt;/span&gt;Strategien&lt;/li&gt;
+  &lt;li class="step"&gt;&lt;span class="step__n"&gt;3&lt;/span&gt;Materiell&lt;/li&gt;
+  &lt;li class="step"&gt;&lt;span class="step__n"&gt;4&lt;/span&gt;Bestilling&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1354,8 +1474,19 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Budsjettskyver</h2>
       <span class="cl-component-class">.budsjett-slider</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Ett tall i et område, der tersklene betyr noe. Brukes for budsjett.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke når brukeren må skrive et nøyaktig tall. Bruk Skjemafelt.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('form')">Skjemafelt</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/kalkulator.html">Tilbudskalkulator</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Ett budsjett styrer kanaler, periode og dekning i veiviseren. Terskler markeres som stiplede streker under sporet, anbefalt verdi som en egen markør over.</p>
+      <ul class="cl-rules">
+        <li>Vis alltid valgt beløp som tekst ved siden av, i formatet «kr 36 500». Skyveren alene er vanskelig å lese av.</li>
+        <li>Høyst tre terskler. Hver terskel sier hva brukeren får ved beløpet.</li>
+        <li>Gi skyveren en etikett med <code>aria-label</code> eller <code>&lt;label&gt;</code>. Piltastene flytter den ett steg.</li>
+      </ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
         <tbody>
@@ -1375,6 +1506,24 @@ tegnTrakt(document.getElementById('trakt'), {
         <div class="tick" style="left:55%"><div class="tick__line"></div><div class="tick__txt">kr 45 000<br>Remarketing</div></div>
       </div>
     </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="slider-wrap"&gt;
+  &lt;span class="slider-wrap__mark" style="left:38%"&gt;Anbefalt&lt;/span&gt;
+  &lt;input class="budsjett-slider" type="range" min="15000" max="70000" step="500"
+         value="36500" aria-label="Budsjett"&gt;
+&lt;/div&gt;
+&lt;div class="ticks"&gt;
+  &lt;div class="tick" style="left:18%"&gt;
+    &lt;div class="tick__line"&gt;&lt;/div&gt;
+    &lt;div class="tick__txt"&gt;kr 25 000&lt;br&gt;Lengre periode&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- .tick--kort gir kortere strek, når to terskler står tett --&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1384,8 +1533,19 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Velgbart kort</h2>
       <span class="cl-component-class">.select-card</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Slå flere ting av og på, med forklaring, lås eller pris: kanaler og tilvalg.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for ett-av-flere. Bruk Valgkort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('choicecard')">Valgkort</button><button type="button" class="cl-see" onclick="showTab('choice')">Valg</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span class="cl-about__none">Ikke brukt i portalen ennå.</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Kanaler og tilvalg i veiviseren — samme mønster, to bruksmåter. Rutenett for kanaler (av/på + låst), liste for tilvalg (av/på + pris).</p>
+      <ul class="cl-rules">
+        <li>Hvert kort er en <code>&lt;button&gt;</code> med <code>aria-pressed</code>. Klikk og mellomrom slår det av og på.</li>
+        <li>Et låst kort sier hva som låser det opp, med beløpet. Det er fortsatt en knapp, men med <code>aria-disabled="true"</code>.</li>
+        <li>Navnet først, så én kort setning. Prisen står til høyre bare i listen med tilvalg.</li>
+      </ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
         <tbody>
@@ -1421,6 +1581,41 @@ tegnTrakt(document.getElementById('trakt'), {
         </button>
       </div>
     </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;!-- Kanaler: rutenett --&gt;
+&lt;div class="select-card-grid"&gt;
+  &lt;button class="select-card" type="button" aria-pressed="true"&gt;
+    &lt;span class="select-card__box"&gt;&lt;/span&gt;
+    &lt;span class="select-card__body"&gt;
+      &lt;span class="select-card__name"&gt;Meta&lt;/span&gt;
+      &lt;span class="select-card__desc"&gt;Facebook og Instagram&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="select-card select-card--locked" type="button" aria-pressed="false" aria-disabled="true"&gt;
+    &lt;span class="select-card__box"&gt;&lt;/span&gt;
+    &lt;span class="select-card__body"&gt;
+      &lt;span class="select-card__name"&gt;Remarketing&lt;/span&gt;
+      &lt;span class="select-card__lock"&gt;Låses opp ved kr 45 000&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Tilvalg: liste med pris --&gt;
+&lt;div class="select-card-list"&gt;
+  &lt;button class="select-card" type="button" aria-pressed="false"&gt;
+    &lt;span class="select-card__box"&gt;&lt;/span&gt;
+    &lt;span class="select-card__body"&gt;
+      &lt;span class="select-card__name"&gt;Bildeproduksjon på arbeidsplassen&lt;/span&gt;
+      &lt;span class="select-card__desc"&gt;Fotograf på stedet.&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="select-card__price"&gt;+ kr 6 500&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1430,10 +1625,33 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Valgkort</h2>
       <span class="cl-component-class">.choice-card</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Velg ett av to til fire alternativer som trenger en kort forklaring.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for flere valg samtidig. Bruk Velgbart kort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('selectcard')">Velgbart kort</button><button type="button" class="cl-see" onclick="showTab('choice')">Valg</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Ett-av-tre-valg, f.eks. materiellsteg i veiviseren. Prisen sitter som en pill over navnet, ikke til høyre — dette er et valg, ikke en pris-sammenligning.</p>
+      <ul class="cl-rules">
+        <li>To til fire kort. Akkurat ett er valgt. Flere enn fire hører hjemme i en nedtrekksliste.</li>
+        <li>Kortene står i en gruppe med <code>role="group"</code> og en etikett. Hvert kort er en <code>&lt;button&gt;</code> med <code>aria-pressed</code>. Når ett velges, settes de andre til <code>false</code>.</li>
+        <li>Prisen er en kort pill: «Gratis» eller «Fra kr 2 180/t». Skriv aldri bare et tall.</li>
+        <li>Under 860px står kortene under hverandre.</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>.choice-grid</code></td><td>Tre kolonner, én kolonne under 860px</td></tr>
+          <tr><td><code>.choice-card</code></td><td>Knappen. 1px kant, 12px radius</td></tr>
+          <tr><td><code>[aria-pressed="true"]</code></td><td>Valgt: navy kant, lys blå flate, navy prispille</td></tr>
+          <tr><td><code>.choice-card__price</code></td><td>Pris som pill over navnet</td></tr>
+          <tr><td><code>.choice-card__name</code></td><td>Navnet på valget</td></tr>
+          <tr><td><code>.choice-card__desc</code></td><td>Én kort setning</td></tr>
+        </tbody>
+      </table>
       <div class="cl-sep"></div>
-      <div class="choice-grid">
+      <div class="choice-grid" role="group" aria-label="Hvem lager annonsen?">
         <button class="choice-card" type="button" aria-pressed="false">
           <span class="choice-card__price">Gratis</span>
           <span class="choice-card__name">Vi har ferdig materiell</span>
@@ -1451,6 +1669,29 @@ tegnTrakt(document.getElementById('trakt'), {
         </button>
       </div>
     </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="choice-grid" role="group" aria-label="Hvem lager annonsen?"&gt;
+  &lt;button class="choice-card" type="button" aria-pressed="false"&gt;
+    &lt;span class="choice-card__price"&gt;Gratis&lt;/span&gt;
+    &lt;span class="choice-card__name"&gt;Vi har ferdig materiell&lt;/span&gt;
+    &lt;span class="choice-card__desc"&gt;Dere laster opp annonser selv.&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="choice-card" type="button" aria-pressed="true"&gt;
+    &lt;span class="choice-card__price"&gt;Gratis&lt;/span&gt;
+    &lt;span class="choice-card__name"&gt;Bygg annonsen her&lt;/span&gt;
+    &lt;span class="choice-card__desc"&gt;Sett den sammen i portalen.&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="choice-card" type="button" aria-pressed="false"&gt;
+    &lt;span class="choice-card__price"&gt;Fra kr 2 180/t&lt;/span&gt;
+    &lt;span class="choice-card__name"&gt;Frantz produserer&lt;/span&gt;
+    &lt;span class="choice-card__desc"&gt;Frantz lager annonsen for dere.&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1461,6 +1702,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Chat</h2>
       <span class="cl-component-class">.chat .msg .quick-reply .draft .source-tag .handoff .composer</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Samtalen med Frantz-assistenten og rådgiveren.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for skjema. Bestilling har egen side.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('fab')">Spør Frantz</button><button type="button" class="cl-see" onclick="showTab('inbox')">Innboks</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (17 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Frantz-assistenten. Se <a href="portal/assistent.html">portal/assistent.html</a> for hele flyten. Logikken ligger i <code>components/js/assistant.js</code>.</p>
       <ul class="cl-rules">
@@ -1469,11 +1716,27 @@ tegnTrakt(document.getElementById('trakt'), {
         <li>Hvert felt i <code>.draft</code> viser hvor verdien kommer fra med <code>.source-tag</code>.</li>
         <li>Amber brukes bare på én handling: «Bestill kampanjen».</li>
       </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>.msg</code> + <code>--ai</code> / <code>--user</code> / <code>--advisor</code> / <code>--system</code></td><td>Én melding. Typen styrer side, farge og ikon</td></tr>
+          <tr><td><code>.msg__meta</code></td><td>Hvem og når: «Frantz-assistenten · 12.15»</td></tr>
+          <tr><td><code>.msg__bubble</code></td><td>Selve teksten</td></tr>
+          <tr><td><code>.msg__files</code> / <code>.file-chip</code></td><td>Vedlegg i en melding</td></tr>
+          <tr><td><code>.quick-replies</code> / <code>.quick-reply</code></td><td>Forslag til svar. <code>--human</code> ber om en rådgiver</td></tr>
+          <tr><td><code>.typing</code></td><td>Tre prikker mens assistenten skriver. Trenger <code>aria-label</code></td></tr>
+          <tr><td><code>.draft</code></td><td>Kampanjeutkast med én rad per felt (<code>.draft__row</code>)</td></tr>
+          <tr><td><code>.source-tag</code> + <code>--text</code> / <code>--link</code> / <code>--ai</code> / <code>--missing</code></td><td>Hvor verdien kom fra, eller at den mangler</td></tr>
+          <tr><td><code>.linkbox</code></td><td>Lenke med «Kopier»-knapp</td></tr>
+          <tr><td><code>.handoff</code></td><td>Bekreftelse på at saken er sendt til et menneske</td></tr>
+          <tr><td><code>.composer</code></td><td>Skrivefeltet med vedlegg og send</td></tr>
+        </tbody>
+      </table>
       <div class="cl-sep"></div>
       <div style="display:flex;flex-direction:column;gap:16px;max-width:640px">
         <div class="msg msg--ai">
           <span class="msg__avatar"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
-          <div class="msg__body"><span class="msg__meta">Frantz-assistenten · 12:15</span><div class="msg__bubble">Hei Kari. Hva vil du gjøre?</div>
+          <div class="msg__body"><span class="msg__meta">Frantz-assistenten · 12.15</span><div class="msg__bubble">Hei Kari. Hva vil du gjøre?</div>
             <div class="quick-replies">
               <button class="quick-reply" type="button"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Lag ny kampanje</button>
               <button class="quick-reply" type="button"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Følg opp en kampanje</button>
@@ -1483,13 +1746,13 @@ tegnTrakt(document.getElementById('trakt'), {
         </div>
         <div class="msg msg--user">
           <span class="msg__avatar"><span class="icon-lucide icon-lucide--user-round" aria-hidden="true"></span></span>
-          <div class="msg__body"><span class="msg__meta">Du · 12:16</span><div class="msg__bubble">Trenger rapportlenken for 22 31</div>
+          <div class="msg__body"><span class="msg__meta">Du · 12.16</span><div class="msg__bubble">Trenger rapportlenken for 22 31</div>
             <div class="msg__files"><span class="file-chip"><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>toppbilde.jpg</span></div>
           </div>
         </div>
         <div class="msg msg--advisor">
           <span class="msg__avatar"><span class="icon-lucide icon-lucide--headset" aria-hidden="true"></span></span>
-          <div class="msg__body"><span class="msg__meta">Jonas · rådgiver hos Frantz · 12:40</span><div class="msg__bubble">Jeg bytter bildet i dag.</div></div>
+          <div class="msg__body"><span class="msg__meta">Jonas · rådgiver hos Frantz · 12.40</span><div class="msg__bubble">Jeg bytter bildet i dag.</div></div>
         </div>
         <div class="msg msg--system"><div class="msg__body"><div class="msg__bubble"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Kampanje #129077 er bestilt</div></div></div>
         <div class="typing" style="align-self:flex-start" aria-label="Assistenten skriver"><span></span><span></span><span></span></div>
@@ -1521,6 +1784,42 @@ tegnTrakt(document.getElementById('trakt'), {
         </form>
       </div>
     </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;!-- Melding fra assistenten, med forslag til svar --&gt;
+&lt;div class="msg msg--ai"&gt;
+  &lt;span class="msg__avatar"&gt;&lt;span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;div class="msg__body"&gt;
+    &lt;span class="msg__meta"&gt;Frantz-assistenten · 12.15&lt;/span&gt;
+    &lt;div class="msg__bubble"&gt;Hei Kari. Hva vil du gjøre?&lt;/div&gt;
+    &lt;div class="quick-replies"&gt;
+      &lt;button class="quick-reply" type="button"&gt;Lag ny kampanje&lt;/button&gt;
+      &lt;button class="quick-reply quick-reply--human" type="button"&gt;Snakk med en rådgiver&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Melding fra brukeren: samme oppbygging, msg--user --&gt;
+
+&lt;!-- Én rad i kampanjeutkastet --&gt;
+&lt;div class="draft__row"&gt;
+  &lt;span class="draft__label"&gt;Totalbudsjett&lt;/span&gt;
+  &lt;p class="draft__value"&gt;kr 30 000&lt;/p&gt;
+  &lt;span class="source-tag source-tag--text"&gt;Fra deg&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Skrivefeltet --&gt;
+&lt;form class="composer"&gt;
+  &lt;div class="composer__box"&gt;
+    &lt;button type="button" class="composer__btn" aria-label="Legg ved filer"&gt;…&lt;/button&gt;
+    &lt;textarea class="composer__input" rows="1" aria-label="Skriv til assistenten"&gt;&lt;/textarea&gt;
+    &lt;button type="submit" class="composer__btn composer__btn--send" aria-label="Send"&gt;…&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1531,6 +1830,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Merkelapp</h2>
       <span class="cl-component-class">.tag</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Type, antall eller sammenligning, som «Ny» eller «+12 %».</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for kampanjestatus. Bruk Status.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('badge')">Status</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/epost-visning.html">E-posttråd</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Liten merkelapp for type, antall eller sammenligning. For kampanjestatus bruker du <code>.badge</code>. For filter du kan slå av og på bruker du <code>.filter</code>.</p>
       <ul class="cl-rules"><li>Alltid kort tekst. Én til tre ord, eller et tall med enhet.</li><li>Tone forteller noe, men teksten må stå alene — aldri bare farge.</li><li><code>.tag--overlay</code> krever en forelder med <code>position: relative</code>.</li></ul>
@@ -1568,6 +1873,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Avatar</h2>
       <span class="cl-component-class">.avatar</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Vise en person: bruker, rådgiver eller avsender.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for firma eller kanal. Bruk logo.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('kanaler')">Kanalfarger og logoer</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (18 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Initialer i en sirkel. Brukes for personer: brukerliste, rådgiver-sitat, samtaler.</p>
       <ul class="cl-rules"><li>Maks to bokstaver. Alltid <code>aria-hidden="true"</code> når navnet står ved siden av.</li><li>Størrelse følger raden: 24 i brødtekst, 36 i lister, 48 som hovedelement.</li></ul>
@@ -1600,6 +1911,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Tekstlenke og knapperad</h2>
       <span class="cl-component-class">.link .btn-row</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Rolige handlinger og navigasjon, som «Alle kampanjer». Knapperad samler flere knapper.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for hovedhandlingen på siden. Bruk Knapp.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('button')">Knapp</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/kalkulator.html">Tilbudskalkulator</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Tekstlenke for lav-trykk-handlinger som «Alle kampanjer» eller «Prøv eksempel». Knapperad holder knapper med lik avstand og fyller raden på mobil.</p>
       <ul class="cl-rules"><li><code>.link</code> har alltid 24px høyt trykkområde, også med liten tekst.</li><li>Bruk <code>.link</code> for navigasjon til siden av innholdet. Bruk <code>.btn</code> for handlinger som endrer noe.</li><li><code>.btn-row--stack</code>: under 640px fyller hver knapp hele raden.</li></ul>
@@ -1637,6 +1954,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Sitat</h2>
       <span class="cl-component-class">.quote</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Rådgiverens vurdering med navn, før tallene.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for tekst fra kunden eller AI.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('avatar')">Avatar</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Rådgiverens egne ord om en kampanje, med hvem som skrev det. Kommer før tallene, så kunden først får en vurdering og deretter bevisene.</p>
       <ul class="cl-rules"><li>Maks tre til fire linjer. Skriv i vi-form fra rådgiveren.</li><li>Alltid avsender og dato i <code>footer</code>.</li></ul>
@@ -1671,6 +1994,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Nøkkeltall</h2>
       <span class="cl-component-class">.metrics .metric</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Ett tall med en setning som forklarer det, og en sammenligning mot normalen.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for en rask oversikt. Bruk KPI.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('kpi')">KPI</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Ett tall med forklaring og en sammenligning mot normalen. Brukes i rapport og kampanjedetalj. Tre i rad på bred skjerm, ett per rad på mobil.</p>
       <ul class="cl-rules"><li>Sammenligning står i en <code>.tag</code> nederst: «20 % lavere», «25 % flere».</li><li>Tallet først, forklaringen under. Ikon er valgfritt.</li></ul>
@@ -1716,6 +2045,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Annonsekort</h2>
       <span class="cl-component-class">.ad-grid .ad-card</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Én annonse i en liste, med tall og lenke til hele annonsen.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for å vise hvordan annonsen ser ut i feeden. Bruk Annonseforhåndsvisning.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('adpreview')">Annonseforhåndsvisning</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Forhåndsvisning av én annonse: type, navn, kanal, tall og en lenke til hele annonsen. Brukes både når annonsen er et utkast og når den kjører.</p>
       <ul class="cl-rules"><li>Beste annonse får <code>.ad-card--best</code> og en grønn merkelapp.</li><li>Bildefeltet viser type (<code>Video</code>, <code>Bilde</code>) som <code>.tag--overlay</code>.</li><li>Handlingen åpner annonsen i ny fane. Skjermleser får «åpnes i ny fane».</li></ul>
@@ -1757,6 +2092,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Sjekkliste</h2>
       <span class="cl-component-class">.checklist</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Hva som er gjort og hva som mangler.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for steg brukeren går gjennom. Bruk Trinn.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('steps')">Trinn</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hva som er gjort og hva som mangler, én rad hver. Brukes på «Hva Frantz har gjort» og i kladd.</p>
       <ul class="cl-rules"><li>Ikon + tekst. Fargen alene skal aldri bære betydningen.</li><li><code>.er-ok</code> gir grønt ikon. <code>.mangler</code> gir dempet ikon.</li></ul>
@@ -1794,6 +2135,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Hendelsesforløp</h2>
       <span class="cl-component-class">.journey</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Kampanjens historie, der steg henger sammen og ett steg er viktigst.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for en kort logg. Bruk Tidslinje.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('timeline')">Tidslinje</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hva som har skjedd i kampanjen. En prikk per steg på en loddrett linje. Det viktigste steget løftes ut i en toned boks.</p>
       <ul class="cl-rules"><li><code>--key</code> for rådgiverens status. Bruk det én gang per liste.</li><li><code>--planned</code> for steg som ikke har skjedd ennå: dempet, stiplet prikk.</li></ul>
@@ -1836,6 +2183,11 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Geo-fordeling</h2>
       <span class="cl-component-class">.geo</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Hvor kampanjen ble vist, med kart og liste.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for under tre steder. Skriv dem i tekst.</dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hvor kampanjen ble vist. Kart på den ene siden, steder med andel og stolpe på den andre. Under 700px legges kartet over listen.</p>
       <ul class="cl-rules"><li>Stolpen bruker <code>.meter__track--sm</code> med <code>.meter__bar--data</code>.</li><li>Kartet tegnes med Leaflet eller SVG. Fargene kommer fra <code>--color-data-*</code>.</li></ul>
@@ -1877,6 +2229,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Sidekolonner</h2>
       <span class="cl-component-class">.cols .flow .rowlist</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Detaljsider med hovedinnhold og en smal kolonne med fakta ved siden av.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke på lister og oversikter. Der bruker du hele bredden.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('summary')">Oppsummeringspanel</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hovedkolonne og 320px sidekolonne for detaljsider. Under 900px legges sidekolonnen under. Overskrift med handlinger ligger i <code>.detalj__topp</code>.</p>
       <ul class="cl-rules"><li><code>.flow</code> stabler kort med 24px mellomrom.</li><li><code>.rowlist</code> legger hårlinjer mellom rader uten egen ramme.</li><li>På mobil fyller hver knapp i <code>.detalj__knapper</code> hele raden.</li></ul>
@@ -1914,6 +2272,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Skuff</h2>
       <span class="cl-component-class">.drawer</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Detaljer eller innstillinger som åpnes over siden uten å forlate den: varsler, konto, mediedetaljer.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for lange skjema eller flere steg. Lag en egen side.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('tooltip')">Tooltip</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (18 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Panel som glir inn fra høyre over en dimmet side. Varsler, konto og mediedetaljer bruker den. Fokus flyttes inn og tilbake til knappen som åpnet den.</p>
       <ul class="cl-rules"><li>Lukk med Esc, med lukk-knappen og med klikk på bakgrunnen.</li><li>Bredde 420px, aldri bredere enn skjermen.</li><li>Seksjoner i <code>.drawer__body</code> får hårlinje og luft av <code>.drawer__section</code>.</li></ul>
@@ -1958,6 +2322,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Feltvelger</h2>
       <span class="cl-component-class">.picker</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Felt der brukeren skriver og velger fra forslag: stilling og steder.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for korte, faste lister. Bruk nedtrekk i Skjemafelt.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('form')">Skjemafelt</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/kalkulator.html">Tilbudskalkulator</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Felt med forslag mens du skriver. Én variant for stilling (velger én), én for steder (velger flere, vises som merkelapper). Trenger <code>picker.js</code> og <code>frantz-data.js</code>.</p>
       <ul class="cl-rules"><li>Forslag åpnes under feltet. Piltaster flytter, Enter velger, Esc lukker.</li><li>Valgte steder står som <code>.picker-chip</code> inne i feltet og kan fjernes med ×.</li><li>Feltet er minst 48px høyt, likt andre felt på siden.</li></ul>
@@ -2002,6 +2372,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Kanalfarger og logoer</h2>
       <span class="cl-component-class">.kanal-prikk .kanal-logo</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Vise en annonsekanal i lister, grafer og forhåndsvisninger.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke bruk kanalfargene til noe annet.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('adpreview')">Annonseforhåndsvisning</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/kalkulator.html">Tilbudskalkulator</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Prikk og logo for annonsekanaler. Prikken står i lister og diagrammer. Logoen er en liten fargeflis med hvit merkevare, i stil med favicon.</p>
       <ul class="cl-rules"><li>Fargene kommer fra <code>--kanal-*</code> (diagram) og <code>--channel-*</code> (tredjeparts merke). Aldri bruk dem til portalens egne flater.</li><li>Kanalnavnet skal alltid stå ved siden av prikken eller logoen.</li></ul>
@@ -2034,6 +2410,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Innboks (rådgiver)</h2>
       <span class="cl-component-class">.inbox</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Rådgiverens liste over saker fra kunder.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for kunden. Kunden ser samtalen i Chat.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('chat')">Chat</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/admin-innboks.html">Innboks</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Listen over saker i rådgiverens innboks, med filter og en statuslinje per sak. Valgt sak vises til høyre på siden (<code>.case</code>).</p>
       <ul class="cl-rules"><li>Statusen bruker ikon og tekst, ikke bare farge.</li><li>Valgt sak markeres med <code>aria-current="true"</code>.</li></ul>
@@ -2077,6 +2459,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Spør Frantz</h2>
       <span class="cl-component-class">.assist-fab</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Åpner assistenten fra alle sider. assistant-widget.js legger den til.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke legg til en ekstra. Det finnes én per side.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('chat')">Chat</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span>Nesten alle portalsider (15 av 23).</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Flytende knapp nederst til høyre som åpner assistenten i et panel. <code>assistant-widget.js</code> legger den til på hver portalside. Siden får ekstra bunnmarg så knappen ikke dekker siste innhold.</p>
       <ul class="cl-rules"><li>Fast plassert, 24px fra kanten. Z-indeks <code>--z-*</code> over innhold, under skuff.</li><li>Åpent panel flytter fokus inn. Esc lukker og fokus går tilbake til knappen.</li></ul>
@@ -2106,6 +2494,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Tidslinje</h2>
       <span class="cl-component-class">.timeline</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Enkel logg: dato og hva som skjedde.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke når stegene skal henge sammen visuelt. Bruk Hendelsesforløp.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('journey')">Hendelsesforløp</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><span class="cl-about__none">Ikke brukt i portalen ennå.</span></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Dato til venstre og hva som skjedde til høyre. Enkel logg uten prikker og linje. Bruk <code>.journey</code> når steg skal henge sammen visuelt.</p>
       <ul class="cl-rules"><li>Nyeste øverst.</li><li>Under 640px legges datoen over teksten.</li></ul>
@@ -2140,6 +2534,12 @@ tegnTrakt(document.getElementById('trakt'), {
       <h2 class="cl-component-name">Omvisning</h2>
       <span class="cl-component-class">.tour · tour.js</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Vise nye brukere de viktigste delene av en side.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for forklaringer brukeren trenger hver gang. Skriv det på siden.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('tooltip')">Tooltip</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/dashboard.html">Hjem</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Små vinduer som peker på deler av siden, ett om gangen. For nye brukere på Hjem: starter selv første gang, og fra «Vis meg rundt» når som helst. Ringen holder målet synlig og dimmer resten.</p>
       <ul class="cl-rules">
@@ -2194,6 +2594,11 @@ FrantzTour.nullstill();</code></pre>
       <h2 class="cl-component-name">Sporingskode (piksel)</h2>
       <span class="cl-component-class">.piksel · piksel.js</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Sporingskoden kunden legger på stillingssiden. Alltid i «Om kampanjen».</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke andre steder. Samme plass på alle kampanjesider.</dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Koden kunden legger på stillingssiden, så Frantz kan måle «Søk». Samme blokk og samme plass på alle kampanjesider: i «Om kampanjen», rett under fakta og kampanjesiden. <code>piksel.js</code> fyller blokken.</p>
       <ul class="cl-rules"><li>Vises fra kampanjen er bestilt.</li><li><code>data-status</code>: <code>venter</code> (bestilt, under arbeid), <code>aktiv</code>, <code>avsluttet</code>.</li><li><code>data-tid</code>: sist målt, eller dagen målingen stoppet.</li><li>ID-en er den samme som kampanje-ID-en.</li></ul>
@@ -2226,6 +2631,12 @@ FrantzTour.nullstill();</code></pre>
       <h2 class="cl-component-name">Annonseforhåndsvisning</h2>
       <span class="cl-component-class">.ad-preview</span>
     </div>
+    <dl class="cl-about" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Hvordan annonsen ser ut i feeden til hver kanal.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke i lister. Bruk Annonsekort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('adcard')">Annonsekort</button><button type="button" class="cl-see" onclick="showTab('kanaler')">Kanalfarger og logoer</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/godkjenning.html">Godkjenn kampanjen</a></dd>
+    </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Slik ser annonsen ut i feeden til hver kanal. Brukes i annonsestudioet i «Ny kampanje» og i forhåndsvisningen kunden åpner fra rapporten. Bildet kan dras for å flytte utsnittet.</p>
       <ul class="cl-rules"><li>Dette er en etterlikning av tredjeparts-grensesnitt. Fargene kommer fra <code>--channel-*</code> og skal aldri brukes ellers i portalen.</li><li>Plattformen styres med <code>data-plattform</code>: <code>facebook</code>, <code>instagram</code> eller <code>linkedin</code>.</li><li>Portalens egen annonsevisning (<code>annonse.html</code>) bruker sin egen <code>.post</code>.</li></ul>
@@ -2267,12 +2678,54 @@ FrantzTour.nullstill();</code></pre>
 
 <script>
 function showTab(id, btn) {
-  document.querySelectorAll('.cl-panel').forEach(function (p) { p.classList.remove('active'); });
-  document.querySelectorAll('.cl-tab').forEach(function (t) { t.classList.remove('active'); });
   var panel = document.getElementById('panel-' + id);
-  if (panel) panel.classList.add('active');
-  if (btn) btn.classList.add('active');
+  if (!panel) return;
+  document.querySelectorAll('.cl-panel').forEach(function (p) { p.classList.remove('active'); });
+  document.querySelectorAll('.cl-tab').forEach(function (t) { t.classList.remove('active'); t.removeAttribute('aria-current'); });
+  panel.classList.add('active');
+  // «Se også» and search call this without a button, so find the menu button by its id
+  btn = btn || document.querySelector('.cl-tab[data-tab="' + id + '"]');
+  if (btn) { btn.classList.add('active'); btn.setAttribute('aria-current', 'page'); btn.scrollIntoView({ block: 'nearest' }); }
+  // Each component has its own address, so a link can open it: component-library.html#button
+  if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+  window.scrollTo(0, 0);
 }
+
+// Open the component in the address, if there is one
+(function () {
+  var id = location.hash.slice(1);
+  if (id) showTab(id);
+})();
+
+// Search: filters the menu by name, id and class names. Enter opens the first match. «/» jumps to the search box.
+(function () {
+  var sok = document.getElementById('cl-sok'), tom = document.getElementById('cl-sok-tom');
+  var tabs = [].slice.call(document.querySelectorAll('.cl-tab'));
+  var grupper = [].slice.call(document.querySelectorAll('.cl-tab-group'));
+  function filtrer() {
+    var q = sok.value.trim().toLowerCase().replace(/^\./, '');
+    var treff = 0;
+    tabs.forEach(function (t) {
+      var vis = !q || (t.textContent.toLowerCase() + ' ' + t.dataset.sok).indexOf(q) !== -1;
+      t.hidden = !vis; if (vis) treff++;
+    });
+    // Hide a group heading when none of its buttons match
+    grupper.forEach(function (g) {
+      var n = g.nextElementSibling, noen = false;
+      while (n && n.classList.contains('cl-tab')) { if (!n.hidden) noen = true; n = n.nextElementSibling; }
+      g.hidden = !noen;
+    });
+    tom.hidden = treff > 0;
+  }
+  sok.addEventListener('input', filtrer);
+  sok.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { var f = tabs.filter(function (t) { return !t.hidden; })[0]; if (f) f.click(); }
+    if (e.key === 'Escape') { sok.value = ''; filtrer(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) { e.preventDefault(); sok.focus(); }
+  });
+})();
 function toggleCode(btn) {
   var open = btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', String(!open));
