@@ -176,7 +176,8 @@
 .kanal-logo--sm::after { inset: 3px; }
 
 /* Kanal names with logo, from components/js/kanaler.js */
-.kanal-navner { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-6) var(--space-12); vertical-align: middle; }
+/* One kanal per line, so a long list stays easy to read */
+.kanal-navner { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); }
 .kanal-navn { display: inline-flex; align-items: flex-start; gap: var(--space-6); }
 .kanal-navn .kanal-logo { margin-top: calc((1lh - 18px) / 2); }
 .kanal-navner__ekstra { color: var(--text-muted); }
