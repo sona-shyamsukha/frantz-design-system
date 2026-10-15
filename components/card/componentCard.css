@@ -56,6 +56,7 @@
 .card--status-blue::before { background: var(--color-navy); }
 .card--status-grey { background: var(--color-grey-wash); }
 .card--status-grey::before { background: var(--color-grey-ink); }
+.card--status-grey .card__hint { color: var(--color-ink-700); } /* muted grey is too light on the grey wash */
 
 .card__head {
   display: flex;

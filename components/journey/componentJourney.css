@@ -84,9 +84,9 @@
   color: var(--text-muted);
 }
 
-.journey__step--planned {
-  opacity: .55;
-}
+/* Planned: dashed dot and muted text. No opacity, so the text keeps AA contrast. */
+.journey__step--planned .journey__body h4,
+.journey__step--planned .journey__body p { color: var(--text-muted); }
 
 .journey__step--planned .journey__dot {
   border-style: dashed;
