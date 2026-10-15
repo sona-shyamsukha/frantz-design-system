@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Stilguide</title>
-<link rel="stylesheet" href="frantz-ds.css?v=54">
+<link rel="stylesheet" href="frantz-ds.css?v=60">
 <link rel="stylesheet" href="styles/docs.css?v=6">
 </head>
 <body class="ds-docs">
@@ -346,11 +346,11 @@
   <div class="ds-sub">
     <div class="ds-sub__title">Skriftvekt</div>
     <div class="token-list">
-      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-light</span><span style="font-size:15px;font-weight:300">300 — liten hjelpetekst</span></div>
-      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-normal</span><span style="font-size:15px;font-weight:400">400 — brødtekst</span></div>
-      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-medium</span><span style="font-size:15px;font-weight:500">500 — nav-lenker</span></div>
-      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-semibold</span><span style="font-size:15px;font-weight:600">600 — knapper, etiketter</span></div>
-      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-bold</span><span style="font-size:15px;font-weight:700">700 — overskrifter</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-light</span><span style="font-size:16px;font-weight:300">300 — liten hjelpetekst</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-normal</span><span style="font-size:16px;font-weight:400">400 — brødtekst</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-medium</span><span style="font-size:16px;font-weight:500">500 — nav-lenker</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-semibold</span><span style="font-size:16px;font-weight:600">600 — knapper, etiketter</span></div>
+      <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--font-weight-bold</span><span style="font-size:16px;font-weight:700">700 — overskrifter</span></div>
     </div>
   </div>
 </section>
@@ -358,17 +358,17 @@
 <section class="ds-section" id="scale">
   <div class="ds-overline">Typografi</div>
   <div class="ds-title">Typeskala</div>
-  <div class="ds-desc">POC-skala. html-base er 16px; --text-base er 15px (0.9375rem).</div>
+  <div class="ds-desc">1rem er 16px. Brødtekst er 16px (--text-base). Sekundærtekst er 14px. 13px og 12px er bare for korte etiketter og tellere.</div>
   <div class="col-head col-head--type"><span>Token</span><span>rem</span><span>px</span></div>
   <div class="type-row"><span class="type-row__token">--text-4xl</span><span class="type-row__rem">3.5rem</span><span class="type-row__px">56</span><span style="font-family:var(--font-heading);font-size:var(--text-4xl);font-weight:700;letter-spacing:var(--tracking-display);color:var(--text-heading);line-height:1">Kampanje</span></div>
   <div class="type-row"><span class="type-row__token">--text-3xl</span><span class="type-row__rem">2.25rem</span><span class="type-row__px">36</span><span style="font-family:var(--font-heading);font-size:var(--text-3xl);font-weight:700;letter-spacing:var(--tracking-display);color:var(--text-heading)">Overskrift 1</span></div>
   <div class="type-row"><span class="type-row__token">--text-2xl</span><span class="type-row__rem">1.625rem</span><span class="type-row__px">26</span><span style="font-family:var(--font-heading);font-size:var(--text-2xl);font-weight:700;letter-spacing:var(--tracking-heading);color:var(--text-heading)">Overskrift 2</span></div>
   <div class="type-row"><span class="type-row__token">--text-xl</span><span class="type-row__rem">1.25rem</span><span class="type-row__px">20</span><span style="font-size:var(--text-xl);font-weight:700;color:var(--text-heading)">Overskrift 3</span></div>
   <div class="type-row"><span class="type-row__token">--text-lg</span><span class="type-row__rem">1.125rem</span><span class="type-row__px">18</span><span style="font-size:var(--text-lg);color:var(--text-body)">Korttittel / lead</span></div>
-  <div class="type-row"><span class="type-row__token">--text-base</span><span class="type-row__rem">0.9375rem</span><span class="type-row__px">15</span><span style="font-size:var(--text-base);color:var(--text-body)">Brødtekst — portalstandard</span></div>
-  <div class="type-row"><span class="type-row__token">--text-sm</span><span class="type-row__rem">0.8125rem</span><span class="type-row__px">13</span><span style="font-size:var(--text-sm);color:var(--text-body)">UI-etiketter, nav</span></div>
-  <div class="type-row"><span class="type-row__token">--text-xs</span><span class="type-row__rem">0.75rem</span><span class="type-row__px">12</span><span style="font-size:var(--text-xs);color:var(--text-muted)">Overlinjer, status, metadata</span></div>
-  <div class="type-row"><span class="type-row__token">--text-2xs</span><span class="type-row__rem">0.6875rem</span><span class="type-row__px">11</span><span style="font-size:var(--text-2xs);color:var(--text-muted)">Tellere og mikroetiketter — aldri brødtekst</span></div>
+  <div class="type-row"><span class="type-row__token">--text-base</span><span class="type-row__rem">1rem</span><span class="type-row__px">16</span><span style="font-size:var(--text-base);color:var(--text-body)">Brødtekst — portalstandard</span></div>
+  <div class="type-row"><span class="type-row__token">--text-sm</span><span class="type-row__rem">0.875rem</span><span class="type-row__px">14</span><span style="font-size:var(--text-sm);color:var(--text-body)">Sekundærtekst: hjelpetekst, tabellceller, nav</span></div>
+  <div class="type-row"><span class="type-row__token">--text-xs</span><span class="type-row__rem">0.8125rem</span><span class="type-row__px">13</span><span style="font-size:var(--text-xs);color:var(--text-muted)">Korte etiketter: overlinjer, status, tabelloverskrifter</span></div>
+  <div class="type-row"><span class="type-row__token">--text-2xs</span><span class="type-row__rem">0.75rem</span><span class="type-row__px">12</span><span style="font-size:var(--text-2xs);color:var(--text-muted)">Tellere og mikroetiketter — aldri brødtekst</span></div>
 </section>
 
 <section class="ds-section" id="leading">
@@ -648,10 +648,11 @@
   <div class="ds-sub">
     <div class="ds-sub__title">Tekststørrelse</div>
     <div class="token-list">
-      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-base</span><span class="token-row__value">15px</span><span class="token-row__desc">Minste størrelse for brødtekst og forklaringer</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-base</span><span class="token-row__value">16px</span><span class="token-row__desc">Brødtekst og forklaringer</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-sm</span><span class="token-row__value">14px</span><span class="token-row__desc">Minste størrelse for tekst folk må lese: hjelpetekst, feilmeldinger, tabellceller</span></div>
       <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-input</span><span class="token-row__value">16px</span><span class="token-row__desc">Tekst i felt. Mindre gjør at iPhone zoomer inn.</span></div>
-      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-xs</span><span class="token-row__value">12px</span><span class="token-row__desc">Minste størrelse for etiketter, status og tabelloverskrifter</span></div>
-      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-2xs</span><span class="token-row__value">11px</span><span class="token-row__desc">Bare tellere, initialer og små merker med ett eller to ord</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-xs</span><span class="token-row__value">13px</span><span class="token-row__desc">Bare korte etiketter, status og tabelloverskrifter. Aldri setninger.</span></div>
+      <div class="token-row" style="grid-template-columns:200px 70px 1fr"><span class="token-row__name">--text-2xs</span><span class="token-row__value">12px</span><span class="token-row__desc">Bare tellere, initialer og små merker med ett eller to ord</span></div>
     </div>
   </div>
   <div class="ds-sub">

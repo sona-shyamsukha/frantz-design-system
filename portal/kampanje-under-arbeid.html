@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Helsefagarbeider Tromsø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=60">
 <style>
   body { margin: 0; }
 </style>
@@ -74,7 +74,7 @@
                 <div class="ad-card__media"><span class="tag tag--overlay">Video · utkast</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Nær folk, hver dag»</div>
-                  <div class="ad-card__channel">Meta</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
                   <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=N%C3%A6r+folk%2C+hver+dag&kanal=Meta&type=Video&id=129072&utkast=1" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a>
                 </div>
               </div>
@@ -82,7 +82,7 @@
                 <div class="ad-card__media"><span class="tag tag--overlay">Bilde · utkast</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Fast stilling i Tromsø»</div>
-                  <div class="ad-card__channel">Meta</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
                   <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Fast+stilling+i+Troms%C3%B8&kanal=Meta&type=Bilde&id=129072&utkast=1" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                 <div class="ad-card__media"><span class="tag tag--overlay">Bilde · utkast</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Bli helsefagarbeider hos oss»</div>
-                  <div class="ad-card__channel">Nettsteder og aviser</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Nettsteder og aviser</div>
                   <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Bli+helsefagarbeider+hos+oss&kanal=Nettsteder+og+aviser&type=Bilde&id=129072&utkast=1" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a>
                 </div>
               </div>
@@ -111,7 +111,7 @@
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Planlagt periode</dt><dd>05.10 – 02.11.2026</dd></dl>
               <dl class="summary-row"><dt>Budsjett</dt><dd>kr 28 000</dd></dl>
-              <dl class="summary-row"><dt>Kanaler</dt><dd>Meta, Nettsteder</dd></dl>
+              <dl class="summary-row"><dt>Kanaler</dt><dd data-vis-kanaler>Meta, Nettsteder</dd></dl>
               <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
             </div>
             <div class="summary-panel__block piksel" id="piksel" data-piksel="129072" data-status="venter"></div>
@@ -125,6 +125,7 @@
   </div>
 </div>
 
+<script src="../components/js/kanaler.js"></script>
 <script src="../components/js/piksel.js"></script>
 <script src="../components/js/interactions.js?v=2"></script>
 <script src="../components/js/konto.js?v=4"></script>

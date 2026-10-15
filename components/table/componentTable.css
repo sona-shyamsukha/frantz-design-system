@@ -4,7 +4,7 @@
 }
 
 .table th {
-  padding: var(--space-12) var(--space-16);
+  padding: var(--space-12);
   border-bottom: 1px solid var(--border-default);
   color: var(--text-muted);
   font-size: var(--text-xs);
@@ -15,7 +15,7 @@
 }
 
 .table td {
-  padding: var(--space-16);
+  padding: var(--space-16) var(--space-12);
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text-body);
   font-size: var(--text-base);
@@ -47,6 +47,28 @@
   margin-top: var(--space-2);
   color: var(--text-muted);
   font-size: var(--text-sm);
+}
+
+/* Text sizes. The same kind of text has the same size in every table and every column.
+   Value (name, date, number, text, empty value): --text-base.
+   Second line under a value (place, e-mail, phone, «brukt»): --text-sm.
+   Status and tags: --text-xs. */
+.table td small {
+  font-size: var(--text-sm);
+}
+
+.table .meter__value {
+  font-size: var(--text-base);
+}
+
+.table .badge,
+.table .tag {
+  font-size: var(--text-xs);
+}
+
+/* Empty value, like «Ikke valgt» or «Ikke startet». Same size as a value, muted colour. */
+.table__tom {
+  color: var(--text-muted);
 }
 
 /* Inset: for a table inside a card with its own padding. The outer columns line up with the card text. */

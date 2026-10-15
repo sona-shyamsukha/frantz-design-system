@@ -19,7 +19,6 @@
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  margin-top: var(--space-2);
   border: 1.5px solid var(--color-ink-200);
   border-radius: var(--radius-6);
   background: var(--surface-raised);
@@ -46,6 +45,8 @@
 .form-check__label {
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
+  /* Centres the first line on the 20px box; longer labels wrap below it */
+  padding-top: calc((20px - 1lh) / 2);
   color: var(--text-body);
 }
 
@@ -53,4 +54,17 @@
   cursor: default;
   opacity: 0.45;
   pointer-events: none;
+}
+
+/* Card variant: a bordered row, for options with a description, a logo or a price */
+.form-check--kort {
+  padding: var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+}
+
+.form-check--kort:has(.form-check__input:checked) {
+  border-color: var(--color-navy);
+  background: var(--tint-navy-4);
 }

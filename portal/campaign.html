@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=60">
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-body); }
@@ -21,14 +21,12 @@
   .forklar summary::-webkit-details-marker { display: none; }
   .forklar p { margin: var(--space-4) 0 0; max-width: 46ch; }
   .prospekt small { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
-  .prospekt td { vertical-align: top; overflow-wrap: break-word; }
+  .prospekt td { vertical-align: top; overflow-wrap: anywhere; }
   .prospekt td[data-label="Registrert"], .prospekt td[data-label="Ønsker"], .prospekt td[data-label="Håndtert"] { overflow-wrap: normal; white-space: nowrap; }
   .prospekt tr.er-handtert td { color: var(--text-faint); }
   .prospekt-teller { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-12); }
   .samtykke { display: grid; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); font-size: var(--text-sm); }
   .samtykke p { margin: 0; color: var(--text-body); }
-  .samtykke .form-check { display: flex; gap: var(--space-8); align-items: flex-start; color: var(--text-heading); }
-  .samtykke .form-check input { width: 18px; height: 18px; margin: var(--space-2) 0 0; flex: none; }
   .samtykke .btn { justify-self: start; }
   .epost { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: end; margin-bottom: var(--space-16); }
   .epost .form-group { flex: 1 1 240px; margin: 0; }
@@ -42,9 +40,7 @@
   [data-samtykke-liste] > .btn { margin-top: var(--space-12); }
   /* Keep this list a table at every width. The design system turns tables into cards below 720 px,
      which does not suit a list people scan and tick off. */
-  .prospekt th, .prospekt td { padding: var(--space-12) var(--space-8); font-size: var(--text-sm); }
-  .prospekt th { font-size: var(--text-xs); }
-  .prospekt td small { font-size: var(--text-xs); }
+  .prospekt th, .prospekt td { padding: var(--space-12) var(--space-8); }
   @container (max-width: 720px) {
     table.prospekt { display: table; width: 100%; min-width: 540px; }
     .prospekt thead { display: table-header-group; }
@@ -149,7 +145,7 @@
             </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-129041" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
             <div class="samtykke" data-samtykke-boks>
               <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
-              <label class="form-check"><input type="checkbox"> <span>Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
+              <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
               <button class="btn btn--primary" type="button" data-vis-liste disabled>Vis listen</button>
             </div>
             <div data-samtykke-liste hidden>
@@ -207,7 +203,7 @@
                 <div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Hverdagshelter på Ullevål»</div>
-                  <div class="ad-card__channel">Meta</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>2 400</b><span>Klikkrate</span><b>4,0 %</b><span>Trykket «Søk»</span><b>180</b></div>
                   <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Hverdagshelter+p%C3%A5+Ullev%C3%A5l&kanal=Meta&type=Video&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Hverdagshelter på Ullevål" aria-label="Last ned «Hverdagshelter på Ullevål»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   <span class="tag tag--outline tag--good">Beste annonse</span>
@@ -217,7 +213,7 @@
                 <div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Fast stilling i Oslo»</div>
-                  <div class="ad-card__channel">Meta</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,4 %</b><span>Trykket «Søk»</span><b>83</b></div>
                   <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Fast+stilling+i+Oslo&kanal=Meta&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Fast stilling i Oslo" aria-label="Last ned «Fast stilling i Oslo»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   
@@ -227,7 +223,7 @@
                 <div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Bli sykepleier hos oss»</div>
-                  <div class="ad-card__channel">Nettsteder og aviser</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Nettsteder og aviser</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>650</b><span>Klikkrate</span><b>1,9 %</b><span>Trykket «Søk»</span><b>49</b></div>
                   <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Bli+sykepleier+hos+oss&kanal=Nettsteder+og+aviser&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Bli sykepleier hos oss" aria-label="Last ned «Bli sykepleier hos oss»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   
@@ -344,7 +340,7 @@
               </div>
               <a class="link link--xs" href="landingsside.html" style="display:inline-flex;align-items:center;gap:var(--space-4);margin-top:var(--space-8)"><span class="icon-lucide icon-lucide--pencil icon-lucide--sm" aria-hidden="true"></span>Rediger kampanjesiden</a>
             </div>
-            <div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09.14"></div>
+            <div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-connect="777689" data-status="aktiv" data-tid="i dag kl. 09.14"></div>
             <div class="summary-panel__block">
               <span class="summary-panel__label">Siden så langt</span>
               <dl class="summary-row"><dt>Besøk på siden</dt><dd>3 480</dd></dl>
@@ -364,6 +360,7 @@
   </div>
 </div>
 
+<script src="../components/js/kanaler.js"></script>
 <script>
 /* Copy and download buttons on this page. The demo only says that it worked. */
 (function () {

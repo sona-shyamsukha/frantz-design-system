@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Barnehagelærer Drammen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=60">
 <style>
   body { margin: 0; }
   .summary-row[hidden] { display: none; }
@@ -82,7 +82,7 @@
             <dl class="summary-row"><dt>Stilling</dt><dd id="d-stilling">Barnehagelærer, 100 % fast</dd></dl>
             <dl class="summary-row" id="r-ref" hidden><dt>Referanse</dt><dd id="d-ref"></dd></dl>
             <dl class="summary-row"><dt>Arbeidssted</dt><dd id="d-sted">Drammen</dd></dl>
-            <dl class="summary-row"><dt>Kanaler</dt><dd id="d-kanaler">Frantz anbefaler</dd></dl>
+            <dl class="summary-row"><dt>Kanaler</dt><dd id="d-kanaler" data-vis-kanaler>Frantz anbefaler</dd></dl>
             <dl class="summary-row"><dt>Faktura til</dt><dd id="d-faktura">Vokser AS</dd></dl>
             <dl class="summary-row"><dt>Materiell</dt><dd id="d-materiell">Frantz lager annonsene</dd></dl>
             <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
@@ -110,6 +110,7 @@
   </div>
 </div>
 
+<script src="../components/js/kanaler.js"></script>
 <script src="../components/js/interactions.js?v=2"></script>
 <script src="../components/js/konto.js?v=4"></script>
 <script>
@@ -126,7 +127,7 @@
   $('b-start').textContent = 'Ønsket start ' + o.start + '.';
   $('d-stilling').textContent = o.stilling || 'Ikke oppgitt';
   $('d-sted').textContent = o.sted || 'Ikke oppgitt';
-  $('d-kanaler').textContent = o.kanaler;
+  FZ_KANALER.tegn($('d-kanaler'), o.kanaler);
   if (o.faktura) $('d-faktura').textContent = o.faktura;
   $('d-materiell').textContent = o.materiell || 'Ikke oppgitt';
   $('d-kommentar').textContent = o.notat || 'Ingen kommentar';

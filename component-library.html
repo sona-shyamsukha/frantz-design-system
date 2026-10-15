@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=54">
+<link rel="stylesheet" href="frantz-ds.css?v=60">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=4">
 <link rel="stylesheet" href="styles/docs.css?v=6">
 </head>
@@ -191,7 +191,7 @@
       <dt>Bruk når</dt><dd>Sider to nivåer ned eller mer, så brukeren ser hvor de er og kan gå tilbake.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke på Hjem eller sider rett under menyen.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('nav')">Portal-nav</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-dashbord.html">Dashbord · Sykepleier Oslo</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-dashbord.html">Dashbord · Sykepleier Oslo</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
     </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hvor du er i portalen. Brukes på kampanjedetalj og dype lister — ikke på Hjem. Siste ledd er nåværende side, ikke en lenke.</p>
@@ -613,13 +613,18 @@
         <li>Checkbox på: navy-lift fyll + hake. Radio på: navy prikk.</li>
         <li>Toggle er 51×27 som i profilhåndboka. Av: navy knot på hvit. På: hvit knot på navy.</li>
         <li>Disabled: 45 % opacity, ingen klikk.</li>
+        <li>Avkrysning når valget lagres med skjemaet. Bryter når endringen skjer med en gang.</li>
+        <li>Bruk alltid komponenten. Ikke lag egne avkrysningsbokser eller brytere, og ikke vis nettleserens egen boks.</li>
+        <li>Markøren (<code>__box</code>, <code>__track</code>) har <code>aria-hidden="true"</code>. Bryteren har <code>role="switch"</code>.</li>
       </ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
         <tbody>
           <tr><td><code>.form-check</code></td><td>Flere kanaler / avkrysning</td></tr>
+          <tr><td><code>.form-check--kort</code></td><td>Avkrysning med beskrivelse, logo eller pris, f.eks. tillegg</td></tr>
           <tr><td><code>.form-radio</code></td><td>Ett valg i en gruppe (<code>name</code>)</td></tr>
           <tr><td><code>.form-toggle</code></td><td>Binær innstilling, f.eks. autopubliser</td></tr>
+          <tr><td><code>.form-toggle--liten</code></td><td>Bryter i tabellrader og tette lister</td></tr>
         </tbody>
       </table>
       <div class="cl-sep"></div>
@@ -644,6 +649,20 @@
           <input class="form-check__input" type="checkbox" checked disabled>
           <span class="form-check__box"></span>
           <span class="form-check__label">Deaktivert på</span>
+        </label>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Checkbox — kort</span>
+      <div class="cl-stack">
+        <label class="form-check form-check--kort">
+          <input class="form-check__input" type="checkbox" checked>
+          <span class="form-check__box" aria-hidden="true"></span>
+          <span class="form-check__label">Tekstproduksjon<br>Frantz skriver annonseteksten og teksten på kampanjesiden.</span>
+        </label>
+        <label class="form-check form-check--kort">
+          <input class="form-check__input" type="checkbox">
+          <span class="form-check__box" aria-hidden="true"></span>
+          <span class="form-check__label">Strategisk rådgivning<br>En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.</span>
         </label>
       </div>
       <div class="cl-sep"></div>
@@ -683,6 +702,11 @@
           <span class="form-toggle__track"></span>
           <span class="form-toggle__label">Deaktivert</span>
         </label>
+        <label class="form-toggle form-toggle--liten">
+          <input class="form-toggle__input" type="checkbox" role="switch" checked>
+          <span class="form-toggle__track" aria-hidden="true"></span>
+          <span class="form-toggle__label">Liten — Håndtert</span>
+        </label>
       </div>
     </div>
     <div class="cl-code">
@@ -695,6 +719,9 @@
   &lt;span class="form-check__label"&gt;Finn.no&lt;/span&gt;
 &lt;/label&gt;
 
+&lt;!-- Kort: legg til form-check--kort --&gt;
+&lt;label class="form-check form-check--kort"&gt;…&lt;/label&gt;
+
 &lt;label class="form-radio"&gt;
   &lt;input class="form-radio__input" type="radio" name="dekning"&gt;
   &lt;span class="form-radio__dot"&gt;&lt;/span&gt;
@@ -702,8 +729,8 @@
 &lt;/label&gt;
 
 &lt;label class="form-toggle"&gt;
-  &lt;input class="form-toggle__input" type="checkbox"&gt;
-  &lt;span class="form-toggle__track"&gt;&lt;/span&gt;
+  &lt;input class="form-toggle__input" type="checkbox" role="switch"&gt;
+  &lt;span class="form-toggle__track" aria-hidden="true"&gt;&lt;/span&gt;
   &lt;span class="form-toggle__label"&gt;Autopubliser&lt;/span&gt;
 &lt;/label&gt;</code></pre>
       </div>
@@ -793,7 +820,7 @@
       <dt>Bruk når</dt><dd>Melding i flyten som brukeren må lese: feil, advarsel, info, bekreftelse.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke for korte forklaringer. Bruk Tooltip.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('tooltip')">Tooltip</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/admin-innboks.html">Innboks</a><a class="cl-used" href="portal/annonse.html">Se annonsen</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/godkjenning.html">Godkjenn kampanjen</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/admin-innboks.html">Innboks</a><a class="cl-used" href="portal/annonse.html">Se annonsen</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/godkjenning.html">Godkjenn kampanjen</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a></dd>
     </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Innholdsbundet melding i flyten — ikke toast. Ikon 20px, 12px radius. <code>.advarsel</code> er POC-alias for feil.</p>
@@ -930,6 +957,8 @@
         <tbody>
           <tr><td><code>.table</code></td><td>Selve tabellen</td></tr>
           <tr><td><code>.table__title</code> / <code>.table__meta</code></td><td>Tittel + undertekst i en celle</td></tr>
+          <tr><td><code>.table__tom</code></td><td>Tom verdi, f.eks. «Ikke valgt». Samme størrelse som en verdi, dempet farge</td></tr>
+          <tr><td>Tekststørrelser</td><td>Verdi: 16px. Linje to under en verdi (<code>.table__meta</code>, <code>small</code>): 14px. Status og tagger: 13px. Lik tekst har lik størrelse i alle tabeller.</td></tr>
           <tr><td><code>.table__empty</code></td><td>Tomt resultat av filter/søk</td></tr>
         </tbody>
       </table>
@@ -1159,7 +1188,7 @@
       <dt>Bruk når</dt><dd>Samle innhold som hører sammen i en flate.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke rundt hele siden eller kort inni kort.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('summary')">Oppsummeringspanel</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/login.html">Logg inn</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/login.html">Logg inn</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
     </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide"><code>card--betjen</code> er arbeidsflate: hvit, ramme, myk skygge. <code>card--les</code> er leseflate: tonet, uten ramme. Statuskort har 20px fargefelt til venstre.</p>
@@ -1841,7 +1870,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <ul class="cl-rules"><li>Alltid kort tekst. Én til tre ord, eller et tall med enhet.</li><li>Tone forteller noe, men teksten må stå alene — aldri bare farge.</li><li><code>.tag--overlay</code> krever en forelder med <code>position: relative</code>.</li></ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
-        <tbody><tr><td><code>.tag</code></td><td>Grunnform: pill, 12px tekst, lys bakgrunn</td></tr><tr><td><code>.tag--raised</code></td><td>Hvit bakgrunn, på toned flate</td></tr><tr><td><code>.tag--outline</code></td><td>Kun kant, tonen styrer fargen</td></tr><tr><td><code>.tag--overlay</code></td><td>Oppå bilde eller video, øverst til venstre</td></tr><tr><td><code>.tag--accent</code></td><td>Amber, for «Ny»</td></tr><tr><td><code>.tag--xs</code></td><td>Mindre: 11px</td></tr><tr><td><code>.tag--muted / --info / --good / --warn</code></td><td>Tone</td></tr><tr><td><code>.tag--success</code></td><td>Fylt grønn, for bekreftelser</td></tr><tr><td><code>.tag--removable</code></td><td>Med fjern-knapp</td></tr></tbody>
+        <tbody><tr><td><code>.tag</code></td><td>Grunnform: pill, 13px tekst, lys bakgrunn</td></tr><tr><td><code>.tag--raised</code></td><td>Hvit bakgrunn, på toned flate</td></tr><tr><td><code>.tag--outline</code></td><td>Kun kant, tonen styrer fargen</td></tr><tr><td><code>.tag--overlay</code></td><td>Oppå bilde eller video, øverst til venstre</td></tr><tr><td><code>.tag--accent</code></td><td>Amber, for «Ny»</td></tr><tr><td><code>.tag--xs</code></td><td>Mindre: 11px</td></tr><tr><td><code>.tag--muted / --info / --good / --warn</code></td><td>Tone</td></tr><tr><td><code>.tag--success</code></td><td>Fylt grønn, for bekreftelser</td></tr><tr><td><code>.tag--removable</code></td><td>Med fjern-knapp</td></tr></tbody>
       </table>
       <div class="cl-sep"></div>
       <span class="cl-variant">Tone</span>
@@ -1922,7 +1951,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <ul class="cl-rules"><li><code>.link</code> har alltid 24px høyt trykkområde, også med liten tekst.</li><li>Bruk <code>.link</code> for navigasjon til siden av innholdet. Bruk <code>.btn</code> for handlinger som endrer noe.</li><li><code>.btn-row--stack</code>: under 640px fyller hver knapp hele raden.</li></ul>
       <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
-        <tbody><tr><td><code>.link</code></td><td>Understreket tekst, 13px, 24px høyt trykkområde</td></tr><tr><td><code>.link--xs</code></td><td>12px</td></tr><tr><td><code>.btn-row</code></td><td>Knapper på rad, 12px mellomrom, bryter linjen</td></tr><tr><td><code>.btn-row--stack</code></td><td>Hver knapp full bredde på mobil</td></tr></tbody>
+        <tbody><tr><td><code>.link</code></td><td>Understreket tekst, 14px, 24px høyt trykkområde</td></tr><tr><td><code>.link--xs</code></td><td>13px</td></tr><tr><td><code>.btn-row</code></td><td>Knapper på rad, 12px mellomrom, bryter linjen</td></tr><tr><td><code>.btn-row--stack</code></td><td>Hver knapp full bredde på mobil</td></tr></tbody>
       </table>
       <div class="cl-sep"></div>
       <span class="cl-variant">Tekstlenke</span>
@@ -2233,7 +2262,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <dt>Bruk når</dt><dd>Detaljsider med hovedinnhold og en smal kolonne med fakta ved siden av.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke på lister og oversikter. Der bruker du hele bredden.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('summary')">Oppsummeringspanel</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj-uten-kampanje.html">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
     </dl>
     <div class="cl-demo">
       <p class="cl-note cl-note--wide">Hovedkolonne og 320px sidekolonne for detaljsider. Under 900px legges sidekolonnen under. Overskrift med handlinger ligger i <code>.detalj__topp</code>.</p>

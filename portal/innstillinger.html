@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<link rel="stylesheet" href="../frantz-ds.css?v=60">
 <style>
   body { margin: 0; }
   .sidefaner { margin-top: var(--space-24); }
@@ -17,7 +17,7 @@
   .panelhode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-16); }
   .panelhode p { margin: 0; color: var(--text-muted); font-size: var(--text-sm); max-width: 60ch; }
   .rad-hoyre { display: flex; align-items: center; gap: var(--space-16); flex-wrap: wrap; }
-  .table-card { padding: 0; overflow: hidden; }
+  .table-card { padding: 0; overflow-x: auto; }
   .bruker { display: flex; align-items: center; gap: var(--space-12); }
   .bruker small { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
   tr.er-inaktiv td { color: var(--text-faint); }
@@ -79,6 +79,27 @@
   .merkefil__navn small { font-size: var(--text-sm); color: var(--text-muted); }
   .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
   @media (max-width: 1180px) { .merke { grid-template-columns: 1fr; } .forhand { position: static; } }
+  .pakke { display: flex; flex-direction: column; gap: var(--space-6); font-size: var(--text-sm); }
+  .pakke__pris { color: var(--text-heading); font-weight: var(--font-weight-bold); font-size: var(--text-lg); }
+  .pakke__navn { color: var(--text-heading); font-size: var(--text-base); }
+  .pakke__linjer { margin: 0; color: var(--text-muted); }
+  .pakke__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); margin-top: auto; padding-top: var(--space-8); color: var(--text-faint); font-size: var(--text-xs); }
+  .logo-rad { display: flex; gap: var(--space-6); }
+  .pakke.er-ny { box-shadow: var(--focus-ring-soft); }
+  /* Same option cards as Ny kampanje: room to breathe, and a logo, a description or a price */
+  .valgliste { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-12); margin: var(--space-6) 0 0; padding: 0; border: 0; }
+  .valgliste--bred { grid-template-columns: 1fr; }
+  .valgliste legend { padding: 0; margin-bottom: var(--space-6); }
+  .valgliste .form-check--kort { align-items: center; }
+  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .valg__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-normal); }
+  .valg__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); line-height: 24px; }
+  .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
+  .valgliste--bred .form-check__box { margin-top: var(--space-2); }
+  .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+  .pakke-felt { margin-top: var(--space-16); }
+  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .feil[hidden] { display: none; }
   @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -122,11 +143,12 @@
 
     <div class="wrap">
       <h1 class="text-h2">Innstillinger</h1>
-      <p class="lede">Brukere, fakturamottakere og hvordan kampanjesidene og annonsene deres ser ut.</p>
+      <p class="lede">Brukere, fakturamottakere, pakker og hvordan kampanjesidene og annonsene deres ser ut.</p>
       <div class="sidefaner" role="tablist" aria-label="Innstillinger">
         <button type="button" class="filter" role="tab" data-fane="brukere" aria-selected="true" aria-pressed="true"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Brukere</button>
         <button type="button" class="filter" role="tab" data-fane="faktura" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--receipt" aria-hidden="true"></span>Fakturamottakere</button>
         <button type="button" class="filter" role="tab" data-fane="merkevare" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span>Merkevare</button>
+        <button type="button" class="filter" role="tab" data-fane="pakker" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Pakker</button>
       </div>
 
       <section class="panel" id="panel-brukere" role="tabpanel" aria-label="Brukere">
@@ -176,6 +198,36 @@
           <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre</button><button class="btn btn--ghost" type="button" data-skjul="ny-faktura">Avbryt</button></div>
         </form>
         <div class="faktura-grid" id="fakturaer"></div>
+      </section>
+
+      <section class="panel" id="panel-pakker" role="tabpanel" aria-label="Pakker" hidden>
+        <div class="panelhode">
+          <p>Pakker er oppsett dere bruker ofte. En pakke fyller ut budsjett, kanaler, periode, materiell og tillegg når dere lager en ny kampanje. Alle i Vokser AS kan bruke dem.</p>
+          <div class="rad-hoyre">
+            <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
+          </div>
+        </div>
+        <form class="card card--betjen skjema" id="ny-pakke" novalidate hidden>
+          <h3 class="card__title" style="margin-bottom:var(--space-12)">Ny pakke</h3>
+          <div class="skjema__rad">
+            <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Sykepleier standard" autocomplete="off"></div>
+            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000"></div>
+            <div class="form-group"><label class="form-label" for="p-uker">Varighet</label><div class="form-select-wrap"><select class="form-select" id="p-uker"><option value="2">2 uker</option><option value="3">3 uker</option><option value="4" selected>4 uker</option><option value="6">6 uker</option></select></div></div>
+          </div>
+          <fieldset class="valgliste pakke-felt" id="p-kanaler">
+            <legend class="form-label">Kanaler</legend>
+          </fieldset>
+          <p class="form-hint" style="margin-top:var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
+          <div class="skjema__rad pakke-felt">
+            <div class="form-group"><label class="form-label" for="p-materiell">Materiell</label><div class="form-select-wrap"><select class="form-select" id="p-materiell"><option value="ferdig">Vi har ferdig materiell</option><option value="hjelp">Frantz lager annonsen</option></select></div></div>
+          </div>
+          <fieldset class="valgliste valgliste--bred pakke-felt" id="p-tillegg">
+            <legend class="form-label">Tillegg</legend>
+          </fieldset>
+          <p class="feil" id="feil-pakke" role="alert" hidden></p>
+          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
+        </form>
+        <div class="faktura-grid" id="pakkeliste"></div>
       </section>
 
       <section class="panel" id="panel-merkevare" role="tabpanel" aria-label="Merkevare" hidden>
@@ -312,6 +364,7 @@
   </div>
 </div>
 
+<script src="data/pakker.js"></script>
 <script>
 var brukere = [
   { navn: 'Sona Shyamsukha', epost: 'ss@vokser.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
@@ -366,10 +419,53 @@ document.getElementById('ny-faktura').addEventListener('submit', function (e) {
   fakturaer.push({ navn: v('f-navn'), org: v('f-org'), adr: v('f-adr'), post: v('f-post'), epost: v('f-epost'), ref: v('f-ref'), aktiv: true });
   this.reset(); this.hidden = true; tegnFaktura();
 });
+// Pakker
+function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function kort(innhold, data) {
+  return '<label class="form-check form-check--kort"><input class="form-check__input" type="checkbox" ' + data + '><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + innhold + '</span></label>';
+}
+function valgTekst(tittel, tekst) { return '<span class="valg__tekst"><b>' + esc(tittel) + '</b><span>' + esc(tekst) + '</span></span>'; }
+document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.KANALER.map(function (k) {
+  return kort('<span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn), 'data-p-kanal="' + esc(k.navn) + '"');
+}).join(''));
+document.getElementById('p-tillegg').insertAdjacentHTML('beforeend', FZ_PAKKER.TILLEGG.map(function (t) {
+  return kort(valgTekst(t.navn, t.tekst) + '<span class="valg__pris">' + (t.pris ? '+ ' + kr(t.pris) : 'Gratis') + '</span>', 'data-p-tillegg="' + esc(t.navn) + '"');
+}).join('') + kort(valgTekst('Vis «Meld interesse»-knapp i annonsen', 'Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.'), 'id="p-meld"'));
+var nyPakke = '';
+function tegnPakker() {
+  document.getElementById('pakkeliste').innerHTML = FZ_PAKKER.alle().map(function (p) {
+    return '<div class="card card--betjen pakke' + (p.navn === nyPakke ? ' er-ny' : '') + '"><span class="pakke__pris">' + kr(FZ_PAKKER.pris(p)) + '</span><b class="pakke__navn">' + esc(p.navn) + '</b>' +
+      '<p class="pakke__linjer">' + esc(FZ_PAKKER.linjer(p).join(' · ')) + '</p>' +
+      '<div class="pakke__bunn"><span class="logo-rad" aria-hidden="true">' + FZ_PAKKER.logoer(p) + '</span><span>' + (p.brukt ? 'Brukt ' + p.brukt + ' ganger' : 'Ny') + '</span></div></div>';
+  }).join('');
+}
+document.getElementById('ny-pakke').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var skjema = this, feil = document.getElementById('feil-pakke');
+  var valgt = function (attr) { return Array.prototype.map.call(skjema.querySelectorAll('[' + attr + ']:checked'), function (i) { return i.getAttribute(attr); }); };
+  var kanaler = valgt('data-p-kanal');
+  var p = {
+    navn: document.getElementById('p-navn').value.trim(),
+    budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
+    kanaler: kanaler.length ? kanaler : null,
+    uker: Number(document.getElementById('p-uker').value),
+    materiell: document.getElementById('p-materiell').value,
+    tillegg: valgt('data-p-tillegg'),
+    meld: document.getElementById('p-meld').checked,
+    brukt: 0
+  };
+  var galt = FZ_PAKKER.leggTil(p);
+  if (galt) { feil.textContent = galt; feil.hidden = false; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
+  feil.hidden = true; nyPakke = p.navn;
+  this.reset(); this.hidden = true; tegnPakker();
+});
+document.querySelector('[data-skjul="ny-pakke"]').addEventListener('click', function () { document.getElementById('feil-pakke').hidden = true; });
+
 function visFane(navn, oppdaterUrl) {
-  if (['brukere', 'faktura', 'merkevare'].indexOf(navn) === -1) navn = 'brukere';
+  if (['brukere', 'faktura', 'merkevare', 'pakker'].indexOf(navn) === -1) navn = 'brukere';
   document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.setAttribute('aria-pressed', på); });
-  ['brukere', 'faktura', 'merkevare'].forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
+  ['brukere', 'faktura', 'merkevare', 'pakker'].forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
   if (oppdaterUrl) history.replaceState(null, '', '#' + navn);
 }
 // Merkevare
@@ -441,7 +537,7 @@ document.getElementById('merke-fil').addEventListener('change', function () {
   });
 });
 tegnBanner(); tegnProver();
-tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
+tegnBrukere(); tegnFaktura(); tegnPakker(); visFane(location.hash.slice(1), false);
 </script>
 <script src="../components/js/interactions.js?v=2"></script>
 <script src="../components/js/konto.js?v=4"></script>
