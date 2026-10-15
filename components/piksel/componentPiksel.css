@@ -1,0 +1,48 @@
+/* Tracking code (piksel): one block inside «Om kampanjen», the same on every campaign page.
+   piksel.js fills it from data-piksel (campaign ID), data-status and data-tid. */
+.piksel__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-8);
+  color: var(--text-body);
+  font-size: var(--text-sm);
+}
+
+.piksel__prikk {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-amber);
+}
+
+.piksel--aktiv .piksel__prikk { background: var(--color-green); }
+.piksel--avsluttet .piksel__prikk { background: var(--text-faint); }
+
+.piksel__kode {
+  display: block;
+  margin: 0;
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-8);
+  background: var(--surface-subtle);
+  color: var(--text-body);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.piksel__knapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8) var(--space-16);
+  margin-top: var(--space-8);
+}
+
+.piksel__hjelp {
+  margin: var(--space-8) 0 0;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Barnehagelærer Drammen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=45">
+<link rel="stylesheet" href="../frantz-ds.css?v=48">
 <style>
   body { margin: 0; }
   .summary-row[hidden] { display: none; }
@@ -73,15 +73,17 @@
         <div class="flow">
           <div class="card card--betjen">
             <div class="card__head"><div><h3 class="card__title">Hva skjer nå?</h3>
-            <p class="card__hint">Du trenger ikke gjøre noe. Svar på e-posten fra Frantz hvis du vil endre noe.</p></div></div>
-            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><b>Bestillingen er mottatt</b><small id="b-tid">I dag kl. 09:12.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Frantz lager annonsene og målrettingen</b><small>Tar vanligvis 2–3 arbeidsdager.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Du ser annonsene før de publiseres</b><small>Du godkjenner, eller ber om endringer.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Kampanjen starter</b><small id="b-start">Ønsket start 07.10.2026.</small></div></li></ul>
+            <p class="card__hint">Du har én ting å gjøre: legg sporingskoden på stillingssiden. Resten gjør Frantz. Svar på e-posten fra Frantz hvis du vil endre noe.</p></div></div>
+            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><b>Bestillingen er mottatt</b><small id="b-tid">I dag kl. 09:12.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Du legger sporingskoden på stillingssiden</b><small><a class="link link--xs" href="#piksel">Se koden</a> i «Om kampanjen». Gjør det før kampanjen starter.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Frantz lager annonsene og målrettingen</b><small>Tar vanligvis 2–3 arbeidsdager.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Du ser annonsene før de publiseres</b><small>Du godkjenner, eller ber om endringer.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Kampanjen starter</b><small id="b-start">Ønsket start 07.10.2026.</small></div></li></ul>
           </div>
           <div class="card card--les">
             <div class="card__head"><h3 class="card__title">Bestillingen</h3></div>
+            <dl class="summary-row" id="r-pakke" hidden><dt>Pakke</dt><dd id="d-pakke"></dd></dl>
             <dl class="summary-row"><dt>Stilling</dt><dd id="d-stilling">Barnehagelærer, 100 % fast</dd></dl>
             <dl class="summary-row" id="r-ref" hidden><dt>Referanse</dt><dd id="d-ref"></dd></dl>
             <dl class="summary-row"><dt>Arbeidssted</dt><dd id="d-sted">Drammen</dd></dl>
             <dl class="summary-row"><dt>Kanaler</dt><dd id="d-kanaler">Frantz anbefaler</dd></dl>
+            <dl class="summary-row"><dt>Faktura til</dt><dd id="d-faktura">Vokser AS</dd></dl>
             <dl class="summary-row"><dt>Materiell</dt><dd id="d-materiell">Frantz lager annonsene</dd></dl>
             <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
             <dl class="summary-row"><dt>Kommentar</dt><dd id="d-kommentar">Bruk gjerne bilder fra uteområdet.</dd></dl>
@@ -96,6 +98,7 @@
               <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
               <dl class="summary-row"><dt>Bestilt</dt><dd id="d-bestilt">I dag kl. 09:12</dd></dl>
             </div>
+            <div class="summary-panel__block piksel" id="piksel" data-piksel="129078" data-status="venter"></div>
             <div class="summary-panel__cta">
               <button class="btn btn--primary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
               <a class="btn btn--secondary" href="epost-visning.html"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Se e-posttråden</a>
@@ -108,7 +111,7 @@
 </div>
 
 <script src="../components/js/interactions.js?v=2"></script>
-<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/konto.js?v=3"></script>
 <script>
 // Coming from «Bestill kampanjen»: show the order that was just placed. Otherwise the page keeps its example content.
 (function () {
@@ -124,15 +127,18 @@
   $('d-stilling').textContent = o.stilling || 'Ikke oppgitt';
   $('d-sted').textContent = o.sted || 'Ikke oppgitt';
   $('d-kanaler').textContent = o.kanaler;
+  if (o.faktura) $('d-faktura').textContent = o.faktura;
   $('d-materiell').textContent = o.materiell || 'Ikke oppgitt';
   $('d-kommentar').textContent = o.notat || 'Ingen kommentar';
   $('d-periode').textContent = String(o.periode).split(' · ')[0]; // dates only, also for an order saved before this rule
   $('d-budsjett').textContent = kr(o.budsjett + (o.tilleggSum || 0));
   $('d-bestilt').textContent = 'I dag kl. ' + o.tid;
+  if (o.pakke) { $('r-pakke').hidden = false; $('d-pakke').textContent = o.pakke; }
   if (o.ref) { $('r-ref').hidden = false; $('d-ref').textContent = o.ref; }
   if (o.tillegg && o.tillegg.length) { $('r-tillegg').hidden = false; $('d-tillegg').textContent = o.tillegg.join(', '); }
 })();
 </script>
+<script src="../components/js/piksel.js"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=5"></script>
 </body>

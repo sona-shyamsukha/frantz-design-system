@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=45">
+<link rel="stylesheet" href="frantz-ds.css?v=48">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=2">
 <link rel="stylesheet" href="styles/docs.css?v=3">
 </head>
@@ -22,6 +22,7 @@
     <a href="./style-guide.html">Stilguide</a>
     <a href="./component-library.html" class="active">Komponentbibliotek</a>
     <a href="./portal-redesign.html">Portal redesign</a>
+    <a href="./losninger.html">Løsninger</a>
   </nav>
   <span></span>
 </header>
@@ -58,12 +59,14 @@
   <div class="cl-tab-group">Innhold</div>
   <button class="cl-tab" type="button" onclick="showTab('card', this)">Kort</button>
   <button class="cl-tab" type="button" onclick="showTab('kpi', this)">KPI</button>
+  <button class="cl-tab" type="button" onclick="showTab('piksel', this)">Sporingskode</button>
   <button class="cl-tab" type="button" onclick="showTab('summary', this)">Oppsummeringspanel</button>
   <button class="cl-tab" type="button" onclick="showTab('quote', this)">Sitat</button>
   <button class="cl-tab" type="button" onclick="showTab('metric', this)">Nøkkeltall</button>
   <button class="cl-tab" type="button" onclick="showTab('adcard', this)">Annonsekort</button>
   <button class="cl-tab" type="button" onclick="showTab('checklist', this)">Sjekkliste</button>
   <button class="cl-tab" type="button" onclick="showTab('journey', this)">Hendelsesforløp</button>
+  <button class="cl-tab" type="button" onclick="showTab('tour', this)">Omvisning</button>
 
   <div class="cl-tab-group">Data</div>
   <button class="cl-tab" type="button" onclick="showTab('funnel', this)">Trakt</button>
@@ -2131,6 +2134,92 @@ tegnTrakt(document.getElementById('trakt'), {
 </div>
 
 
+<div class="cl-panel" id="panel-tour">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Omvisning</h2>
+      <span class="cl-component-class">.tour · tour.js</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Små vinduer som peker på deler av siden, ett om gangen. For nye brukere på Hjem: starter selv første gang, og fra «Vis meg rundt» når som helst. Ringen holder målet synlig og dimmer resten.</p>
+      <ul class="cl-rules">
+        <li>Høyst 6 steg. Én kort setning eller to per steg, vanlige ord.</li>
+        <li>Tittelen er det som står på skjermen, så brukeren kjenner det igjen.</li>
+        <li>Vises ikke målet (menyen på mobil), står vinduet midt på uten ring. <code>hvisSkjult: 'hopp'</code> tar bort steget.</li>
+        <li>Esc lukker. Piltaster og Enter blar. Fokus går inn i vinduet og tilbake til knappen som startet.</li>
+        <li>Under 640px legger vinduet seg i full bredde nederst.</li>
+        <li>Starter bare av seg selv der siden kaller <code>FrantzTour.registrer(steg, { auto: true })</code>. Husket i <code>localStorage</code> («fzTurSett»).</li>
+      </ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.tour-lag</code></td><td>Fanger klikk. <code>--dim</code> dimmer hele siden når det ikke er noe mål</td></tr><tr><td><code>.tour-ring</code></td><td>Ring rundt målet, dimmer resten (<code>--scrim</code>)</td></tr><tr><td><code>.tour</code></td><td>Vinduet, 12px radius, <code>role="dialog"</code></td></tr><tr><td><code>.tour--midt</code></td><td>Midt på skjermen, uten mål</td></tr><tr><td><code>.tour--topp</code></td><td>Mobil: øverst når målet står nederst</td></tr><tr><td><code>.tour__steg</code></td><td>«2 av 6»</td></tr><tr><td><code>.tour__tittel</code></td><td>Overskrift</td></tr><tr><td><code>.tour__tekst</code></td><td>Forklaring</td></tr><tr><td><code>.tour__handlinger</code></td><td>Hopp over, Tilbake, Neste / Ferdig</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Demo</span>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-16)">
+        <button class="btn btn--accent" id="cl-tur-mal-1" type="button"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+        <button class="topbar__knapp" id="cl-tur-mal-2" type="button" aria-label="Varsler"><span class="icon-lucide icon-lucide--bell" aria-hidden="true"></span></button>
+        <button class="btn btn--primary" type="button" onclick="FrantzTour.start([
+          { mal: '#cl-tur-mal-1', tittel: 'Start en kampanje', tekst: 'Start her. Lim inn en lenke til stillingen, så fyller Frantz ut resten.' },
+          { mal: '#cl-tur-mal-2', tittel: 'Varsler', tekst: 'Varsler om nye interessenter og svar fra Frantz.' }
+        ])"><span class="icon-lucide icon-lucide--play" aria-hidden="true"></span>Start demo</button>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;button type="button" class="link" onclick="FrantzTour.start()"&gt;Vis meg rundt&lt;/button&gt;
+
+&lt;script src="components/js/tour.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+FrantzTour.registrer([
+  { mal: '.hero .btn--accent', tittel: 'Start en kampanje', tekst: 'Start her. ...' },
+  { mal: '.rail .nav__item[href="campaigns.html"]', tittel: 'Kampanjer', tekst: '...',
+    hvisSkjult: 'Du finner Kampanjer i menyen øverst til høyre.' },
+  { mal: '.topbar .topbar__knapp', tittel: 'Varsler', tekst: '...', hvisSkjult: 'hopp' }
+], { auto: true }); // auto: starter selv første gang
+&lt;/script&gt;
+
+// Vis omvisningen igjen ved neste besøk:
+FrantzTour.nullstill();</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cl-panel" id="panel-piksel">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Sporingskode (piksel)</h2>
+      <span class="cl-component-class">.piksel · piksel.js</span>
+    </div>
+    <div class="cl-demo">
+      <p class="cl-note cl-note--wide">Koden kunden legger på stillingssiden, så Frantz kan måle «Søk». Samme blokk og samme plass på alle kampanjesider: i «Om kampanjen», rett under fakta og kampanjesiden. <code>piksel.js</code> fyller blokken.</p>
+      <ul class="cl-rules"><li>Vises fra kampanjen er bestilt.</li><li><code>data-status</code>: <code>venter</code> (bestilt, under arbeid), <code>aktiv</code>, <code>avsluttet</code>.</li><li><code>data-tid</code>: sist målt, eller dagen målingen stoppet.</li><li>ID-en er den samme som kampanje-ID-en.</li></ul>
+      <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody><tr><td><code>.piksel</code></td><td>Blokken i <code>.summary-panel</code></td></tr><tr><td><code>.piksel--venter / --aktiv / --avsluttet</code></td><td>Farge på prikken: gul, grønn, grå</td></tr><tr><td><code>.piksel__kode</code></td><td>Koden, monospace</td></tr><tr><td><code>.piksel__knapper</code></td><td>«Kopier koden» og «Send på e-post»</td></tr></tbody>
+      </table>
+      <div class="cl-sep"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-16)">
+        <div><span class="cl-variant">Venter</span><div class="summary-panel" style="position:static"><div class="summary-panel__block piksel" data-piksel="129078" data-status="venter"></div></div></div>
+        <div><span class="cl-variant">Aktiv</span><div class="summary-panel" style="position:static"><div class="summary-panel__block piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09:14"></div></div></div>
+        <div><span class="cl-variant">Avsluttet</span><div class="summary-panel" style="position:static"><div class="summary-panel__block piksel" data-piksel="128984" data-status="avsluttet" data-tid="30.07.2026"></div></div></div>
+      </div>
+    </div>
+    <div class="cl-code">
+      <button class="cl-code-toggle" type="button" onclick="toggleCode(this)" aria-expanded="false"><span>Kode</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 8L1 3h10L6 8z"/></svg></button>
+      <div class="cl-code-body">
+        <div class="cl-code-bar"><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+        <pre class="cl-code-pre"><code>&lt;div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09:14"&gt;&lt;/div&gt;
+&lt;script src="components/js/piksel.js"&gt;&lt;/script&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="cl-panel" id="panel-adpreview">
   <div class="cl-component">
     <div class="cl-component-header">
@@ -2214,6 +2303,8 @@ tegnTrakt(document.getElementById('cl-trakt'), {
   ]
 });
 </script>
+<script src="components/js/piksel.js"></script>
+<script src="components/js/tour.js"></script>
 <script src="components/js/interactions.js" defer></script>
 </body>
 </html>

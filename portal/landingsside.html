@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Rediger kampanjesiden — Sykepleier Oslo — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=48">
+<style>
+  body { margin: 0; }
+
+  /* Status øverst: merke og «Lagret kl.» (samme som .lagret i ny-kampanje.html) */
+  .lp-status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
+  .lagret { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
+  .lagret[hidden] { display: none; }
+  .lagret .icon-lucide { color: var(--color-green); }
+  .lp-hint { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); margin-top: var(--space-12); color: var(--text-muted); font-size: var(--text-sm); }
+  .lp-hint .link { font-size: var(--text-sm); white-space: normal; }
+  .lp-tilvis { display: none; margin-top: var(--space-12); }
+
+  /* To kolonner: skjema og forhåndsvisning. Bredere forhåndsvisning i PC-visning. */
+  .lp-cols { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .lp-cols.er-pc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+  /* Skjemaet. Hele skjemaet er ett fieldset, så det kan låses mens Frantz ser på endringene. */
+  .lp-skjema { display: flex; flex-direction: column; gap: var(--space-24); min-width: 0; margin: 0; padding: 0; border: 0; }
+  .lp-skjema:disabled .form-input,
+  .lp-skjema:disabled .form-textarea { opacity: 1; color: var(--text-body); background: var(--surface-subtle); }
+  .lp-felter { display: grid; gap: var(--space-16); margin-top: var(--space-16); }
+  .lp-rad { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-16); }
+  .lp-dato { max-width: 320px; }
+  .valgfri { color: var(--text-muted); font-weight: var(--font-weight-normal); }
+
+  /* Hovedbilde: velg fra mediebiblioteket eller last opp */
+  .bildevalg { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: var(--space-12); margin-top: var(--space-16); }
+  .bildevalg__valg { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); overflow: hidden; text-align: left; cursor: pointer; }
+  .bildevalg__valg:hover { border-color: var(--border-strong); }
+  .bildevalg__valg[aria-pressed="true"] { border-color: var(--color-navy); box-shadow: 0 0 0 2px var(--color-navy); }
+  .bildevalg__valg[aria-pressed="true"]:focus-visible { box-shadow: 0 0 0 2px var(--color-navy), var(--focus-ring); }
+  .bildevalg__bilde { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; color: var(--color-white); background-position: center; background-size: cover; background-repeat: no-repeat; }
+  .bildevalg__hake { position: absolute; top: var(--space-6); right: var(--space-6); display: none; place-items: center; width: 22px; height: 22px; border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); }
+  .bildevalg__valg[aria-pressed="true"] .bildevalg__hake { display: grid; }
+  .bildevalg__navn { padding: var(--space-6) var(--space-8); color: var(--text-heading); font-size: var(--text-xs); line-height: var(--leading-snug); overflow-wrap: anywhere; }
+  .bildevalg__opp { display: grid; place-items: center; align-content: center; gap: var(--space-6); min-height: 104px; padding: var(--space-12); border: 2px dashed var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); text-align: center; cursor: pointer; }
+  .bildevalg__opp:hover { border-color: var(--color-navy); color: var(--text-heading); }
+  .lp-skjema:disabled .bildevalg__valg,
+  .lp-skjema:disabled .bildevalg__opp { cursor: default; }
+  .lp-skjema:disabled .bildevalg__opp { opacity: .5; }
+
+  /* Hvorfor jobbe hos oss: inntil 4 punkter */
+  .punkter { display: grid; gap: var(--space-8); margin-top: var(--space-16); }
+  .punkt { display: flex; align-items: center; gap: var(--space-8); }
+  .punkt__nr { flex: none; width: var(--space-20); color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); text-align: center; }
+  .punkt .form-input { flex: 1 1 auto; min-width: 0; }
+  .punkt .btn { flex: none; padding: var(--space-12); }
+  .punkter__fot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-12); }
+  .punkter__fot .form-hint { margin: 0; }
+  .punkter__fot .btn[hidden] { display: none; }
+
+  /* Høyre kolonne: forhåndsvisning og knapper */
+  .lp-side { position: sticky; top: var(--space-24); display: grid; gap: var(--space-12); min-width: 0; }
+  .lp-side__topp { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8); }
+  .lp-side__tittel { font-size: var(--text-lg); }
+  .lp-ramme { min-width: 0; border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); overflow: hidden; }
+  .lp-ramme__adresse { display: flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border-default); background: var(--surface-raised); color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); overflow-wrap: anywhere; }
+  .lp-ramme__adresse::before { content: ""; flex: none; width: 8px; height: 8px; margin-right: var(--space-24); border-radius: var(--radius-full); background: var(--border-strong); box-shadow: 12px 0 0 var(--border-strong), 24px 0 0 var(--border-strong); }
+  .lp-ramme__vindu { max-height: max(320px, calc(100vh - 360px)); padding: var(--space-16); overflow: auto; }
+  .lp-ramme__vindu:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
+  .lp-ramme--pc .lp-ramme__vindu { padding: 0; }
+  .lp-ramme--mobil .lp { max-width: 375px; margin-inline: auto; border: 1px solid var(--border-strong); border-radius: var(--radius-16); overflow: hidden; box-shadow: var(--shadow-subtle); }
+
+  /* Kampanjesiden slik kandidatene ser den. Fargene er standardverdiene fra Innstillinger > Merkevare. */
+  .lp {
+    --lp-bakgrunn: var(--color-white);
+    --lp-faktaboks: var(--color-data-100);
+    --lp-knapp: var(--color-navy);
+    --lp-knapptekst: var(--color-white);
+    --lp-tekst: var(--color-text);
+    --lp-tittel: var(--color-navy);
+    container-type: inline-size;
+    background: var(--lp-bakgrunn);
+    color: var(--lp-tekst);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    overflow-wrap: anywhere;
+  }
+  .lp [hidden] { display: none; }
+  .lp__topp { display: flex; align-items: center; padding: var(--space-12) var(--space-16); border-bottom: 1px solid var(--border-subtle); }
+  .lp__logo { color: var(--lp-tittel); font-family: var(--font-display); font-size: var(--text-xl); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-display); }
+  .lp__bilde { display: grid; place-items: center; aspect-ratio: 4 / 3; color: var(--color-white); background-position: center; background-size: cover; background-repeat: no-repeat; }
+  .lp__innhold { display: grid; grid-template-areas: "tittel" "ingress" "fakta" "punkter" "kontakt"; gap: var(--space-16); padding: var(--space-20) var(--space-16) var(--space-24); }
+  .lp__tittel { grid-area: tittel; margin: 0; color: var(--lp-tittel); font-family: var(--font-display); font-size: var(--text-2xl); font-weight: var(--font-weight-bold); line-height: var(--leading-tight); letter-spacing: var(--tracking-heading); }
+  .lp__ingress { grid-area: ingress; margin: 0; font-size: var(--text-lg); line-height: var(--leading-snug); }
+  .lp__fakta { grid-area: fakta; display: grid; gap: var(--space-12); align-self: start; padding: var(--space-16); border-radius: var(--radius-12); background: var(--lp-faktaboks); }
+  .lp__fakta dl { display: grid; gap: var(--space-8); margin: 0; }
+  .lp__fakta dl div { display: grid; gap: var(--space-2); font-size: var(--text-sm); }
+  .lp__fakta dt { margin: 0; color: var(--text-muted); font-size: var(--text-xs); font-weight: var(--font-weight-semibold); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .lp__fakta dd { margin: 0; color: var(--lp-tittel); font-weight: var(--font-weight-semibold); }
+  .lp__sok { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: var(--space-12) var(--space-24); border-radius: var(--radius-full); background: var(--lp-knapp); color: var(--lp-knapptekst); font-weight: var(--font-weight-bold); line-height: var(--leading-tight); text-align: center; }
+  .lp__lenke { margin: 0; color: var(--text-muted); font-size: var(--text-xs); text-align: center; }
+  .lp__punktblokk { grid-area: punkter; }
+  .lp__under { margin: 0 0 var(--space-8); color: var(--lp-tittel); font-family: var(--font-display); font-size: var(--text-lg); font-weight: var(--font-weight-bold); }
+  .lp__punkter { display: grid; gap: var(--space-8); margin: 0; padding: 0; }
+  .lp__punkter li { position: relative; padding-left: var(--space-20); }
+  .lp__punkter li::before { content: ""; position: absolute; top: .6em; left: 0; width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--lp-knapp); }
+  .lp__kontakt { grid-area: kontakt; margin: 0; padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); font-size: var(--text-sm); }
+  .lp__kontakt b { display: block; color: var(--lp-tittel); font-size: var(--text-base); }
+  .lp__etikett { display: block; color: var(--text-muted); font-size: var(--text-xs); font-weight: var(--font-weight-semibold); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .lp__bunn { padding: var(--space-12) var(--space-16); border-top: 1px solid var(--border-subtle); color: var(--text-muted); font-size: var(--text-xs); text-align: center; }
+  @container (min-width: 520px) {
+    .lp__bilde { aspect-ratio: 16 / 6; }
+    .lp__innhold { grid-template-columns: minmax(0, 1fr) minmax(180px, 220px); grid-template-areas: "tittel fakta" "ingress fakta" "punkter kontakt"; align-items: start; column-gap: var(--space-32); padding: var(--space-32); }
+    .lp__tittel { font-size: var(--text-3xl); }
+  }
+
+  /* Knapper og meldinger under forhåndsvisningen */
+  .lp-handlinger { display: grid; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
+  .lp-handlinger[hidden], .lp-laast[hidden] { display: none; }
+  .lp-handlinger .btn-row > .btn { flex: 1 1 auto; }
+  .lp-handlinger__hint { margin: 0; color: var(--text-muted); font-size: var(--text-xs); }
+  .lp-notis { margin: 0; color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .lp-notis:empty { margin-top: calc(var(--space-12) * -1); }
+  .lp-bekreft .btn-row { margin-top: var(--space-12); }
+  .lp-laast { display: grid; gap: var(--space-8); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); color: var(--text-body); font-size: var(--text-sm); }
+  .lp-laast p { margin: 0; }
+  .lp-laast .link { justify-self: start; }
+
+  @media (max-width: 900px) {
+    .lp-cols, .lp-cols.er-pc { grid-template-columns: minmax(0, 1fr); }
+    .lp-side { position: static; }
+    .lp-ramme__vindu { max-height: none; }
+    .lp-tilvis { display: inline-flex; }
+  }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Sti">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
+          <li class="breadcrumb__item"><a href="campaign.html">Sykepleier Oslo</a></li>
+          <li class="breadcrumb__item"><span aria-current="page">Kampanjeside</span></li>
+        </ol>
+      </nav>
+
+      <div class="detalj__topp">
+        <h1 class="text-h2">Rediger kampanjesiden</h1>
+        <div class="lp-status" role="status" aria-live="polite">
+          <span class="badge badge--active" id="status-merke">Publisert versjon</span>
+          <span class="lagret" id="lagret" hidden><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst"></span></span>
+        </div>
+      </div>
+      <p class="lede">Endre tekst og bilder på frantz.no/k/129041. Send endringene til Frantz når du er fornøyd. Den publiserte siden er uendret til Frantz har godkjent.</p>
+      <p class="lp-hint"><span class="icon-lucide icon-lucide--palette icon-lucide--sm" aria-hidden="true"></span>Logo, farger og skrift gjelder alle nye kampanjer. Dem endrer du i <a class="link" href="innstillinger.html#merkevare">Innstillinger › Merkevare</a>.</p>
+      <a class="link lp-tilvis" href="#forhandsvisning">Gå til forhåndsvisningen</a>
+
+      <div class="alert alert--success status-alert" id="sendt" tabindex="-1" hidden>
+        <span class="alert__icon icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>
+        <div class="alert__content">
+          <b>Sendt til Frantz.</b>
+          <div class="alert__body">Martin Karlsen svarer innen 1 arbeidsdag. Den publiserte siden er uendret til da.</div>
+          <button class="link" type="button" data-trekk>Trekk tilbake</button>
+        </div>
+      </div>
+
+      <div class="cols lp-cols" id="kolonner">
+        <form id="skjema" novalidate>
+          <fieldset class="lp-skjema" id="felter">
+            <legend class="chat__sr">Innhold på kampanjesiden</legend>
+
+            <section class="card card--betjen" aria-labelledby="t-tekst">
+              <h2 class="card__title" id="t-tekst">Tekst</h2>
+              <p class="card__hint">Det første kandidatene leser. Hold det kort.</p>
+              <div class="lp-felter">
+                <div class="form-group">
+                  <label class="form-label" for="overskrift">Overskrift</label>
+                  <input class="form-input" id="overskrift" name="overskrift" maxlength="80" aria-describedby="overskrift-hint">
+                  <span class="form-hint" id="overskrift-hint">Maks 80 tegn.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ingress">Ingress</label>
+                  <textarea class="form-textarea" id="ingress" name="ingress" rows="4" maxlength="300" aria-describedby="ingress-hint"></textarea>
+                  <span class="form-hint" id="ingress-hint">2 til 3 setninger om stillingen. Maks 300 tegn.</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="card card--betjen" aria-labelledby="t-bilde">
+              <h2 class="card__title" id="t-bilde">Hovedbilde</h2>
+              <p class="card__hint">Velg et bilde fra mediebiblioteket, eller last opp et nytt.</p>
+              <div class="bildevalg" id="bildevalg" role="group" aria-labelledby="t-bilde"></div>
+              <input type="file" id="bildefil" accept="image/png,image/jpeg,image/webp" aria-label="Velg bilde" hidden>
+              <p class="form-hint" style="margin-top:var(--space-8)">JPG eller PNG, minst 1200 px bred. Nye bilder lagres også i mediebiblioteket.</p>
+            </section>
+
+            <section class="card card--betjen" aria-labelledby="t-fakta">
+              <h2 class="card__title" id="t-fakta">Fakta</h2>
+              <p class="card__hint">Vises i faktaboksen ved søkeknappen.</p>
+              <div class="lp-felter">
+                <div class="lp-rad">
+                <div class="form-group">
+                  <label class="form-label" for="sted">Arbeidssted</label>
+                  <input class="form-input" id="sted" name="sted" maxlength="60">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="prosent">Stillingsprosent</label>
+                  <input class="form-input" id="prosent" name="prosent" maxlength="40">
+                </div>
+                </div>
+                <div class="form-group datepicker lp-dato" data-datepicker id="frist-velger">
+                  <label class="form-label" for="frist">Søknadsfrist</label>
+                  <div class="datepicker__control">
+                    <input class="form-input datepicker__input" id="frist" name="frist" type="text" placeholder="dd.mm.åååå" autocomplete="off">
+                    <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="card card--betjen" aria-labelledby="t-punkter">
+              <h2 class="card__title" id="t-punkter">Hvorfor jobbe hos oss</h2>
+              <p class="card__hint">Korte punkter. Det viktigste først.</p>
+              <div class="punkter" id="punkter" role="group" aria-labelledby="t-punkter"></div>
+              <div class="punkter__fot">
+                <button class="btn btn--secondary btn--sm" type="button" id="legg-til"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Legg til punkt</button>
+                <p class="form-hint" id="punkter-hint">Opptil 4 punkter.</p>
+              </div>
+            </section>
+
+            <section class="card card--betjen" aria-labelledby="t-kontakt">
+              <h2 class="card__title" id="t-kontakt">Kontaktperson</h2>
+              <p class="card__hint">Den kandidatene kan ringe med spørsmål.</p>
+              <div class="lp-felter lp-rad">
+                <div class="form-group">
+                  <label class="form-label" for="kontakt">Navn</label>
+                  <input class="form-input" id="kontakt" name="kontakt" autocomplete="off" maxlength="60">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="telefon">Telefon</label>
+                  <input class="form-input" id="telefon" name="telefon" type="tel" inputmode="tel" autocomplete="off" maxlength="20">
+                </div>
+              </div>
+            </section>
+
+            <section class="card card--betjen" aria-labelledby="t-sok">
+              <h2 class="card__title" id="t-sok">Søkeknapp</h2>
+              <p class="card__hint">Knappen sender kandidatene til søknadsskjemaet deres.</p>
+              <div class="lp-felter">
+                <div class="form-group">
+                  <label class="form-label" for="knapp">Tekst på knappen</label>
+                  <input class="form-input" id="knapp" name="knapp" maxlength="30" aria-describedby="knapp-hint">
+                  <span class="form-hint" id="knapp-hint">Maks 30 tegn. Start gjerne med et verb.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="lenke">Lenke til søknaden</label>
+                  <input class="form-input" id="lenke" name="lenke" type="url" inputmode="url" autocomplete="off" aria-describedby="lenke-hint">
+                  <span class="form-hint" id="lenke-hint">Hele adressen, med https://.</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="card card--betjen" aria-labelledby="t-melding">
+              <h2 class="card__title" id="t-melding">Melding til Frantz <span class="valgfri">(valgfritt)</span></h2>
+              <p class="card__hint">Fortell gjerne hvorfor dere endrer. Martin Karlsen leser meldingen.</p>
+              <div class="lp-felter">
+                <div class="form-group">
+                  <label class="chat__sr" for="melding">Melding til Frantz</label>
+                  <textarea class="form-textarea" id="melding" name="melding" rows="3" maxlength="500" placeholder="F.eks. Søknadsfristen er flyttet."></textarea>
+                </div>
+              </div>
+            </section>
+          </fieldset>
+        </form>
+
+        <aside class="lp-side" id="forhandsvisning" aria-labelledby="t-vis">
+          <div class="lp-side__topp">
+            <h2 class="lp-side__tittel" id="t-vis">Forhåndsvisning</h2>
+            <div class="chips" role="group" aria-label="Vis som">
+              <button type="button" class="chip" data-skjerm="mobil" aria-pressed="true" aria-controls="ramme">Mobil</button>
+              <button type="button" class="chip" data-skjerm="pc" aria-pressed="false" aria-controls="ramme">PC</button>
+            </div>
+          </div>
+
+          <div class="lp-ramme lp-ramme--mobil" id="ramme">
+            <div class="lp-ramme__adresse">frantz.no/k/129041</div>
+            <div class="lp-ramme__vindu" tabindex="0" role="region" aria-label="Kampanjesiden slik den blir">
+              <article class="lp" id="lp">
+                <div class="lp__topp"><span class="lp__logo">vokser</span></div>
+                <div class="lp__bilde" id="lp-bilde" role="img" aria-label="Hovedbilde"></div>
+                <div class="lp__innhold">
+                  <p class="lp__tittel" id="lp-tittel"></p>
+                  <p class="lp__ingress" id="lp-ingress"></p>
+                  <div class="lp__fakta">
+                    <dl>
+                      <div id="lp-sted-rad"><dt>Arbeidssted</dt><dd id="lp-sted"></dd></div>
+                      <div id="lp-prosent-rad"><dt>Stillingsprosent</dt><dd id="lp-prosent"></dd></div>
+                      <div id="lp-frist-rad"><dt>Søknadsfrist</dt><dd id="lp-frist"></dd></div>
+                    </dl>
+                    <span class="lp__sok" id="lp-sok"></span>
+                    <p class="lp__lenke" id="lp-lenke"></p>
+                  </div>
+                  <div class="lp__punktblokk" id="lp-punktblokk">
+                    <p class="lp__under">Hvorfor jobbe hos oss</p>
+                    <ul class="lp__punkter" id="lp-punkter"></ul>
+                  </div>
+                  <p class="lp__kontakt" id="lp-kontakt"><span class="lp__etikett">Spørsmål om stillingen?</span><b id="lp-kontakt-navn"></b><span id="lp-telefon"></span></p>
+                </div>
+                <div class="lp__bunn">Vokser AS · Kampanjeside levert av Frantz</div>
+              </article>
+            </div>
+          </div>
+
+          <div class="lp-handlinger" id="handlinger">
+            <div class="btn-row btn-row--stack">
+              <button class="btn btn--primary" type="button" id="send">Send til godkjenning</button>
+              <button class="btn btn--secondary" type="button" id="forkast">Forkast endringene</button>
+            </div>
+            <p class="lp-notis" id="notis" role="status" aria-live="polite"></p>
+            <div class="alert alert--warning lp-bekreft" id="bekreft" role="group" aria-labelledby="bekreft-tittel" aria-describedby="bekreft-tekst" hidden>
+              <span class="alert__icon icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>
+              <div class="alert__content">
+                <b id="bekreft-tittel">Forkaste endringene?</b>
+                <div class="alert__body" id="bekreft-tekst">Alt du har endret blir borte. Skjemaet viser den publiserte siden igjen.</div>
+                <div class="btn-row">
+                  <button class="btn btn--primary btn--sm" type="button" id="forkast-ja">Ja, forkast</button>
+                  <button class="btn btn--secondary btn--sm" type="button" id="forkast-nei">Avbryt</button>
+                </div>
+              </div>
+            </div>
+            <p class="lp-handlinger__hint">Frantz sjekker endringene før de blir publisert.</p>
+          </div>
+
+          <div class="lp-laast" id="laast" hidden>
+            <p>Skjemaet er låst mens Frantz ser på endringene.</p>
+            <button class="link" type="button" data-trekk>Trekk tilbake</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Redigering av kampanjesiden. Kunden endrer, Frantz godkjenner. Demoen lagrer utkastet i nettleseren. */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var LAGER = 'fzLandingsside129041';
+  var MAKS_PUNKTER = 4;
+
+  // Bilder fra mediebiblioteket. Fargene står i stedet for bildene, som i mediebibliotek.html.
+  var bilder = [
+    { id: 'akutten', navn: 'Akutten, sykepleier', farge: 'var(--color-data-700)' },
+    { id: 'vaktrom', navn: 'Team på vaktrommet', farge: 'var(--color-navy-lift)' },
+    { id: 'sengepost', navn: 'Vaktskifte på sengeposten', farge: 'var(--color-navy-mid)' }
+  ];
+
+  // Slik siden ser ut i dag. Feltene står i samme rekkefølge som i lesSkjema().
+  var publisert = {
+    overskrift: 'Bli sykepleier i et trygt team i Oslo',
+    ingress: 'Vi søker sykepleiere til medisinsk sengepost. Du får fast stilling, god opplæring og kolleger som stiller opp for hverandre.',
+    bilde: 'akutten',
+    sted: 'Medisinsk sengepost, Oslo sentrum',
+    prosent: '100 %, fast stilling',
+    frist: '15.10.2026',
+    punkter: ['Fast stilling med god opplæring', 'Turnus med hver tredje helg', 'Betalt videreutdanning'],
+    kontakt: 'Kari Hansen',
+    telefon: '917 55 210',
+    knapp: 'Søk på stillingen',
+    lenke: 'https://vokser.no/stillinger/sykepleier-oslo'
+  };
+
+  var status = 'publisert'; // publisert, utkast eller venter
+  var valgtBilde = publisert.bilde;
+  var lagreTimer = null;
+
+  var klokke = function (d) { return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); };
+  var vask = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
+  var finnBilde = function (id) { for (var i = 0; i < bilder.length; i++) { if (bilder[i].id === id) return bilder[i]; } return null; };
+
+  /* ---------- Les og fyll skjemaet ---------- */
+  function lesPunkter() {
+    var ut = [];
+    document.querySelectorAll('[data-punkt]').forEach(function (inp) { ut.push(inp.value); });
+    return ut;
+  }
+  function lesSkjema() {
+    return {
+      overskrift: vask($('overskrift').value),
+      ingress: vask($('ingress').value),
+      bilde: valgtBilde,
+      sted: vask($('sted').value),
+      prosent: vask($('prosent').value),
+      frist: vask($('frist').value),
+      punkter: lesPunkter().map(vask).filter(function (p) { return p; }),
+      kontakt: vask($('kontakt').value),
+      telefon: vask($('telefon').value),
+      knapp: vask($('knapp').value),
+      lenke: vask($('lenke').value)
+    };
+  }
+  function fyllSkjema(d) {
+    ['overskrift', 'ingress', 'sted', 'prosent', 'frist', 'kontakt', 'telefon', 'knapp', 'lenke'].forEach(function (k) { $(k).value = d[k] || ''; });
+    valgtBilde = finnBilde(d.bilde) ? d.bilde : publisert.bilde;
+    tegnPunkter(d.punkter && d.punkter.length ? d.punkter : ['']);
+    tegnBildevalg();
+  }
+  function erEndret() { return JSON.stringify(lesSkjema()) !== JSON.stringify(publisert); }
+
+  /* ---------- Hovedbilde ---------- */
+  function bildeStil(b) { return b.url ? 'background-image:url(&quot;' + b.url + '&quot;)' : 'background:' + b.farge; }
+  function tegnBildevalg() {
+    var html = bilder.map(function (b) {
+      var valgt = b.id === valgtBilde;
+      return '<button type="button" class="bildevalg__valg" data-bilde="' + b.id + '" aria-pressed="' + valgt + '">' +
+        '<span class="bildevalg__bilde" style="' + bildeStil(b) + '">' + (b.url ? '' : '<span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span>') +
+        '<span class="bildevalg__hake" aria-hidden="true"><span class="icon-lucide icon-lucide--check icon-lucide--sm"></span></span></span>' +
+        '<span class="bildevalg__navn"></span></button>';
+    }).join('');
+    html += '<button type="button" class="bildevalg__opp" id="last-opp"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span>Last opp nytt</button>';
+    $('bildevalg').innerHTML = html;
+    // Navnet settes som tekst, så filnavn fra opplasting ikke tolkes som HTML
+    $('bildevalg').querySelectorAll('.bildevalg__navn').forEach(function (el, i) { el.textContent = bilder[i].navn + (bilder[i].eget ? ' (nytt)' : ''); });
+  }
+  $('bildevalg').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-bilde]');
+    if (b) { valgtBilde = b.dataset.bilde; tegnBildevalg(); document.querySelector('[data-bilde="' + valgtBilde + '"]').focus(); vedEndring(); return; }
+    if (e.target.closest('#last-opp')) $('bildefil').click();
+  });
+  $('bildefil').addEventListener('change', function () {
+    var f = this.files[0]; if (!f) return;
+    var nytt = { id: 'eget-' + Date.now(), navn: f.name, url: URL.createObjectURL(f), eget: true };
+    bilder.push(nytt);
+    valgtBilde = nytt.id;
+    tegnBildevalg();
+    document.querySelector('[data-bilde="' + nytt.id + '"]').focus();
+    this.value = '';
+    vedEndring();
+  });
+
+  /* ---------- Hvorfor jobbe hos oss ---------- */
+  function tegnPunkter(liste) {
+    $('punkter').innerHTML = liste.map(function (p, i) {
+      var nr = i + 1;
+      return '<div class="punkt"><span class="punkt__nr" aria-hidden="true">' + nr + '</span>' +
+        '<label class="chat__sr" for="punkt-' + nr + '">Punkt ' + nr + '</label>' +
+        '<input class="form-input" id="punkt-' + nr + '" data-punkt maxlength="80">' +
+        '<button class="btn btn--ghost btn--sm" type="button" data-fjern="' + i + '" aria-label="Fjern punkt ' + nr + '"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span></button></div>';
+    }).join('');
+    document.querySelectorAll('[data-punkt]').forEach(function (inp, i) { inp.value = liste[i]; });
+    var fullt = liste.length >= MAKS_PUNKTER;
+    $('legg-til').hidden = fullt;
+    $('punkter-hint').textContent = fullt ? 'Du har 4 punkter. Det er maks.' : 'Opptil 4 punkter.';
+  }
+  $('legg-til').addEventListener('click', function () {
+    var liste = lesPunkter();
+    if (liste.length >= MAKS_PUNKTER) return;
+    liste.push('');
+    tegnPunkter(liste);
+    $('punkt-' + liste.length).focus();
+  });
+  $('punkter').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-fjern]'); if (!b) return;
+    var liste = lesPunkter(), i = +b.dataset.fjern;
+    liste.splice(i, 1);
+    if (!liste.length) liste = [''];
+    tegnPunkter(liste);
+    // Fokus til punktet som tok plassen, ellers det siste
+    ($('punkt-' + Math.min(i + 1, liste.length)) || $('legg-til')).focus();
+    vedEndring();
+  });
+
+  /* ---------- Forhåndsvisning ---------- */
+  function vert(url) { var m = /^https?:\/\/([^\/?#]+)/i.exec(url); return m ? m[1].replace(/^www\./, '') : ''; }
+  function tegnForhandsvisning() {
+    var d = lesSkjema(), b = finnBilde(d.bilde);
+    $('lp-tittel').textContent = d.overskrift || 'Overskrift';
+    $('lp-ingress').textContent = d.ingress;
+    $('lp-ingress').hidden = !d.ingress;
+    var bilde = $('lp-bilde');
+    bilde.style.background = b.url ? '' : b.farge;
+    bilde.style.backgroundImage = b.url ? 'url("' + b.url + '")' : '';
+    bilde.innerHTML = b.url ? '' : '<span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span>';
+    bilde.setAttribute('aria-label', 'Hovedbilde: ' + b.navn);
+    [['sted', d.sted], ['prosent', d.prosent], ['frist', d.frist]].forEach(function (f) {
+      $('lp-' + f[0]).textContent = f[1];
+      $('lp-' + f[0] + '-rad').hidden = !f[1];
+    });
+    $('lp-sok').textContent = d.knapp || 'Søk på stillingen';
+    var v = vert(d.lenke);
+    $('lp-lenke').textContent = v ? 'Går til ' + v : '';
+    var ul = $('lp-punkter');
+    ul.innerHTML = '';
+    d.punkter.forEach(function (p) { var li = document.createElement('li'); li.textContent = p; ul.appendChild(li); });
+    $('lp-punktblokk').hidden = !d.punkter.length;
+    $('lp-kontakt-navn').textContent = d.kontakt;
+    $('lp-telefon').textContent = d.telefon ? 'Tlf. ' + d.telefon : '';
+    $('lp-kontakt').hidden = !d.kontakt && !d.telefon;
+  }
+
+  document.querySelectorAll('[data-skjerm]').forEach(function (knapp) {
+    knapp.addEventListener('click', function () {
+      var pc = knapp.dataset.skjerm === 'pc';
+      document.querySelectorAll('[data-skjerm]').forEach(function (k) { k.setAttribute('aria-pressed', k === knapp); });
+      $('ramme').classList.toggle('lp-ramme--pc', pc);
+      $('ramme').classList.toggle('lp-ramme--mobil', !pc);
+      $('kolonner').classList.toggle('er-pc', pc);
+    });
+  });
+
+  /* ---------- Status og lagring ---------- */
+  function visStatus() {
+    var merke = $('status-merke'), lagret = $('lagret');
+    var oppsett = {
+      publisert: ['badge--active', 'Publisert versjon'],
+      utkast: ['badge--setup', 'Utkast · ikke sendt'],
+      venter: ['badge--ordered', 'Venter på godkjenning']
+    }[status];
+    merke.className = 'badge ' + oppsett[0];
+    if (merke.textContent !== oppsett[1]) merke.textContent = oppsett[1];
+    lagret.hidden = status === 'publisert';
+  }
+  function settLagretTekst(tekst) { if ($('lagret-tekst').textContent !== tekst) $('lagret-tekst').textContent = tekst; }
+  function lagre() {
+    clearTimeout(lagreTimer);
+    // Første endring: vis klokkeslett med en gang, så merket ikke står tomt
+    if (status === 'utkast' && !$('lagret-tekst').textContent) settLagretTekst('Lagret kl. ' + klokke(new Date()));
+    lagreTimer = setTimeout(function () {
+      var tid = klokke(new Date());
+      try {
+        if (status === 'publisert') localStorage.removeItem(LAGER);
+        else localStorage.setItem(LAGER, JSON.stringify({ utkast: lesSkjema(), melding: $('melding').value, status: status, tid: tid }));
+      } catch (e) {}
+      if (status === 'utkast') settLagretTekst('Lagret kl. ' + tid);
+    }, 700);
+  }
+  function vedEndring() {
+    if (status === 'venter') return;
+    tegnForhandsvisning();
+    $('notis').textContent = '';
+    $('bekreft').hidden = true;
+    status = erEndret() ? 'utkast' : 'publisert';
+    visStatus();
+    lagre();
+  }
+  $('skjema').addEventListener('input', function (e) {
+    if (e.target.classList.contains('form-input--error')) fjernFeil(e.target);
+    if (e.target.id === 'melding') { lagre(); return; }
+    vedEndring();
+  });
+  // Datovelgeren setter verdien uten input-hendelse, så vi leser feltet etter hvert klikk i den
+  $('frist-velger').addEventListener('click', function () { setTimeout(vedEndring, 0); });
+  $('skjema').addEventListener('submit', function (e) { e.preventDefault(); });
+
+  /* ---------- Feil i skjemaet ---------- */
+  function visFeil(inp, tekst) {
+    var id = inp.id + '-feil', p = $(id);
+    if (!p) { p = document.createElement('span'); p.className = 'form-error'; p.id = id; inp.parentNode.appendChild(p); }
+    p.textContent = tekst;
+    inp.classList.add('form-input--error');
+    inp.setAttribute('aria-invalid', 'true');
+    var beskr = (inp.getAttribute('aria-describedby') || '').split(' ').filter(function (x) { return x && x !== id; });
+    beskr.push(id);
+    inp.setAttribute('aria-describedby', beskr.join(' '));
+  }
+  function fjernFeil(inp) {
+    var id = inp.id + '-feil';
+    if ($(id)) $(id).remove();
+    inp.classList.remove('form-input--error');
+    inp.removeAttribute('aria-invalid');
+    var beskr = (inp.getAttribute('aria-describedby') || '').split(' ').filter(function (x) { return x && x !== id; });
+    if (beskr.length) inp.setAttribute('aria-describedby', beskr.join(' ')); else inp.removeAttribute('aria-describedby');
+  }
+  function sjekk() {
+    var d = lesSkjema(), feil = [];
+    ['overskrift', 'knapp', 'lenke'].forEach(function (k) { fjernFeil($(k)); });
+    if (!d.overskrift) { visFeil($('overskrift'), 'Skriv en overskrift.'); feil.push($('overskrift')); }
+    if (!d.knapp) { visFeil($('knapp'), 'Skriv en tekst på knappen.'); feil.push($('knapp')); }
+    if (!/^https?:\/\/[^\s\/]+\.[^\s]+$/i.test(d.lenke)) { visFeil($('lenke'), 'Skriv hele adressen, for eksempel https://vokser.no/jobb.'); feil.push($('lenke')); }
+    return feil;
+  }
+
+  /* ---------- Send, trekk tilbake og forkast ---------- */
+  function las(laast) {
+    $('felter').disabled = laast;
+    $('handlinger').hidden = laast;
+    $('laast').hidden = !laast;
+    $('sendt').hidden = !laast;
+  }
+  $('send').addEventListener('click', function () {
+    $('bekreft').hidden = true;
+    if (!erEndret()) { $('notis').textContent = 'Du har ikke endret noe ennå.'; return; }
+    var feil = sjekk();
+    if (feil.length) { $('notis').textContent = 'Rett feilene i skjemaet før du sender.'; feil[0].focus(); return; }
+    clearTimeout(lagreTimer);
+    status = 'venter';
+    var tid = klokke(new Date());
+    try { localStorage.setItem(LAGER, JSON.stringify({ utkast: lesSkjema(), melding: $('melding').value, status: status, tid: tid })); } catch (e) {}
+    settLagretTekst('Sendt kl. ' + tid);
+    visStatus();
+    las(true);
+    $('sendt').focus();
+  });
+  document.querySelectorAll('[data-trekk]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      las(false);
+      status = erEndret() ? 'utkast' : 'publisert';
+      settLagretTekst('Lagret kl. ' + klokke(new Date()));
+      visStatus();
+      lagre();
+      $('overskrift').focus();
+    });
+  });
+  $('forkast').addEventListener('click', function () {
+    if (!erEndret()) { $('notis').textContent = 'Det er ingen endringer å forkaste.'; return; }
+    $('notis').textContent = '';
+    $('bekreft').hidden = false;
+    $('forkast-ja').focus();
+  });
+  $('forkast-nei').addEventListener('click', function () { $('bekreft').hidden = true; $('forkast').focus(); });
+  $('forkast-ja').addEventListener('click', function () {
+    clearTimeout(lagreTimer);
+    fyllSkjema(publisert);
+    $('melding').value = '';
+    ['overskrift', 'knapp', 'lenke'].forEach(function (k) { fjernFeil($(k)); });
+    try { localStorage.removeItem(LAGER); } catch (e) {}
+    status = 'publisert';
+    tegnForhandsvisning();
+    visStatus();
+    $('bekreft').hidden = true;
+    $('notis').textContent = 'Endringene er forkastet. Skjemaet viser den publiserte siden.';
+    $('forkast').focus();
+  });
+
+  /* ---------- Start: hent utkast hvis det finnes ---------- */
+  var lagretData = null;
+  try { lagretData = JSON.parse(localStorage.getItem(LAGER) || 'null'); } catch (e) {}
+  fyllSkjema(lagretData && lagretData.utkast ? lagretData.utkast : publisert);
+  if (lagretData) {
+    $('melding').value = lagretData.melding || '';
+    status = lagretData.status === 'venter' ? 'venter' : (erEndret() ? 'utkast' : 'publisert');
+    settLagretTekst((status === 'venter' ? 'Sendt kl. ' : 'Lagret kl. ') + (lagretData.tid || klokke(new Date())));
+    if (status === 'venter') las(true);
+  }
+  tegnForhandsvisning();
+  visStatus();
+})();
+</script>
+<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/konto.js?v=3"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=5"></script>
+</body>
+</html>

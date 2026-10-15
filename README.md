@@ -19,6 +19,7 @@ python3 -m http.server 8080
 
 | [portal-redesign.html](portal-redesign.html) | Overview of the campaign portal prototype |
 | [portal/login.html](portal/login.html) | Start of the demo: login → Hjem → Ny kampanje → Kampanjer → Rapport |
+| [losninger.html](losninger.html) | Every finding from the interviews, with status and a link to where it is shown |
 
 Open **http://127.0.0.1:8080/style-guide.html**
 

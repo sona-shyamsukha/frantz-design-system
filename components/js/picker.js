@@ -24,7 +24,18 @@
     return m ? { navn: m[1], type: m[2] } : { navn: s, type: '' };
   }
 
-  /* One flat list of job titles from «Velg målgruppe» */
+  /* Common titles people write that are not in the list, and the målgruppe they belong to */
+  var VANLIGE = {
+    'CFO': 'Økonomisjef', 'Økonomidirektør': 'Økonomisjef', 'Finansdirektør': 'Økonomisjef',
+    'CEO': 'Administrerende direktør', 'Adm. dir.': 'Administrerende direktør', 'Konsernsjef': 'Administrerende direktør',
+    'COO': 'Driftsdirektør', 'CHRO': 'HR-sjef/HR-leder', 'HR-direktør': 'HR-sjef/HR-leder',
+    'CCO': 'Kommunikasjonssjef', 'Kommunikasjonsdirektør': 'Kommunikasjonssjef', 'Salgssjef': 'Salgsdirektør',
+    'Rådmann': 'Kommunedirektør/rådmann/administrasjonssjef', 'Kommunedirektør': 'Kommunedirektør/rådmann/administrasjonssjef',
+    'Enhetsleder': 'Avdelingsleder', 'Virksomhetsleder': 'Avdelingsleder', 'Seksjonsleder': 'Avdelingsleder',
+    'Barnehagestyrer': 'Styrer i førskole/barnehage'
+  };
+
+  /* One flat list of job titles from «Velg målgruppe», plus the common titles above */
   var ROLLER = null;
   function roller() {
     if (ROLLER) return ROLLER;
@@ -35,9 +46,13 @@
         (g.stillinger.length ? g.stillinger : [g.navn]).forEach(function (s) {
           if (sett[s]) return;
           sett[s] = true;
-          ROLLER.push({ navn: s, sti: n.navn + ' › ' + g.navn, l: s.toLowerCase() });
+          ROLLER.push({ navn: s, rolle: s, sti: n.navn + ' › ' + g.navn, l: s.toLowerCase() });
         });
       });
+    });
+    Object.keys(VANLIGE).forEach(function (t) {
+      var mal = ROLLER.filter(function (r) { return r.navn === VANLIGE[t]; })[0];
+      if (mal && !sett[t]) ROLLER.push({ navn: t, rolle: mal.navn, sti: mal.sti + ' › ' + mal.navn, l: t.toLowerCase() });
     });
     return ROLLER;
   }
@@ -127,7 +142,7 @@
     }
     function velg(r) {
       input.value = r.navn;
-      vis({ tittel: r.navn, rolle: r.navn, sti: r.sti });
+      vis({ tittel: r.navn, rolle: r.rolle, sti: r.sti });
     }
 
     var l = liste(root, input, function (q) {
@@ -145,10 +160,10 @@
       // A typed title is fine too: match it quietly to the nearest known title
       var q = input.value.trim().toLowerCase();
       var eksakt = roller().filter(function (r) { return r.l === q; })[0];
-      if (eksakt) return vis({ tittel: input.value.trim(), rolle: eksakt.navn, sti: eksakt.sti });
+      if (eksakt) return vis({ tittel: input.value.trim(), rolle: eksakt.rolle, sti: eksakt.sti });
       var slutt = null;
       roller().forEach(function (r) { if (q.length > r.l.length && q.slice(-r.l.length) === r.l && (!slutt || r.l.length > slutt.l.length)) slutt = r; });
-      vis(q ? (slutt ? { tittel: input.value.trim(), rolle: slutt.navn, sti: slutt.sti } : { tittel: input.value.trim(), rolle: '', sti: '' }) : null);
+      vis(q ? (slutt ? { tittel: input.value.trim(), rolle: slutt.rolle, sti: slutt.sti } : { tittel: input.value.trim(), rolle: '', sti: '' }) : null);
       if (naa && !naa.rolle && valgt) valgt.hidden = true;
     });
 

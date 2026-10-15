@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=45">
+<link rel="stylesheet" href="../frantz-ds.css?v=48">
 <style>
   body { margin: 0; }
 
@@ -171,7 +171,7 @@
 
     <div class="wrap">
       <h1 class="text-h2">Hei Kari</h1>
-      <p class="lede">Her ser du hva som skjer med kampanjene til Vokser AS i dag.</p>
+      <p class="lede">Her ser du hva som skjer med kampanjene til Vokser AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
       <div class="topprad">
       <section class="hero" aria-labelledby="hero-tittel">
@@ -271,8 +271,20 @@
 </div>
 
 <script src="../components/js/interactions.js?v=2"></script>
-<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/konto.js?v=3"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=5"></script>
+<script src="../components/js/tour.js"></script>
+<script>
+// Omvisning for nye brukere. Starter selv første gang, og fra «Vis meg rundt» når som helst.
+FrantzTour.registrer([
+  { mal: '.hero .btn--accent', tittel: 'Start en kampanje', tekst: 'Start her. Lim inn en lenke til stillingen, så fyller Frantz ut resten.' },
+  { mal: '.rail .nav__item[href="campaigns.html"]', tittel: 'Kampanjer', tekst: 'Alle kampanjene deres, med status.', hvisSkjult: 'Du finner Kampanjer i menyen øverst til høyre.' },
+  { mal: '.rail .nav__item[href="connect.html"]', tittel: 'Connect', tekst: 'Stillinger fra deres eget system. Bestill rett fra stillingen.', hvisSkjult: 'Du finner Connect i menyen øverst til høyre.' },
+  { mal: '.rail .nav__item[href="rapporter.html"]', tittel: 'Rapporter', tekst: 'Resultatene. Vi forklarer hvert tall med en setning.', hvisSkjult: 'Du finner Rapporter i menyen øverst til høyre.' },
+  { mal: '.topbar .topbar__knapp', tittel: 'Varsler', tekst: 'Varsler om nye interessenter og svar fra Frantz. Velg hvor ofte under Min profil.', hvisSkjult: 'hopp' },
+  { mal: '.assist-fab', tittel: 'Spør Frantz', tekst: 'Lurer du på noe? Spør her, eller svar på e-posten fra Frantz.' }
+], { auto: true });
+</script>
 </body>
 </html>
