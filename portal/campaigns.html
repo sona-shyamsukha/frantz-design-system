@@ -45,13 +45,17 @@
   @media (max-width: 640px) { .verktoy .form-select-wrap { flex: 1 1 100%; } }
 
   .table-card { padding: 0; overflow-x: auto; }
+  .table__pil { width: 1%; color: var(--text-faint); }
+  tr[tabindex]:hover .table__pil, tr[tabindex]:focus-visible .table__pil { color: var(--text-heading); }
+  .table__pil-tekst { display: none; }
+  /* Phone: the table is a list of cards. The last row says what a tap does. */
+  @container (max-width: 720px) {
+    .table td.table__pil { justify-content: flex-end; gap: var(--space-4); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+    .table__pil-tekst { display: inline; }
+  }
 
   .pagination-wrap { margin-top: var(--space-24); }
 
-  /* «Mine» or «Alle»: who ordered the campaign */
-  .faner { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-16); }
-  .faner .filter { gap: var(--space-6); font-size: var(--text-base); }
-  .faner .filter span { color: inherit; opacity: 0.7; font-weight: var(--font-weight-medium); }
 
   /* Filter menu: closes on a click outside it or on Esc */
   .filtermeny { position: relative; }
@@ -59,10 +63,16 @@
   .filtermeny__knapp:hover, .filtermeny__knapp[aria-expanded="true"] { border-color: var(--color-navy); }
   .filtermeny__antall { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font-size: var(--text-xs); }
   .filtermeny__antall[hidden] { display: none; }
-  .filtermeny__panel { position: absolute; top: calc(100% + var(--space-8)); left: 0; z-index: 20; display: grid; gap: var(--space-16); width: 280px; max-width: calc(100vw - 32px); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
+  .filtermeny__panel { position: absolute; top: calc(100% + var(--space-8)); left: 0; z-index: 20; display: grid; gap: var(--space-16); width: 320px; max-width: calc(100vw - 32px); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
   .filtermeny__panel[hidden] { display: none; }
-  .filtermeny__panel fieldset { display: grid; gap: var(--space-8); margin: 0; padding: 0; border: 0; }
-  .filtermeny__panel legend { margin-bottom: var(--space-8); }
+  .filtermeny__panel fieldset { margin: 0; padding: 0; border: 0; }
+  .filtermeny__panel fieldset[hidden] { display: none; }
+  .filtermeny__panel fieldset + fieldset { padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
+  /* float keeps the heading inside the section, so the divider line sits above it */
+  .filtermeny__panel legend { float: left; width: 100%; margin-bottom: var(--space-12); padding: 0; }
+  .filtermeny__valg { clear: both; display: grid; gap: var(--space-12); }
+  .filtermeny__valg .form-radio, .filtermeny__valg .form-check { min-height: 24px; }
+  .filtermeny__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
 
   /* Active filters as chips, with «Nullstill» */
   .aktive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-muted); font-size: var(--text-base); }
@@ -115,16 +125,11 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Kampanjer</h1>
-          <p class="lede">Kampanjene på Vokser AS. Aktive kampanjer viser hvor langt de er mot forventet antall søknadsklikk.</p>
+          <p class="lede">Kampanjene på Vokser AS. Velg en kampanje for å se detaljer og resultater.</p>
         </div>
         <div class="liste__verktoy">
           <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
         </div>
-      </div>
-
-      <div class="faner" role="group" aria-label="Hvem som bestilte">
-        <button type="button" class="filter" data-hvem="mine" aria-pressed="true">Mine kampanjer <span id="antall-mine"></span></button>
-        <button type="button" class="filter" data-hvem="alle" aria-pressed="false">Alle på Vokser AS <span id="antall-alle"></span></button>
       </div>
 
       <div class="verktoy" role="search">
@@ -136,8 +141,17 @@
         <div class="filtermeny" id="filtermeny">
           <button type="button" class="filtermeny__knapp" id="filter-knapp" aria-expanded="false" aria-controls="filter-panel"><span class="icon-lucide icon-lucide--filter" aria-hidden="true"></span>Filter <span class="filtermeny__antall" id="filter-antall" hidden></span></button>
           <div class="filtermeny__panel" id="filter-panel" role="group" aria-label="Filter" hidden>
-            <fieldset><legend class="form-label">Status</legend><div id="valg-status"></div></fieldset>
-            <fieldset><legend class="form-label">Kanaler</legend><div id="valg-kanal"></div></fieldset>
+            <fieldset><legend class="form-label">Status</legend><div class="filtermeny__valg" id="valg-status"></div></fieldset>
+            <fieldset><legend class="form-label">Bestilt av</legend>
+              <div class="filtermeny__valg">
+                <label class="form-radio"><input class="form-radio__input" type="radio" name="hvem" data-hvem="mine" checked><span class="form-radio__dot"></span><span class="form-radio__label">Meg</span></label>
+                <label class="form-radio"><input class="form-radio__input" type="radio" name="hvem" data-hvem="alle"><span class="form-radio__dot"></span><span class="form-radio__label">Alle på Vokser AS</span></label>
+              </div>
+            </fieldset>
+            <div class="filtermeny__bunn">
+              <button type="button" class="nullstill" id="panel-nullstill">Nullstill</button>
+              <button type="button" class="btn btn--primary btn--sm" id="panel-ferdig">Ferdig</button>
+            </div>
           </div>
         </div>
         <label class="sortering"><span class="chat__sr">Sorter etter</span>
@@ -157,7 +171,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Kampanjenavn / ref.</th><th>Status</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Søknadsklikk</th></tr>
+            <tr><th>Kampanje</th><th>Kampanjenavn / ref.</th><th>Status</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader">
             <tr tabindex="0" data-status="Under arbeid" data-bestiller="Kari Hansen" data-kanaler="Meta|Nettsteder" data-tittel="Helsefagarbeider Tromsø" data-start="2026-10-05" data-budsjett="28000" onclick="location.href='kampanje-under-arbeid.html'">
@@ -167,7 +181,7 @@
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">05.10 – 02.11.2026</td>
               <td data-label="Budsjett">kr 28 000</td>
-              <td data-label="Søknadsklikk">Godkjenn annonsene</td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Bestilt" data-bestiller="Sona Shyamsukha" data-kanaler="" data-tittel="Barnehagelærer Drammen" data-start="2026-10-07" data-budsjett="32000" onclick="location.href='kampanje-bestilt.html'">
               <td data-label="Kampanje"><span class="table__title">Barnehagelærer Drammen</span><span class="table__meta">Drammen · #129074 · Sona Shyamsukha</span></td>
@@ -176,7 +190,7 @@
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Frantz anbefaler</td>
               <td data-label="Periode">07.10 – 04.11.2026</td>
               <td data-label="Budsjett">kr 32 000</td>
-              <td data-label="Søknadsklikk"><span class="table__tom">Ikke startet</span></td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Aktiv" data-bestiller="Kari Hansen" data-kanaler="Meta|Nettsteder" data-tittel="Sykepleier Oslo" data-start="2026-09-03" data-budsjett="48200" onclick="location.href='campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Kari Hansen</span></td>
@@ -185,12 +199,7 @@
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">03.09 – 03.10.2026</td>
               <td data-label="Budsjett">kr 48 200<span class="table__meta">kr 34 900 brukt</span></td>
-              <td data-label="Søknadsklikk">
-                <div class="meter meter--sm" style="max-width:140px">
-                  <div class="meter__track"><div class="meter__bar" style="width:82%"></div></div>
-                  <span class="meter__value">312 av 380</span>
-                </div>
-              </td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Kladd" data-bestiller="Kari Hansen" data-kanaler="" data-tittel="Sykepleier Kristiansand" data-start="2026-10-31" data-budsjett="0" onclick="location.href='ny-kampanje.html?kladd=129070'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Kristiansand</span><span class="table__meta">Kristiansand · #129070 · Kari Hansen</span></td>
@@ -199,21 +208,16 @@
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>—</td>
               <td data-label="Periode">Frist 31.10.2026</td>
               <td data-label="Budsjett"><span class="table__tom">Ikke valgt</span></td>
-              <td data-label="Søknadsklikk"><span class="table__tom">Ikke startet</span></td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
-            <tr tabindex="0" data-status="Avsluttet" data-bestiller="Sona Shyamsukha" data-kanaler="Meta|Nettsteder" data-tittel="Sykepleier Bodø" data-start="2026-07-02" data-budsjett="31200" onclick="location.href='rapport.html'">
-              <td data-label="Kampanje"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">Bodø · #128984 · Sona Shyamsukha</span></td>
+            <tr tabindex="0" data-status="Avsluttet" data-bestiller="Kari Hansen" data-kanaler="Meta|Nettsteder" data-tittel="Sykepleier Bodø" data-start="2026-07-02" data-budsjett="31200" onclick="location.href='rapport.html'">
+              <td data-label="Kampanje"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">Bodø · #128984 · Kari Hansen</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Sommervikar 2026</td>
               <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">02.07 – 30.07.2026</td>
               <td data-label="Budsjett">kr 31 200<span class="table__meta">kr 31 200 brukt</span></td>
-              <td data-label="Søknadsklikk">
-                <div class="meter meter--sm" style="max-width:140px">
-                  <div class="meter__track"><div class="meter__bar" style="width:100%"></div></div>
-                  <span class="meter__value">88 av 80</span>
-                </div>
-              </td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
           </tbody>
         </table>
@@ -222,7 +226,7 @@
 
       <div class="pagination-wrap">
         <nav class="pagination" aria-label="Paginering">
-          <span class="pagination__meta">Viser 1–5 av 5 kampanjer</span>
+          <span class="pagination__meta" id="vist-antall">Viser 1–5 av 5 kampanjer</span>
           <div class="pagination__pages">
             <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
             <button class="pagination__page" type="button" aria-current="page">1</button>
@@ -242,8 +246,7 @@
   var rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
   var MEG = 'Kari Hansen'; // the logged-in user in the demo
   var STATUSER = ['Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
-  var KANALER = ['Meta', 'Nettsteder'];
-  var valgt = { hvem: 'mine', status: [], kanal: [] };
+  var valgt = { hvem: 'mine', status: [] };
 
   function sorter() {
     var f = {
@@ -255,16 +258,13 @@
     rader.slice().sort(f).forEach(function (tr) { tbody.appendChild(tr); });
   }
   function avkrysning(navn, verdi) {
-    return '<label class="form-check"><input class="form-check__input" type="checkbox" data-' + navn + '="' + verdi + '"><span class="form-check__box"></span><span class="form-check__label">' + (navn === 'kanal' ? FZ_KANALER.html(verdi) : verdi) + '</span></label>';
+    return '<label class="form-check"><input class="form-check__input" type="checkbox" data-' + navn + '="' + verdi + '"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + verdi + '</span></label>';
   }
   $('valg-status').innerHTML = STATUSER.map(function (v) { return avkrysning('status', v); }).join('');
-  $('valg-kanal').innerHTML = KANALER.map(function (v) { return avkrysning('kanal', v); }).join('');
 
-  function passer(tr, utenHvem) {
-    var kanaler = (tr.dataset.kanaler || '').split('|');
-    return (utenHvem || valgt.hvem === 'alle' || tr.dataset.bestiller === MEG) &&
-      (!valgt.status.length || valgt.status.indexOf(tr.dataset.status) !== -1) &&
-      (!valgt.kanal.length || valgt.kanal.some(function (k) { return kanaler.indexOf(k) !== -1; }));
+  function avHvem(tr) { return valgt.hvem === 'alle' || tr.dataset.bestiller === MEG; }
+  function passer(tr) {
+    return avHvem(tr) && (!valgt.status.length || valgt.status.indexOf(tr.dataset.status) !== -1);
   }
   function filtrer() {
     // Every word must match somewhere in the row, so «sykepleier oslo» narrows the list
@@ -277,38 +277,39 @@
       if (ok) vist++;
     });
     $('ingen-treff').hidden = vist > 0;
-    $('antall-mine').textContent = '(' + rader.filter(function (tr) { return tr.dataset.bestiller === MEG; }).length + ')';
-    $('antall-alle').textContent = '(' + rader.length + ')';
-    document.querySelectorAll('[data-hvem]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.hvem === valgt.hvem)); });
-    document.querySelectorAll('[data-status]').forEach(function (x) { if (x.type === 'checkbox') x.checked = valgt.status.indexOf(x.dataset.status) !== -1; });
-    document.querySelectorAll('[data-kanal]').forEach(function (x) { x.checked = valgt.kanal.indexOf(x.dataset.kanal) !== -1; });
+    $('vist-antall').textContent = vist ? 'Viser 1–' + vist + ' av ' + vist + ' kampanjer' : 'Ingen kampanjer';
+    document.querySelectorAll('input[data-hvem]').forEach(function (x) { x.checked = x.dataset.hvem === valgt.hvem; });
+    document.querySelectorAll('input[data-status]').forEach(function (x) { x.checked = valgt.status.indexOf(x.dataset.status) !== -1; });
     tegnAktive();
   }
   // The active filters as chips. Each chip removes its filter; «Nullstill» removes all.
   function tegnAktive() {
     var chips = valgt.status.map(function (v) { return ['status', v, 'Status: ' + v]; })
-      .concat(valgt.kanal.map(function (v) { return ['kanal', v, 'Kanal: ' + v]; }));
+      .concat(valgt.hvem === 'alle' ? [] : [['hvem', 'mine', 'Bestilt av meg']]);
     var n = chips.length;
     $('filter-antall').hidden = !n; $('filter-antall').textContent = n;
     $('aktive').hidden = !n && !sok.value.trim();
     $('aktive').innerHTML = (n || sok.value.trim() ? '<span>Viser:</span>' : '') +
       (sok.value.trim() ? '<button type="button" class="aktiv-filter" data-fjern="sok" aria-label="Fjern søket">«' + sok.value.trim().replace(/[<>&"]/g, '') + '»<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>' : '') +
       chips.map(function (c) { return '<button type="button" class="aktiv-filter" data-fjern="' + c[0] + '" data-verdi="' + c[1] + '" aria-label="Fjern ' + c[2] + '">' + c[2] + '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>'; }).join('') +
-      '<button type="button" class="nullstill" id="nullstill">Nullstill</button>';
+      (n > 1 || valgt.hvem === 'alle' && n || sok.value.trim() ? '<button type="button" class="nullstill" id="nullstill">Nullstill</button>' : '');
   }
   function veksle(liste, verdi, pa) { var i = liste.indexOf(verdi); if (pa && i === -1) liste.push(verdi); if (!pa && i !== -1) liste.splice(i, 1); }
 
-  document.querySelectorAll('[data-hvem]').forEach(function (b) { b.addEventListener('click', function () { valgt.hvem = b.dataset.hvem; filtrer(); }); });
+  function nullstill() { valgt.hvem = 'mine'; valgt.status = []; sok.value = ''; filtrer(); }
   $('filter-panel').addEventListener('change', function (e) {
     var x = e.target;
+    if (x.dataset.hvem) valgt.hvem = x.dataset.hvem;
     if (x.dataset.status) veksle(valgt.status, x.dataset.status, x.checked);
-    if (x.dataset.kanal) veksle(valgt.kanal, x.dataset.kanal, x.checked);
     filtrer();
   });
+  $('panel-nullstill').addEventListener('click', nullstill);
+  $('panel-ferdig').addEventListener('click', function () { apne(false); $('filter-knapp').focus(); });
   $('aktive').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
-    if (b.id === 'nullstill') { valgt.status = []; valgt.kanal = []; sok.value = ''; filtrer(); sok.focus(); return; }
+    if (b.id === 'nullstill') { nullstill(); sok.focus(); return; }
     if (b.dataset.fjern === 'sok') sok.value = '';
+    else if (b.dataset.fjern === 'hvem') valgt.hvem = 'alle';
     else veksle(valgt[b.dataset.fjern], b.dataset.verdi, false);
     filtrer();
     ($('aktive').querySelector('.aktiv-filter') || sok).focus();
@@ -324,6 +325,11 @@
   document.addEventListener('click', function (e) { if (!$('filter-panel').hidden && !$('filtermeny').contains(e.target)) apne(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('filter-panel').hidden) { apne(false); $('filter-knapp').focus(); } });
 
+  // The whole row is a link. Enter opens it, like a click.
+  tbody.addEventListener('keydown', function (e) {
+    var tr = e.target.closest('tr[tabindex]');
+    if (tr && e.key === 'Enter') tr.click();
+  });
   sok.addEventListener('input', filtrer);
   sok.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
   sortering.addEventListener('change', sorter);
