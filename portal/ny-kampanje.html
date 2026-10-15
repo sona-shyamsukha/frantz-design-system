@@ -503,6 +503,7 @@
   </div>
 </div>
 
+<script src="../components/js/kanaler.js"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js"></script>
 <script src="../components/js/picker.js"></script>
@@ -753,7 +754,7 @@
     $('rad-periode').hidden = !tilstand.funnet.periode;
     $('k-periode').textContent = periodeTekst();
     $('rad-kanaler').hidden = !tilstand.funnet.kanaler;
-    $('k-kanaler').textContent = kanalTekst();
+    FZ_KANALER.tegn($('k-kanaler'), kanalTekst());
     $('k-faktura').textContent = $('faktura').value;
     $('rad-materiell').hidden = !tilstand.funnet.materiell;
     if (tilstand.materiell) $('k-materiell').textContent = materiellTekst(); else $('k-materiell').innerHTML = mangler;

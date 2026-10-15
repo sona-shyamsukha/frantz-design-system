@@ -176,3 +176,13 @@
 .kanal-logo--tiktok        { background: var(--channel-tiktok);    --logo: url("../../assets/kanaler/tiktok.svg"); }
 .kanal-logo--nettsteder    { background: var(--kanal-nettsteder); --logo: url("../../assets/kanaler/nettsteder.svg"); }
 .kanal-logo--programmatisk { background: var(--kanal-remarketing); --logo: url("../../assets/kanaler/programmatisk.svg"); }
+
+/* Small logo, for text rows: tables, summaries, ad cards */
+.kanal-logo--sm { width: 18px; height: 18px; border-radius: var(--radius-4); }
+.kanal-logo--sm::after { inset: 3px; }
+
+/* Kanal names with logo, from components/js/kanaler.js */
+.kanal-navner { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-6) var(--space-12); vertical-align: middle; }
+.kanal-navn { display: inline-flex; align-items: flex-start; gap: var(--space-6); }
+.kanal-navn .kanal-logo { margin-top: calc((1lh - 18px) / 2); }
+.kanal-navner__ekstra { color: var(--text-muted); }
