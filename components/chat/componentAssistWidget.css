@@ -16,9 +16,9 @@
   padding: 0 var(--space-24) 0 var(--space-16);
   border: 0;
   border-radius: var(--radius-full);
-  background: var(--bg-brand-1-strong);
+  background: var(--bg-navy-strong);
   box-shadow: var(--shadow-dialog);
-  color: var(--text-on-brand-1);
+  color: var(--text-on-navy);
   font-family: var(--font-body);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
@@ -32,7 +32,7 @@ body:has(.assist-fab) .wrap {
 }
 
 .assist-fab:hover {
-  background: var(--bg-brand-1-strong-hover);
+  background: var(--bg-navy-strong-hover);
   transform: translateY(-1px);
 }
 
@@ -159,9 +159,9 @@ body:has(.assist-fab) .wrap {
   gap: var(--space-16);
   margin-bottom: var(--space-24);
   padding: var(--space-16) var(--space-24);
-  border: 1px solid var(--border-brand-1-soft);
+  border: 1px solid var(--border-navy-soft);
   border-radius: var(--radius-12);
-  background: var(--bg-brand-1-soft);
+  background: var(--bg-navy-soft);
 }
 
 .assist-banner__icon {
@@ -171,7 +171,7 @@ body:has(.assist-fab) .wrap {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: var(--bg-brand-1-strong);
+  background: var(--bg-navy-strong);
   color: var(--color-amber);
 }
 

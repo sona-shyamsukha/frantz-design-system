@@ -4,7 +4,7 @@
   if (!topbar) return;
 
   var varsler = [
-    { ikon: 'users', tittel: '3 nye interessenter på Sykepleier Oslo', tid: 'I dag kl. 07:12', href: 'campaign.html', ulest: true },
+    { ikon: 'users', tittel: '3 nye interessenter på Sykepleier Oslo', tid: 'I dag kl. 07.12', href: 'campaign.html', ulest: true },
     { ikon: 'file-text', tittel: 'Ny status fra rådgiver: «Leverer svært bra sammenlignet med lignende kampanjer»', tid: '24.09.2026', href: 'campaign.html', ulest: true },
     { ikon: 'pause', tittel: 'Helsefagarbeider Tromsø er satt på pause', tid: '22.09.2026', href: 'campaigns.html', ulest: true },
     { ikon: 'circle-check', tittel: 'Rapporten for Sykepleier Bodø er klar', tid: '31.07.2026', href: 'rapport.html', ulest: false }
@@ -51,6 +51,27 @@
       '<div class="form-group" style="margin-top:var(--space-12)"><label class="form-label" for="p-tlf">Telefon</label><input class="form-input" id="p-tlf" type="tel" placeholder="F.eks. 912 34 567" autocomplete="tel"></div>' +
       '<div class="form-group" style="margin-top:var(--space-12)"><span class="form-label">E-post</span><div>ss@vokser.no</div><p class="form-hint">E-posten er brukernavnet ditt. Kontakt Frantz for å endre den.</p></div>' +
       '<div style="display:flex;align-items:center;gap:var(--space-12);margin-top:var(--space-16)"><button class="btn btn--primary" type="submit">Lagre</button><span data-lagret hidden style="font-size:var(--text-sm);color:var(--text-success-strong)">Lagret</span></div>' +
+    '</form>' +
+    // Alert settings: how often to hear about new interessenter, and which other e-mails to get
+    '<form class="drawer__section" id="varselvalg" onsubmit="event.preventDefault(); this.querySelector(\'[data-lagret]\').hidden = false;">' +
+      '<h3>Varsler på e-post</h3>' +
+      '<fieldset style="margin:0;padding:0;border:0;display:grid;gap:var(--space-12)">' +
+        '<legend class="form-label" style="margin-bottom:var(--space-8)">Nye interessenter</legend>' +
+        [['hver', 'Én e-post for hver interessent', 'Raskest. Ring mens de er interesserte.'],
+         ['dag', 'Én oppsummering hver dag', 'Kl. 08.00, med alle fra siste døgn.'],
+         ['ingen', 'Ingen e-post', 'Du ser dem på kampanjesiden i portalen.']].map(function (v) {
+          return '<label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="' + v[0] + '"' + (v[0] === 'dag' ? ' checked' : '') + '>' +
+            '<span class="form-radio__dot"></span><span class="form-radio__label"><b style="display:block;color:var(--text-heading)">' + v[1] + '</b>' + v[2] + '</span></label>';
+        }).join('') +
+        '<p class="form-hint" style="margin:0">Mobilnummeret står først i e-posten, så du kan ringe med en gang.</p>' +
+      '</fieldset>' +
+      '<fieldset style="margin:var(--space-24) 0 0;padding:0;border:0;display:grid;gap:var(--space-12)">' +
+        '<legend class="form-label" style="margin-bottom:var(--space-8)">Andre varsler</legend>' +
+        ['Annonser som venter på godkjenning', 'Ny status fra rådgiveren', 'Rapporten er klar'].map(function (t) {
+          return '<label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">' + t + '</span></label>';
+        }).join('') +
+      '</fieldset>' +
+      '<div style="display:flex;align-items:center;gap:var(--space-12);margin-top:var(--space-16)"><button class="btn btn--primary" type="submit">Lagre varsler</button><span data-lagret hidden style="font-size:var(--text-sm);color:var(--text-success-strong)">Lagret</span></div>' +
     '</form>' +
     '<div class="drawer__section">' +
       '<h3>Språk</h3>' +

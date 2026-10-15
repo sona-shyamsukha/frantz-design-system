@@ -87,6 +87,11 @@
   color: var(--text-success-strong);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 640px) {
   .metrics { grid-template-columns: 1fr; }
 }
+
+/* Four numbers in a row: visninger first, then «Søk», cost and interest */
+.metrics--fire { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1180px) { .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .metrics--fire { grid-template-columns: 1fr; } }

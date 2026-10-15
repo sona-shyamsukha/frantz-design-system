@@ -7,8 +7,8 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-full);
-  background: var(--bg-brand-1-strong);
-  color: var(--text-on-brand-1);
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
   line-height: 1;
@@ -32,8 +32,8 @@
 }
 
 .avatar--soft {
-  background: var(--bg-brand-1-soft);
-  color: var(--text-brand-1-strong);
+  background: var(--bg-navy-soft);
+  color: var(--text-navy-strong);
 }
 
 .avatar--muted {
@@ -42,8 +42,8 @@
 }
 
 .avatar--advisor {
-  background: var(--bg-brand-2-soft);
-  color: var(--text-brand-2-strong);
+  background: var(--bg-amber-soft);
+  color: var(--text-amber-strong);
 }
 
 /* Same family, with an icon instead of initials: chat, e-mail thread and advisor inbox.
@@ -61,8 +61,8 @@
 .mailmsg__avatar {
   width: 32px;
   height: 32px;
-  background: var(--bg-brand-1-soft);
-  color: var(--text-brand-1-strong);
+  background: var(--bg-navy-soft);
+  color: var(--text-navy-strong);
 }
 
 .msg--user .msg__avatar,
@@ -73,13 +73,13 @@
 
 .msg--advisor .msg__avatar,
 .mailmsg--advisor .mailmsg__avatar {
-  background: var(--bg-brand-2-soft);
-  color: var(--text-brand-2-strong);
+  background: var(--bg-amber-soft);
+  color: var(--text-amber-strong);
 }
 
 .chat__avatar {
   width: 36px;
   height: 36px;
-  background: var(--bg-brand-1-strong);
-  color: var(--text-on-brand-1);
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
 }

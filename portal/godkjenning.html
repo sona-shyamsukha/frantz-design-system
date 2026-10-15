@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Godkjenn kampanjen — Frantz</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=54">
+<style>
+  /* Offentlig side uten innlogging: ingen sidemeny, smal toppstripe, alt i én kolonne */
+  body { margin: 0; background: var(--surface-default); }
+
+  .gk-topp { border-bottom: 1px solid var(--border-subtle); background: var(--surface-default); }
+  .gk-topp__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); max-width: 720px; margin: 0 auto; padding: var(--space-12) var(--page-padding-mobile); }
+  .gk-topp img { height: 22px; width: auto; }
+  .gk-topp__tekst { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
+  .gk-topp__tekst .icon-lucide { color: var(--color-green); }
+
+  .gk { max-width: 720px; margin: 0 auto; padding: var(--space-32) var(--page-padding-mobile) var(--space-64); }
+  .gk:focus { outline: none; }
+  .gk h1 { margin: var(--space-12) 0 var(--space-8); font-size: var(--text-2xl); letter-spacing: var(--tracking-display); }
+  .gk-sub { margin: 0; color: var(--text-body); font-size: var(--text-base); }
+  .gk-gyldig { display: flex; align-items: center; gap: var(--space-6); margin: var(--space-8) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+
+  .gk-seksjon { margin-top: var(--space-32); }
+  .gk-seksjon__tittel { margin: 0 0 var(--space-12); font-size: var(--text-lg); }
+
+  /* Oppsummeringen: samme panel som «Din bestilling», men ikke klistret fast */
+  .gk .summary-panel { position: static; }
+  .gk .summary-panel > :last-child { border-bottom: 0; }
+  .gk .summary-row[hidden] { display: none; }
+  .gk .summary-panel__total b { font-size: var(--text-3xl); }
+  .gk-forklaring { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+
+  /* Annonsen: bare visning her, bildet skal ikke kunne dras og må ikke stoppe scrolling på mobil */
+  .gk .ad-preview { margin: 0 auto; }
+  .gk .ad-preview__tittel { font-family: var(--font-heading); letter-spacing: var(--tracking-heading); }
+  .gk .ad-preview__bilde { cursor: default; touch-action: auto; }
+  .gk-notat { display: flex; align-items: center; justify-content: center; gap: var(--space-6); margin: var(--space-12) 0 0; color: var(--text-muted); font-size: var(--text-sm); text-align: center; }
+
+  /* Svaret */
+  .gk-svar { padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
+  .gk-svar[hidden], .gk-endring[hidden], .gk-kvittering[hidden] { display: none; }
+  .gk-svar .gk-seksjon__tittel { margin-bottom: var(--space-4); }
+  .gk-svar__hint { margin: 0 0 var(--space-24); color: var(--text-muted); font-size: var(--text-sm); }
+  .felt + .felt { margin-top: var(--space-20); }
+  .valgfri { color: var(--text-faint); font-weight: var(--font-weight-normal); }
+  .gk .form-input { min-height: 50px; }
+  .gk .form-error { margin: 0; font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .gk .form-error[hidden] { display: none; }
+  .gk-knapper { display: flex; flex-wrap: wrap; gap: var(--space-12); margin-top: var(--space-24); }
+  .gk-endring { display: grid; gap: var(--space-12); margin-top: var(--space-24); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
+  .gk-endring .btn { justify-self: start; }
+
+  .gk-kvittering:focus { outline: none; }
+  .gk-kvittering .alert { font-size: var(--text-base); }
+  .gk-kvittering .alert__title { font-size: var(--text-lg); }
+  .gk-kvittering .alert__title:focus { outline: none; }
+  .gk-kvittering .alert__body { margin: 0; }
+  .gk-lagret { margin: var(--space-12) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+
+  @media (max-width: 640px) {
+    .gk { padding-top: var(--space-24); }
+    .gk h1 { font-size: var(--text-xl); }
+    .gk .summary-panel__head, .gk .summary-panel__block, .gk .summary-panel__total { padding: var(--space-16); }
+    .gk-svar { padding: var(--space-16); }
+    .gk-knapper { flex-direction: column; }
+    .gk-knapper .btn, .gk-endring .btn { width: 100%; justify-self: stretch; }
+  }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="gk-topp">
+  <div class="gk-topp__inner">
+    <img src="../assets/logo-frantz.png" alt="Frantz">
+    <span class="gk-topp__tekst"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Ingen innlogging trengs</span>
+  </div>
+</header>
+
+<main class="gk" id="innhold" tabindex="-1">
+  <span class="badge badge--setup" id="status-merke">Venter på svar</span>
+  <h1 id="overskrift">Kari Hansen i Vokser AS ber deg godkjenne en kampanje</h1>
+  <p class="gk-sub">Se over prisen og annonsen. Kampanjen starter ikke før du har svart.</p>
+  <p class="gk-gyldig"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span>Lenken gjelder til 25.10.2026</p>
+
+  <section class="gk-seksjon" aria-labelledby="kampanje-tittel">
+    <div class="summary-panel">
+      <div class="summary-panel__head">
+        <h2 id="kampanje-tittel">Kampanjen</h2>
+        <p id="k-undertittel">Sykepleier i Kristiansand</p>
+      </div>
+      <div class="summary-panel__block">
+        <dl class="summary-row"><dt>Stilling</dt><dd id="d-stilling">Sykepleier</dd></dl>
+        <dl class="summary-row"><dt>Arbeidssted</dt><dd id="d-sted">Kristiansand</dd></dl>
+        <dl class="summary-row"><dt>Ønsket periode</dt><dd id="d-periode">14.10 – 11.11.2026</dd></dl>
+        <dl class="summary-row"><dt>Kanaler</dt><dd id="d-kanaler">Meta, Nettsteder og aviser</dd></dl>
+        <dl class="summary-row"><dt>Budsjett</dt><dd id="d-budsjett">kr 15 000</dd></dl>
+        <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
+      </div>
+      <div class="summary-panel__total">
+        <span>Totalsum</span>
+        <b id="d-total">kr 15 000</b>
+      </div>
+      <div class="summary-panel__block">
+        <dl class="summary-row"><dt>Forventet «Søk»</dt><dd id="d-sok">60–90</dd></dl>
+        <p class="gk-forklaring">«Søk» er hvor mange som trykker på søkeknappen i annonsen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="gk-seksjon" aria-labelledby="annonse-tittel">
+    <h2 class="gk-seksjon__tittel" id="annonse-tittel">Slik kan annonsen se ut</h2>
+    <article class="ad-preview" data-plattform="facebook" aria-label="Eksempel på annonsen på Facebook">
+      <header class="ad-preview__topp">
+        <span class="ad-preview__avatar" id="a-avatar" aria-hidden="true">v</span>
+        <div><b id="a-avsender">Vokser AS</b><small>Sponset</small></div>
+        <span class="ad-preview__mer" aria-hidden="true">···</span>
+      </header>
+      <p class="ad-preview__tekst" id="a-tekst">Vi har ledig stilling som sykepleier i Kristiansand. Les mer og søk i dag.</p>
+      <div class="ad-preview__kreativ">
+        <div class="ad-preview__logo" id="a-logo">Vokser AS</div>
+        <p class="ad-preview__tittel" id="a-tittel">Sykepleier, Kristiansand</p>
+        <div class="ad-preview__bilde" role="img" aria-label="Plass til bilde"></div>
+      </div>
+      <footer class="ad-preview__bunn">
+        <div><small>Ledig stilling</small><b id="a-overskrift">Sykepleier i Kristiansand</b></div>
+        <span class="ad-preview__cta">Les mer</span>
+      </footer>
+    </article>
+    <p class="gk-notat"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>Endelig annonse lages av Frantz etter godkjenning.</p>
+  </section>
+
+  <section class="gk-seksjon" aria-labelledby="svar-tittel">
+    <form class="gk-svar" id="svar" novalidate>
+      <h2 class="gk-seksjon__tittel" id="svar-tittel">Ditt svar</h2>
+      <p class="gk-svar__hint" id="svar-hint">Kari Hansen får svaret ditt med en gang.</p>
+
+      <div class="felt">
+        <label class="form-label" for="navn">Ditt navn</label>
+        <input class="form-input" type="text" id="navn" name="navn" autocomplete="name" required aria-required="true" aria-describedby="navn-feil">
+        <p class="form-error" id="navn-feil" role="alert" hidden></p>
+      </div>
+      <div class="felt">
+        <label class="form-label" for="epost">Din e-post <span class="valgfri">(valgfri)</span></label>
+        <input class="form-input" type="email" id="epost" name="epost" autocomplete="email" inputmode="email" aria-describedby="epost-hint">
+        <p class="form-hint" id="epost-hint">Da får du en kopi av svaret.</p>
+      </div>
+
+      <div class="gk-knapper">
+        <button class="btn btn--accent" type="submit" id="godkjenn"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span> Godkjenn kampanjen</button>
+        <button class="btn btn--secondary" type="button" id="endre" aria-expanded="false" aria-controls="endring"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span> Be om endring</button>
+      </div>
+
+      <div class="gk-endring" id="endring" hidden>
+        <div class="felt">
+          <label class="form-label" for="kommentar">Hva vil du endre?</label>
+          <textarea class="form-textarea" id="kommentar" name="kommentar" rows="4" aria-describedby="kommentar-feil"></textarea>
+          <p class="form-error" id="kommentar-feil" role="alert" hidden></p>
+        </div>
+        <button class="btn btn--primary" type="button" id="send-endring"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> <span id="send-tekst">Send til Kari</span></button>
+      </div>
+    </form>
+
+    <div class="gk-kvittering" id="kvittering" role="status" aria-live="polite" tabindex="-1" hidden></div>
+  </section>
+</main>
+
+<script>
+// Godkjenning uten innlogging: verdiene kommer fra lenken Kari sendte. Alt settes med textContent, aldri som HTML.
+(function () {
+  var q = new URLSearchParams(location.search);
+  var $ = function (id) { return document.getElementById(id); };
+  var hent = function (navn, standard) { var v = (q.get(navn) || '').trim(); return v || standard; };
+  var tall = function (navn, standard) {
+    var v = parseInt(String(q.get(navn) || '').replace(/[^\d]/g, ''), 10);
+    return isNaN(v) ? standard : v;
+  };
+  var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[  ]/g, ' '); };
+  var toSiffer = function (n) { return (n < 10 ? '0' : '') + n; };
+
+  var tittel = hent('tittel', 'Sykepleier');
+  var sted = hent('sted', 'Kristiansand');
+  var periode = hent('periode', '14.10 – 11.11.2026');
+  var kanaler = hent('kanaler', 'Meta, Nettsteder og aviser');
+  var budsjett = tall('budsjett', 15000);
+  var tillegg = hent('tillegg', '').split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+  var tilleggSum = tall('tilleggsum', 0);
+  var sok = hent('sok', '60–90');
+  var fra = hent('fra', 'Kari Hansen');
+  var firma = hent('firma', 'Vokser AS');
+  var avsender = hent('avsender', firma);
+  var fornavn = fra.split(/\s+/)[0];
+
+  // Stillingstittel midt i en setning: liten forbokstav, men la forkortelser som «IT-leder» være
+  var iSetning = tittel.length > 1 && tittel.charAt(1) === tittel.charAt(1).toLowerCase()
+    ? tittel.charAt(0).toLowerCase() + tittel.slice(1) : tittel;
+
+  // Toppen
+  $('overskrift').textContent = fra + ' i ' + firma + ' ber deg godkjenne en kampanje';
+  $('svar-hint').textContent = fra + ' får svaret ditt med en gang.';
+  $('send-tekst').textContent = 'Send til ' + fornavn;
+  document.title = 'Godkjenn kampanjen: ' + tittel + ' — Frantz';
+
+  // Oppsummeringen
+  $('k-undertittel').textContent = tittel + ' i ' + sted;
+  $('d-stilling').textContent = tittel;
+  $('d-sted').textContent = sted;
+  $('d-periode').textContent = periode;
+  $('d-kanaler').textContent = kanaler;
+  $('d-budsjett').textContent = kr(budsjett);
+  if (tillegg.length) {
+    $('r-tillegg').hidden = false;
+    $('d-tillegg').textContent = tillegg.join(', ') + (tilleggSum ? ' · ' + kr(tilleggSum) : '');
+  }
+  $('d-total').textContent = kr(budsjett + (tillegg.length ? tilleggSum : 0));
+  $('d-sok').textContent = sok;
+
+  // Annonsen
+  $('a-avatar').textContent = avsender.charAt(0).toLowerCase();
+  $('a-avsender').textContent = avsender;
+  $('a-logo').textContent = avsender;
+  $('a-tekst').textContent = 'Vi har ledig stilling som ' + iSetning + ' i ' + sted + '. Les mer og søk i dag.';
+  $('a-tittel').textContent = tittel + ', ' + sted;
+  $('a-overskrift').textContent = tittel + ' i ' + sted;
+
+  // Svaret
+  var skjema = $('svar'), navn = $('navn'), navnFeil = $('navn-feil');
+  var endreKnapp = $('endre'), endring = $('endring'), kommentar = $('kommentar'), kommentarFeil = $('kommentar-feil');
+  var kvittering = $('kvittering'), merke = $('status-merke');
+
+  function visFeil(felt, feilmelding, tekst) {
+    feilmelding.textContent = tekst;
+    feilmelding.hidden = false;
+    felt.classList.add('form-input--error');
+    felt.setAttribute('aria-invalid', 'true');
+    felt.focus();
+  }
+  function fjernFeil(felt, feilmelding) {
+    feilmelding.hidden = true;
+    feilmelding.textContent = '';
+    felt.classList.remove('form-input--error');
+    felt.removeAttribute('aria-invalid');
+  }
+  function sjekkNavn() {
+    var v = navn.value.trim();
+    if (!v) { visFeil(navn, navnFeil, 'Skriv navnet ditt, så vet ' + fornavn + ' hvem som godkjente.'); return ''; }
+    fjernFeil(navn, navnFeil);
+    return v;
+  }
+  navn.addEventListener('input', function () { if (navn.value.trim()) fjernFeil(navn, navnFeil); });
+  kommentar.addEventListener('input', function () { if (kommentar.value.trim()) fjernFeil(kommentar, kommentarFeil); });
+
+  function lagLinje(tag, klasse, tekst) {
+    var el = document.createElement(tag);
+    if (klasse) el.className = klasse;
+    el.textContent = tekst;
+    return el;
+  }
+  function visKvittering(tittelTekst, broedtekst, lagretTekst) {
+    var boks = document.createElement('div');
+    boks.className = 'alert alert--success';
+    var ikon = document.createElement('span');
+    ikon.className = 'icon-lucide icon-lucide--circle-check alert__icon';
+    ikon.setAttribute('aria-hidden', 'true');
+    var innhold = document.createElement('div');
+    innhold.className = 'alert__content';
+    var t = lagLinje('h2', 'alert__title', tittelTekst);
+    t.tabIndex = -1;
+    innhold.appendChild(t);
+    innhold.appendChild(lagLinje('p', 'alert__body', broedtekst));
+    boks.appendChild(ikon);
+    boks.appendChild(innhold);
+    kvittering.textContent = '';
+    kvittering.appendChild(boks);
+    if (lagretTekst) kvittering.appendChild(lagLinje('p', 'gk-lagret', lagretTekst));
+    skjema.hidden = true;
+    kvittering.hidden = false;
+    t.focus();
+  }
+
+  // Godkjenn (også Enter i navnefeltet)
+  skjema.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = sjekkNavn();
+    if (!v) return;
+    var n = new Date();
+    var dato = toSiffer(n.getDate()) + '.' + toSiffer(n.getMonth() + 1) + '.' + n.getFullYear();
+    var tid = toSiffer(n.getHours()) + '.' + toSiffer(n.getMinutes());
+    merke.className = 'badge badge--active';
+    merke.textContent = 'Godkjent';
+    visKvittering(
+      'Takk, ' + v + '. Kampanjen er godkjent.',
+      fra + ' og Frantz har fått beskjed. Godkjent ' + dato + ' kl. ' + tid + '.',
+      'Godkjenningen er lagret med navnet ditt og tidspunktet.'
+    );
+  });
+
+  // Be om endring: vis kommentarfeltet
+  endreKnapp.addEventListener('click', function () {
+    var apne = endring.hidden;
+    endring.hidden = !apne;
+    endreKnapp.setAttribute('aria-expanded', String(apne));
+    if (apne) kommentar.focus();
+  });
+
+  $('send-endring').addEventListener('click', function () {
+    var v = sjekkNavn();
+    if (!v) return;
+    if (!kommentar.value.trim()) { visFeil(kommentar, kommentarFeil, 'Skriv hva du vil endre.'); return; }
+    fjernFeil(kommentar, kommentarFeil);
+    merke.className = 'badge badge--ordered';
+    merke.textContent = 'Endring ønsket';
+    visKvittering(
+      'Takk. ' + fornavn + ' har fått kommentaren din.',
+      'Du får en ny lenke når kampanjen er endret.',
+      ''
+    );
+  });
+})();
+</script>
+</body>
+</html>

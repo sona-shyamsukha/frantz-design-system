@@ -17,7 +17,7 @@
 .container--xl { max-width: var(--container-xl); }
 .container--full { max-width: 100%; }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .container {
     padding-left: var(--page-padding-mobile);
     padding-right: var(--page-padding-mobile);
@@ -49,7 +49,7 @@
 .grid--gap-sm { gap: var(--space-16); }
 .grid--gap-lg { gap: var(--space-32); }
 
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .grid--4 { grid-template-columns: repeat(2, 1fr); }
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
 }
@@ -74,7 +74,7 @@
   display: block;
   width: 36px;
   height: 3px;
-  background: var(--bg-brand-2-strong);
+  background: var(--bg-amber-strong);
   flex-shrink: 0;
 }
 
@@ -112,7 +112,7 @@
   gap: var(--space-12);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
   .cols {
     grid-template-columns: 1fr;
   }
@@ -140,7 +140,7 @@
 .flow[hidden] { display: none; }
 .flow-wrap { min-width: 0; }
 
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
   .cols { grid-template-columns: 1fr; }
 }
 
@@ -152,7 +152,7 @@
 .detalj__topp { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
 .detalj__knapper { display: flex; flex-wrap: wrap; gap: var(--space-12); margin-left: auto; }
 
-@media (max-width: 700px) {
+@media (max-width: 640px) {
   .detalj__knapper { margin-left: 0; width: 100%; }
   .detalj__knapper > .btn { flex: 1 1 100%; justify-content: center; }
 }

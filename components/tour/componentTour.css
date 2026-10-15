@@ -1,0 +1,131 @@
+/* Omvisning: små vinduer som peker på deler av siden, ett om gangen. Styres av components/js/tour.js.
+   Ligger over alt annet, også menyen, skuffene og toppen i komponentbiblioteket (z-index 500). */
+
+/* Fanger klikk på siden mens omvisningen er åpen. Uten mål dimmer den hele siden. */
+.tour-lag {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav) + 200);
+  background: transparent;
+}
+
+.tour-lag--dim { background: var(--scrim); }
+
+/* Ringen rundt målet. Den store skyggen dimmer resten av siden, så målet blir stående klart. */
+.tour-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: calc(var(--z-nav) + 201);
+  border-radius: var(--radius-12);
+  box-shadow: 0 0 0 3px var(--color-amber), 0 0 0 9999px var(--scrim);
+  pointer-events: none;
+}
+
+.tour-lag[hidden],
+.tour-ring[hidden],
+.tour[hidden] { display: none; }
+
+/* Selve vinduet */
+.tour {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: calc(var(--z-nav) + 202);
+  width: min(340px, calc(100vw - var(--space-32)));
+  padding: var(--space-20);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-dialog);
+  color: var(--text-body);
+  font-family: var(--font-body);
+}
+
+.tour:focus { outline: none; }
+.tour:focus-visible { box-shadow: var(--shadow-dialog), var(--focus-ring); }
+
+/* Uten synlig mål: midt på skjermen */
+.tour--midt {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tour__steg {
+  margin: 0 0 var(--space-6);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.tour__tittel {
+  margin: 0;
+  color: var(--text-heading);
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-tight);
+}
+
+.tour__tekst {
+  margin: var(--space-8) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.tour__handlinger {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  margin-top: var(--space-20);
+}
+
+.tour__nav {
+  display: flex;
+  gap: var(--space-8);
+  margin-left: auto;
+}
+
+.tour__handlinger .btn[hidden] { display: none; }
+
+/* Myk overgang mellom stegene, bare for dem som ikke har skrudd av bevegelse */
+@media (prefers-reduced-motion: no-preference) {
+  .tour-ring {
+    transition: transform var(--duration-base) var(--ease-out), width var(--duration-base) var(--ease-out), height var(--duration-base) var(--ease-out);
+  }
+
+  .tour {
+    animation: tour-inn var(--duration-base) var(--ease-out);
+  }
+}
+
+@keyframes tour-inn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobil: vinduet legger seg i full bredde nederst, eller øverst når målet står nederst */
+@media (max-width: 640px) {
+  .tour,
+  .tour--midt {
+    top: auto;
+    right: var(--space-16);
+    bottom: var(--space-16);
+    left: var(--space-16);
+    width: auto;
+    transform: none;
+  }
+
+  .tour--topp {
+    top: var(--space-16);
+    bottom: auto;
+  }
+
+  .tour__handlinger .btn { min-height: 44px; }
+}

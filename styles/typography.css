@@ -43,8 +43,8 @@ small { font-size: var(--text-xs); }
 .text-muted   { color: var(--text-muted); }
 .text-faint   { color: var(--text-faint); }
 .text-on-dark { color: var(--text-on-dark); }
-.text-brand   { color: var(--text-brand-1-strong); }
-.text-accent  { color: var(--text-brand-2-strong); }
+.text-brand   { color: var(--text-navy-strong); }
+.text-accent  { color: var(--text-amber-strong); }
 
 /* --- Weight utilities --- */
 .fw-light    { font-weight: var(--font-weight-light); }
@@ -54,7 +54,7 @@ small { font-size: var(--text-xs); }
 .fw-bold     { font-weight: var(--font-weight-bold); }
 
 /* --- Responsive type scale --- */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .text-display { font-size: var(--text-3xl); }
   .text-h1      { font-size: var(--text-2xl); }
   .text-h2      { font-size: var(--text-xl);  }

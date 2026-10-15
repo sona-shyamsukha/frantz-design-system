@@ -63,7 +63,7 @@ button.step {
 .stepper__item--current .stepper__num,
 .step--now .step__n {
   background: var(--color-amber);
-  color: var(--text-on-brand-2);
+  color: var(--text-on-amber);
 }
 
 button.stepper__item:focus-visible,

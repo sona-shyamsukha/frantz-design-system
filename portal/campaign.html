@@ -7,10 +7,15 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=45">
+<link rel="stylesheet" href="../frantz-ds.css?v=54">
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-body); }
+  .ad-card__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-12); }
+  .ad-card__knapper .ad-card__action { flex: 1; margin-top: 0; width: auto; }
+  .ad-card__knapper .btn--ghost { flex: none; padding-inline: var(--space-12); border: 1px solid var(--border-default); }
+  .oppdatert { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
+  .nettsted-tabell .meter { max-width: 220px; margin-top: var(--space-6); }
   .forklar { margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-muted); }
   .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-faint); list-style: none; }
   .forklar summary::-webkit-details-marker { display: none; }
@@ -102,6 +107,7 @@
       <div class="detalj__topp">
         <h1 class="text-h2">Sykepleier Oslo</h1>
         <span class="badge badge--active">Aktiv</span>
+        <span class="oppdatert"><span class="icon-lucide icon-lucide--clock icon-lucide--sm" aria-hidden="true"></span>Tall oppdatert i dag kl. 06.00</span>
         <div class="detalj__knapper"><button class="btn btn--secondary" type="button" data-til-fane="detaljer" data-til="annonser"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span> Se annonsene</button>
         <button class="btn btn--secondary" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);this.lastChild.textContent=' Lenke kopiert'"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Kopier rapportlenke</button></div>
       </div>
@@ -122,7 +128,8 @@
               <p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit. Med dagens tempo ender vi på rundt 370–400 «Søk», så målet er innen rekkevidde.»</p>
               <footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status 24.09.2026</footer>
             </blockquote>
-            <div class="metrics">
+            <div class="metrics metrics--fire">
+              <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span></span><div class="metric__value">132 600</div><div class="metric__label">visninger så langt</div><div class="metric__foot"><span style="white-space:nowrap">Normalt 110 000</span><span class="tag tag--raised tag--good">21 % flere</span></div></div>
               <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--wallet" aria-hidden="true"></span></span><div class="metric__value">kr 112</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span style="white-space:nowrap">Normalt kr 140</span><span class="tag tag--raised tag--good">20 % lavere</span></div></div>
               <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span></span><div class="metric__value">312</div><div class="metric__label">trykket «Søk» så langt</div><div class="metric__foot"><span style="white-space:nowrap">Normalt 250</span><span class="tag tag--raised tag--good">25 % flere</span></div></div>
               <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span></span><div class="metric__value">9</div><div class="metric__label">meldte interesse</div><div class="metric__foot"><span style="white-space:nowrap">Normalt 7</span><span class="tag tag--raised tag--good">29 % flere</span></div></div>
@@ -133,6 +140,7 @@
               <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder"></span>Nettsteder og aviser</div><div class="metric__value">kr 173</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span style="white-space:nowrap">kr 8 500 brukt · 49 «Søk»</span></div></div>
             </div>
             <details class="forklar" style="margin-top: var(--space-16)"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr «normalt»?</summary><p>Normalt er snittet for lignende kampanjer for sykepleiere i Oslo-området etter like mange dager.</p></details>
+            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva skjer etter «Søk»?</summary><p>Når noen trykker «Søk», går de videre til deres eget søknadsskjema. Der kan ikke Frantz måle. Vi vet derfor ikke hvor mange som sendte en søknad. Det ser dere i deres eget rekrutteringssystem.</p></details>
           </div>
           <div class="card card--betjen" data-samtykke="129041">
             <div class="card__head"><div>
@@ -180,12 +188,20 @@
             </div>
             <div id="resultat-trakt" data-trakt data-visning="trakt"></div>
           </div>
+          <div class="card card--betjen" id="dag-for-dag">
+            <div class="card__head"><div>
+              <h3 class="card__title">Dag for dag</h3>
+              <p class="card__hint">Siden start 03.09. Tallene for i går kommer kl. 06.00 hver morgen.</p>
+            </div></div>
+            <div id="dagsgraf"></div>
+          </div>
 
           <div class="card card--betjen">
             <div class="card__head"><div>
               <h3 class="card__title" id="annonser">Annonser</h3>
               <p class="card__hint">Videoen på Meta gir over halvparten av alle «Søk» så langt.</p>
-            </div></div>
+            </div>
+            <button class="btn btn--secondary btn--sm" type="button" data-last-ned="Sykepleier-Oslo-annonser.zip"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned alle</button></div>
             <div class="ad-grid">
               <div class="ad-card ad-card--best">
                 <div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
@@ -193,7 +209,7 @@
                   <div class="ad-card__name">«Hverdagshelter på Ullevål»</div>
                   <div class="ad-card__channel">Meta</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>2 400</b><span>Klikkrate</span><b>4,0 %</b><span>Trykket «Søk»</span><b>180</b></div>
-                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Hverdagshelter+p%C3%A5+Ullev%C3%A5l&kanal=Meta&type=Video&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a>
+                  <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Hverdagshelter+p%C3%A5+Ullev%C3%A5l&kanal=Meta&type=Video&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Hverdagshelter på Ullevål" aria-label="Last ned «Hverdagshelter på Ullevål»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   <span class="tag tag--outline tag--good">Beste annonse</span>
                 </div>
               </div>
@@ -203,7 +219,7 @@
                   <div class="ad-card__name">«Fast stilling i Oslo»</div>
                   <div class="ad-card__channel">Meta</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,4 %</b><span>Trykket «Søk»</span><b>83</b></div>
-                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Fast+stilling+i+Oslo&kanal=Meta&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a>
+                  <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Fast+stilling+i+Oslo&kanal=Meta&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Fast stilling i Oslo" aria-label="Last ned «Fast stilling i Oslo»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   
                 </div>
               </div>
@@ -213,12 +229,23 @@
                   <div class="ad-card__name">«Bli sykepleier hos oss»</div>
                   <div class="ad-card__channel">Nettsteder og aviser</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>650</b><span>Klikkrate</span><b>1,9 %</b><span>Trykket «Søk»</span><b>49</b></div>
-                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Bli+sykepleier+hos+oss&kanal=Nettsteder+og+aviser&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a>
+                  <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Bli+sykepleier+hos+oss&kanal=Nettsteder+og+aviser&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Bli sykepleier hos oss" aria-label="Last ned «Bli sykepleier hos oss»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   
                 </div>
               </div>
             </div>
             <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></details>
+          </div>
+          <div class="card card--betjen" id="nettsteder">
+            <div class="card__head"><div>
+              <h3 class="card__title">Hvilke nettsteder og aviser viste annonsen?</h3>
+              <p class="card__hint">Annonsene under «Nettsteder og aviser» vises på mange sider samtidig. 34 300 visninger totalt.</p>
+            </div></div>
+            <table class="table nettsted-tabell">
+              <thead><tr><th>Nettsted</th><th>Visninger</th><th>Klikk</th></tr></thead>
+              <tbody><tr><td data-label="Nettsted"><span class="table__title">VG.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:26%"></div></div></div></td><td data-label="Visninger">8 900</td><td data-label="Klikk">170</td></tr><tr><td data-label="Nettsted"><span class="table__title">Aftenposten.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">6 400</td><td data-label="Klikk">120</td></tr><tr><td data-label="Nettsted"><span class="table__title">Dagbladet.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:12%"></div></div></div></td><td data-label="Visninger">4 200</td><td data-label="Klikk">75</td></tr><tr><td data-label="Nettsted"><span class="table__title">Nettavisen.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:10%"></div></div></div></td><td data-label="Visninger">3 600</td><td data-label="Klikk">70</td></tr><tr><td data-label="Nettsted"><span class="table__title">TV2.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:9%"></div></div></div></td><td data-label="Visninger">3 100</td><td data-label="Klikk">60</td></tr><tr><td data-label="Nettsted"><span class="table__title">Finn.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:8%"></div></div></div></td><td data-label="Visninger">2 800</td><td data-label="Klikk">65</td></tr><tr><td data-label="Nettsted"><span class="table__title">Andre (41 nettsteder)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:15%"></div></div></div></td><td data-label="Visninger">5 300</td><td data-label="Klikk">90</td></tr></tbody>
+            </table>
+            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></details>
           </div>
           <div class="card card--betjen" id="geo">
             <div class="card__head"><div>
@@ -313,9 +340,11 @@
               <span class="summary-panel__label">Kampanjeside</span>
               <div class="lenkeboks">
                 <span>frantz.no/k/129041</span>
-                <button class="btn btn--ghost" type="button">Kopier</button>
+                <button class="btn btn--ghost" type="button" data-kopier="https://frantz.no/k/129041">Kopier</button>
               </div>
+              <a class="link link--xs" href="landingsside.html" style="display:inline-flex;align-items:center;gap:var(--space-4);margin-top:var(--space-8)"><span class="icon-lucide icon-lucide--pencil icon-lucide--sm" aria-hidden="true"></span>Rediger kampanjesiden</a>
             </div>
+            <div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09.14"></div>
             <div class="summary-panel__block">
               <span class="summary-panel__label">Siden så langt</span>
               <dl class="summary-row"><dt>Besøk på siden</dt><dd>3 480</dd></dl>
@@ -335,6 +364,36 @@
   </div>
 </div>
 
+<script>
+/* Copy and download buttons on this page. The demo only says that it worked. */
+(function () {
+  function ferdig(b, tekst) {
+    var gammel = b.innerHTML;
+    // An icon-only button shows a check mark, so it keeps its size
+    if (b.textContent.trim()) b.textContent = tekst; else b.innerHTML = '<span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>';
+    b.disabled = true;
+    setTimeout(function () { b.innerHTML = gammel; b.disabled = false; }, 2000);
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-kopier], [data-last-ned]'); if (!b) return;
+    if (b.dataset.lastNed) { ferdig(b, 'Lastes ned …'); return; }
+    try { navigator.clipboard.writeText(b.dataset.kopier).catch(function () {}); } catch (x) {}
+    ferdig(b, 'Kopiert');
+  });
+})();
+</script>
+<script src="../components/js/week-chart.js?v=2"></script>
+<script>
+// Day by day: visninger and «Søk», one small chart each
+(function () {
+  var start = new Date(2026, 8, 3), dager = [];
+  for (var i = 0; i < 25; i++) { var d = new Date(start); d.setDate(d.getDate() + i); dager.push(String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0')); }
+  tegnUkegraf(document.getElementById('dagsgraf'), { enhet: 'dag', uker: dager, serier: [
+    { navn: 'Visninger', farge: 'var(--color-navy)', v: [1300, 3383, 5165, 6094, 6682, 5288, 5551, 7034, 5480, 5120, 6244, 5292, 4467, 3420, 4884, 5332, 4710, 6046, 6269, 4044, 4232, 6495, 7469, 6462, 6137] },
+    { navn: 'Trykket «Søk»', farge: 'var(--color-green)', v: [2, 5, 6, 8, 13, 10, 11, 12, 13, 14, 14, 12, 11, 11, 16, 17, 17, 16, 16, 12, 11, 14, 17, 16, 18] }
+  ] });
+})();
+</script>
 <script src="../components/js/funnel.js?v=13"></script>
 
 <script>
@@ -356,7 +415,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
     'Hvor mange som kom til kampanjesiden og ble der en stund.',
     'Hvor mange som begynte å scrolle nedover i stillingsteksten.',
     'Hvor mange som leste stillingsteksten helt ut. Dette er de mest interesserte kandidatene.',
-    'Hvor mange som trykket «Søk» og gikk videre til søknaden.'
+    'Hvor mange som trykket «Søk» og gikk videre til søknaden. Dette er det siste Frantz kan måle. Hvor mange som sendte søknaden, ser dere i deres eget system.'
   ],
   startTekst: 'alle som så annonsen',
   rateNavn: 'Andel som trykket «Søk»',
@@ -461,9 +520,10 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 })();
 </script>
 <script src="../components/js/interessenter.js?v=1"></script>
+<script src="../components/js/piksel.js"></script>
 <script src="../components/js/interactions.js?v=2"></script>
-<script src="../components/js/konto.js?v=2"></script>
+<script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=5"></script>
+<script src="../components/js/assistant.js?v=6"></script>
 </body>
 </html>
