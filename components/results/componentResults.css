@@ -140,13 +140,13 @@
   font-weight: var(--font-weight-semibold);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 860px) {
   .results__steps { grid-template-columns: 1fr 1fr; }
   .results__step:nth-child(3)::before { display: none; }
   .results__scroll { overflow-x: auto; }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .results__steps { grid-template-columns: 1fr; }
   .results__step + .results__step::before { display: none; }
 }

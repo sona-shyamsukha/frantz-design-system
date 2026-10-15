@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rediger kampanjesiden — Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=52">
+<link rel="stylesheet" href="../frantz-ds.css?v=54">
 <style>
   body { margin: 0; }
 
@@ -128,7 +128,7 @@
   .lp-laast p { margin: 0; }
   .lp-laast .link { justify-self: start; }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1180px) {
     .lp-cols, .lp-cols.er-pc { grid-template-columns: minmax(0, 1fr); }
     .lp-side { position: static; }
     .lp-ramme__vindu { max-height: none; }
@@ -413,7 +413,7 @@
   var valgtBilde = publisert.bilde;
   var lagreTimer = null;
 
-  var klokke = function (d) { return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); };
+  var klokke = function (d) { return ('0' + d.getHours()).slice(-2) + '.' + ('0' + d.getMinutes()).slice(-2); };
   var vask = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
   var finnBilde = function (id) { for (var i = 0; i < bilder.length; i++) { if (bilder[i].id === id) return bilder[i]; } return null; };
 
@@ -686,8 +686,8 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=2"></script>
-<script src="../components/js/konto.js?v=3"></script>
+<script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=5"></script>
+<script src="../components/js/assistant.js?v=6"></script>
 </body>
 </html>

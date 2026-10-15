@@ -205,7 +205,7 @@
   font-size: var(--text-xs);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 640px) {
   .funnel__box {
     min-width: 0;
   }

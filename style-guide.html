@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Stilguide</title>
-<link rel="stylesheet" href="frantz-ds.css?v=52">
-<link rel="stylesheet" href="styles/docs.css?v=4">
+<link rel="stylesheet" href="frantz-ds.css?v=54">
+<link rel="stylesheet" href="styles/docs.css?v=5">
 </head>
 <body class="ds-docs">
 
@@ -564,16 +564,16 @@
     <div class="token-list">
       <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Mobil</span><span class="token-row__value">640px</span><span class="token-row__desc">Én kolonne. Knapper og felt i full bredde. Omvisningen legger seg nederst.</span></div>
       <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Nettbrett</span><span class="token-row__value">860px</span><span class="token-row__desc">Sidemenyen blir en meny øverst til høyre. Chatten åpnes over hele skjermen.</span></div>
-      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Liten desktop</span><span class="token-row__value">1180px</span><span class="token-row__desc">To kolonner blir én. Sidepanelet («Din bestilling», «Om kampanjen») flytter under innholdet.</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Liten desktop</span><span class="token-row__value">1180px</span><span class="token-row__desc">To kolonner blir én. Sidepanelet («Din bestilling», «Om kampanjen») flytter under innholdet. Gjelder <code>.cols</code> og alle sider med sidepanel.</span></div>
     </div>
   </div>
   <div class="ds-sub">
-    <div class="ds-sub__title">Brukes i dag, skal flyttes</div>
-    <div class="ds-desc">Noen komponenter bruker andre bredder. Flytt dem til nærmeste brudd når komponenten bygges på nytt.</div>
+    <div class="ds-sub__title">Slik velger du brudd</div>
+    <div class="ds-desc">Alle komponenter og sider bruker nå bare disse tre. Velg etter hva oppsettet trenger, ikke etter tallet som ligger nærmest.</div>
     <div class="token-list">
-      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">480, 700, 720, 768</span><span class="token-row__value">→ 640</span><span class="token-row__desc">Resultater, kart, nøkkeltall, trakt, tabell, layout, typografi</span></div>
-      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">900</span><span class="token-row__value">→ 860</span><span class="token-row__desc">Resultater, annonsestudio, layout</span></div>
-      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">1024, 1100</span><span class="token-row__value">→ 1180</span><span class="token-row__desc">Layout, nøkkeltall</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Side med sidepanel</span><span class="token-row__value">1180</span><span class="token-row__desc"><code>.cols</code> og andre oppsett med hovedkolonne og sidepanel. Under 1180 blir hovedkolonnen for smal ved siden av sidemenyen.</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Felt side om side</span><span class="token-row__value">860</span><span class="token-row__desc">To felt i én rad i et skjema. Kort i to eller tre kolonner.</span></div>
+      <div class="token-row" style="grid-template-columns:160px 80px 1fr"><span class="token-row__name">Alt annet</span><span class="token-row__value">640</span><span class="token-row__desc">Rutenett, knapper og tabeller går over til én kolonne.</span></div>
     </div>
   </div>
 </section>

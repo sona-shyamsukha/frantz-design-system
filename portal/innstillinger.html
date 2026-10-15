@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=52">
+<link rel="stylesheet" href="../frantz-ds.css?v=54">
 <style>
   body { margin: 0; }
   .sidefaner { margin-top: var(--space-24); }
@@ -70,15 +70,16 @@
   .banner-meta small { color: var(--text-muted); font-size: var(--text-xs); }
   .banner-meta__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-navy) center / cover; color: var(--color-white); font-weight: var(--font-weight-bold); }
   .banner-meta__ikon.har-bilde { color: transparent; }
-  @media (max-width: 1000px) { .merke-arbeid { grid-template-columns: 1fr; } .merke-arbeid__vis { position: static; max-width: 360px; } }
-  @media (max-width: 700px) { .farger, .logo-par { grid-template-columns: 1fr; } .logoopp__rad { flex-direction: column; align-items: flex-start; } .skrift__rad { flex-direction: column; } }
+  @media (max-width: 1180px) { .merke-arbeid { grid-template-columns: 1fr; } .merke-arbeid__vis { position: static; max-width: 360px; } }
+  @media (max-width: 640px) { .farger, .logo-par { grid-template-columns: 1fr; } .logoopp__rad { flex-direction: column; align-items: flex-start; } .skrift__rad { flex-direction: column; } }
   .merkefiler { margin: var(--space-12) 0 0; padding: 0; list-style: none; }
   .merkefil { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: var(--space-12); align-items: center; padding: var(--space-8) 0; border-bottom: 1px solid var(--border-subtle); }
   .merkefil__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-heading); }
   .merkefil__navn b { display: block; font-size: var(--text-base); color: var(--text-heading); font-weight: var(--font-weight-medium); }
   .merkefil__navn small { font-size: var(--text-sm); color: var(--text-muted); }
   .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
-  @media (max-width: 900px) { .merke, .skjema__rad { grid-template-columns: 1fr; } .forhand { position: static; } }
+  @media (max-width: 1180px) { .merke { grid-template-columns: 1fr; } .forhand { position: static; } }
+  @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -443,8 +444,8 @@ tegnBanner(); tegnProver();
 tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
 </script>
 <script src="../components/js/interactions.js?v=2"></script>
-<script src="../components/js/konto.js?v=3"></script>
+<script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=5"></script>
+<script src="../components/js/assistant.js?v=6"></script>
 </body>
 </html>

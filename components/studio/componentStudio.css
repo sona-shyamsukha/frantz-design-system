@@ -41,4 +41,4 @@
 .ad-preview[data-plattform="instagram"] { display: flex; flex-direction: column; }
 .ad-preview[data-plattform="linkedin"] .ad-preview__cta { background: none; color: var(--channel-linkedin); border: 1px solid var(--channel-linkedin); border-radius: var(--radius-full); }
 .ad-preview[data-plattform="linkedin"] .ad-preview__avatar { border-radius: var(--radius-4); }
-@media (max-width: 900px) { .studio, .studio__farger { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .studio, .studio__farger { grid-template-columns: 1fr; } }

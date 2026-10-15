@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Godkjenn kampanjen — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=52">
+<link rel="stylesheet" href="../frantz-ds.css?v=54">
 <style>
   /* Offentlig side uten innlogging: ingen sidemeny, smal toppstripe, alt i én kolonne */
   body { margin: 0; background: var(--surface-default); }
@@ -287,7 +287,7 @@
     if (!v) return;
     var n = new Date();
     var dato = toSiffer(n.getDate()) + '.' + toSiffer(n.getMonth() + 1) + '.' + n.getFullYear();
-    var tid = toSiffer(n.getHours()) + ':' + toSiffer(n.getMinutes());
+    var tid = toSiffer(n.getHours()) + '.' + toSiffer(n.getMinutes());
     merke.className = 'badge badge--active';
     merke.textContent = 'Godkjent';
     visKvittering(

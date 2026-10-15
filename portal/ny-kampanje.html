@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=52">
+<link rel="stylesheet" href="../frantz-ds.css?v=54">
 <style>
   body { margin: 0; }
 
@@ -185,7 +185,7 @@
   .kvittering p { color: var(--text-body); }
   .kvittering .emne { padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1180px) {
     .nk { grid-template-columns: 1fr; }
     .oppsummering { position: static; }
   }
@@ -278,7 +278,7 @@
                     <button class="link link--xs" type="button" data-demo="3" title="Eksempel: bare tekst">Prøv eksempel 3</button>
                   </span>
                 </div>
-                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="5" placeholder="F.eks. Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett 15 000 kr. Kunden må godkjenne annonsen."></textarea>
+                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="5" placeholder="F.eks. Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett kr 15 000. Kunden må godkjenne annonsen."></textarea>
                 <p class="form-hint">Skriv det som er viktig for dere. Vi henter ut sted, frist, budsjett og kanaler hvis dere nevner dem.</p>
               </div>
               <div class="felt">
@@ -1181,7 +1181,7 @@
       try { localStorage.setItem(LAGER, JSON.stringify(data)); } catch (e) {}
       var d = new Date();
       $('lagret').classList.remove('lagret--lagrer');
-      $('lagret-tekst').textContent = 'Lagret kl. ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      $('lagret-tekst').textContent = 'Lagret kl. ' + String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0');
     }, 700);
   }
   ['input', 'change', 'click'].forEach(function (h) { $('skjema').addEventListener(h, lagreUtkast); });
@@ -1200,7 +1200,7 @@
       kanaler: kanalTekst(), faktura: $('faktura').value,
       materiell: tilstand.materiell ? materiellTekst() : '', periode: kort(iso(periodeDatoer().start)) + ' – ' + kort(iso(periodeDatoer().slutt)), start: kort(iso(periodeDatoer().start)),
       notat: $('notat').value.trim(), avsender: $('avsender').value.trim(), pakke: pakkeTekst(),
-      tid: String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0')
+      tid: String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0')
     };
     try { sessionStorage.setItem('fzOrdre', JSON.stringify(ordre)); } catch (e) {}
     clearTimeout(lagreTimer);
@@ -1213,8 +1213,8 @@
   /* ---------- Demo scenarios ---------- */
   var DEMO = {
     1: { lenke: EKSEMPEL, tekst: '' },
-    2: { lenke: EKSEMPEL, tekst: 'Vi trenger to sykepleiere til akuttmottaket. Budsjett 15 000 kr. Bruk LinkedIn og Meta. Kampanjen går fra 3. november til 30. november. Vi har ferdig materiell. Vi vil ha strategisk rådgivning og Meld interesse-knapp. Kunden må godkjenne annonsen.' },
-    3: { lenke: '', tekst: 'Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett 15 000 kr. Bruk LinkedIn og Meta. Periode 4 uker. Vi vil ha hjelp med annonsen og tekstproduksjon. Kampanjenavn: Oppdrag 22 45.' }
+    2: { lenke: EKSEMPEL, tekst: 'Vi trenger to sykepleiere til akuttmottaket. Budsjett kr 15 000. Bruk LinkedIn og Meta. Kampanjen går fra 3. november til 30. november. Vi har ferdig materiell. Vi vil ha strategisk rådgivning og Meld interesse-knapp. Kunden må godkjenne annonsen.' },
+    3: { lenke: '', tekst: 'Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett kr 15 000. Bruk LinkedIn og Meta. Periode 4 uker. Vi vil ha hjelp med annonsen og tekstproduksjon. Kampanjenavn: Oppdrag 22 45.' }
   };
   function kjorDemo(n) {
     $('ref').value = ''; $('avsender').value = 'Vokser AS'; $('husk-avsender').textContent = 'Vokser AS'; $('lenke').value = DEMO[n].lenke; $('beskrivelse').value = DEMO[n].tekst;
@@ -1272,8 +1272,8 @@
 </script>
 
 <script src="../components/js/interactions.js?v=2"></script>
-<script src="../components/js/konto.js?v=3"></script>
+<script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=5"></script>
+<script src="../components/js/assistant.js?v=6"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ class AssistantChat {
 
   static EXAMPLE_ORDER = [
     'Kampanje: 22 45 Intensivsykepleier Tromsø',
-    'Totalbudsjett: 30 000 kr',
+    'Totalbudsjett: kr 30 000',
     'Kanaler: Meta og LinkedIn',
     'Stillingslenke: https://jobber.example.no/stilling/intensivsykepleier-tromso',
     'Periode: snarest til søknadsfrist',
@@ -136,7 +136,7 @@ class AssistantChat {
 
   now() {
     const d = new Date();
-    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    return String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0');
   }
 
   addMsg(role, bubble, extras) {
@@ -447,7 +447,8 @@ class AssistantChat {
     const ref = /(?:kampanje|ref(?:eranse)?\.?)\s*:?\s*(\d{2}\s?\d{2})\b/i.exec(t);
     if (ref) set('ref', ref[1].replace(/(\d{2})\s?(\d{2})/, '$1 $2'));
 
-    const budget = /(\d{1,3}(?:[ .\u00a0]\d{3})+|\d{4,6})\s*(?:kr|kroner|nok|,-)/i.exec(t) ||
+    const budget = /\bkr\.?\s*(\d{1,3}(?:[ .\u00a0]\d{3})+|\d{4,6})/i.exec(t) ||
+      /(\d{1,3}(?:[ .\u00a0]\d{3})+|\d{4,6})\s*(?:kr|kroner|nok|,-)/i.exec(t) ||
       /budsjett\w*\s*:?\s*(?:kr\.?\s*)?(\d[\d .\u00a0]{2,})/i.exec(t);
     if (budget) {
       const n = parseInt(budget[1].replace(/\D/g, ''), 10);
@@ -523,7 +524,7 @@ class AssistantChat {
         return this.say('<p>Når er søknadsfristen? Skriv datoen, for eksempel 20.10.2026.</p>');
       case 'budget':
         return this.say('<p>Hva er totalbudsjettet for kampanjen?</p>',
-          { chips: ['15 000 kr', '30 000 kr', '50 000 kr'].map((b) => ({ label: b, run: () => this.handleAwaiting(b, []) })) });
+          { chips: ['kr 15 000', 'kr 30 000', 'kr 50 000'].map((b) => ({ label: b, run: () => this.handleAwaiting(b, []) })) });
       case 'channels':
         return this.say('<p>Hvilke kanaler skal kampanjen gå i?</p>', {
           chips: [
@@ -621,7 +622,7 @@ class AssistantChat {
       }
       return this.say(k === 'link'
         ? '<p>Det ser ikke ut som en lenke. Lim inn hele adressen til stillingsannonsen.</p>'
-        : '<p>Jeg fant ikke et beløp. Skriv for eksempel «30 000 kr».</p>');
+        : '<p>Jeg fant ikke et beløp. Skriv for eksempel «kr 30 000».</p>');
     }
 
     if (k === 'images' || k === 'logo') {
@@ -729,7 +730,7 @@ class AssistantChat {
   review(intro, changed) {
     this.mode = 'review';
     this.awaiting = null;
-    return this.say(intro + '<p>Vil du endre noe, skriv det med egne ord, for eksempel «budsjett 35 000 kr».</p>',
+    return this.say(intro + '<p>Vil du endre noe, skriv det med egne ord, for eksempel «budsjett kr 35 000».</p>',
       { extras: [this.renderDraft(true, changed)] });
   }
 
@@ -742,7 +743,7 @@ class AssistantChat {
         this.draft.shortText = { value: short[1], source: 'text' };
         return this.review('<p>Jeg har oppdatert <b>Kort tekst</b>.</p>', ['shortText']);
       }
-      return this.say('<p>Jeg skjønte ikke hva du vil endre. Skriv for eksempel «budsjett 35 000 kr» eller «kanaler Meta og LinkedIn».</p>',
+      return this.say('<p>Jeg skjønte ikke hva du vil endre. Skriv for eksempel «budsjett kr 35 000» eller «kanaler Meta og LinkedIn».</p>',
         { chips: [this.humanChip()] });
     }
     return this.review('<p>Jeg har oppdatert: <b>' + changed.map((k) => this.esc(labels[k])).join(', ') + '</b>.</p>', changed);

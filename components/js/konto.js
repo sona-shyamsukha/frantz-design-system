@@ -4,7 +4,7 @@
   if (!topbar) return;
 
   var varsler = [
-    { ikon: 'users', tittel: '3 nye interessenter på Sykepleier Oslo', tid: 'I dag kl. 07:12', href: 'campaign.html', ulest: true },
+    { ikon: 'users', tittel: '3 nye interessenter på Sykepleier Oslo', tid: 'I dag kl. 07.12', href: 'campaign.html', ulest: true },
     { ikon: 'file-text', tittel: 'Ny status fra rådgiver: «Leverer svært bra sammenlignet med lignende kampanjer»', tid: '24.09.2026', href: 'campaign.html', ulest: true },
     { ikon: 'pause', tittel: 'Helsefagarbeider Tromsø er satt på pause', tid: '22.09.2026', href: 'campaigns.html', ulest: true },
     { ikon: 'circle-check', tittel: 'Rapporten for Sykepleier Bodø er klar', tid: '31.07.2026', href: 'rapport.html', ulest: false }

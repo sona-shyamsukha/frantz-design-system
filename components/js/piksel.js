@@ -1,5 +1,5 @@
 /* Piksel: fills every [data-piksel] block with the tracking code for that campaign.
-   <div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09:14"></div>
+   <div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09.14"></div>
    data-status: venter (bestilt, under arbeid), aktiv, avsluttet. data-tid: last measured, or the day it stopped. */
 (function () {
   var STATUS = {
