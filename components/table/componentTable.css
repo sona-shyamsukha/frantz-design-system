@@ -4,7 +4,7 @@
 }
 
 .table th {
-  padding: var(--space-12) var(--space-16);
+  padding: var(--space-12);
   border-bottom: 1px solid var(--border-default);
   color: var(--text-muted);
   font-size: var(--text-xs);
@@ -15,7 +15,7 @@
 }
 
 .table td {
-  padding: var(--space-16);
+  padding: var(--space-16) var(--space-12);
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text-body);
   font-size: var(--text-base);

@@ -1,4 +1,4 @@
-@import './tokens/base.css?v=54';
+@import './tokens/base.css?v=57';
 @import './styles/reset.css?v=54';
 @import './styles/typography.css?v=54';
 @import './styles/layout.css?v=54';
@@ -21,7 +21,7 @@
 @import './components/alert/componentAlert.css?v=54';
 @import './components/kpi/componentKpi.css?v=54';
 @import './components/nav/componentNav.css?v=54';
-@import './components/table/componentTable.css?v=54';
+@import './components/table/componentTable.css?v=58';
 @import './components/progress/componentProgress.css?v=54';
 @import './components/metric/componentMetric.css?v=54';
 @import './components/quote/componentQuote.css?v=54';
@@ -38,7 +38,7 @@
 @import './components/select-card/componentSelectCard.css?v=54';
 @import './components/choice-card/componentChoiceCard.css?v=54';
 @import './components/funnel/componentFunnel.css?v=54';
-@import './components/results/componentResults.css?v=54';
+@import './components/results/componentResults.css?v=58';
 @import './components/picker/componentPicker.css?v=54';
 @import './components/chat/componentChatIcons.css?v=54';
 @import './components/chat/componentChat.css?v=54';
