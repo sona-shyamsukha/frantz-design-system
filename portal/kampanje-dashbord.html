@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Dashbord · Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=62">
+<link rel="stylesheet" href="../frantz-ds.css?v=65">
 <style>
   body { margin: 0; }
   /* The portal's .wrap already gives the page its side padding. */
@@ -139,12 +139,12 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
@@ -169,6 +169,11 @@
     <h2 class="ko-h2" id="h-sa-langt">Så langt</h2>
     <p class="ko-sub">«Normalt» er snittet for lignende kampanjer for sykepleiere i Oslo-området etter like mange dager.</p>
     <div class="ko-kpis">
+      <div class="ko-card ko-kpi" data-nokkel="visninger">
+        <div class="ko-kpi__label">Visninger</div>
+        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=visninger" data-fmt="int">—</div>
+        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=visninger" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=visninger" data-fmt="int">—</span></span></div>
+      </div>
       <div class="ko-card ko-kpi" data-nokkel="sok">
         <div class="ko-kpi__label">Trykket «Søk»</div>
         <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=sok" data-fmt="int">—</div>
@@ -184,11 +189,6 @@
         <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=interesse" data-fmt="int">—</div>
         <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=interesse" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=interesse" data-fmt="int">—</span></span></div>
       </div>
-      <div class="ko-card ko-kpi" data-nokkel="visninger">
-        <div class="ko-kpi__label">Visninger</div>
-        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=visninger" data-fmt="int">—</div>
-        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=visninger" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=visninger" data-fmt="int">—</span></span></div>
-      </div>
     </div>
   </section>
 
@@ -201,7 +201,7 @@
         <div class="ko-chart ko-chart--goal" id="mal-graf" data-source="kumulativ kampanje prognose"></div>
       </div>
       <div class="ko-card">
-        <h3 id="h-fremdrift">Budsjett og tid</h3>
+        <h3 id="h-fremdrift">Mål og tid</h3>
         <p class="ko-note" id="fremdrift-note">—</p>
         <div class="ko-progs">
           <div class="ko-prog">
@@ -211,10 +211,6 @@
           <div class="ko-prog">
             <div class="ko-prog__top"><span>Tid brukt</span><span>Dag <b data-source="kampanje" data-field="dag" data-row="0" data-fmt="int">—</b> av <span data-source="kampanje" data-field="dager" data-row="0" data-fmt="int">—</span></span></div>
             <div class="ko-track"><span id="bar-tid"></span></div>
-          </div>
-          <div class="ko-prog">
-            <div class="ko-prog__top"><span>Budsjett brukt</span><span><b data-source="kampanje" data-field="brukt_andel" data-row="0" data-fmt="pct">—</b> av <span data-source="kampanje" data-field="budsjett_kr" data-row="0" data-fmt="kr">—</span></span></div>
-            <div class="ko-track"><span id="bar-budsjett"></span></div>
           </div>
         </div>
       </div>
@@ -234,7 +230,7 @@
         <p class="ko-note">Kroner per «Søk» er brukte kroner delt på antall «Søk». Lavere er bedre.</p>
         <div class="ko-table-wrap">
           <table class="ko-table" id="tab-kanaler" data-source="kanaler" data-row-key="kanal">
-            <thead><tr><th data-field="kanal">Kanal</th><th class="num ko-sec" data-field="brukt_kr">Brukt</th><th class="num" data-field="sok">«Søk»</th><th class="num" data-field="kr_per_sok">Kr per «Søk»</th></tr></thead>
+            <thead><tr><th data-field="kanal">Kanal</th><th class="num" data-field="sok">«Søk»</th><th class="num" data-field="kr_per_sok">Kr per «Søk»</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -536,7 +532,7 @@ window.KO_DATA = {
    "kanal": "Meta",
    "type": "Bilde",
    "klikk": "1100",
-   "klikkrate": "0.024",
+   "klikkrate": "0.029",
    "sok": "83"
   },
   {
@@ -845,9 +841,8 @@ function words() {
   if (st !== 'ok' || !p || !k) { dom.textContent = '—'; note.textContent = '—'; return; }
   const prog = Number(p.prognose), mal = Number(k.mal_sok);
   dom.textContent = prog >= mal ? 'så vi når det.' : prog >= mal * 0.95 ? 'så det er innen rekkevidde.' : 'så vi havner under.';
-  note.textContent = Number(k.brukt_andel) <= Number(p.tid_brukt)
-    ? 'Budsjettet brukes litt saktere enn tiden går, så det holder ut perioden.'
-    : 'Budsjettet brukes raskere enn tiden går. Det kan ta slutt før sluttdatoen.';
+  const igjen = Number(k.dager) - Number(k.dag);
+  note.textContent = 'Dag ' + k.dag + ' av ' + k.dager + '. ' + (igjen > 0 ? igjen + ' dager igjen.' : 'Siste dag.');
 }
 function drawProgress() {
   const c = COL();
@@ -859,7 +854,6 @@ function drawProgress() {
   };
   set('bar-mal', Number(p.andel_av_mal), c.sok);
   set('bar-tid', Number(p.tid_brukt), 'var(--f-navy-lift)');
-  set('bar-budsjett', Number(k.brukt_andel), 'var(--f-navy-lift)');
 }
 
 function drawGoal() {
@@ -1030,7 +1024,6 @@ function drawTables() {
   const kc = k => k === 'Meta' ? c.meta : c.nett;
   drawTable('tab-kanaler', 'kanaler', [
     { field: 'kanal' },
-    { field: 'brukt_kr', num: true, sec: true, fmt: FMT.kr },
     { field: 'sok', num: true, fmt: FMT.int },
     { field: 'kr_per_sok', num: true, fmt: FMT.kr, bar: r => kc(r.kanal) }
   ], (a, b) => Number(a.kr_per_sok) - Number(b.kr_per_sok));
@@ -1128,9 +1121,9 @@ dash.onData(() => {
   if (first) throw first;
 });
 </script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=8"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

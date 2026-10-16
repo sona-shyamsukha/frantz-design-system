@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=62">
+<link rel="stylesheet" href="frantz-ds.css?v=65">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=5">
 <link rel="stylesheet" href="styles/docs.css?v=11">
 </head>
@@ -118,7 +118,7 @@
           </nav>
         </aside>
         <div class="main">
-          <header class="topbar"><div class="topbar__who"><b>Oslo universitetssykehus</b><small>kari.hansen@ous.no</small></div></header>
+          <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@ous.no</small></span></div></header>
           <div class="wrap"><h1 class="text-h2">Hjem</h1><p class="lede">Oversikt over kampanjene.</p></div>
         </div>
       </div>
@@ -173,7 +173,7 @@
           <tr><td>Punkt</td><td><code>.nav__item</code></td><td>Standard / hover hvit</td></tr>
           <tr><td>Aktiv</td><td><code>[aria-current="page"]</code></td><td>Mørkere felt, amber-ikon</td></tr>
           <tr><td>Gruppe</td><td><code>.nav__group</code></td><td>Seksjonslabel</td></tr>
-          <tr><td>Topplinje</td><td><code>.topbar</code></td><td>Konto til høyre, 64px</td></tr>
+          <tr><td>Topplinje</td><td><code>.topbar</code></td><td>Konto til høyre: avatar, navn og e-post, 64px</td></tr>
         </tbody>
       </table>
 
@@ -222,7 +222,10 @@
   &lt;/aside&gt;
   &lt;div class="main" id="innhold" tabindex="-1"&gt;
     &lt;header class="topbar"&gt;
-      &lt;div class="topbar__who"&gt;&lt;b&gt;Oslo universitetssykehus&lt;/b&gt;&lt;small&gt;kari.hansen@ous.no&lt;/small&gt;&lt;/div&gt;
+      &lt;div class="topbar__who"&gt;
+        &lt;span class="avatar avatar--md" aria-hidden="true"&gt;KH&lt;/span&gt;
+        &lt;span class="topbar__navn"&gt;&lt;b&gt;Kari Hansen&lt;/b&gt;&lt;small&gt;kari.hansen@ous.no&lt;/small&gt;&lt;/span&gt;
+      &lt;/div&gt;
     &lt;/header&gt;
     &lt;div class="wrap"&gt;
       &lt;h1 class="text-h2"&gt;Hjem&lt;/h1&gt;
@@ -1667,7 +1670,7 @@
         <table class="table">
           <caption class="sr-only">Kampanjer. Velg en rad for å åpne kampanjen.</caption>
           <thead>
-            <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Budsjett</th><th>Søknadsklikk</th></tr>
+            <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Budsjett</th><th>Trykket «Søk»</th></tr>
           </thead>
           <tbody>
             <tr tabindex="0" onclick="location.href='portal/campaign.html'">
@@ -1675,7 +1678,7 @@
               <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
               <td data-label="Kanaler">Meta, Nettsteder</td>
               <td data-label="Budsjett">kr 48 200</td>
-              <td data-label="Søknadsklikk">
+              <td data-label="Trykket «Søk»">
                 <div class="meter meter--sm" style="max-width:140px">
                   <div class="meter__track" aria-hidden="true"><div class="meter__bar" style="width:72%"></div></div>
                   <span class="meter__value">72 av 100</span>
@@ -1687,7 +1690,7 @@
               <td data-label="Status"><span class="badge badge--paused">Pause</span></td>
               <td data-label="Kanaler">Meta</td>
               <td data-label="Budsjett">kr 22 000</td>
-              <td data-label="Søknadsklikk">
+              <td data-label="Trykket «Søk»">
                 <div class="meter meter--sm" style="max-width:140px">
                   <div class="meter__track" aria-hidden="true"><div class="meter__bar meter__bar--behind" style="width:34%"></div></div>
                   <span class="meter__value">17 av 50</span>
@@ -1699,7 +1702,7 @@
               <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
               <td data-label="Kanaler">—</td>
               <td data-label="Budsjett">kr 36 500</td>
-              <td data-label="Søknadsklikk">Ikke startet</td>
+              <td data-label="Trykket «Søk»">Ikke startet</td>
             </tr>
           </tbody>
         </table>
@@ -1775,7 +1778,7 @@
   &lt;table class="table"&gt;
     &lt;caption class="sr-only"&gt;Kampanjer. Velg en rad for å åpne kampanjen.&lt;/caption&gt;
     &lt;thead&gt;
-      &lt;tr&gt;&lt;th&gt;Kampanje&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Kanaler&lt;/th&gt;&lt;th&gt;Budsjett&lt;/th&gt;&lt;th&gt;Søknadsklikk&lt;/th&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;th&gt;Kampanje&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Kanaler&lt;/th&gt;&lt;th&gt;Budsjett&lt;/th&gt;&lt;th&gt;Trykket «Søk»&lt;/th&gt;&lt;/tr&gt;
     &lt;/thead&gt;
     &lt;tbody&gt;
       &lt;tr tabindex="0" onclick="location.href='campaign.html'"&gt;
@@ -1783,7 +1786,7 @@
         &lt;td data-label="Status"&gt;&lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;&lt;/td&gt;
         &lt;td data-label="Kanaler"&gt;Meta, Nettsteder&lt;/td&gt;
         &lt;td data-label="Budsjett"&gt;kr 48 200&lt;/td&gt;
-        &lt;td data-label="Søknadsklikk"&gt;
+        &lt;td data-label="Trykket «Søk»"&gt;
           &lt;div class="meter meter--sm"&gt;
             &lt;div class="meter__track" aria-hidden="true"&gt;&lt;div class="meter__bar" style="width:72%"&gt;&lt;/div&gt;&lt;/div&gt;
             &lt;span class="meter__value"&gt;72 av 100&lt;/span&gt;
@@ -1808,7 +1811,7 @@
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Fremdrift i celle</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;td data-label="Søknadsklikk"&gt;
+          <pre class="cl-code-pre"><code>&lt;td data-label="Trykket «Søk»"&gt;
   &lt;div class="meter meter--sm"&gt;
     &lt;div class="meter__track" aria-hidden="true"&gt;&lt;div class="meter__bar meter__bar--behind" style="width:34%"&gt;&lt;/div&gt;&lt;/div&gt;
     &lt;span class="meter__value"&gt;17 av 50&lt;/span&gt;
@@ -1817,7 +1820,7 @@
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Tom verdi</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;td data-label="Søknadsklikk"&gt;&lt;span class="table__tom"&gt;Ikke startet&lt;/span&gt;&lt;/td&gt;</code></pre>
+          <pre class="cl-code-pre"><code>&lt;td data-label="Trykket «Søk»"&gt;&lt;span class="table__tom"&gt;Ikke startet&lt;/span&gt;&lt;/td&gt;</code></pre>
         </div>
       </div>
     </details>
@@ -2038,7 +2041,7 @@
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
-        <p class="cl-note cl-note--wide">Mål mot estimat: søknadsklikk på Hjem, tabellceller, og faktisk-mot-estimert på kampanjedetalj. Fargen forteller om kampanjen ligger foran eller bak plan.</p>
+        <p class="cl-note cl-note--wide">Mål mot estimat: «Søk» på Hjem, tabellceller, og faktisk-mot-estimert på kampanjedetalj. Fargen forteller om kampanjen ligger foran eller bak plan.</p>
 
         <h3 class="cl-details__h">Klasser</h3>
         <table class="cl-spec">
@@ -2258,14 +2261,14 @@
       <span class="cl-variant">Fire nøkkeltall</span>
       <div class="nokkel">
         <dl class="fakta"><dt>Aktive kampanjer</dt><dd>4</dd></dl>
-        <dl class="fakta"><dt>Søknadsklikk</dt><dd>1 284</dd></dl>
+        <dl class="fakta"><dt>Trykket «Søk»</dt><dd>1 284</dd></dl>
         <dl class="fakta"><dt>Interessenter</dt><dd>86 leads</dd></dl>
         <dl class="fakta"><dt>Budsjett i bruk</dt><dd>kr 48 200 <span>av kr 72 000</span></dd></dl>
       </div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Én celle</span>
       <div class="kpi" style="max-width:240px">
-        <div class="kpi__label">Søknadsklikk</div>
+        <div class="kpi__label">Trykket «Søk»</div>
         <div class="kpi__value">1 284</div>
         <div class="kpi__meta">+12 % mot forrige periode</div>
       </div>
@@ -2336,7 +2339,7 @@
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Fire nøkkeltall</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;div class="nokkel"&gt;
   &lt;dl class="fakta"&gt;&lt;dt&gt;Aktive kampanjer&lt;/dt&gt;&lt;dd&gt;4&lt;/dd&gt;&lt;/dl&gt;
-  &lt;dl class="fakta"&gt;&lt;dt&gt;Søknadsklikk&lt;/dt&gt;&lt;dd&gt;1 284&lt;/dd&gt;&lt;/dl&gt;
+  &lt;dl class="fakta"&gt;&lt;dt&gt;Trykket «Søk»&lt;/dt&gt;&lt;dd&gt;1 284&lt;/dd&gt;&lt;/dl&gt;
   &lt;dl class="fakta"&gt;&lt;dt&gt;Interessenter&lt;/dt&gt;&lt;dd&gt;86 leads&lt;/dd&gt;&lt;/dl&gt;
   &lt;dl class="fakta"&gt;&lt;dt&gt;Budsjett i bruk&lt;/dt&gt;&lt;dd&gt;kr 48 200 &lt;span&gt;av kr 72 000&lt;/span&gt;&lt;/dd&gt;&lt;/dl&gt;
 &lt;/div&gt;</code></pre>
@@ -2344,7 +2347,7 @@
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Én celle</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;div class="kpi"&gt;
-  &lt;div class="kpi__label"&gt;Søknadsklikk&lt;/div&gt;
+  &lt;div class="kpi__label"&gt;Trykket «Søk»&lt;/div&gt;
   &lt;div class="kpi__value"&gt;1 284&lt;/div&gt;
   &lt;div class="kpi__meta"&gt;+12 % mot forrige periode&lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -2485,7 +2488,7 @@
       <span class="cl-component-class">.funnel + funnel.js</span>
     </div>
 
-    <p class="cl-intro">En trakt som viser hvor mange som går videre fra steg til steg, fra visning til søknadsklikk.</p>
+    <p class="cl-intro">En trakt som viser hvor mange som går videre fra steg til steg, fra visning til «Søk».</p>
     <div class="cl-demo">
       <div id="cl-trakt" data-trakt data-visning="trakt"></div>
     </div>
@@ -2516,7 +2519,7 @@
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
-        <p class="cl-note cl-note--wide">Fire trinn fra besøk til søknadsklikk. Tre bånd: tallene i kolonneoverskriftene øverst, grafikken i midten, frafallet nederst. Fanen bytter bare det midterste båndet.</p>
+        <p class="cl-note cl-note--wide">Fire trinn fra besøk til «Søk». Tre bånd: tallene i kolonneoverskriftene øverst, grafikken i midten, frafallet nederst. Fanen bytter bare det midterste båndet.</p>
 
         <h3 class="cl-details__h">Klasser</h3>
         <table class="cl-spec">
@@ -3580,7 +3583,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Rådgiverens egne ord om kampanjen, med navn. Står før tallene.</p>
     <div class="cl-demo">
       <span class="cl-variant">Standard</span>
-      <blockquote class="quote" style="max-width:560px"><p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit.»</p><footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status <time datetime="2026-09-24">24.09.2026</time></footer></blockquote>
+      <blockquote class="quote" style="max-width:560px"><p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste «Søk», så vi har flyttet mer budsjett dit.»</p><footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status <time datetime="2026-09-24">24.09.2026</time></footer></blockquote>
 
     </div>
 
@@ -3637,7 +3640,7 @@ Kari Hansen</code></pre>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Standard</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;blockquote class="quote"&gt;
-  &lt;p&gt;«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit.»&lt;/p&gt;
+  &lt;p&gt;«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste «Søk», så vi har flyttet mer budsjett dit.»&lt;/p&gt;
   &lt;footer&gt;
     &lt;span class="avatar avatar--sm avatar--data" aria-hidden="true"&gt;MK&lt;/span&gt;
     Martin Karlsen, rådgiver i Frantz · Status 24.09.2026
@@ -5395,7 +5398,7 @@ function copyPre(btn) {
   setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
 }
 </script>
-<script src="components/js/funnel.js?v=14"></script>
+<script src="components/js/funnel.js?v=15"></script>
 <script src="portal/data/frantz-data.js"></script>
 <script src="components/js/picker.js?v=4"></script>
 <script>
@@ -5416,6 +5419,6 @@ tegnTrakt(document.getElementById('cl-trakt'), {
 <script src="components/js/tour.js"></script>
 <script src="components/js/advisor-inbox.js?v=3"></script>
 <script src="components/js/annonse-studio.js?v=2"></script>
-<script src="components/js/interactions.js?v=5" defer></script>
+<script src="components/js/interactions.js?v=6" defer></script>
 </body>
 </html>

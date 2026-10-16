@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=62">
+<link rel="stylesheet" href="../frantz-ds.css?v=65">
 <style>
   body { margin: 0; }
 
@@ -227,13 +227,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
 
     <div class="wrap">
       <div class="nk-topp">
@@ -370,7 +370,7 @@
                   <option>Vokser AS</option>
                   <option>Vokser AS, avd. Oslo</option>
                 </select></span>
-                <p class="form-hint">Fra listen i <a class="link link--xs" href="innstillinger.html">Innstillinger</a>. Hvert selskap i et konsern får sin egen faktura.</p>
+                <p class="form-hint">Fra listen i <a class="link link--xs" href="innstillinger.html#faktura">Innstillinger</a>. Hvert selskap i et konsern får sin egen faktura.</p>
               </div>
               <div class="felt funnet__bred" id="notat-felt">
                 <label class="form-label" for="notat">Noe mer Frantz bør vite? <span class="valgfri">(valgfritt)</span></label>
@@ -503,7 +503,7 @@
   </div>
 </div>
 
-<script src="../components/js/kanaler.js"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js"></script>
 <script src="data/connect.js"></script>
@@ -518,7 +518,7 @@
     { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
     { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }
   ];
-  var I_DAG = new Date();
+  var I_DAG = window.FZ_I_DAG();
   var tilstand = { lest: false, funnet: {}, valgtBudsjett: false, valgtKanal: false, valgtMateriell: false, materiell: null, tillegg: [], meld: false, kanalmodus: 'frantz', kanaler: ['Meta'], filer: [], uker: 3, fra: null, til: null, venter: false, pdf: '' };
 
   function byggPeriode(root) {
@@ -1191,7 +1191,7 @@
       budsjett: budsjett(), tilleggSum: tilleggSum, tillegg: tilleggListe(),
       kanaler: kanalTekst(), faktura: $('faktura').value,
       materiell: tilstand.materiell ? materiellTekst() : '', periode: kort(iso(periodeDatoer().start)) + ' – ' + kort(iso(periodeDatoer().slutt)), start: kort(iso(periodeDatoer().start)),
-      notat: $('notat').value.trim(), avsender: $('avsender').value.trim(), pakke: pakkeTekst(),
+      notat: $('notat').value.trim(), ute: tidligstUte(), connect: new URLSearchParams(location.search).get('connect') || '', avsender: $('avsender').value.trim(), pakke: pakkeTekst(),
       tid: String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0')
     };
     try { sessionStorage.setItem('fzOrdre', JSON.stringify(ordre)); } catch (e) {}
@@ -1253,9 +1253,9 @@
 })();
 </script>
 
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=8"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

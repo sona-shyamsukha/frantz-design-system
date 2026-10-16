@@ -67,7 +67,7 @@ class AdvisorInbox {
     body.className = 'msg__body';
     const meta = document.createElement('span');
     meta.className = 'msg__meta';
-    meta.textContent = 'Jonas · rådgiver hos Frantz · nå';
+    meta.textContent = 'Martin · rådgiver hos Frantz · nå';
     const bubble = document.createElement('div');
     bubble.className = 'msg__bubble';
     bubble.style.whiteSpace = 'pre-line';

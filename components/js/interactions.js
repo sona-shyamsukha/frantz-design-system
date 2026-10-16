@@ -1,3 +1,6 @@
+/* The demo lives on one fixed day, so dates match the example data on every page. The clock is real. */
+window.FZ_I_DAG = window.FZ_I_DAG || function () { var n = new Date(); return new Date(2026, 8, 30, n.getHours(), n.getMinutes()); };
+
 (function () {
   function setMenu(open) {
     document.body.classList.toggle("meny-apen", open);
@@ -83,7 +86,7 @@
     var inputs = root.querySelectorAll(".datepicker__input");
     var startInput = inputs[0];
     var endInput = inputs[1] || null;
-    var view = parseDate(startInput && startInput.value) || new Date();
+    var view = parseDate(startInput && startInput.value) || window.FZ_I_DAG();
     var focusDay = null;
     var opener = startInput;
     var panel = document.createElement("div");
@@ -127,7 +130,7 @@
       opener = input || startInput;
       var cur = selected();
       var mine = opener === endInput ? (cur.end || cur.start) : cur.start;
-      focusDay = startOfDay(mine || new Date());
+      focusDay = startOfDay(mine || window.FZ_I_DAG());
       view = new Date(focusDay.getFullYear(), focusDay.getMonth(), 1);
       render();
       panel.hidden = false;
@@ -204,7 +207,7 @@
       html += '<div class="datepicker__week" aria-hidden="true">';
       DOW.forEach(function (d) { html += '<span class="datepicker__dow">' + d + "</span>"; });
       html += "</div><div class=\"datepicker__grid\">";
-      var today = new Date();
+      var today = window.FZ_I_DAG();
       for (var i = 0; i < 42; i++) {
         var dateObj = new Date(year, month, i - startDow + 1);
         var extra = "";
@@ -298,7 +301,7 @@
         return;
       }
       if (e.target.closest(".datepicker__today")) {
-        pick(new Date());
+        pick(window.FZ_I_DAG());
         return;
       }
       if (e.target.closest(".datepicker__clear")) {
@@ -453,6 +456,46 @@
   }
   window.FrantzSlider = { sync: syncSlider };
 
+  // «Se alle»: a button with data-flere-rader adds the rest of the interessenter to the table above it.
+  // Each row is [dato, navn, e-post, telefon, "kontakt" | "varsel"]. Set with textContent only.
+  function initFlereRader() {
+    document.querySelectorAll("[data-flere-rader]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var tbody = btn.parentElement.querySelector("table tbody");
+        var rader = [];
+        try { rader = JSON.parse(btn.getAttribute("data-flere-rader")); } catch (e) {}
+        rader.forEach(function (r) {
+          var tr = document.createElement("tr");
+          var celle = function (label, innhold) {
+            var td = document.createElement("td"); td.setAttribute("data-label", label);
+            if (typeof innhold === "string") td.textContent = innhold; else td.appendChild(innhold);
+            tr.appendChild(td);
+          };
+          celle("Registrert", r[0]);
+          celle("Navn", r[1]);
+          var kontakt = document.createElement("span"); kontakt.textContent = r[2];
+          var tlf = document.createElement("small"); tlf.textContent = r[3];
+          var k = document.createDocumentFragment(); k.appendChild(kontakt); k.appendChild(tlf);
+          celle("Kontakt", k);
+          var tag = document.createElement("span");
+          tag.className = "tag " + (r[4] === "varsel" ? "tag--muted" : "tag--info");
+          tag.textContent = r[4] === "varsel" ? "Varsel før frist" : "Vil bli kontaktet";
+          celle("Ønsker", tag);
+          var lbl = document.createElement("label"); lbl.className = "form-toggle form-toggle--liten";
+          var inp = document.createElement("input"); inp.className = "form-toggle__input"; inp.type = "checkbox";
+          inp.setAttribute("role", "switch"); inp.setAttribute("aria-label", "Håndtert: " + r[1]);
+          inp.addEventListener("change", function () { tr.classList.toggle("er-handtert", inp.checked); });
+          var spor = document.createElement("span"); spor.className = "form-toggle__track"; spor.setAttribute("aria-hidden", "true");
+          lbl.appendChild(inp); lbl.appendChild(spor);
+          celle("Håndtert", lbl);
+          tbody.appendChild(tr);
+        });
+        btn.remove();
+        tbody.closest("table").focus();
+      });
+    });
+  }
+
   function init() {
     initNav();
     initDatepickers();
@@ -460,6 +503,7 @@
     initTableRows();
     initCardGroups();
     initSliders();
+    initFlereRader();
   }
 
   if (document.readyState === "loading") {

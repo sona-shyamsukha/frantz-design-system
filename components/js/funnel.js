@@ -196,7 +196,7 @@
       el.innerHTML = faner +
         '<p class="funnel__hint"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>Trykk på et steg i grafen for å se detaljer.</p>' +
         '<div class="funnel__box funnel__box--rolig"' + fanePanel + '>' +
-        '<div class="funnel__graph funnel__graph--hover"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' søknadsklikk" style="height:260px">' +
+        '<div class="funnel__graph funnel__graph--hover"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' som trykket «Søk»" style="height:260px">' +
         '<defs>' + gradient + '</defs>' + tegnGraf(visning, graf.v, farger, graf.lag, gradId, W, H, kol, v, true) +
         '</svg>' + soner +
         '<div class="funnel__kort" role="status" hidden></div></div>' +
@@ -263,7 +263,7 @@
       '<div><span class="funnel__top-label">' + (d.rateNavn || 'Konverteringsrate') + '</span><span class="funnel__top-value">' + pst(v[3] / v[0]) + '</span></div>' +
       '</div>' +
       '<div class="funnel__cells">' + celler + '</div>' +
-      '<div class="funnel__graph"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' søknadsklikk" style="height:230px">' +
+      '<div class="funnel__graph"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' som trykket «Søk»" style="height:230px">' +
       '<defs>' + gradient + '</defs>' + tegnGraf(visning, graf.v, farger, graf.lag, gradId, W, H, kol, v) +
       '</svg></div>' +
       forklaring +

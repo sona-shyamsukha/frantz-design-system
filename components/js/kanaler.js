@@ -1,3 +1,6 @@
+/* The demo lives on one fixed day, so dates match the example data on every page. The clock is real. */
+window.FZ_I_DAG = window.FZ_I_DAG || function () { var n = new Date(); return new Date(2026, 8, 30, n.getHours(), n.getMinutes()); };
+
 /* Kanal names with their logo.
    FZ_KANALER.html('Meta, Nettsteder') gives logo + name for each kanal.
    Markup: put data-vis-kanaler on an element, and its text is drawn with logos when the page loads.
