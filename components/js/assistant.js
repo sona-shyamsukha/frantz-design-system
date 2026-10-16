@@ -755,8 +755,8 @@ class AssistantChat {
     this.mode = null;
     this.system('Kampanje #' + this.newId + ' er bestilt');
     const note = d.preview.value.startsWith('Ja')
-      ? 'Du får en forhåndsvisning til kunden innen 1–2 virkedager.'
-      : 'Kampanjen starter innen 1–2 virkedager.';
+      ? 'Du får en forhåndsvisning til kunden innen 1–2 arbeidsdager.'
+      : 'Kampanjen starter innen 1–2 arbeidsdager.';
     const link = this.el('a', 'quick-reply', 'Se e-posttråden');
     link.href = 'epost-visning.html';
     link.prepend(this.icon('mail'));
@@ -806,7 +806,7 @@ class AssistantChat {
     head.append(title, this.el('span', 'badge ' + c.badge, c.status));
 
     const facts = this.el('dl', 'draft__facts');
-    [['Periode', c.day, ''], ['Budsjett brukt', c.spent, 'av ' + c.budget], ['Søknadsklikk', c.clicks, 'mål ' + c.target]]
+    [['Periode', c.day, ''], ['Budsjett', c.budget, ''], ['Trykket «Søk»', c.clicks, 'mål ' + c.target]]
       .forEach(([k, v, s]) => {
         const f = this.el('div', 'draft__fact');
         const dd = this.el('dd', null, v);
@@ -915,7 +915,7 @@ class AssistantChat {
         '<p>Øverst ser du de tre viktigste tallene:</p>' +
         '<ul><li><b>Besøk på siden:</b> hvor mange som åpnet kampanjesiden.</li>' +
         '<li><b>Meldt interesse:</b> hvor mange som la igjen kontaktinfo.</li>' +
-        '<li><b>Søknadsklikk:</b> hvor mange som trykket «Søk».</li></ul>' +
+        '<li><b>Trykket «Søk»:</b> hvor mange som gikk videre til søknaden.</li></ul>' +
         '<p>Resten av rapporten viser hvor pengene er brukt. Det trenger kunden sjelden.</p>',
         { chips: [{ label: 'Følg opp en kampanje', run: () => this.startFollowUp() }] }
       );

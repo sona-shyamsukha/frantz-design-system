@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=62">
+<link rel="stylesheet" href="../frantz-ds.css?v=65">
 <style>
   body { margin: 0; }
 
@@ -119,13 +119,13 @@
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
 
     <div class="wrap">
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Kampanjer</h1>
-          <p class="lede">Kampanjene på Vokser AS. Velg en kampanje for å se detaljer og resultater.</p>
+          <p class="lede" id="liste-lede">Kampanjene du har bestilt. Velg en kampanje for å se detaljer og resultater.</p>
         </div>
         <div class="liste__verktoy">
           <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
@@ -198,7 +198,7 @@
               <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">03.09 – 03.10.2026</td>
-              <td data-label="Budsjett">kr 48 200<span class="table__meta">kr 34 900 brukt</span></td>
+              <td data-label="Budsjett">kr 48 200</td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Kladd" data-bestiller="Kari Hansen" data-kanaler="" data-tittel="Sykepleier Kristiansand" data-start="2026-10-31" data-budsjett="0" onclick="location.href='ny-kampanje.html?kladd=129070'">
@@ -216,7 +216,7 @@
               <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">02.07 – 30.07.2026</td>
-              <td data-label="Budsjett">kr 31 200<span class="table__meta">kr 31 200 brukt</span></td>
+              <td data-label="Budsjett">kr 31 200</td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
           </tbody>
@@ -280,19 +280,23 @@
     $('vist-antall').textContent = vist ? 'Viser 1–' + vist + ' av ' + vist + ' kampanjer' : 'Ingen kampanjer';
     document.querySelectorAll('input[data-hvem]').forEach(function (x) { x.checked = x.dataset.hvem === valgt.hvem; });
     document.querySelectorAll('input[data-status]').forEach(function (x) { x.checked = valgt.status.indexOf(x.dataset.status) !== -1; });
+    $('liste-lede').textContent = valgt.hvem === 'alle'
+      ? 'Alle kampanjene på Vokser AS. Velg en kampanje for å se detaljer og resultater.'
+      : 'Kampanjene du har bestilt. Velg en kampanje for å se detaljer og resultater.';
     tegnAktive();
   }
+  // The default view is «Mine kampanjer». «Alle på Vokser AS» is a filter and shows as a chip.
   // The active filters as chips. Each chip removes its filter; «Nullstill» removes all.
   function tegnAktive() {
     var chips = valgt.status.map(function (v) { return ['status', v, 'Status: ' + v]; })
-      .concat(valgt.hvem === 'alle' ? [] : [['hvem', 'mine', 'Mine kampanjer']]);
+      .concat(valgt.hvem === 'alle' ? [['hvem', 'alle', 'Alle på Vokser AS']] : []);
     var n = chips.length;
     $('filter-antall').hidden = !n; $('filter-antall').textContent = n;
     $('aktive').hidden = !n && !sok.value.trim();
     $('aktive').innerHTML = (n || sok.value.trim() ? '<span>Viser:</span>' : '') +
       (sok.value.trim() ? '<button type="button" class="aktiv-filter" data-fjern="sok" aria-label="Fjern søket">«' + sok.value.trim().replace(/[<>&"]/g, '') + '»<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>' : '') +
       chips.map(function (c) { return '<button type="button" class="aktiv-filter" data-fjern="' + c[0] + '" data-verdi="' + c[1] + '" aria-label="Fjern ' + c[2] + '">' + c[2] + '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>'; }).join('') +
-      (n > 1 || valgt.hvem === 'alle' && n || sok.value.trim() ? '<button type="button" class="nullstill" id="nullstill">Nullstill</button>' : '');
+      (n > 1 || sok.value.trim() ? '<button type="button" class="nullstill" id="nullstill">Nullstill</button>' : '');
   }
   function veksle(liste, verdi, pa) { var i = liste.indexOf(verdi); if (pa && i === -1) liste.push(verdi); if (!pa && i !== -1) liste.splice(i, 1); }
 
@@ -309,7 +313,7 @@
     var b = e.target.closest('button'); if (!b) return;
     if (b.id === 'nullstill') { nullstill(); sok.focus(); return; }
     if (b.dataset.fjern === 'sok') sok.value = '';
-    else if (b.dataset.fjern === 'hvem') valgt.hvem = 'alle';
+    else if (b.dataset.fjern === 'hvem') valgt.hvem = 'mine';
     else veksle(valgt[b.dataset.fjern], b.dataset.verdi, false);
     filtrer();
     ($('aktive').querySelector('.aktiv-filter') || sok).focus();
@@ -334,8 +338,8 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=6"></script>
+<script src="../components/js/konto.js?v=8"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=7"></script>
+<script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

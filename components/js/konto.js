@@ -116,6 +116,16 @@
     who.replaceWith(knapp);
     topbar.insertBefore(bjelle, knapp);
     knapp.addEventListener('click', function () { apne(dProfil, knapp); });
+    // A new name saved in «Min profil» shows in the topbar right away
+    var fornavn = dProfil.querySelector('#p-fornavn');
+    if (fornavn) fornavn.form.addEventListener('submit', function () {
+      var navn = (fornavn.value.trim() + ' ' + dProfil.querySelector('#p-etternavn').value.trim()).trim();
+      if (!navn) return;
+      var b = knapp.querySelector('.topbar__navn b'), av = knapp.querySelector('.avatar');
+      if (b) b.textContent = navn;
+      var deler = navn.split(/\s+/);
+      if (av) av.textContent = (deler[0][0] + (deler.length > 1 ? deler[deler.length - 1][0] : '')).toUpperCase();
+    });
   } else {
     topbar.insertBefore(bjelle, topbar.firstChild);
   }

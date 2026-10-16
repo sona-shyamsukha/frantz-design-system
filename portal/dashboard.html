@@ -7,11 +7,13 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=62">
+<link rel="stylesheet" href="../frantz-ds.css?v=65">
 <style>
   body { margin: 0; }
 
-  .topprad { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: var(--space-24); align-items: stretch; margin-top: var(--space-24); }
+  .topprad { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-24); align-items: stretch; margin-top: var(--space-24); }
+  /* The columns below use the same split as the top row, so the edges line up */
+  .wrap > .cols { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-24); margin-top: var(--space-32); }
   .kalk-kort { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: var(--space-16); margin: 0; padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); }
   .kalk-kort .card__hint { margin-bottom: 0; }
 
@@ -81,54 +83,39 @@
   .seksjonstittel h2 { margin: 0; color: var(--text-heading); font-size: var(--text-lg); }
 
   /* Live campaigns: one slim row each, the whole row opens the campaign */
-  .live-hint { max-width: 640px; margin: var(--space-4) 0 var(--space-16); color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-normal); }
   .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-muted); font-size: var(--text-sm); list-style: none; }
   .forklar summary::-webkit-details-marker { display: none; }
   .forklar p { margin: var(--space-4) 0 0; max-width: 60ch; }
-  .live-hint b { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
-  .live-list { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); }
-  .live-head,
-  .live {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 208px 116px 16px;
-    align-items: center;
-    gap: var(--space-24);
-    padding: var(--space-16) var(--space-24);
+  /* Stats for the active campaigns: one row of three, right above their table */
+  .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: var(--space-16); }
+  .hjem-tall .fakta { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); }
+  .hjem-tall .fakta dd { font-size: var(--text-xl); }
+  /* Phone: keep the three numbers side by side, smaller */
+  @media (max-width: 640px) {
+    .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
+    .hjem-tall .fakta { padding: var(--space-12) var(--space-10, 10px); }
+    .hjem-tall .fakta dt { font-size: var(--text-2xs); letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; hyphens: auto; }
+    .hjem-tall .fakta dd { font-size: var(--text-lg); }
+    .hjem-tall .fakta dd span { display: block; font-size: var(--text-xs); }
   }
-  .live-head span { white-space: nowrap; }
-  .live-head { padding-top: var(--space-12); padding-bottom: var(--space-12); border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); font-size: var(--text-xs); font-weight: var(--font-weight-semibold); letter-spacing: var(--tracking-label); text-transform: uppercase; }
-  .live { color: inherit; text-decoration: none; }
-  .live + .live { border-top: 1px solid var(--border-subtle); }
-  .live:last-child { border-radius: 0 0 var(--radius-16) var(--radius-16); }
-  .live:hover { background: var(--surface-subtle); }
-  .live:focus-visible { outline: 3px solid var(--border-focus); outline-offset: -3px; }
-  .live__title { display: block; color: var(--text-heading); font-weight: var(--font-weight-semibold); }
-  .live__title small { margin-left: var(--space-4); color: var(--text-faint); font-size: var(--text-xs); font-weight: var(--font-weight-medium); }
-  .live__meta { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
-  .live__cell { display: block; min-width: 0; }
-  .live__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .live .meter__bar { display: block; }
-  .live .badge { justify-self: start; }
-  .live > .icon-lucide { color: var(--text-faint); }
+  /* Active campaigns: the same table as on Kampanjer */
+  .table-card { padding: 0; overflow-x: auto; }
+  .table__pil { width: 1%; color: var(--text-faint); }
+  tr[tabindex]:hover .table__pil, tr[tabindex]:focus-visible .table__pil { color: var(--text-heading); }
+  .table__pil-tekst { display: none; }
+  @container (max-width: 720px) {
+    .table td.table__pil { justify-content: flex-end; gap: var(--space-4); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+    .table__pil-tekst { display: inline; }
+  }
 
   @media (max-width: 1180px) {
     .topprad { grid-template-columns: 1fr; }
-    .cols { grid-template-columns: 1fr; }
+    .wrap > .cols { grid-template-columns: 1fr; }
   }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; padding: var(--space-24); }
   }
   /* Stable etter bredden på lista, ikke skjermen: med sidemenyen åpen blir kolonnen smal lenge før 900 px. */
-  .live-list { container-type: inline-size; }
-  @container (max-width: 620px) {
-    .live-head { display: none; }
-    .live { grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-12) var(--space-16); padding: var(--space-16); }
-    .live__name { grid-column: 1; grid-row: 1; }
-    .live .badge { grid-column: 2; grid-row: 1; align-self: start; }
-    .live__cell { grid-column: 1 / -1; }
-    .live__label { position: static; width: auto; height: auto; clip: auto; display: block; margin-bottom: var(--space-4); color: var(--text-faint); font-size: var(--text-xs); font-weight: var(--font-weight-semibold); }
-    .live > .icon-lucide { display: none; }
-  }
 </style>
 </head>
 <body>
@@ -167,7 +154,7 @@
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
 
     <div class="wrap">
       <h1 class="text-h2">Hei Kari</h1>
@@ -195,28 +182,32 @@
       </section>
       </div>
 
-      <div class="nokkel" style="margin-top: var(--space-24)">
-        <dl class="fakta"><dt>Aktive nå</dt><dd>1 <span>kampanje</span></dd></dl>
-        <dl class="fakta"><dt>Søknadsklikk</dt><dd>312 <span>på aktive kampanjer</span></dd></dl>
-        <dl class="fakta"><dt>Interessenter</dt><dd>9 <span>på aktive kampanjer</span></dd></dl>
-        <dl class="fakta"><dt>Budsjett brukt</dt><dd>kr 34 900 <span>av kr 48 200</span></dd></dl>
-      </div>
-
       <div class="cols">
         <section aria-labelledby="live-tittel">
-          <div class="seksjonstittel" style="margin-bottom:0">
-            <h2 id="live-tittel">Aktive nå</h2>
+          <div class="seksjonstittel">
+            <h2 id="live-tittel">Aktive kampanjer</h2>
             <a class="link" href="campaigns.html">Alle kampanjer</a>
           </div>
-          <details class="forklar live-hint"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr søknadsklikk mot mål?</summary><p><b>Søknadsklikk</b> er hvor mange som har trykket «Søk» på stillingsannonsen. Målet er det vi regnet med for hele perioden. Er baren oransje, ligger kampanjen bak planen.</p></details>
-          <div class="live-list">
-            <div class="live-head" aria-hidden="true"><span>Kampanje</span><span>Søknadsklikk mot mål</span><span>Status</span><span></span></div>
-            <a class="live" href="campaign.html">
-              <span class="live__name"><span class="live__title">Sykepleier Oslo</span><span class="live__meta">Ref. 22 31 · Dag 28 av 31</span></span>
-              <span class="live__cell"><span class="live__label">Søknadsklikk mot mål</span><span class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:82%"></span></span><span class="meter__value">312 av 380</span></span></span>
-              <span class="badge badge--active">Aktiv</span>
-              <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span>
-            </a>
+          <div class="nokkel hjem-tall">
+            <dl class="fakta"><dt>Aktive nå</dt><dd>1 <span>kampanje</span></dd></dl>
+            <dl class="fakta"><dt>Trykket «Søk»</dt><dd>312 <span>på aktive kampanjer</span></dd></dl>
+            <dl class="fakta"><dt>Interessenter</dt><dd>9 <span>på aktive kampanjer</span></dd></dl>
+          </div>
+          <div class="card card--betjen table-card">
+            <table class="table">
+              <thead>
+                <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Periode</th><th><span class="chat__sr">Åpne</span></th></tr>
+              </thead>
+              <tbody>
+                <tr tabindex="0" onclick="location.href='campaign.html'">
+                  <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Dag 28 av 31</span></td>
+                  <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
+                  <td data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
+                  <td data-label="Periode">03.09 – 03.10.2026</td>
+                  <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
@@ -270,10 +261,11 @@
   </div>
 </div>
 
+<script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=6"></script>
+<script src="../components/js/konto.js?v=8"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=7"></script>
+<script src="../components/js/assistant.js?v=9"></script>
 <script src="../components/js/tour.js"></script>
 <script>
 // Omvisning for nye brukere. Starter selv første gang, og fra «Vis meg rundt» når som helst.
