@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=61">
+<link rel="stylesheet" href="../frantz-ds.css?v=62">
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-body); }
@@ -122,7 +122,7 @@
             </div>
             <blockquote class="quote">
               <p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit. Med dagens tempo ender vi på rundt 370–400 «Søk», så målet er innen rekkevidde.»</p>
-              <footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status 24.09.2026</footer>
+              <footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status <time datetime="2026-09-24">24.09.2026</time></footer>
             </blockquote>
             <div class="metrics metrics--fire">
               <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span></span><div class="metric__value">132 600</div><div class="metric__label">visninger så langt</div><div class="metric__foot"><span style="white-space:nowrap">Normalt 110 000</span><span class="tag tag--raised tag--good">21 % flere</span></div></div>
@@ -132,8 +132,8 @@
             </div>
             <h4 class="metrics__title">Hva gir hver kanal så langt?</h4>
             <div class="metrics metrics--channel">
-              <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--meta"></span>Meta</div><div class="metric__value">kr 100</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span style="white-space:nowrap">kr 26 400 brukt · 263 «Søk»</span><span class="tag tag--raised tag--good">Billigst</span></div></div>
-              <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder"></span>Nettsteder og aviser</div><div class="metric__value">kr 173</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span style="white-space:nowrap">kr 8 500 brukt · 49 «Søk»</span></div></div>
+              <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"></span>Meta</div><div class="metric__value">kr 100</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span style="white-space:nowrap">kr 26 400 brukt · 263 «Søk»</span><span class="tag tag--raised tag--good">Billigst</span></div></div>
+              <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</div><div class="metric__value">kr 173</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span style="white-space:nowrap">kr 8 500 brukt · 49 «Søk»</span></div></div>
             </div>
             <details class="forklar" style="margin-top: var(--space-16)"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr «normalt»?</summary><p>Normalt er snittet for lignende kampanjer for sykepleiere i Oslo-området etter like mange dager.</p></details>
             <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva skjer etter «Søk»?</summary><p>Når noen trykker «Søk», går de videre til deres eget søknadsskjema. Der kan ikke Frantz måle. Vi vet derfor ikke hvor mange som sendte en søknad. Det ser dere i deres eget rekrutteringssystem.</p></details>
@@ -250,8 +250,8 @@
             </div></div>
             <div class="funnel__tabs geo__kanaler" role="group" aria-label="Velg kanal">
               <button type="button" class="filter" data-geo="alle" aria-pressed="true">Alle kanaler</button>
-              <button type="button" class="filter" data-geo="meta" aria-pressed="false"><span class="kanal-prikk kanal-prikk--meta"></span>Meta</button>
-              <button type="button" class="filter" data-geo="nettsteder" aria-pressed="false"><span class="kanal-prikk kanal-prikk--nettsteder"></span>Nettsteder og aviser</button>
+              <button type="button" class="filter" data-geo="meta" aria-pressed="false"><span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"></span>Meta</button>
+              <button type="button" class="filter" data-geo="nettsteder" aria-pressed="false"><span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</button>
             </div>
             <div class="geo">
               <div id="kart" class="kart" role="img" aria-label="Kart over Østlandet med visninger per fylke."></div>
@@ -467,7 +467,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
     document.getElementById('geo-liste').innerHTML = navn.map(function (f) {
       var andel = Math.round(d[f][0] / sum * 100);
       return '<li class="geo__rad"><div class="geo__topp"><span class="geo__navn">' + f + '</span><span class="geo__andel">' + andel + ' %</span></div>' +
-        '<div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:' + andel + '%"></span></div>' +
+        '<div class="meter__track meter__track--sm" aria-hidden="true"><span class="meter__bar meter__bar--data" style="width:' + andel + '%"></span></div>' +
         '<div class="geo__tall">' + tall(d[f][0]) + ' visninger · ' + tall(d[f][1]) + ' klikk</div></li>';
     }).join('');
     var topp = navn[0], andelTopp = Math.round(d[topp][0] / sum * 100);
@@ -529,7 +529,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 })();
 </script>
 <script src="../components/js/interessenter.js?v=1"></script>
-<script src="../components/js/piksel.js"></script>
+<script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/interactions.js?v=5"></script>
 <script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>

@@ -32,16 +32,19 @@
       '<div class="piksel__knapper">' +
         '<button class="btn btn--secondary btn--sm" type="button" data-piksel-kopier><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span> Kopier koden</button>' +
         '<a class="link link--xs" href="' + esc(epost) + '">Send på e-post</a>' +
+        '<span class="sr-only" aria-live="polite" data-piksel-melding></span>' +
       '</div>' +
       '<p class="piksel__hjelp">' + HJELP[status] + (connect
         ? ' Koden hører til <a class="link" href="connect-detalj.html?id=' + esc(connect) + '">ConnectID ' + esc(connect) + '</a>.'
         : ' Koden har samme ID som kampanjen.') + '</p>';
     var knapp = el.querySelector('[data-piksel-kopier]');
+    var melding = el.querySelector('[data-piksel-melding]');
     knapp.addEventListener('click', function () {
       try { navigator.clipboard.writeText(kode).catch(function () {}); } catch (e) {}
       var gammel = knapp.innerHTML;
       knapp.innerHTML = '<span class="icon-lucide icon-lucide--check" aria-hidden="true"></span> Kopiert';
-      setTimeout(function () { knapp.innerHTML = gammel; }, 2000);
+      melding.textContent = 'Koden er kopiert.';
+      setTimeout(function () { knapp.innerHTML = gammel; melding.textContent = ''; }, 2000);
     });
   });
 })();

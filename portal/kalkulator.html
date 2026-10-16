@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=61">
+<link rel="stylesheet" href="../frantz-ds.css?v=62">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   body { margin: 0; }
@@ -316,7 +316,7 @@
     $('ut-sok').textContent = R.spenn(r.sok);
 
     $('kanaler').innerHTML = r.kanaler.map(function (c) {
-      return '<span class="kanal' + (c.med ? '' : ' kanal--av') + '"><span class="kanal-prikk kanal-prikk--' + c.k + '"></span>' +
+      return '<span class="kanal' + (c.med ? '' : ' kanal--av') + '"><span class="kanal-prikk kanal-prikk--' + c.k + '" aria-hidden="true"></span>' +
         c.navn + (c.med ? '' : ' · fra ' + kr(c.fra)) + '</span>';
     }).join('');
 
