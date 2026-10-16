@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Connect — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=60">
+<link rel="stylesheet" href="../frantz-ds.css?v=61">
 <style>
   body { margin: 0; }
 
@@ -225,7 +225,7 @@
           <span class="pagination__meta" id="side-meta" aria-live="polite">Viser <b>9</b> av 9 stillinger</span>
           <div class="pagination__pages">
             <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
-            <button class="pagination__page" type="button" aria-current="page">1</button>
+            <button class="pagination__page" type="button" aria-label="Side 1" aria-current="page">1</button>
             <button class="pagination__btn" type="button" disabled aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
           </div>
         </nav>
@@ -259,10 +259,7 @@
     if (e.target.closest('a, button')) return;
     var tr = e.target.closest('tr[data-href]'); if (tr) location.href = tr.dataset.href;
   });
-  document.getElementById('rader').addEventListener('keydown', function (e) {
-    var tr = e.target.closest('tr[data-href]');
-    if (tr && e.target === tr && e.key === 'Enter') location.href = tr.dataset.href;
-  });
+  // interactions.js opens the row with Enter, like a click.
 
   var sok = document.getElementById('sok');
   var sortering = document.getElementById('sortering');
@@ -306,7 +303,7 @@
 })();
 </script>
 
-<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/interactions.js?v=4"></script>
 <script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=6"></script>

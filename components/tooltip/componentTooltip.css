@@ -154,3 +154,10 @@ button.tooltip:focus-visible {
   align-items: center;
   gap: var(--space-6);
 }
+
+/* Escape hides the tooltip. interactions.js sets .is-lukket */
+.tooltip.is-lukket::after,
+.tooltip.is-lukket::before {
+  opacity: 0;
+  visibility: hidden;
+}

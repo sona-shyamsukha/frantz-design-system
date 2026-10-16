@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=60">
-<link rel="stylesheet" href="components/inbox/componentInbox.css?v=4">
+<link rel="stylesheet" href="frantz-ds.css?v=61">
+<link rel="stylesheet" href="components/inbox/componentInbox.css?v=5">
 <link rel="stylesheet" href="styles/docs.css?v=8">
 </head>
 <body class="ds-docs">
@@ -793,10 +793,10 @@
         <div class="felt">
           <label for="cl-dato-feil">Feil</label>
           <div class="datepicker__control">
-            <input class="input input--error datepicker__input" id="cl-dato-feil" type="text" value="31.02.2026" readonly>
+            <input class="input input--error datepicker__input" id="cl-dato-feil" type="text" value="31.02.2026" readonly aria-invalid="true" aria-describedby="cl-dato-feil-tekst">
             <span class="icon-lucide icon-lucide--calendar datepicker__icon" aria-hidden="true"></span>
           </div>
-          <span class="form-error">Ugyldig dato.</span>
+          <span class="form-error" id="cl-dato-feil-tekst">Ugyldig dato.</span>
         </div>
         <div class="felt">
           <label for="cl-dato-dis">Deaktivert</label>
@@ -811,8 +811,8 @@
       </div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Kalender — september 2026</span>
-      <p class="cl-note">I dag har amber-ring. Valgt periode er navy + lys navy mellom.</p>
-      <div class="datepicker__panel">
+      <p class="cl-note">I dag har amber-ring. Valgt periode er navy + lys navy mellom. Dette er bare et bilde av panelet. Prøv feltene over for å bruke det.</p>
+      <div class="datepicker__panel" inert>
         <div class="datepicker__nav">
           <button class="datepicker__nav-btn" type="button" aria-label="Forrige måned"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
           <span class="datepicker__month">september 2026</span>
@@ -869,7 +869,7 @@
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Ja, <code>components/js/interactions.js</code>. Den åpner kalenderen og fyller inn datoene.</dd>
+        <dt>JavaScript</dt><dd>Ja, <code>components/js/interactions.js</code>. Den åpner kalenderen, styrer tastaturet og fyller inn datoene.</dd>
         <dt>Ikoner</dt><dd>Ja. Ikonfilene er med i listen under.</dd>
       </dl>
         <div class="cl-snippet">
@@ -895,14 +895,14 @@
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
-        <p class="cl-note cl-note--wide">Kampanjeperiode. Uke starter mandag. Format <code>dd.mm.åååå</code>. Navy = valgt. Amber-ring = i dag. Krever <code>interactions.js</code>.</p>
+        <p class="cl-note cl-note--wide">Kampanjeperiode. Uke starter mandag. Format <code>dd.mm.åååå</code>. Navy = valgt. Amber-ring = i dag. Krever <code>interactions.js</code>. <code>.datepicker--range</code> legger Fra og Til side om side, og under hverandre på smal skjerm.</p>
 
         <h3 class="cl-details__h">Klasser</h3>
         <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Når</th></tr></thead>
         <tbody>
           <tr><td><code>.datepicker</code> + <code>data-datepicker</code></td><td>Rot. JS åpner panelet</td></tr>
-          <tr><td><code>data-mode="range"</code></td><td>Fra–til, kampanjeperiode</td></tr>
+          <tr><td><code>data-mode="range"</code> + <code>.datepicker--range</code></td><td>Fra–til, kampanjeperiode. Klassen gir to felt side om side</td></tr>
           <tr><td><code>.datepicker__input</code></td><td>Readonly felt med kalenderikon</td></tr>
           <tr><td><code>.datepicker__day--start / --end / --in</code></td><td>Periode i kalenderen</td></tr>
         </tbody>
@@ -919,10 +919,12 @@
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Hvert datofelt trenger en synlig <code>&lt;label for&gt;</code>. I en periode får Fra og Til hver sin etikett.</li>
-          <li><code>interactions.js</code> gjør feltet <code>readonly</code> og åpner kalenderen når feltet får fokus. Brukeren kan ikke skrive datoen selv. Skriv formatet <code>dd.mm.åååå</code> i placeholder eller hjelpetekst.</li>
-          <li>Kalenderen har <code>role="dialog"</code> og <code>aria-label="Velg dato"</code>. Dagene er <code>&lt;button&gt;</code>, så Tab og Enter virker. Piltaster virker ikke.</li>
-          <li>Escape lukker kalenderen. Fokus flyttes ikke inn i kalenderen når den åpnes. Hvis du bygger videre, flytt fokus til valgt dag og tilbake til feltet når den lukkes.</li>
-          <li>Dagknappene sier bare tallet. Valgt dag og i dag vises bare med farge og ring. Gi dagene <code>aria-label</code> med full dato og <code>aria-pressed</code> for valgt dag hvis du endrer JS-en.</li>
+          <li><code>interactions.js</code> gjør feltet <code>readonly</code>. Brukeren velger datoen i kalenderen. Skriv formatet <code>dd.mm.åååå</code> i placeholder eller hjelpetekst.</li>
+          <li>Feltet har <code>aria-haspopup="dialog"</code> og <code>aria-expanded</code>. Klikk, Enter, mellomrom eller pil ned åpner kalenderen. Med tastatur flyttes fokus til valgt dag, eller til i dag.</li>
+          <li>I kalenderen flytter piltastene én dag eller én uke. Home og End går til start og slutt på uken. Page Up og Page Down bytter måned. Enter eller mellomrom velger dagen.</li>
+          <li>Escape lukker kalenderen, og fokus går tilbake til feltet. Tab går rundt inne i kalenderen så lenge den er åpen.</li>
+          <li>Hver dag har full dato i <code>aria-label</code>, for eksempel «16. september 2026». Valgt dag har <code>aria-pressed="true"</code>, og i dag har <code>aria-current="date"</code>. Måneden leses opp når den byttes.</li>
+          <li>Feltet sender <code>input</code> og <code>change</code> når en dato velges.</li>
           <li>Ved feil: bruk <code>.input--error</code>, <code>aria-invalid="true"</code> og en <code>.form-error</code> koblet med <code>aria-describedby</code>.</li>
         </ul>
       </div>
@@ -992,24 +994,22 @@
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Kalenderpanel (lages av JS)</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="datepicker__panel"&gt;
+          <pre class="cl-code-pre"><code>&lt;div class="datepicker__panel datepicker__panel--float" role="dialog" aria-label="Velg periode" id="fra-kalender"&gt;
   &lt;div class="datepicker__nav"&gt;
     &lt;button class="datepicker__nav-btn" type="button" aria-label="Forrige måned"&gt;&lt;span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
-    &lt;span class="datepicker__month"&gt;september 2026&lt;/span&gt;
+    &lt;span class="datepicker__month" aria-live="polite"&gt;september 2026&lt;/span&gt;
     &lt;button class="datepicker__nav-btn" type="button" aria-label="Neste måned"&gt;&lt;span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
-  &lt;div class="datepicker__week"&gt;
+  &lt;div class="datepicker__week" aria-hidden="true"&gt;
     &lt;span class="datepicker__dow"&gt;Ma&lt;/span&gt;&lt;span class="datepicker__dow"&gt;Ti&lt;/span&gt;&lt;span class="datepicker__dow"&gt;On&lt;/span&gt;&lt;span class="datepicker__dow"&gt;To&lt;/span&gt;&lt;span class="datepicker__dow"&gt;Fr&lt;/span&gt;&lt;span class="datepicker__dow"&gt;Lø&lt;/span&gt;&lt;span class="datepicker__dow"&gt;Sø&lt;/span&gt;
   &lt;/div&gt;
   &lt;div class="datepicker__grid"&gt;
-    &lt;span class="datepicker__day datepicker__day--empty"&gt;&lt;/span&gt;
-    &lt;button class="datepicker__day" type="button"&gt;1&lt;/button&gt;
     ...
-    &lt;button class="datepicker__day datepicker__day--today datepicker__day--start datepicker__day--in" type="button"&gt;16&lt;/button&gt;
-    &lt;button class="datepicker__day datepicker__day--in" type="button"&gt;17&lt;/button&gt;
+    &lt;button class="datepicker__day datepicker__day--today datepicker__day--start datepicker__day--in" type="button" data-date="16.09.2026" aria-label="16. september 2026, i dag" aria-pressed="true" aria-current="date" tabindex="0"&gt;16&lt;/button&gt;
+    &lt;button class="datepicker__day datepicker__day--in" type="button" data-date="17.09.2026" aria-label="17. september 2026" aria-pressed="false" tabindex="-1"&gt;17&lt;/button&gt;
     ...
-    &lt;button class="datepicker__day datepicker__day--end datepicker__day--in" type="button"&gt;30&lt;/button&gt;
-    &lt;button class="datepicker__day datepicker__day--muted" type="button"&gt;1&lt;/button&gt;
+    &lt;button class="datepicker__day datepicker__day--end datepicker__day--in" type="button" data-date="30.09.2026" aria-label="30. september 2026" aria-pressed="true" tabindex="-1"&gt;30&lt;/button&gt;
+    &lt;button class="datepicker__day datepicker__day--muted" type="button" data-date="01.10.2026" aria-label="1. oktober 2026" aria-pressed="false" tabindex="-1"&gt;1&lt;/button&gt;
     ...
   &lt;/div&gt;
   &lt;div class="datepicker__foot"&gt;
@@ -1278,16 +1278,16 @@
       <div class="cl-sep"></div>
       <span class="cl-variant">Retning — hold over ikonene</span>
       <div class="cl-tooltip-play">
-        <button class="tooltip" type="button" data-tooltip="Forklaring over feltet." aria-label="Tooltip opp">
+        <button class="tooltip" type="button" data-tooltip="Forklaring over feltet." aria-label="Eksempel: boks over">
           <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
         </button>
-        <button class="tooltip" type="button" data-tooltip="Forklaring under feltet." data-tooltip-pos="bottom" aria-label="Tooltip ned">
+        <button class="tooltip" type="button" data-tooltip="Forklaring under feltet." data-tooltip-pos="bottom" aria-label="Eksempel: boks under">
           <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
         </button>
-        <button class="tooltip" type="button" data-tooltip="Til venstre for ikonet." data-tooltip-pos="left" aria-label="Tooltip venstre">
+        <button class="tooltip" type="button" data-tooltip="Til venstre for ikonet." data-tooltip-pos="left" aria-label="Eksempel: boks til venstre">
           <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
         </button>
-        <button class="tooltip" type="button" data-tooltip="Til høyre for ikonet." data-tooltip-pos="right" aria-label="Tooltip høyre">
+        <button class="tooltip" type="button" data-tooltip="Til høyre for ikonet." data-tooltip-pos="right" aria-label="Eksempel: boks til høyre">
           <span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>
         </button>
       </div>
@@ -1297,7 +1297,7 @@
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Nei, den trenger ikke JS.</dd>
+        <dt>JavaScript</dt><dd>Ja, <code>components/js/interactions.js</code>. Den gjør forklaringen lesbar for skjermleser og lukker boksen med Escape. Boksen vises også uten JS.</dd>
         <dt>Ikoner</dt><dd>Ja. Ikonfilene er med i listen under.</dd>
       </dl>
         <div class="cl-snippet">
@@ -1306,7 +1306,8 @@
 &lt;link rel="stylesheet" href="styles/reset.css"&gt;
 &lt;link rel="stylesheet" href="components/icon/lucide-icons.css"&gt;
 &lt;link rel="stylesheet" href="components/icon/componentIcon.css"&gt;
-&lt;link rel="stylesheet" href="components/tooltip/componentTooltip.css"&gt;</code></pre>
+&lt;link rel="stylesheet" href="components/tooltip/componentTooltip.css"&gt;
+&lt;script src="components/js/interactions.js" defer&gt;&lt;/script&gt;</code></pre>
         </div>
     </div>
 
@@ -1337,16 +1338,17 @@
         <h3 class="cl-details__h">Regler</h3>
         <ul class="cl-rules">
         <li>Bruk ved KPI, merkelige felt og forkortelser. Ikke ved hver label.</li>
-        <li>Tekst i <code>data-tooltip</code>. Ikonknappen trenger <code>aria-label</code>.</li>
+        <li>Forklaringen i <code>data-tooltip</code>. Et kort navn i <code>aria-label</code>.</li>
         <li>Standard retning er opp. Sett <code>data-tooltip-pos</code> hvis den ellers klippes.</li>
       </ul>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Bruk <code>&lt;button type="button" class="tooltip"&gt;</code>. Da kan brukeren nå den med Tab. Boksen vises ved hover og ved fokus.</li>
-          <li>Teksten i <code>data-tooltip</code> vises med CSS, og skjermleseren leser den ikke sikkert. <code>aria-label</code> overstyrer den. Legg selve forklaringen i <code>aria-label</code>, eller i et element med <code>hidden</code> som knappen peker på med <code>aria-describedby</code>.</li>
-          <li>Ikonet får <code>aria-hidden="true"</code>. Knappen har bare ikon, så den må ha <code>aria-label</code>.</li>
-          <li>Boksen lukkes ikke med Escape, og musen kan ikke flyttes inn i den. Hold teksten kort, og legg aldri lenker eller viktig informasjon bare i tooltip.</li>
+          <li>Gi knappen et kort navn i <code>aria-label</code>, for eksempel «Hva betyr kostnad per klikk?». Selve forklaringen står i <code>data-tooltip</code>.</li>
+          <li><code>interactions.js</code> legger forklaringen i et skjult element og kobler den til knappen med <code>aria-describedby</code>. Da leser skjermleseren først navnet og så forklaringen. Står forklaringen allerede i <code>aria-label</code>, legges den ikke til to ganger.</li>
+          <li>Ikonet får <code>aria-hidden="true"</code>.</li>
+          <li>Escape lukker boksen. Den kommer tilbake når musen eller fokus har vært borte fra knappen. Musen kan ikke flyttes inn i boksen, så hold teksten kort, og legg aldri lenker eller viktig informasjon bare i tooltip.</li>
           <li>Knappen er 24 × 24 px. Ikke gjør den mindre, og hold litt avstand til andre klikkbare ting.</li>
         </ul>
       </div>
@@ -1369,22 +1371,22 @@
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Opp (standard)</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;button class="tooltip" type="button" data-tooltip="Forklaring over feltet." aria-label="Forklaring over feltet."&gt;
+          <pre class="cl-code-pre"><code>&lt;button class="tooltip" type="button" data-tooltip="Forklaring over feltet." aria-label="Mer info"&gt;
   &lt;span class="icon-lucide icon-lucide--info" aria-hidden="true"&gt;&lt;/span&gt;
 &lt;/button&gt;</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Ned</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;button class="tooltip" type="button" data-tooltip="Forklaring under feltet." data-tooltip-pos="bottom" aria-label="Forklaring under feltet."&gt;
+          <pre class="cl-code-pre"><code>&lt;button class="tooltip" type="button" data-tooltip="Forklaring under feltet." data-tooltip-pos="bottom" aria-label="Mer info"&gt;
   &lt;span class="icon-lucide icon-lucide--info" aria-hidden="true"&gt;&lt;/span&gt;
 &lt;/button&gt;</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Venstre og høyre</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;button class="tooltip" type="button" data-tooltip="Til venstre for ikonet." data-tooltip-pos="left" aria-label="Til venstre for ikonet."&gt;
+          <pre class="cl-code-pre"><code>&lt;button class="tooltip" type="button" data-tooltip="Til venstre for ikonet." data-tooltip-pos="left" aria-label="Mer info"&gt;
   &lt;span class="icon-lucide icon-lucide--info" aria-hidden="true"&gt;&lt;/span&gt;
 &lt;/button&gt;
-&lt;button class="tooltip" type="button" data-tooltip="Til høyre for ikonet." data-tooltip-pos="right" aria-label="Til høyre for ikonet."&gt;
+&lt;button class="tooltip" type="button" data-tooltip="Til høyre for ikonet." data-tooltip-pos="right" aria-label="Mer info"&gt;
   &lt;span class="icon-lucide icon-lucide--info" aria-hidden="true"&gt;&lt;/span&gt;
 &lt;/button&gt;</code></pre>
         </div>
@@ -1661,37 +1663,38 @@
     <p class="cl-intro">En tabell for lange lister med flere kolonner. På mobil blir hver rad et kort.</p>
     <div class="cl-demo">
       <span class="cl-variant">Kampanjeliste</span>
-      <div class="card card--betjen" style="padding:0; overflow:hidden">
+      <div class="card card--betjen table-card" style="padding:0; overflow:hidden">
         <table class="table">
+          <caption class="sr-only">Kampanjer. Velg en rad for å åpne kampanjen.</caption>
           <thead>
             <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Budsjett</th><th>Søknadsklikk</th></tr>
           </thead>
           <tbody>
-            <tr tabindex="0">
+            <tr tabindex="0" onclick="location.href='portal/campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041</span></td>
               <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
               <td data-label="Kanaler">Meta, Nettsteder</td>
               <td data-label="Budsjett">kr 48 200</td>
               <td data-label="Søknadsklikk">
                 <div class="meter meter--sm" style="max-width:140px">
-                  <div class="meter__track"><div class="meter__bar" style="width:72%"></div></div>
+                  <div class="meter__track" aria-hidden="true"><div class="meter__bar" style="width:72%"></div></div>
                   <span class="meter__value">72 av 100</span>
                 </div>
               </td>
             </tr>
-            <tr tabindex="0">
+            <tr tabindex="0" onclick="location.href='portal/campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Intensivsykepleier Bergen</span><span class="table__meta">Bergen · #129055</span></td>
               <td data-label="Status"><span class="badge badge--paused">Pause</span></td>
               <td data-label="Kanaler">Meta</td>
               <td data-label="Budsjett">kr 22 000</td>
               <td data-label="Søknadsklikk">
                 <div class="meter meter--sm" style="max-width:140px">
-                  <div class="meter__track"><div class="meter__bar meter__bar--behind" style="width:34%"></div></div>
+                  <div class="meter__track" aria-hidden="true"><div class="meter__bar meter__bar--behind" style="width:34%"></div></div>
                   <span class="meter__value">17 av 50</span>
                 </div>
               </td>
             </tr>
-            <tr tabindex="0">
+            <tr tabindex="0" onclick="location.href='portal/ny-kampanje.html?kladd=129070'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Kristiansand</span><span class="table__meta">Kristiansand · #129070</span></td>
               <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
               <td data-label="Kanaler">—</td>
@@ -1707,7 +1710,7 @@
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Nei, den trenger ikke JS.</dd>
+        <dt>JavaScript</dt><dd>Bare for klikkbare rader. <code>components/js/interactions.js</code> åpner raden med Enter og mellomrom.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -1745,7 +1748,7 @@
 
         <h3 class="cl-details__h">Regler</h3>
         <ul class="cl-rules">
-        <li>Klikkbar rad: <code>tabindex="0"</code>, hover/fokus gir <code>--surface-subtle</code>.</li>
+        <li>Klikkbar rad: <code>tabindex="0"</code> og en klikkhandling, for eksempel <code>onclick</code>. Hover og fokus gir <code>--surface-subtle</code>. Fokus gir også en navy ramme.</li>
         <li>Status vises som <code>.badge</code>, ikke som fri tekst.</li>
         <li>Fremdrift i celle: bruk <code>.meter--sm</code> fra Fremdrift-komponenten.</li>
         <li>Mobil: hver <code>&lt;td&gt;</code> må ha <code>data-label</code> for kortvisningen.</li>
@@ -1756,8 +1759,9 @@
           <li>Bruk ekte <code>&lt;table&gt;</code>, <code>&lt;thead&gt;</code> og <code>&lt;th&gt;</code>. Da leser skjermleseren kolonnenavnet sammen med hver celle.</li>
           <li>Hver <code>&lt;td&gt;</code> trenger <code>data-label</code> med kolonnenavnet. Når tabellen blir kort på smal skjerm, vises den som etikett foran verdien.</li>
           <li>Kortvisningen virker bare når tabellen ligger i et element med <code>.table-card</code>. Den gir <code>container-type</code>.</li>
-          <li>Rad med <code>tabindex="0"</code> kan nås med Tab og får lys bakgrunn ved fokus. CSS-en åpner ingenting. Legg en ekte <code>&lt;a href&gt;</code> i tittelcellen, eller lytt på Enter i JS.</li>
-          <li>Fremdrift i celle viser tallet i <code>.meter__value</code>, for eksempel «72 av 100». Ikke vis bare søylen.</li>
+          <li>Rad med <code>tabindex="0"</code> kan nås med Tab. Den får lys bakgrunn og navy ramme ved fokus. <code>interactions.js</code> gjør at Enter og mellomrom virker som et klikk på raden. Raden må ha en klikkhandling, for eksempel <code>onclick</code>.</li>
+          <li>Gi tabellen en <code>&lt;caption&gt;</code>. Skal den ikke vises, bruk <code>.sr-only</code>. Skriv at radene kan åpnes, for skjermleseren sier ikke det selv.</li>
+          <li>Fremdrift i celle viser tallet i <code>.meter__value</code>, for eksempel «72 av 100». Søylen har <code>aria-hidden="true"</code>.</li>
         </ul>
       </div>
     </details>
@@ -1769,18 +1773,19 @@
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Kampanjeliste</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;div class="card card--betjen table-card" style="padding:0"&gt;
   &lt;table class="table"&gt;
+    &lt;caption class="sr-only"&gt;Kampanjer. Velg en rad for å åpne kampanjen.&lt;/caption&gt;
     &lt;thead&gt;
       &lt;tr&gt;&lt;th&gt;Kampanje&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;Kanaler&lt;/th&gt;&lt;th&gt;Budsjett&lt;/th&gt;&lt;th&gt;Søknadsklikk&lt;/th&gt;&lt;/tr&gt;
     &lt;/thead&gt;
     &lt;tbody&gt;
-      &lt;tr tabindex="0"&gt;
+      &lt;tr tabindex="0" onclick="location.href='campaign.html'"&gt;
         &lt;td data-label="Kampanje"&gt;&lt;span class="table__title"&gt;Sykepleier Oslo&lt;/span&gt;&lt;span class="table__meta"&gt;Oslo · #129041&lt;/span&gt;&lt;/td&gt;
         &lt;td data-label="Status"&gt;&lt;span class="badge badge--active"&gt;Aktiv&lt;/span&gt;&lt;/td&gt;
         &lt;td data-label="Kanaler"&gt;Meta, Nettsteder&lt;/td&gt;
         &lt;td data-label="Budsjett"&gt;kr 48 200&lt;/td&gt;
         &lt;td data-label="Søknadsklikk"&gt;
           &lt;div class="meter meter--sm"&gt;
-            &lt;div class="meter__track"&gt;&lt;div class="meter__bar" style="width:72%"&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class="meter__track" aria-hidden="true"&gt;&lt;div class="meter__bar" style="width:72%"&gt;&lt;/div&gt;&lt;/div&gt;
             &lt;span class="meter__value"&gt;72 av 100&lt;/span&gt;
           &lt;/div&gt;
         &lt;/td&gt;
@@ -1805,7 +1810,7 @@
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Fremdrift i celle</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;td data-label="Søknadsklikk"&gt;
   &lt;div class="meter meter--sm"&gt;
-    &lt;div class="meter__track"&gt;&lt;div class="meter__bar meter__bar--behind" style="width:34%"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="meter__track" aria-hidden="true"&gt;&lt;div class="meter__bar meter__bar--behind" style="width:34%"&gt;&lt;/div&gt;&lt;/div&gt;
     &lt;span class="meter__value"&gt;17 av 50&lt;/span&gt;
   &lt;/div&gt;
 &lt;/td&gt;</code></pre>
@@ -1830,30 +1835,30 @@
     <div class="cl-demo">
       <span class="cl-variant">Kampanjeliste</span>
       <nav class="pagination" aria-label="Paginering">
-        <span class="pagination__meta">Viser 1–10 av 48 kampanjer</span>
+        <span class="pagination__meta">Viser 1–10 av 120 kampanjer</span>
         <div class="pagination__pages">
           <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
-          <button class="pagination__page" type="button" aria-current="page">1</button>
-          <button class="pagination__page" type="button">2</button>
-          <button class="pagination__page" type="button">3</button>
+          <button class="pagination__page" type="button" aria-label="Side 1" aria-current="page">1</button>
+          <button class="pagination__page" type="button" aria-label="Side 2">2</button>
+          <button class="pagination__page" type="button" aria-label="Side 3">3</button>
           <span class="pagination__ellipsis" aria-hidden="true">…</span>
-          <button class="pagination__page" type="button">5</button>
+          <button class="pagination__page" type="button" aria-label="Side 12">12</button>
           <button class="pagination__btn" type="button" aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
         </div>
       </nav>
       <div class="cl-sep"></div>
       <span class="cl-variant">Midt i listen</span>
       <nav class="pagination" aria-label="Paginering">
-        <span class="pagination__meta">Viser 21–30 av 48 kampanjer</span>
+        <span class="pagination__meta">Viser 51–60 av 120 kampanjer</span>
         <div class="pagination__pages">
           <button class="pagination__btn" type="button" aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
-          <button class="pagination__page" type="button">1</button>
+          <button class="pagination__page" type="button" aria-label="Side 1">1</button>
           <span class="pagination__ellipsis" aria-hidden="true">…</span>
-          <button class="pagination__page" type="button">2</button>
-          <button class="pagination__page" type="button" aria-current="page">3</button>
-          <button class="pagination__page" type="button">4</button>
+          <button class="pagination__page" type="button" aria-label="Side 5">5</button>
+          <button class="pagination__page" type="button" aria-label="Side 6" aria-current="page">6</button>
+          <button class="pagination__page" type="button" aria-label="Side 7">7</button>
           <span class="pagination__ellipsis" aria-hidden="true">…</span>
-          <button class="pagination__page" type="button">5</button>
+          <button class="pagination__page" type="button" aria-label="Side 12">12</button>
           <button class="pagination__btn" type="button" aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
         </div>
       </nav>
@@ -1915,7 +1920,7 @@
         <ul class="cl-rules">
         <li>Aktiv side: <code>aria-current="page"</code>.</li>
         <li>Første side: deaktiver Forrige. Siste: deaktiver Neste.</li>
-        <li>Over syv sider: ellipsis. Ikke vis alle sidetall.</li>
+        <li>Over syv sider: ellipsis. Ikke vis alle sidetall. Første og siste side vises alltid.</li>
         <li>Kompakt variant når det bare trengs forrige/neste.</li>
       </ul>
 
@@ -1924,7 +1929,8 @@
           <li>Legg pagineringen i <code>&lt;nav aria-label="Paginering"&gt;</code>. Merk siden brukeren er på med <code>aria-current="page"</code>. Den vises som navy pill, og skjermleseren sier «gjeldende side».</li>
           <li>Forrige og Neste har bare ikon. De må ha <code>aria-label</code>, for eksempel «Forrige side». Ikonet får <code>aria-hidden="true"</code>.</li>
           <li>På første side får Forrige <code>disabled</code>, og på siste side får Neste <code>disabled</code>. Da hopper Tab over knappen.</li>
-          <li>Prikkene <code>.pagination__ellipsis</code> får <code>aria-hidden="true"</code>, så de ikke leses som tekst.</li>
+          <li>Hvert sidetall har <code>aria-label="Side 6"</code>. Da sier skjermleseren «Side 6», ikke bare «6».</li>
+          <li>Prikkene <code>.pagination__ellipsis</code> får <code>aria-hidden="true"</code>, så de ikke leses som tekst. Bruk dem bare når de skjuler minst to sider. Vis alltid første og siste side.</li>
           <li>Når siden byttes, oppdater <code>.pagination__meta</code>. Gi den <code>aria-live="polite"</code> hvis listen byttes uten ny side, så skjermleseren hører det nye antallet.</li>
           <li>Knappene er 36 px høye. Det holder som trykkflate på mobil.</li>
         </ul>
@@ -1937,14 +1943,14 @@
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Første side</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;nav class="pagination" aria-label="Paginering"&gt;
-  &lt;span class="pagination__meta"&gt;Viser 1–10 av 48 kampanjer&lt;/span&gt;
+  &lt;span class="pagination__meta"&gt;Viser 1–10 av 120 kampanjer&lt;/span&gt;
   &lt;div class="pagination__pages"&gt;
     &lt;button class="pagination__btn" type="button" disabled aria-label="Forrige side"&gt;&lt;span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="pagination__page" type="button" aria-current="page"&gt;1&lt;/button&gt;
-    &lt;button class="pagination__page" type="button"&gt;2&lt;/button&gt;
-    &lt;button class="pagination__page" type="button"&gt;3&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 1" aria-current="page"&gt;1&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 2"&gt;2&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 3"&gt;3&lt;/button&gt;
     &lt;span class="pagination__ellipsis" aria-hidden="true"&gt;…&lt;/span&gt;
-    &lt;button class="pagination__page" type="button"&gt;5&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 12"&gt;12&lt;/button&gt;
     &lt;button class="pagination__btn" type="button" aria-label="Neste side"&gt;&lt;span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
 &lt;/nav&gt;</code></pre>
@@ -1952,14 +1958,16 @@
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Midt i listen</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;nav class="pagination" aria-label="Paginering"&gt;
-  &lt;span class="pagination__meta"&gt;Viser 21–30 av 48 kampanjer&lt;/span&gt;
+  &lt;span class="pagination__meta"&gt;Viser 51–60 av 120 kampanjer&lt;/span&gt;
   &lt;div class="pagination__pages"&gt;
     &lt;button class="pagination__btn" type="button" aria-label="Forrige side"&gt;&lt;span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="pagination__page" type="button"&gt;1&lt;/button&gt;
-    &lt;button class="pagination__page" type="button"&gt;2&lt;/button&gt;
-    &lt;button class="pagination__page" type="button" aria-current="page"&gt;3&lt;/button&gt;
-    &lt;button class="pagination__page" type="button"&gt;4&lt;/button&gt;
-    &lt;button class="pagination__page" type="button"&gt;5&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 1"&gt;1&lt;/button&gt;
+    &lt;span class="pagination__ellipsis" aria-hidden="true"&gt;…&lt;/span&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 5"&gt;5&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 6" aria-current="page"&gt;6&lt;/button&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 7"&gt;7&lt;/button&gt;
+    &lt;span class="pagination__ellipsis" aria-hidden="true"&gt;…&lt;/span&gt;
+    &lt;button class="pagination__page" type="button" aria-label="Side 12"&gt;12&lt;/button&gt;
     &lt;button class="pagination__btn" type="button" aria-label="Neste side"&gt;&lt;span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
 &lt;/nav&gt;</code></pre>
@@ -2533,7 +2541,8 @@
           <li>Grafen er en <code>&lt;svg role="img"&gt;</code> med en <code>aria-label</code> som sier fra første til siste tall. JS lager den.</li>
           <li>Hvert steg i grafen er en <code>&lt;button&gt;</code> med navn og tall i <code>aria-label</code>. Tab til steget viser detaljkortet. Klikk låser kortet. Esc lukker det.</li>
           <li>Detaljkortet har <code>role="status"</code>, så skjermleseren leser det når det endres.</li>
-          <li>Fanene har <code>role="tab"</code>, men piltastene virker ikke. Brukeren bytter visning med Tab og Enter.</li>
+          <li>Fanene har <code>role="tab"</code> og <code>aria-selected</code>. Bare valgt fane er med i Tab-rekkefølgen. Pil venstre og høyre bytter visning. Home og End går til første og siste fane.</li>
+          <li>Innholdet under fanene har <code>role="tabpanel"</code> og er koblet til valgt fane.</li>
           <li>Frafall over 45 % får rødlig merke. Prosenten står alltid som tekst ved siden av.</li>
         </ul>
       </div>
@@ -2574,12 +2583,14 @@ tegnTrakt(document.getElementById('trakt'), {
 
     <p class="cl-intro">Viser hvor brukeren er i en flyt med to til fire steg, for eksempel «Ny kampanje».</p>
     <div class="cl-demo">
-      <ol class="steps">
-        <li class="step step--done"><span class="step__n">✓</span>Stillingen</li>
-        <li class="step step--now"><span class="step__n">2</span>Strategien</li>
-        <li class="step"><span class="step__n">3</span>Materiell</li>
-        <li class="step"><span class="step__n">4</span>Bestilling</li>
-      </ol>
+      <nav aria-label="Trinn i ny kampanje">
+        <ol class="steps">
+          <li class="step step--done"><button class="step__link" type="button"><span class="step__n" aria-hidden="true">✓</span>Stillingen<span class="sr-only">, fullført</span></button></li>
+          <li class="step step--now" aria-current="step"><span class="step__n">2</span>Strategien</li>
+          <li class="step"><span class="step__n">3</span>Materiell</li>
+          <li class="step"><span class="step__n">4</span>Bestilling</li>
+        </ol>
+      </nav>
     </div>
 
     <div class="cl-install">
@@ -2614,7 +2625,8 @@ tegnTrakt(document.getElementById('trakt'), {
         <table class="cl-spec">
         <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
         <tbody>
-          <tr><td><code>.step--done</code></td><td>Fullført, klikkbar, navy tallsirkel med ✓</td></tr>
+          <tr><td><code>.step--done</code></td><td>Fullført, navy tallsirkel med ✓</td></tr>
+          <tr><td><code>.step__link</code></td><td>Knapp eller lenke inni et fullført trinn. Går tilbake</td></tr>
           <tr><td><code>.step--now</code></td><td>Nåværende, amber tallsirkel</td></tr>
           <tr><td>(ingen klasse)</td><td>Fremtidig, grå, ikke klikkbar</td></tr>
         </tbody>
@@ -2623,16 +2635,16 @@ tegnTrakt(document.getElementById('trakt'), {
         <h3 class="cl-details__h">Regler</h3>
         <ul class="cl-rules">
         <li>Maks fire trinn. Flere hører hjemme som egne sider, ikke flere pills.</li>
-        <li>Bare fullførte trinn (<code>.step--done</code>) er klikkbare — fremtidige trinn er ikke det.</li>
+        <li>Bare fullførte trinn (<code>.step--done</code>) er klikkbare. Legg en <code>.step__link</code> inni. Fremtidige trinn er ikke klikkbare.</li>
       </ul>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
-          <li>Bruk <code>&lt;ol&gt;</code>, så skjermleseren sier hvor mange trinn det er.</li>
-          <li>Sett <code>aria-current="step"</code> på trinnet med <code>.step--now</code>.</li>
-          <li>Haken i <code>.step__n</code> sier ikke «fullført» til skjermleseren. Gi haken <code>aria-hidden="true"</code> og legg til skjult tekst «fullført». Systemet har ingen klasse for skjult tekst ennå, så den må lages.</li>
-          <li>Fullførte trinn skal kunne klikkes, men en <code>&lt;li&gt;</code> kan ikke nås med tastatur. Legg en <code>&lt;a&gt;</code> eller <code>&lt;button&gt;</code> inni når trinnet skal gå tilbake.</li>
-          <li>Legg listen i <code>&lt;nav aria-label="Trinn"&gt;</code> når trinnene er lenker.</li>
+          <li>Bruk <code>&lt;ol&gt;</code>, så skjermleseren sier hvor mange trinn det er. Legg listen i <code>&lt;nav aria-label="Trinn i ny kampanje"&gt;</code>.</li>
+          <li>Sett <code>aria-current="step"</code> på trinnet med <code>.step--now</code>. Skjermleseren sier da «gjeldende trinn».</li>
+          <li>Et fullført trinn har en <code>.step__link</code> inni. Bruk <code>&lt;button&gt;</code> når trinnet går tilbake på samme side, og <code>&lt;a href&gt;</code> når det åpner en annen side. Da kan brukeren nå det med Tab og åpne det med Enter.</li>
+          <li>Haken har <code>aria-hidden="true"</code>. Skjult tekst i <code>.sr-only</code> sier «fullført».</li>
+          <li>Fremtidige trinn har ingen lenke. De kan ikke velges.</li>
         </ul>
       </div>
     </details>
@@ -2642,12 +2654,16 @@ tegnTrakt(document.getElementById('trakt'), {
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Standard</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;ol class="steps"&gt;
-  &lt;li class="step step--done"&gt;&lt;span class="step__n"&gt;✓&lt;/span&gt;Stillingen&lt;/li&gt;
-  &lt;li class="step step--now" aria-current="step"&gt;&lt;span class="step__n"&gt;2&lt;/span&gt;Strategien&lt;/li&gt;
-  &lt;li class="step"&gt;&lt;span class="step__n"&gt;3&lt;/span&gt;Materiell&lt;/li&gt;
-  &lt;li class="step"&gt;&lt;span class="step__n"&gt;4&lt;/span&gt;Bestilling&lt;/li&gt;
-&lt;/ol&gt;</code></pre>
+          <pre class="cl-code-pre"><code>&lt;nav aria-label="Trinn i ny kampanje"&gt;
+  &lt;ol class="steps"&gt;
+    &lt;li class="step step--done"&gt;
+      &lt;button class="step__link" type="button"&gt;&lt;span class="step__n" aria-hidden="true"&gt;✓&lt;/span&gt;Stillingen&lt;span class="sr-only"&gt;, fullført&lt;/span&gt;&lt;/button&gt;
+    &lt;/li&gt;
+    &lt;li class="step step--now" aria-current="step"&gt;&lt;span class="step__n"&gt;2&lt;/span&gt;Strategien&lt;/li&gt;
+    &lt;li class="step"&gt;&lt;span class="step__n"&gt;3&lt;/span&gt;Materiell&lt;/li&gt;
+    &lt;li class="step"&gt;&lt;span class="step__n"&gt;4&lt;/span&gt;Bestilling&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
         </div>
       </div>
     </details>
@@ -2663,9 +2679,13 @@ tegnTrakt(document.getElementById('trakt'), {
 
     <p class="cl-intro">En skyver for å velge budsjett. Strekene under viser terskler, og en markør viser anbefalt verdi.</p>
     <div class="cl-demo">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;max-width:480px;margin-bottom:var(--space-8)">
+        <label class="form-label" for="cl-budsjett" style="margin:0">Budsjett</label>
+        <output for="cl-budsjett" style="font-weight:var(--font-weight-bold);color:var(--text-heading)">kr 36 500</output>
+      </div>
       <div class="slider-wrap" style="max-width:480px">
-        <span class="slider-wrap__mark" style="left:38%">Anbefalt</span>
-        <input class="budsjett-slider" type="range" min="15000" max="70000" step="500" value="36500">
+        <span class="slider-wrap__mark" style="left:38%" aria-hidden="true">Anbefalt</span>
+        <input class="budsjett-slider" id="cl-budsjett" type="range" min="15000" max="70000" step="500" value="36500" aria-valuetext="kr 36 500">
       </div>
       <div class="ticks" style="max-width:480px">
         <div class="tick" style="left:18%"><div class="tick__line"></div><div class="tick__txt">kr 25 000<br>Lengre periode</div></div>
@@ -2678,7 +2698,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Nei, den trenger ikke JS.</dd>
+        <dt>JavaScript</dt><dd>Ja, <code>components/js/interactions.js</code>. Den setter <code>aria-valuetext</code> og oppdaterer beløpet i <code>&lt;output&gt;</code>.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -2716,16 +2736,17 @@ tegnTrakt(document.getElementById('trakt'), {
         <ul class="cl-rules">
         <li>Vis alltid valgt beløp som tekst ved siden av, i formatet «kr 36 500». Skyveren alene er vanskelig å lese av.</li>
         <li>Høyst tre terskler. Hver terskel sier hva brukeren får ved beløpet.</li>
-        <li>Gi skyveren en etikett med <code>aria-label</code> eller <code>&lt;label&gt;</code>. Piltastene flytter den ett steg.</li>
+        <li>Gi skyveren en etikett med <code>&lt;label&gt;</code> eller <code>aria-label</code>. Piltastene flytter den ett steg.</li>
       </ul>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
-          <li>Gi skyveren en <code>&lt;label&gt;</code> eller <code>aria-label="Budsjett"</code>. Demoen mangler den.</li>
-          <li>Sett <code>aria-valuetext</code> til beløpet som tekst, for eksempel «kr 36 500». Ellers leser skjermleseren bare «36500».</li>
+          <li>Gi skyveren en synlig <code>&lt;label for&gt;</code>, eller <code>aria-label="Budsjett"</code> når etiketten ikke kan vises.</li>
+          <li><code>interactions.js</code> setter <code>aria-valuetext</code> til beløpet, for eksempel «kr 36 500», hver gang skyveren flyttes. Da leser skjermleseren beløpet, ikke «36500». Skriv samme verdi i HTML-en, så den stemmer før JS har lastet.</li>
+          <li>Et <code>&lt;output for="id"&gt;</code> ved siden av viser beløpet som tekst. Det oppdateres av samme script.</li>
           <li>Det er en vanlig <code>&lt;input type="range"&gt;</code>. Piltastene flytter den ett steg, og fokusringen kommer fra <code>styles/reset.css</code>.</li>
           <li>Håndtaket er 28 px. Det er stort nok å treffe med fingeren.</li>
-          <li>Tersklene og «Anbefalt» er bare tekst under og over sporet. Skriv hva brukeren får i teksten ved beløpet også.</li>
+          <li>«Anbefalt» har <code>aria-hidden="true"</code>, for den er bare et merke på sporet. Tersklene er tekst under sporet. Skriv anbefalt beløp og hva brukeren får i teksten rundt også.</li>
         </ul>
       </div>
     </details>
@@ -2735,11 +2756,14 @@ tegnTrakt(document.getElementById('trakt'), {
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Standard</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="slider-wrap"&gt;
-  &lt;span class="slider-wrap__mark" style="left:38%"&gt;Anbefalt&lt;/span&gt;
-  &lt;input class="budsjett-slider" type="range" min="15000" max="70000" step="500"
-         value="36500" aria-label="Budsjett"&gt;
-&lt;/div&gt;</code></pre>
+          <pre class="cl-code-pre"><code>&lt;label class="form-label" for="budsjett"&gt;Budsjett&lt;/label&gt;
+&lt;output for="budsjett"&gt;kr 36 500&lt;/output&gt;
+&lt;div class="slider-wrap"&gt;
+  &lt;span class="slider-wrap__mark" style="left:38%" aria-hidden="true"&gt;Anbefalt&lt;/span&gt;
+  &lt;input class="budsjett-slider" id="budsjett" type="range" min="15000" max="70000" step="500"
+         value="36500" aria-valuetext="kr 36 500"&gt;
+&lt;/div&gt;
+&lt;script src="components/js/interactions.js" defer&gt;&lt;/script&gt;</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Med terskler</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -2772,19 +2796,19 @@ tegnTrakt(document.getElementById('trakt'), {
 
     <p class="cl-intro">Kort som brukeren slår av og på, med forklaring, lås eller pris. Brukes for kanaler og tilvalg.</p>
     <div class="cl-demo">
-      <span class="cl-variant">Kanaler — rutenett med låst kort</span>
-      <div class="select-card-grid" style="margin-bottom:24px">
+      <span class="cl-variant" id="cl-kanaler-lbl">Kanaler — rutenett med låst kort</span>
+      <div class="select-card-grid" role="group" aria-labelledby="cl-kanaler-lbl" data-velg="flere" style="margin-bottom:24px">
         <button class="select-card" type="button" aria-pressed="true">
           <span class="select-card__box"></span>
           <span class="select-card__body"><span class="select-card__name">Meta</span><span class="select-card__desc">Facebook og Instagram</span></span>
         </button>
-        <button class="select-card select-card--locked" type="button" aria-pressed="false">
+        <button class="select-card select-card--locked" type="button" aria-pressed="false" aria-disabled="true">
           <span class="select-card__box"></span>
           <span class="select-card__body"><span class="select-card__name">Remarketing</span><span class="select-card__desc">Følger opp kandidater som har vist interesse</span><span class="select-card__lock">Låses opp ved kr 45 000</span></span>
         </button>
       </div>
-      <span class="cl-variant">Tilvalg — liste med pris</span>
-      <div class="select-card-list">
+      <span class="cl-variant" id="cl-tilvalg-lbl">Tilvalg — liste med pris</span>
+      <div class="select-card-list" role="group" aria-labelledby="cl-tilvalg-lbl" data-velg="flere">
         <button class="select-card" type="button" aria-pressed="true">
           <span class="select-card__box"></span>
           <span class="select-card__body"><span class="select-card__name">Leadgenerator med interessenter</span><span class="select-card__desc">Kandidater blir tilgjengelige med e-post.</span></span>
@@ -2802,7 +2826,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Nei, den trenger ikke JS.</dd>
+        <dt>JavaScript</dt><dd>Ja, <code>components/js/interactions.js</code> når gruppen har <code>data-velg</code>. Den slår kortene av og på.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -2847,10 +2871,10 @@ tegnTrakt(document.getElementById('trakt'), {
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Hvert kort er en <code>&lt;button&gt;</code> med <code>aria-pressed</code>. Skjermleseren sier om det er valgt.</li>
-          <li>Komponenten har ikke egen JS. Du må selv bytte <code>aria-pressed</code> mellom <code>true</code> og <code>false</code> ved klikk.</li>
+          <li>Gi gruppen <code>data-velg="flere"</code>. Da bytter <code>interactions.js</code> <code>aria-pressed</code> mellom <code>true</code> og <code>false</code> ved klikk, Enter og mellomrom. Gruppen sender hendelsen <code>kortvalg</code> når noe endres.</li>
           <li>Valgt kort får hake i boksen, ikke bare farge. Boksen er pynt, så la den være tom.</li>
-          <li>Låst kort skal ha <code>aria-disabled="true"</code>. Ikke bruk <code>disabled</code>, for da kan brukeren ikke tabbe til kortet og lese hvorfor det er låst. Demoen mangler attributtet.</li>
-          <li>Legg rutenettet i en gruppe med <code>role="group"</code> og <code>aria-label</code>, for eksempel «Kanaler».</li>
+          <li>Låst kort har <code>aria-disabled="true"</code>. Brukeren kan tabbe til det og høre hvorfor det er låst, men klikk gjør ingenting. Ikke bruk <code>disabled</code>, for da hopper Tab over kortet.</li>
+          <li>Rutenettet og listen ligger i en gruppe med <code>role="group"</code> og en etikett, for eksempel «Kanaler».</li>
         </ul>
       </div>
     </details>
@@ -2860,7 +2884,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Kanaler: rutenett</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="select-card-grid"&gt;
+          <pre class="cl-code-pre"><code>&lt;div class="select-card-grid" role="group" aria-label="Kanaler" data-velg="flere"&gt;
   &lt;button class="select-card" type="button" aria-pressed="true"&gt;
     &lt;span class="select-card__box"&gt;&lt;/span&gt;
     &lt;span class="select-card__body"&gt;
@@ -2884,7 +2908,7 @@ tegnTrakt(document.getElementById('trakt'), {
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Tilvalg: liste med pris</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="select-card-list"&gt;
+          <pre class="cl-code-pre"><code>&lt;div class="select-card-list" role="group" aria-label="Tilvalg" data-velg="flere"&gt;
   &lt;button class="select-card" type="button" aria-pressed="true"&gt;
     &lt;span class="select-card__box"&gt;&lt;/span&gt;
     &lt;span class="select-card__body"&gt;
@@ -2917,7 +2941,7 @@ tegnTrakt(document.getElementById('trakt'), {
 
     <p class="cl-intro">Store kort der brukeren velger ett av to til fire alternativer. Hvert kort har en kort forklaring.</p>
     <div class="cl-demo">
-      <div class="choice-grid" role="group" aria-label="Hvem lager annonsen?">
+      <div class="choice-grid" role="group" aria-label="Hvem lager annonsen?" data-velg="en">
         <button class="choice-card" type="button" aria-pressed="false">
           <span class="choice-card__price">Gratis</span>
           <span class="choice-card__name">Vi har ferdig materiell</span>
@@ -2940,7 +2964,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Nei, den trenger ikke JS.</dd>
+        <dt>JavaScript</dt><dd>Ja, <code>components/js/interactions.js</code> når gruppen har <code>data-velg</code>. Den slår kortene av og på.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -2988,7 +3012,7 @@ tegnTrakt(document.getElementById('trakt'), {
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Gruppen har <code>role="group"</code> og en <code>aria-label</code> med spørsmålet. Skriv spørsmålet som synlig tekst over kortene også.</li>
-          <li>Hvert kort er en <code>&lt;button&gt;</code> med <code>aria-pressed</code>. Når ett velges, setter du de andre til <code>false</code>. Komponenten har ikke JS for dette.</li>
+          <li>Hvert kort er en <code>&lt;button&gt;</code> med <code>aria-pressed</code>. Gi gruppen <code>data-velg="en"</code>. Da setter <code>interactions.js</code> valgt kort til <code>true</code> og de andre til <code>false</code>. Gruppen sender hendelsen <code>kortvalg</code>.</li>
           <li>Valgt kort vises bare med kant og farge. Legg til et synlig tegn, som en hake eller teksten «Valgt».</li>
           <li>Hele kortet er knappen, så teksten i kortet blir knappens navn. Hold navn og forklaring korte.</li>
           <li>Fokusringen kommer fra <code>styles/reset.css</code>. Ikke fjern den.</li>
@@ -3001,7 +3025,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Standard</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="choice-grid" role="group" aria-label="Hvem lager annonsen?"&gt;
+          <pre class="cl-code-pre"><code>&lt;div class="choice-grid" role="group" aria-label="Hvem lager annonsen?" data-velg="en"&gt;
   &lt;button class="choice-card" type="button" aria-pressed="false"&gt;
     &lt;span class="choice-card__price"&gt;Gratis&lt;/span&gt;
     &lt;span class="choice-card__name"&gt;Vi har ferdig materiell&lt;/span&gt;
@@ -3309,7 +3333,7 @@ tegnTrakt(document.getElementById('trakt'), {
           <li>Teksten i merkelappen må si alt selv. Tonen (<code>--good</code>, <code>--warn</code>) er bare ekstra hjelp.</li>
           <li>Skriv retningen i ord, for eksempel «20 % lavere». Ikke bare «20 %» i grønt.</li>
           <li>Fjern-knappen i <code>.tag--removable</code> må være en <code>&lt;button type="button"&gt;</code> med <code>aria-label</code> som sier hvilken tagg som fjernes.</li>
-          <li>Fjern-knappen har fokusring ved tastatur. Den er liten, så gi den minst 24 × 24 px trykkflate hvis den brukes på mobil.</li>
+          <li>Fjern-knappen er 24 × 24 px og har fokusring ved tastatur. Hold minst 8 px mellom taggene, så knappene ikke ligger inntil hverandre.</li>
           <li>Flytt fokus til neste tagg eller til feltet når en tagg blir fjernet. Ellers mister tastaturbrukeren plassen sin.</li>
           <li>Ikke bruk <code>.tag</code> som knapp eller lenke. Den har ingen fokus- eller hover-stil.</li>
         </ul>
@@ -3766,8 +3790,8 @@ Kari Hansen</code></pre>
     <div class="cl-demo">
       <span class="cl-variant">Rutenett</span>
       <div class="ad-grid" style="max-width:640px">
-        <div class="ad-card ad-card--best"><div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div><div class="ad-card__body"><div class="ad-card__name">«Hverdagshelter på Ullevål»</div><div class="ad-card__channel">Meta</div><div class="ad-card__stats"><span>Klikk</span><b>2 400</b><span>Klikkrate</span><b>4,0 %</b></div><a class="btn btn--secondary btn--sm ad-card__action" href="#">Se annonsen</a><span class="tag tag--outline tag--good">Beste annonse</span></div></div>
-        <div class="ad-card"><div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div><div class="ad-card__body"><div class="ad-card__name">«Fast stilling i Tromsø»</div><div class="ad-card__channel">Meta</div><div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,6 %</b></div><a class="btn btn--secondary btn--sm ad-card__action" href="#">Se annonsen</a></div></div>
+        <div class="ad-card ad-card--best"><div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div><div class="ad-card__body"><div class="ad-card__name">«Hverdagshelter på Ullevål»</div><div class="ad-card__channel">Meta</div><div class="ad-card__stats"><span>Klikk</span><b>2 400</b><span>Klikkrate</span><b>4,0 %</b></div><a class="btn btn--secondary btn--sm ad-card__action" href="portal/annonse.html" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="sr-only"> «Hverdagshelter på Ullevål», åpnes i ny fane</span></a><span class="tag tag--outline tag--good">Beste annonse</span></div></div>
+        <div class="ad-card"><div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div><div class="ad-card__body"><div class="ad-card__name">«Fast stilling i Tromsø»</div><div class="ad-card__channel">Meta</div><div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,6 %</b></div><a class="btn btn--secondary btn--sm ad-card__action" href="portal/annonse.html" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="sr-only"> «Fast stilling i Tromsø», åpnes i ny fane</span></a></div></div>
       </div>
 
     </div>
@@ -3814,8 +3838,8 @@ Kari Hansen</code></pre>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
-          <li>Alle kort har lenken «Se annonsen». Legg til skjult tekst med annonsenavnet, for eksempel <code>aria-label="Se annonsen Hverdagshelter på Ullevål"</code>.</li>
-          <li>Regelen sier at lenken åpner i ny fane, men demoen har ikke <code>target="_blank"</code>. Når du legger det til, skriv «åpnes i ny fane» i skjult tekst.</li>
+          <li>Lenken «Se annonsen» har skjult tekst i <code>.sr-only</code> med annonsenavnet. Da er hver lenke unik når skjermleseren lister opp lenkene på siden. Den synlige teksten står først, så talestyring virker.</li>
+          <li>Lenken åpner annonsen i ny fane med <code>target="_blank"</code> og <code>rel="noopener"</code>. Den skjulte teksten sier «åpnes i ny fane».</li>
           <li>Grønn kant på <code>.ad-card--best</code> er bare farge. Merkelappen «Beste annonse» må alltid være med.</li>
           <li>Ikonet i bildefeltet har <code>aria-hidden="true"</code>. Typen står i tekst i <code>.tag--overlay</code>.</li>
           <li>Bruk et ekte bilde med <code>alt</code> som beskriver annonsen, eller <code>alt=""</code> hvis tittelen sier nok.</li>
@@ -3838,7 +3862,7 @@ Kari Hansen</code></pre>
     &lt;div class="ad-card__name"&gt;«Fast stilling i Tromsø»&lt;/div&gt;
     &lt;div class="ad-card__channel"&gt;Meta&lt;/div&gt;
     &lt;div class="ad-card__stats"&gt;&lt;span&gt;Klikk&lt;/span&gt;&lt;b&gt;1 100&lt;/b&gt;&lt;span&gt;Klikkrate&lt;/span&gt;&lt;b&gt;2,6 %&lt;/b&gt;&lt;/div&gt;
-    &lt;a class="btn btn--secondary btn--sm ad-card__action" href="#"&gt;Se annonsen&lt;/a&gt;
+    &lt;a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html" target="_blank" rel="noopener"&gt;Se annonsen &lt;span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="sr-only"&gt; «Hverdagshelter på Ullevål», åpnes i ny fane&lt;/span&gt;&lt;/a&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
         </div>
@@ -3853,7 +3877,7 @@ Kari Hansen</code></pre>
     &lt;div class="ad-card__name"&gt;«Hverdagshelter på Ullevål»&lt;/div&gt;
     &lt;div class="ad-card__channel"&gt;Meta&lt;/div&gt;
     &lt;div class="ad-card__stats"&gt;&lt;span&gt;Klikk&lt;/span&gt;&lt;b&gt;2 400&lt;/b&gt;&lt;span&gt;Klikkrate&lt;/span&gt;&lt;b&gt;4,0 %&lt;/b&gt;&lt;/div&gt;
-    &lt;a class="btn btn--secondary btn--sm ad-card__action" href="#"&gt;Se annonsen&lt;/a&gt;
+    &lt;a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html" target="_blank" rel="noopener"&gt;Se annonsen &lt;span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="sr-only"&gt; «Hverdagshelter på Ullevål», åpnes i ny fane&lt;/span&gt;&lt;/a&gt;
     &lt;span class="tag tag--outline tag--good"&gt;Beste annonse&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -3870,7 +3894,7 @@ Kari Hansen</code></pre>
       &lt;div class="ad-card__name"&gt;«Hverdagshelter på Ullevål»&lt;/div&gt;
       &lt;div class="ad-card__channel"&gt;Meta&lt;/div&gt;
       &lt;div class="ad-card__stats"&gt;&lt;span&gt;Klikk&lt;/span&gt;&lt;b&gt;2 400&lt;/b&gt;&lt;span&gt;Klikkrate&lt;/span&gt;&lt;b&gt;4,0 %&lt;/b&gt;&lt;/div&gt;
-      &lt;a class="btn btn--secondary btn--sm ad-card__action" href="#"&gt;Se annonsen&lt;/a&gt;
+      &lt;a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html" target="_blank" rel="noopener"&gt;Se annonsen &lt;span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="sr-only"&gt; «Hverdagshelter på Ullevål», åpnes i ny fane&lt;/span&gt;&lt;/a&gt;
       &lt;span class="tag tag--outline tag--good"&gt;Beste annonse&lt;/span&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -3883,7 +3907,7 @@ Kari Hansen</code></pre>
       &lt;div class="ad-card__name"&gt;«Fast stilling i Tromsø»&lt;/div&gt;
       &lt;div class="ad-card__channel"&gt;Meta&lt;/div&gt;
       &lt;div class="ad-card__stats"&gt;&lt;span&gt;Klikk&lt;/span&gt;&lt;b&gt;1 100&lt;/b&gt;&lt;span&gt;Klikkrate&lt;/span&gt;&lt;b&gt;2,6 %&lt;/b&gt;&lt;/div&gt;
-      &lt;a class="btn btn--secondary btn--sm ad-card__action" href="#"&gt;Se annonsen&lt;/a&gt;
+      &lt;a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html" target="_blank" rel="noopener"&gt;Se annonsen &lt;span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="sr-only"&gt; «Hverdagshelter på Ullevål», åpnes i ny fane&lt;/span&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
   ...
@@ -3905,9 +3929,9 @@ Kari Hansen</code></pre>
     <div class="cl-demo">
       <span class="cl-variant">Standard</span>
       <ul class="checklist" style="max-width:420px">
-        <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><b>Bestillingen er mottatt</b><small>26.09.2026</small></span></li>
-        <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><b>Annonsene er laget</b><small>3 utkast på Meta og Nettsteder</small></span></li>
-        <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span><b>Du godkjenner annonsene</b><small>Frist 02.10</small></span></li>
+        <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small>26.09.2026</small></span></li>
+        <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><span class="sr-only">Fullført: </span><b>Annonsene er laget</b><small>3 utkast på Meta og Nettsteder</small></span></li>
+        <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span><span class="sr-only">Gjenstår: </span><b>Du godkjenner annonsene</b><small>Frist 02.10</small></span></li>
       </ul>
 
     </div>
@@ -3954,7 +3978,7 @@ Kari Hansen</code></pre>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
-          <li>Ikonene har <code>aria-hidden="true"</code>, så skjermleseren hører ikke om et punkt er gjort. Skriv det i teksten («er mottatt», «Du godkjenner»), eller legg til skjult tekst som «Fullført» og «Gjenstår».</li>
+          <li>Ikonene har <code>aria-hidden="true"</code>. Start hver rad med skjult tekst i <code>.sr-only</code>: «Fullført:» eller «Gjenstår:». Da hører skjermleseren status før teksten.</li>
           <li>Grønt og grått ikon er bare farge og form. Teksten må vise status alene.</li>
           <li>Bruk <code>&lt;ul&gt;</code> og <code>&lt;li&gt;</code>, så skjermleseren sier hvor mange punkter det er.</li>
           <li>Listen er bare til å lese. Skal brukeren krysse av selv, bruk <code>&lt;input type="checkbox"&gt;</code> med <code>&lt;label&gt;</code>.</li>
@@ -3970,14 +3994,14 @@ Kari Hansen</code></pre>
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Gjort</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;li class="er-ok"&gt;
   &lt;span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"&gt;&lt;/span&gt;
-  &lt;span&gt;&lt;b&gt;Bestillingen er mottatt&lt;/b&gt;&lt;small&gt;26.09.2026&lt;/small&gt;&lt;/span&gt;
+  &lt;span&gt;&lt;span class="sr-only"&gt;Fullført: &lt;/span&gt;&lt;b&gt;Bestillingen er mottatt&lt;/b&gt;&lt;small&gt;26.09.2026&lt;/small&gt;&lt;/span&gt;
 &lt;/li&gt;</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Mangler</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;li class="mangler"&gt;
   &lt;span class="icon-lucide icon-lucide--clock" aria-hidden="true"&gt;&lt;/span&gt;
-  &lt;span&gt;&lt;b&gt;Du godkjenner annonsene&lt;/b&gt;&lt;small&gt;Frist 02.10&lt;/small&gt;&lt;/span&gt;
+  &lt;span&gt;&lt;span class="sr-only"&gt;Gjenstår: &lt;/span&gt;&lt;b&gt;Du godkjenner annonsene&lt;/b&gt;&lt;small&gt;Frist 02.10&lt;/small&gt;&lt;/span&gt;
 &lt;/li&gt;</code></pre>
         </div>
         <div class="cl-snippet">
@@ -3985,15 +4009,15 @@ Kari Hansen</code></pre>
           <pre class="cl-code-pre"><code>&lt;ul class="checklist"&gt;
   &lt;li class="er-ok"&gt;
     &lt;span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;b&gt;Bestillingen er mottatt&lt;/b&gt;&lt;small&gt;26.09.2026&lt;/small&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;span class="sr-only"&gt;Fullført: &lt;/span&gt;&lt;b&gt;Bestillingen er mottatt&lt;/b&gt;&lt;small&gt;26.09.2026&lt;/small&gt;&lt;/span&gt;
   &lt;/li&gt;
   &lt;li class="er-ok"&gt;
     &lt;span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;b&gt;Annonsene er laget&lt;/b&gt;&lt;small&gt;3 utkast på Meta og Nettsteder&lt;/small&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;span class="sr-only"&gt;Fullført: &lt;/span&gt;&lt;b&gt;Annonsene er laget&lt;/b&gt;&lt;small&gt;3 utkast på Meta og Nettsteder&lt;/small&gt;&lt;/span&gt;
   &lt;/li&gt;
   &lt;li class="mangler"&gt;
     &lt;span class="icon-lucide icon-lucide--clock" aria-hidden="true"&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;b&gt;Du godkjenner annonsene&lt;/b&gt;&lt;small&gt;Frist 02.10&lt;/small&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;span class="sr-only"&gt;Gjenstår: &lt;/span&gt;&lt;b&gt;Du godkjenner annonsene&lt;/b&gt;&lt;small&gt;Frist 02.10&lt;/small&gt;&lt;/span&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
         </div>
@@ -4479,11 +4503,11 @@ Kari Hansen</code></pre>
     <div class="cl-demo">
       <span class="cl-variant">Stilling (velger én)</span>
       <div style="max-width:360px"><label class="form-label" for="cl-stilling">Stilling</label>
-      <div class="picker" id="cl-stilling-picker"><div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="cl-stilling" type="text" placeholder="F.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div><p class="picker__valgt" hidden></p></div></div>
+      <div class="picker" id="cl-stilling-picker"><div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="cl-stilling" type="text" placeholder="F.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div><p class="picker__valgt" aria-live="polite" hidden></p></div></div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Steder (velger flere)</span>
-      <div style="max-width:420px"><label class="form-label" for="cl-sted">Arbeidssted</label>
-      <div class="picker" id="cl-sted-picker"><div class="picker__felt"><span class="picker__chips" style="display:contents"></span><input class="picker__input" id="cl-sted" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="Arbeidssteder" hidden></div></div></div>
+      <div style="max-width:420px"><label class="form-label" for="cl-sted-felt">Arbeidssted</label>
+      <div class="picker" id="cl-sted-picker"><div class="picker__felt"><span class="picker__chips" style="display:contents"></span><input class="picker__input" id="cl-sted-felt" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="Arbeidssteder" hidden></div></div></div>
 
     </div>
 
@@ -4525,16 +4549,17 @@ Kari Hansen</code></pre>
       </table>
 
         <h3 class="cl-details__h">Regler</h3>
-        <ul class="cl-rules"><li>Forslag åpnes under feltet. Piltaster flytter, Enter velger, Esc lukker.</li><li>Valgte steder står som <code>.picker-chip</code> inne i feltet og kan fjernes med ×.</li><li>Feltet er minst 48px høyt, likt andre felt på siden.</li></ul>
+        <ul class="cl-rules"><li>Forslag åpnes under feltet. Piltaster flytter, Enter velger, Escape lukker.</li><li>Valgte steder står som <code>.picker-chip</code> inne i feltet og kan fjernes med ×.</li><li>Feltet er minst 48px høyt, likt andre felt på siden.</li></ul>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Gi feltet en synlig <code>&lt;label for&gt;</code>. Plassholderen er ikke en etikett.</li>
-          <li><code>picker.js</code> oppdaterer <code>aria-expanded</code> og <code>aria-selected</code>. Piltastene flytter, Enter velger og Esc lukker listen.</li>
-          <li>Forslaget som er markert, blir ikke lest opp. Gi hver <code>.picker__opt</code> en <code>id</code> og sett <code>aria-activedescendant</code> på <code>&lt;input&gt;</code>. Legg også til <code>aria-controls</code> som peker på listen.</li>
+          <li><code>picker.js</code> setter <code>aria-controls</code> fra feltet til listen og gir hvert forslag en <code>id</code>. Det oppdaterer <code>aria-expanded</code>, <code>aria-selected</code> og <code>aria-activedescendant</code>. Fokus blir i feltet, og skjermleseren leser forslaget som er markert.</li>
+          <li>Pil opp og ned flytter, Enter velger og Escape lukker listen. Forslagene kan også velges med klikk, eller med Enter og mellomrom fra skjermleserens lesemodus.</li>
           <li>Gi <code>.picker__liste</code> en <code>aria-label</code> som sier hva forslagene er, som i demoen.</li>
+          <li>En skjult statuslinje leser opp hvor mange forslag det er, og hvilket sted som ble lagt til eller fjernet.</li>
+          <li>Bekreftelsen i <code>.picker__valgt</code> har <code>aria-live="polite"</code>. Den leses opp når målgruppen endres.</li>
           <li>Hver <code>.picker-chip</code> har en fjern-knapp med <code>aria-label="Fjern Bergen"</code>. Fokus går tilbake til feltet etter at du fjerner et sted.</li>
-          <li>Bekreftelsen i <code>.picker__valgt</code> leses ikke opp av seg selv. Gi den <code>aria-live="polite"</code> hvis den skal høres.</li>
         </ul>
       </div>
     </details>
@@ -4551,7 +4576,7 @@ Kari Hansen</code></pre>
     &lt;input class="picker__input" id="stilling" type="text" placeholder="F.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"&gt;
   &lt;/div&gt;
   &lt;div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden&gt;&lt;/div&gt;
-  &lt;p class="picker__valgt" hidden&gt;&lt;/p&gt;
+  &lt;p class="picker__valgt" aria-live="polite" hidden&gt;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
         </div>
         <div class="cl-snippet">
@@ -4678,10 +4703,10 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Rådgiverens liste over saker fra kunder, med filter og status per sak.</p>
     <div class="cl-demo">
       <span class="cl-variant">Saksliste</span>
-      <section class="inbox__list" style="max-width:340px;border:1px solid var(--border-default);border-radius:var(--radius-12);height:auto"><div class="inbox__listhead"><h3 style="margin:0">Innboks</h3><div class="inbox__filters"><span class="inbox__filter" aria-current="true">Venter på meg · 1</span><span class="inbox__filter">Alle · 4</span></div></div>
-      <ul class="inbox__items"><li><div class="inbox__item" aria-current="true"><div class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></div><span class="inbox__preview">Vokser AS · Vil bytte hovedbildet på aktiv kampanje.</span><span class="inbox__state inbox__state--human">Venter på rådgiver</span></div></li>
-      <li><div class="inbox__item"><div class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></div><span class="inbox__preview">Vokser AS · Ny bestilling. AI fylte ut alle felt.</span><span class="inbox__state inbox__state--ai">AI håndterer</span></div></li>
-      <li><div class="inbox__item"><div class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></div><span class="inbox__preview">Vokser AS · Spurte om rapportlenke.</span><span class="inbox__state inbox__state--done">Løst av AI</span></div></li></ul></section>
+      <section class="inbox__list" style="max-width:340px;border:1px solid var(--border-default);border-radius:var(--radius-12);height:auto"><div class="inbox__listhead"><h3 style="margin:0">Innboks</h3><div class="inbox__filters" role="group" aria-label="Vis saker"><button type="button" class="inbox__filter" aria-pressed="true">Venter på meg · 1</button><button type="button" class="inbox__filter" aria-pressed="false">Alle · 4</button></div></div>
+      <ul class="inbox__items"><li><button type="button" class="inbox__item" aria-current="true"><span class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></span><span class="inbox__preview">Vokser AS · Vil bytte hovedbildet på aktiv kampanje.</span><span class="inbox__state inbox__state--human">Venter på rådgiver</span></button></li>
+      <li><button type="button" class="inbox__item"><span class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></span><span class="inbox__preview">Vokser AS · Ny bestilling. AI fylte ut alle felt.</span><span class="inbox__state inbox__state--ai">AI håndterer</span></button></li>
+      <li><button type="button" class="inbox__item"><span class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></span><span class="inbox__preview">Vokser AS · Spurte om rapportlenke.</span><span class="inbox__state inbox__state--done">Løst av AI</span></button></li></ul></section>
 
     </div>
 
@@ -4689,7 +4714,7 @@ Kari Hansen</code></pre>
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Bare for demoen. <code>components/js/advisor-inbox.js</code> viser hvordan den kan virke.</dd>
+        <dt>JavaScript</dt><dd><code>components/js/advisor-inbox.js</code> flytter valgt sak og valgt filter. Resten av filen er bare for demoen.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -4720,14 +4745,15 @@ Kari Hansen</code></pre>
       </table>
 
         <h3 class="cl-details__h">Regler</h3>
-        <ul class="cl-rules"><li>Statusen bruker ikon og tekst, ikke bare farge.</li><li>Valgt sak markeres med <code>aria-current="true"</code>.</li></ul>
+        <ul class="cl-rules"><li>Statusen bruker ikon og tekst, ikke bare farge.</li><li>Valgt sak markeres med <code>aria-current="true"</code>. Valgt filter med <code>aria-pressed="true"</code>.</li></ul>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Statusen har en farget prikk og tekst. Skriv alltid teksten, så fargen ikke er eneste tegn.</li>
-          <li>Valgt sak og valgt filter markeres med <code>aria-current="true"</code>. Flytt merket når brukeren velger noe annet.</li>
-          <li>I demoen er saker og filtre <code>&lt;div&gt;</code> og <code>&lt;span&gt;</code>, som ikke kan nås med tastatur. Bruk <code>&lt;button type="button"&gt;</code> eller <code>&lt;a&gt;</code> når de skal kunne klikkes.</li>
-          <li>CSS-en har ingen fokusstil for <code>.inbox__item</code> og <code>.inbox__filter</code>. Behold fokusringen fra <code>styles/reset.css</code> når du gjør dem klikkbare.</li>
+          <li>Hver sak er en <code>&lt;button class="inbox__item"&gt;</code>. Valgt sak har <code>aria-current="true"</code>. Åpner saken en egen side, bruk <code>&lt;a href&gt;</code> i stedet.</li>
+          <li>Filtrene er <code>&lt;button class="inbox__filter"&gt;</code> med <code>aria-pressed</code>. De ligger i en gruppe med <code>role="group"</code> og <code>aria-label</code>.</li>
+          <li>Inni en knapp kan du bare bruke <code>&lt;span&gt;</code>, ikke <code>&lt;div&gt;</code>. Derfor er <code>.inbox__row</code> en <code>&lt;span&gt;</code>.</li>
+          <li>Saker og filtre har synlig fokusring. <code>advisor-inbox.js</code> flytter <code>aria-current</code> og <code>aria-pressed</code> når brukeren velger noe annet.</li>
           <li>Velg overskriftsnivå etter siden. På en egen innboksside er «Innboks» sidens <code>&lt;h1&gt;</code>.</li>
         </ul>
       </div>
@@ -4741,25 +4767,25 @@ Kari Hansen</code></pre>
           <pre class="cl-code-pre"><code>&lt;section class="inbox__list"&gt;
   &lt;div class="inbox__listhead"&gt;
     &lt;h3&gt;Innboks&lt;/h3&gt;
-    &lt;div class="inbox__filters"&gt;
-      &lt;span class="inbox__filter" aria-current="true"&gt;Venter på meg · 1&lt;/span&gt;
-      &lt;span class="inbox__filter"&gt;Alle · 4&lt;/span&gt;
+    &lt;div class="inbox__filters" role="group" aria-label="Vis saker"&gt;
+      &lt;button type="button" class="inbox__filter" aria-pressed="true"&gt;Venter på meg · 1&lt;/button&gt;
+      &lt;button type="button" class="inbox__filter" aria-pressed="false"&gt;Alle · 4&lt;/button&gt;
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;ul class="inbox__items"&gt;
     &lt;li&gt;
-      &lt;div class="inbox__item" aria-current="true"&gt;
-        &lt;div class="inbox__row"&gt;&lt;span class="inbox__name"&gt;Sykepleier Oslo&lt;/span&gt;&lt;span class="inbox__time"&gt;2 min&lt;/span&gt;&lt;/div&gt;
+      &lt;button type="button" class="inbox__item" aria-current="true"&gt;
+        &lt;span class="inbox__row"&gt;&lt;span class="inbox__name"&gt;Sykepleier Oslo&lt;/span&gt;&lt;span class="inbox__time"&gt;2 min&lt;/span&gt;&lt;/span&gt;
         &lt;span class="inbox__preview"&gt;Vokser AS · Vil bytte hovedbildet på aktiv kampanje.&lt;/span&gt;
         &lt;span class="inbox__state inbox__state--human"&gt;Venter på rådgiver&lt;/span&gt;
-      &lt;/div&gt;
+      &lt;/button&gt;
     &lt;/li&gt;
     &lt;li&gt;
-      &lt;div class="inbox__item"&gt;
-        &lt;div class="inbox__row"&gt;&lt;span class="inbox__name"&gt;Intensivsykepleier Tromsø&lt;/span&gt;&lt;span class="inbox__time"&gt;14 min&lt;/span&gt;&lt;/div&gt;
+      &lt;button type="button" class="inbox__item"&gt;
+        &lt;span class="inbox__row"&gt;&lt;span class="inbox__name"&gt;Intensivsykepleier Tromsø&lt;/span&gt;&lt;span class="inbox__time"&gt;14 min&lt;/span&gt;&lt;/span&gt;
         &lt;span class="inbox__preview"&gt;Vokser AS · Ny bestilling. AI fylte ut alle felt.&lt;/span&gt;
         &lt;span class="inbox__state inbox__state--ai"&gt;AI håndterer&lt;/span&gt;
-      &lt;/div&gt;
+      &lt;/button&gt;
     &lt;/li&gt;
     ...
   &lt;/ul&gt;
@@ -5182,7 +5208,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Viser hvordan annonsen ser ut i feeden til hver kanal.</p>
     <div class="cl-demo">
       <span class="cl-variant">Tre kanaler</span>
-      <div class="cl-row" style="align-items:flex-start;gap:var(--space-24)"><div class="cl-item"><article class="ad-preview" data-plattform="facebook"><header class="ad-preview__topp"><span class="ad-preview__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde"></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">facebook / meta</span></div><div class="cl-item"><article class="ad-preview" data-plattform="instagram"><header class="ad-preview__topp"><span class="ad-preview__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde"></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">instagram</span></div><div class="cl-item"><article class="ad-preview" data-plattform="linkedin"><header class="ad-preview__topp"><span class="ad-preview__avatar">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde"></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">linkedin</span></div></div>
+      <div class="cl-row" style="align-items:flex-start;gap:var(--space-24)"><div class="cl-item"><article class="ad-preview" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">facebook / meta</span></div><div class="cl-item"><article class="ad-preview" data-plattform="instagram" aria-label="Forhåndsvisning på Instagram"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">instagram</span></div><div class="cl-item"><article class="ad-preview" data-plattform="linkedin" aria-label="Forhåndsvisning på LinkedIn"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">linkedin</span></div></div>
 
     </div>
 
@@ -5190,7 +5216,7 @@ Kari Hansen</code></pre>
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Bare i annonsestudioet. <code>components/js/annonse-studio.js</code> bytter kanal og flytter bildet.</dd>
+        <dt>JavaScript</dt><dd>Bare når bildet skal kunne flyttes. <code>components/js/annonse-studio.js</code> flytter bildet med mus, finger og piltaster. Gi bildet <code>data-flytt</code>.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -5226,10 +5252,10 @@ Kari Hansen</code></pre>
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Forhåndsvisningen er et bilde av en annonse, ikke noe man bruker. «Søk nå» er derfor en <code>&lt;span&gt;</code>. Ikke gjør den til en knapp eller lenke.</li>
-          <li>Gi <code>&lt;article&gt;</code> en <code>aria-label</code> som sier kanalen, f.eks. «Forhåndsvisning på Facebook». Ellers vet ikke skjermleseren hvilken kanal det er.</li>
-          <li>Avataren «v» og «···» er pynt. Gi dem <code>aria-hidden="true"</code>.</li>
+          <li>Gi <code>&lt;article&gt;</code> en <code>aria-label</code> som sier kanalen, f.eks. «Forhåndsvisning på Facebook», som i demoen. Ellers vet ikke skjermleseren hvilken kanal det er.</li>
+          <li>Avataren «v» og «···» er pynt. De har <code>aria-hidden="true"</code>.</li>
           <li>Når <code>.ad-preview__bilde</code> får et ekte bilde, gi det <code>role="img"</code> og en <code>aria-label</code> som sier hva bildet viser.</li>
-          <li>Bildet flyttes bare med mus eller finger i <code>annonse-studio.js</code>. Lag en måte å flytte det med tastatur også, f.eks. piltaster eller knapper.</li>
+          <li>Gi <code>.ad-preview__bilde</code> <code>data-flytt</code>, så kan bildet flyttes. <code>annonse-studio.js</code> gjør det mulig å nå bildet med Tab. Piltastene flytter utsnittet 5 %, Shift + pil flytter 20 %, og Home setter det i midten. Skjult tekst forteller hvordan, og en statuslinje leser opp ny plassering.</li>
           <li><code>.ad-preview__tittel</code> er en <code>&lt;h4&gt;</code>. Bytt nivå så det passer overskriftene på siden rundt.</li>
         </ul>
       </div>
@@ -5240,7 +5266,7 @@ Kari Hansen</code></pre>
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Facebook</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="facebook"&gt;
+          <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook"&gt;
   &lt;header class="ad-preview__topp"&gt;
     &lt;span class="ad-preview__avatar" aria-hidden="true"&gt;v&lt;/span&gt;
     &lt;div&gt;&lt;b&gt;Vokser AS&lt;/b&gt;&lt;small&gt;Sponset&lt;/small&gt;&lt;/div&gt;
@@ -5250,7 +5276,7 @@ Kari Hansen</code></pre>
   &lt;div class="ad-preview__kreativ"&gt;
     &lt;div class="ad-preview__logo"&gt;vokser&lt;/div&gt;
     &lt;h4 class="ad-preview__tittel"&gt;Sykepleier, Kristiansand&lt;/h4&gt;
-    &lt;div class="ad-preview__bilde"&gt;&lt;/div&gt;
+    &lt;div class="ad-preview__bilde" data-flytt&gt;&lt;/div&gt;
   &lt;/div&gt;
   &lt;footer class="ad-preview__bunn"&gt;
     &lt;div&gt;&lt;small&gt;VOKSER.NO&lt;/small&gt;&lt;b&gt;Les mer om stillingen&lt;/b&gt;&lt;/div&gt;
@@ -5260,7 +5286,7 @@ Kari Hansen</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Instagram</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="instagram"&gt;
+          <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="instagram" aria-label="Forhåndsvisning på Instagram"&gt;
   &lt;header class="ad-preview__topp"&gt;
     &lt;span class="ad-preview__avatar" aria-hidden="true"&gt;v&lt;/span&gt;
     &lt;div&gt;&lt;b&gt;Vokser AS&lt;/b&gt;&lt;small&gt;Sponset&lt;/small&gt;&lt;/div&gt;
@@ -5270,7 +5296,7 @@ Kari Hansen</code></pre>
   &lt;div class="ad-preview__kreativ"&gt;
     &lt;div class="ad-preview__logo"&gt;vokser&lt;/div&gt;
     &lt;h4 class="ad-preview__tittel"&gt;Sykepleier, Kristiansand&lt;/h4&gt;
-    &lt;div class="ad-preview__bilde"&gt;&lt;/div&gt;
+    &lt;div class="ad-preview__bilde" data-flytt&gt;&lt;/div&gt;
   &lt;/div&gt;
   &lt;footer class="ad-preview__bunn"&gt;
     &lt;div&gt;&lt;small&gt;VOKSER.NO&lt;/small&gt;&lt;b&gt;Les mer om stillingen&lt;/b&gt;&lt;/div&gt;
@@ -5280,7 +5306,7 @@ Kari Hansen</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">LinkedIn</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="linkedin"&gt;
+          <pre class="cl-code-pre"><code>&lt;article class="ad-preview" data-plattform="linkedin" aria-label="Forhåndsvisning på LinkedIn"&gt;
   &lt;header class="ad-preview__topp"&gt;
     &lt;span class="ad-preview__avatar" aria-hidden="true"&gt;v&lt;/span&gt;
     &lt;div&gt;&lt;b&gt;Vokser AS&lt;/b&gt;&lt;small&gt;Sponset&lt;/small&gt;&lt;/div&gt;
@@ -5290,13 +5316,18 @@ Kari Hansen</code></pre>
   &lt;div class="ad-preview__kreativ"&gt;
     &lt;div class="ad-preview__logo"&gt;vokser&lt;/div&gt;
     &lt;h4 class="ad-preview__tittel"&gt;Sykepleier, Kristiansand&lt;/h4&gt;
-    &lt;div class="ad-preview__bilde"&gt;&lt;/div&gt;
+    &lt;div class="ad-preview__bilde" data-flytt&gt;&lt;/div&gt;
   &lt;/div&gt;
   &lt;footer class="ad-preview__bunn"&gt;
     &lt;div&gt;&lt;small&gt;VOKSER.NO&lt;/small&gt;&lt;b&gt;Les mer om stillingen&lt;/b&gt;&lt;/div&gt;
     &lt;span class="ad-preview__cta"&gt;Søk nå&lt;/span&gt;
   &lt;/footer&gt;
 &lt;/article&gt;</code></pre>
+        </div>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Flytt bildet (JavaScript)</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;div class="ad-preview__bilde" data-flytt aria-label="Sykepleier i akuttmottaket"&gt;&lt;/div&gt;
+&lt;script src="components/js/annonse-studio.js"&gt;&lt;/script&gt;</code></pre>
         </div>
       </div>
     </details>
@@ -5364,9 +5395,9 @@ function copyPre(btn) {
   setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
 }
 </script>
-<script src="components/js/funnel.js"></script>
+<script src="components/js/funnel.js?v=14"></script>
 <script src="portal/data/frantz-data.js"></script>
-<script src="components/js/picker.js"></script>
+<script src="components/js/picker.js?v=3"></script>
 <script>
 FrantzPicker.stilling(document.getElementById('cl-stilling-picker'), { onChange: function () {} });
 FrantzPicker.steder(document.getElementById('cl-sted-picker'), { onChange: function () {}, start: ['Kristiansand (by)'] });
@@ -5383,6 +5414,8 @@ tegnTrakt(document.getElementById('cl-trakt'), {
 </script>
 <script src="components/js/piksel.js"></script>
 <script src="components/js/tour.js"></script>
-<script src="components/js/interactions.js" defer></script>
+<script src="components/js/advisor-inbox.js?v=3"></script>
+<script src="components/js/annonse-studio.js?v=2"></script>
+<script src="components/js/interactions.js?v=4" defer></script>
 </body>
 </html>

@@ -110,3 +110,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+.select-card[aria-disabled="true"] {
+  cursor: not-allowed;
+}

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=60">
+<link rel="stylesheet" href="../frantz-ds.css?v=61">
 <style>
   body { margin: 0; }
 
@@ -339,7 +339,7 @@
                     <input class="picker__input" id="stilling" type="text" placeholder="Begynn å skrive, f.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
                   </div>
                   <div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div>
-                  <p class="picker__valgt" hidden></p>
+                  <p class="picker__valgt" aria-live="polite" hidden></p>
                 </div>
               </div>
               <div class="felt funnet__bred" id="felt-sted">
@@ -507,7 +507,7 @@
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js"></script>
 <script src="data/connect.js"></script>
-<script src="../components/js/picker.js"></script>
+<script src="../components/js/picker.js?v=3"></script>
 <script src="../components/js/reach-model.js?v=2"></script>
 <script>
 (function () {
@@ -1253,7 +1253,7 @@
 })();
 </script>
 
-<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/interactions.js?v=4"></script>
 <script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=6"></script>

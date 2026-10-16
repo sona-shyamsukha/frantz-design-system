@@ -41,11 +41,33 @@
   border-color: var(--border-navy-soft);
   background: var(--bg-navy-soft);
   color: var(--text-navy-strong);
+}
+
+.step--done:has(.step__link):hover {
+  border-color: var(--color-navy-lift);
+}
+
+/* Button or link inside a done step. It fills the whole pill, so Tab and Enter reach it. */
+.step:has(> .step__link) {
+  padding: 0;
+}
+
+.step__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16) var(--space-8) var(--space-8);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
 }
 
-.step--done:hover {
-  border-color: var(--color-navy-lift);
+.step__link:focus-visible {
+  border-radius: var(--radius-full);
+  box-shadow: var(--focus-ring);
 }
 
 .step--done .step__n {

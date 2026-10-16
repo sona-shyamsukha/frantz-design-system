@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=60">
+<link rel="stylesheet" href="../frantz-ds.css?v=61">
 <style>
   body { margin: 0; }
 
@@ -229,7 +229,7 @@
           <span class="pagination__meta" id="vist-antall">Viser 1–5 av 5 kampanjer</span>
           <div class="pagination__pages">
             <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
-            <button class="pagination__page" type="button" aria-current="page">1</button>
+            <button class="pagination__page" type="button" aria-label="Side 1" aria-current="page">1</button>
             <button class="pagination__btn" type="button" disabled aria-label="Neste side"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
           </div>
         </nav>
@@ -325,11 +325,7 @@
   document.addEventListener('click', function (e) { if (!$('filter-panel').hidden && !$('filtermeny').contains(e.target)) apne(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('filter-panel').hidden) { apne(false); $('filter-knapp').focus(); } });
 
-  // The whole row is a link. Enter opens it, like a click.
-  tbody.addEventListener('keydown', function (e) {
-    var tr = e.target.closest('tr[tabindex]');
-    if (tr && e.key === 'Enter') tr.click();
-  });
+  // The whole row is a link. interactions.js opens it with Enter, like a click.
   sok.addEventListener('input', filtrer);
   sok.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
   sortering.addEventListener('change', sorter);
@@ -337,7 +333,7 @@
   filtrer();
 })();
 </script>
-<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/interactions.js?v=4"></script>
 <script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=6"></script>
