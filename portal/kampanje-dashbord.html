@@ -139,12 +139,12 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
@@ -169,6 +169,11 @@
     <h2 class="ko-h2" id="h-sa-langt">Så langt</h2>
     <p class="ko-sub">«Normalt» er snittet for lignende kampanjer for sykepleiere i Oslo-området etter like mange dager.</p>
     <div class="ko-kpis">
+      <div class="ko-card ko-kpi" data-nokkel="visninger">
+        <div class="ko-kpi__label">Visninger</div>
+        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=visninger" data-fmt="int">—</div>
+        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=visninger" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=visninger" data-fmt="int">—</span></span></div>
+      </div>
       <div class="ko-card ko-kpi" data-nokkel="sok">
         <div class="ko-kpi__label">Trykket «Søk»</div>
         <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=sok" data-fmt="int">—</div>
@@ -183,11 +188,6 @@
         <div class="ko-kpi__label">Meldte interesse</div>
         <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=interesse" data-fmt="int">—</div>
         <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=interesse" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=interesse" data-fmt="int">—</span></span></div>
-      </div>
-      <div class="ko-card ko-kpi" data-nokkel="visninger">
-        <div class="ko-kpi__label">Visninger</div>
-        <div class="ko-kpi__value" data-source="nokkeltall" data-field="verdi" data-where="nokkel=visninger" data-fmt="int">—</div>
-        <div class="ko-kpi__foot"><span class="ko-delta" data-source="avvik" data-field="avvik" data-where="nokkel=visninger" data-fmt="signed">—</span><span>Normalt <span data-source="nokkeltall" data-field="normalt" data-where="nokkel=visninger" data-fmt="int">—</span></span></div>
       </div>
     </div>
   </section>
@@ -536,7 +536,7 @@ window.KO_DATA = {
    "kanal": "Meta",
    "type": "Bilde",
    "klikk": "1100",
-   "klikkrate": "0.024",
+   "klikkrate": "0.029",
    "sok": "83"
   },
   {
@@ -1128,9 +1128,9 @@ dash.onData(() => {
   if (first) throw first;
 });
 </script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>

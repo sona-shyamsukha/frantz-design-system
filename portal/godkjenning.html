@@ -167,7 +167,7 @@
   </section>
 </main>
 
-<script src="../components/js/kanaler.js"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
 <script>
 // Godkjenning uten innlogging: verdiene kommer fra lenken Kari sendte. Alt settes med textContent, aldri som HTML.
 (function () {
@@ -181,7 +181,7 @@
   var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[  ]/g, ' '); };
   var toSiffer = function (n) { return (n < 10 ? '0' : '') + n; };
 
-  var tittel = hent('tittel', 'Sykepleier');
+  var tittel = hent('tittel', 'Helsesykepleier');
   var sted = hent('sted', 'Kristiansand');
   var periode = hent('periode', '14.10 – 11.11.2026');
   var kanaler = hent('kanaler', 'Meta, Nettsteder og aviser');
@@ -286,7 +286,7 @@
     e.preventDefault();
     var v = sjekkNavn();
     if (!v) return;
-    var n = new Date();
+    var n = window.FZ_I_DAG();
     var dato = toSiffer(n.getDate()) + '.' + toSiffer(n.getMonth() + 1) + '.' + n.getFullYear();
     var tid = toSiffer(n.getHours()) + '.' + toSiffer(n.getMinutes());
     merke.className = 'badge badge--active';

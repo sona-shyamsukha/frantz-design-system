@@ -47,13 +47,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
@@ -94,14 +94,14 @@
             <div class="summary-panel__head"><h2>Om kampanjen</h2></div>
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Ønsket periode</dt><dd id="d-periode">07.10 – 04.11.2026</dd></dl>
+              <dl class="summary-row"><dt>Tidligst ute</dt><dd id="d-ute">man. 05.10</dd></dl>
               <dl class="summary-row"><dt>Budsjett</dt><dd id="d-budsjett">kr 32 000</dd></dl>
               <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
               <dl class="summary-row"><dt>Bestilt</dt><dd id="d-bestilt">I dag kl. 09.12</dd></dl>
             </div>
-            <div class="summary-panel__block piksel" id="piksel" data-piksel="129078" data-status="venter"></div>
+            <div class="summary-panel__block piksel" id="piksel" data-piksel="129074" data-status="venter"></div>
             <div class="summary-panel__cta">
               <button class="btn btn--primary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
-              <a class="btn btn--secondary" href="epost-visning.html"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Se e-posttråden</a>
             </div>
           </div>
         </aside>
@@ -110,9 +110,9 @@
   </div>
 </div>
 
-<script src="../components/js/kanaler.js"></script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script>
 // Coming from «Bestill kampanjen»: show the order that was just placed. Otherwise the page keeps its example content.
 (function () {
@@ -134,6 +134,9 @@
   $('d-periode').textContent = String(o.periode).split(' · ')[0]; // dates only, also for an order saved before this rule
   $('d-budsjett').textContent = kr(o.budsjett + (o.tilleggSum || 0));
   $('d-bestilt').textContent = 'I dag kl. ' + String(o.tid).replace(':', '.');
+  if (o.ute) $('d-ute').textContent = o.ute;
+  $('piksel').setAttribute('data-piksel', '129075'); // the next campaign ID after #129074
+  if (o.connect) $('piksel').setAttribute('data-connect', o.connect); // ordered from Connect: the code is the ConnectID's
   if (o.pakke) { $('r-pakke').hidden = false; $('d-pakke').textContent = o.pakke; }
   if (o.ref) { $('r-ref').hidden = false; $('d-ref').textContent = o.ref; }
   if (o.tillegg && o.tillegg.length) { $('r-tillegg').hidden = false; $('d-tillegg').textContent = o.tillegg.join(', '); }
@@ -141,6 +144,6 @@
 </script>
 <script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>

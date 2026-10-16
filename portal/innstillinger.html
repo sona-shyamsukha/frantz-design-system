@@ -133,13 +133,13 @@
       <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
 
     <div class="wrap">
       <h1 class="text-h2">Innstillinger</h1>
@@ -367,10 +367,9 @@
 <script src="data/pakker.js"></script>
 <script>
 var brukere = [
-  { navn: 'Sona Shyamsukha', epost: 'ss@vokser.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
-  { navn: 'Kari Hansen', epost: 'kari.hansen@example.com', rolle: 'Bestiller', sist: '26.09.2026', aktiv: true },
-  { navn: 'Martin Berg', epost: 'martin.berg@example.com', rolle: 'Leser', sist: '14.08.2026', aktiv: true },
-  { navn: 'Ola Nordmann', epost: 'ola.nordmann@example.com', rolle: 'Bestiller', sist: '03.02.2026', aktiv: false }
+  { navn: 'Kari Hansen', epost: 'kari.hansen@vokser.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
+  { navn: 'Martin Berg', epost: 'martin.berg@vokser.no', rolle: 'Bestiller', sist: '30.09.2026', aktiv: true },
+  { navn: 'Ola Nordmann', epost: 'ola.nordmann@vokser.no', rolle: 'Bestiller', sist: '03.02.2026', aktiv: false }
 ];
 var fakturaer = [
   { navn: 'Vokser AS', org: '919 653 477', adr: 'Kirkegata 1', post: '3616 Kongsberg', epost: 'faktura@vokser.no', ref: '', aktiv: true },
@@ -551,9 +550,9 @@ document.getElementById('merke-fil').addEventListener('change', function () {
 tegnBanner(); tegnProver();
 tegnBrukere(); tegnFaktura(); tegnPakker(); visFane(location.hash.slice(1), false);
 </script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>

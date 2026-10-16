@@ -6,9 +6,9 @@ class AssistantChat {
   static CAMPAIGNS = [
     {
       id: '129041', ref: '22 31', title: 'Sykepleier Oslo', badge: 'badge--active', status: 'Aktiv',
-      channels: 'Meta, Nettsteder', day: 'Dag 25 av 30', spent: 'kr 34 900', budget: 'kr 48 200',
+      channels: 'Meta, Nettsteder', day: 'Dag 28 av 31', spent: 'kr 34 900', budget: 'kr 48 200',
       clicks: '312', target: '380',
-      summary: 'Kampanjen går bedre enn plan. 312 personer har trykket «Søk». Det er 82 % av målet, og det er 5 dager igjen.',
+      summary: 'Kampanjen går bedre enn plan. 312 personer har trykket «Søk». Det er 82 % av målet, og det er 3 dager igjen.',
       history: [['15.09.2026', 'Budsjett flyttet mot Meta'], ['08.09.2026', 'Målgruppen utvidet'], ['03.09.2026', 'Kampanjen startet']]
     },
     {
@@ -66,7 +66,7 @@ class AssistantChat {
     this.fileList = root.querySelector('.composer__files');
     this.queue = Promise.resolve();
     this.pending = [];
-    this.newId = '129077';
+    this.newId = '129075';
     this.context = root.dataset.context || ''; // 'form' = the page has a campaign form the assistant can fill in
     this.bindEvents();
     this.reset();
@@ -148,7 +148,7 @@ class AssistantChat {
     }
     const body = this.el('div', 'msg__body');
     if (role !== 'system') {
-      const who = role === 'ai' ? 'Frantz-assistenten' : role === 'advisor' ? 'Jonas · rådgiver hos Frantz' : 'Du';
+      const who = role === 'ai' ? 'Frantz-assistenten' : role === 'advisor' ? 'Martin · rådgiver hos Frantz' : 'Du';
       body.append(this.el('span', 'msg__meta', who + ' · ' + this.now()));
     }
     if (bubble) body.append(bubble);
@@ -957,7 +957,7 @@ class AssistantChat {
       this.addMsg('ai', null, [box]);
       return new Promise((r) => setTimeout(r, 2200));
     }).then(() => {
-      if (session === this.session) this.system('Jonas fra Frantz er med i samtalen');
+      if (session === this.session) this.system('Martin fra Frantz er med i samtalen');
     });
   }
 }

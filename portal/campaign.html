@@ -84,13 +84,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
@@ -171,7 +171,7 @@
                 </tbody>
               </table>
             </div>
-            <button class="btn btn--ghost btn--sm" type="button">Se alle 9</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-flere-rader='[["12.09", "Marte Solberg", "marte.solberg@example.com", "915 22 304", "kontakt"], ["09.09", "Erik Nilsen", "erik.nilsen@example.com", "938 41 207", "varsel"], ["07.09", "Silje Haugen", "silje.haugen@example.com", "472 60 118", "kontakt"], ["05.09", "Ahmed Yusuf", "ahmed.yusuf@example.com", "986 03 451", "varsel"]]'>Se alle 9</button>
             </div>
             <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></details>
           </div>
@@ -214,7 +214,7 @@
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Fast stilling i Oslo»</div>
                   <div class="ad-card__channel" data-vis-kanaler>Meta</div>
-                  <div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,4 %</b><span>Trykket «Søk»</span><b>83</b></div>
+                  <div class="ad-card__stats"><span>Klikk</span><b>1 100</b><span>Klikkrate</span><b>2,9 %</b><span>Trykket «Søk»</span><b>83</b></div>
                   <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Fast+stilling+i+Oslo&kanal=Meta&type=Bilde&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «Fast stilling i Oslo» (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Fast stilling i Oslo" aria-label="Last ned «Fast stilling i Oslo»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
                   
                 </div>
@@ -327,7 +327,7 @@
             </div>
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Periode</dt><dd>03.09 – 03.10.2026</dd></dl>
-              <dl class="summary-row"><dt>Varighet</dt><dd>Dag 25 av 30</dd></dl>
+              <dl class="summary-row"><dt>Varighet</dt><dd>Dag 28 av 31</dd></dl>
               <dl class="summary-row"><dt>Budsjett</dt><dd>kr 48 200</dd></dl>
               <dl class="summary-row"><dt>Brukt av budsjett</dt><dd>72 %</dd></dl>
               <dl class="summary-row"><dt>Mål</dt><dd>380 «Søk»</dd></dl>
@@ -351,7 +351,8 @@
             </div>
             <div class="summary-panel__cta">
               <button class="btn btn--primary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
-              <button class="btn btn--secondary" type="button">Last ned rapport (PDF)</button>
+              <button class="btn btn--secondary" type="button" onclick="window.print()">Last ned rapport (PDF)</button>
+              <a class="btn btn--ghost" href="epost-visning.html"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Se e-posttråden</a>
             </div>
           </div>
         </aside>
@@ -360,7 +361,7 @@
   </div>
 </div>
 
-<script src="../components/js/kanaler.js"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
 <script>
 /* Copy and download buttons on this page. The demo only says that it worked. */
 (function () {
@@ -530,9 +531,9 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 </script>
 <script src="../components/js/interessenter.js?v=1"></script>
 <script src="../components/js/piksel.js?v=2"></script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>

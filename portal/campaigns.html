@@ -113,13 +113,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
 
     <div class="wrap">
       <div class="liste__topp">
@@ -144,7 +144,7 @@
             <fieldset><legend class="form-label">Status</legend><div class="filtermeny__valg" id="valg-status"></div></fieldset>
             <fieldset><legend class="form-label">Bestilt av</legend>
               <div class="filtermeny__valg">
-                <label class="form-radio"><input class="form-radio__input" type="radio" name="hvem" data-hvem="mine" checked><span class="form-radio__dot"></span><span class="form-radio__label">Meg</span></label>
+                <label class="form-radio"><input class="form-radio__input" type="radio" name="hvem" data-hvem="mine" checked><span class="form-radio__dot"></span><span class="form-radio__label">Mine kampanjer</span></label>
                 <label class="form-radio"><input class="form-radio__input" type="radio" name="hvem" data-hvem="alle"><span class="form-radio__dot"></span><span class="form-radio__label">Alle på Vokser AS</span></label>
               </div>
             </fieldset>
@@ -183,8 +183,8 @@
               <td data-label="Budsjett">kr 28 000</td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
-            <tr tabindex="0" data-status="Bestilt" data-bestiller="Sona Shyamsukha" data-kanaler="" data-tittel="Barnehagelærer Drammen" data-start="2026-10-07" data-budsjett="32000" onclick="location.href='kampanje-bestilt.html'">
-              <td data-label="Kampanje"><span class="table__title">Barnehagelærer Drammen</span><span class="table__meta">Drammen · #129074 · Sona Shyamsukha</span></td>
+            <tr tabindex="0" data-status="Bestilt" data-bestiller="Martin Berg" data-kanaler="" data-tittel="Barnehagelærer Drammen" data-start="2026-10-07" data-budsjett="32000" onclick="location.href='kampanje-bestilt.html'">
+              <td data-label="Kampanje"><span class="table__title">Barnehagelærer Drammen</span><span class="table__meta">Drammen · #129074 · Martin Berg</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 41</td>
               <td data-label="Status"><span class="badge badge--ordered">Bestilt</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Frantz anbefaler</td>
@@ -238,7 +238,7 @@
   </div>
 </div>
 
-<script src="../components/js/kanaler.js"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -285,7 +285,7 @@
   // The active filters as chips. Each chip removes its filter; «Nullstill» removes all.
   function tegnAktive() {
     var chips = valgt.status.map(function (v) { return ['status', v, 'Status: ' + v]; })
-      .concat(valgt.hvem === 'alle' ? [] : [['hvem', 'mine', 'Bestilt av meg']]);
+      .concat(valgt.hvem === 'alle' ? [] : [['hvem', 'mine', 'Mine kampanjer']]);
     var n = chips.length;
     $('filter-antall').hidden = !n; $('filter-antall').textContent = n;
     $('aktive').hidden = !n && !sok.value.trim();
@@ -333,9 +333,9 @@
   filtrer();
 })();
 </script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>

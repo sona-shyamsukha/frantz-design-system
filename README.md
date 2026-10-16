@@ -18,7 +18,7 @@ python3 -m http.server 8080
 | [style-guide.html](style-guide.html) | Token spec — palette, type, icons, space, rules |
 | [component-library.html](component-library.html) | Component catalog. Each component: what it is, preview, files it needs, technical details, code to copy |
 | [portal-redesign.html](portal-redesign.html) | Overview of the campaign portal prototype |
-| [portal/login.html](portal/login.html) | Start of the demo: login → Hjem → Ny kampanje → Kampanjer → Rapport |
+| [portal/login.html](portal/login.html) | Start of the portal. The demo route, step by step, is in [losninger.html](losninger.html). The demo is fixed to 30.09.2026, and the logged-in user is Kari Hansen, Vokser AS |
 | [losninger.html](losninger.html) | Every finding from the interviews, with status and a link to where it is shown |
 
 Open **http://127.0.0.1:8080/style-guide.html**

@@ -42,13 +42,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
@@ -103,6 +103,11 @@
           <div class="card card--les">
             <div class="card__head"><h3 class="card__title">Hva Frantz har gjort</h3></div>
             <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small>26.09.2026.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Målrettingen er satt opp</b><small>Helsefagarbeidere i Troms, 25–55 år.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Annonsene er laget</b><small>3 utkast på Meta og Nettsteder.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du godkjenner annonsene</b><small>Frist 02.10.</small></div></li></ul>
+            <form class="kommentar" onsubmit="event.preventDefault(); var t=this.querySelector('textarea'); if(!t.value.trim()){t.focus();return;} this.querySelector('[data-sendt]').hidden=false; t.value='';" style="margin-top:var(--space-16)">
+              <label class="form-label" for="kommentar-malgruppe">Noe Frantz bør vite om målgruppen?</label>
+              <textarea class="form-input" id="kommentar-malgruppe" rows="3" placeholder="F.eks. Ta med Finnmark også."></textarea>
+              <div style="display:flex;align-items:center;gap:var(--space-12);margin-top:var(--space-8)"><button class="btn btn--secondary btn--sm" type="submit">Send til Martin</button><span data-sendt role="status" hidden style="font-size:var(--text-sm);color:var(--text-success-strong)">Sendt. Martin Karlsen svarer innen 1 arbeidsdag.</span></div>
+            </form>
           </div>
         </div>
         <aside>
@@ -115,9 +120,6 @@
               <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
             </div>
             <div class="summary-panel__block piksel" id="piksel" data-piksel="129072" data-status="venter"></div>
-            <div class="summary-panel__cta">
-              <a class="btn btn--secondary" href="epost-visning.html"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Se e-posttråden</a>
-            </div>
           </div>
         </aside>
       </div>
@@ -125,11 +127,11 @@
   </div>
 </div>
 
-<script src="../components/js/kanaler.js"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/piksel.js?v=2"></script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>

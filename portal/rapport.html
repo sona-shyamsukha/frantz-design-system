@@ -64,13 +64,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>ss@vokser.no</small>
+      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>ss@vokser.no</small></div></header>
+    <header class="topbar"><div class="topbar__who"><b>Vokser AS</b><small>kari.hansen@vokser.no</small></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
@@ -123,7 +123,7 @@
           <div class="card card--betjen" data-samtykke="128984">
             <div class="card__head"><div>
               <h3 class="card__title">Meldte interesse</h3>
-              <p class="card__hint">18 personer har meldt interesse, men ikke søkt ennå. Huk av når dere har fulgt dem opp.</p>
+              <p class="card__hint">18 personer har meldt interesse på kampanjesiden. Huk av når dere har fulgt dem opp.</p>
             </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-128984" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
             <div class="samtykke" data-samtykke-boks>
               <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
@@ -153,7 +153,7 @@
                 </tbody>
               </table>
             </div>
-            <button class="btn btn--ghost btn--sm" type="button">Se alle 18</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-flere-rader='[["08.07", "Kristin Aas", "kristin.aas@example.com", "913 40 226", "kontakt"], ["08.07", "Mohammed Ali", "mohammed.ali@example.com", "925 17 830", "kontakt"], ["07.07", "Line Berntsen", "line.berntsen@example.com", "472 88 019", "varsel"], ["06.07", "Petter Holm", "petter.holm@example.com", "941 30 572", "kontakt"], ["06.07", "Hanne Lund", "hanne.lund@example.com", "958 64 203", "kontakt"], ["05.07", "Jakob Eide", "jakob.eide@example.com", "487 12 655", "varsel"], ["05.07", "Maria Pedersen", "maria.pedersen@example.com", "916 77 340", "kontakt"], ["04.07", "Tor Andersen", "tor.andersen@example.com", "934 02 918", "varsel"], ["04.07", "Emma Kristiansen", "emma.k@example.com", "462 51 087", "kontakt"], ["03.07", "Sondre Lie", "sondre.lie@example.com", "977 26 413", "kontakt"], ["03.07", "Leila Rahimi", "leila.rahimi@example.com", "920 83 164", "varsel"], ["02.07", "Anders Moen", "anders.moen@example.com", "945 39 702", "kontakt"], ["02.07", "Vilde Hagen", "vilde.hagen@example.com", "481 57 236", "varsel"]]'>Se alle 18</button>
             </div>
             <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></details>
           </div>
@@ -169,7 +169,7 @@
           <div class="card card--betjen" id="dag-for-dag">
             <div class="card__head"><div>
               <h3 class="card__title">Dag for dag</h3>
-              <p class="card__hint">Hele perioden, 02.07 – 29.07.2026.</p>
+              <p class="card__hint">Hele perioden, 02.07 – 30.07.2026.</p>
             </div></div>
             <div id="dagsgraf"></div>
           </div>
@@ -308,9 +308,10 @@
             </div>
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Periode</dt><dd>02.07 – 30.07.2026</dd></dl>
-              <dl class="summary-row"><dt>Varighet</dt><dd>28 dager</dd></dl>
+              <dl class="summary-row"><dt>Varighet</dt><dd>29 dager</dd></dl>
               <dl class="summary-row"><dt>Budsjett</dt><dd>kr 31 200</dd></dl>
               <dl class="summary-row"><dt>Brukt av budsjett</dt><dd>100 %</dd></dl>
+              <dl class="summary-row"><dt>Mål for «Søk»</dt><dd>80 (nådd: 88)</dd></dl>
             </div>
             <div class="summary-panel__block">
               <span class="summary-panel__label">Kampanjeside</span>
@@ -329,7 +330,7 @@
               <dl class="summary-row"><dt>Trykket «Søk»</dt><dd>88</dd></dl>
             </div>
             <div class="summary-panel__cta">
-              <button class="btn btn--primary">Last ned rapport</button>
+              <button class="btn btn--primary" type="button" onclick="window.print()">Last ned rapport (PDF)</button>
               <button class="btn btn--secondary" onclick="location.href='rapporter.html'">Se alle rapporter</button>
             </div>
           </div>
@@ -339,16 +340,16 @@
   </div>
 </div>
 
-<script src="../components/js/kanaler.js"></script>
+<script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/week-chart.js?v=2"></script>
 <script>
 // Day by day: visninger and «Søk», one small chart each
 (function () {
   var start = new Date(2026, 6, 2), dager = [];
-  for (var i = 0; i < 28; i++) { var d = new Date(start); d.setDate(d.getDate() + i); dager.push(String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0')); }
+  for (var i = 0; i < 29; i++) { var d = new Date(start); d.setDate(d.getDate() + i); dager.push(String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0')); }
   tegnUkegraf(document.getElementById('dagsgraf'), { enhet: 'dag', uker: dager, serier: [
-    { navn: 'Visninger', farge: 'var(--color-navy)', v: [1674, 3863, 5724, 8440, 8641, 5811, 5642, 8871, 7205, 6830, 8110, 6661, 5674, 4968, 6436, 5570, 6639, 7370, 7011, 6282, 6456, 6940, 8850, 8567, 7848, 7076, 7117, 6124] },
-    { navn: 'Trykket «Søk»', farge: 'var(--color-green)', v: [0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 3, 4, 4, 4, 4, 3, 3, 4, 5, 5, 5, 4, 4, 6] }
+    { navn: 'Visninger', farge: 'var(--color-navy)', v: [1674, 3863, 5724, 8440, 8641, 5811, 5642, 8871, 7205, 6830, 8110, 6661, 5674, 4968, 6436, 5570, 6639, 7370, 7011, 6282, 6456, 6940, 8850, 8567, 7848, 7076, 7117, 3124, 3000] },
+    { navn: 'Trykket «Søk»', farge: 'var(--color-green)', v: [0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 3, 4, 4, 4, 4, 3, 3, 4, 5, 5, 5, 4, 4, 3, 3] }
   ] });
 })();
 </script>
@@ -491,9 +492,9 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 </script>
 <script src="../components/js/interessenter.js?v=1"></script>
 <script src="../components/js/piksel.js?v=2"></script>
-<script src="../components/js/interactions.js?v=5"></script>
-<script src="../components/js/konto.js?v=4"></script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=6"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
-<script src="../components/js/assistant.js?v=6"></script>
+<script src="../components/js/assistant.js?v=7"></script>
 </body>
 </html>
