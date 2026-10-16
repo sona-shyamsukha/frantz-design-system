@@ -694,7 +694,21 @@ body.ds-docs {
 }
 
 @media (max-width: 860px) {
-  .ds-topbar__nav { position: static; transform: none; }
+  /* The menu scrolls sideways on small screens, so the page itself never does */
+  .ds-topbar { gap: var(--space-12); padding: 0 var(--space-16); }
+  .ds-topbar__version { display: none; }
+  .ds-topbar__nav { position: static; flex: 1; min-width: 0; overflow-x: auto; transform: none; scrollbar-width: none; }
+  .ds-topbar__nav::-webkit-scrollbar { display: none; }
+  .cl-spec code { overflow-wrap: anywhere; }
+  /* Token, type and space rows: the first parts on one line, the example under them.
+     !important beats the column widths that some rows set inline. */
+  .token-row { grid-template-columns: minmax(0, 1fr) auto !important; }
+  .type-row, .space-row { grid-template-columns: minmax(0, 1fr) auto auto !important; }
+  .token-row > :nth-child(n+3),
+  .type-row > :last-child,
+  .space-row > :last-child { grid-column: 1 / -1; }
+  .token-row > *, .type-row > * { min-width: 0; overflow-wrap: anywhere; }
+  .col-head { display: none; }
   .ds-sidebar { display: none; }
   .ds-main { margin-left: 0; }
   .cl-layout { grid-template-columns: 1fr; }

@@ -9,7 +9,7 @@
 <title>Frantz DS — Komponentbibliotek</title>
 <link rel="stylesheet" href="frantz-ds.css?v=61">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=5">
-<link rel="stylesheet" href="styles/docs.css?v=8">
+<link rel="stylesheet" href="styles/docs.css?v=11">
 </head>
 <body class="ds-docs">
 
@@ -923,7 +923,7 @@
           <li>Feltet har <code>aria-haspopup="dialog"</code> og <code>aria-expanded</code>. Klikk, Enter, mellomrom eller pil ned åpner kalenderen. Med tastatur flyttes fokus til valgt dag, eller til i dag.</li>
           <li>I kalenderen flytter piltastene én dag eller én uke. Home og End går til start og slutt på uken. Page Up og Page Down bytter måned. Enter eller mellomrom velger dagen.</li>
           <li>Escape lukker kalenderen, og fokus går tilbake til feltet. Tab går rundt inne i kalenderen så lenge den er åpen.</li>
-          <li>Hver dag har full dato i <code>aria-label</code>, for eksempel «16. september 2026». Valgt dag har <code>aria-pressed="true"</code>, og i dag har <code>aria-current="date"</code>. Måneden leses opp når den byttes.</li>
+          <li>Hver dag har full dato i <code>aria-label</code>, for eksempel «16. september 2026». Valgt dag har <code>aria-pressed="true"</code>, og i dag har <code>aria-current="date"</code>. Når måneden byttes, leser skjermleseren opp den nye måneden.</li>
           <li>Feltet sender <code>input</code> og <code>change</code> når en dato velges.</li>
           <li>Ved feil: bruk <code>.input--error</code>, <code>aria-invalid="true"</code> og en <code>.form-error</code> koblet med <code>aria-describedby</code>.</li>
         </ul>
@@ -997,7 +997,7 @@
           <pre class="cl-code-pre"><code>&lt;div class="datepicker__panel datepicker__panel--float" role="dialog" aria-label="Velg periode" id="fra-kalender"&gt;
   &lt;div class="datepicker__nav"&gt;
     &lt;button class="datepicker__nav-btn" type="button" aria-label="Forrige måned"&gt;&lt;span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
-    &lt;span class="datepicker__month" aria-live="polite"&gt;september 2026&lt;/span&gt;
+    &lt;span class="datepicker__month"&gt;september 2026&lt;/span&gt;
     &lt;button class="datepicker__nav-btn" type="button" aria-label="Neste måned"&gt;&lt;span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class="datepicker__week" aria-hidden="true"&gt;
@@ -5397,7 +5397,7 @@ function copyPre(btn) {
 </script>
 <script src="components/js/funnel.js?v=14"></script>
 <script src="portal/data/frantz-data.js"></script>
-<script src="components/js/picker.js?v=3"></script>
+<script src="components/js/picker.js?v=4"></script>
 <script>
 FrantzPicker.stilling(document.getElementById('cl-stilling-picker'), { onChange: function () {} });
 FrantzPicker.steder(document.getElementById('cl-sted-picker'), { onChange: function () {}, start: ['Kristiansand (by)'] });
@@ -5416,6 +5416,6 @@ tegnTrakt(document.getElementById('cl-trakt'), {
 <script src="components/js/tour.js"></script>
 <script src="components/js/advisor-inbox.js?v=3"></script>
 <script src="components/js/annonse-studio.js?v=2"></script>
-<script src="components/js/interactions.js?v=4" defer></script>
+<script src="components/js/interactions.js?v=5" defer></script>
 </body>
 </html>

@@ -46,6 +46,12 @@
     return a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
 
+  // Same day in the next or previous month. 31 March + 1 month is 30 April.
+  function sameDayInMonth(d, step) {
+    var last = new Date(d.getFullYear(), d.getMonth() + step + 1, 0).getDate();
+    return new Date(d.getFullYear(), d.getMonth() + step, Math.min(d.getDate(), last));
+  }
+
   function startOfDay(d) {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate());
   }
@@ -88,6 +94,12 @@
     panel.setAttribute("aria-label", mode === "range" ? "Velg periode" : "Velg dato");
     panel.id = (startInput && startInput.id ? startInput.id : "dato" + Math.random().toString(36).slice(2, 7)) + "-kalender";
     root.appendChild(panel);
+    // The month is read out from here. It stays in the page, because render() rebuilds the panel.
+    var monthLive = document.createElement("span");
+    monthLive.className = "sr-only";
+    monthLive.setAttribute("aria-live", "polite");
+    root.appendChild(monthLive);
+    var shownMonth = null;
 
     function selected() {
       return {
@@ -186,7 +198,7 @@
       var html = "";
       html += '<div class="datepicker__nav">';
       html += '<button class="datepicker__nav-btn" type="button" data-nav="-1" aria-label="Forrige måned"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>';
-      html += '<span class="datepicker__month" aria-live="polite">' + MONTHS[month] + " " + year + "</span>";
+      html += '<span class="datepicker__month">' + MONTHS[month] + " " + year + "</span>";
       html += '<button class="datepicker__nav-btn" type="button" data-nav="1" aria-label="Neste måned"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>';
       html += "</div>";
       html += '<div class="datepicker__week" aria-hidden="true">';
@@ -220,6 +232,9 @@
       html += '<button class="datepicker__clear" type="button">Tøm</button>';
       html += "</div>";
       panel.innerHTML = html;
+      var monthText = MONTHS[month] + " " + year;
+      if (!panel.hidden && shownMonth !== null && shownMonth !== monthText) monthLive.textContent = monthText;
+      shownMonth = monthText;
     }
 
     Array.prototype.forEach.call(inputs, function (input) {
@@ -264,8 +279,8 @@
         case "ArrowDown": next = addDays(focusDay, 7); break;
         case "Home": next = addDays(focusDay, -dow); break;
         case "End": next = addDays(focusDay, 6 - dow); break;
-        case "PageUp": next = new Date(focusDay.getFullYear(), focusDay.getMonth() - 1, Math.min(focusDay.getDate(), 28)); break;
-        case "PageDown": next = new Date(focusDay.getFullYear(), focusDay.getMonth() + 1, Math.min(focusDay.getDate(), 28)); break;
+        case "PageUp": next = sameDayInMonth(focusDay, -1); break;
+        case "PageDown": next = sameDayInMonth(focusDay, 1); break;
       }
       if (next) {
         e.preventDefault();

@@ -6,6 +6,13 @@
    Both return an object with .set(...) to fill them from code. */
 
 (function () {
+  // Focus the field without opening the suggestions
+  function stilleFokus(input) {
+    input._stilleFokus = true;
+    input.focus();
+    input._stilleFokus = false;
+  }
+
   var STED_TYPE = { fylke: 'Fylke', kommune: 'Kommune', by: 'By', tettsted: 'Tettsted', landsdekkende: 'Hele landet', fjernarbeid: 'Fjernarbeid' };
   var HELE_NORGE = 'Hele Norge (landsdekkende)';
   var HJEMMEKONTOR = 'Hjemmekontor (fjernarbeid)';
@@ -132,7 +139,8 @@
     }
 
     input.addEventListener('input', tegn);
-    input.addEventListener('focus', tegn);
+    // A pick moves focus back to the field. That focus must not open the list again.
+    input.addEventListener('focus', function () { if (!input._stilleFokus) tegn(); });
     input.addEventListener('blur', function () { setTimeout(function () { if (!root.contains(document.activeElement)) lukk(); }, 0); });
     input.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -156,7 +164,7 @@
       if (!o) return;
       velg(valg[Number(o.dataset.i)]);
       lukk();
-      input.focus();
+      stilleFokus(input);
     });
     document.addEventListener('mousedown', function (e) {
       if (!root.contains(e.target)) lukk();
@@ -267,14 +275,14 @@
         return '<button type="button" class="picker__opt" role="option" data-i="' + i + '"><span>' + merk(d.navn, q) + '</span><span class="picker__opt-meta">' + esc(STED_TYPE[d.type] || d.type) + '</span></button>';
       }).join('') : '<p class="picker__tom">Ingen steder passer.</p>';
       return { valg: treff, html: html };
-    }, function (s) { leggTil(s); input.focus(); }, si);
+    }, function (s) { leggTil(s); stilleFokus(input); }, si);
 
     chips.addEventListener('click', function (e) {
       var b = e.target.closest('[data-fjern]');
       if (!b) return;
       var borte = valgte.splice(Number(b.dataset.fjern), 1)[0];
       endret();
-      input.focus();
+      stilleFokus(input);
       si('Fjernet ' + delSted(borte).navn + '.');
     });
     root.querySelector('.picker__felt').addEventListener('mousedown', function (e) {
