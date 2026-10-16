@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=60">
+<link rel="stylesheet" href="../frantz-ds.css?v=61">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   body { margin: 0; }
@@ -139,7 +139,7 @@
           <input class="picker__input" id="stilling" type="text" placeholder="F.eks. sykepleier" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" value="Sykepleier">
         </div>
         <div class="picker__liste" role="listbox" aria-label="Forslag til stilling" hidden></div>
-        <p class="picker__valgt" hidden></p>
+        <p class="picker__valgt" aria-live="polite" hidden></p>
       </div>
     </div>
 
@@ -220,7 +220,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="data/frantz-data.js"></script>
-<script src="../components/js/picker.js"></script>
+<script src="../components/js/picker.js?v=4"></script>
 <script src="../components/js/reach-model.js?v=2"></script>
 <script>
 (function () {
@@ -360,7 +360,7 @@
 })();
 </script>
 
-<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/interactions.js?v=5"></script>
 <script src="../components/js/konto.js?v=4"></script>
 </body>
 </html>

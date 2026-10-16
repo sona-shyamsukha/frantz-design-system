@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=60">
+<link rel="stylesheet" href="../frantz-ds.css?v=61">
 <style>
   body { margin: 0; }
   .sidefaner { margin-top: var(--space-24); }
@@ -145,13 +145,13 @@
       <h1 class="text-h2">Innstillinger</h1>
       <p class="lede">Brukere, fakturamottakere, pakker og hvordan kampanjesidene og annonsene deres ser ut.</p>
       <div class="sidefaner" role="tablist" aria-label="Innstillinger">
-        <button type="button" class="filter" role="tab" data-fane="brukere" aria-selected="true" aria-pressed="true"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Brukere</button>
-        <button type="button" class="filter" role="tab" data-fane="faktura" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--receipt" aria-hidden="true"></span>Fakturamottakere</button>
-        <button type="button" class="filter" role="tab" data-fane="merkevare" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span>Merkevare</button>
-        <button type="button" class="filter" role="tab" data-fane="pakker" aria-selected="false" aria-pressed="false"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Pakker</button>
+        <button type="button" class="filter" role="tab" id="fane-brukere" aria-controls="panel-brukere" data-fane="brukere" aria-selected="true" tabindex="0"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Brukere</button>
+        <button type="button" class="filter" role="tab" id="fane-faktura" aria-controls="panel-faktura" data-fane="faktura" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--receipt" aria-hidden="true"></span>Fakturamottakere</button>
+        <button type="button" class="filter" role="tab" id="fane-merkevare" aria-controls="panel-merkevare" data-fane="merkevare" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span>Merkevare</button>
+        <button type="button" class="filter" role="tab" id="fane-pakker" aria-controls="panel-pakker" data-fane="pakker" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Pakker</button>
       </div>
 
-      <section class="panel" id="panel-brukere" role="tabpanel" aria-label="Brukere">
+      <section class="panel" id="panel-brukere" role="tabpanel" aria-labelledby="fane-brukere">
         <div class="panelhode">
           <p>Alle som kan logge inn for Vokser AS. Slå av en bruker for å fjerne tilgangen uten å slette historikken.</p>
           <div class="rad-hoyre">
@@ -177,7 +177,7 @@
         </div>
       </section>
 
-      <section class="panel" id="panel-faktura" role="tabpanel" aria-label="Fakturamottakere" hidden>
+      <section class="panel" id="panel-faktura" role="tabpanel" aria-labelledby="fane-faktura" hidden>
         <div class="panelhode">
           <p>Hvem som får fakturaen. Dere velger fakturamottaker når dere bestiller en kampanje.</p>
           <div class="rad-hoyre">
@@ -200,7 +200,7 @@
         <div class="faktura-grid" id="fakturaer"></div>
       </section>
 
-      <section class="panel" id="panel-pakker" role="tabpanel" aria-label="Pakker" hidden>
+      <section class="panel" id="panel-pakker" role="tabpanel" aria-labelledby="fane-pakker" hidden>
         <div class="panelhode">
           <p>Pakker er oppsett dere bruker ofte. En pakke fyller ut budsjett, kanaler, periode, materiell og tillegg når dere lager en ny kampanje. Alle i Vokser AS kan bruke dem.</p>
           <div class="rad-hoyre">
@@ -230,7 +230,7 @@
         <div class="faktura-grid" id="pakkeliste"></div>
       </section>
 
-      <section class="panel" id="panel-merkevare" role="tabpanel" aria-label="Merkevare" hidden>
+      <section class="panel" id="panel-merkevare" role="tabpanel" aria-labelledby="fane-merkevare" hidden>
         <div class="panelhode"><p>Logo, farger og skrift for landingssidene og bannerne deres. Endringene gjelder nye kampanjer.</p></div>
         <div class="merke-arbeid">
           <div class="merke-arbeid__skjema">
@@ -462,9 +462,21 @@ document.getElementById('ny-pakke').addEventListener('submit', function (e) {
 });
 document.querySelector('[data-skjul="ny-pakke"]').addEventListener('click', function () { document.getElementById('feil-pakke').hidden = true; });
 
+// Piltaster flytter mellom fanene, som i trakten (funnel.js)
+document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
+  var liste = Array.prototype.slice.call(this.querySelectorAll('[role="tab"]'));
+  var i = liste.indexOf(e.target);
+  if (i === -1) return;
+  var ny = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: liste.length - 1 }[e.key];
+  if (ny === undefined) return;
+  e.preventDefault();
+  var fane = liste[(ny + liste.length) % liste.length];
+  fane.click();
+  fane.focus();
+});
 function visFane(navn, oppdaterUrl) {
   if (['brukere', 'faktura', 'merkevare', 'pakker'].indexOf(navn) === -1) navn = 'brukere';
-  document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.setAttribute('aria-pressed', på); });
+  document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.tabIndex = på ? 0 : -1; });
   ['brukere', 'faktura', 'merkevare', 'pakker'].forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
   if (oppdaterUrl) history.replaceState(null, '', '#' + navn);
 }
@@ -539,7 +551,7 @@ document.getElementById('merke-fil').addEventListener('change', function () {
 tegnBanner(); tegnProver();
 tegnBrukere(); tegnFaktura(); tegnPakker(); visFane(location.hash.slice(1), false);
 </script>
-<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/interactions.js?v=5"></script>
 <script src="../components/js/konto.js?v=4"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=6"></script>

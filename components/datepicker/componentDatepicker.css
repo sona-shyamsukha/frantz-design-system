@@ -194,3 +194,40 @@
   opacity: 0.7;
   pointer-events: none;
 }
+
+/* Focus on a day must show on navy and pale navy too */
+.datepicker__day:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--color-navy);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--color-white);
+}
+
+.datepicker__nav-btn:focus-visible,
+.datepicker__today:focus-visible,
+.datepicker__clear:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* Period: two fields side by side, one calendar under them */
+.datepicker--range {
+  max-width: 560px;
+}
+
+.datepicker--range .feltrad {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+.datepicker--range .datepicker__panel--float {
+  width: 320px;
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .datepicker--range .feltrad {
+    grid-template-columns: 1fr;
+  }
+}

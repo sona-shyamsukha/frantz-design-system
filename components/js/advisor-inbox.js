@@ -87,3 +87,19 @@ class AdvisorInbox {
 }
 
 document.querySelectorAll('[data-advisor-inbox]').forEach((el) => new AdvisorInbox(el));
+
+/* Inbox list: move the selected case and filter when the user clicks or presses Enter/Space. */
+document.querySelectorAll('.inbox__list').forEach((list) => {
+  list.addEventListener('click', (e) => {
+    const item = e.target.closest('.inbox__item');
+    if (item) {
+      list.querySelectorAll('.inbox__item[aria-current]').forEach((i) => i.removeAttribute('aria-current'));
+      item.setAttribute('aria-current', 'true');
+      return;
+    }
+    const filter = e.target.closest('.inbox__filter');
+    if (filter) {
+      list.querySelectorAll('.inbox__filter').forEach((f) => f.setAttribute('aria-pressed', String(f === filter)));
+    }
+  });
+});

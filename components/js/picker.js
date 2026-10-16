@@ -6,6 +6,13 @@
    Both return an object with .set(...) to fill them from code. */
 
 (function () {
+  // Focus the field without opening the suggestions
+  function stilleFokus(input) {
+    input._stilleFokus = true;
+    input.focus();
+    input._stilleFokus = false;
+  }
+
   var STED_TYPE = { fylke: 'Fylke', kommune: 'Kommune', by: 'By', tettsted: 'Tettsted', landsdekkende: 'Hele landet', fjernarbeid: 'Fjernarbeid' };
   var HELE_NORGE = 'Hele Norge (landsdekkende)';
   var HJEMMEKONTOR = 'Hjemmekontor (fjernarbeid)';
@@ -71,34 +78,70 @@
     return treff.slice(0, 8).map(function (t) { return t.r; });
   }
 
-  /* Keyboard and click handling shared by both pickers */
-  function liste(root, input, lagValg, velg) {
+  var teller = 0;
+
+  /* A hidden status line that screen readers read out, e.g. «5 forslag» */
+  function status(root) {
+    var el = root.querySelector('.picker__status');
+    if (!el) {
+      el = document.createElement('span');
+      el.className = 'picker__status sr-only';
+      el.setAttribute('role', 'status');
+      root.appendChild(el);
+    }
+    var tid;
+    return function (tekst) {
+      clearTimeout(tid);
+      tid = setTimeout(function () { el.textContent = tekst; }, 400);
+    };
+  }
+
+  /* Keyboard and click handling shared by both pickers.
+     The input keeps focus. aria-activedescendant points at the marked option. */
+  function liste(root, input, lagValg, velg, si) {
     var boks = root.querySelector('.picker__liste');
+    var id = boks.id || (input.id ? input.id + '-liste' : 'picker-liste-' + (++teller));
     var aktiv = -1;
     var valg = [];
+    boks.id = id;
+    boks.setAttribute('role', 'listbox');
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-controls', id);
+    input.setAttribute('aria-expanded', 'false');
 
     function tegn() {
       var res = lagValg(input.value);
       valg = res.valg;
       aktiv = valg.length ? 0 : -1;
       boks.innerHTML = res.html;
+      Array.prototype.forEach.call(boks.querySelectorAll('.picker__opt'), function (o, i) {
+        o.id = id + '-' + i;
+        o.tabIndex = -1;
+      });
       boks.hidden = !res.html;
       input.setAttribute('aria-expanded', String(!boks.hidden));
       marker();
+      if (!boks.hidden) si(valg.length ? valg.length + ' forslag. Bruk pil opp og ned.' : 'Ingen forslag.');
     }
     function marker() {
       Array.prototype.forEach.call(boks.querySelectorAll('.picker__opt'), function (o, i) {
         o.setAttribute('aria-selected', String(i === aktiv));
         if (i === aktiv) o.scrollIntoView({ block: 'nearest' });
       });
+      if (aktiv >= 0 && !boks.hidden) input.setAttribute('aria-activedescendant', id + '-' + aktiv);
+      else input.removeAttribute('aria-activedescendant');
     }
     function lukk() {
       boks.hidden = true;
       input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
     }
 
     input.addEventListener('input', tegn);
-    input.addEventListener('focus', tegn);
+    // A pick moves focus back to the field. That focus must not open the list again.
+    input.addEventListener('focus', function () { if (!input._stilleFokus) tegn(); });
+    input.addEventListener('blur', function () { setTimeout(function () { if (!root.contains(document.activeElement)) lukk(); }, 0); });
     input.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
@@ -107,18 +150,21 @@
         aktiv = (aktiv + (e.key === 'ArrowDown' ? 1 : -1) + valg.length) % valg.length;
         marker();
       } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (!boks.hidden && valg[aktiv] !== undefined) { velg(valg[aktiv]); lukk(); }
+        if (!boks.hidden && valg[aktiv] !== undefined) { e.preventDefault(); velg(valg[aktiv]); lukk(); }
       } else if (e.key === 'Escape') {
-        lukk();
+        if (!boks.hidden) { e.preventDefault(); e.stopPropagation(); lukk(); }
       }
     });
+    // mousedown keeps focus in the input. click picks, so Enter and Space on an option work too.
     boks.addEventListener('mousedown', function (e) {
+      if (e.target.closest('.picker__opt')) e.preventDefault();
+    });
+    boks.addEventListener('click', function (e) {
       var o = e.target.closest('.picker__opt');
       if (!o) return;
-      e.preventDefault();
       velg(valg[Number(o.dataset.i)]);
       lukk();
+      stilleFokus(input);
     });
     document.addEventListener('mousedown', function (e) {
       if (!root.contains(e.target)) lukk();
@@ -130,13 +176,17 @@
     opt = opt || {};
     var input = root.querySelector('.picker__input');
     var valgt = root.querySelector('.picker__valgt');
+    var si = status(root);
     var naa = null;
+    if (valgt) valgt.setAttribute('aria-live', 'polite');
 
     function vis(v) {
       naa = v;
       if (valgt) {
+        var html = v ? '<span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span>Målgruppe: <b>' + esc(v.rolle) + '</b> · ' + esc(v.sti) + '</span>' : '';
         valgt.hidden = !v;
-        if (v) valgt.innerHTML = '<span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span>Målgruppe: <b>' + esc(v.rolle) + '</b> · ' + esc(v.sti) + '</span>';
+        // Wait a moment after showing it, so screen readers notice the new text
+        if (valgt.innerHTML !== html) setTimeout(function () { if (naa === v) valgt.innerHTML = html; }, 50);
       }
       if (opt.onChange) opt.onChange(v);
     }
@@ -154,7 +204,7 @@
           }).join('')
         : '<p class="picker__tom">Ingen stillinger passer. Frantz velger nærmeste målgruppe ut fra tittelen.</p>';
       return { valg: treff, html: html };
-    }, velg);
+    }, velg, si);
 
     input.addEventListener('input', function () {
       // A typed title is fine too: match it quietly to the nearest known title
@@ -181,6 +231,7 @@
     opt = opt || {};
     var input = root.querySelector('.picker__input');
     var chips = root.querySelector('.picker__chips');
+    var si = status(root);
     var valgte = (opt.start || []).slice();
 
     function endret() {
@@ -201,6 +252,7 @@
       if (valgte.indexOf(s) === -1) valgte.push(s);
       input.value = '';
       endret();
+      si('La til ' + delSted(s).navn + '. ' + valgte.length + (valgte.length === 1 ? ' sted' : ' steder') + ' valgt.');
     }
 
     liste(root, input, function (q) {
@@ -223,14 +275,15 @@
         return '<button type="button" class="picker__opt" role="option" data-i="' + i + '"><span>' + merk(d.navn, q) + '</span><span class="picker__opt-meta">' + esc(STED_TYPE[d.type] || d.type) + '</span></button>';
       }).join('') : '<p class="picker__tom">Ingen steder passer.</p>';
       return { valg: treff, html: html };
-    }, function (s) { leggTil(s); input.focus(); });
+    }, function (s) { leggTil(s); stilleFokus(input); }, si);
 
     chips.addEventListener('click', function (e) {
       var b = e.target.closest('[data-fjern]');
       if (!b) return;
-      valgte.splice(Number(b.dataset.fjern), 1);
+      var borte = valgte.splice(Number(b.dataset.fjern), 1)[0];
       endret();
-      input.focus();
+      stilleFokus(input);
+      si('Fjernet ' + delSted(borte).navn + '.');
     });
     root.querySelector('.picker__felt').addEventListener('mousedown', function (e) {
       if (e.target.closest('button') || e.target === input) return;
@@ -240,7 +293,7 @@
     Array.prototype.forEach.call(root.querySelectorAll('[data-sted-snarvei]'), function (b) {
       b.addEventListener('click', function () {
         var i = valgte.indexOf(b.dataset.stedSnarvei);
-        if (i !== -1) { valgte.splice(i, 1); endret(); } else leggTil(b.dataset.stedSnarvei);
+        if (i !== -1) { valgte.splice(i, 1); endret(); si('Fjernet ' + delSted(b.dataset.stedSnarvei).navn + '.'); } else leggTil(b.dataset.stedSnarvei);
       });
     });
 
@@ -276,6 +329,7 @@
 
     function vis() {
       slider.value = verdi === null ? min : Math.min(max, Math.max(min, verdi));
+      slider.setAttribute('aria-valuetext', verdi === null ? 'Ikke valgt' : 'kr ' + tall(verdi));
       var pst = (Number(slider.value) - min) / (max - min) * 100;
       slider.style.background = 'linear-gradient(to right, var(--color-navy) ' + pst + '%, var(--surface-section) ' + pst + '%)';
       if (merke) {

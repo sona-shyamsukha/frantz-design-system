@@ -40,10 +40,22 @@
   border-radius: var(--radius-full);
   background: var(--surface-raised);
   color: var(--color-ink-700);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   font-weight: var(--font-weight-semibold);
+  cursor: pointer;
 }
 
+.inbox__filter:hover {
+  border-color: var(--color-ink-400);
+}
+
+.inbox__filter:focus-visible {
+  border-radius: var(--radius-full);
+  box-shadow: var(--focus-ring);
+}
+
+.inbox__filter[aria-pressed="true"],
 .inbox__filter[aria-current="true"] {
   border-color: var(--border-navy-strong);
   background: var(--bg-navy-strong);
@@ -66,8 +78,19 @@
   border: 1px solid transparent;
   border-radius: var(--radius-8);
   background: transparent;
+  color: inherit;
   text-align: left;
   font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.inbox__item:hover {
+  background: var(--surface-raised);
+}
+
+.inbox__item:focus-visible {
+  border-radius: var(--radius-8);
+  box-shadow: var(--focus-ring);
 }
 
 .inbox__item[aria-current="true"] {

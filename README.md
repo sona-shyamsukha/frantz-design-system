@@ -14,9 +14,9 @@ python3 -m http.server 8080
 
 | File | What |
 |---|---|
+| [kom-i-gang.html](kom-i-gang.html) | How to add the design system to your own project |
 | [style-guide.html](style-guide.html) | Token spec — palette, type, icons, space, rules |
-| [component-library.html](component-library.html) | Component catalog — variants + HTML |
-
+| [component-library.html](component-library.html) | Component catalog. Each component: what it is, preview, files it needs, technical details, code to copy |
 | [portal-redesign.html](portal-redesign.html) | Overview of the campaign portal prototype |
 | [portal/login.html](portal/login.html) | Start of the demo: login → Hjem → Ny kampanje → Kampanjer → Rapport |
 | [losninger.html](losninger.html) | Every finding from the interviews, with status and a link to where it is shown |

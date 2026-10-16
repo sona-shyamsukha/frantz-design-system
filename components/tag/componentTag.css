@@ -63,11 +63,19 @@
 }
 
 /* A tag the user can remove. */
+/* The remove button is 24 × 24 px, so it is easy to hit. Negative margin keeps the tag small. */
 .tag--removable button {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin: -6px -8px -6px -4px;
   padding: 0;
   border: 0;
+  border-radius: var(--radius-full);
   background: none;
   color: var(--text-muted);
+  font-size: var(--text-base);
   line-height: 1;
   cursor: pointer;
 }

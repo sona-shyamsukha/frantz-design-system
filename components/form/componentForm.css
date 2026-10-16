@@ -142,7 +142,8 @@
 }
 
 .chip[aria-pressed="true"],
-.filter[aria-pressed="true"] {
+.filter[aria-pressed="true"],
+.filter[role="tab"][aria-selected="true"] {
   background: var(--color-navy);
   border-color: var(--color-navy);
   color: var(--color-white);

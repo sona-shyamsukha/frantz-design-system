@@ -160,14 +160,18 @@
     }).join('');
 
     var faner = '';
+    var fanePanel = '';
+    if (!el.id) el.id = 'trakt-' + Math.random().toString(36).slice(2, 7);
     if (!d.skjulFaner) {
+      fanePanel = ' role="tabpanel" id="' + el.id + '-panel" aria-labelledby="' + el.id + '-fane-' + visning + '"';
       faner = '<div class="funnel__tabs" role="tablist" aria-label="Visning">' +
         [['steg', 'Steg for steg'], ['trakt', 'Trakt'], ['stolper', 'Stolper'], ['lagdelt', d.lagNavn || 'Lagdelt']]
           .filter(function (f) { return f[0] !== 'lagdelt' || (lag && lag.length); })
           .filter(function (f) { return d.visninger ? d.visninger.indexOf(f[0]) !== -1 : f[0] !== 'steg'; })
           .map(function (f) {
-            return '<button type="button" class="filter" role="tab" data-visning-valg="' + f[0] +
-              '" aria-selected="' + (visning === f[0]) + '" aria-pressed="' + (visning === f[0]) + '">' + f[1] + '</button>';
+            var valgt = visning === f[0];
+            return '<button type="button" class="filter" role="tab" id="' + el.id + '-fane-' + f[0] + '" data-visning-valg="' + f[0] +
+              '" aria-selected="' + valgt + '" aria-controls="' + el.id + '-panel" tabindex="' + (valgt ? 0 : -1) + '">' + f[1] + '</button>';
           }).join('') + '</div>';
     }
 
@@ -191,7 +195,7 @@
       }).join('');
       el.innerHTML = faner +
         '<p class="funnel__hint"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>Trykk på et steg i grafen for å se detaljer.</p>' +
-        '<div class="funnel__box funnel__box--rolig">' +
+        '<div class="funnel__box funnel__box--rolig"' + fanePanel + '>' +
         '<div class="funnel__graph funnel__graph--hover"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' søknadsklikk" style="height:260px">' +
         '<defs>' + gradient + '</defs>' + tegnGraf(visning, graf.v, farger, graf.lag, gradId, W, H, kol, v, true) +
         '</svg>' + soner +
@@ -253,7 +257,7 @@
     }
 
     el.innerHTML = faner +
-      '<div class="funnel__scroll"><div class="funnel__box">' +
+      '<div class="funnel__scroll"' + fanePanel + '><div class="funnel__box">' +
       '<div class="funnel__top">' +
       '<div><span class="funnel__top-label">' + navn[0] + '</span><span class="funnel__top-value">' + tall(v[0]) + '</span></div>' +
       '<div><span class="funnel__top-label">' + (d.rateNavn || 'Konverteringsrate') + '</span><span class="funnel__top-value">' + pst(v[3] / v[0]) + '</span></div>' +
@@ -267,12 +271,36 @@
       '</div></div>';
   };
 
-  document.addEventListener('click', function (e) {
-    var knapp = e.target.closest('[data-visning-valg]');
-    if (!knapp) return;
+  function velgFane(knapp, fokus) {
     var vert = knapp.closest('[data-trakt]');
     if (!vert) return;
     vert.dataset.visning = knapp.dataset.visningValg;
     window.tegnTrakt(vert);
+    // The tabs are drawn again, so move focus to the new selected tab
+    if (fokus) {
+      var ny = vert.querySelector('[data-visning-valg="' + knapp.dataset.visningValg + '"]');
+      if (ny) ny.focus();
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var knapp = e.target.closest('[data-visning-valg]');
+    if (knapp) velgFane(knapp, document.activeElement === knapp);
+  });
+
+  /* Tabs: arrow left/right, Home and End move between them and show that view */
+  document.addEventListener('keydown', function (e) {
+    var knapp = e.target.closest && e.target.closest('[data-visning-valg]');
+    if (!knapp) return;
+    var faner = Array.prototype.slice.call(knapp.parentNode.querySelectorAll('[data-visning-valg]'));
+    var i = faner.indexOf(knapp);
+    var ny = null;
+    if (e.key === 'ArrowRight') ny = faner[(i + 1) % faner.length];
+    else if (e.key === 'ArrowLeft') ny = faner[(i - 1 + faner.length) % faner.length];
+    else if (e.key === 'Home') ny = faner[0];
+    else if (e.key === 'End') ny = faner[faner.length - 1];
+    if (!ny) return;
+    e.preventDefault();
+    velgFane(ny, true);
   });
 })();

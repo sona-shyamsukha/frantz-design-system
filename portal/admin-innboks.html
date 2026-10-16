@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innboks — Frantz rådgiver</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=60">
-<link rel="stylesheet" href="../components/inbox/componentInbox.css?v=4">
+<link rel="stylesheet" href="../frantz-ds.css?v=61">
+<link rel="stylesheet" href="../components/inbox/componentInbox.css?v=5">
 </head>
 <body>
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
@@ -54,40 +54,40 @@
       <section class="inbox__list" aria-labelledby="inbox-title">
         <div class="inbox__listhead">
           <h1 id="inbox-title">Innboks</h1>
-          <div class="inbox__filters">
-            <span class="inbox__filter" aria-current="true">Venter på meg · 1</span>
-            <span class="inbox__filter">AI håndterer · 2</span>
-            <span class="inbox__filter">Alle · 4</span>
+          <div class="inbox__filters" role="group" aria-label="Vis saker">
+            <button type="button" class="inbox__filter" aria-pressed="true">Venter på meg · 1</button>
+            <button type="button" class="inbox__filter" aria-pressed="false">AI håndterer · 2</button>
+            <button type="button" class="inbox__filter" aria-pressed="false">Alle · 4</button>
           </div>
         </div>
         <ul class="inbox__items">
           <li>
-            <div class="inbox__item" aria-current="true">
-              <div class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></div>
+            <button type="button" class="inbox__item" aria-current="true">
+              <span class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></span>
               <span class="inbox__preview">Vokser AS · Vil bytte hovedbildet på aktiv kampanje. Bilde vedlagt.</span>
               <span class="inbox__state inbox__state--human" data-state>Venter på rådgiver</span>
-            </div>
+            </button>
           </li>
           <li>
-            <div class="inbox__item">
-              <div class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></div>
+            <button type="button" class="inbox__item">
+              <span class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></span>
               <span class="inbox__preview">Vokser AS · Ny bestilling #129077. AI fylte ut alle felt.</span>
               <span class="inbox__state inbox__state--ai">AI håndterer</span>
-            </div>
+            </button>
           </li>
           <li>
-            <div class="inbox__item">
-              <div class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></div>
+            <button type="button" class="inbox__item">
+              <span class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></span>
               <span class="inbox__preview">Vokser AS · Spurte om rapportlenke. AI sendte lenken.</span>
               <span class="inbox__state inbox__state--done">Løst av AI</span>
-            </div>
+            </button>
           </li>
           <li>
-            <div class="inbox__item">
-              <div class="inbox__row"><span class="inbox__name">Intensivsykepleier Bergen</span><span class="inbox__time">I går</span></div>
+            <button type="button" class="inbox__item">
+              <span class="inbox__row"><span class="inbox__name">Intensivsykepleier Bergen</span><span class="inbox__time">I går</span></span>
               <span class="inbox__preview">Vokser AS · Pause. Venter på nytt budsjett fra kunden.</span>
               <span class="inbox__state inbox__state--customer">Venter på kunde</span>
-            </div>
+            </button>
           </li>
         </ul>
       </section>
@@ -180,8 +180,8 @@ Hilsen Jonas, Frantz</textarea>
 </div>
 
 <script src="../components/js/kanaler.js"></script>
-<script src="../components/js/interactions.js?v=2"></script>
+<script src="../components/js/interactions.js?v=5"></script>
 <script src="../components/js/konto.js?v=4"></script>
-<script src="../components/js/advisor-inbox.js?v=2"></script>
+<script src="../components/js/advisor-inbox.js?v=3"></script>
 </body>
 </html>

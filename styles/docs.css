@@ -581,33 +581,6 @@ body.ds-docs {
   .cl-card-grid { grid-template-columns: 1fr; }
 }
 
-.cl-code { border-top: 1px solid var(--border-default); }
-.cl-code-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-12) var(--space-32);
-  border: none;
-  background: none;
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.cl-code-toggle:hover { background: var(--surface-subtle); color: var(--text-heading); }
-.cl-code-body { display: none; }
-.cl-code-body.open { display: block; }
-.cl-code-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: var(--space-8) var(--space-32);
-  background: var(--color-black);
-}
 .cl-copy-btn {
   padding: var(--space-4) var(--space-12);
   border: 1px solid var(--rail-active);
@@ -632,8 +605,110 @@ body.ds-docs {
   line-height: 1.75;
 }
 
+/* New component layout: intro → preview → install → «Teknisk» → «Kode». Knapp uses it first. */
+.cl-intro {
+  max-width: 72ch;
+  margin: 0;
+  padding: var(--space-20) var(--space-32) 0;
+  color: var(--text-body);
+  font-size: var(--text-base);
+  line-height: 1.55;
+}
+.cl-install {
+  padding: var(--space-24) var(--space-32);
+  border-top: 1px solid var(--border-default);
+  background: var(--surface-subtle);
+}
+.cl-install__title,
+.cl-details__h {
+  margin: 0 0 var(--space-12);
+  color: var(--text-heading);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+}
+.cl-install__facts {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--space-8) var(--space-20);
+  margin: 0 0 var(--space-16);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+.cl-install__facts dt { color: var(--text-faint); font-weight: var(--font-weight-bold); }
+.cl-install__facts dd { margin: 0; color: var(--text-body); }
+.cl-install code,
+.cl-details code { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+.cl-snippet { overflow: hidden; border-radius: var(--radius-8); }
+.cl-snippet + .cl-snippet { margin-top: var(--space-12); }
+.cl-snippet__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: var(--space-8) var(--space-16);
+  background: var(--color-black);
+}
+.cl-snippet__label { color: var(--text-on-dark-muted); font-size: var(--text-xs); }
+.cl-snippet .cl-code-pre { padding: var(--space-4) var(--space-16) var(--space-16); }
+
+.cl-details { border-top: 1px solid var(--border-default); }
+.cl-details__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4) var(--space-12);
+  padding: var(--space-16) var(--space-32);
+  cursor: pointer;
+  list-style: none;
+}
+.cl-details__summary::-webkit-details-marker { display: none; }
+.cl-details__summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid currentColor;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+.cl-details[open] > .cl-details__summary::before { transform: rotate(90deg); }
+.cl-details__summary:hover { background: var(--surface-subtle); }
+.cl-details__title { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-bold); }
+.cl-details__hint { color: var(--text-muted); font-size: var(--text-sm); }
+.cl-details__body { padding: var(--space-8) var(--space-32) var(--space-32); }
+.cl-details__h:not(:first-child) { margin-top: var(--space-32); }
+.cl-about--inline { padding: 0; border-bottom: 0; }
+.cl-tokens { display: flex; flex-wrap: wrap; gap: var(--space-8); margin: 0; }
+.cl-tokens code {
+  padding: var(--space-2) var(--space-8);
+  border-radius: var(--radius-4);
+  background: var(--tint-navy-8);
+  color: var(--text-body);
+}
+@media (max-width: 640px) {
+  .cl-intro, .cl-install, .cl-details__summary, .cl-details__body { padding-left: var(--space-16); padding-right: var(--space-16); }
+  .cl-install__facts { grid-template-columns: 1fr; gap: var(--space-2); }
+  .cl-install__facts dd { margin-bottom: var(--space-8); }
+}
+
 @media (max-width: 860px) {
-  .ds-topbar__nav { position: static; transform: none; }
+  /* The menu scrolls sideways on small screens, so the page itself never does */
+  .ds-topbar { gap: var(--space-12); padding: 0 var(--space-16); }
+  .ds-topbar__version { display: none; }
+  .ds-topbar__nav { position: static; flex: 1; min-width: 0; overflow-x: auto; transform: none; scrollbar-width: none; }
+  .ds-topbar__nav::-webkit-scrollbar { display: none; }
+  .cl-spec code { overflow-wrap: anywhere; }
+  /* Token, type and space rows: the first parts on one line, the example under them.
+     !important beats the column widths that some rows set inline. */
+  .token-row { grid-template-columns: minmax(0, 1fr) auto !important; }
+  .type-row, .space-row { grid-template-columns: minmax(0, 1fr) auto auto !important; }
+  .token-row > :nth-child(n+3),
+  .type-row > :last-child,
+  .space-row > :last-child { grid-column: 1 / -1; }
+  .token-row > *, .type-row > * { min-width: 0; overflow-wrap: anywhere; }
+  .col-head { display: none; }
   .ds-sidebar { display: none; }
   .ds-main { margin-left: 0; }
   .cl-layout { grid-template-columns: 1fr; }
@@ -646,3 +721,6 @@ body.ds-docs {
   .ds-section { padding: var(--space-32) var(--space-20); }
   .layer-diagram { grid-template-columns: 1fr; }
 }
+.cl-intro + .cl-demo--flush { margin-top: var(--space-20); }
+.ds-section .cl-snippet,
+.ds-section .cl-spec { margin: var(--space-16) 0; }

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Frantz DS — Kom i gang</title>
+<link rel="stylesheet" href="frantz-ds.css?v=61">
+<link rel="stylesheet" href="styles/docs.css?v=11">
+</head>
+<body class="ds-docs">
+
+<header class="ds-topbar">
+  <div class="ds-topbar__logo">
+    <img class="ds-topbar__wordmark" src="assets/logo-frantz.png" alt="Frantz">
+    <span class="ds-topbar__version">DS v0.6</span>
+  </div>
+  <nav class="ds-topbar__nav">
+    <a href="./kom-i-gang.html" class="active">Kom i gang</a>
+    <a href="./style-guide.html">Stilguide</a>
+    <a href="./component-library.html">Komponentbibliotek</a>
+    <a href="./portal-redesign.html">Portal redesign</a>
+    <a href="./losninger.html">Løsninger</a>
+  </nav>
+  <span></span>
+</header>
+
+<nav class="ds-sidebar">
+  <div class="ds-sidebar__group">Kom i gang</div>
+  <a class="ds-sidebar__link" href="#innhold">Hva du får</a>
+  <a class="ds-sidebar__link" href="#kopier">1. Kopier filene</a>
+  <a class="ds-sidebar__link" href="#css">2. Legg til CSS</a>
+  <a class="ds-sidebar__link" href="#js">3. Legg til JavaScript</a>
+  <a class="ds-sidebar__link" href="#bruk">4. Bruk en komponent</a>
+
+  <div class="ds-sidebar__group">Mer</div>
+  <a class="ds-sidebar__link" href="#utvalg">Bare noen komponenter</a>
+  <a class="ds-sidebar__link" href="#ikoner">Ikoner</a>
+  <a class="ds-sidebar__link" href="#tokens">Egen CSS med tokens</a>
+  <a class="ds-sidebar__link" href="#regler">Regler du må følge</a>
+  <a class="ds-sidebar__link" href="#alias">Gamle klassenavn</a>
+</nav>
+
+<main class="ds-main">
+
+<section class="ds-section" id="innhold">
+  <div class="ds-overline">Kom i gang</div>
+  <div class="ds-title">Hva du får</div>
+  <div class="ds-desc">Designsystemet er vanlige CSS- og JS-filer. Du trenger ikke npm eller en byggejobb. Du kopierer filene inn i prosjektet og lenker til dem.</div>
+  <table class="cl-spec">
+    <thead><tr><th>Mappe eller fil</th><th>Hva den har</th></tr></thead>
+    <tbody>
+      <tr><td><code>frantz-ds.css</code></td><td>Én fil som henter alt under. Lenk til denne.</td></tr>
+      <tr><td><code>tokens/base.css</code></td><td>Farger, tekststørrelser, avstand, radius og skygge. Henter også fonten Montserrat.</td></tr>
+      <tr><td><code>styles/</code></td><td><code>reset.css</code>, <code>typography.css</code> og <code>layout.css</code>. Ikke kopier <code>docs.css</code>. Den er bare for disse sidene.</td></tr>
+      <tr><td><code>components/</code></td><td>Én mappe per komponent med CSS. JavaScript ligger i <code>components/js/</code>.</td></tr>
+      <tr><td><code>assets/</code></td><td>Frantz-logo og kanallogoer.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="ds-section" id="kopier">
+  <div class="ds-overline">Steg 1</div>
+  <div class="ds-title">Kopier filene</div>
+  <div class="ds-desc">Kopier disse inn i prosjektet. Behold mappene som de er, for filene peker på hverandre.</div>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">Mapper og filer</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>frantz-ds.css
+tokens/
+styles/reset.css
+styles/typography.css
+styles/layout.css
+components/
+assets/</code></pre>
+  </div>
+</section>
+
+<section class="ds-section" id="css">
+  <div class="ds-overline">Steg 2</div>
+  <div class="ds-title">Legg til CSS</div>
+  <div class="ds-desc">Legg denne linjen i <code>&lt;head&gt;</code> på hver side. Da har du alle tokens og alle komponenter.</div>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">I &lt;head&gt;</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>&lt;link rel="stylesheet" href="frantz-ds.css"&gt;</code></pre>
+  </div>
+  <div class="ds-sub">
+    <div class="ds-sub__title">Hvis filene ligger i en annen mappe</div>
+    <div class="ds-desc">Endre stien, for eksempel <code>href="/static/frantz/frantz-ds.css"</code>. Stiene inne i <code>frantz-ds.css</code> er relative, så de virker så lenge mappene står sammen.</div>
+  </div>
+</section>
+
+<section class="ds-section" id="js">
+  <div class="ds-overline">Steg 3</div>
+  <div class="ds-title">Legg til JavaScript</div>
+  <div class="ds-desc">De fleste komponentene trenger ikke JS. Legg bare til skriptet når du bruker komponenten i listen. Legg skriptene rett før <code>&lt;/body&gt;</code>.</div>
+  <table class="cl-spec">
+    <thead><tr><th>Komponent</th><th>Skript</th></tr></thead>
+    <tbody>
+      <tr><td>Portal-nav (meny på mobil), Dato</td><td><code>components/js/interactions.js</code></td></tr>
+      <tr><td>Feltvelger</td><td><code>portal/data/frantz-data.js</code> og så <code>components/js/picker.js</code></td></tr>
+      <tr><td>Trakt</td><td><code>components/js/funnel.js</code></td></tr>
+      <tr><td>Omvisning</td><td><code>components/js/tour.js</code></td></tr>
+      <tr><td>Sporingskode</td><td><code>components/js/piksel.js</code></td></tr>
+      <tr><td>Spør Frantz og Chat</td><td><code>components/js/assistant-widget.js</code> og så <code>components/js/assistant.js</code></td></tr>
+    </tbody>
+  </table>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">Før &lt;/body&gt;</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>&lt;script src="components/js/interactions.js" defer&gt;&lt;/script&gt;</code></pre>
+  </div>
+</section>
+
+<section class="ds-section" id="bruk">
+  <div class="ds-overline">Steg 4</div>
+  <div class="ds-title">Bruk en komponent</div>
+  <div class="ds-desc">Gå til <a href="./component-library.html">Komponentbiblioteket</a>. Hver komponent har fem deler:</div>
+  <ol class="cl-rules">
+    <li>Hva den er.</li>
+    <li>Hvordan den ser ut.</li>
+    <li>Hvilke filer den trenger.</li>
+    <li><b>Teknisk</b>: når du bruker den, klasser og regler.</li>
+    <li><b>Kode</b>: HTML du kopierer med «Kopier».</li>
+  </ol>
+  <div class="ds-desc">Lim inn HTML-en og bytt teksten. Ikke endre klassenavnene.</div>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">Eksempel: knapp</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>&lt;button class="btn btn--primary" type="button"&gt;Ny kampanje&lt;/button&gt;</code></pre>
+  </div>
+</section>
+
+<section class="ds-section" id="utvalg">
+  <div class="ds-overline">Mer</div>
+  <div class="ds-title">Bare noen komponenter</div>
+  <div class="ds-desc">Vil du ha mindre CSS, lenker du til filene én og én i stedet for <code>frantz-ds.css</code>. Ta alltid med de to første. Hver komponent i biblioteket viser hvilke filer den trenger.</div>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">Knapp og skjemafelt</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>&lt;link rel="stylesheet" href="tokens/base.css"&gt;
+&lt;link rel="stylesheet" href="styles/reset.css"&gt;
+&lt;link rel="stylesheet" href="styles/typography.css"&gt;
+&lt;link rel="stylesheet" href="components/button/componentButton.css"&gt;
+&lt;link rel="stylesheet" href="components/form/componentForm.css"&gt;</code></pre>
+  </div>
+</section>
+
+<section class="ds-section" id="ikoner">
+  <div class="ds-overline">Mer</div>
+  <div class="ds-title">Ikoner</div>
+  <div class="ds-desc">Ikonene er Lucide (MIT-lisens). De er med i <code>frantz-ds.css</code>. Ikonet får samme farge som teksten rundt. Se alle i <a href="./style-guide.html#icons">Stilguiden</a>.</div>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">Ikon</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>&lt;span class="icon-lucide icon-lucide--house" aria-hidden="true"&gt;&lt;/span&gt;</code></pre>
+  </div>
+  <div class="ds-desc">Ikon ved siden av tekst får <code>aria-hidden="true"</code>. En knapp med bare ikon får <code>aria-label</code>.</div>
+</section>
+
+<section class="ds-section" id="tokens">
+  <div class="ds-overline">Mer</div>
+  <div class="ds-title">Egen CSS med tokens</div>
+  <div class="ds-desc">Når du skriver egen CSS, bruk tokens og ikke faste verdier. Bruk de semantiske navnene, som <code>--text-heading</code>, og ikke rå farger, som <code>--color-navy</code>. Da følger siden med når designsystemet endres.</div>
+  <div class="cl-snippet">
+    <div class="cl-snippet__bar"><span class="cl-snippet__label">Riktig og feil</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+    <pre class="cl-code-pre"><code>/* Riktig */
+.min-boks {
+  padding: var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  color: var(--text-body);
+}
+
+/* Feil: faste verdier */
+.min-boks { padding: 16px; color: #0C3F59; }</code></pre>
+  </div>
+  <div class="ds-desc">Alle tokens står i <a href="./style-guide.html">Stilguiden</a> og i <code>tokens/base.css</code>.</div>
+</section>
+
+<section class="ds-section" id="regler">
+  <div class="ds-overline">Mer</div>
+  <div class="ds-title">Regler du må følge</div>
+  <ul class="cl-rules">
+    <li>Navy er standard for handlinger. Amber er for én nøkkelhandling per skjerm.</li>
+    <li>Aldri hvit tekst på amber.</li>
+    <li>Knapper er full pill. Felt har 8 px radius, paneler 12 px og kort 16 px.</li>
+    <li>Overskrifter er Montserrat 700.</li>
+    <li>Feilfarge er <code>#B3261E</code>. Sideflaten er hvit.</li>
+    <li>Ikke fjern fokusringen.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="alias">
+  <div class="ds-overline">Mer</div>
+  <div class="ds-title">Gamle klassenavn</div>
+  <div class="ds-desc">Klassene fra kampanjeportal-POC-en virker fortsatt. Bruk de nye navnene i ny kode.</div>
+  <table class="cl-spec">
+    <thead><tr><th>Gammel</th><th>Ny</th></tr></thead>
+    <tbody>
+      <tr><td><code>.btn--kvit</code></td><td><code>.btn--secondary</code></td></tr>
+      <tr><td><code>.btn--key</code></td><td><code>.btn--accent</code></td></tr>
+      <tr><td><code>.pill</code></td><td><code>.badge</code></td></tr>
+      <tr><td><code>.advarsel</code></td><td><code>.alert</code> (feil)</td></tr>
+      <tr><td><code>.nokkel</code> / <code>.fakta</code></td><td><code>.kpi-grid</code> / <code>.kpi</code></td></tr>
+      <tr><td><code>.felt</code> / <code>.input</code> / <code>.hjelp</code></td><td><code>.form-group</code> / <code>.form-input</code> / <code>.form-hint</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+
+<script>
+function copyPre(btn) {
+  var pre = btn.closest('.cl-snippet').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText);
+  btn.textContent = 'Kopiert';
+  btn.classList.add('copied');
+  setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
+}
+</script>
+</body>
+</html>
