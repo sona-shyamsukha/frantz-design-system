@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=61">
+<link rel="stylesheet" href="frantz-ds.css?v=62">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=5">
 <link rel="stylesheet" href="styles/docs.css?v=11">
 </head>
@@ -3580,7 +3580,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Rådgiverens egne ord om kampanjen, med navn. Står før tallene.</p>
     <div class="cl-demo">
       <span class="cl-variant">Standard</span>
-      <blockquote class="quote" style="max-width:560px"><p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit.»</p><footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status 24.09.2026</footer></blockquote>
+      <blockquote class="quote" style="max-width:560px"><p>«Leverer svært bra sammenlignet med lignende kampanjer. Meta gir de billigste søknadsklikkene, så vi har flyttet mer budsjett dit.»</p><footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Status <time datetime="2026-09-24">24.09.2026</time></footer></blockquote>
 
     </div>
 
@@ -3626,7 +3626,7 @@ Kari Hansen</code></pre>
           <li>Bruk <code>&lt;blockquote&gt;</code>, så skjermleseren sier at dette er et sitat.</li>
           <li>Skriv navn, rolle og dato som tekst i <code>&lt;footer&gt;</code>. Avataren alene sier ikke hvem som skrev.</li>
           <li>Avataren i sitatet har <code>aria-hidden="true"</code>, fordi navnet står rett ved siden av.</li>
-          <li>Datoen bør stå i <code>&lt;time datetime="2026-09-24"&gt;</code> hvis du vil at maskiner skal kunne lese den.</li>
+          <li>Datoen står i <code>&lt;time datetime="2026-09-24"&gt;</code>, så maskiner kan lese den.</li>
         </ul>
       </div>
     </details>
@@ -3667,8 +3667,8 @@ Kari Hansen</code></pre>
       <div class="cl-sep"></div>
       <span class="cl-variant">Per kanal</span>
       <div class="metrics metrics--channel" style="margin-top:0">
-        <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--meta"></span>Meta</div><div class="metric__value">kr 100</div><div class="metric__label">per «Søk»</div></div>
-        <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder"></span>Nettsteder og aviser</div><div class="metric__value">kr 173</div><div class="metric__label">per «Søk»</div></div>
+        <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"></span>Meta</div><div class="metric__value">kr 100</div><div class="metric__label">per «Søk»</div></div>
+        <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</div><div class="metric__value">kr 173</div><div class="metric__label">per «Søk»</div></div>
       </div>
 
     </div>
@@ -3718,7 +3718,7 @@ Kari Hansen</code></pre>
           <li>Tallet står før forklaringen i koden. Skjermleseren leser «kr 112, per Søk». Hold denne rekkefølgen.</li>
           <li>Ikonet i <code>.metric__icon</code> er pynt og har <code>aria-hidden="true"</code>.</li>
           <li>Sammenligningen står i ord i <code>.tag</code>, for eksempel «20 % lavere». Grønn farge alene sier ikke om det er bra.</li>
-          <li>Kanalprikken (<code>.kanal-prikk</code>) er bare farge. Skriv alltid kanalnavnet ved siden av, og gi prikken <code>aria-hidden="true"</code>.</li>
+          <li>Kanalprikken (<code>.kanal-prikk</code>) er bare farge, så den har <code>aria-hidden="true"</code>. Skriv alltid kanalnavnet ved siden av.</li>
           <li>Står flere nøkkeltall sammen, kan du bruke <code>&lt;ul&gt;</code> og <code>&lt;li&gt;</code> i stedet for <code>&lt;div&gt;</code>. Da hører skjermleseren hvor mange det er.</li>
         </ul>
       </div>
@@ -3763,12 +3763,12 @@ Kari Hansen</code></pre>
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Per kanal</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;div class="metrics metrics--channel"&gt;
   &lt;div class="metric"&gt;
-    &lt;div class="metric__channel"&gt;&lt;span class="kanal-prikk kanal-prikk--meta"&gt;&lt;/span&gt;Meta&lt;/div&gt;
+    &lt;div class="metric__channel"&gt;&lt;span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"&gt;&lt;/span&gt;Meta&lt;/div&gt;
     &lt;div class="metric__value"&gt;kr 100&lt;/div&gt;
     &lt;div class="metric__label"&gt;per «Søk»&lt;/div&gt;
   &lt;/div&gt;
   &lt;div class="metric"&gt;
-    &lt;div class="metric__channel"&gt;&lt;span class="kanal-prikk kanal-prikk--nettsteder"&gt;&lt;/span&gt;Nettsteder og aviser&lt;/div&gt;
+    &lt;div class="metric__channel"&gt;&lt;span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"&gt;&lt;/span&gt;Nettsteder og aviser&lt;/div&gt;
     &lt;div class="metric__value"&gt;kr 173&lt;/div&gt;
     &lt;div class="metric__label"&gt;per «Søk»&lt;/div&gt;
   &lt;/div&gt;
@@ -4037,9 +4037,9 @@ Kari Hansen</code></pre>
     <div class="cl-demo">
       <span class="cl-variant">Standard</span>
       <ol class="journey" style="max-width:480px">
-        <li class="journey__step"><span class="journey__dot"></span><div class="journey__body"><div class="journey__head"><span class="tag">Start</span><span>03.09.2026</span></div><h4>Kampanjen startet</h4><p>Annonsene ble publisert på Meta og Nettsteder.</p></div></li>
-        <li class="journey__step journey__step--key"><span class="journey__dot"></span><div class="journey__body"><div class="journey__head"><span class="tag tag--raised">Status</span><span>24.09.2026</span></div><h4>Vi ligger foran plan</h4><p>Meta gir billigst «Søk». Vi har flyttet budsjett dit.</p><p class="journey__by"><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Skrevet av Martin Karlsen</p></div></li>
-        <li class="journey__step journey__step--planned"><span class="journey__dot"></span><div class="journey__body"><div class="journey__head"><span class="tag">Sluttdato</span><span>03.10.2026 · planlagt</span></div><h4>Kampanjen avsluttes</h4></div></li>
+        <li class="journey__step"><span class="journey__dot" aria-hidden="true"></span><div class="journey__body"><div class="journey__head"><span class="tag">Start</span><span>03.09.2026</span></div><h4>Kampanjen startet</h4><p>Annonsene ble publisert på Meta og Nettsteder.</p></div></li>
+        <li class="journey__step journey__step--key"><span class="journey__dot" aria-hidden="true"></span><div class="journey__body"><div class="journey__head"><span class="tag tag--raised">Status</span><span>24.09.2026</span></div><h4>Vi ligger foran plan</h4><p>Meta gir billigst «Søk». Vi har flyttet budsjett dit.</p><p class="journey__by"><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Skrevet av Martin Karlsen</p></div></li>
+        <li class="journey__step journey__step--planned"><span class="journey__dot" aria-hidden="true"></span><div class="journey__body"><div class="journey__head"><span class="tag">Sluttdato</span><span>03.10.2026 · planlagt</span></div><h4>Kampanjen avsluttes</h4></div></li>
       </ol>
 
     </div>
@@ -4084,7 +4084,7 @@ Kari Hansen</code></pre>
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Bruk <code>&lt;ol&gt;</code>, fordi stegene har en fast rekkefølge.</li>
-          <li>Prikken (<code>.journey__dot</code>) er tom og bare pynt. Gi den <code>aria-hidden="true"</code>.</li>
+          <li>Prikken (<code>.journey__dot</code>) er tom og bare pynt, så den har <code>aria-hidden="true"</code>.</li>
           <li>Planlagt steg vises med stiplet prikk og dempet tekst. Skriv også «planlagt» i teksten, slik demoen gjør.</li>
           <li>Det løftede steget (<code>--key</code>) er bare en boks. Merkelappen «Status» sier hvorfor det er viktig.</li>
           <li>Sjekk at <code>&lt;h4&gt;</code> passer med overskriftene rundt. Bytt nivå hvis siden ikke har en <code>&lt;h3&gt;</code> over.</li>
@@ -4099,7 +4099,7 @@ Kari Hansen</code></pre>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Steg</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;li class="journey__step"&gt;
-  &lt;span class="journey__dot"&gt;&lt;/span&gt;
+  &lt;span class="journey__dot" aria-hidden="true"&gt;&lt;/span&gt;
   &lt;div class="journey__body"&gt;
     &lt;div class="journey__head"&gt;&lt;span class="tag"&gt;Start&lt;/span&gt;&lt;span&gt;03.09.2026&lt;/span&gt;&lt;/div&gt;
     &lt;h4&gt;Kampanjen startet&lt;/h4&gt;
@@ -4110,7 +4110,7 @@ Kari Hansen</code></pre>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Viktig steg</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;li class="journey__step journey__step--key"&gt;
-  &lt;span class="journey__dot"&gt;&lt;/span&gt;
+  &lt;span class="journey__dot" aria-hidden="true"&gt;&lt;/span&gt;
   &lt;div class="journey__body"&gt;
     &lt;div class="journey__head"&gt;&lt;span class="tag tag--raised"&gt;Status&lt;/span&gt;&lt;span&gt;24.09.2026&lt;/span&gt;&lt;/div&gt;
     &lt;h4&gt;Vi ligger foran plan&lt;/h4&gt;
@@ -4122,7 +4122,7 @@ Kari Hansen</code></pre>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Planlagt</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;li class="journey__step journey__step--planned"&gt;
-  &lt;span class="journey__dot"&gt;&lt;/span&gt;
+  &lt;span class="journey__dot" aria-hidden="true"&gt;&lt;/span&gt;
   &lt;div class="journey__body"&gt;
     &lt;div class="journey__head"&gt;&lt;span class="tag"&gt;Sluttdato&lt;/span&gt;&lt;span&gt;03.10.2026 · planlagt&lt;/span&gt;&lt;/div&gt;
     &lt;h4&gt;Kampanjen avsluttes&lt;/h4&gt;
@@ -4133,7 +4133,7 @@ Kari Hansen</code></pre>
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Hel liste</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;ol class="journey"&gt;
   &lt;li class="journey__step"&gt;
-    &lt;span class="journey__dot"&gt;&lt;/span&gt;
+    &lt;span class="journey__dot" aria-hidden="true"&gt;&lt;/span&gt;
     &lt;div class="journey__body"&gt;
       &lt;div class="journey__head"&gt;&lt;span class="tag"&gt;Start&lt;/span&gt;&lt;span&gt;03.09.2026&lt;/span&gt;&lt;/div&gt;
       &lt;h4&gt;Kampanjen startet&lt;/h4&gt;
@@ -4141,7 +4141,7 @@ Kari Hansen</code></pre>
     &lt;/div&gt;
   &lt;/li&gt;
   &lt;li class="journey__step journey__step--key"&gt;
-    &lt;span class="journey__dot"&gt;&lt;/span&gt;
+    &lt;span class="journey__dot" aria-hidden="true"&gt;&lt;/span&gt;
     &lt;div class="journey__body"&gt;
       &lt;div class="journey__head"&gt;&lt;span class="tag tag--raised"&gt;Status&lt;/span&gt;&lt;span&gt;24.09.2026&lt;/span&gt;&lt;/div&gt;
       &lt;h4&gt;Vi ligger foran plan&lt;/h4&gt;
@@ -4150,7 +4150,7 @@ Kari Hansen</code></pre>
     &lt;/div&gt;
   &lt;/li&gt;
   &lt;li class="journey__step journey__step--planned"&gt;
-    &lt;span class="journey__dot"&gt;&lt;/span&gt;
+    &lt;span class="journey__dot" aria-hidden="true"&gt;&lt;/span&gt;
     &lt;div class="journey__body"&gt;
       &lt;div class="journey__head"&gt;&lt;span class="tag"&gt;Sluttdato&lt;/span&gt;&lt;span&gt;03.10.2026 · planlagt&lt;/span&gt;&lt;/div&gt;
       &lt;h4&gt;Kampanjen avsluttes&lt;/h4&gt;
@@ -4174,9 +4174,9 @@ Kari Hansen</code></pre>
     <div class="cl-demo">
       <span class="cl-variant">Liste</span>
       <ul class="geo__liste" style="max-width:360px">
-        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Oslo</span><span class="geo__andel">48 %</span></div><div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:48%"></span></div><div class="geo__tall">1 680 besøk</div></li>
-        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Viken</span><span class="geo__andel">27 %</span></div><div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:27%"></span></div><div class="geo__tall">940 besøk</div></li>
-        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Innlandet</span><span class="geo__andel">9 %</span></div><div class="meter__track meter__track--sm"><span class="meter__bar meter__bar--data" style="width:9%"></span></div><div class="geo__tall">310 besøk</div></li>
+        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Oslo</span><span class="geo__andel">48 %</span></div><div class="meter__track meter__track--sm" aria-hidden="true"><span class="meter__bar meter__bar--data" style="width:48%"></span></div><div class="geo__tall">1 680 besøk</div></li>
+        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Viken</span><span class="geo__andel">27 %</span></div><div class="meter__track meter__track--sm" aria-hidden="true"><span class="meter__bar meter__bar--data" style="width:27%"></span></div><div class="geo__tall">940 besøk</div></li>
+        <li class="geo__rad"><div class="geo__topp"><span class="geo__navn">Innlandet</span><span class="geo__andel">9 %</span></div><div class="meter__track meter__track--sm" aria-hidden="true"><span class="meter__bar meter__bar--data" style="width:9%"></span></div><div class="geo__tall">310 besøk</div></li>
       </ul>
 
     </div>
@@ -4220,7 +4220,7 @@ Kari Hansen</code></pre>
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Andelen står som tekst («48 %») ved siden av stolpen. Stolpen er bare et bilde av det samme tallet.</li>
-          <li>Stolpen (<code>.meter__track</code>) har ingen rolle. Gi den <code>aria-hidden="true"</code>, så skjermleseren ikke leser tomme elementer.</li>
+          <li>Stolpen (<code>.meter__track</code>) viser det samme som prosenten, så den har <code>aria-hidden="true"</code>.</li>
           <li>Kartet viser det samme som listen. Gi <code>.kart</code> <code>role="img"</code> og en kort <code>aria-label</code>, eller <code>aria-hidden="true"</code> hvis listen står rett ved.</li>
           <li>Steder på kartet skilles bare med størrelse og farge. Listen må alltid være med, så alle får tallene.</li>
           <li>På mobil står kart og liste under hverandre. Sett listen etter kartet i koden, slik den vises.</li>
@@ -4235,7 +4235,7 @@ Kari Hansen</code></pre>
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Én rad</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;li class="geo__rad"&gt;
   &lt;div class="geo__topp"&gt;&lt;span class="geo__navn"&gt;Oslo&lt;/span&gt;&lt;span class="geo__andel"&gt;48 %&lt;/span&gt;&lt;/div&gt;
-  &lt;div class="meter__track meter__track--sm"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="meter__track meter__track--sm" aria-hidden="true"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
   &lt;div class="geo__tall"&gt;1 680 besøk&lt;/div&gt;
 &lt;/li&gt;</code></pre>
         </div>
@@ -4244,17 +4244,17 @@ Kari Hansen</code></pre>
           <pre class="cl-code-pre"><code>&lt;ul class="geo__liste"&gt;
   &lt;li class="geo__rad"&gt;
     &lt;div class="geo__topp"&gt;&lt;span class="geo__navn"&gt;Oslo&lt;/span&gt;&lt;span class="geo__andel"&gt;48 %&lt;/span&gt;&lt;/div&gt;
-    &lt;div class="meter__track meter__track--sm"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="meter__track meter__track--sm" aria-hidden="true"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
     &lt;div class="geo__tall"&gt;1 680 besøk&lt;/div&gt;
   &lt;/li&gt;
   &lt;li class="geo__rad"&gt;
     &lt;div class="geo__topp"&gt;&lt;span class="geo__navn"&gt;Viken&lt;/span&gt;&lt;span class="geo__andel"&gt;27 %&lt;/span&gt;&lt;/div&gt;
-    &lt;div class="meter__track meter__track--sm"&gt;&lt;span class="meter__bar meter__bar--data" style="width:27%"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="meter__track meter__track--sm" aria-hidden="true"&gt;&lt;span class="meter__bar meter__bar--data" style="width:27%"&gt;&lt;/span&gt;&lt;/div&gt;
     &lt;div class="geo__tall"&gt;940 besøk&lt;/div&gt;
   &lt;/li&gt;
   &lt;li class="geo__rad"&gt;
     &lt;div class="geo__topp"&gt;&lt;span class="geo__navn"&gt;Innlandet&lt;/span&gt;&lt;span class="geo__andel"&gt;9 %&lt;/span&gt;&lt;/div&gt;
-    &lt;div class="meter__track meter__track--sm"&gt;&lt;span class="meter__bar meter__bar--data" style="width:9%"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="meter__track meter__track--sm" aria-hidden="true"&gt;&lt;span class="meter__bar meter__bar--data" style="width:9%"&gt;&lt;/span&gt;&lt;/div&gt;
     &lt;div class="geo__tall"&gt;310 besøk&lt;/div&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
@@ -4266,7 +4266,7 @@ Kari Hansen</code></pre>
   &lt;ul class="geo__liste"&gt;
     &lt;li class="geo__rad"&gt;
       &lt;div class="geo__topp"&gt;&lt;span class="geo__navn"&gt;Oslo&lt;/span&gt;&lt;span class="geo__andel"&gt;48 %&lt;/span&gt;&lt;/div&gt;
-      &lt;div class="meter__track meter__track--sm"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="meter__track meter__track--sm" aria-hidden="true"&gt;&lt;span class="meter__bar meter__bar--data" style="width:48%"&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class="geo__tall"&gt;1 680 besøk&lt;/div&gt;
     &lt;/li&gt;
     ...
@@ -4614,7 +4614,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Farger, prikker og logoer for hver annonsekanal, som Meta og TikTok.</p>
     <div class="cl-demo">
       <span class="cl-variant">Prikker</span>
-      <div class="cl-row"><div class="cl-item"><span class="kanal-prikk kanal-prikk--meta"></span> Meta<span class="cl-item__cap">meta</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--nettsteder"></span> Nettsteder og aviser<span class="cl-item__cap">nettsteder</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--remarketing"></span> Remarketing<span class="cl-item__cap">remarketing</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--linkedin"></span> LinkedIn<span class="cl-item__cap">linkedin</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--nasjonal"></span> Nasjonal<span class="cl-item__cap">nasjonal</span></div></div>
+      <div class="cl-row"><div class="cl-item"><span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"></span> Meta<span class="cl-item__cap">meta</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"></span> Nettsteder og aviser<span class="cl-item__cap">nettsteder</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--remarketing" aria-hidden="true"></span> Remarketing<span class="cl-item__cap">remarketing</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--linkedin" aria-hidden="true"></span> LinkedIn<span class="cl-item__cap">linkedin</span></div><div class="cl-item"><span class="kanal-prikk kanal-prikk--nasjonal" aria-hidden="true"></span> Nasjonal<span class="cl-item__cap">nasjonal</span></div></div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Logoer</span>
       <div class="cl-row"><div class="cl-item"><span class="kanal-logo kanal-logo--meta" aria-hidden="true"></span><span class="cl-item__cap">meta</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--linkedin" aria-hidden="true"></span><span class="cl-item__cap">linkedin</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--snapchat" aria-hidden="true"></span><span class="cl-item__cap">snapchat</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--tiktok" aria-hidden="true"></span><span class="cl-item__cap">tiktok</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--nettsteder" aria-hidden="true"></span><span class="cl-item__cap">nettsteder</span></div><div class="cl-item"><span class="kanal-logo kanal-logo--programmatisk" aria-hidden="true"></span><span class="cl-item__cap">programmatisk</span></div></div>
@@ -4673,11 +4673,11 @@ Kari Hansen</code></pre>
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Prikker</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;span class="kanal-prikk kanal-prikk--meta"&gt;&lt;/span&gt; Meta
-&lt;span class="kanal-prikk kanal-prikk--nettsteder"&gt;&lt;/span&gt; Nettsteder og aviser
-&lt;span class="kanal-prikk kanal-prikk--remarketing"&gt;&lt;/span&gt; Remarketing
-&lt;span class="kanal-prikk kanal-prikk--linkedin"&gt;&lt;/span&gt; LinkedIn
-&lt;span class="kanal-prikk kanal-prikk--nasjonal"&gt;&lt;/span&gt; Nasjonal</code></pre>
+          <pre class="cl-code-pre"><code>&lt;span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"&gt;&lt;/span&gt; Meta
+&lt;span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"&gt;&lt;/span&gt; Nettsteder og aviser
+&lt;span class="kanal-prikk kanal-prikk--remarketing" aria-hidden="true"&gt;&lt;/span&gt; Remarketing
+&lt;span class="kanal-prikk kanal-prikk--linkedin" aria-hidden="true"&gt;&lt;/span&gt; LinkedIn
+&lt;span class="kanal-prikk kanal-prikk--nasjonal" aria-hidden="true"&gt;&lt;/span&gt; Nasjonal</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Logoer</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -4899,7 +4899,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">En enkel logg med dato til venstre og hva som skjedde til høyre.</p>
     <div class="cl-demo">
       <span class="cl-variant">Standard</span>
-      <div class="timeline" style="max-width:520px"><div class="timeline__item"><span class="timeline__date">24.09.2026</span><div class="timeline__body"><span class="timeline__title">Status fra rådgiver</span>Vi ligger foran plan.</div></div><div class="timeline__item"><span class="timeline__date">15.09.2026</span><div class="timeline__body"><span class="timeline__title">Budsjett flyttet</span>Mer til Meta, som gir billigst «Søk».</div></div><div class="timeline__item"><span class="timeline__date">03.09.2026</span><div class="timeline__body"><span class="timeline__title">Kampanjen startet</span>Annonsene ble publisert.</div></div></div>
+      <ol class="timeline" style="max-width:520px"><li class="timeline__item"><time class="timeline__date" datetime="2026-09-24">24.09.2026</time><div class="timeline__body"><span class="timeline__title">Status fra rådgiver</span>Vi ligger foran plan.</div></li><li class="timeline__item"><time class="timeline__date" datetime="2026-09-15">15.09.2026</time><div class="timeline__body"><span class="timeline__title">Budsjett flyttet</span>Mer til Meta, som gir billigst «Søk».</div></li><li class="timeline__item"><time class="timeline__date" datetime="2026-09-03">03.09.2026</time><div class="timeline__body"><span class="timeline__title">Kampanjen startet</span>Annonsene ble publisert.</div></li></ol>
 
     </div>
 
@@ -4942,8 +4942,8 @@ Kari Hansen</code></pre>
 
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
-          <li>Tidslinjen er vanlige <code>&lt;div&gt;</code>-er. Vil du at skjermleseren skal si hvor mange hendelser det er, bruk <code>&lt;ol&gt;</code> og <code>&lt;li&gt;</code> med de samme klassene.</li>
-          <li>Legg datoen i <code>&lt;time datetime="2026-09-24"&gt;</code>, så maskiner kan lese den.</li>
+          <li>Tidslinjen er en <code>&lt;ol&gt;</code> med én <code>&lt;li&gt;</code> per hendelse. Da sier skjermleseren hvor mange hendelser det er.</li>
+          <li>Datoen står i <code>&lt;time datetime="2026-09-24"&gt;</code>, så maskiner kan lese den. Skriv <code>datetime</code> som år-måned-dag.</li>
           <li>Datoen står før teksten i koden. Da leses den først, også når den legges over teksten under 640px.</li>
           <li><code>.timeline__title</code> er bare fet tekst, ikke en overskrift. Bruk en ekte overskrift hvis brukeren skal hoppe mellom hendelser.</li>
         </ul>
@@ -4955,20 +4955,20 @@ Kari Hansen</code></pre>
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Standard</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="timeline"&gt;
-  &lt;div class="timeline__item"&gt;
-    &lt;span class="timeline__date"&gt;24.09.2026&lt;/span&gt;
+          <pre class="cl-code-pre"><code>&lt;ol class="timeline"&gt;
+  &lt;li class="timeline__item"&gt;
+    &lt;time class="timeline__date" datetime="2026-09-24"&gt;24.09.2026&lt;/time&gt;
     &lt;div class="timeline__body"&gt;&lt;span class="timeline__title"&gt;Status fra rådgiver&lt;/span&gt;Vi ligger foran plan.&lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class="timeline__item"&gt;
-    &lt;span class="timeline__date"&gt;15.09.2026&lt;/span&gt;
+  &lt;/li&gt;
+  &lt;li class="timeline__item"&gt;
+    &lt;time class="timeline__date" datetime="2026-09-15"&gt;15.09.2026&lt;/time&gt;
     &lt;div class="timeline__body"&gt;&lt;span class="timeline__title"&gt;Budsjett flyttet&lt;/span&gt;Mer til Meta, som gir billigst «Søk».&lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class="timeline__item"&gt;
-    &lt;span class="timeline__date"&gt;03.09.2026&lt;/span&gt;
+  &lt;/li&gt;
+  &lt;li class="timeline__item"&gt;
+    &lt;time class="timeline__date" datetime="2026-09-03"&gt;03.09.2026&lt;/time&gt;
     &lt;div class="timeline__body"&gt;&lt;span class="timeline__title"&gt;Kampanjen startet&lt;/span&gt;Annonsene ble publisert.&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+  &lt;/li&gt;
+&lt;/ol&gt;</code></pre>
         </div>
       </div>
     </details>
@@ -5159,7 +5159,7 @@ Kari Hansen</code></pre>
         <h3 class="cl-details__h">Tilgjengelighet</h3>
         <ul class="cl-rules">
           <li>Statusen står som tekst, f.eks. «Aktiv · sist målt i dag kl. 09:14». Prikken har <code>aria-hidden="true"</code>, så fargen er aldri eneste tegn.</li>
-          <li>«Kopier koden» er en <code>&lt;button type="button"&gt;</code>. Teksten byttes til «Kopiert» i 2 sekunder, men det leses ikke opp. Legg til et <code>aria-live="polite"</code>-område hvis skjermleserbrukere skal høre det.</li>
+          <li>«Kopier koden» er en <code>&lt;button type="button"&gt;</code>. Teksten byttes til «Kopiert» i 2 sekunder. Et skjult <code>aria-live</code>-område sier «Koden er kopiert» til skjermleseren.</li>
           <li>«Send på e-post» er en vanlig <code>&lt;a href="mailto:"&gt;</code>. Den åpner e-postprogrammet med koden ferdig skrevet.</li>
           <li>Koden står i <code>&lt;code&gt;</code> og kan merkes og kopieres for hånd, også uten knappen.</li>
           <li>Tittelen «Sporingskode (piksel)» er en <code>&lt;span&gt;</code>, ikke en overskrift. Bruk en overskrift rundt blokken hvis brukeren skal finne den med skjermleser.</li>
@@ -5412,7 +5412,7 @@ tegnTrakt(document.getElementById('cl-trakt'), {
   ]
 });
 </script>
-<script src="components/js/piksel.js"></script>
+<script src="components/js/piksel.js?v=2"></script>
 <script src="components/js/tour.js"></script>
 <script src="components/js/advisor-inbox.js?v=3"></script>
 <script src="components/js/annonse-studio.js?v=2"></script>
