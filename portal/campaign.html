@@ -112,8 +112,8 @@
       <div class="cols">
         <div class="flow-wrap">
           <div class="funnel__tabs sidefaner" role="tablist" aria-label="Rapportvisning">
-            <button type="button" class="filter" role="tab" id="fane-oversikt" aria-controls="panel-oversikt" aria-selected="true" aria-pressed="true" data-fane="oversikt">Oversikt</button>
-            <button type="button" class="filter" role="tab" id="fane-detaljer" aria-controls="panel-detaljer" aria-selected="false" aria-pressed="false" data-fane="detaljer">Detaljer</button>
+            <button type="button" class="filter" role="tab" id="fane-oversikt" aria-controls="panel-oversikt" aria-selected="true" tabindex="0" data-fane="oversikt">Oversikt</button>
+            <button type="button" class="filter" role="tab" id="fane-detaljer" aria-controls="panel-detaljer" aria-selected="false" tabindex="-1" data-fane="detaljer">Detaljer</button>
           </div>
           <div class="flow" role="tabpanel" id="panel-oversikt" aria-labelledby="fane-oversikt">
           <div class="card card--betjen">
@@ -423,11 +423,23 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 (function () {
   var knapper = document.querySelectorAll('[data-fane]');
   function vis(navn) {
-    knapper.forEach(function (b) { var valgt = b.dataset.fane === navn; b.setAttribute('aria-selected', valgt); b.setAttribute('aria-pressed', valgt); });
+    knapper.forEach(function (b) { var valgt = b.dataset.fane === navn; b.setAttribute('aria-selected', valgt); b.tabIndex = valgt ? 0 : -1; });
     document.getElementById('panel-oversikt').hidden = navn !== 'oversikt';
     document.getElementById('panel-detaljer').hidden = navn !== 'detaljer';
   }
   knapper.forEach(function (b) { b.addEventListener('click', function () { vis(b.dataset.fane); }); });
+  // Piltaster flytter mellom fanene, som i trakten (funnel.js)
+  document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
+    var liste = Array.prototype.slice.call(this.querySelectorAll('[role="tab"]'));
+    var i = liste.indexOf(e.target);
+    if (i === -1) return;
+    var ny = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: liste.length - 1 }[e.key];
+    if (ny === undefined) return;
+    e.preventDefault();
+    var fane = liste[(ny + liste.length) % liste.length];
+    fane.click();
+    fane.focus();
+  });
   document.querySelectorAll('[data-til-fane]').forEach(function (b) { b.addEventListener('click', function () { vis(b.dataset.tilFane); (document.getElementById(b.dataset.til || '') || document.querySelector('.sidefaner')).scrollIntoView({ behavior: 'smooth' }); }); });
 })();
 </script>
