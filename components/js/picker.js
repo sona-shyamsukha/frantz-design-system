@@ -122,7 +122,7 @@
       boks.hidden = !res.html;
       input.setAttribute('aria-expanded', String(!boks.hidden));
       marker();
-      if (!boks.hidden) si(valg.length ? valg.length + ' forslag. Bruk pil opp og ned.' : 'Ingen forslag.');
+      if (!boks.hidden) si(res.status || (valg.length ? valg.length + ' forslag. Bruk pil opp og ned.' : 'Ingen forslag.'));
     }
     function marker() {
       Array.prototype.forEach.call(boks.querySelectorAll('.picker__opt'), function (o, i) {
@@ -364,5 +364,38 @@
     };
   }
 
-  window.FrantzPicker = { budsjett: budsjett, stilling: stilling, steder: steder, delSted: delSted, finnSted: finnSted, HELE_NORGE: HELE_NORGE, HJEMMEKONTOR: HJEMMEKONTOR };
+  // Searchable single selection. Only jobs without a campaign can be selected.
+  function connect(root, opt) {
+    opt = opt || {};
+    var input = root.querySelector('.picker__input');
+    var l = liste(root, input, function (q) {
+      var ord = q.trim().toLocaleLowerCase('nb').split(/\s+/).filter(Boolean);
+      var ledige = (opt.hent ? opt.hent() : []).filter(function (c) { return !c.kampanje; });
+      var treff = ledige.filter(function (c) {
+        var tekst = [c.tittel, c.sted, c.arbeidsgiver, c.prosjekt, c.id].join(' ').toLocaleLowerCase('nb');
+        return ord.every(function (o) { return tekst.indexOf(o) !== -1; });
+      });
+      // Bound rendered results for large imports; search always covers the full list.
+      var vist = treff.slice(0, 50);
+      var antall = treff.length > vist.length ? 'Viser ' + vist.length + ' av ' + treff.length + ' treff. Søk mer presist.' : treff.length + (treff.length === 1 ? ' stilling' : ' stillinger');
+      var html = vist.length ? '<p class="picker__gruppe">' + antall + '</p>' + vist.map(function (c, i) {
+        return '<button class="picker__opt" type="button" role="option" data-i="' + i + '">' +
+          '<span class="connect-sok__tittel">' + esc(c.tittel) + '</span>' +
+          '<span class="connect-sok__meta">' + esc(c.arbeidsgiver) + ' · ConnectID ' + esc(c.id) + (c.prosjekt ? ' · ' + esc(c.prosjekt) : '') + '</span></button>';
+      }).join('') : '<p class="picker__tom">' + (ledige.length ? 'Ingen stillinger passer søket. Prøv en annen tittel, arbeidsgiver, prosjekt eller ConnectID.' : 'Ingen stillinger uten kampanje. Nye stillinger fra Connect vises her når de er hentet inn.') + '</p>';
+      return { valg: vist, html: html, status: antall + '. Bruk pil opp og ned for å velge.' };
+    }, function (c) {
+      if (!c) return;
+      input.value = c.tittel;
+      if (opt.onChange) opt.onChange(c);
+    }, status(root));
+    var apner = root.querySelector('[data-picker-toggle]');
+    if (apner) apner.addEventListener('click', function () {
+      if (input.getAttribute('aria-expanded') === 'true') { l.lukk(); stilleFokus(input); }
+      else { input.focus(); l.tegn(); }
+    });
+    return { apne: function () { input.focus(); l.tegn(); }, lukk: l.lukk };
+  }
+
+  window.FrantzPicker = { connect: connect, budsjett: budsjett, stilling: stilling, steder: steder, delSted: delSted, finnSted: finnSted, HELE_NORGE: HELE_NORGE, HJEMMEKONTOR: HJEMMEKONTOR };
 })();

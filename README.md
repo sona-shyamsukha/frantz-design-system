@@ -44,5 +44,15 @@ Datepicker, tooltip, breadcrumb and pagination live in the component library. Da
 
 - Navy = default primary. Amber = one key action per screen. Never white text on amber.
 - Radius: full pill on buttons. 8px fields, 12px panels, 16px cards.
-- Montserrat 700 + negative tracking on headings.
+- Page titles: Montserrat 700. Section headings and labels: 600. Body: 400.
 - Error: `#B3261E`. Page surface is white.
+
+## Check design tokens
+
+Run `python3 scripts/check-design-tokens.py` before handing off style changes.
+Colour values, typography defaults and shared spacing roles belong in `tokens/base.css`. Components,
+page styles, inline examples and generated SVG labels use those variables or inherit.
+Content spacing uses the shared roles for card padding, section gaps, form fields and labels.
+Customer-selected preview colours and uploaded fonts remain editable; their initial
+values come from the tokens. SVG mask payloads only define opacity; icon colours
+come from the component CSS.

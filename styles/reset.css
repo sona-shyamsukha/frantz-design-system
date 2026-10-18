@@ -9,7 +9,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: var(--font-root);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
@@ -52,6 +52,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-heading);
   font-style: normal;
 }
+
+/* Browser defaults must follow the same scale as named components. */
+h1 { font: var(--type-page); }
+h2, h3 { font: var(--type-section); }
+h4, h5, h6 { font: var(--type-label); }
+b, strong { font-weight: var(--font-weight-emphasis); }
+code, kbd, pre, samp { font-family: var(--font-mono); font-size: inherit; }
 
 :where(a, button, input, select, textarea):focus-visible {
   outline: none;

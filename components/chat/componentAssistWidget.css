@@ -12,7 +12,7 @@
   z-index: 70;
   align-items: center;
   gap: var(--space-8);
-  height: 52px;
+  height: var(--assistant-trigger-size);
   padding: 0 var(--space-24) 0 var(--space-16);
   border: 0;
   border-radius: var(--radius-full);
@@ -241,5 +241,5 @@ body:has(.assist-fab) .wrap {
 
 /* Leave room at the end of the page, so the floating button never covers content */
 body:has(> .assist-fab) .wrap {
-  padding-bottom: calc(var(--space-64) + 52px);
+  padding-bottom: calc(var(--space-64) + var(--assistant-trigger-size));
 }

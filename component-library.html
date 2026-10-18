@@ -7,9 +7,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=65">
-<link rel="stylesheet" href="components/inbox/componentInbox.css?v=5">
-<link rel="stylesheet" href="styles/docs.css?v=11">
+<link rel="stylesheet" href="frantz-ds.css?v=73">
+<link rel="stylesheet" href="components/inbox/componentInbox.css?v=73">
+<link rel="stylesheet" href="styles/docs.css?v=73">
 </head>
 <body class="ds-docs">
 
@@ -575,7 +575,7 @@
           <span class="hjelp">Vises i annonsen.</span>
         </div>
       </div>
-      <div class="feltrad" style="margin-top:16px">
+      <div class="feltrad" style="margin-top: var(--space-16)">
         <div class="felt">
           <label for="cl-err">Feil</label>
           <input class="input input--error" id="cl-err" type="text" value="0">
@@ -1666,7 +1666,7 @@
     <p class="cl-intro">En tabell for lange lister med flere kolonner. På mobil blir hver rad et kort.</p>
     <div class="cl-demo">
       <span class="cl-variant">Kampanjeliste</span>
-      <div class="card card--betjen table-card" style="padding:0; overflow:hidden">
+      <div class="card card--betjen table-card" style="padding: 0; overflow:hidden">
         <table class="table">
           <caption class="sr-only">Kampanjer. Velg en rad for å åpne kampanjen.</caption>
           <thead>
@@ -1774,7 +1774,7 @@
       <div class="cl-details__body cl-details__body--code">
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Kampanjeliste</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
-          <pre class="cl-code-pre"><code>&lt;div class="card card--betjen table-card" style="padding:0"&gt;
+          <pre class="cl-code-pre"><code>&lt;div class="card card--betjen table-card" style="padding: 0"&gt;
   &lt;table class="table"&gt;
     &lt;caption class="sr-only"&gt;Kampanjer. Velg en rad for å åpne kampanjen.&lt;/caption&gt;
     &lt;thead&gt;
@@ -2682,9 +2682,9 @@ tegnTrakt(document.getElementById('trakt'), {
 
     <p class="cl-intro">En skyver for å velge budsjett. Strekene under viser terskler, og en markør viser anbefalt verdi.</p>
     <div class="cl-demo">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;max-width:480px;margin-bottom:var(--space-8)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;max-width:480px;margin-bottom: var(--space-8)">
         <label class="form-label" for="cl-budsjett" style="margin:0">Budsjett</label>
-        <output for="cl-budsjett" style="font-weight:var(--font-weight-bold);color:var(--text-heading)">kr 36 500</output>
+        <output for="cl-budsjett" style="font-weight: var(--font-weight-bold);color: var(--text-heading)">kr 36 500</output>
       </div>
       <div class="slider-wrap" style="max-width:480px">
         <span class="slider-wrap__mark" style="left:38%" aria-hidden="true">Anbefalt</span>
@@ -2800,7 +2800,7 @@ tegnTrakt(document.getElementById('trakt'), {
     <p class="cl-intro">Kort som brukeren slår av og på, med forklaring, lås eller pris. Brukes for kanaler og tilvalg.</p>
     <div class="cl-demo">
       <span class="cl-variant" id="cl-kanaler-lbl">Kanaler — rutenett med låst kort</span>
-      <div class="select-card-grid" role="group" aria-labelledby="cl-kanaler-lbl" data-velg="flere" style="margin-bottom:24px">
+      <div class="select-card-grid" role="group" aria-labelledby="cl-kanaler-lbl" data-velg="flere" style="margin-bottom: var(--space-24)">
         <button class="select-card" type="button" aria-pressed="true">
           <span class="select-card__box"></span>
           <span class="select-card__body"><span class="select-card__name">Meta</span><span class="select-card__desc">Facebook og Instagram</span></span>
@@ -3061,7 +3061,7 @@ tegnTrakt(document.getElementById('trakt'), {
 
     <p class="cl-intro">Deler til samtalen med Frantz-assistenten og rådgiveren: meldinger, svarforslag, utkast og skrivefelt.</p>
     <div class="cl-demo">
-      <div style="display:flex;flex-direction:column;gap:16px;max-width:640px">
+      <div style="display:flex;flex-direction:column;gap: var(--space-16);max-width:640px">
         <div class="msg msg--ai">
           <span class="msg__avatar"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></span>
           <div class="msg__body"><span class="msg__meta">Frantz-assistenten · 12.15</span><div class="msg__bubble">Hei Kari. Hva vil du gjøre?</div>
@@ -3103,7 +3103,7 @@ tegnTrakt(document.getElementById('trakt'), {
           <div><b>Sendt til en rådgiver hos Frantz</b>Vanlig svartid er innen 4 timer på hverdager. Du får svaret her og på e-post, i samme tråd.</div>
         </div>
 
-        <form class="composer" style="padding:0;border:0" onsubmit="return false">
+        <form class="composer" style="padding: 0;border: 0" onsubmit="return false">
           <div class="composer__box">
             <button type="button" class="composer__btn" aria-label="Legg ved filer"><span class="icon-lucide icon-lucide--paperclip icon-lucide--md" aria-hidden="true"></span></button>
             <textarea class="composer__input" rows="1" aria-label="Skriv til assistenten" placeholder="Skriv eller lim inn bestillingen…"></textarea>
@@ -3290,7 +3290,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <div class="cl-row"><div class="cl-item"><span class="tag tag--outline tag--good">Beste annonse</span><span class="cl-item__cap">--outline --good</span></div><div class="cl-item"><span class="tag tag--outline tag--info">Likt snitt</span><span class="cl-item__cap">--outline --info</span></div><div class="cl-item"><span class="tag tag--accent tag--xs">Ny</span><span class="cl-item__cap">--accent --xs</span></div><div class="cl-item"><span class="tag tag--removable">sykepleier<button type="button" aria-label="Fjern taggen sykepleier">×</button></span><span class="cl-item__cap">--removable</span></div></div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Oppå bilde</span>
-      <div style="position:relative;width:200px;height:120px;border-radius:var(--radius-8);background:var(--surface-subtle)"><span class="tag tag--overlay">Video</span></div>
+      <div style="position:relative;width:200px;height:120px;border-radius: var(--radius-8);background: var(--surface-subtle)"><span class="tag tag--overlay">Video</span></div>
 
     </div>
 
@@ -3662,7 +3662,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Ett tall med en setning som forklarer det, og en sammenligning mot det normale.</p>
     <div class="cl-demo">
       <span class="cl-variant">Tre nøkkeltall</span>
-      <div class="metrics" style="margin-top:0">
+      <div class="metrics" style="margin-top: 0">
         <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--wallet" aria-hidden="true"></span></span><div class="metric__value">kr 112</div><div class="metric__label">per «Søk»</div><div class="metric__foot">Normalt kr 140 <span class="tag tag--raised tag--good">20 % lavere</span></div></div>
         <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span></span><div class="metric__value">312</div><div class="metric__label">trykket «Søk» så langt</div><div class="metric__foot">Normalt 250 <span class="tag tag--raised tag--good">25 % flere</span></div></div>
         <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span></span><div class="metric__value">9</div><div class="metric__label">meldte interesse</div><div class="metric__foot">Normalt 7 <span class="tag tag--raised tag--good">29 % flere</span></div></div>
@@ -4291,8 +4291,8 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Oppsett for detaljsider: en bred kolonne med innhold og en smal kolonne med fakta.</p>
     <div class="cl-demo">
       <span class="cl-variant">Oppsett</span>
-      <div class="detalj__topp" style="margin-top:0"><h3 style="margin:0">Sykepleier Oslo</h3><span class="badge badge--active">Aktiv</span><div class="detalj__knapper"><button class="btn btn--secondary" type="button">Se annonsene</button></div></div>
-      <div class="cols" style="margin-top:var(--space-16);grid-template-columns:minmax(0,1fr) 200px"><div class="flow"><div class="card card--betjen" style="margin:0">Hovedkolonne</div><div class="card card--betjen" style="margin:0">Neste kort</div></div><div class="card card--betjen" style="margin:0">Sidekolonne</div></div>
+      <div class="detalj__topp" style="margin-top: 0"><h3 style="margin:0">Sykepleier Oslo</h3><span class="badge badge--active">Aktiv</span><div class="detalj__knapper"><button class="btn btn--secondary" type="button">Se annonsene</button></div></div>
+      <div class="cols" style="margin-top:var(--space-16);grid-template-columns:minmax(0,1fr) 200px"><div class="flow"><div class="card card--betjen" style="margin: 0">Hovedkolonne</div><div class="card card--betjen" style="margin:0">Neste kort</div></div><div class="card card--betjen" style="margin:0">Sidekolonne</div></div>
 
     </div>
 
@@ -4390,9 +4390,9 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Et panel som glir inn fra høyre over siden. Brukeren ser detaljer uten å forlate siden.</p>
     <div class="cl-demo">
       <span class="cl-variant">Åpen skuff (innrammet)</span>
-      <div style="position:relative;height:300px;overflow:hidden;transform:translateZ(0);border:1px solid var(--border-default);border-radius:var(--radius-12);background:var(--surface-subtle)">
+      <div style="position:relative;height:300px;overflow:hidden;transform:translateZ(0);border: 1px solid var(--border-default);border-radius: var(--radius-12);background: var(--surface-subtle)">
         <div class="drawer-backdrop" style="position:absolute"></div>
-        <aside class="drawer" style="position:absolute" aria-label="Eksempel"><div class="drawer__head"><h2 class="drawer__title">Varsler</h2><button class="btn btn--ghost btn--sm" type="button">Lukk</button></div><div class="drawer__body"><div class="drawer__section"><h3>Nye</h3><p style="margin:0;color:var(--text-muted);font-size:var(--text-sm)">Frantz venter på svar fra deg.</p></div><div class="drawer__section"><h3>Eldre</h3><p style="margin:0;color:var(--text-muted);font-size:var(--text-sm)">Kampanjen er bestilt.</p></div></div></aside>
+        <aside class="drawer" style="position:absolute" aria-label="Eksempel"><div class="drawer__head"><h2 class="drawer__title">Varsler</h2><button class="btn btn--ghost btn--sm" type="button">Lukk</button></div><div class="drawer__body"><div class="drawer__section"><h3>Nye</h3><p style="margin: 0;color: var(--text-muted);font-size: var(--text-sm)">Frantz venter på svar fra deg.</p></div><div class="drawer__section"><h3>Eldre</h3><p style="margin: 0;color: var(--text-muted);font-size: var(--text-sm)">Kampanjen er bestilt.</p></div></div></aside>
       </div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Knapp med teller</span>
@@ -4706,7 +4706,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Rådgiverens liste over saker fra kunder, med filter og status per sak.</p>
     <div class="cl-demo">
       <span class="cl-variant">Saksliste</span>
-      <section class="inbox__list" style="max-width:340px;border:1px solid var(--border-default);border-radius:var(--radius-12);height:auto"><div class="inbox__listhead"><h3 style="margin:0">Innboks</h3><div class="inbox__filters" role="group" aria-label="Vis saker"><button type="button" class="inbox__filter" aria-pressed="true">Venter på meg · 1</button><button type="button" class="inbox__filter" aria-pressed="false">Alle · 4</button></div></div>
+      <section class="inbox__list" style="max-width:340px;border: 1px solid var(--border-default);border-radius: var(--radius-12);height:auto"><div class="inbox__listhead"><h3 style="margin: 0">Innboks</h3><div class="inbox__filters" role="group" aria-label="Vis saker"><button type="button" class="inbox__filter" aria-pressed="true">Venter på meg · 1</button><button type="button" class="inbox__filter" aria-pressed="false">Alle · 4</button></div></div>
       <ul class="inbox__items"><li><button type="button" class="inbox__item" aria-current="true"><span class="inbox__row"><span class="inbox__name">Sykepleier Oslo</span><span class="inbox__time">2 min</span></span><span class="inbox__preview">Vokser AS · Vil bytte hovedbildet på aktiv kampanje.</span><span class="inbox__state inbox__state--human">Venter på rådgiver</span></button></li>
       <li><button type="button" class="inbox__item"><span class="inbox__row"><span class="inbox__name">Intensivsykepleier Tromsø</span><span class="inbox__time">14 min</span></span><span class="inbox__preview">Vokser AS · Ny bestilling. AI fylte ut alle felt.</span><span class="inbox__state inbox__state--ai">AI håndterer</span></button></li>
       <li><button type="button" class="inbox__item"><span class="inbox__row"><span class="inbox__name">Anestesisykepleier Stavanger</span><span class="inbox__time">1 t</span></span><span class="inbox__preview">Vokser AS · Spurte om rapportlenke.</span><span class="inbox__state inbox__state--done">Løst av AI</span></button></li></ul></section>
@@ -4989,7 +4989,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Små vinduer som viser nye brukere rundt på siden, ett steg om gangen.</p>
     <div class="cl-demo">
       <span class="cl-variant">Demo</span>
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-16)">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap: var(--space-16)">
         <button class="btn btn--accent" id="cl-tur-mal-1" type="button"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
         <button class="topbar__knapp" id="cl-tur-mal-2" type="button" aria-label="Varsler"><span class="icon-lucide icon-lucide--bell" aria-hidden="true"></span></button>
         <button class="btn btn--primary" type="button" onclick="FrantzTour.start([
@@ -5115,7 +5115,7 @@ Kari Hansen</code></pre>
 
     <p class="cl-intro">Blokken med sporingskoden kunden legger på stillingssiden, så Frantz kan måle søknader.</p>
     <div class="cl-demo">
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-16)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap: var(--space-16)">
         <div><span class="cl-variant">Venter</span><div class="summary-panel" style="position:static"><div class="summary-panel__block piksel" data-piksel="129078" data-status="venter"></div></div></div>
         <div><span class="cl-variant">Aktiv</span><div class="summary-panel" style="position:static"><div class="summary-panel__block piksel" data-piksel="129041" data-status="aktiv" data-tid="i dag kl. 09:14"></div></div></div>
         <div><span class="cl-variant">Avsluttet</span><div class="summary-panel" style="position:static"><div class="summary-panel__block piksel" data-piksel="128984" data-status="avsluttet" data-tid="30.07.2026"></div></div></div>
@@ -5211,7 +5211,7 @@ Kari Hansen</code></pre>
     <p class="cl-intro">Viser hvordan annonsen ser ut i feeden til hver kanal.</p>
     <div class="cl-demo">
       <span class="cl-variant">Tre kanaler</span>
-      <div class="cl-row" style="align-items:flex-start;gap:var(--space-24)"><div class="cl-item"><article class="ad-preview" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">facebook / meta</span></div><div class="cl-item"><article class="ad-preview" data-plattform="instagram" aria-label="Forhåndsvisning på Instagram"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">instagram</span></div><div class="cl-item"><article class="ad-preview" data-plattform="linkedin" aria-label="Forhåndsvisning på LinkedIn"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">linkedin</span></div></div>
+      <div class="cl-row" style="align-items:flex-start;gap: var(--space-24)"><div class="cl-item"><article class="ad-preview" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">facebook / meta</span></div><div class="cl-item"><article class="ad-preview" data-plattform="instagram" aria-label="Forhåndsvisning på Instagram"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">instagram</span></div><div class="cl-item"><article class="ad-preview" data-plattform="linkedin" aria-label="Forhåndsvisning på LinkedIn"><header class="ad-preview__topp"><span class="ad-preview__avatar" aria-hidden="true">v</span><div><b>Vokser AS</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header><p class="ad-preview__tekst">Vi søker sykepleiere til akuttmottaket. Fast stilling og gode vilkår.</p><div class="ad-preview__kreativ" style="--pv-bg:var(--color-coral-wash)"><div class="ad-preview__logo">vokser</div><h4 class="ad-preview__tittel">Sykepleier, Kristiansand</h4><div class="ad-preview__bilde" data-flytt></div></div><footer class="ad-preview__bunn"><div><small>VOKSER.NO</small><b>Les mer om stillingen</b></div><span class="ad-preview__cta">Søk nå</span></footer></article><span class="cl-item__cap">linkedin</span></div></div>
 
     </div>
 
@@ -5398,7 +5398,7 @@ function copyPre(btn) {
   setTimeout(function () { btn.textContent = 'Kopier'; btn.classList.remove('copied'); }, 1400);
 }
 </script>
-<script src="components/js/funnel.js?v=15"></script>
+<script src="components/js/funnel.js?v=70"></script>
 <script src="portal/data/frantz-data.js"></script>
 <script src="components/js/picker.js?v=4"></script>
 <script>

@@ -17,10 +17,8 @@
   border-radius: var(--radius-full);
   background: var(--surface-raised);
   color: var(--text-faint);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
   cursor: default;
+  font: var(--type-label);
 }
 
 .step__n {

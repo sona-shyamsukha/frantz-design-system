@@ -36,7 +36,7 @@ window.FZ_CONNECT = (function () {
       lenke: 'https://jobb.vestlandethelse.no/stilling/777702-intensivsykepleier-bergen', frist: '2026-09-30',
       kategori: 'Helse og sosial', isco: '2221', interessenter: true, verifisering: 'telefon', opprettet: '12.08.2026 kl. 15.20', start: '2026-08-14',
       besok: 1240, sisteBesok: '21.09.2026', interesserte: 3,
-      kampanje: { id: '129055', status: 'Pause', fra: '14.08', til: '04.09.2026', side: 'campaign.html' } },
+      kampanje: { id: '129055', status: 'Avsluttet', fra: '14.08', til: '04.09.2026', side: 'rapport.html' } },
     { id: '777301', stilling: 'Sykepleier', sted: 'Bodø', arbeidsgiver: 'Nordland Sykehjem', prosjekt: 'Rekruttering Bodø',
       lenke: 'https://jobb.nordlandsykehjem.no/stilling/777301-sykepleier-bodo', frist: '2026-07-28',
       kategori: 'Helse og sosial', isco: '2221', interessenter: true, verifisering: 'epost', opprettet: '30.06.2026 kl. 10.05', start: '2026-07-02',
@@ -85,11 +85,10 @@ window.FZ_CONNECT = (function () {
     statusTekst: function (c) {
       if (!c.kampanje) return 'Måler ikke ennå. Målingen starter når kampanjen starter.';
       if (c.status === 'Aktiv') return 'Måler besøk på stillingsannonsen nå.';
-      if (c.status === 'Pause') return 'Målingen er på pause, fordi kampanjen er på pause.';
       return 'Målingen stoppet da kampanjen sluttet ' + c.kampanje.til + '.';
     },
     badge: function (status) {
-      return { 'Aktiv': 'badge--active', 'Pause': 'badge--paused', 'Avsluttet': 'badge--ended', 'Uten kampanje': 'badge--draft' }[status] || 'badge--default';
+      return { 'Aktiv': 'badge--active', 'Avsluttet': 'badge--ended', 'Uten kampanje': 'badge--draft' }[status] || 'badge--default';
     }
   };
 })();

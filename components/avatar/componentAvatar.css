@@ -11,7 +11,7 @@
   color: var(--text-on-navy);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
-  line-height: 1;
+  line-height: var(--leading-none);
 }
 
 .avatar--md {

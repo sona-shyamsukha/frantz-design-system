@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Godkjenn kampanjen — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
 <style>
   /* Offentlig side uten innlogging: ingen sidemeny, smal toppstripe, alt i én kolonne */
   body { margin: 0; background: var(--surface-default); }
@@ -23,14 +23,14 @@
   .gk-gyldig { display: flex; align-items: center; gap: var(--space-6); margin: var(--space-8) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
 
   .gk-seksjon { margin-top: var(--space-32); }
-  .gk-seksjon__tittel { margin: 0 0 var(--space-12); font-size: var(--text-lg); }
+  .gk-seksjon__tittel { margin: 0 0 var(--space-12); font: var(--type-section); }
 
   /* Oppsummeringen: samme panel som «Din bestilling», men ikke klistret fast */
   .gk .summary-panel { position: static; }
   .gk .summary-panel > :last-child { border-bottom: 0; }
   .gk .summary-row[hidden] { display: none; }
   .gk .summary-panel__total b { font-size: var(--text-3xl); }
-  .gk-forklaring { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .gk-forklaring { margin: 0; color: var(--text-muted); font: var(--type-body); }
 
   /* Annonsen: bare visning her, bildet skal ikke kunne dras og må ikke stoppe scrolling på mobil */
   .gk .ad-preview { margin: 0 auto; }
@@ -42,7 +42,7 @@
   .gk-svar { padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
   .gk-svar[hidden], .gk-endring[hidden], .gk-kvittering[hidden] { display: none; }
   .gk-svar .gk-seksjon__tittel { margin-bottom: var(--space-4); }
-  .gk-svar__hint { margin: 0 0 var(--space-24); color: var(--text-muted); font-size: var(--text-sm); }
+  .gk-svar__hint { margin: 0 0 var(--space-24); color: var(--text-muted); font: var(--type-body); }
   .felt + .felt { margin-top: var(--space-20); }
   .valgfri { color: var(--text-faint); font-weight: var(--font-weight-normal); }
   .gk .form-input { min-height: 50px; }
@@ -54,14 +54,13 @@
 
   .gk-kvittering:focus { outline: none; }
   .gk-kvittering .alert { font-size: var(--text-base); }
-  .gk-kvittering .alert__title { font-size: var(--text-lg); }
+  .gk-kvittering .alert__title { font: var(--type-section); }
   .gk-kvittering .alert__title:focus { outline: none; }
   .gk-kvittering .alert__body { margin: 0; }
   .gk-lagret { margin: var(--space-12) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
 
   @media (max-width: 640px) {
     .gk { padding-top: var(--space-24); }
-    .gk h1 { font-size: var(--text-xl); }
     .gk .summary-panel__head, .gk .summary-panel__block, .gk .summary-panel__total { padding: var(--space-16); }
     .gk-svar { padding: var(--space-16); }
     .gk-knapper { flex-direction: column; }

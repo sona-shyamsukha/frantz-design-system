@@ -34,8 +34,8 @@
 
 .drawer__title {
   margin: 0;
-  font-size: var(--text-lg);
   color: var(--text-heading);
+  font: var(--type-section);
 }
 
 .drawer__body {
@@ -85,7 +85,7 @@
   color: var(--color-white);
   font-size: var(--text-2xs);
   font-weight: var(--font-weight-semibold);
-  line-height: 18px;
+  line-height: var(--leading-normal);
   text-align: center;
 }
 
@@ -127,10 +127,10 @@ button.topbar__who:focus-visible { outline: none; box-shadow: var(--focus-ring);
   color: var(--color-data-700);
 }
 
-.varsel__tittel { font-size: var(--text-sm); color: var(--text-heading); }
+.varsel__tittel { color: var(--text-heading); font: var(--type-body); }
 .varsel--ulest .varsel__tittel { font-weight: var(--font-weight-semibold); }
 .varsel--ulest .varsel__ikon { background: var(--color-data-100); }
-.varsel__tid { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--text-faint); }
+.varsel__tid { margin-top: var(--space-2); color: var(--text-faint); font: var(--type-support); }
 .varsel__prikk { display: inline-block; width: 8px; height: 8px; margin-right: var(--space-6); border-radius: 50%; background: var(--color-coral); vertical-align: middle; }
 .varsel:not(.varsel--ulest) .varsel__prikk { display: none; }
 

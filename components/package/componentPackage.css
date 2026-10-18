@@ -1,0 +1,48 @@
+/* Shared package presentation in campaign setup and company settings. */
+.pakke-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-grid-gap);
+}
+.pakke-kort {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  gap: var(--space-16);
+  margin: 0;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+  color: var(--text-body);
+  text-align: left;
+  overflow-wrap: anywhere;
+  font: var(--type-body);
+  padding: var(--space-panel-padding);
+}
+.pakke-kort__hode { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-12); }
+.pakke-kort__navn { color: var(--text-heading); font: var(--type-section); }
+.pakke-kort__markor { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border: 1px solid var(--border-strong); border-radius: 50%; color: var(--color-white); }
+.pakke-kort__markor .icon-lucide { visibility: hidden; width: 14px; height: 14px; }
+.pakke-kort__beskrivelse { color: var(--text-muted); }
+.pakke-kort__pris { display: flex; flex-direction: column; gap: var(--space-4); margin-top: auto; }
+.pakke-kort__pris b { color: var(--text-heading); font-size: var(--text-xl); font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; }
+.pakke-kort__periode { color: var(--text-muted); font: var(--type-support); }
+.pakke-kort__kanaler { display: flex; flex-direction: column; gap: var(--space-8); padding-top: var(--space-16); border-top: 1px solid var(--border-default); }
+.pakke-kort__etikett { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+.pakke-kort__kanalliste { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-12); }
+.pakke-kort__kanal { display: inline-flex; align-items: center; gap: var(--space-6); }
+.pakke-kort__ikke { color: var(--text-muted); font: var(--type-support); }
+.pakke-kort--valg { cursor: pointer; }
+.pakke-kort--valg:hover { border-color: var(--color-navy); }
+.pakke-kort--valg:focus-visible { outline: 2px solid var(--color-navy); outline-offset: 3px; }
+.pakke-kort--valg[aria-pressed="true"] { border-color: var(--color-navy); background: var(--surface-selected); box-shadow: inset 0 0 0 1px var(--color-navy); }
+.pakke-kort--valg[aria-pressed="true"] .pakke-kort__markor { border-color: var(--color-navy); background: var(--color-navy); }
+.pakke-kort--valg[aria-pressed="true"] .pakke-kort__markor .icon-lucide { visibility: visible; }
+.pakke-kort.er-ny { box-shadow: var(--focus-ring-soft); }
+
+/* Align price and channel sections across cards without clipping long descriptions. */
+@supports (grid-template-rows: subgrid) {
+  .pakke-kort { display: grid; grid-template-rows: subgrid; grid-row: span 5; }
+  .pakke-kort__pris { margin-top: 0; }
+}

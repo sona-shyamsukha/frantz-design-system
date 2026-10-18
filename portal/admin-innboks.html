@@ -7,8 +7,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innboks — Frantz rådgiver</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
-<link rel="stylesheet" href="../components/inbox/componentInbox.css?v=5">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../components/inbox/componentInbox.css?v=73">
 </head>
 <body>
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
@@ -33,9 +34,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -53,7 +52,7 @@
     <main class="inbox" data-advisor-inbox>
       <section class="inbox__list" aria-labelledby="inbox-title">
         <div class="inbox__listhead">
-          <h1 id="inbox-title">Innboks</h1>
+          <h1 class="text-h2" id="inbox-title">Innboks</h1>
           <div class="inbox__filters" role="group" aria-label="Vis saker">
             <button type="button" class="inbox__filter" aria-pressed="true">Venter på meg · 1</button>
             <button type="button" class="inbox__filter" aria-pressed="false">AI håndterer · 2</button>
@@ -85,7 +84,7 @@
           <li>
             <button type="button" class="inbox__item">
               <span class="inbox__row"><span class="inbox__name">Intensivsykepleier Bergen</span><span class="inbox__time">I går</span></span>
-              <span class="inbox__preview">Vokser AS · Pause. Venter på nytt budsjett fra kunden.</span>
+              <span class="inbox__preview">Vokser AS · Ba om å endre budsjettet. Venter på svar.</span>
               <span class="inbox__state inbox__state--customer">Venter på kunde</span>
             </button>
           </li>
@@ -181,7 +180,7 @@ Hilsen Martin, Frantz</textarea>
 
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/advisor-inbox.js?v=4"></script>
 </body>
 </html>

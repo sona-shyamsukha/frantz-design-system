@@ -23,7 +23,7 @@
     ekte = ekte || v;
     var maks = v[0];
     var skiller = [1, 2, 3].map(function (i) {
-      return '<line x1="' + (i * kol) + '" y1="0" x2="' + (i * kol) + '" y2="' + H + '" stroke="rgba(255,255,255,.55)" stroke-width="2"></line>';
+      return '<line x1="' + (i * kol) + '" y1="0" x2="' + (i * kol) + '" y2="' + H + '" stroke="var(--chart-divider)" stroke-width="2"></line>';
     }).join('');
 
     if (visning === 'steg') {
@@ -81,8 +81,8 @@
       }).join('');
       var merker = v.map(function (verdi, i) {
         var x = i * kol + kol / 2, b = 86;
-        return '<g><rect x="' + (x - b / 2) + '" y="' + (cy - 15) + '" width="' + b + '" height="30" rx="15" fill="#fff" stroke="' + tok('--color-line') + '"></rect>' +
-          '<text x="' + x + '" y="' + (cy + 5) + '" text-anchor="middle" font-size="15" font-weight="700" fill="' + tok('--color-navy') + '">' + tall(ekte[i]) + '</text></g>';
+        return '<g><rect x="' + (x - b / 2) + '" y="' + (cy - 15) + '" width="' + b + '" height="30" rx="15" fill="var(--surface-raised)" stroke="' + tok('--color-line') + '"></rect>' +
+          '<text x="' + x + '" y="' + (cy + 5) + '" text-anchor="middle" style="font-size:var(--text-base);font-weight:var(--font-weight-bold)" fill="' + tok('--color-navy') + '">' + tall(ekte[i]) + '</text></g>';
       }).join('');
       return flater + skiller + (utenMerker ? '' : merker);
     }

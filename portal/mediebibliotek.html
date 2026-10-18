@@ -7,17 +7,18 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Mediebibliotek — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
   .verktoy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-24); }
   .verktoy .sok { position: relative; flex: 1 1 260px; max-width: 360px; }
   .verktoy .sok .icon-lucide { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-faint); }
-  .verktoy .sok .form-input { padding-left: 40px; }
+  .verktoy .sok .form-input { padding-left: var(--control-icon-padding); }
   .medie-lay { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-24); align-items: start; margin-top: var(--space-24); }
   .medie-lay--uten { grid-template-columns: minmax(0, 1fr); }
   .rutenett { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-16); }
-  .opplast { display: grid; place-items: center; align-content: center; gap: var(--space-8); min-height: 220px; padding: var(--space-16); border: 2px dashed var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); color: var(--text-muted); text-align: center; font-size: var(--text-sm); cursor: pointer; }
+  .opplast { display: grid; place-items: center; align-content: center; gap: var(--space-8); min-height: 220px; padding: var(--space-16); border: 2px dashed var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); color: var(--text-muted); text-align: center; cursor: pointer; font: var(--type-body); }
   .opplast:hover, .opplast.er-over { border-color: var(--color-navy); color: var(--text-heading); }
   .opplast b { color: var(--text-heading); }
   .medie { display: flex; flex-direction: column; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-12); background: var(--surface-raised); overflow: hidden; text-align: left; font: inherit; cursor: pointer; }
@@ -26,15 +27,15 @@
   .medie:focus-visible { outline: none; box-shadow: var(--focus-ring-soft); }
   .medie__bilde { position: relative; display: grid; place-items: center; aspect-ratio: 1; color: var(--color-white); }
   .medie__body { padding: var(--space-8) var(--space-12) var(--space-12); }
-  .medie__navn { font-size: var(--text-sm); font-weight: var(--font-weight-medium); color: var(--text-heading); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
-  .medie__meta { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--text-muted); }
+  .medie__navn { color: var(--text-heading); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; font: var(--type-label); }
+  .medie__meta { margin-top: var(--space-2); color: var(--text-muted); font: var(--type-support); }
   .kanalikoner { display: flex; gap: var(--space-6); margin-top: var(--space-8); }
   .kanalikoner img { width: 18px; height: 18px; }
   .detalj { position: sticky; top: var(--space-24); }
   .detalj[hidden] { display: none; }
   .medie__bilde[data-lys], .detalj__bilde[data-lys] { color: var(--text-heading); }
   .detalj__bilde { display: grid; place-items: center; aspect-ratio: 1; border-radius: var(--radius-8); color: var(--color-white); }
-  .detalj__navn { margin: var(--space-16) 0 0; font-size: var(--text-lg); color: var(--text-heading); }
+  .detalj__navn { margin: var(--space-16) 0 0; color: var(--text-heading); font: var(--type-section); }
   .detalj dl { margin: var(--space-12) 0 0; }
   .passer { display: flex; flex-direction: column; gap: var(--space-6); }
   .passer span { display: inline-flex; align-items: center; gap: var(--space-8); font-size: var(--text-sm); }
@@ -67,9 +68,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html" aria-current="page"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -85,7 +84,7 @@
     <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
 
     <div class="wrap">
-      <div class="detalj__topp" style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-12);flex-wrap:wrap">
+      <div class="detalj__topp" style="display:flex;align-items:center;justify-content:space-between;gap: var(--space-12);flex-wrap:wrap">
         <div>
           <h1 class="text-h2">Mediebibliotek</h1>
           <p class="lede">Bilder, videoer og logoer dere kan bruke i kampanjer. Vi viser hvilke kanaler hvert format passer for.</p>
@@ -138,7 +137,7 @@ function tegnRutenett() {
   var html = '<button type="button" class="opplast" id="opplast"><span class="icon-lucide icon-lucide--upload icon-lucide--lg" aria-hidden="true"></span><b>Last opp filer</b><span>Dra filer hit, eller klikk for å velge</span></button>';
   html += liste.map(function (m) {
     return '<button type="button" class="medie" data-id="' + m.id + '" aria-pressed="' + (valgt === m.id) + '">' +
-      '<span class="medie__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background:' + m.farge + '"><span class="tag tag--overlay">' + m.type + '</span><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></span>' +
+      '<span class="medie__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + m.farge + '"><span class="tag tag--overlay">' + m.type + '</span><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></span>' +
       '<span class="medie__body"><span class="medie__navn">' + m.navn + '</span><span class="medie__meta" style="display:block">' + m.format + '</span>' +
       '<span class="kanalikoner">' + kanalIkoner(m) + '</span></span></button>';
   }).join('');
@@ -153,25 +152,25 @@ function tegnDetalj() {
   d.hidden = false; lay.classList.remove('medie-lay--uten');
   var p = passer[m.format] || [];
   d.innerHTML =
-    '<div style="display:flex;justify-content:flex-end;margin:-4px -4px var(--space-8)"><button type="button" class="btn btn--ghost" data-lukk-detalj aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>' +
-    '<div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background:' + m.farge + '"><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></div>' +
+    '<div style="display:flex;justify-content:flex-end;margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-8)"><button type="button" class="btn btn--ghost" data-lukk-detalj aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>' +
+    '<div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + m.farge + '"><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></div>' +
     '<h2 class="detalj__navn">' + m.navn + '</h2>' +
     '<dl>' +
       '<dl class="summary-row"><dt>Type</dt><dd>' + m.type + '</dd></dl>' +
       '<dl class="summary-row"><dt>Format</dt><dd>' + m.format + (m.format === 'SVG' ? '' : ' px') + '</dd></dl>' +
       '<dl class="summary-row"><dt>Lastet opp</dt><dd>' + m.dato + '</dd></dl>' +
     '</dl>' +
-    '<div class="drawer__section" style="margin-top:var(--space-16);padding-top:var(--space-16)"><span class="summary-panel__label">Passer for</span><div class="passer" style="margin-top:var(--space-8)">' +
-      (p.length ? p.map(function (k) { return '<span><img src="../assets/kanaler/' + K[k][1] + '" alt="">' + K[k][0] + '</span>'; }).join('') : '<span style="color:var(--text-muted)">Brukes på kampanjesider og bannere</span>') +
+    '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><span class="summary-panel__label">Passer for</span><div class="passer" style="margin-top: var(--space-8)">' +
+      (p.length ? p.map(function (k) { return '<span><img src="../assets/kanaler/' + K[k][1] + '" alt="">' + K[k][0] + '</span>'; }).join('') : '<span style="color: var(--text-muted)">Brukes på kampanjesider og bannere</span>') +
     '</div></div>' +
-    '<div class="drawer__section" style="margin-top:var(--space-16);padding-top:var(--space-16)"><span class="summary-panel__label">Brukt i</span><div class="brukt" style="margin-top:var(--space-8)">' +
-      (m.brukt.length ? m.brukt.map(function (b) { return '<a href="' + b[1] + '">' + b[0] + '</a>'; }).join('') : '<span style="font-size:var(--text-sm);color:var(--text-muted)">Ikke brukt ennå</span>') +
+    '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><span class="summary-panel__label">Brukt i</span><div class="brukt" style="margin-top: var(--space-8)">' +
+      (m.brukt.length ? m.brukt.map(function (b) { return '<a href="' + b[1] + '">' + b[0] + '</a>'; }).join('') : '<span style="font-size: var(--text-sm);color: var(--text-muted)">Ikke brukt ennå</span>') +
     '</div></div>' +
-    '<div class="drawer__section" style="margin-top:var(--space-16);padding-top:var(--space-16)"><label class="summary-panel__label" for="ny-tagg">Tagger</label>' +
-      '<div class="tagger" style="margin-top:var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '">×</button></span>'; }).join('') + '</div>' +
-      '<input class="form-input" id="ny-tagg" placeholder="Legg til tagg og trykk Enter" style="margin-top:var(--space-8)"></div>' +
+    '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><label class="summary-panel__label" for="ny-tagg">Tagger</label>' +
+      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '">×</button></span>'; }).join('') + '</div>' +
+      '<input class="form-input" id="ny-tagg" placeholder="Legg til tagg og trykk Enter" style="margin-top: var(--space-8)"></div>' +
     '<div class="detalj__knapper"><button class="btn btn--secondary" type="button"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned</button>' +
-    '<button class="btn btn--ghost" type="button" data-slett style="color:var(--text-danger-strong)"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span> Slett</button></div>';
+    '<button class="btn btn--ghost" type="button" data-slett style="color: var(--text-danger-strong)"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span> Slett</button></div>';
 }
 
 document.addEventListener('click', function (e) {
@@ -212,7 +211,7 @@ document.getElementById('fil').addEventListener('change', function (e) {
 tegnRutenett(); tegnDetalj();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

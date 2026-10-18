@@ -7,7 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Connect — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
 
@@ -83,7 +84,7 @@
     transform: translateY(-50%);
     color: var(--text-faint);
   }
-  .search-wrap .form-input { padding-left: 40px; border-radius: var(--radius-full); }
+  .search-wrap .form-input { padding-left: var(--control-icon-padding); border-radius: var(--radius-full); }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
   .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-sm); }
   .nullstill {
@@ -109,9 +110,16 @@
   }
 
   .table-card { padding: 0; overflow-x: auto; }
+  .table__pil { width: 1%; color: var(--text-faint); }
+  tr[tabindex]:hover .table__pil, tr[tabindex]:focus-visible .table__pil { color: var(--text-heading); }
+  .table__pil-tekst { display: none; }
+  @container (max-width: 720px) {
+    .table td.table__pil { justify-content: flex-end; gap: var(--space-4); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+    .table__pil-tekst { display: inline; }
+  }
 
   .pagination-wrap { margin-top: var(--space-24); }
-  .connect__ekstra { margin: var(--space-24) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .connect__ekstra { margin: var(--space-24) 0 0; color: var(--text-muted); font: var(--type-body); }
   .mangler { color: var(--text-faint); }
   .table__id { font-family: var(--font-mono); color: var(--text-muted); }
   .table td[data-label="Status"] { white-space: nowrap; }
@@ -123,7 +131,6 @@
     .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
   }
-  .table td[data-label="Besøk"] { white-space: nowrap; }
   .verktoy .form-select { font-size: var(--text-base); }
   .pagination-wrap .pagination__meta { color: var(--text-body); font-size: var(--text-base); }
   .pagination-wrap .pagination__meta b { color: var(--text-heading); }
@@ -154,9 +161,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -175,9 +180,8 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Connect</h1>
-          <p class="lede">Stillingene deres hos Frantz. Finn stillingen og bestill en kampanje, eller se hvor mange som har besøkt annonsen.</p>
+          <p class="lede">Stillingene deres hos Frantz. Finn stillingen og opprett en kampanje. Dere bestiller først på siste steg.</p>
         </div>
-        <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
       </div>
 
       <div class="verktoy" role="search">
@@ -192,7 +196,6 @@
               <option value="">Alle statuser</option>
               <option value="Uten kampanje">Uten kampanje</option>
               <option value="Aktiv">Aktiv</option>
-              <option value="Pause">Pause</option>
               <option value="Avsluttet">Avsluttet</option>
             </select>
           </span>
@@ -202,7 +205,6 @@
             <select class="form-select" id="sortering">
               <option value="nyeste">Nyeste først</option>
               <option value="eldste">Eldste først</option>
-              <option value="besok">Flest besøk</option>
               <option value="tittel">Stilling A–Å</option>
               <option value="arbeidsgiver">Arbeidsgiver A–Å</option>
             </select>
@@ -213,7 +215,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanje</th><th>Deres prosjekt</th><th>Besøk</th><th>Kampanjeperiode</th><th>Status</th></tr>
+            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanje</th><th>Deres prosjekt</th><th>Kampanjeperiode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader"></tbody>
         </table>
@@ -241,20 +243,23 @@
 (function () {
   // Rows come from the shared ConnectID list, so they match the ConnectID page and Ny kampanje
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var tall = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); };
   var mangler = function (t) { return '<span class="mangler">' + t + '</span>'; };
   document.getElementById('rader').innerHTML = FZ_CONNECT.alle().map(function (c) {
     var k = c.kampanje;
-    return '<tr tabindex="0" data-href="connect-detalj.html?id=' + c.id + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-besok="' + (c.besok || 0) + '" data-start="' + c.start + '">' +
+    // A stilling with a campaign opens that campaign, or the report when it has ended.
+    // One without a campaign opens the order form, already filled from the ConnectID.
+    var maal = k ? k.side : 'ny-kampanje.html?connect=' + c.id;
+    var pil = !k ? 'Opprett kampanje' : (c.status === 'Avsluttet' ? 'Åpne rapporten' : 'Åpne kampanjen');
+    return '<tr tabindex="0" data-href="' + maal + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-start="' + c.start + '">' +
       '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span><span class="table__meta">ConnectID <span class="table__id">' + c.id + '</span></span></span></td>' +
       '<td data-label="Arbeidsgiver">' + esc(c.arbeidsgiver) + '</td>' +
-      '<td data-label="Kampanje">' + (k ? '<a class="table__lenke" href="' + k.side + '">#' + k.id + '</a>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Bestill</a>') + '</td>' +
+      '<td data-label="Kampanje">' + (k ? '<a class="table__lenke" href="' + k.side + '">#' + k.id + '</a>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
       '<td data-label="Deres prosjekt">' + (c.prosjekt ? esc(c.prosjekt) : mangler('Ikke satt')) + '</td>' +
-      '<td data-label="Besøk">' + (k ? '<span class="celle"><span class="table__title">' + tall(c.besok || 0) + '</span><span class="table__meta">Siste: ' + esc(c.sisteBesok) + '</span></span>' : mangler('Ingen ennå')) + '</td>' +
       '<td data-label="Kampanjeperiode">' + (k ? k.fra + ' – ' + k.til : mangler('—')) + '</td>' +
-      '<td data-label="Status"><span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span></td></tr>';
+      '<td data-label="Status"><span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span></td>' +
+      '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + pil + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
-  // A click on the row opens the ConnectID. Links and buttons in the row keep their own target.
+  // A click on the row opens the campaign, the report, or the prefilled order. Links and buttons in the row keep their own target.
   document.getElementById('rader').addEventListener('click', function (e) {
     if (e.target.closest('a, button')) return;
     var tr = e.target.closest('tr[data-href]'); if (tr) location.href = tr.dataset.href;
@@ -271,7 +276,6 @@
     var sammenlign = {
       nyeste: function (a, b) { return b.dataset.start.localeCompare(a.dataset.start); },
       eldste: function (a, b) { return a.dataset.start.localeCompare(b.dataset.start); },
-      besok: function (a, b) { return Number(b.dataset.besok) - Number(a.dataset.besok); },
       tittel: function (a, b) { return a.dataset.tittel.localeCompare(b.dataset.tittel, 'nb'); },
       arbeidsgiver: function (a, b) { return a.dataset.arbeidsgiver.localeCompare(b.dataset.arbeidsgiver, 'nb') || a.dataset.tittel.localeCompare(b.dataset.tittel, 'nb'); }
     }[sortering.value];
@@ -304,7 +308,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

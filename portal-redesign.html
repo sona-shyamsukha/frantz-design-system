@@ -7,10 +7,10 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Portal redesign</title>
-<link rel="stylesheet" href="frantz-ds.css?v=65">
-<link rel="stylesheet" href="styles/docs.css?v=11">
+<link rel="stylesheet" href="frantz-ds.css?v=73">
+<link rel="stylesheet" href="styles/docs.css?v=73">
 <style>
-  .pr-main { padding-top: 52px; }
+  .pr-main { padding-top: var(--docs-topbar-height); }
   .pr-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -32,6 +32,7 @@
   }
   .pr-card__thumb .icon-lucide { width: 28px; height: 28px; }
   .pr-card .card__footer { margin-top: var(--space-20); }
+  .pr-grid--flyt .btn { min-height: 44px; max-width: 100%; white-space: normal; line-height: var(--leading-snug); }
 </style>
 </head>
 <body class="ds-docs">
@@ -57,6 +58,24 @@
     <h1 class="ds-title" style="font-size: var(--text-xl);">Kampanjeportalen for Vokser AS</h1>
     <p class="ds-desc" style="max-width: 640px;">Redesign av Frantz' kampanjebygger, bygget med tokenene og komponentene i dette biblioteket i stedet for prototypens egne stiler. Skjermene under viser hvordan de virkelige sidene vil se ut — klikk inn på hver for å se den fungerende siden. Se <a class="link" href="losninger.html">Løsninger</a> for demoen steg for steg.</p>
 
+    <h2 class="ds-title" style="font-size: var(--text-lg); margin-top: var(--space-32);">To brukerflyter</h2>
+    <p class="ds-desc" style="max-width: 640px;">Samme sider, to slags kunder. Åpne en flyt, og klikk deg rundt. Bryteren «Demo: … · Bytt» øverst på hver side bytter mellom dem.</p>
+    <div class="pr-grid pr-grid--flyt">
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--user-plus" aria-hidden="true"></span></div>
+        <h3 class="card__title">Ny kunde</h3>
+        <p class="card__hint">Har aldri brukt Frantz. Ingen kampanjer ennå og ingen Connect. Sidene forklarer hva en kampanje er, og Ny kampanje har to måter å starte på.</p>
+        <div class="card__footer"><a class="btn btn--primary btn--sm" href="portal/dashboard.html?bruker=ny">Åpne flyten for ny kunde</a></div>
+      </div>
+      <div class="card card--betjen pr-card">
+        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span></div>
+        <h3 class="card__title">Eksisterende kunde</h3>
+        <p class="card__hint">Kari Hansen i Vokser AS. Har aktive og avsluttede kampanjer, kladder og Connect. Ny kampanje har tre måter å starte på, også «Hent fra Connect».</p>
+        <div class="card__footer"><a class="btn btn--primary btn--sm" href="portal/dashboard.html?bruker=eksisterende">Åpne flyten for eksisterende kunde</a></div>
+      </div>
+    </div>
+
+    <h2 class="ds-title" style="font-size: var(--text-lg); margin-top: var(--space-32);">Alle sidene</h2>
     <div class="pr-grid">
       <div class="card card--betjen pr-card">
         <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true" style="transform:scaleX(-1)"></span></div>
@@ -82,14 +101,14 @@
       <div class="card card--betjen pr-card">
         <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span></div>
         <h3 class="card__title">Hjem</h3>
-        <p class="card__hint">Nøkkeltall, kampanjer som trenger oppmerksomhet, og status på aktive kampanjer.</p>
+        <p class="card__hint">Nøkkeltall, kampanjer som trenger oppmerksomhet, og status på aktive kampanjer. «Ny kampanje» ligger øverst til høyre på alle sider.</p>
         <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/dashboard.html">Åpne siden</a></div>
       </div>
 
       <div class="card card--betjen pr-card">
         <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span></div>
         <h3 class="card__title">Kampanjer</h3>
-        <p class="card__hint">Alle kampanjer, med søk, filter og «Mine kampanjer».</p>
+        <p class="card__hint">Alle kampanjer, med søk, filter og «Mine kampanjer». Hver rad viser resultatet, og rapporten ligger i kampanjen. Erstatter Rapporter.</p>
         <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/campaigns.html">Åpne siden</a></div>
       </div>
 
@@ -103,15 +122,15 @@
       <div class="card card--betjen pr-card">
         <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span></div>
         <h3 class="card__title">Ny kampanje</h3>
-        <p class="card__hint">Bygget på brukerintervjuene: lim inn lenke, PDF eller tekst, og Frantz fyller ut. Dere sjekker det som er funnet og fyller bare ut det som mangler. Bare budsjettet må være med. Lagres av seg selv.</p>
+        <p class="card__hint">Tre likestilte måter å starte på: hent fra Connect, lim inn lenke eller tekst, eller fyll ut selv. Pakker har fast periode og viser hva som er med. Dere sjekker det som er funnet og fyller bare ut det som mangler. Bare budsjettet må være med. Lagres av seg selv.</p>
         <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje.html">Åpne siden</a></div>
       </div>
 
       <div class="card card--betjen pr-card">
         <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span></div>
-        <h3 class="card__title">Rapporter</h3>
-        <p class="card__hint">Avsluttede kampanjer, og den enkelte rapporten med endelige tall sammenlignet med det som er normalt.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/rapporter.html">Åpne siden</a></div>
+        <h3 class="card__title">Rapport</h3>
+        <p class="card__hint">Rapporten for en avsluttet kampanje, med endelige tall sammenlignet med det som er normalt. Åpnes fra Kampanjer. Den gamle Rapporter-siden er tatt ut av menyen.</p>
+        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/rapport.html">Åpne siden</a></div>
       </div>
 
       <div class="card card--betjen pr-card">

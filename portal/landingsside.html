@@ -7,7 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rediger kampanjesiden — Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
 
@@ -62,7 +63,7 @@
   /* Høyre kolonne: forhåndsvisning og knapper */
   .lp-side { position: sticky; top: var(--space-24); display: grid; gap: var(--space-12); min-width: 0; }
   .lp-side__topp { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8); }
-  .lp-side__tittel { font-size: var(--text-lg); }
+  .lp-side__tittel { font: var(--type-section); }
   .lp-ramme { min-width: 0; border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); overflow: hidden; }
   .lp-ramme__adresse { display: flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border-default); background: var(--surface-raised); color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); overflow-wrap: anywhere; }
   .lp-ramme__adresse::before { content: ""; flex: none; width: 8px; height: 8px; margin-right: var(--space-24); border-radius: var(--radius-full); background: var(--border-strong); box-shadow: 12px 0 0 var(--border-strong), 24px 0 0 var(--border-strong); }
@@ -157,9 +158,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -230,7 +229,7 @@
               <p class="card__hint">Velg et bilde fra mediebiblioteket, eller last opp et nytt.</p>
               <div class="bildevalg" id="bildevalg" role="group" aria-labelledby="t-bilde"></div>
               <input type="file" id="bildefil" accept="image/png,image/jpeg,image/webp" aria-label="Velg bilde" hidden>
-              <p class="form-hint" style="margin-top:var(--space-8)">JPG eller PNG, minst 1200 px bred. Nye bilder lagres også i mediebiblioteket.</p>
+              <p class="form-hint" style="margin-top: var(--space-8)">JPG eller PNG, minst 1200 px bred. Nye bilder lagres også i mediebiblioteket.</p>
             </section>
 
             <section class="card card--betjen" aria-labelledby="t-fakta">
@@ -686,7 +685,7 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

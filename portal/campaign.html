@@ -7,16 +7,17 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
-  .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-body); }
+  .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-body); font: var(--type-support); }
   .ad-card__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-12); }
   .ad-card__knapper .ad-card__action { flex: 1; margin-top: 0; width: auto; }
   .ad-card__knapper .btn--ghost { flex: none; padding-inline: var(--space-12); border: 1px solid var(--border-default); }
   .oppdatert { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
   .nettsted-tabell .meter { max-width: 220px; margin-top: var(--space-6); }
-  .forklar { margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-muted); }
+  .forklar { margin-top: var(--space-4); color: var(--text-muted); font: var(--type-support); }
   .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-faint); list-style: none; }
   .forklar summary::-webkit-details-marker { display: none; }
   .forklar p { margin: var(--space-4) 0 0; max-width: 46ch; }
@@ -25,7 +26,7 @@
   .prospekt td[data-label="Registrert"], .prospekt td[data-label="Ønsker"], .prospekt td[data-label="Håndtert"] { overflow-wrap: normal; white-space: nowrap; }
   .prospekt tr.er-handtert td { color: var(--text-faint); }
   .prospekt-teller { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-12); }
-  .samtykke { display: grid; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); font-size: var(--text-sm); }
+  .samtykke { display: grid; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); font: var(--type-body); }
   .samtykke p { margin: 0; color: var(--text-body); }
   .samtykke .btn { justify-self: start; }
   .epost { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: end; margin-bottom: var(--space-16); }
@@ -75,9 +76,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -337,7 +336,7 @@
                 <span>frantz.no/k/129041</span>
                 <button class="btn btn--ghost" type="button" data-kopier="https://frantz.no/k/129041">Kopier</button>
               </div>
-              <a class="link link--xs" href="landingsside.html" style="display:inline-flex;align-items:center;gap:var(--space-4);margin-top:var(--space-8)"><span class="icon-lucide icon-lucide--pencil icon-lucide--sm" aria-hidden="true"></span>Rediger kampanjesiden</a>
+              <a class="link link--xs" href="landingsside.html" style="display:inline-flex;align-items:center;gap: var(--space-4);margin-top: var(--space-8)"><span class="icon-lucide icon-lucide--pencil icon-lucide--sm" aria-hidden="true"></span>Rediger kampanjesiden</a>
             </div>
             <div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-connect="777689" data-status="aktiv" data-tid="i dag kl. 09.14"></div>
             <div class="summary-panel__block">
@@ -391,7 +390,7 @@
   ] });
 })();
 </script>
-<script src="../components/js/funnel.js?v=15"></script>
+<script src="../components/js/funnel.js?v=70"></script>
 
 <script>
 tegnTrakt(document.getElementById('resultat-trakt'), {
@@ -531,7 +530,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/interessenter.js?v=1"></script>
 <script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

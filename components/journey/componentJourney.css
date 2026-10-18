@@ -56,15 +56,14 @@
 
 .journey__body h4 {
   margin: var(--space-4) 0 0;
-  font-size: var(--text-base);
   color: var(--text-heading);
+  font: var(--type-label);
 }
 
 .journey__body p {
   margin: var(--space-4) 0 0;
-  font-size: var(--text-sm);
   color: var(--text-body);
-  line-height: 1.5;
+  font: var(--type-body);
 }
 
 .journey__by {
@@ -72,16 +71,16 @@
   align-items: center;
   gap: var(--space-8);
   margin: var(--space-16) 0 0;
-  font-size: var(--text-xs);
   color: var(--text-muted);
+  font: var(--type-support);
 }
 
 .journey__head {
   display: flex;
   align-items: center;
   gap: var(--space-8);
-  font-size: var(--text-xs);
   color: var(--text-muted);
+  font: var(--type-support);
 }
 
 /* Planned: dashed dot and muted text. No opacity, so the text keeps AA contrast. */

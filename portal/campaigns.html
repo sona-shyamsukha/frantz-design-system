@@ -7,7 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
 
@@ -35,8 +36,20 @@
     transform: translateY(-50%);
     color: var(--text-faint);
   }
-  .search-wrap .form-input { padding-left: 40px; border-radius: var(--radius-full); }
+  .search-wrap .form-input { padding-left: var(--control-icon-padding); border-radius: var(--radius-full); }
 
+  .table .tom-kampanje__celle { padding: 0; }
+  .table .tom-kampanje__celle .tom-liste { display: flex; flex-direction: column; align-items: center; gap: var(--space-12); max-width: 580px; margin: 0 auto; padding: var(--space-64) var(--space-24); text-align: center; }
+  .tom-liste p { margin: 0; color: var(--text-muted); line-height: var(--leading-normal); }
+  .tom-liste h2 { margin: 0; }
+  .tom-liste__ikon { display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: var(--space-4); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-subtle); color: var(--text-heading); }
+  .tom-liste .btn { margin-top: var(--space-8); white-space: normal; line-height: var(--leading-snug); }
+  @container (max-width: 720px) {
+    .table .tom-kampanje__rad { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; }
+    .table .tom-kampanje__celle { display: block; }
+    .table .tom-kampanje__celle::before { display: none; }
+    .table .tom-kampanje__celle .tom-liste { padding: calc(var(--space-32) + var(--space-8)) var(--space-24); }
+  }
   .verktoy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
   .verktoy .search-wrap { flex: 1 1 280px; width: auto; min-width: 0; }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
@@ -104,9 +117,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -125,13 +136,11 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Kampanjer</h1>
-          <p class="lede" id="liste-lede">Kampanjene du har bestilt. Velg en kampanje for å se detaljer og resultater.</p>
-        </div>
-        <div class="liste__verktoy">
-          <button class="btn btn--primary" type="button" onclick="location.href='ny-kampanje.html'"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+          <p class="lede" id="liste-lede">Kampanjene du har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.</p>
         </div>
       </div>
 
+      <div data-vis="eksisterende">
       <div class="verktoy" role="search">
         <div class="search-wrap">
           <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
@@ -167,64 +176,77 @@
       </div>
 
       <div class="aktive" id="aktive" aria-live="polite" hidden></div>
+      </div>
 
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Kampanjenavn / ref.</th><th>Status</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Kampanje</th><th>Kampanjenavn / ref.</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
-          <tbody id="rader">
+          <tbody id="rader" data-vis="eksisterende">
             <tr tabindex="0" data-status="Under arbeid" data-bestiller="Kari Hansen" data-kanaler="Meta|Nettsteder" data-tittel="Helsefagarbeider Tromsø" data-start="2026-10-05" data-budsjett="28000" onclick="location.href='kampanje-under-arbeid.html'">
               <td data-label="Kampanje"><span class="table__title">Helsefagarbeider Tromsø</span><span class="table__meta">Tromsø · #129072 · Kari Hansen</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 40</td>
-              <td data-label="Status"><span class="badge badge--setup">Under arbeid</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">05.10 – 02.11.2026</td>
               <td data-label="Budsjett">kr 28 000</td>
+              <td data-label="Status"><span class="badge badge--setup">Under arbeid</span></td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Bestilt" data-bestiller="Martin Berg" data-kanaler="" data-tittel="Barnehagelærer Drammen" data-start="2026-10-07" data-budsjett="32000" onclick="location.href='kampanje-bestilt.html'">
               <td data-label="Kampanje"><span class="table__title">Barnehagelærer Drammen</span><span class="table__meta">Drammen · #129074 · Martin Berg</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 41</td>
-              <td data-label="Status"><span class="badge badge--ordered">Bestilt</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Frantz anbefaler</td>
               <td data-label="Periode">07.10 – 04.11.2026</td>
               <td data-label="Budsjett">kr 32 000</td>
+              <td data-label="Status"><span class="badge badge--ordered">Bestilt</span></td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Aktiv" data-bestiller="Kari Hansen" data-kanaler="Meta|Nettsteder" data-tittel="Sykepleier Oslo" data-start="2026-09-03" data-budsjett="48200" onclick="location.href='campaign.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Kari Hansen</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 31</td>
-              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">03.09 – 03.10.2026</td>
               <td data-label="Budsjett">kr 48 200</td>
+              <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Kladd" data-bestiller="Kari Hansen" data-kanaler="" data-tittel="Sykepleier Kristiansand" data-start="2026-10-31" data-budsjett="0" onclick="location.href='ny-kampanje.html?kladd=129070'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Kristiansand</span><span class="table__meta">Kristiansand · #129070 · Kari Hansen</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Oppdrag 22 52</td>
-              <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>—</td>
               <td data-label="Periode">Frist 31.10.2026</td>
               <td data-label="Budsjett"><span class="table__tom">Ikke valgt</span></td>
+              <td data-label="Status"><span class="badge badge--draft">Kladd</span></td>
               <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
             <tr tabindex="0" data-status="Avsluttet" data-bestiller="Kari Hansen" data-kanaler="Meta|Nettsteder" data-tittel="Sykepleier Bodø" data-start="2026-07-02" data-budsjett="31200" onclick="location.href='rapport.html'">
               <td data-label="Kampanje"><span class="table__title">Sykepleier Bodø</span><span class="table__meta">Bodø · #128984 · Kari Hansen</span></td>
               <td class="table__valgfri" data-label="Kampanjenavn / ref.">Sommervikar 2026</td>
-              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
               <td class="table__valgfri" data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
               <td data-label="Periode">02.07 – 30.07.2026</td>
               <td data-label="Budsjett">kr 31 200</td>
-              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
+              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne rapporten</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
+            </tr>
+          </tbody>
+          <tbody data-vis="ny">
+            <tr class="tom-kampanje__rad">
+              <td class="tom-kampanje__celle" colspan="7">
+                <div class="tom-liste">
+                  <span class="tom-liste__ikon" aria-hidden="true"><span class="icon-lucide icon-lucide--list"></span></span>
+                  <h2 class="card__title">Ingen kampanjer ennå</h2>
+                  <p>Opprett deres første kampanje for å annonsere en stilling. Her følger dere status, resultater og rapporter, både underveis og etterpå.</p>
+                  <a class="btn btn--primary" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
-        <p class="table__empty" id="ingen-treff" hidden>Ingen kampanjer passer. Prøv et annet søk, eller nullstill filtrene.</p>
+        <p class="table__empty" id="ingen-treff" data-vis="eksisterende" hidden>Ingen kampanjer passer. Prøv et annet søk, eller nullstill filtrene.</p>
       </div>
 
-      <div class="pagination-wrap">
+      <div class="pagination-wrap" data-vis="eksisterende">
         <nav class="pagination" aria-label="Paginering">
           <span class="pagination__meta" id="vist-antall">Viser 1–5 av 5 kampanjer</span>
           <div class="pagination__pages">
@@ -281,8 +303,8 @@
     document.querySelectorAll('input[data-hvem]').forEach(function (x) { x.checked = x.dataset.hvem === valgt.hvem; });
     document.querySelectorAll('input[data-status]').forEach(function (x) { x.checked = valgt.status.indexOf(x.dataset.status) !== -1; });
     $('liste-lede').textContent = valgt.hvem === 'alle'
-      ? 'Alle kampanjene på Vokser AS. Velg en kampanje for å se detaljer og resultater.'
-      : 'Kampanjene du har bestilt. Velg en kampanje for å se detaljer og resultater.';
+      ? 'Alle kampanjene på Vokser AS. Velg en kampanje for å se resultater og laste ned rapporten.'
+      : 'Kampanjene du har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.';
     tegnAktive();
   }
   // The default view is «Mine kampanjer». «Alle på Vokser AS» is a filter and shows as a chip.
@@ -338,7 +360,7 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

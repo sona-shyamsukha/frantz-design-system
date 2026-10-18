@@ -10,6 +10,9 @@
     { ikon: 'circle-check', tittel: 'Rapporten for Sykepleier Bodø er klar', tid: '31.07.2026', href: 'rapport.html', ulest: false }
   ];
 
+  // A new customer has ordered nothing yet, so there is nothing to tell them about
+  if (window.FZ_BRUKER && FZ_BRUKER.ny) varsler = [];
+
   function lagDrawer(id, tittel, innhold) {
     var d = document.createElement('aside');
     d.className = 'drawer';
@@ -27,6 +30,7 @@
   }
 
   var varselHtml = function () {
+    if (!varsler.length) return '<p style="margin:0;color:var(--text-muted)">Ingen varsler ennå. Her kommer nye interessenter, annonser som venter på deg og svar fra Frantz.</p>';
     return '<div style="display:flex;justify-content:flex-end;margin-bottom:var(--space-8)">' +
       '<button type="button" class="btn btn--ghost" data-alle-lest><span class="icon-lucide icon-lucide--check-check" aria-hidden="true"></span> Merk alle som lest</button></div>' +
       varsler.map(function (v) {
@@ -130,6 +134,28 @@
     topbar.insertBefore(bjelle, topbar.firstChild);
   }
   bjelle.addEventListener('click', function () { apne(dVarsler, bjelle); });
+
+  // «Ny kampanje» is the main action, so it sits in the same place on every page: top right,
+  // left of the bell. On a phone it sits in the top row, left of the menu button.
+  // Not on Ny kampanje itself, where it would only start the form over.
+  if (!/ny-kampanje\.html$/.test(location.pathname)) {
+    var ny = document.createElement('a');
+    ny.className = 'btn btn--primary topbar__ny';
+    ny.href = 'ny-kampanje.html';
+    ny.innerHTML = '<span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje';
+    topbar.insertBefore(ny, bjelle);
+    var mobil = document.querySelector('.mobiltopp');
+    var burger = mobil && mobil.querySelector('.burger');
+    if (burger) {
+      var nyMobil = ny.cloneNode(true);
+      nyMobil.classList.add('btn--sm');
+      var gruppe = document.createElement('span');
+      gruppe.className = 'mobiltopp__hoyre';
+      burger.parentNode.insertBefore(gruppe, burger);
+      gruppe.appendChild(nyMobil);
+      gruppe.appendChild(burger);
+    }
+  }
 
   var apen = null, fra = null;
   function apne(d, kilde) {

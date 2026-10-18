@@ -7,7 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=65">
+<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   body { margin: 0; }
@@ -35,8 +36,8 @@
   /* Result */
   .resultat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-24); margin-top: var(--space-24); }
   .res-kort { padding: var(--space-24); border-radius: var(--radius-16); background: var(--surface-subtle); }
-  .res-overskrift { margin: 0; color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
-  .res-stort { margin: var(--space-4) 0 0; color: var(--text-heading); font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--font-weight-bold); line-height: 1.1; }
+  .res-overskrift { margin: 0; color: var(--text-muted); font: var(--type-label); }
+  .res-stort { margin: var(--space-4) 0 0; color: var(--text-heading); font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--font-weight-bold); line-height: var(--leading-display); }
   .res-tekst { margin: var(--space-8) 0 0; color: var(--text-body); font-size: var(--text-base); line-height: var(--leading-normal); }
   .res-tekst b { color: var(--text-heading); }
 
@@ -67,10 +68,10 @@
   #kart.leaflet-container { background: var(--color-data-100); }
   #kart .leaflet-land-pane svg { max-width: none !important; max-height: none !important; }
   #kart .leaflet-tile-pane { filter: grayscale(1) contrast(0.9) brightness(1.05); }
-  .kart-forklaring { display: flex; flex-wrap: wrap; gap: var(--space-16); padding: var(--space-12) var(--space-24); color: var(--text-muted); font-size: var(--text-xs); }
+  .kart-forklaring { display: flex; flex-wrap: wrap; gap: var(--space-16); padding: var(--space-12) var(--space-24); color: var(--text-muted); font: var(--type-support); }
   .kart-forklaring i { display: inline-block; width: 12px; height: 12px; margin-right: var(--space-6); border-radius: var(--radius-full); vertical-align: -2px; }
 
-  .kilde { margin-top: var(--space-16); color: var(--text-faint); font-size: var(--text-xs); }
+  .kilde { margin-top: var(--space-16); color: var(--text-faint); font: var(--type-support); }
   .neste { margin-top: var(--space-24); }
 
   @media (max-width: 1180px) {
@@ -108,9 +109,7 @@
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
       <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
-      <a class="nav__item" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</a>
       <a class="nav__item" href="kalkulator.html" aria-current="page"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
-      <a class="nav__item" href="rapporter.html"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span>Rapporter</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
@@ -195,7 +194,7 @@
       <p class="kilde">Anslag basert på Frantz-data fra de siste 90 dagene og tidligere kampanjer. Tall fra SSB for arbeidsmarkedet.</p>
 
       <div class="neste btn-row btn-row--stack">
-        <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Bestill kampanjen</a>
+        <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Opprett kampanje</a>
         <a class="btn btn--secondary" href="mailto:post@frantz.no?subject=Tilbud%20p%C3%A5%20kampanje" id="tilbud">Få dette som tilbud</a>
       </div>
     </div>
@@ -361,6 +360,6 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=8"></script>
+<script src="../components/js/konto.js?v=9"></script>
 </body>
 </html>

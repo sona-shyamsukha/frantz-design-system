@@ -24,15 +24,15 @@
 
 .timeline__date,
 .loggdato {
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-normal);
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 
 .timeline__body,
 .loggtekst {
-  font-size: var(--text-sm);
+  font: var(--type-body);
   color: var(--text-muted);
 }
 

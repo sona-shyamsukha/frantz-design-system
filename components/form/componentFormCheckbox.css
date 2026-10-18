@@ -46,7 +46,7 @@
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
   /* Centres the first line on the 20px box; longer labels wrap below it */
-  padding-top: calc((20px - 1lh) / 2);
+  padding-top: calc((var(--space-20) - 1lh) / 2);
   color: var(--text-body);
 }
 

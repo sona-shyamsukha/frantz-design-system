@@ -11,8 +11,8 @@
   gap: var(--space-12);
   padding: var(--space-12) 0;
   border-top: 1px solid var(--border-subtle);
-  font-size: var(--text-sm);
   color: var(--text-body);
+  font: var(--type-body);
 }
 
 .checklist li:first-child {
@@ -35,7 +35,7 @@
 .checklist b {
   display: block;
   color: var(--text-heading);
-  font-weight: var(--font-weight-medium);
+  font: var(--type-label);
 }
 
 .checklist small {

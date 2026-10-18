@@ -1,14 +1,14 @@
 /* =============================================================
    FRANTZ DESIGN SYSTEM — TYPOGRAPHY
-   Montserrat. Headings 700 + negative tracking (frantz.no).
+   Montserrat. Page titles 700; section headings and labels 600.
    ============================================================= */
 
 /* --- Display / heading sizes --- */
 .text-display { font-family: var(--font-heading); font-weight: var(--font-weight-bold); font-size: var(--text-4xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); color: var(--text-heading); }
 .text-h1      { font-family: var(--font-heading); font-weight: var(--font-weight-bold); font-size: var(--text-3xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); color: var(--text-heading); }
-.text-h2      { font-family: var(--font-heading); font-weight: var(--font-weight-bold); font-size: var(--text-2xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-heading); color: var(--text-heading); }
-.text-h3      { font-family: var(--font-heading); font-weight: var(--font-weight-bold); font-size: var(--text-xl);  line-height: var(--leading-snug);  color: var(--text-heading); }
-.text-h4      { font-family: var(--font-heading); font-weight: var(--font-weight-bold); font-size: var(--text-lg);  line-height: var(--leading-snug);  color: var(--text-heading); }
+.text-h2 { letter-spacing: var(--tracking-heading); color: var(--text-heading); font: var(--type-page); }
+.text-h3 { color: var(--text-heading); font: var(--type-section); }
+.text-h4 { color: var(--text-heading); font: var(--type-label); }
 
 /* --- Body sizes --- */
 .text-lg   { font-size: var(--text-lg);   line-height: var(--leading-normal); }
@@ -16,13 +16,13 @@
 .text-sm   { font-size: var(--text-sm);   line-height: var(--leading-normal); }
 .text-xs   { font-size: var(--text-xs);   line-height: var(--leading-normal); }
 
-small { font-size: var(--text-xs); }
+small { font: var(--type-support); }
 
 /* --- Label / eyebrow --- */
 .label {
   font-family: var(--font-body);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-muted);
@@ -31,10 +31,8 @@ small { font-size: var(--text-xs); }
 
 /* --- Lead paragraph --- */
 .text-lead {
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--leading-normal);
   color: var(--text-body);
+  font: var(--type-body);
 }
 
 /* --- Colour utilities --- */
@@ -57,6 +55,4 @@ small { font-size: var(--text-xs); }
 @media (max-width: 640px) {
   .text-display { font-size: var(--text-3xl); }
   .text-h1      { font-size: var(--text-2xl); }
-  .text-h2      { font-size: var(--text-xl);  }
-  .text-lead    { font-size: var(--text-lg);  }
 }

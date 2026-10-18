@@ -9,7 +9,7 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
-  line-height: 1;
+  line-height: var(--leading-none);
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
