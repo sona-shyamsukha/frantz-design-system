@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rapporter — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<link rel="stylesheet" href="../frantz-ds.css?v=76">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -57,7 +57,7 @@
       <div class="card card--betjen table-card">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Periode</th><th>Budsjett</th><th>Trykket «Søk» mot målet</th><th></th></tr>
+            <tr><th>Kampanje</th><th>Periode</th><th>Budsjett</th><th>Trykket «Søk» mot målet</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody>
             <tr tabindex="0" onclick="location.href='rapport.html'">
@@ -70,7 +70,8 @@
                   <span class="meter__value">88 av 80</span>
                 </div>
               </td>
-              <td data-label=""><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true" style="color: var(--text-faint)"></span></td>
+              <td data-label="Status"><span class="badge badge--ended">Avsluttet</span></td>
+              <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne rapporten</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
             </tr>
           </tbody>
         </table>

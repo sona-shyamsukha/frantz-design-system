@@ -98,6 +98,29 @@
   text-align: center;
 }
 
+/* The table owns its desktop frame. Its wrapper only measures available width,
+   so stacked rows never sit inside a second bordered card. */
+.card.table-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.table-card > .table {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-16);
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  background: var(--surface-raised);
+}
+
+/* Navigation lists finish with status, then the same disclosure treatment. */
+.table__pil { width: 1%; color: var(--text-faint); }
+.table__pil-tekst { display: none; }
+.table tr[tabindex]:is(:hover, :focus-visible) .table__pil { color: var(--text-heading); }
+
 /* Tabellen stables etter sin egen bredde. Med sidemenyen åpen blir innholdet
    smalt lenge før skjermen er smal. */
 .table-card,
@@ -106,6 +129,17 @@
 }
 
 @container (max-width: 720px) {
+  .table-card > .table {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .table tbody tr.tom-kampanje__rad {
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-16);
+    background: var(--surface-raised);
+  }
+
   .table thead {
     display: none;
   }
@@ -127,31 +161,42 @@
   }
 
   .table td {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-16);
-    padding: var(--space-8) 0;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: start;
+    gap: var(--space-12);
+    padding: var(--space-12) 0;
     border-bottom: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
   }
 
-  .table td:not(:last-child) {
+  .table tbody tr td:not(:last-child) {
     border-bottom: 1px solid var(--border-subtle);
   }
+
+  .table tbody tr td:last-child { border-bottom: 0; }
+  .table tbody tr:last-child { margin-bottom: 0; }
 
   .table td::before {
     flex: none;
     content: attr(data-label);
     color: var(--text-muted);
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
+    font-weight: var(--font-weight-normal);
+    letter-spacing: var(--tracking-none);
+    text-transform: none;
   }
 
   .table td > * {
-    text-align: right;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    grid-column: 2;
+    justify-self: start;
+    text-align: left;
   }
+
+  .table td > :is(.badge, .tag) { max-width: 100%; white-space: normal; }
 
   /* Første celle er kortets tittel: venstrestilt, uten etikett. */
   .table td:first-child {
@@ -164,8 +209,22 @@
   }
 
   .table td:first-child > * {
+    grid-column: auto;
+    justify-self: stretch;
     text-align: left;
   }
+
+  .table td.table__pil {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-4);
+    color: var(--text-heading);
+    font-weight: var(--font-weight-semibold);
+  }
+  .table__pil-tekst { display: inline; }
+
+  .table td.table__pil::before { display: none; }
 
   /* Mindre viktige kolonner vises bare i full tabell. */
   .table td.table__valgfri {

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<link rel="stylesheet" href="../frantz-ds.css?v=76">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -498,7 +498,7 @@
           <input type="file" id="filer" aria-label="Legg ved filer" multiple hidden accept=".zip,.html,.htm,.mp4,.docx,.doc,.pdf,.jpg,.jpeg,.png">
         </form>
 
-        <aside class="oppsummering" id="ordre-oppsummering" hidden>
+        <aside class="oppsummering" id="ordre-oppsummering" tabindex="-1" hidden>
           <div class="summary-panel" id="sammendrag">
             <div class="summary-panel__head">
               <h2>Din bestilling</h2>
@@ -564,9 +564,14 @@
   </div>
 </div>
 
+<div class="nk-mobilbestilling" id="mobilbestilling" hidden>
+  <div class="nk-mobilbestilling__pris"><span>Din bestilling</span><strong id="mobil-total">—</strong></div>
+  <button class="btn btn--primary" id="mobil-oppsummering" type="button" aria-controls="ordre-oppsummering">Se over <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+</div>
+
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
-<script src="data/pakker.js?v=7"></script>
+<script src="data/pakker.js?v=8"></script>
 <script src="data/connect.js"></script>
 <script src="../components/js/picker.js?v=6"></script>
 <script src="../components/js/reach-model.js?v=2"></script>
@@ -1308,6 +1313,26 @@
   });
 
   /* ---------- Summary ---------- */
+  $('mobil-oppsummering').addEventListener('click', function () {
+    var panel = $('ordre-oppsummering');
+    panel.scrollIntoView({ block: 'start', behavior: 'instant' });
+    panel.focus({ preventScroll: true });
+  });
+
+  // The shortcut is useful while editing; the full panel already provides its actions.
+  if ('IntersectionObserver' in window) {
+    var layoutTokens = getComputedStyle(document.documentElement);
+    // IntersectionObserver accepts px, while spacing tokens are expressed in rem.
+    function tokenPixels(name) {
+      var value = layoutTokens.getPropertyValue(name).trim();
+      return parseFloat(value) * (value.endsWith('rem') ? parseFloat(layoutTokens.fontSize) : 1);
+    }
+    var summaryMargin = '-' + tokenPixels('--topbar-height') + 'px 0px -' + tokenPixels('--space-96') + 'px 0px';
+    new IntersectionObserver(function (entries) {
+      document.body.classList.toggle('nk-bestilling-synlig', entries[0].isIntersecting);
+    }, { rootMargin: summaryMargin }).observe($('ordre-oppsummering'));
+  }
+
   function oppdater() {
     if (!steder || !stilling || !budsjettKontroll) return;
     var stederListe = steder.verdi();
@@ -1343,6 +1368,9 @@
     $('sum-tillegg-rad').hidden = !tilleggSum;
     $('sum-tillegg').textContent = '+ ' + kr(tilleggSum);
     $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
+    $('mobil-total').textContent = $('sum-total').textContent;
+    $('mobilbestilling').hidden = !visOppsummering || !b;
+    document.body.classList.toggle('nk-har-mobilbestilling', !$('mobilbestilling').hidden);
     $('sum-tittel-topp').textContent = tittel ? [tittel, stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' · ') : 'Ny kampanje';
     var pakke = pakkeTekst();
     $('sum-pakke-rad').hidden = !pakke; $('sum-pakke').textContent = pakke;

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<link rel="stylesheet" href="../frantz-ds.css?v=76">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -90,13 +90,6 @@
   }
   /* Active campaigns: the same table as on Kampanjer */
   .table-card { padding: 0; overflow-x: auto; }
-  .table__pil { width: 1%; color: var(--text-faint); }
-  tr[tabindex]:hover .table__pil, tr[tabindex]:focus-visible .table__pil { color: var(--text-heading); }
-  .table__pil-tekst { display: none; }
-  @container (max-width: 720px) {
-    .table td.table__pil { justify-content: flex-end; gap: var(--space-4); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
-    .table__pil-tekst { display: inline; }
-  }
 
   @media (max-width: 1180px) {
     .wrap .cols { grid-template-columns: 1fr; }
@@ -198,14 +191,14 @@
           <div class="card card--betjen table-card">
             <table class="table">
               <thead>
-                <tr><th>Kampanje</th><th>Status</th><th>Kanaler</th><th>Periode</th><th><span class="chat__sr">Åpne</span></th></tr>
+                <tr><th>Kampanje</th><th>Kanaler</th><th>Periode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
               </thead>
               <tbody>
                 <tr tabindex="0" onclick="location.href='campaign.html'">
                   <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Dag 28 av 31</span></td>
-                  <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
                   <td data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
                   <td data-label="Periode">03.09 – 03.10.2026</td>
+                  <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
                   <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
                 </tr>
               </tbody>

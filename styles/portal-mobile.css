@@ -1,0 +1,177 @@
+/* Responsive portal layouts. Shared components keep their desktop presentation. */
+.nk-mobilbestilling { display: none; }
+.pakke-kort__mobil-total { display: none; }
+
+@media (max-width: 860px) {
+  .app { min-height: 100dvh; }
+  .mobiltopp { height: var(--topbar-height); padding: var(--space-8) var(--space-16); }
+  .mobiltopp .burger, .rail .raillukk { width: var(--space-44); height: var(--space-44); flex: none; }
+  .rail { width: min(var(--rail-width-mobile), calc(100vw - var(--space-32))); padding-bottom: calc(var(--space-16) + env(safe-area-inset-bottom)); }
+  .app .btn, .gk .btn, .login .btn { min-height: var(--space-44); white-space: normal; line-height: var(--leading-snug); }
+  .app .filter, .app .chip, .app .picker__opt, .app .picker__snarvei { min-height: var(--space-44); }
+  .app .card__title, .app h1 { overflow-wrap: anywhere; }
+  .app .form-input, .app .form-select, .app .picker__felt { min-width: 0; }
+  .assist-fab { bottom: calc(var(--space-16) + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 640px) {
+  /* Descriptive facts stack; short amounts in the order panel stay aligned. */
+  .app .card .summary-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-4); }
+  .app .summary-panel .summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-12); }
+  .app .summary-panel .summary-row dd { text-align: right; }
+  .app .summary-row dt { font: var(--type-support); }
+  .app .summary-row dd { min-width: 0; }
+  .app .summary-panel__total { flex-wrap: wrap; gap: var(--space-8); }
+  .app .summary-panel__head, .app .summary-panel__block, .app .summary-panel__cta { padding: var(--space-panel-padding); }
+  .app .summary-panel__cta > .btn { width: 100%; }
+
+  .app .detalj__topp { align-items: flex-start; }
+  .app .detalj__knapper { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }
+  .app .detalj__knapper > .btn { width: 100%; }
+  .app .panelhode { align-items: stretch; }
+  .app .panelhode > .btn { width: 100%; }
+  .app .skjema__knapper, .app .skjema-bunn, .app .footer-actions { flex-direction: column; align-items: stretch; }
+  .app .skjema__knapper .btn, .app .skjema-bunn .btn { width: 100%; }
+  .app .sidefaner { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; padding-bottom: var(--space-8); scrollbar-width: thin; }
+  .app .sidefaner > * { flex: none; }
+
+
+}
+
+/* Keep the order reachable whenever the desktop summary moves below the form. */
+@media (max-width: 1180px) {
+  .nk-mobilbestilling:not([hidden]) {
+    position: fixed;
+    inset: auto 0 0 var(--rail-width);
+    z-index: var(--z-dropdown);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    min-height: var(--mobile-orderbar-height);
+    box-sizing: border-box;
+    padding: var(--space-12) var(--space-16) calc(var(--space-12) + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border-default);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-card);
+  }
+  .nk-mobilbestilling__pris { display: grid; gap: var(--space-2); color: var(--text-heading); font: var(--type-label); }
+  .nk-mobilbestilling__pris > span { color: var(--text-muted); font: var(--type-support); }
+  .nk-mobilbestilling .btn { min-height: var(--space-44); flex: none; }
+  body.nk-har-mobilbestilling .wrap { padding-bottom: calc(var(--space-96) + env(safe-area-inset-bottom)); }
+  body.nk-har-mobilbestilling .assist-fab { bottom: calc(var(--mobile-orderbar-height) + var(--space-16) + env(safe-area-inset-bottom)); }
+  body:has(.nk input:focus, .nk textarea:focus) .nk-mobilbestilling { display: none; }
+  #ordre-oppsummering { scroll-margin-top: var(--space-24); }
+}
+@media (max-width: 860px) {
+  .nk-mobilbestilling:not([hidden]) { left: 0; }
+  #ordre-oppsummering { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
+}
+@media (max-width: 640px) {
+  /* One page surface gives nested choices room on a phone. */
+  .app .nk-skjema > .del { padding: 0; border: 0; background: transparent; box-shadow: none; }
+  .app .nk-skjema > .del:not([hidden]) ~ .del:not([hidden]) { border-top: 1px solid var(--border-default); border-radius: 0; padding-top: var(--space-section-gap); }
+  .app .del__topp, .app .start-topp { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-8) var(--space-12); }
+  .app .del__topp > div, .app .start-topp > div { display: contents; }
+  .app .del__topp h2, .app .start-topp h2 { grid-column: 1; grid-row: 1; margin: 0; }
+  .app .del__topp > button, .app .start-topp > button { grid-column: 2; grid-row: 1; min-height: var(--space-44); }
+  .app .start-pil { width: var(--space-44); }
+  .app .del__topp p, .app .start-topp p { grid-column: 1 / -1; margin: 0; }
+  .app .husk__rad { min-width: 0; width: 100%; gap: var(--space-16); }
+  .app .husk__rad > span { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .app .husk__rad b { font: var(--type-support); }
+  .app #k-lenke { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app .periode__knapp { padding-top: var(--space-12); padding-bottom: var(--space-12); }
+  .app .periode__knapp .icon-lucide { flex: none; }
+  .app .periode__snarveier { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app .periode__snarveier > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .app .periode__kalender { position: static; width: 100%; margin-top: var(--space-8); box-shadow: none; }
+  .app .kal__dag { height: var(--space-44); }
+  .app .kal__topp button { width: var(--space-44); height: var(--space-44); }
+  .app .flere__valg { display: grid; grid-template-columns: var(--space-20) minmax(0, 1fr); gap: var(--space-8) var(--space-12); }
+  .app .flere__pris { grid-column: 2; }
+  .app .kanal-liste .flere__valg { grid-template-columns: var(--space-20) minmax(0, 1fr) auto; }
+  .app .kanal-liste .flere__tekst { min-width: 0; flex-wrap: wrap; }
+  .app .medie-lay .rutenett { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12); }
+  .app .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12); }
+  .app .metrics--fire > * { min-width: 0; padding: var(--space-12); }
+}
+@media (max-width: 1180px) {
+  .medie-lay .detalj { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
+}
+@media (max-width: 1180px) {
+  .nk-bestilling-synlig .nk-mobilbestilling { display: none; }
+  body.nk-bestilling-synlig .assist-fab { bottom: calc(var(--space-16) + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 860px) {
+  .mobiltopp .btn { min-height: var(--space-44); }
+}
+@media (max-width: 640px) {
+  .app .verktoy:has(.filtermeny) { display: grid; grid-template-columns: auto minmax(0, 1fr); }
+  .app .verktoy:has(.filtermeny) .search-wrap { grid-column: 1 / -1; }
+  .app .verktoy:has(.filtermeny) .form-select-wrap { min-width: 0; }
+  .app .verktoy:has(.filtermeny) .form-select { width: 100%; }
+  .app .filtermeny__valg .form-radio, .app .filtermeny__valg .form-check { min-height: var(--space-44); }
+}
+@media (max-width: 640px) {
+  /* Inline filters stay reachable without a popover extending below the screen. */
+  .app .verktoy .filtermeny { display: contents; }
+  .app .verktoy .filtermeny__knapp { grid-column: 1; grid-row: 2; }
+  .app .verktoy:has(.filtermeny) .form-select-wrap { grid-column: 2; grid-row: 2; }
+  .app .verktoy .filtermeny__panel { position: static; grid-column: 1 / -1; grid-row: 3; width: 100%; max-width: none; box-shadow: none; }
+}
+@media (max-width: 640px) {
+  .app .detalj__topp > .btn { width: 100%; }
+  .app .metric__foot { flex-direction: column; align-items: flex-start; }
+  .app .metric__benchmark { overflow-wrap: anywhere; }
+  .app .quote footer { flex-wrap: wrap; }
+}
+@media (max-width: 640px) {
+  .app .verktoy:has(#medie-sok) .chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .app .table .btn--sm { white-space: normal; padding-left: var(--space-12); padding-right: var(--space-12); }
+}
+@media (max-width: 640px) {
+  .app .hjem-tall .fakta dt { font: var(--type-support); overflow-wrap: normal; hyphens: none; }
+  .app .hjem-tall .fakta dd span { font: var(--type-support); }
+}
+@media (max-width: 380px) {
+  .app .hjem-tall { grid-template-columns: minmax(0, 1fr); }
+  .app .hjem-tall .fakta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); }
+  .app .hjem-tall .fakta dd { margin: 0; text-align: right; }
+}
+@media (max-width: 860px) {
+  .rail .nav__item { min-height: var(--space-44); }
+  body.meny-apen .assist-fab, body.meny-apen .nk-mobilbestilling { display: none; }
+}
+
+@media (max-width: 860px) {
+  .app .pakke-grid { grid-template-columns: minmax(0, 1fr); }
+  /* One compact package layout in both settings and campaign setup. */
+  .app .pakke-kort {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    grid-template-areas: 'head price' 'description description' 'channels channels' 'excluded excluded';
+    grid-row: auto;
+    gap: var(--space-12) var(--space-16);
+    padding: var(--space-panel-padding);
+  }
+  .app .pakke-kort__hode { grid-area: head; justify-content: flex-start; gap: var(--space-8); align-items: center; }
+  .app .pakke-kort__markor { order: -1; }
+  .app .pakke-kort__beskrivelse { grid-area: description; }
+  .app .pakke-kort__pris { grid-area: price; margin-top: 0; text-align: right; align-items: flex-end; }
+  .app .pakke-kort__periode { max-width: 16ch; }
+  .app .pakke-kort__periodehjelp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .app .pakke-kort__mobil-total { display: inline; }
+  .app .pakke-kort__kanaler { grid-area: channels; padding-top: var(--space-12); }
+  .app .pakke-kort__ikke { grid-area: excluded; }
+}
+@media (max-width: 640px) {
+  .chat-page .chat__head { display: grid; grid-template-columns: minmax(0, 1fr) var(--space-44) var(--space-44); gap: var(--space-8); }
+  .chat-page .chat__head > .chat__avatar { display: none; }
+  .chat-page .chat__head > div { display: contents; }
+  .chat-page .chat__title { grid-column: 1; grid-row: 1; font: var(--type-section); }
+  .chat-page .chat__status { grid-column: 1 / -1; grid-row: 2; }
+  .chat-page .chat__head > .btn { grid-row: 1; padding: 0; width: var(--space-44); height: var(--space-44); }
+  .chat-page .chat__human { grid-column: 2; margin: 0; }
+}

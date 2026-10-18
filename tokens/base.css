@@ -286,6 +286,8 @@
   --page-padding-desktop: 32px;
 
   --rail-width:     232px;
+  --rail-width-mobile: 20rem;
+  --mobile-orderbar-height: 5rem;
   --topbar-height:  64px;
   --control-icon-padding: calc(var(--space-16) + var(--space-24));
   --channel-logo-size: 18px;

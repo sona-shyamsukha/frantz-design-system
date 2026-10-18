@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<link rel="stylesheet" href="../frantz-ds.css?v=76">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -365,7 +365,7 @@
   </div>
 </div>
 
-<script src="data/pakker.js?v=7"></script>
+<script src="data/pakker.js?v=8"></script>
 <script>
 var brukere = [
   { navn: 'Kari Hansen', epost: 'kari.hansen@vokser.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
@@ -470,6 +470,12 @@ function visFane(navn, oppdaterUrl) {
   document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.tabIndex = på ? 0 : -1; });
   ['brukere', 'faktura', 'merkevare', 'pakker'].forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
   if (oppdaterUrl) history.replaceState(null, '', '#' + navn);
+  // Keep the active tab visible in the phone's horizontal tab strip.
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    var valgt = document.querySelector('[data-fane="' + navn + '"]');
+    var stripe = valgt && valgt.parentElement;
+    if (stripe) stripe.scrollLeft = Math.max(0, valgt.offsetLeft - stripe.offsetLeft - (stripe.clientWidth - valgt.offsetWidth) / 2);
+  }
 }
 // Native inputs need concrete values. The defaults still come from the shared tokens.
 var merkeTokens = getComputedStyle(document.documentElement);

@@ -56,3 +56,11 @@ Content spacing uses the shared roles for card padding, section gaps, form field
 Customer-selected preview colours and uploaded fonts remain editable; their initial
 values come from the tokens. SVG mask payloads only define opacity; icon colours
 come from the component CSS.
+
+## Portal responsiveness
+
+`styles/portal-mobile.css` holds shared portal adaptations: phone layouts below 640px,
+compact navigation and packages below 860px, and the campaign summary shortcut below
+1180px when the order panel moves under the form. Keep package markup shared through
+`portal/data/pakker.js`. Check phone widths of 320px and 390px, tablet widths of 768px
+and 1024px, and the desktop layout when changing these rules.

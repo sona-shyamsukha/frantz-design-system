@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Mediebibliotek — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=73">
+<link rel="stylesheet" href="../frantz-ds.css?v=76">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -105,7 +105,7 @@
           <div class="rutenett" id="rutenett"></div>
           <p class="tom" id="tom" hidden>Ingen treff. Prøv et annet søk.</p>
         </div>
-        <aside class="card card--betjen detalj" id="detalj" aria-live="polite"></aside>
+        <aside class="card card--betjen detalj" id="detalj" tabindex="-1" aria-live="polite"></aside>
       </div>
       <input type="file" aria-label="Velg filer" id="fil" accept="image/*,video/*" multiple hidden>
     </div>
@@ -175,9 +175,21 @@ function tegnDetalj() {
 
 document.addEventListener('click', function (e) {
   var kort = e.target.closest('.medie');
-  if (kort) { valgt = +kort.dataset.id; tegnRutenett(); tegnDetalj(); return; }
+  if (kort) {
+    valgt = +kort.dataset.id; tegnRutenett(); tegnDetalj();
+    if (window.matchMedia('(max-width:1180px)').matches) {
+      var panel = document.getElementById('detalj');
+      panel.scrollIntoView({ block: 'start', behavior: 'instant' }); panel.focus({ preventScroll: true });
+    }
+    return;
+  }
   if (e.target.closest('#opplast') || e.target.closest('#last-opp-knapp')) { document.getElementById('fil').click(); return; }
-  if (e.target.closest('[data-lukk-detalj]')) { valgt = null; tegnRutenett(); tegnDetalj(); return; }
+  if (e.target.closest('[data-lukk-detalj]')) {
+    var forrige = valgt; valgt = null; tegnRutenett(); tegnDetalj();
+    var tilbake = document.querySelector('.medie[data-id="' + forrige + '"]');
+    if (tilbake) tilbake.focus();
+    return;
+  }
   var f = e.target.closest('[data-fjern]');
   if (f) { var m = medier.filter(function (x) { return x.id === valgt; })[0]; m.tagger.splice(+f.dataset.fjern, 1); tegnDetalj(); return; }
   if (e.target.closest('[data-slett]')) {
