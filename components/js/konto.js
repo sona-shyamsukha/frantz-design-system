@@ -120,8 +120,8 @@
 
   // «Ny kampanje» is the main action, so it sits in the same place on every page: top right,
   // left of the bell. On a phone it sits in the top row, left of the menu button.
-  // Not on Ny kampanje itself, where it would only start the form over.
-  if (!/ny-kampanje\.html$/.test(location.pathname)) {
+  // Also on Ny kampanje itself: there it starts a new, empty order.
+  {
     var ny = document.createElement('a');
     ny.className = 'btn btn--accent topbar__ny'; // yellow: the main action, the same on desktop and phone
     ny.href = 'ny-kampanje.html';

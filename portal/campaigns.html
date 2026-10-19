@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=86">
+<link rel="stylesheet" href="../frantz-ds.css?v=87">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -113,6 +113,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -173,7 +174,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Deres referanse</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Kampanje</th><th>Kampanjenavn</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader" data-vis="eksisterende"></tbody>
           <tbody data-vis="ny">
@@ -219,7 +220,7 @@
     var periode = k.periode || (k.frist ? 'Søknadsfrist ' + FZ_KAMPANJER.dato(k.frist) : '—');
     return '<tr tabindex="0" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '" onclick="location.href=\'' + k.side + '\'">' +
       '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span><span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + ' · ' + esc(k.bestiller) + '</span></td>' +
-      '<td class="table__valgfri" data-label="Deres referanse">' + (k.ref ? esc(k.ref) : '—') + '</td>' +
+      '<td class="table__valgfri" data-label="Kampanjenavn">' + (k.ref ? esc(k.ref) : '—') + '</td>' +
       '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler ? FZ_KANALER.html(k.kanaler) : (k.status === 'Kladd' ? '—' : 'Frantz anbefaler')) + '</td>' +
       '<td data-label="Periode">' + periode + '</td>' +
       '<td data-label="Budsjett">' + (k.budsjett ? kr(k.budsjett) : '<span class="table__tom">Ikke valgt</span>') + '</td>' +
@@ -321,7 +322,7 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=15"></script>
+<script src="../components/js/konto.js?v=16"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

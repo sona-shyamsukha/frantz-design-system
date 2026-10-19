@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=86">
+<link rel="stylesheet" href="../frantz-ds.css?v=87">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -40,6 +40,13 @@
     color: var(--color-amber-ink);
   }
   .kladd { display: flex; flex-direction: column; gap: var(--space-12); }
+  .venter-liste { display: grid; margin: 0; padding: 0; list-style: none; }
+  .venter { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: var(--space-8) var(--space-12); padding: var(--space-16) 0; border-top: 1px solid var(--border-subtle); }
+  .venter > .btn { grid-column: 2; justify-self: start; }
+  .venter:first-child { border-top: 0; padding-top: 0; }
+  .venter__tekst { display: grid; gap: var(--space-2); min-width: 0; }
+  /* One column on small screens: what waits for you comes first */
+  @media (max-width: 1180px) { [data-vis="eksisterende"] .cols > aside { order: -1; } }
   .kladd__topp { display: flex; gap: var(--space-12); align-items: flex-start; }
   .kladd__topp .row-alert__title, .kladd__topp .row-alert__desc { display: block; }
   .kladd__steg { display: flex; flex-direction: column; gap: var(--space-6); margin: 0; padding: 0; list-style: none; font-size: var(--text-sm); color: var(--text-muted); }
@@ -119,6 +126,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -192,83 +200,27 @@
       <div class="cols">
         <section aria-labelledby="live-tittel">
           <div class="seksjonstittel">
-            <h2 id="live-tittel">Aktive kampanjer</h2>
+            <h2 id="live-tittel">Kampanjene dine nå</h2>
             <a class="link" href="campaigns.html">Alle kampanjer</a>
           </div>
           <div class="card card--betjen table-card">
             <table class="table">
               <thead>
-                <tr><th>Kampanje</th><th>Kanaler</th><th>Periode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+                <tr><th>Kampanje</th><th>Periode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
               </thead>
-              <tbody>
-                <tr tabindex="0" onclick="location.href='campaign.html'">
-                  <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Dag 28 av 31</span></td>
-                  <td data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder og aviser</td>
-                  <td data-label="Periode">03.09 – 03.10.2026</td>
-                  <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
-                  <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
-                </tr>
-              </tbody>
+              <tbody id="na-rader"></tbody>
             </table>
           </div>
         </section>
 
         <aside class="flow">
-          <div class="card card--betjen" id="bestilt-kort" hidden>
+          <section class="card card--betjen" aria-labelledby="venter-tittel">
             <div class="card__head"><div>
-              <h3 class="card__title">Bestilt</h3>
-              <p class="card__hint">Frantz har fått bestillingen og lager annonsene.</p>
+              <h3 class="card__title" id="venter-tittel">Venter på deg</h3>
+              <p class="card__hint">Det Frantz trenger fra deg nå.</p>
             </div></div>
-            <div id="bestilt-liste"></div>
-          </div>
-          <div class="card card--betjen">
-            <div class="card__head"><div>
-              <h3 class="card__title">Trenger svar fra deg</h3>
-              <p class="card__hint">Frantz venter på deg før kampanjen kan starte.</p>
-            </div></div>
-            <div class="kladd">
-              <div class="kladd__topp">
-                <span class="row-alert__icon"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span></span>
-                <div>
-                  <span class="row-alert__title">Helsefagarbeider Tromsø</span>
-                  <span class="row-alert__desc">Godkjenn 3 annonser innen 02.10</span>
-                </div>
-              </div>
-              <a class="btn btn--primary kladd__knapp" href="kampanje-under-arbeid.html">Se annonsene <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></a>
-            </div>
-          </div>
-          <div class="card card--betjen">
-            <div class="card__head"><div>
-              <h3 class="card__title">Fortsett der du slapp</h3>
-              <p class="card__hint">Kladder som ikke er bestilt ennå.</p>
-            </div></div>
-            <div class="kladd">
-              <div class="kladd__topp">
-                <span class="row-alert__icon"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span></span>
-                <div>
-                  <span class="row-alert__title">Helsesykepleier Kristiansand</span>
-                  <span class="row-alert__desc">Sist endret i går kl. 14.12</span>
-                </div>
-              </div>
-              <div class="kladd__fremdrift">
-                <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
-              </div>
-              <ul class="kladd__steg">
-                <li class="er-ferdig"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Stillingen</li>
-                <li><span class="kladd__prikk" aria-hidden="true"></span>Kampanjen</li>
-                <li><span class="kladd__prikk" aria-hidden="true"></span>Materiell og tillegg</li>
-                <li><span class="kladd__prikk" aria-hidden="true"></span>Se over og bestill</li>
-              </ul>
-              <a class="btn btn--primary kladd__knapp" href="ny-kampanje.html?kladd=129070">Fortsett kladden <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></a>
-            </div>
-            <p class="kladd__tom" hidden>Ingen kladder. <a href="ny-kampanje.html">Start en ny kampanje</a>.</p>
-          </div>
-          <section class="card kalk-kort" aria-labelledby="kalk-tittel">
-            <div>
-              <h3 class="card__title" id="kalk-tittel">Hva når dere for budsjettet?</h3>
-              <p class="card__hint">Velg stilling, sted og budsjett. Se hva kampanjen kan gi, før dere bestiller.</p>
-            </div>
-            <a class="btn btn--secondary" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Åpne tilbudskalkulator</a>
+            <ul class="venter-liste" id="venter-liste"></ul>
+            <p class="kladd__tom" id="venter-tom" hidden>Ingenting venter på deg nå.</p>
           </section>
         </aside>
       </div>
@@ -279,30 +231,41 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=1"></script>
+<script src="data/kampanjer.js?v=2"></script>
 <script>
-// Hjem reads the shared campaign list: your new orders show as «Bestilt», and an ordered draft leaves «Fortsett der du slapp».
+// Hjem has two parts: the campaigns running or on the way, and what Frantz needs from you.
+// Both read the shared campaign list, so a new order shows here as «Bestilt».
 (function () {
   var alle = FZ_KAMPANJER.alle();
-  var mine = alle.filter(function (k) { return k.status === 'Bestilt' && k.bestiller === 'Kari Hansen'; });
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  if (mine.length) {
-    document.getElementById('bestilt-kort').hidden = false;
-    document.getElementById('bestilt-liste').innerHTML = mine.map(function (k) {
-      return '<div class="kladd"><div class="kladd__topp"><span class="row-alert__icon"><span class="icon-lucide icon-lucide--package" aria-hidden="true"></span></span><div>' +
-        '<span class="row-alert__title">' + esc(k.tittel) + '</span><span class="row-alert__desc">Ønsket periode ' + esc(k.periode) + '</span></div></div>' +
-        '<a class="btn btn--secondary kladd__knapp" href="' + k.side + '">Se bestillingen <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></a></div>';
-    }).join('');
-  }
-  if (!alle.some(function (k) { return k.status === 'Kladd'; })) {
-    var kort = document.querySelector('a[href="ny-kampanje.html?kladd=129070"]').closest('.kladd');
-    kort.hidden = true;
-    kort.parentNode.querySelector('.kladd__tom').hidden = false;
-  }
+  var REKKE = { 'Aktiv': 0, 'Under arbeid': 1, 'Bestilt': 2 };
+  var na = alle.filter(function (k) { return k.status in REKKE && k.bestiller === 'Kari Hansen'; })
+    .sort(function (a, b) { return REKKE[a.status] - REKKE[b.status]; });
+  document.getElementById('na-rader').innerHTML = na.map(function (k) {
+    var naar = k.status === 'Aktiv' ? 'Dag ' + k.dag + ' av ' + k.lengde : 'Starter ' + FZ_KAMPANJER.dato(k.fra).slice(0, 5);
+    return '<tr tabindex="0" onclick="location.href=\'' + k.side + '\'">' +
+      '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span><span class="table__meta">' + esc(k.arbeidsgiver) + ' · ' + naar + '</span></td>' +
+      '<td data-label="Periode">' + esc(k.periode) + '</td>' +
+      '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
+      '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
+  }).join('') || '<tr><td colspan="4">Ingen kampanjer akkurat nå. <a class="link" href="ny-kampanje.html">Lag en ny kampanje</a>.</td></tr>';
+
+  // What waits for you: ads to approve, and drafts to finish
+  var venter = [];
+  alle.forEach(function (k) {
+    if (k.status === 'Under arbeid' && k.bestiller === 'Kari Hansen') venter.push({ ikon: 'eye', tittel: 'Godkjenn 3 annonser innen 02.10', under: k.tittel, knapp: 'Se annonsene', href: k.side });
+    if (k.status === 'Kladd' && k.bestiller === 'Kari Hansen') venter.push({ ikon: 'pencil', tittel: 'Fortsett kladden', under: k.tittel + ' · 1 av 4 steg ferdig', knapp: 'Fortsett', href: k.side });
+  });
+  document.getElementById('venter-liste').innerHTML = venter.map(function (v) {
+    return '<li class="venter"><span class="row-alert__icon"><span class="icon-lucide icon-lucide--' + v.ikon + '" aria-hidden="true"></span></span>' +
+      '<div class="venter__tekst"><span class="row-alert__title">' + esc(v.tittel) + '</span><span class="row-alert__desc">' + esc(v.under) + '</span></div>' +
+      '<a class="btn btn--secondary btn--sm" href="' + v.href + '">' + v.knapp + '</a></li>';
+  }).join('');
+  document.getElementById('venter-tom').hidden = venter.length > 0;
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=15"></script>
+<script src="../components/js/konto.js?v=16"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="../components/js/tour.js"></script>

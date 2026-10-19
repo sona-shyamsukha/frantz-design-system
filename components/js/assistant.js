@@ -5,21 +5,21 @@ class AssistantChat {
 
   static CAMPAIGNS = [
     {
-      id: '129041', ref: '22 31', title: 'Sykepleier Oslo', badge: 'badge--active', status: 'Aktiv',
+      id: '129041', ref: 'Oppdrag 22 31', title: 'Sykepleier Oslo', badge: 'badge--active', status: 'Aktiv',
       channels: 'Meta, Nettsteder og aviser', day: 'Dag 28 av 31', spent: 'kr 43 400', budget: 'kr 48 200',
       clicks: '52', target: '60',
       summary: 'Kampanjen går bedre enn normalt. 52 personer har trykket «Søk». Det er 87 % av målet, og det er 3 dager igjen.',
       history: [['15.09.2026', 'Budsjett flyttet mot Meta'], ['08.09.2026', 'Målgruppen utvidet'], ['03.09.2026', 'Kampanjen startet']]
     },
     {
-      id: '129072', ref: '22 40', title: 'Helsefagarbeider Tromsø', badge: 'badge--setup', status: 'Under arbeid',
+      id: '129072', ref: 'Oppdrag 22 40', title: 'Helsefagarbeider Tromsø', badge: 'badge--setup', status: 'Under arbeid',
       channels: 'Meta, Nettsteder og aviser', day: 'Starter 05.10', spent: 'kr 0', budget: 'kr 28 000',
       clicks: '0', target: '40',
       summary: 'Annonsene er klare. Du må godkjenne dem innen 02.10, så kan kampanjen starte 05.10.',
       history: [['29.09.2026', 'Annonsene er laget'], ['26.09.2026', 'Bestillingen er mottatt']]
     },
     {
-      id: '129074', ref: '22 41', title: 'Barnehagelærer Drammen', badge: 'badge--ordered', status: 'Bestilt',
+      id: '129074', ref: 'Oppdrag 22 41', title: 'Barnehagelærer Drammen', badge: 'badge--ordered', status: 'Bestilt',
       channels: 'Frantz anbefaler', day: 'Ønsket start 07.10', spent: 'kr 0', budget: 'kr 32 000',
       clicks: '0', target: '45',
       summary: 'Frantz har fått bestillingen. Martin Karlsen starter på den innen 1 arbeidsdag.',
@@ -28,7 +28,7 @@ class AssistantChat {
   ];
 
   static FIELDS = [
-    ['ref', 'Deres referanse'], ['title', 'Stillingstittel'], ['place', 'Arbeidssted'],
+    ['ref', 'Kampanjenavn'], ['title', 'Stillingstittel'], ['place', 'Arbeidssted'],
     ['deadline', 'Søknadsfrist'], ['link', 'Stillingslenke'], ['budget', 'Totalbudsjett'],
     ['channels', 'Kanaler'], ['period', 'Periode'], ['images', 'Bilder'], ['logo', 'Logo'],
     ['shortText', 'Kort tekst'], ['preview', 'Forhåndsvisning'], ['sender', 'Avsender']
@@ -751,7 +751,7 @@ class AssistantChat {
 
   order() {
     const d = this.draft;
-    const subject = '[#' + this.newId + (d.ref.value ? ' · Deres ref. ' + d.ref.value : '') + '] ' + [d.title.value, d.place.value].filter(Boolean).join(' ');
+    const subject = '[#' + this.newId + (d.ref.value ? ' · ' + d.ref.value : '') + '] ' + [d.title.value, d.place.value].filter(Boolean).join(' ');
     this.mode = null;
     this.system('Kampanje #' + this.newId + ' er bestilt');
     const note = d.preview.value.startsWith('Ja')
@@ -802,7 +802,7 @@ class AssistantChat {
     const card = this.el('div', 'draft');
     const head = this.el('div', 'draft__head');
     const title = this.el('div', 'draft__title', c.title);
-    title.append(this.el('span', 'draft__sub', '#' + c.id + ' · Deres ref. ' + c.ref + ' · ' + c.channels));
+    title.append(this.el('span', 'draft__sub', '#' + c.id + ' · ' + c.ref + ' · ' + c.channels));
     head.append(title, this.el('span', 'badge ' + c.badge, c.status));
 
     const facts = this.el('dl', 'draft__facts');

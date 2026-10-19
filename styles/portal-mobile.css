@@ -99,8 +99,7 @@
   .medie-lay .detalj { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
 }
 @media (max-width: 1180px) {
-  .nk-bestilling-synlig .nk-mobilbestilling { display: none; }
-  body.nk-bestilling-synlig .assist-fab { bottom: calc(var(--space-16) + env(safe-area-inset-bottom)); }
+  /* Ny kampanje keeps its order in a fixed footer, so the bar always stays */
 }
 @media (max-width: 860px) {
   .mobiltopp .btn { min-height: var(--space-44); }

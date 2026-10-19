@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Mediebibliotek — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=86">
+<link rel="stylesheet" href="../frantz-ds.css?v=87">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -73,6 +73,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html" aria-current="page"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -176,7 +177,7 @@ function tegnDetalj() {
       (m.brukt.length ? m.brukt.map(function (b) { return '<a href="' + b[1] + '">' + b[0] + '</a>'; }).join('') : '<span style="font-size: var(--text-sm);color: var(--text-muted)">Ikke brukt ennå</span>') +
     '</div></div>' +
     '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><label class="summary-panel__label" for="ny-tagg">Tagger</label>' +
-      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '">×</button></span>'; }).join('') + '</div>' +
+      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '"><span class="icon-lucide icon-lucide--x icon-lucide--sm" aria-hidden="true"></span></button></span>'; }).join('') + '</div>' +
       '<input class="form-input" id="ny-tagg" placeholder="Legg til tagg og trykk Enter" style="margin-top: var(--space-8)"></div>' +
     '<div class="detalj__knapper"><button class="btn btn--secondary" type="button"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned</button>' +
     '<button class="btn btn--ghost" type="button" data-slett style="color: var(--text-danger-strong)"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span> Slett</button></div>';
@@ -232,7 +233,7 @@ document.getElementById('fil').addEventListener('change', function (e) {
 tegnRutenett(); tegnDetalj();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=15"></script>
+<script src="../components/js/konto.js?v=16"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

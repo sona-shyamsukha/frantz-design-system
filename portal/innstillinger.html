@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger for firmaet — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=86">
+<link rel="stylesheet" href="../frantz-ds.css?v=87">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -77,7 +77,7 @@
   .banner__innhold { position: absolute; left: var(--space-16); right: var(--space-16); bottom: var(--space-16); z-index: 1; }
   .banner__tittel { color: var(--bn-tittel); margin: 0; font-size: var(--text-2xl); line-height: var(--leading-display); font-family: var(--bn-font-tittel); }
   .banner__kort { display: inline-block; margin-top: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-6); background: var(--bn-boks); color: var(--bn-kort); font-size: var(--text-sm); }
-  .banner__les { display: block; margin-top: var(--space-8); color: var(--bn-les); font-size: var(--text-sm); font-weight: var(--font-weight-bold); }
+  .banner__les { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-8); color: var(--bn-les); font-size: var(--text-sm); font-weight: var(--font-weight-bold); }
   .banner-meta { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-12); font-size: var(--text-sm); }
   .banner-meta b { display: block; color: var(--text-heading); }
   .banner-meta small { color: var(--text-muted); font: var(--type-support); }
@@ -133,6 +133,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
       <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -324,7 +325,7 @@
               <div class="banner__innhold">
                 <h4 class="banner__tittel">Vi søker sykepleiere</h4>
                 <span class="banner__kort">Fast stilling i Oslo</span>
-                <span class="banner__les">Les mer →</span>
+                <span class="banner__les">Les mer <span class="icon-lucide icon-lucide--chevron-right icon-lucide--sm" aria-hidden="true"></span></span>
               </div>
             </div>
             <div class="banner-meta"><span class="banner-meta__ikon" id="bn-ikon-mini">n</span><span><b>Nordlys Rekruttering AS</b><small>Sponset · slik vises Meta-logoikonet</small></span></div>
@@ -497,7 +498,7 @@ tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
 window.addEventListener('hashchange', function () { visFane(location.hash.slice(1), false); });
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=15"></script>
+<script src="../components/js/konto.js?v=16"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

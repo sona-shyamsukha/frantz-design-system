@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Min profil — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=86">
+<link rel="stylesheet" href="../frantz-ds.css?v=87">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -32,7 +32,6 @@
   .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
   .valgliste--bred .form-check__box { margin-top: var(--space-2); }
   .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
-  .pakke-felt { margin-top: var(--space-16); }
   .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
   .feil[hidden] { display: none; }
   .sidefaner { align-items: center; }
@@ -79,6 +78,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -92,11 +92,10 @@
 
     <div class="wrap">
       <h1 class="text-h2">Min profil</h1>
-      <p class="lede">Alt som gjelder deg: kontaktinformasjon, varsler og pakkene dine.</p>
+      <p class="lede">Alt som gjelder deg: kontaktinformasjon og varsler. Pakkene dine finner du under <a class="link" href="mine-pakker.html">Mine pakker</a>.</p>
       <div class="sidefaner" role="tablist" aria-label="Min profil">
         <button type="button" class="filter" role="tab" id="fane-profil" aria-controls="panel-profil" data-fane="profil" aria-selected="true" tabindex="0"><span class="icon-lucide icon-lucide--user" aria-hidden="true"></span>Profil</button>
         <button type="button" class="filter" role="tab" id="fane-varsler" aria-controls="panel-varsler" data-fane="varsler" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--bell" aria-hidden="true"></span>Varsler</button>
-        <button type="button" class="filter" role="tab" id="fane-pakker" aria-controls="panel-pakker" data-fane="pakker" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</button>
       </div>
 
       <section class="panel" id="panel-profil" role="tabpanel" aria-labelledby="fane-profil">
@@ -157,76 +156,14 @@
         </form>
       </section>
 
-      <section class="panel" id="panel-pakker" role="tabpanel" aria-labelledby="fane-pakker" hidden>
-        <div class="panelhode">
-          <p>Pakkene dine er oppsett du bruker ofte. En pakke har fast budsjett, kanaler og periode. Bare du ser pakkene dine når du bestiller.</p>
-          <div class="rad-hoyre">
-            <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
-          </div>
-        </div>
-        <form class="card card--betjen skjema" id="ny-pakke" novalidate hidden>
-          <h3 class="card__title" style="margin-bottom: var(--space-12)">Ny pakke</h3>
-          <div class="skjema__rad">
-            <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
-            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett for hele perioden (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000"></div>
-          </div>
-          <div class="skjema__rad pakke-felt">
-            <div class="form-group"><label class="form-label" for="p-uker">Periode</label>
-              <span class="form-select-wrap"><select class="form-select" id="p-uker"><option value="2">2 uker</option><option value="3">3 uker</option><option value="4" selected>4 uker</option><option value="6">6 uker</option><option value="8">8 uker</option></select></span>
-              <p class="form-hint">Perioden er fast i pakken. Trenger en kampanje en annen periode, velger dere «Sett opp selv».</p></div>
-          </div>
-          <fieldset class="valgliste pakke-felt" id="p-kanaler">
-            <legend class="form-label">Kanaler</legend>
-          </fieldset>
-          <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
-          <p class="feil" id="feil-pakke" role="alert" hidden></p>
-          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
-        </form>
-        <div class="pakke-grid" id="pakkeliste"></div>
-        <p class="profil-tekst" id="pakkeliste-tom" hidden>Du har ingen pakker ennå. Lag en her, eller velg «Lagre som pakke» når du bestiller.</p>
-      </section>
+
     </div>
   </div>
 </div>
 
-<script src="data/pakker.js?v=11"></script>
 <script>
-// Pakker
-function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
-function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-function kort(innhold, data) {
-  return '<label class="form-check form-check--kort"><input class="form-check__input" type="checkbox" ' + data + '><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + innhold + '</span></label>';
-}
-function valgTekst(tittel, tekst) { return '<span class="valg__tekst"><b>' + esc(tittel) + '</b><span>' + esc(tekst) + '</span></span>'; }
-document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.KANALER.map(function (k) {
-  return kort('<span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn), 'data-p-kanal="' + esc(k.navn) + '"');
-}).join(''));
-var nyPakke = '';
-function tegnPakker() {
-  var mine = FZ_PAKKER.alle();
-  document.getElementById('pakkeliste').innerHTML = mine.map(function (p) { return FZ_PAKKER.kort(p, { ny: p.navn === nyPakke }); }).join('');
-  document.getElementById('pakkeliste-tom').hidden = mine.length > 0;
-}
-document.getElementById('ny-pakke').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var skjema = this, feil = document.getElementById('feil-pakke');
-  var kanaler = Array.prototype.map.call(skjema.querySelectorAll('[data-p-kanal]:checked'), function (i) { return i.getAttribute('data-p-kanal'); });
-  var p = {
-    navn: document.getElementById('p-navn').value.trim(),
-    budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
-    kanaler: kanaler.length ? kanaler : null,
-    uker: Number(document.getElementById('p-uker').value)
-  };
-  var galt = FZ_PAKKER.leggTil(p);
-  if (galt) { feil.textContent = galt; feil.hidden = false; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
-  feil.hidden = true; nyPakke = p.navn;
-  this.reset(); this.hidden = true; tegnPakker();
-});
-document.querySelector('[data-skjul="ny-pakke"]').addEventListener('click', function () { document.getElementById('feil-pakke').hidden = true; });
-// Tabs, «Ny pakke» and «Avbryt»
+// Tabs
 document.addEventListener('click', function (e) {
-  var v = e.target.closest('[data-vis]'); if (v) { var f = document.getElementById(v.dataset.vis); f.hidden = false; f.querySelector('input').focus(); }
-  var s = e.target.closest('[data-skjul]'); if (s) { var g = document.getElementById(s.dataset.skjul); g.reset(); g.hidden = true; }
   var t = e.target.closest('[data-fane]'); if (t) visFane(t.dataset.fane, true);
 });
 
@@ -242,7 +179,7 @@ document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
   fane.click();
   fane.focus();
 });
-var FANER = ['profil', 'varsler', 'pakker'];
+var FANER = ['profil', 'varsler'];
 function visFane(navn, oppdaterUrl) {
   if (FANER.indexOf(navn) === -1) navn = 'profil';
   document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.tabIndex = på ? 0 : -1; });
@@ -256,8 +193,7 @@ function visFane(navn, oppdaterUrl) {
   }
 }
 visFane(location.hash.slice(1), false);
-tegnPakker();
-// The account menu links here with #profil, #varsler or #pakker, also from this page
+// The account menu links here with #profil or #varsler, also from this page
 window.addEventListener('hashchange', function () { visFane(location.hash.slice(1), false); });
 
 // Profile: read first. «Endre» opens the fields. «Avbryt» puts back what was there. «Lagre» shows the new values.
@@ -305,7 +241,7 @@ window.addEventListener('hashchange', function () { visFane(location.hash.slice(
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=15"></script>
+<script src="../components/js/konto.js?v=16"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

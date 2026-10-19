@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=86">
+<link rel="stylesheet" href="../frantz-ds.css?v=87">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -17,9 +17,11 @@
   .lagret--lagrer .icon-lucide { color: var(--text-faint); }
   .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: var(--space-section-gap); }
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
+  #del-funnet .husk__rad, #funnet-endre, #del-funnet .funnet-ferdig { display: none; }
+  .sum-stilling__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); margin-bottom: var(--space-4); }
   .steg { display: flex; flex-direction: column; gap: var(--space-section-gap); }
   .steg[hidden] { display: none; }
-  .nk-steg { margin: 0; }
+  nav:has(> .steg-vis) { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
   .steg-blokk + .steg-blokk { margin-top: var(--space-section-gap); }
   #del-materiell .del__hint, #del-oversikt .del__hint { margin-bottom: var(--space-section-gap); }
   .steg-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); }
@@ -34,12 +36,26 @@
   .oversikt-gruppe__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
   .oversikt-gruppe__topp h3 { margin: 0; color: var(--text-heading); font: var(--type-label); }
   #del-oversikt #felt-faktura { margin-top: var(--space-16); padding-top: var(--space-16); border-top: 1px solid var(--border-default); }
-  /* Phone: four numbers in one row, only the current step keeps its name */
+  /* The stepper: the same on every screen */
+  .steg-vis__tall { margin: 0 0 var(--space-8); color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); }
+  .steg-vis__bar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
+  .steg-del { display: grid; gap: var(--space-6); width: 100%; padding: 0; border: 0; background: none; color: var(--text-muted); font: var(--type-support); text-align: left; }
+  button.steg-del { cursor: pointer; }
+  button.steg-del:hover .steg-del__navn { color: var(--text-heading); text-decoration: underline; }
+  button.steg-del:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
+  .steg-del__strek { height: 6px; border-radius: var(--radius-full); background: var(--border-default); }
+  .steg-del.er-ferdig .steg-del__strek { background: var(--color-navy); }
+  .steg-del.er-na .steg-del__strek { background: var(--color-amber); }
+  .steg-del.er-ferdig, .steg-del.er-na { color: var(--text-heading); }
+  .steg-del.er-na .steg-del__navn { font-weight: var(--font-weight-semibold); }
+  .steg-del__navn { display: inline-flex; align-items: center; gap: var(--space-4); }
+  /* Phone: the bar alone; the current name already shows above it */
   @media (max-width: 640px) {
-    .nk-steg { flex-wrap: nowrap; }
-    .nk-steg .step:not(.step--now) .step__tekst { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-    .nk-steg .step:not(.step--now), .nk-steg .step:not(.step--now) .step__link { padding-right: var(--space-8); }
+    .steg-del__navn { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .steg-del { padding: var(--space-8) 0; }
   }
+  /* Where the bottom bar shows, it carries «Neste». The button in the page would only crowd it. */
+  @media (max-width: 1180px) { .steg-nav #steg-neste { display: none; } .steg-nav__feil { text-align: left; } }
 
   .del { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); padding: var(--space-card-padding); }
   .del[hidden] { display: none; }
@@ -223,9 +239,7 @@
   .pakker__eller { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-24); color: var(--text-muted); font-size: var(--text-sm); }
   .pakker__eller::before, .pakker__eller::after { content: ""; flex: 1; border-top: 1px solid var(--border-subtle); }
   .pakker__eller[hidden] { display: none; }
-  .pakke-ny { display: grid; gap: var(--space-8); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
-  .pakke-ny[hidden], .pakke-knapp[hidden] { display: none; }
-  .pakke-ny .form-label { margin: 0; }
+  .pakke-knapp[hidden] { display: none; }
   .pakke-knapp { display: inline-flex; align-items: center; gap: var(--space-6); justify-self: start; }
 
   .oppsummering { position: sticky; top: var(--space-24); }
@@ -240,10 +254,30 @@
   .kvittering p { color: var(--text-body); }
   .kvittering .emne { padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
 
+  .oppsummering__lukk { display: none; }
+  /* Phone and tablet: the order lives in a fixed footer. «Din bestilling» opens the whole order from the bottom. */
   @media (max-width: 1180px) {
     .nk { grid-template-columns: 1fr; }
-    .oppsummering { position: static; }
+    .oppsummering {
+      position: fixed; left: var(--rail-width); right: 0; bottom: var(--mobile-orderbar-height); z-index: var(--z-dropdown);
+      max-height: calc(100dvh - var(--mobile-orderbar-height) - var(--topbar-height));
+      overflow-y: auto; overscroll-behavior: contain;
+      border-radius: var(--radius-16) var(--radius-16) 0 0; box-shadow: var(--shadow-dialog);
+      transform: translateY(calc(100% + var(--mobile-orderbar-height))); visibility: hidden;
+      transition: transform .25s ease, visibility 0s linear .25s;
+    }
+    .oppsummering .summary-panel { border-radius: inherit; }
+    body.nk-ark-apen .oppsummering { transform: none; visibility: visible; transition: transform .25s ease; }
+    .oppsummering .summary-panel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-12); }
+    .oppsummering__lukk { display: inline-flex; }
+    .nk-ark-bakgrunn { z-index: calc(var(--z-dropdown) - 1); }
+    .nk-mobilbestilling__pris { padding: 0; border: 0; background: none; text-align: left; cursor: pointer; }
+    .nk-mobilbestilling__pris > span { display: inline-flex; align-items: center; gap: var(--space-4); }
+    .nk-mobilbestilling__pil { transform: rotate(180deg); transition: transform .2s ease; }
+    body.nk-ark-apen .nk-mobilbestilling__pil { transform: none; }
   }
+  @media (max-width: 860px) { .oppsummering { left: 0; } }
+  @media (prefers-reduced-motion: reduce) { .oppsummering, .nk-mobilbestilling__pil { transition: none !important; } }
   @media (max-width: 860px) {
     /* Keep imported sections below the fixed mobile header when scrolled into view. */
     .nk-topp h1, .del { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
@@ -280,6 +314,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -305,7 +340,7 @@
 
           <!-- Four steps. The order box on the right follows along. Nothing is sent before «Bestill» on the last step. -->
           <nav aria-label="Steg i bestillingen">
-            <ol class="steps nk-steg" id="steg-liste"></ol>
+            <div class="steg-vis" id="steg-liste"></div>
           </nav>
 
           <div class="steg" data-steg="1">
@@ -322,6 +357,10 @@
             <div id="start-innhold">
             <div id="lenke-valg">
             <div class="kilder">
+              <div class="felt funnet__bred" id="felt-ref">
+                <label class="form-label" for="ref">Kampanjenavn <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. deres referanse eller oppdragsnummer">
+              </div>
               <div class="felt funnet__bred connect-valg" id="connect-valg">
                 <label class="form-label" id="connect-lbl" for="connect-sok">Velg stilling <span class="valgfri">(valgfritt)</span></label>
                 <p class="form-description" id="connect-hint" style="margin: 0">Velg en stilling fra deres system, og trykk «Fyll ut skjemaet». Bare stillinger uten kampanje vises.</p>
@@ -359,10 +398,6 @@
                   <input type="file" id="pdf" aria-label="Velg stillingsannonse" hidden accept=".pdf,.docx,.doc,.jpg,.jpeg,.png">
                 </div>
               </div>
-              <div class="felt funnet__bred" id="felt-ref">
-                <label class="form-label" for="ref">Deres referanse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Deres eget navn eller nummer på oppdraget. Vises i kampanjelisten og i emnet på e-posten." aria-label="Mer info: Deres eget navn eller nummer på oppdraget. Vises i kampanjelisten og i emnet på e-posten."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. oppdragsnummer 22 45">
-              </div>
             </div>
 
             <div class="inn__fortsett">
@@ -394,7 +429,7 @@
                 <span id="rad-sted"><b>Sted</b> <span id="k-sted"></span></span>
                 <span id="rad-frist"><b>Søknadsfrist</b> <span id="k-frist"></span></span>
                 <span id="rad-arbeidsgiver" hidden><b>Arbeidsgiver</b> <span id="k-arbeidsgiver"></span></span>
-                <span id="rad-ref" hidden><b>Deres referanse</b> <span id="k-ref"></span></span>
+                <span id="rad-ref" hidden><b>Kampanjenavn</b> <span id="k-ref"></span></span>
                 <span id="rad-budsjett" hidden><b>Budsjett</b> <span id="k-budsjett"></span></span>
                 <span id="rad-kanaler" hidden><b>Kanaler</b> <span id="k-kanaler"></span></span>
                 <span id="rad-periode" hidden><b>Periode</b> <span id="k-periode"></span></span>
@@ -471,7 +506,7 @@
                 <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
                 <div class="alert__content"><span class="alert__body" id="pakke-estimat-tekst"></span></div>
               </div>
-              <a class="link pakke-knapp" href="min-profil.html#pakker"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span> Se og lag pakkene dine under Min profil</a>
+              <a class="link pakke-knapp" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span> Se og lag pakkene dine under Mine pakker</a>
             </div>
             <div class="mangler-blokker" id="mangler-blokker">
               <div class="felt blokk funnet__bred" id="blokk-budsjett">
@@ -557,8 +592,19 @@
         <aside class="oppsummering" id="ordre-oppsummering" tabindex="-1">
           <div class="summary-panel" id="sammendrag">
             <div class="summary-panel__head">
-              <h2>Din bestilling</h2>
-              <p id="sum-tittel-topp">Ny kampanje</p>
+              <div>
+                <h2>Din bestilling</h2>
+                <p id="sum-tittel-topp">Ny kampanje</p>
+              </div>
+              <button class="btn btn--ghost oppsummering__lukk" type="button" id="ark-lukk" aria-label="Lukk oversikten"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+            </div>
+            <div class="summary-panel__block" id="sum-stilling" hidden>
+              <div class="sum-stilling__topp"><span class="summary-panel__label">Stillingen</span><button class="link link--xs" type="button" data-til-steg="1">Endre</button></div>
+              <dl class="summary-row" id="sum-navn-rad" hidden><dt>Kampanjenavn</dt><dd id="sum-navn"></dd></dl>
+              <dl class="summary-row"><dt>Stilling</dt><dd id="sum-stilling-tittel">—</dd></dl>
+              <dl class="summary-row"><dt>Arbeidssted</dt><dd id="sum-sted">—</dd></dl>
+              <dl class="summary-row" id="sum-arbeidsgiver-rad" hidden><dt>Arbeidsgiver</dt><dd id="sum-arbeidsgiver"></dd></dl>
+              <dl class="summary-row" id="sum-frist-dato-rad" hidden><dt>Søknadsfrist</dt><dd id="sum-frist-dato"></dd></dl>
             </div>
             <div class="summary-panel__block">
               <dl class="summary-row" id="sum-pakke-rad" hidden><dt>Pakke</dt><dd id="sum-pakke">—</dd></dl>
@@ -594,15 +640,6 @@
                 <p class="form-hint" style="margin: 0">Du får e-post når de svarer. Lenken gjelder i 14 dager.</p>
               </div>
               <p style="margin: 0; color: var(--text-muted); font: var(--type-body)">En rådgiver sjekker bestillingen før noe publiseres. Svar kommer i én e-posttråd.</p>
-              <button class="link pakke-knapp" type="button" id="pakke-ny-knapp" disabled aria-expanded="false" aria-controls="pakke-ny"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span> Lagre som pakke</button>
-              <div class="pakke-ny" id="pakke-ny" hidden>
-                <label class="form-label" for="pakke-navn">Navn på pakken</label>
-                <input class="form-input" type="text" id="pakke-navn" placeholder="F.eks. Pakke 4" autocomplete="off">
-                <p class="form-description" style="margin: 0">Vi lagrer budsjett, kanaler og antall uker. Materiell og tillegg hører til kampanjen. Bare du ser pakkene dine.</p>
-                <p class="feil" id="feil-pakke" role="alert" hidden></p>
-                <div class="btn-group"><button class="btn btn--secondary btn--sm" type="button" id="pakke-lagre">Lagre pakken</button><button class="btn btn--ghost btn--sm" type="button" id="pakke-avbryt">Avbryt</button></div>
-              </div>
-              <p class="status status--ok" id="pakke-ok" role="status" hidden></p>
             </div>
           </div>
 
@@ -624,9 +661,10 @@
   </div>
 </div>
 
+<div class="drawer-backdrop nk-ark-bakgrunn" id="ark-bakgrunn" hidden></div>
 <div class="nk-mobilbestilling" id="mobilbestilling" hidden>
-  <div class="nk-mobilbestilling__pris"><span>Din bestilling</span><strong id="mobil-total">—</strong></div>
-  <button class="btn btn--primary" id="mobil-oppsummering" type="button" aria-controls="ordre-oppsummering">Se over <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+  <button class="nk-mobilbestilling__pris" type="button" id="mobil-ark" aria-expanded="false" aria-controls="ordre-oppsummering"><span>Din bestilling <span class="icon-lucide icon-lucide--chevron-down icon-lucide--sm nk-mobilbestilling__pil" aria-hidden="true"></span></span><strong id="mobil-total">—</strong></button>
+  <button class="btn btn--primary" id="mobil-oppsummering" type="button">Neste <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
@@ -827,11 +865,7 @@
     // The ad runs from the employer's page when we know the employer
     $('avsender').value = a.arbeidsgiver || 'Nordlys Rekruttering AS';
     if (a.notat) $('notat').value = a.notat;
-    var stedForLenke = $('funnet-felter');
-    stedForLenke.insertBefore($('felt-lenke'), stedForLenke.firstChild);
-    stedForLenke.insertBefore($('felt-ref'), $('felt-avsender'));
-    var demoLenke = $('felt-lenke').querySelector('[data-demo]');
-    if (demoLenke) demoLenke.hidden = true;
+    // Kampanjenavn and the link stay at the top of step 1. The job fields below are open to correct.
     $('del-start').hidden = !!tilstand.fraConnectSide;
     $('t-funnet').textContent = 'Stillingen';
     $('funnet-hint').textContent = 'Stemmer det? Rett det som ikke stemmer.';
@@ -844,10 +878,16 @@
     }
     tegnKanaler();
     tilstand.lengst = 1;
-    if (tilstand.steg && tilstand.steg !== 1) visSteg(1, false);
     oppdater();
-    settRediger(!$('stilling').value.trim() || !steder.verdi().length);
-    if (a.tittel) (tilstand.side ? $('side-tittel') : $('del-funnet')).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    settRediger(true);
+    // All found: straight on to «Kampanjen». The job details show again on «Se over». Something missing: stay and say what.
+    if (!stegFeil(1)) visSteg(2);
+    else {
+      visSteg(1, false);
+      $('steg-feil').textContent = 'Vi fant ikke stilling og arbeidssted. Fyll dem inn under «Stillingen».';
+      $('steg-feil').hidden = false;
+      $('del-funnet').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   /* One question at a time: only what the text did not answer, and each one after the last */
@@ -957,11 +997,7 @@
     var tekst = k.length > 1 ? k.slice(0, -1).join(', ') + ' og ' + k[k.length - 1] : k[0];
     var ref = $('ref').value.trim();
     $('start-sammendrag').textContent = (k.length ? 'Vi leste ' + tekst : 'Fylles ut for hånd') + (ref ? ' · Referanse ' + ref : '');
-    $('start-sammendrag').hidden = false;
-    $('start-endre').hidden = false;
-    $('start-endre').setAttribute('aria-expanded', 'false');
-    $('start-endre').textContent = 'Endre';
-    $('del-start').classList.add('start--lukket');
+    // The start box stays open on step 1, so going back shows the input, not a summary
     // Only where it came from. The reference already shows in the card below.
     $('funnet-kilde-tekst').textContent = k.length ? 'Hentet fra ' + tekst : 'Fylt ut for hånd';
     $('funnet-kilde').hidden = false;
@@ -986,9 +1022,9 @@
   // The reference and the link move into the Stillingen card once read. This puts them back at the top.
   function plasserStartfelt() {
     var kilder = $('lenke-valg').querySelector('.kilder');
-    var etter = $('connect-valg');
-    kilder.insertBefore($('felt-lenke'), etter ? etter.nextSibling : kilder.firstChild);
-    kilder.appendChild($('felt-ref'));
+    kilder.insertBefore($('felt-ref'), kilder.firstChild); // Kampanjenavn first
+    var etter = $('connect-valg') || $('felt-ref');
+    kilder.insertBefore($('felt-lenke'), etter.nextSibling);
   }
   function velgStart(hvordan) {
     $('del-start').hidden = !!tilstand.fraConnectSide;
@@ -1243,6 +1279,7 @@
   });
   $('arbeidsgiver').addEventListener('input', function () { oppdater(); });
   $('frist').addEventListener('change', oppdater);
+  $('ref').addEventListener('input', oppdater); // Kampanjenavn shows in the order box
 
   /* ---------- Material and add-ons ---------- */
   function materiellTekst() {
@@ -1349,35 +1386,6 @@
     var b = e.target.closest('[data-pakke]'); if (b) brukPakke(PAKKER[Number(b.dataset.pakke)]);
   });
 
-  // «Lagre som pakke» in the order panel
-  function visPakkeNy(apen) {
-    $('pakke-ny').hidden = !apen; $('pakke-ny-knapp').hidden = apen;
-    $('pakke-ny-knapp').setAttribute('aria-expanded', String(apen));
-    $('feil-pakke').hidden = true;
-    if (apen) { $('pakke-ok').hidden = true; $('pakke-navn').value = ''; $('pakke-navn').focus(); } else $('pakke-ny-knapp').focus();
-  }
-  $('pakke-ny-knapp').addEventListener('click', function () { visPakkeNy(true); });
-  $('pakke-avbryt').addEventListener('click', function () { visPakkeNy(false); });
-  function lagrePakke() {
-    var navn = $('pakke-navn').value.trim(), f = $('feil-pakke');
-    f.hidden = true;
-    if (!budsjett()) { f.textContent = 'Velg budsjett først. En pakke må ha et budsjett.'; f.hidden = false; return; }
-    var p = { navn: navn, budsjett: budsjett(), kanaler: tilstand.kanalmodus === 'frantz' ? null : tilstand.kanaler.slice(), uker: typeof tilstand.uker === 'number' && !tilstand.til ? tilstand.uker : null };
-    var galt = FZ_PAKKER.leggTil(p);
-    if (galt) { f.textContent = galt; f.hidden = false; $('pakke-navn').focus(); return; }
-    PAKKER = FZ_PAKKER.alle(); // the list is filtered per person, so read it again
-    tilstand.pakke = navn;
-    visPakkeNy(false);
-    $('pakke-ok').textContent = 'Lagret som «' + navn + '». Pakken ligger klar neste gang du bestiller.';
-    $('pakke-ok').hidden = false;
-    oppdater();
-  }
-  $('pakke-lagre').addEventListener('click', lagrePakke);
-  $('pakke-navn').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { e.preventDefault(); lagrePakke(); }
-    if (e.key === 'Escape') visPakkeNy(false);
-  });
-
   /* ---------- Earliest publishing date: 3 working days after the order ---------- */
   var UKEDAG = ['søn.', 'man.', 'tir.', 'ons.', 'tor.', 'fre.', 'lør.'];
   function tidligstDato() {
@@ -1424,10 +1432,21 @@
   });
 
   /* ---------- Summary ---------- */
+  // «Din bestilling» in the bottom bar opens and closes the whole order
+  function visArk(pa) {
+    document.body.classList.toggle('nk-ark-apen', pa);
+    $('mobil-ark').setAttribute('aria-expanded', String(pa));
+    $('ark-bakgrunn').hidden = !pa;
+    if (pa) $('ark-lukk').focus(); else if (document.activeElement && $('ordre-oppsummering').contains(document.activeElement)) $('mobil-ark').focus();
+  }
+  $('mobil-ark').addEventListener('click', function () { visArk(!document.body.classList.contains('nk-ark-apen')); });
+  $('ark-lukk').addEventListener('click', function () { visArk(false); });
+  $('ark-bakgrunn').addEventListener('click', function () { visArk(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.body.classList.contains('nk-ark-apen')) visArk(false); });
+
+  // The bottom bar: «Neste» on steps 1–3, «Bestill kampanjen» on step 4
   $('mobil-oppsummering').addEventListener('click', function () {
-    var panel = $('ordre-oppsummering');
-    panel.scrollIntoView({ block: 'start', behavior: 'instant' });
-    panel.focus({ preventScroll: true });
+    if (tilstand.steg < 4) $('steg-neste').click(); else $('bestill').click();
   });
 
   // The shortcut is useful while editing; the full panel already provides its actions.
@@ -1473,7 +1492,6 @@
     var klarTilBestilling = stillingKlar && !!b;
     $('bestill').disabled = !klarTilBestilling;
     $('del-knapp').disabled = !klarTilBestilling;
-    $('pakke-ny-knapp').disabled = !klarTilBestilling;
     $('bestilling-venter').hidden = klarTilBestilling;
     $('bestilling-venter').textContent = !stillingKlar
       ? 'Fyll inn stillingen, og velg en pakke eller et budsjett, før dere bestiller eller deler.'
@@ -1488,8 +1506,16 @@
     $('sum-tillegg').textContent = '+ ' + kr(tilleggSum);
     $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
     $('mobil-total').textContent = $('sum-total').textContent;
-    $('mobilbestilling').hidden = !klarTilBestilling;
+    $('mobilbestilling').hidden = !tilstand.lest;
     document.body.classList.toggle('nk-har-mobilbestilling', !$('mobilbestilling').hidden);
+    // The job, in the order box on every step
+    $('sum-stilling').hidden = !tilstand.lest;
+    var navnVerdi = $('ref').value.trim(), agVerdi = $('arbeidsgiver').value.trim();
+    $('sum-navn-rad').hidden = !navnVerdi; $('sum-navn').textContent = navnVerdi;
+    $('sum-stilling-tittel').textContent = tittel || '—';
+    $('sum-sted').textContent = stederListe.length ? navnListe(stederListe) : '—';
+    $('sum-arbeidsgiver-rad').hidden = !agVerdi; $('sum-arbeidsgiver').textContent = agVerdi;
+    $('sum-frist-dato-rad').hidden = !$('frist').value; $('sum-frist-dato').textContent = $('frist').value ? kort($('frist').value) : '';
     $('sum-tittel-topp').textContent = tittel ? [tittel, stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' · ') : 'Ny kampanje';
     var pakke = pakkeTekst();
     $('sum-pakke-rad').hidden = !pakke; $('sum-pakke').textContent = pakke;
@@ -1526,14 +1552,20 @@
   }
   function kanGaTil(n) { for (var i = 1; i < n; i++) if (stegFeil(i)) return false; return true; }
   function tegnStegListe() {
-    // The design system's «.steps»: done steps are links back, the current one is navy, later ones open when the step before is filled in
-    $('steg-liste').innerHTML = STEG.map(function (navn, i) {
-      var n = i + 1, na = n === tilstand.steg, ferdig = !na && n <= tilstand.lengst && !stegFeil(n);
-      var lov = !na && n <= tilstand.lengst + 1 && kanGaTil(n);
-      var innhold = '<span class="step__n" aria-hidden="true">' + (ferdig ? '✓' : n) + '</span><span class="step__tekst">' + navn + '</span>';
-      if (na) return '<li class="step step--now" aria-current="step">' + innhold + '</li>';
-      return '<li class="step' + (ferdig ? ' step--done' : '') + '">' + (lov ? '<button type="button" class="step__link" data-til-steg="' + n + '">' + innhold + '</button>' : innhold) + '</li>';
-    }).join('');
+    // One stepper on every screen: «Steg 2 av 4» and a bar in four parts. The card below names the step,
+    // and the «Neste» button names the next one, so the stepper says neither. Finished steps are links back.
+    var n0 = tilstand.steg;
+    $('steg-liste').innerHTML = '<p class="steg-vis__tall">Steg ' + n0 + ' av ' + STEG.length + '</p>' +
+      '<ol class="steg-vis__bar">' + STEG.map(function (navn, i) {
+        var n = i + 1, na = n === n0, ferdig = !na && n <= tilstand.lengst && !stegFeil(n);
+        var lov = !na && n <= tilstand.lengst + 1 && kanGaTil(n);
+        var klasse = 'steg-del' + (ferdig || n < n0 ? ' er-ferdig' : na ? ' er-na' : '');
+        var innhold = '<span class="steg-del__strek" aria-hidden="true"></span><span class="steg-del__navn">' +
+          (ferdig ? '<span class="icon-lucide icon-lucide--check icon-lucide--sm" aria-hidden="true"></span>' : '') + navn +
+          (ferdig ? '<span class="chat__sr"> (ferdig)</span>' : na ? '<span class="chat__sr"> (her er du)</span>' : '') + '</span>';
+        return '<li>' + (lov ? '<button type="button" class="' + klasse + '" data-til-steg="' + n + '">' + innhold + '</button>'
+          : '<span class="' + klasse + '"' + (na ? ' aria-current="step"' : '') + '>' + innhold + '</span>') + '</li>';
+      }).join('') + '</ol>';
   }
   function tegnStegNav() {
     var n = tilstand.steg;
@@ -1545,17 +1577,22 @@
     var sist = n === 4;
     $('bestill').hidden = !sist; $('del-knapp').hidden = !sist;
     $('steg-hint').hidden = sist;
+    // Phone and tablet: the bar at the bottom carries the next step, and «Bestill» on the last one
+    document.body.classList.toggle('nk-steg-4', sist);
+    $('mobil-oppsummering').innerHTML = sist ? 'Bestill kampanjen' : 'Neste <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span>';
+    $('mobil-oppsummering').className = sist ? 'btn btn--accent' : 'btn btn--primary';
     if (!sist) { $('del-panel').hidden = true; $('del-knapp').setAttribute('aria-expanded', 'false'); }
     $('bestilling-venter').hidden = $('bestilling-venter').hidden || !sist;
   }
   function visSteg(n, flytt) {
+    if (document.body.classList.contains('nk-ark-apen')) visArk(false);
     tilstand.steg = n;
     tilstand.lengst = Math.max(tilstand.lengst, n);
     Array.prototype.forEach.call(document.querySelectorAll('.steg'), function (el) { el.hidden = Number(el.dataset.steg) !== n; });
     $('steg-feil').hidden = true;
     tegnOversikt(); tegnStegListe(); tegnStegNav();
     if (flytt !== false) {
-      $('steg-liste').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('steg-liste').parentNode.scrollIntoView({ behavior: 'smooth', block: 'start' }); // the stepper
       var tittel = document.querySelector('.steg[data-steg="' + n + '"] .del__tittel');
       if (tittel) { tittel.setAttribute('tabindex', '-1'); tittel.focus({ preventScroll: true }); }
     }
@@ -1564,6 +1601,7 @@
     var feil = stegFeil(tilstand.steg);
     if (feil) {
       $('steg-feil').textContent = feil; $('steg-feil').hidden = false;
+      $('steg-feil').scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (tilstand.steg === 1 && tilstand.lest) settRediger(true);
       if (tilstand.steg === 2 && tilstand.oppsett === 'selv') { $('feil-budsjett').hidden = false; $('budsjett').focus(); }
       return;
@@ -1588,9 +1626,9 @@
     var tilleggSum = TILLEGG.reduce(function (sum, t) { return sum + (tilstand.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0);
     $('oversikt').innerHTML =
       gruppe('Stillingen', 1,
+        rad('Kampanjenavn', esc($('ref').value.trim())) +
         rad('Stilling', esc($('stilling').value.trim())) + rad('Arbeidssted', esc(navnListe(st))) +
-        rad('Søknadsfrist', $('frist').value ? kort($('frist').value) : '') + rad('Arbeidsgiver', esc($('arbeidsgiver').value.trim())) +
-        rad('Deres referanse', esc($('ref').value.trim()))) +
+        rad('Søknadsfrist', $('frist').value ? kort($('frist').value) : '') + rad('Arbeidsgiver', esc($('arbeidsgiver').value.trim()))) +
       gruppe('Kampanjen', 2,
         rad('Pakke', esc(pakkeTekst())) + rad('Budsjett', b ? kr(b) : '') + rad('Kanaler', FZ_KANALER.html(tilstand.kanaler)) +
         rad('Periode', esc(periodeTekst()))) +
@@ -1599,6 +1637,9 @@
         rad('Tillegg', esc(tilleggListe().join(', ')) || 'Ingen') + (tilleggSum ? rad('Pris for tillegg', '+ ' + kr(tilleggSum)) : '') +
         rad('Kommentar', esc($('notat').value.trim())));
   }
+  $('sum-stilling').addEventListener('click', function (e) {
+    if (e.target.closest('[data-til-steg]')) visSteg(1);
+  });
   $('oversikt').addEventListener('click', function (e) {
     var b = e.target.closest('[data-til-steg]'); if (b) visSteg(Number(b.dataset.tilSteg));
   });
@@ -1725,7 +1766,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=15"></script>
+<script src="../components/js/konto.js?v=16"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
