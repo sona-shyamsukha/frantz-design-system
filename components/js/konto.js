@@ -44,7 +44,7 @@
   var profilHtml =
     '<div class="drawer__section" style="display:flex;align-items:center;gap:var(--space-12)">' +
       '<span class="avatar" aria-hidden="true">KH</span>' +
-      '<div><b style="display:block;color:var(--text-heading)">Kari Hansen</b><small style="color:var(--text-muted)">kari.hansen@vokser.no · Vokser AS</small></div>' +
+      '<div><b style="display:block;color:var(--text-heading)">Kari Hansen</b><small style="color:var(--text-muted)">kari.hansen@nordlysrekruttering.no · Nordlys Rekruttering AS</small></div>' +
     '</div>' +
     '<form class="drawer__section" onsubmit="event.preventDefault(); this.querySelector(\'[data-lagret]\').hidden = false;">' +
       '<h3>Kontaktinformasjon</h3>' +
@@ -53,7 +53,7 @@
         '<div class="form-group"><label class="form-label" for="p-etternavn">Etternavn</label><input class="form-input" id="p-etternavn" value="Hansen" autocomplete="family-name"></div>' +
       '</div>' +
       '<div class="form-group" style="margin-top:var(--space-12)"><label class="form-label" for="p-tlf">Telefon</label><input class="form-input" id="p-tlf" type="tel" placeholder="F.eks. 912 34 567" autocomplete="tel"></div>' +
-      '<div class="form-group" style="margin-top:var(--space-12)"><span class="form-label">E-post</span><div>kari.hansen@vokser.no</div><p class="form-hint">E-posten er brukernavnet ditt. Kontakt Frantz for å endre den.</p></div>' +
+      '<div class="form-group" style="margin-top:var(--space-12)"><span class="form-label">E-post</span><div>kari.hansen@nordlysrekruttering.no</div><p class="form-hint">E-posten er brukernavnet ditt. Kontakt Frantz for å endre den.</p></div>' +
       '<div style="display:flex;align-items:center;gap:var(--space-12);margin-top:var(--space-16)"><button class="btn btn--primary" type="submit">Lagre</button><span data-lagret hidden style="font-size:var(--text-sm);color:var(--text-success-strong)">Lagret</span></div>' +
     '</form>' +
     // Alert settings: how often to hear about new interessenter, and which other e-mails to get
@@ -84,7 +84,7 @@
     '<div class="drawer__section">' +
       '<h3>Passord</h3>' +
       '<p style="margin:0 0 var(--space-12);font-size:var(--text-sm);color:var(--text-muted)">Vi sender deg en lenke på e-post for å lage et nytt passord.</p>' +
-      '<button class="btn btn--secondary" type="button" onclick="this.textContent=\'Lenke sendt til kari.hansen@vokser.no\'; this.disabled=true;">Endre passord</button>' +
+      '<button class="btn btn--secondary" type="button" onclick="this.textContent=\'Lenke sendt til kari.hansen@nordlysrekruttering.no\'; this.disabled=true;">Endre passord</button>' +
     '</div>';
 
   var backdrop = document.createElement('div');

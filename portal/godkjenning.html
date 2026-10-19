@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Godkjenn kampanjen — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=78">
+<link rel="stylesheet" href="../frantz-ds.css?v=80">
 <style>
   /* Offentlig side uten innlogging: ingen sidemeny, smal toppstripe, alt i én kolonne */
   body { margin: 0; background: var(--surface-default); }
@@ -80,20 +80,21 @@
 
 <main class="gk" id="innhold" tabindex="-1">
   <span class="badge badge--setup" id="status-merke">Venter på svar</span>
-  <h1 id="overskrift">Kari Hansen i Vokser AS ber deg godkjenne en kampanje</h1>
-  <p class="gk-sub">Se over prisen og annonsen. Kampanjen starter ikke før du har svart.</p>
+  <h1 id="overskrift">Kari Hansen i Nordlys Rekruttering AS ber deg godkjenne en kampanje</h1>
+  <p class="gk-sub" id="gk-hvem">Kari vil ha ditt ja før kampanjen bestilles hos Frantz. Se over prisen og annonsen. Du trenger ikke logge inn, og ingenting bestilles før du har svart.</p>
   <p class="gk-gyldig"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span>Lenken gjelder til 25.10.2026</p>
 
   <section class="gk-seksjon" aria-labelledby="kampanje-tittel">
     <div class="summary-panel">
       <div class="summary-panel__head">
         <h2 id="kampanje-tittel">Kampanjen</h2>
-        <p id="k-undertittel">Sykepleier i Kristiansand</p>
+        <p id="k-undertittel">Helsesykepleier i Kristiansand</p>
       </div>
       <div class="summary-panel__block">
-        <dl class="summary-row"><dt>Stilling</dt><dd id="d-stilling">Sykepleier</dd></dl>
+        <dl class="summary-row"><dt>Stilling</dt><dd id="d-stilling">Helsesykepleier</dd></dl>
+        <dl class="summary-row"><dt>Arbeidsgiver</dt><dd id="d-arbeidsgiver">Sørlandet Helse</dd></dl>
         <dl class="summary-row"><dt>Arbeidssted</dt><dd id="d-sted">Kristiansand</dd></dl>
-        <dl class="summary-row"><dt>Ønsket periode</dt><dd id="d-periode">14.10 – 11.11.2026</dd></dl>
+        <dl class="summary-row"><dt>Ønsket periode</dt><dd id="d-periode">14.10 – 03.11.2026 · 3 uker</dd></dl>
         <dl class="summary-row"><dt>Kanaler</dt><dd id="d-kanaler" data-vis-kanaler>Meta, Nettsteder og aviser</dd></dl>
         <dl class="summary-row"><dt>Budsjett</dt><dd id="d-budsjett">kr 15 000</dd></dl>
         <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
@@ -102,8 +103,9 @@
         <span>Totalsum</span>
         <b id="d-total">kr 15 000</b>
       </div>
+      <p class="summary-panel__mva">Alle priser er eks. mva.</p>
       <div class="summary-panel__block">
-        <dl class="summary-row"><dt>Forventet «Søk»</dt><dd id="d-sok">60–90</dd></dl>
+        <dl class="summary-row"><dt>Forventet «Søk»</dt><dd id="d-sok">4–6</dd></dl>
         <p class="gk-forklaring">«Søk» er hvor mange som trykker på søkeknappen i annonsen.</p>
       </div>
     </div>
@@ -113,18 +115,18 @@
     <h2 class="gk-seksjon__tittel" id="annonse-tittel">Slik kan annonsen se ut</h2>
     <article class="ad-preview" data-plattform="facebook" aria-label="Eksempel på annonsen på Facebook">
       <header class="ad-preview__topp">
-        <span class="ad-preview__avatar" id="a-avatar" aria-hidden="true">v</span>
-        <div><b id="a-avsender">Vokser AS</b><small>Sponset</small></div>
+        <span class="ad-preview__avatar" id="a-avatar" aria-hidden="true">s</span>
+        <div><b id="a-avsender">Sørlandet Helse</b><small>Sponset</small></div>
         <span class="ad-preview__mer" aria-hidden="true">···</span>
       </header>
-      <p class="ad-preview__tekst" id="a-tekst">Vi har ledig stilling som sykepleier i Kristiansand. Les mer og søk i dag.</p>
+      <p class="ad-preview__tekst" id="a-tekst">Vi har ledig stilling som helsesykepleier i Kristiansand. Les mer og søk i dag.</p>
       <div class="ad-preview__kreativ">
-        <div class="ad-preview__logo" id="a-logo">Vokser AS</div>
-        <p class="ad-preview__tittel" id="a-tittel">Sykepleier, Kristiansand</p>
+        <div class="ad-preview__logo" id="a-logo">Sørlandet Helse</div>
+        <p class="ad-preview__tittel" id="a-tittel">Helsesykepleier, Kristiansand</p>
         <div class="ad-preview__bilde" role="img" aria-label="Plass til bilde"></div>
       </div>
       <footer class="ad-preview__bunn">
-        <div><small>Ledig stilling</small><b id="a-overskrift">Sykepleier i Kristiansand</b></div>
+        <div><small>Ledig stilling</small><b id="a-overskrift">Helsesykepleier i Kristiansand</b></div>
         <span class="ad-preview__cta">Les mer</span>
       </footer>
     </article>
@@ -182,15 +184,17 @@
 
   var tittel = hent('tittel', 'Helsesykepleier');
   var sted = hent('sted', 'Kristiansand');
-  var periode = hent('periode', '14.10 – 11.11.2026');
+  var periode = hent('periode', '14.10 – 03.11.2026 · 3 uker');
   var kanaler = hent('kanaler', 'Meta, Nettsteder og aviser');
   var budsjett = tall('budsjett', 15000);
   var tillegg = hent('tillegg', '').split(',').map(function (t) { return t.trim(); }).filter(Boolean);
   var tilleggSum = tall('tilleggsum', 0);
-  var sok = hent('sok', '60–90');
+  var sok = hent('sok', '4–6');
   var fra = hent('fra', 'Kari Hansen');
-  var firma = hent('firma', 'Vokser AS');
-  var avsender = hent('avsender', firma);
+  var firma = hent('firma', 'Nordlys Rekruttering AS');
+  var arbeidsgiver = hent('arbeidsgiver', 'Sørlandet Helse');
+  // The ad shows the employer's page, not the firm that orders it
+  var avsender = hent('avsender', arbeidsgiver || firma);
   var fornavn = fra.split(/\s+/)[0];
 
   // Stillingstittel midt i en setning: liten forbokstav, men la forkortelser som «IT-leder» være
@@ -199,6 +203,7 @@
 
   // Toppen
   $('overskrift').textContent = fra + ' i ' + firma + ' ber deg godkjenne en kampanje';
+  $('gk-hvem').textContent = fornavn + ' vil ha ditt ja før kampanjen bestilles hos Frantz. Se over prisen og annonsen. Du trenger ikke logge inn, og ingenting bestilles før du har svart.';
   $('svar-hint').textContent = fra + ' får svaret ditt med en gang.';
   $('send-tekst').textContent = 'Send til ' + fornavn;
   document.title = 'Godkjenn kampanjen: ' + tittel + ' — Frantz';
@@ -207,6 +212,7 @@
   $('k-undertittel').textContent = tittel + ' i ' + sted;
   $('d-stilling').textContent = tittel;
   $('d-sted').textContent = sted;
+  $('d-arbeidsgiver').parentNode.hidden = !arbeidsgiver; $('d-arbeidsgiver').textContent = arbeidsgiver;
   $('d-periode').textContent = periode;
   FZ_KANALER.tegn($('d-kanaler'), kanaler);
   $('d-budsjett').textContent = kr(budsjett);

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=78">
+<link rel="stylesheet" href="../frantz-ds.css?v=80">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -134,13 +134,13 @@
       <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@nordlysrekruttering.no</small></span></div></header>
 
     <div class="wrap">
       <h1 class="text-h2">Innstillinger</h1>
@@ -154,7 +154,7 @@
 
       <section class="panel" id="panel-brukere" role="tabpanel" aria-labelledby="fane-brukere">
         <div class="panelhode">
-          <p>Alle som kan logge inn for Vokser AS. Slå av en bruker for å fjerne tilgangen uten å slette historikken.</p>
+          <p>Alle som kan logge inn for Nordlys Rekruttering AS. Slå av en bruker for å fjerne tilgangen uten å slette historikken.</p>
           <div class="rad-hoyre">
             <label class="form-toggle"><input class="form-toggle__input" type="checkbox" role="switch" id="kun-aktive" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis kun aktive</span></label>
             <button class="btn btn--primary" type="button" data-vis="inviter"><span class="icon-lucide icon-lucide--user-plus" aria-hidden="true"></span> Inviter bruker</button>
@@ -193,7 +193,7 @@
             <div class="form-group"><label class="form-label" for="f-org">Organisasjonsnummer</label><input class="form-input" id="f-org" inputmode="numeric" placeholder="9 siffer" required></div>
             <div class="form-group"><label class="form-label" for="f-epost">E-post for faktura</label><input class="form-input" id="f-epost" type="email" placeholder="faktura@firma.no"></div>
             <div class="form-group"><label class="form-label" for="f-adr">Adresse</label><input class="form-input" id="f-adr"></div>
-            <div class="form-group"><label class="form-label" for="f-post">Postnummer og sted</label><input class="form-input" id="f-post" placeholder="3616 Kongsberg"></div>
+            <div class="form-group"><label class="form-label" for="f-post">Postnummer og sted</label><input class="form-input" id="f-post" placeholder="9008 Tromsø"></div>
             <div class="form-group"><label class="form-label" for="f-ref">Fast referanse (valgfritt)</label><input class="form-input" id="f-ref" placeholder="F.eks. prosjektnummer"></div>
           </div>
           <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre</button><button class="btn btn--ghost" type="button" data-skjul="ny-faktura">Avbryt</button></div>
@@ -203,7 +203,7 @@
 
       <section class="panel" id="panel-pakker" role="tabpanel" aria-labelledby="fane-pakker" hidden>
         <div class="panelhode">
-          <p>Pakker er oppsett dere bruker ofte. En pakke har fast budsjett, kanaler og periode. Materiell og tillegg velger dere på hver kampanje. Alle i Vokser AS kan bruke dem.</p>
+          <p>Pakker er oppsett dere bruker ofte. En pakke har fast budsjett, kanaler og periode. Materiell og tillegg velger dere på hver kampanje. Alle i Nordlys Rekruttering AS kan bruke dem.</p>
           <div class="rad-hoyre">
             <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
           </div>
@@ -239,7 +239,7 @@
             <div class="logoopp">
               <span class="form-label">Logo</span>
               <div class="logoopp__rad">
-                <div class="logoopp__bilde" id="lp-logo-vis"><span class="logoopp__tekst">vokser</span></div>
+                <div class="logoopp__bilde" id="lp-logo-vis"><span class="logoopp__tekst">nordlys</span></div>
                 <div class="logoopp__knapper">
                   <button class="btn btn--primary btn--sm" type="button" data-last-logo="lp-logo"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp</button>
                   <button class="btn btn--ghost btn--sm" type="button" data-fjern-logo="lp-logo">Fjern</button>
@@ -276,12 +276,12 @@
 
           <div class="card card--betjen" id="banner-kort">
             <h3 class="card__title">Bannere</h3>
-            <p class="card__hint">Bildene som vises i annonsene på Meta og nettsteder.</p>
+            <p class="card__hint">Bildene som vises i annonsene på Meta og på Nettsteder og aviser.</p>
             <div class="logo-par">
             <div class="logoopp">
               <span class="form-label">Logo</span>
               <div class="logoopp__rad">
-                <div class="logoopp__bilde" id="bn-logo-vis"><span class="logoopp__tekst">vokser</span></div>
+                <div class="logoopp__bilde" id="bn-logo-vis"><span class="logoopp__tekst">nordlys</span></div>
                 <div class="logoopp__knapper">
                   <button class="btn btn--primary btn--sm" type="button" data-last-logo="bn-logo"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp</button>
                   <button class="btn btn--ghost btn--sm" type="button" data-fjern-logo="bn-logo">Fjern</button>
@@ -293,7 +293,7 @@
             <div class="logoopp">
               <span class="form-label">Meta-logoikon</span>
               <div class="logoopp__rad">
-                <div class="logoopp__bilde logoopp__bilde--rund" id="bn-ikon-vis"><span class="logoopp__tekst">v</span></div>
+                <div class="logoopp__bilde logoopp__bilde--rund" id="bn-ikon-vis"><span class="logoopp__tekst">n</span></div>
                 <div class="logoopp__knapper">
                   <button class="btn btn--primary btn--sm" type="button" data-last-logo="bn-ikon"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp</button>
                   <button class="btn btn--ghost btn--sm" type="button" data-fjern-logo="bn-ikon">Fjern</button>
@@ -333,8 +333,8 @@
         <div class="card card--betjen">
           <p class="card__hint" style="margin-top: 0">Logoer, Meta-logoikon og profilhåndbok som brukes i kampanjene deres. Nye filer kan brukes med en gang.</p>
           <ul class="merkefiler" id="merkefiler">
-              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Vokser logo, mørk</b><small>SVG · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Vokser logo, mørk"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
-              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Vokser logo, lys</b><small>SVG · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Vokser logo, lys"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
+              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Nordlys logo, mørk</b><small>SVG · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Nordlys logo, mørk"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
+              <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Nordlys logo, lys</b><small>SVG · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Nordlys logo, lys"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
               <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Meta-logoikon</b><small>PNG, 400 × 400 · lagt til 02.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Meta-logoikon"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
               <li class="merkefil"><span class="merkefil__ikon"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span></span><span class="merkefil__navn"><b>Profilhåndbok 2026</b><small>PDF, 4,2 MB · lagt til 12.03.2026</small></span><button class="btn btn--ghost btn--sm" type="button" aria-label="Last ned Profilhåndbok 2026"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></li>
           </ul>
@@ -347,14 +347,14 @@
           <aside class="merke-arbeid__vis">
             <span class="summary-panel__label" style="display:block;margin-bottom: var(--space-8)">Forhåndsvisning av banner</span>
             <div class="banner" id="banner">
-              <span class="banner__logo" id="banner-logo">vokser</span>
+              <span class="banner__logo" id="banner-logo">nordlys</span>
               <div class="banner__innhold">
                 <h4 class="banner__tittel">Vi søker sykepleiere</h4>
                 <span class="banner__kort">Fast stilling i Oslo</span>
                 <span class="banner__les">Les mer →</span>
               </div>
             </div>
-            <div class="banner-meta"><span class="banner-meta__ikon" id="bn-ikon-mini">v</span><span><b>Vokser AS</b><small>Sponset · slik vises Meta-logoikonet</small></span></div>
+            <div class="banner-meta"><span class="banner-meta__ikon" id="bn-ikon-mini">n</span><span><b>Nordlys Rekruttering AS</b><small>Sponset · slik vises Meta-logoikonet</small></span></div>
           </aside>
         </div>
       <input type="file" aria-label="Velg filer" id="skrift-fil" accept=".woff,.woff2,.ttf,.otf" hidden>
@@ -363,17 +363,17 @@
   </div>
 </div>
 
-<script src="data/pakker.js?v=8"></script>
+<script src="data/pakker.js?v=9"></script>
 <script>
 var brukere = [
-  { navn: 'Kari Hansen', epost: 'kari.hansen@vokser.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
-  { navn: 'Martin Berg', epost: 'martin.berg@vokser.no', rolle: 'Bestiller', sist: '30.09.2026', aktiv: true },
-  { navn: 'Ola Nordmann', epost: 'ola.nordmann@vokser.no', rolle: 'Bestiller', sist: '03.02.2026', aktiv: false }
+  { navn: 'Kari Hansen', epost: 'kari.hansen@nordlysrekruttering.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
+  { navn: 'Ingrid Moe', epost: 'ingrid.moe@nordlysrekruttering.no', rolle: 'Bestiller', sist: '30.09.2026', aktiv: true },
+  { navn: 'Ola Nordmann', epost: 'ola.nordmann@nordlysrekruttering.no', rolle: 'Bestiller', sist: '03.02.2026', aktiv: false }
 ];
 var fakturaer = [
-  { navn: 'Vokser AS', org: '919 653 477', adr: 'Kirkegata 1', post: '3616 Kongsberg', epost: 'faktura@vokser.no', ref: '', aktiv: true },
-  { navn: 'Vokser AS, avd. Oslo', org: '919 653 477', adr: 'Storgata 10', post: '0155 Oslo', epost: 'oslo.faktura@vokser.no', ref: 'Prosjekt 22 31', aktiv: true },
-  { navn: 'Vokser Rekruttering', org: '923 456 789', adr: 'Kirkegata 1', post: '3616 Kongsberg', epost: 'faktura@vokser.no', ref: '', aktiv: false }
+  { navn: 'Nordlys Rekruttering AS', org: '912 384 556', adr: 'Storgata 40', post: '9008 Tromsø', epost: 'faktura@nordlysrekruttering.no', ref: '', aktiv: true },
+  { navn: 'Nordlys Rekruttering AS, avd. Oslo', org: '912 384 556', adr: 'Storgata 10', post: '0155 Oslo', epost: 'oslo.faktura@nordlysrekruttering.no', ref: 'Oppdrag 22 31', aktiv: true },
+  { navn: 'Nordlys Bemanning AS', org: '923 456 789', adr: 'Storgata 40', post: '9008 Tromsø', epost: 'faktura@nordlysrekruttering.no', ref: '', aktiv: false }
 ];
 var initialer = function (n) { return n.split(' ').map(function (x) { return x[0]; }).join('').slice(0, 2).toUpperCase(); };
 var bryter = function (id, on, label, dis) { return '<label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" data-' + id + (on ? ' checked' : '') + (dis ? ' disabled' : '') + ' aria-label="' + label + '"><span class="form-toggle__track" aria-hidden="true"></span></label>'; };

@@ -75,10 +75,12 @@
   }
 
   function tall(n) { return Math.round(n).toLocaleString('nb-NO').replace(/[  ]/g, ' '); }
+  // Whole numbers, rounded so a range reads easily: 26 000, 1 300, 480. No «k».
   function kort(n) {
     if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + ' mill.';
-    if (n >= 10000) return Math.round(n / 1000) + 'k';
-    if (n >= 1000) return (n / 1000).toFixed(1).replace('.', ',') + 'k';
+    if (n >= 10000) return tall(Math.round(n / 1000) * 1000);
+    if (n >= 1000) return tall(Math.round(n / 100) * 100);
+    if (n >= 100) return tall(Math.round(n / 10) * 10);
     return String(Math.round(n));
   }
   function spenn(n) {

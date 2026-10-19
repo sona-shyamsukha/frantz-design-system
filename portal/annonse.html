@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Se annonsen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=78">
+<link rel="stylesheet" href="../frantz-ds.css?v=80">
 <style>
   body { margin: 0; background: var(--surface-subtle); }
   .visning { max-width: 440px; margin: 0 auto; padding: var(--space-32) var(--page-padding-mobile); }
@@ -42,8 +42,8 @@
 
   <article class="post" aria-label="Forhåndsvisning av annonsen">
     <div class="post__hode">
-      <span class="post__logo" aria-hidden="true">VA</span>
-      <div><b>Vokser AS</b><small id="kanal">Sponset</small></div>
+      <span class="post__logo" aria-hidden="true" id="logo">OS</span>
+      <div><b id="avsender">Oslo Sykehusdrift</b><small id="kanal">Sponset</small></div>
     </div>
     <p class="post__tekst">Vi søker deg som vil gjøre en forskjell hver dag. Fast stilling, gode vilkår og et fagmiljø som tar vare på hverandre.</p>
     <div class="post__bilde" id="bilde">
@@ -62,6 +62,7 @@
     <a class="btn btn--secondary" id="kampanjeside" href="#"><span class="icon-lucide icon-lucide--external-link" aria-hidden="true"></span> Åpne kampanjesiden</a>
   </div>
 </main>
+<script src="data/kampanjer.js?v=2"></script>
 <script>
 (function () {
   var q = new URLSearchParams(location.search);
@@ -73,6 +74,12 @@
   document.getElementById('ikon').className = 'icon-lucide icon-lucide--lg icon-lucide--' + (type === 'Video' ? 'play' : 'image');
   if (type === 'Video') document.getElementById('bilde').classList.add('post__bilde--video');
   document.getElementById('id').textContent = q.get('id') || '129041';
+  // The ad runs from the employer's page
+  var k = window.FZ_KAMPANJER && FZ_KAMPANJER.finn(q.get('id') || '129041');
+  if (k && k.arbeidsgiver) {
+    document.getElementById('avsender').textContent = k.arbeidsgiver;
+    document.getElementById('logo').textContent = k.arbeidsgiver.split(/\s+/).map(function (o) { return o.charAt(0); }).join('').slice(0, 2).toUpperCase();
+  }
   document.getElementById('kampanjeside').href = 'https://frantz.no/k/' + (q.get('id') || '129041');
   document.getElementById('utkast').hidden = q.get('utkast') !== '1';
   document.title = navn + ' — Se annonsen — Frantz';

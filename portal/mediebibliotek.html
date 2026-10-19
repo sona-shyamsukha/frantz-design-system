@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Mediebibliotek — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=78">
+<link rel="stylesheet" href="../frantz-ds.css?v=80">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -76,13 +76,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@nordlysrekruttering.no</small></span></div></header>
 
     <div class="wrap wrap--bred">
       <div class="detalj__topp" style="display:flex;align-items:center;justify-content:space-between;gap: var(--space-12);flex-wrap:wrap">
@@ -119,13 +119,13 @@ var passer = { '1080 × 1080': ['meta', 'linkedin'], '1080 × 1920': ['meta', 't
 // Demo photos are free stock photos from Unsplash (unsplash.com/license). The photographer is named in the details.
 var medier = [
   { id: 1, navn: 'Akutten, sykepleier', type: 'Bilde', format: '1080 × 1080', dato: '11.09.2026', farge: 'var(--color-data-700)', brukt: [['Sykepleier Oslo', 'campaign.html']], bilde: '../assets/media/akutten-sykepleier.jpg', kreditt: 'JESHOOTS.COM', tagger: ['helse', 'sykepleier'] },
-  { id: 2, navn: 'Hverdagshelter på Ullevål', type: 'Video', format: '1080 × 1920', dato: '02.09.2026', farge: 'var(--color-navy)', brukt: [['Sykepleier Oslo', 'campaign.html']], bilde: '../assets/media/hverdagshelter-ulleval.jpg', kreditt: 'Hush Naidoo Jade Photography', tagger: ['helse', 'video'] },
+  { id: 2, navn: 'Hverdagshelter i Oslo', type: 'Video', format: '1080 × 1920', dato: '02.09.2026', farge: 'var(--color-navy)', brukt: [['Sykepleier Oslo', 'campaign.html']], bilde: '../assets/media/hverdagshelter-ulleval.jpg', kreditt: 'Hush Naidoo Jade Photography', tagger: ['helse', 'video'] },
   { id: 3, navn: 'Bodø havn i solnedgang', type: 'Bilde', format: '1200 × 628', dato: '28.06.2026', farge: 'var(--color-amber-ink)', brukt: [['Sykepleier Bodø', 'rapport.html']], bilde: '../assets/media/bodo-havn.jpg', kreditt: 'Ingrid Martinussen', tagger: ['bodø', 'natur'] },
   { id: 4, navn: 'Team på vaktrommet', type: 'Bilde', format: '1080 × 1080', dato: '28.06.2026', farge: 'var(--color-navy-lift)', brukt: [['Sykepleier Bodø', 'rapport.html']], bilde: '../assets/media/team-vaktrommet.jpg', kreditt: 'Centre for Ageing Better', tagger: ['helse', 'team'] },
   { id: 5, navn: 'En dag på akutten', type: 'Video', format: '1080 × 1920', dato: '27.06.2026', farge: 'var(--color-navy-mid)', brukt: [['Sykepleier Bodø', 'rapport.html']], bilde: '../assets/media/dag-pa-akutten.jpg', kreditt: 'CDC', tagger: ['video'] },
-  { id: 6, navn: 'Kontorlandskap Kongsberg', type: 'Bilde', format: '1200 × 628', dato: '14.05.2026', farge: 'var(--text-success-moderate)', brukt: [], bilde: '../assets/media/kontor-kongsberg.jpg', kreditt: 'LYCS Architecture', tagger: ['kontor'] },
-  { id: 7, navn: 'Vokser logo, mørk', type: 'Logo', format: 'SVG', dato: '02.03.2026', farge: 'var(--color-rail)', brukt: [['Alle kampanjesider', 'innstillinger.html#merkevare']], tagger: ['logo'] },
-  { id: 8, navn: 'Vokser logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', lys: true, farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
+  { id: 6, navn: 'Kontoret vårt i Tromsø', type: 'Bilde', format: '1200 × 628', dato: '14.05.2026', farge: 'var(--text-success-moderate)', brukt: [], bilde: '../assets/media/kontor-kongsberg.jpg', kreditt: 'LYCS Architecture', tagger: ['kontor'] },
+  { id: 7, navn: 'Nordlys logo, mørk', type: 'Logo', format: 'SVG', dato: '02.03.2026', farge: 'var(--color-rail)', brukt: [['Alle kampanjesider', 'innstillinger.html#merkevare']], tagger: ['logo'] },
+  { id: 8, navn: 'Nordlys logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', lys: true, farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
 ];
 var filter = 'alle', sok = '', valgt = null;
 var bakgrunn = function (m) { return m.bilde ? m.farge + ' url(' + m.bilde + ') center / cover no-repeat' : m.farge; };

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=78">
+<link rel="stylesheet" href="../frantz-ds.css?v=80">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -260,13 +260,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@nordlysrekruttering.no</small></span></div></header>
 
     <div class="wrap">
       <div class="nk-topp">
@@ -285,7 +285,7 @@
             <div class="start-topp">
               <div>
                 <h2 class="del__tittel" id="t-start">Fortell oss om stillingen</h2>
-                <p class="del__hint" id="start-hint">Fyll inn det dere har. AI leser alt og fyller ut skjemaet for dere.</p>
+                <p class="del__hint" id="start-hint">Fyll inn det dere har, og trykk «Fyll ut skjemaet». Frantz leser alt og fyller ut resten.</p>
                 <p class="del__sammendrag" id="start-sammendrag" hidden></p>
               </div>
               <button class="husk__endre" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" hidden>Endre</button>
@@ -293,15 +293,11 @@
             <div id="start-innhold">
             <div id="lenke-valg">
             <div class="kilder">
-              <div class="felt funnet__bred" id="felt-ref">
-                <label class="form-label" for="ref">Kampanjenavn / deres referanse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-posten." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-posten."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. oppdragsnummer 22 45">
-              </div>
               <div class="felt funnet__bred connect-valg" id="connect-valg">
                 <label class="form-label" id="connect-lbl" for="connect-sok">Velg stilling <span class="valgfri">(valgfritt)</span></label>
-                <p class="form-description" id="connect-hint" style="margin: 0">Velg en stilling fra deres system, så fylles skjemaet ut. Bare stillinger uten kampanje vises.</p>
+                <p class="form-description" id="connect-hint" style="margin: 0">Velg en stilling fra deres system, og trykk «Fyll ut skjemaet». Bare stillinger uten kampanje vises.</p>
                 <div class="picker" id="connect-picker">
-                  <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, prosjekt eller ID" autocomplete="off" aria-describedby="connect-hint"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
+                  <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, referanse eller ID" autocomplete="off" aria-describedby="connect-hint"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
                   <div class="picker__liste connect-sok__liste" hidden></div>
                 </div>
                 <a class="link link--xs" href="connect.html">Se alle stillinger</a>
@@ -334,6 +330,10 @@
                   <input type="file" id="pdf" aria-label="Velg stillingsannonse" hidden accept=".pdf,.docx,.doc,.jpg,.jpeg,.png">
                 </div>
               </div>
+              <div class="felt funnet__bred" id="felt-ref">
+                <label class="form-label" for="ref">Deres referanse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Deres eget navn eller nummer på oppdraget. Vises i kampanjelisten og i emnet på e-posten." aria-label="Mer info: Deres eget navn eller nummer på oppdraget. Vises i kampanjelisten og i emnet på e-posten."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. oppdragsnummer 22 45">
+              </div>
             </div>
 
             <div class="inn__fortsett">
@@ -365,7 +365,7 @@
                 <span id="rad-sted"><b>Sted</b> <span id="k-sted"></span></span>
                 <span id="rad-frist"><b>Søknadsfrist</b> <span id="k-frist"></span></span>
                 <span id="rad-arbeidsgiver" hidden><b>Arbeidsgiver</b> <span id="k-arbeidsgiver"></span></span>
-                <span id="rad-ref" hidden><b>Deres prosjekt</b> <span id="k-ref"></span></span>
+                <span id="rad-ref" hidden><b>Deres referanse</b> <span id="k-ref"></span></span>
                 <span id="rad-budsjett" hidden><b>Budsjett</b> <span id="k-budsjett"></span></span>
                 <span id="rad-kanaler" hidden><b>Kanaler</b> <span id="k-kanaler"></span></span>
                 <span id="rad-periode" hidden><b>Periode</b> <span id="k-periode"></span></span>
@@ -409,13 +409,13 @@
               </div>
               <div class="felt funnet__bred" id="felt-avsender">
                 <label class="form-label" for="avsender">Avsender <span class="valgfri">(hvilken Facebook-side annonsen vises fra)</span></label>
-                <input class="form-input" type="text" id="avsender" value="Vokser AS">
+                <input class="form-input" type="text" id="avsender" value="Nordlys Rekruttering AS">
               </div>
               <div class="felt funnet__bred" id="felt-faktura">
                 <label class="form-label" for="faktura">Fakturamottaker</label>
                 <span class="form-select-wrap"><select class="form-select" id="faktura">
-                  <option>Vokser AS</option>
-                  <option>Vokser AS, avd. Oslo</option>
+                  <option>Nordlys Rekruttering AS</option>
+                  <option>Nordlys Rekruttering AS, avd. Oslo</option>
                 </select></span>
                 <p class="form-description">Fra listen i <a class="link" href="innstillinger.html#faktura">Innstillinger</a>. Hvert selskap i et konsern får sin egen faktura.</p>
               </div>
@@ -442,6 +442,7 @@
                 <p class="lede" id="pakke-status">Hver pakke viser hva dere får, hva som ikke er med, og hva den koster for hele perioden.</p>
               </div>
               <div class="pakke-grid" id="pakke-valg" role="group" aria-labelledby="pakke-lbl"></div>
+              <p class="advarsel" id="pakke-endring" role="status" hidden></p>
               <div class="alert alert--info estimat" id="pakke-estimat" role="status" aria-live="polite" hidden>
                 <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
                 <div class="alert__content"><span class="alert__body" id="pakke-estimat-tekst"></span></div>
@@ -478,6 +479,7 @@
               <div class="felt blokk funnet__bred" id="blokk-periode">
                 <span class="form-label" id="q-periode-lbl">Periode</span>
                 <div id="q-periode-valg"></div>
+                <p class="advarsel" id="frist-advarsel" role="status" hidden></p>
               </div>
               <div class="felt blokk funnet__bred" id="blokk-materiell">
                 <span class="form-label" id="b-mat-lbl">Materiell</span>
@@ -485,7 +487,7 @@
               </div>
               <div class="felt blokk funnet__bred" id="blokk-tillegg">
                 <span class="form-label" id="b-til-lbl">Tilleggsprodukter <span class="valgfri">(valgfritt)</span></span>
-                <p class="form-description">Ekstra tjenester dere kan legge til. De hører ikke til materiellet over, og koster bare noe hvis dere krysser av.</p>
+                <p class="form-description">Kryss av for det dere vil ha. Tekstproduksjon er inkludert. Det som har en pris, legges til totalsummen.</p>
                 <div id="q-tillegg-valg"></div>
               </div>
             </div>
@@ -509,14 +511,17 @@
               <dl class="summary-row"><dt>Budsjett</dt><dd id="sum-budsjett">—</dd></dl>
               <dl class="summary-row" id="sum-tillegg-rad" hidden><dt>Tillegg</dt><dd id="sum-tillegg">—</dd></dl>
               <dl class="summary-row" id="sum-hjelp-rad" hidden><dt>Design av materiell</dt><dd>Fra kr 2 180 / time</dd></dl>
+              <dl class="summary-row"><dt>Periode</dt><dd id="sum-periode">—</dd></dl>
               <dl class="summary-row"><dt>Forventet «Søk»</dt><dd id="sum-sok">—</dd></dl>
+              <p class="advarsel" id="sum-frist-rad" hidden>Kampanjen slutter etter søknadsfristen.</p>
               <dl class="summary-row" id="sum-kommentar-rad" hidden><dt>Kommentar</dt><dd id="sum-kommentar">—</dd></dl>
-              <dl class="summary-row"><dt>Tidligst ute <button type="button" class="tooltip" data-tooltip="Frantz trenger 3 arbeidsdager fra bestilling til annonsene er ute. Dere godkjenner annonsene først." aria-label="Mer info: Frantz trenger 3 arbeidsdager fra bestilling til annonsene er ute."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></dt><dd id="sum-ute">—</dd></dl>
+              <dl class="summary-row"><dt>Tidligst ute <button type="button" class="tooltip" data-tooltip="Frantz trenger 3 arbeidsdager fra bestilling til annonsene er ute. Dere godkjenner annonsene først. Perioden kan starte tidligst denne dagen." aria-label="Mer info: Frantz trenger 3 arbeidsdager fra bestilling til annonsene er ute. Perioden kan starte tidligst denne dagen."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></dt><dd id="sum-ute">—</dd></dl>
             </div>
             <div class="summary-panel__total">
               <span>Totalsum</span>
               <b id="sum-total">—</b>
             </div>
+            <p class="summary-panel__mva">Alle priser er eks. mva.</p>
             <div class="summary-panel__cta">
               <button class="btn btn--accent" type="button" id="bestill" disabled aria-describedby="bestilling-venter">Bestill kampanjen</button>
               <p class="feil" id="feil-bestill" role="alert" hidden></p>
@@ -538,7 +543,7 @@
               <div class="pakke-ny" id="pakke-ny" hidden>
                 <label class="form-label" for="pakke-navn">Navn på pakken</label>
                 <input class="form-input" type="text" id="pakke-navn" placeholder="F.eks. Pakke 4" autocomplete="off">
-                <p class="form-description" style="margin: 0">Vi lagrer budsjett, kanaler og antall uker. Materiell og tillegg hører til kampanjen. Alle i Vokser AS kan bruke pakken.</p>
+                <p class="form-description" style="margin: 0">Vi lagrer budsjett, kanaler og antall uker. Materiell og tillegg hører til kampanjen. Alle i Nordlys Rekruttering AS kan bruke pakken.</p>
                 <p class="feil" id="feil-pakke" role="alert" hidden></p>
                 <div class="btn-group"><button class="btn btn--secondary btn--sm" type="button" id="pakke-lagre">Lagre pakken</button><button class="btn btn--ghost btn--sm" type="button" id="pakke-avbryt">Avbryt</button></div>
               </div>
@@ -571,10 +576,11 @@
 
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
-<script src="data/pakker.js?v=8"></script>
-<script src="data/connect.js"></script>
+<script src="data/pakker.js?v=9"></script>
+<script src="data/kampanjer.js?v=2"></script>
+<script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=7"></script>
-<script src="../components/js/reach-model.js?v=2"></script>
+<script src="../components/js/reach-model.js?v=3"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -610,7 +616,7 @@
   }
   function byggTillegg(root) {
     root.innerHTML = '<div class="tillegg-liste" role="group" aria-label="Tilleggsprodukter">' + TILLEGG.map(function (t) {
-      return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-tillegg="' + t.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span></span><span class="flere__pris">+ kr ' + R.tall(t.pris) + '</span></label>';
+      return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-tillegg="' + t.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span></span><span class="flere__pris">' + (t.pris ? '+ kr ' + R.tall(t.pris) : 'Inkludert') + '</span></label>';
     }).join('') + '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-meld><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span></label></div>';
   }
   byggMateriell($('q-materiell-valg'));
@@ -639,7 +645,7 @@
      The demo reads the link address, the text inside a PDF and the words they write.
      A PDF only fills the stilling. Budget, channels and period stay for the campaign.
      A real version sends all three to a model and gets the same fields back. */
-  var ANNONSER = { 'sykepleier-akutt-kristiansand': { tittel: 'Sykepleier', sted: 'kristiansand', frist: 21, arbeidsgiver: 'Sørlandet sykehus', ref: 'SSHF-2291' } };
+  var ANNONSER = { 'sykepleier-akutt-kristiansand': { tittel: 'Sykepleier', sted: 'kristiansand', frist: 40, arbeidsgiver: 'Sørlandet Helse', ref: 'Oppdrag 22 45' } };
   var EKSEMPEL = 'https://www.finn.no/job/ad/sykepleier-akutt-kristiansand';
   var MND = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'];
   var KANALORD = { meta: 'Meta', facebook: 'Meta', instagram: 'Meta', linkedin: 'LinkedIn', snapchat: 'Snapchat', tiktok: 'TikTok', programmatisk: 'Nettsteder og aviser', nettsteder: 'Nettsteder og aviser', aviser: 'Nettsteder og aviser', nettaviser: 'Nettsteder og aviser' };
@@ -742,9 +748,13 @@
     tilstand.stillingKlar = !!a.tittel;
     tilstand.funnet = { budsjett: !!a.budsjett, kanaler: !!(a.kanaler && a.kanaler.length), periode: !!(a.uker || a.fra), materiell: !!a.materiell, tillegg: !!((a.tillegg && a.tillegg.length) || a.meld) };
     tilstand.materiell = a.materiell || null; tilstand.tillegg = (a.tillegg || []).slice(); tilstand.meld = !!a.meld; tilstand.valgtMateriell = false; tilstand.lagret = false;
-    tilstand.uker = a.uker || 3; tilstand.fra = a.fra || null; tilstand.til = a.til || null;
+    tilstand.uker = a.uker || 3; tilstand.fra = a.fra && a.fra >= iso(tidligstDato()) ? a.fra : null; tilstand.til = a.til || null;
     tilstand.valgtBudsjett = false; tilstand.valgtKanal = false; tilstand.pakke = null; tilstand.fastUker = null;
     tilstand.kanalmodus = 'frantz'; tilstand.kanaler = anbefalt();
+    // A budget or channels from the user: set up by hand, so nothing they asked for is lost
+    tilstand.oppsett = a.budsjett || (a.kanaler && a.kanaler.length) ? 'selv' : 'pakke';
+    tilstand.onsket = { budsjett: a.budsjett || null, kanaler: a.kanaler ? a.kanaler.slice() : null };
+    tilstand.sistePakke = null; $('pakke-endring').hidden = true;
     budsjettKontroll.set(null);
     var fylt = [];
     if (a.tittel) { stilling.set(a.tittel); fylt.push('stilling'); }
@@ -759,10 +769,12 @@
     if (tilstand.funnet.materiell) fylt.push('materiell');
     if (tilstand.funnet.tillegg) fylt.push('tillegg');
     if (a.arbeidsgiver) $('arbeidsgiver').value = a.arbeidsgiver;
+    // The ad runs from the employer's page when we know the employer
+    $('avsender').value = a.arbeidsgiver || 'Nordlys Rekruttering AS';
     if (a.notat) $('notat').value = a.notat;
     var stedForLenke = $('funnet-felter');
     stedForLenke.insertBefore($('felt-lenke'), stedForLenke.firstChild);
-    stedForLenke.insertBefore($('felt-ref'), $('felt-stilling'));
+    stedForLenke.insertBefore($('felt-ref'), $('felt-avsender'));
     var demoLenke = $('felt-lenke').querySelector('[data-demo]');
     if (demoLenke) demoLenke.hidden = true;
     $('del-start').hidden = !!tilstand.fraConnectSide;
@@ -807,17 +819,9 @@
       $('del-mangler').hidden = false;
       return;
     }
-    // Filling it in by hand shows every question. A saved manual order folds them into the job card.
-    if (tilstand.lagret) {
-      FRA_PAKKE.concat(PAA_KAMPANJE).concat('kommentar').forEach(function (id) {
-        $('funnet-felter').insertBefore($('blokk-' + id), $('felt-avsender'));
-        $('blokk-' + id).hidden = false;
-      });
-      $('del-mangler').hidden = true;
-      return;
-    }
+    // Filling it in by hand shows every question, in «Kampanjen». Nothing moves into the job box.
     FRA_PAKKE.concat(PAA_KAMPANJE).forEach(function (id) { visFelt(id, true); });
-    $('mangler-lagre-rad').hidden = false;
+    $('mangler-lagre-rad').hidden = true;
     $('del-mangler').hidden = false;
   }
   // «Lagre» at the end moves everything that was filled in below into the overview card
@@ -867,20 +871,20 @@
     if (liste.length) $('k-sted').textContent = navnListe(liste);
     $('k-frist').innerHTML = $('frist').value ? '' : '<span class="kort__tom">Ikke oppgitt</span>';
     if ($('frist').value) $('k-frist').textContent = kort($('frist').value);
-    $('rad-budsjett').hidden = !tilstand.funnet.budsjett;
+    $('rad-budsjett').hidden = true; // belongs to «Kampanjen»
     var b = budsjett();
     $('k-budsjett').innerHTML = b ? '' : mangler;
     if (b) $('k-budsjett').textContent = kr(b);
-    $('rad-periode').hidden = !tilstand.funnet.periode;
+    $('rad-periode').hidden = true; // belongs to «Kampanjen»
     $('k-periode').textContent = periodeTekst();
-    $('rad-kanaler').hidden = !tilstand.funnet.kanaler;
+    $('rad-kanaler').hidden = true; // belongs to «Kampanjen»
     FZ_KANALER.tegn($('k-kanaler'), kanalTekst());
     var arbeidsgiver = $('arbeidsgiver').value.trim();
     $('rad-arbeidsgiver').hidden = !arbeidsgiver;
     $('k-arbeidsgiver').textContent = arbeidsgiver;
-    $('rad-materiell').hidden = !tilstand.funnet.materiell;
+    $('rad-materiell').hidden = true; // belongs to «Kampanjen»
     if (tilstand.materiell) $('k-materiell').textContent = materiellTekst(); else $('k-materiell').innerHTML = mangler;
-    $('rad-tillegg').hidden = !tilstand.funnet.tillegg;
+    $('rad-tillegg').hidden = true; // belongs to «Kampanjen»
     $('k-tillegg').textContent = tilleggListe().join(', ') || 'Ingen';
     var lenke = $('lenke').value.trim();
     $('rad-lenke').hidden = !lenke;
@@ -921,12 +925,12 @@
   });
   document.querySelector('.start-topp').addEventListener('click', function () { if ($('del-start').classList.contains('start--lukket')) startVekslet(); });
   /* One set of fields for every start. Where the stilling comes from does not matter; the rest is the same. */
-  // Kampanjenavn and the link move into the Stillingen card once read. This puts them back at the top.
+  // The reference and the link move into the Stillingen card once read. This puts them back at the top.
   function plasserStartfelt() {
     var kilder = $('lenke-valg').querySelector('.kilder');
-    kilder.insertBefore($('felt-ref'), kilder.firstChild);
-    var etter = $('connect-valg') || $('felt-ref');
-    kilder.insertBefore($('felt-lenke'), etter.nextSibling);
+    var etter = $('connect-valg');
+    kilder.insertBefore($('felt-lenke'), etter ? etter.nextSibling : kilder.firstChild);
+    kilder.appendChild($('felt-ref'));
   }
   function velgStart(hvordan) {
     $('del-start').hidden = !!tilstand.fraConnectSide;
@@ -1054,8 +1058,7 @@
   }
   // «Med kr 30 000 over 4 uker på Meta, LinkedIn og Nettsteder og aviser kan dere vente …»
   function estimatSetning(b, r) {
-    var d = periodeDatoer();
-    var dager = Math.max(1, Math.round((d.slutt - d.start) / 86400000));
+    var dager = antallDager(periodeDatoer());
     var periode = dager % 7 === 0 ? (dager / 7) + (dager === 7 ? ' uke' : ' uker') : dager + ' dager';
     var kanaler = tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length
       ? 'kanalene Frantz anbefaler'
@@ -1081,16 +1084,20 @@
   function fraIso(x) { var m = x.split('-'); return new Date(+m[0], m[1] - 1, +m[2]); }
   function periodeDatoer() {
     var frist = $('frist').value;
-    var start = tilstand.fra ? fraIso(tilstand.fra) : new Date(I_DAG);
+    // No start chosen: the earliest day Frantz can publish
+    var start = tilstand.fra ? fraIso(tilstand.fra) : tidligstDato();
+    // 3 weeks from Monday ends on Sunday: both the first and the last day count
     var slutt = tilstand.til ? fraIso(tilstand.til)
       : tilstand.uker === 'frist' && frist ? fraIso(frist)
-      : (function () { var d = new Date(start); d.setDate(d.getDate() + 7 * (tilstand.uker === 'frist' ? 3 : tilstand.uker)); return d; })();
+      : (function () { var d = new Date(start); d.setDate(d.getDate() + 7 * (tilstand.uker === 'frist' ? 3 : tilstand.uker) - 1); return d; })();
     return { start: start, slutt: slutt };
   }
+  // Both the first and the last day count. 03.09–03.10 is 31 days, like on the campaign page.
+  function antallDager(d) { return Math.max(1, Math.round((d.slutt - d.start) / 86400000) + 1); }
   function periodeTekst() {
     var d = periodeDatoer();
     if (tilstand.venter) return kort(iso(d.start)) + ' – velg sluttdato';
-    var dager = Math.max(1, Math.round((d.slutt - d.start) / 86400000));
+    var dager = antallDager(d);
     return kort(iso(d.start)) + ' – ' + kort(iso(d.slutt)) + ' · ' + (dager % 7 === 0 ? dager / 7 + (dager === 7 ? ' uke' : ' uker') : dager + ' dager');
   }
   function tegnPeriode() {
@@ -1124,7 +1131,7 @@
     for (var i = 1; i <= antall; i++) {
       var x = iso(new Date(m.getFullYear(), m.getMonth(), i));
       var k = 'kal__dag' + (x === a ? ' kal__dag--start' : '') + (b && x === b ? ' kal__dag--slutt' : '') + (b && x > a && x < b ? ' kal__dag--i' : '') + (x === f ? ' kal__dag--frist' : '');
-      html += '<button type="button" class="' + k + '" data-dag="' + x + '"' + (x < idag || (tilstand.venter && x < a) ? ' disabled' : '') + ' aria-label="' + i + '. ' + MNDNAVN[m.getMonth()] + '">' + i + '</button>';
+      html += '<button type="button" class="' + k + '" data-dag="' + x + '"' + (x < iso(tidligstDato()) || (tilstand.venter && x < a) ? ' disabled' : '') + ' aria-label="' + i + '. ' + MNDNAVN[m.getMonth()] + '">' + i + '</button>';
     }
     el.innerHTML = html + '</div><p class="kal__hjelp">' + (tilstand.venter ? 'Velg sluttdato.' : tilstand.fastUker ? 'Trykk på startdato.' : 'Trykk på startdato, så sluttdato.') + (f ? ' Søknadsfristen er markert med gult.' : '') + '</p>';
   }
@@ -1245,7 +1252,18 @@
     var p = finnPakke(tilstand.pakke);
     return p ? p.navn + (pakkeEndret(p) ? ' (endret)' : '') : '';
   }
+  // Tell the user what the package changes from what they asked for
+  function pakkeEndring(p) {
+    var o = tilstand.onsket || {}, deler = [];
+    var pk = p.kanaler || anbefalt();
+    var borte = (o.kanaler || []).filter(function (k) { return pk.indexOf(k) === -1; });
+    if (borte.length) deler.push(p.navn + ' har ikke ' + borte.join(' og ') + '.');
+    if (o.budsjett && o.budsjett !== p.budsjett) deler.push('Budsjettet blir ' + kr(p.budsjett) + ', ikke ' + kr(o.budsjett) + ' som dere skrev.');
+    $('pakke-endring').hidden = !deler.length;
+    $('pakke-endring').textContent = deler.length ? deler.join(' ') + ' Vil dere beholde det dere skrev, velg «Sett opp selv».' : '';
+  }
   function brukPakke(p) {
+    pakkeEndring(p);
     budsjettKontroll.set(p.budsjett);
     tilstand.kanalmodus = p.kanaler ? 'selv' : 'frantz'; tilstand.kanaler = p.kanaler ? p.kanaler.slice() : anbefalt();
     tilstand.pakke = p.navn;
@@ -1258,7 +1276,14 @@
   $('oppsett').addEventListener('click', function (e) {
     var b = e.target.closest('[data-oppsett]'); if (!b || b.dataset.oppsett === tilstand.oppsett) return;
     tilstand.oppsett = b.dataset.oppsett;
-    if (tilstand.oppsett === 'selv') { tilstand.sistePakke = tilstand.pakke; tilstand.pakke = null; tilstand.lagret = false; tilstand.fastUker = null; }
+    if (tilstand.oppsett === 'selv') {
+      tilstand.sistePakke = tilstand.pakke; tilstand.pakke = null; tilstand.lagret = false; tilstand.fastUker = null;
+      // «Sett opp selv» brings back what the user wrote
+      var o = tilstand.onsket || {};
+      if (o.budsjett) budsjettKontroll.set(o.budsjett);
+      if (o.kanaler) { tilstand.kanalmodus = 'selv'; tilstand.kanaler = o.kanaler.slice(); tegnKanaler(); }
+      $('pakke-endring').hidden = true;
+    }
     else if (tilstand.sistePakke) { tilstand.pakke = tilstand.sistePakke; var sp = finnPakke(tilstand.pakke); tilstand.fastUker = sp && sp.uker || null; if (tilstand.fastUker) { tilstand.uker = tilstand.fastUker; tilstand.til = null; } }
     visSporsmal(); oppdater();
   });
@@ -1284,7 +1309,7 @@
     if (galt) { f.textContent = galt; f.hidden = false; $('pakke-navn').focus(); return; }
     tilstand.pakke = navn;
     visPakkeNy(false);
-    $('pakke-ok').textContent = 'Lagret som «' + navn + '». Pakken ligger klar neste gang noen i Vokser AS bestiller.';
+    $('pakke-ok').textContent = 'Lagret som «' + navn + '». Pakken ligger klar neste gang noen i Nordlys Rekruttering AS bestiller.';
     $('pakke-ok').hidden = false;
     oppdater();
   }
@@ -1296,11 +1321,12 @@
 
   /* ---------- Earliest publishing date: 3 working days after the order ---------- */
   var UKEDAG = ['søn.', 'man.', 'tir.', 'ons.', 'tor.', 'fre.', 'lør.'];
-  function tidligstUte() {
-    var d = new Date(I_DAG), n = 0;
+  function tidligstDato() {
+    var d = new Date(I_DAG.getFullYear(), I_DAG.getMonth(), I_DAG.getDate()), n = 0;
     while (n < 3) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) n++; }
-    return UKEDAG[d.getDay()] + ' ' + kort(iso(d)).slice(0, 5);
+    return d;
   }
+  function tidligstUte() { var d = tidligstDato(); return UKEDAG[d.getDay()] + ' ' + kort(iso(d)).slice(0, 5); }
   $('faktura').addEventListener('change', oppdater);
   $('notat').addEventListener('input', oppdater);
 
@@ -1312,9 +1338,9 @@
     var d = periodeDatoer();
     var q = {
       tittel: $('stilling').value.trim() || 'Ny kampanje', sted: stederListe.length ? navnListe(stederListe) : '',
-      periode: kort(iso(d.start)).slice(0, 5) + ' – ' + kort(iso(d.slutt)), kanaler: tilstand.kanaler.join(', '),
+      periode: kort(iso(d.start)).slice(0, 5) + ' – ' + periodeTekst().split(' – ')[1], kanaler: tilstand.kanaler.join(', '),
       budsjett: b, tillegg: tilleggListe().join(', '), tilleggsum: tilleggSum, sok: r ? R.spenn(r.sok) : '',
-      fra: 'Kari Hansen', firma: 'Vokser AS', avsender: $('avsender').value.trim()
+      fra: 'Kari Hansen', firma: 'Nordlys Rekruttering AS', avsender: $('avsender').value.trim(), arbeidsgiver: $('arbeidsgiver').value.trim()
     };
     return 'godkjenning.html?' + Object.keys(q).filter(function (k) { return q[k] !== '' && q[k] !== null; }).map(function (k) { return k + '=' + encodeURIComponent(q[k]); }).join('&');
   }
@@ -1398,6 +1424,7 @@
     $('sum-budsjett').textContent = b ? kr(b) : '—';
     $('sum-hjelp-rad').hidden = tilstand.materiell !== 'hjelp';
     $('sum-sok').textContent = r ? R.spenn(r.sok) : '—';
+    $('sum-periode').textContent = tilstand.lest ? periodeTekst() : '—';
     $('sum-tillegg-rad').hidden = !tilleggSum;
     $('sum-tillegg').textContent = '+ ' + kr(tilleggSum);
     $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
@@ -1412,6 +1439,11 @@
     $('sum-kommentar').textContent = kommentar;
     tegnKanaler();
     $('sum-ute').textContent = tidligstUte();
+    var fristVerdi = $('frist').value, pd = periodeDatoer();
+    var etterFrist = !!(tilstand.lest && fristVerdi && !tilstand.venter && iso(pd.slutt) > fristVerdi);
+    $('frist-advarsel').hidden = !etterFrist;
+    if (etterFrist) $('frist-advarsel').textContent = 'Kampanjen slutter ' + kort(iso(pd.slutt)) + ', etter søknadsfristen ' + kort(fristVerdi) + '. Velg en kortere periode, eller «Til søknadsfristen».';
+    $('sum-frist-rad').hidden = !etterFrist;
     tegnPeriode();
     tegnMateriellOgTillegg();
     tegnPakker();
@@ -1452,24 +1484,34 @@
       kanaler: kanalTekst(), faktura: $('faktura').value,
       materiell: tilstand.materiell ? materiellTekst() : '', periode: kort(iso(periodeDatoer().start)) + ' – ' + kort(iso(periodeDatoer().slutt)), start: kort(iso(periodeDatoer().start)),
       notat: $('notat').value.trim(), ute: tidligstUte(), connect: tilstand.connectId || '', avsender: $('avsender').value.trim(), pakke: pakkeTekst(),
-      tid: String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0')
+      tid: String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0'),
+      total: budsjett() + tilleggSum, periodeTekst: periodeTekst(),
+      sok: (function () { var r = tilstand.rolle && stederListe.length ? R.beregn({ rolle: tilstand.rolle, steder: stederListe, budsjett: budsjett() }) : null; return r ? R.spenn(r.sok) : ''; })(),
+      radgivning: tilstand.tillegg.indexOf('Strategisk rådgivning') !== -1
     };
+    // The order joins the campaign list, so Kampanjer and Hjem show it as «Bestilt»
+    var pd = periodeDatoer();
+    ordre.id = FZ_KAMPANJER.bestill({
+      connect: tilstand.connectId || '', stilling: ordre.stilling, sted: stederListe.length ? FrantzPicker.delSted(stederListe[0]).navn : '',
+      arbeidsgiver: $('arbeidsgiver').value.trim(), ref: ordre.ref, kanaler: tilstand.kanaler.slice(),
+      fra: iso(pd.start), til: iso(pd.slutt), budsjett: budsjett()
+    });
     try { sessionStorage.setItem('fzOrdre', JSON.stringify(ordre)); } catch (e) {}
     clearTimeout(lagreTimer);
     try { localStorage.removeItem(LAGER); } catch (e) {}
     $('lagret-tekst').textContent = 'Bestilt';
-    location.href = 'kampanje-bestilt.html?ny=1';
+    location.href = 'kampanje-bestilt.html?ny=1&id=' + ordre.id;
   });
   $('ny-igjen').addEventListener('click', function () { location.href = 'ny-kampanje.html'; });
 
   /* ---------- Demo scenarios ---------- */
   var DEMO = {
     1: { lenke: EKSEMPEL, tekst: '' },
-    2: { lenke: EKSEMPEL, tekst: 'Vi trenger to sykepleiere til akuttmottaket. Budsjett kr 15 000. Bruk LinkedIn og Meta. Kampanjen går fra 3. november til 30. november. Vi har ferdig materiell. Vi vil ha strategisk rådgivning og Meld interesse-knapp. Kunden må godkjenne annonsen.' },
-    3: { lenke: '', tekst: 'Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett kr 15 000. Bruk LinkedIn og Meta. Periode 4 uker. Vi vil ha hjelp med annonsen og tekstproduksjon. Kampanjenavn: Oppdrag 22 45.' }
+    2: { lenke: EKSEMPEL, tekst: 'Vi trenger to sykepleiere til akuttmottaket. Budsjett kr 15 000. Bruk LinkedIn og Meta. Kampanjen går fra 12. oktober til 8. november. Vi har ferdig materiell. Vi vil ha strategisk rådgivning og Meld interesse-knapp. Kunden må godkjenne annonsen.' },
+    3: { lenke: '', tekst: 'Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 6. november. Budsjett kr 15 000. Bruk LinkedIn og Meta. Periode 4 uker. Vi vil ha hjelp med annonsen og tekstproduksjon. Referanse: Oppdrag 22 45.' }
   };
   function kjorDemo(n) {
-    $('ref').value = ''; $('avsender').value = 'Vokser AS'; $('arbeidsgiver').value = ''; $('lenke').value = DEMO[n].lenke; $('beskrivelse').value = DEMO[n].tekst;
+    $('ref').value = ''; $('arbeidsgiver').value = ''; $('lenke').value = DEMO[n].lenke; $('beskrivelse').value = DEMO[n].tekst;
     $('del-start').classList.remove('start--lukket');
     velgStart('lenke');
     tilstand.pdf = ''; tilstand.pdfFil = null; tilstand.pdfTekst = ''; $('slipp-fil').textContent = 'Dra filen hit, eller';
@@ -1500,9 +1542,9 @@
     startFraConnect(FZ_CONNECT.finn(qp.get('connect')));
   } else if (qp.get('kladd') === '129070') {
     velgStart('lenke');
-    $('lenke').value = 'https://www.finn.no/job/ad/sykepleier-akutt-kristiansand'; $('ref').value = 'Oppdrag 22 52';
-    sideFra('Fortsett kladden', 'Sykepleier Kristiansand. Sjekk at det stemmer, og fyll ut resten.');
-    startMed({ tittel: 'Sykepleier', steder: [FrantzPicker.finnSted('Kristiansand')].filter(Boolean), frist: 30, arbeidsgiver: 'Sørlandet sykehus' }, 'kladden din');
+    $('lenke').value = 'https://jobb.sorlandethelse.no/stilling/777845-helsesykepleier-kristiansand'; $('ref').value = 'Oppdrag 22 52'; tilstand.connectId = '777845';
+    sideFra('Fortsett kladden', 'Helsesykepleier Kristiansand. Sjekk at det stemmer, og fyll ut resten.');
+    startMed({ tittel: 'Helsesykepleier', steder: [FrantzPicker.finnSted('Kristiansand')].filter(Boolean), fristDato: '2026-11-08', arbeidsgiver: 'Sørlandet Helse' }, 'kladden din');
   } else if (qp.get('tittel') || qp.get('steder') || qp.get('sted')) {
     var liste = (qp.get('steder') || '').split('|').filter(Boolean);
     if (!liste.length && qp.get('sted')) { var fs = FrantzPicker.finnSted(qp.get('sted')); if (fs) liste = [fs]; }

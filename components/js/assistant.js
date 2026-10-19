@@ -1,19 +1,19 @@
 /* Frantz-assistenten — scripted demo. No real AI: answers come from the rules below. */
 
 class AssistantChat {
-  static USER = { first: 'Kari', company: 'Vokser AS' };
+  static USER = { first: 'Kari', company: 'Nordlys Rekruttering AS' };
 
   static CAMPAIGNS = [
     {
       id: '129041', ref: '22 31', title: 'Sykepleier Oslo', badge: 'badge--active', status: 'Aktiv',
-      channels: 'Meta, Nettsteder', day: 'Dag 28 av 31', spent: 'kr 34 900', budget: 'kr 48 200',
-      clicks: '312', target: '380',
-      summary: 'Kampanjen går bedre enn plan. 312 personer har trykket «Søk». Det er 82 % av målet, og det er 3 dager igjen.',
+      channels: 'Meta, Nettsteder og aviser', day: 'Dag 28 av 31', spent: 'kr 43 400', budget: 'kr 48 200',
+      clicks: '52', target: '60',
+      summary: 'Kampanjen går bedre enn normalt. 52 personer har trykket «Søk». Det er 87 % av målet, og det er 3 dager igjen.',
       history: [['15.09.2026', 'Budsjett flyttet mot Meta'], ['08.09.2026', 'Målgruppen utvidet'], ['03.09.2026', 'Kampanjen startet']]
     },
     {
       id: '129072', ref: '22 40', title: 'Helsefagarbeider Tromsø', badge: 'badge--setup', status: 'Under arbeid',
-      channels: 'Meta, Nettsteder', day: 'Starter 05.10', spent: 'kr 0', budget: 'kr 28 000',
+      channels: 'Meta, Nettsteder og aviser', day: 'Starter 05.10', spent: 'kr 0', budget: 'kr 28 000',
       clicks: '0', target: '40',
       summary: 'Annonsene er klare. Du må godkjenne dem innen 02.10, så kan kampanjen starte 05.10.',
       history: [['29.09.2026', 'Annonsene er laget'], ['26.09.2026', 'Bestillingen er mottatt']]
@@ -466,7 +466,7 @@ class AssistantChat {
 
     const found = [];
     [['Meta', /\b(meta|facebook|instagram)\b/i], ['LinkedIn', /linkedin/i], ['Programmatisk', /programmatisk/i],
-      ['Snapchat', /snapchat/i], ['TikTok', /tiktok/i], ['Nettsteder', /nettsted|aviser/i]]
+      ['Snapchat', /snapchat/i], ['TikTok', /tiktok/i], ['Nettsteder og aviser', /nettsted|aviser/i]]
       .forEach(([name, re]) => { if (re.test(t)) found.push(name); });
     if (found.length) set('channels', found.join(', '));
 
@@ -530,7 +530,7 @@ class AssistantChat {
           chips: [
             { label: 'Meta', run: () => this.fill('channels', 'Meta', 'text') },
             { label: 'Meta og LinkedIn', run: () => this.fill('channels', 'Meta, LinkedIn', 'text') },
-            { label: 'La Frantz anbefale', run: () => this.fill('channels', 'Meta, Nettsteder (anbefalt ut fra budsjett)', 'ai') }
+            { label: 'La Frantz anbefale', run: () => this.fill('channels', 'Meta, Nettsteder og aviser (anbefalt ut fra budsjett)', 'ai') }
           ]
         });
       case 'images':

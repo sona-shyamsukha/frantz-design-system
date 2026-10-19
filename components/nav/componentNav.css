@@ -344,7 +344,8 @@
 /* «Ny kampanje» in the topbar: same place on every page (added by konto.js) */
 .topbar__ny { flex: none; }
 .mobiltopp__hoyre { display: inline-flex; align-items: center; gap: var(--space-8); }
-.mobiltopp .topbar__ny { border-color: var(--color-white); background: var(--color-white); color: var(--color-navy); }
+.mobiltopp .topbar__ny { border-color: var(--color-amber); background: var(--color-amber); color: var(--color-navy); }
+.mobiltopp .topbar__ny:hover { border-color: var(--color-amber-hover); background: var(--color-amber-hover); }
 
 .rail .flytbytte--mobil { display: none; }
 @media (max-width: 860px) {

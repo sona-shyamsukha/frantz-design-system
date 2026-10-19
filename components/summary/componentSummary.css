@@ -87,3 +87,11 @@
   background: var(--surface-subtle);
   padding: var(--space-panel-padding);
 }
+
+/* A short note under the total, e.g. «Alle priser er eks. mva.» */
+.summary-panel__mva {
+  margin: 0;
+  padding: var(--space-8) var(--space-panel-padding) 0;
+  color: var(--text-muted);
+  font: var(--type-body);
+}

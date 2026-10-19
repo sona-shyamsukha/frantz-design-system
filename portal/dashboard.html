@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=78">
+<link rel="stylesheet" href="../frantz-ds.css?v=80">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -122,13 +122,13 @@
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@nordlysrekruttering.no</small></span></div></header>
 
     <div class="wrap wrap--bred">
       <!-- New customer: nothing ordered yet. Explain what a campaign is and how it works. -->
@@ -153,7 +153,7 @@
               </div></div>
               <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
               <ul class="checklist">
-                <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Vokser AS er satt opp i Frantz.</div></li>
+                <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Nordlys Rekruttering AS er satt opp i Frantz.</div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke til stillingen, og velg en pakke. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Godkjenn annonsene</b>Frantz lager annonsene. Dere ser dem før noe publiseres.</div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Følg resultatene</b>Se hvor mange som trykker «Søk», og hvem som melder interesse.</div></li>
@@ -181,11 +181,11 @@
       <!-- Existing customer: what is going on today -->
       <div data-vis="eksisterende">
       <h1 class="text-h2">Hei Kari</h1>
-      <p class="lede">Her ser du hva som skjer med kampanjene til Vokser AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
+      <p class="lede">Her ser du hva som skjer med kampanjene til Nordlys Rekruttering AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
       <div class="nokkel hjem-tall">
         <dl class="fakta"><dt>Aktive nå</dt><dd>1 <span>kampanje</span></dd></dl>
-        <dl class="fakta"><dt>Trykket «Søk»</dt><dd>312 <span>på aktive kampanjer</span></dd></dl>
+        <dl class="fakta"><dt>Trykket «Søk»</dt><dd>52 <span>på aktive kampanjer</span></dd></dl>
         <dl class="fakta"><dt>Interessenter</dt><dd>9 <span>på aktive kampanjer</span></dd></dl>
       </div>
 
@@ -203,7 +203,7 @@
               <tbody>
                 <tr tabindex="0" onclick="location.href='campaign.html'">
                   <td data-label="Kampanje"><span class="table__title">Sykepleier Oslo</span><span class="table__meta">Oslo · #129041 · Dag 28 av 31</span></td>
-                  <td data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder</td>
+                  <td data-label="Kanaler" data-vis-kanaler>Meta, Nettsteder og aviser</td>
                   <td data-label="Periode">03.09 – 03.10.2026</td>
                   <td data-label="Status"><span class="badge badge--active">Aktiv</span></td>
                   <td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td>
@@ -214,6 +214,13 @@
         </section>
 
         <aside class="flow">
+          <div class="card card--betjen" id="bestilt-kort" hidden>
+            <div class="card__head"><div>
+              <h3 class="card__title">Bestilt</h3>
+              <p class="card__hint">Frantz har fått bestillingen og lager annonsene.</p>
+            </div></div>
+            <div id="bestilt-liste"></div>
+          </div>
           <div class="card card--betjen">
             <div class="card__head"><div>
               <h3 class="card__title">Trenger svar fra deg</h3>
@@ -239,7 +246,7 @@
               <div class="kladd__topp">
                 <span class="row-alert__icon"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span></span>
                 <div>
-                  <span class="row-alert__title">Sykepleier Kristiansand</span>
+                  <span class="row-alert__title">Helsesykepleier Kristiansand</span>
                   <span class="row-alert__desc">Sist endret i går kl. 14.12</span>
                 </div>
               </div>
@@ -248,9 +255,9 @@
               </div>
               <ul class="kladd__steg">
                 <li class="er-ferdig"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Stillingen</li>
-                <li><span class="kladd__prikk" aria-hidden="true"></span>Budsjett og periode</li>
-                <li><span class="kladd__prikk" aria-hidden="true"></span>Kanaler og avsender</li>
+                <li><span class="kladd__prikk" aria-hidden="true"></span>Pakke eller budsjett</li>
                 <li><span class="kladd__prikk" aria-hidden="true"></span>Materiell</li>
+                <li><span class="kladd__prikk" aria-hidden="true"></span>Tillegg</li>
               </ul>
               <a class="btn btn--primary kladd__knapp" href="ny-kampanje.html?kladd=129070">Fortsett kladden <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></a>
             </div>
@@ -272,6 +279,28 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
+<script src="data/kampanjer.js?v=1"></script>
+<script>
+// Hjem reads the shared campaign list: your new orders show as «Bestilt», and an ordered draft leaves «Fortsett der du slapp».
+(function () {
+  var alle = FZ_KAMPANJER.alle();
+  var mine = alle.filter(function (k) { return k.status === 'Bestilt' && k.bestiller === 'Kari Hansen'; });
+  var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  if (mine.length) {
+    document.getElementById('bestilt-kort').hidden = false;
+    document.getElementById('bestilt-liste').innerHTML = mine.map(function (k) {
+      return '<div class="kladd"><div class="kladd__topp"><span class="row-alert__icon"><span class="icon-lucide icon-lucide--package" aria-hidden="true"></span></span><div>' +
+        '<span class="row-alert__title">' + esc(k.tittel) + '</span><span class="row-alert__desc">Ønsket periode ' + esc(k.periode) + '</span></div></div>' +
+        '<a class="btn btn--secondary kladd__knapp" href="' + k.side + '">Se bestillingen <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></a></div>';
+    }).join('');
+  }
+  if (!alle.some(function (k) { return k.status === 'Kladd'; })) {
+    var kort = document.querySelector('a[href="ny-kampanje.html?kladd=129070"]').closest('.kladd');
+    kort.hidden = true;
+    kort.parentNode.querySelector('.kladd__tom').hidden = false;
+  }
+})();
+</script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=9"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>

@@ -1,6 +1,5 @@
 /* Responsive portal layouts. Shared components keep their desktop presentation. */
 .nk-mobilbestilling { display: none; }
-.pakke-kort__mobil-total { display: none; }
 
 @media (max-width: 860px) {
   .app { min-height: 100dvh; }
@@ -161,8 +160,6 @@
   .app .pakke-kort__beskrivelse { grid-area: description; }
   .app .pakke-kort__pris { grid-area: price; margin-top: 0; text-align: right; align-items: flex-end; }
   .app .pakke-kort__periode { max-width: 16ch; }
-  .app .pakke-kort__periodehjelp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .app .pakke-kort__mobil-total { display: inline; }
   .app .pakke-kort__kanaler { grid-area: channels; padding-top: var(--space-12); }
   .app .pakke-kort__ikke { grid-area: excluded; }
 }
