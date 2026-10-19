@@ -291,9 +291,9 @@
             </div>
             <div id="start-innhold">
             <div class="start-valg" role="group" aria-labelledby="t-start">
-              <button class="choice-card" type="button" data-start="connect" data-vis="eksisterende" aria-pressed="false"><span class="choice-card__name">Hent fra Connect</span><span class="choice-card__desc">Velg en stilling fra deres eget system. Frantz fyller ut skjemaet.</span></button>
-              <button class="choice-card" type="button" data-start="lenke" aria-pressed="false"><span class="choice-card__name">Lim inn lenke eller tekst</span><span class="choice-card__desc">Lim inn en lenke, skriv med egne ord eller last opp et dokument. AI fyller ut skjemaet for dere.</span></button>
-              <button class="choice-card" type="button" id="selv" data-start="selv" aria-pressed="false"><span class="choice-card__name">Fyll ut selv</span><span class="choice-card__desc">Skriv inn stillingen for hånd.</span></button>
+              <button class="choice-card" type="button" data-start="connect" data-vis="eksisterende" aria-pressed="false"><span class="choice-card__name">Hent fra Connect</span><span class="choice-card__desc">Velg stilling fra deres system.</span></button>
+              <button class="choice-card" type="button" data-start="lenke" aria-pressed="false"><span class="choice-card__name">Lim inn lenke eller tekst</span><span class="choice-card__desc">Lenke, tekst eller dokument. AI fyller ut.</span></button>
+              <button class="choice-card" type="button" id="selv" data-start="selv" aria-pressed="false"><span class="choice-card__name">Fyll ut selv</span><span class="choice-card__desc">Skriv alt inn selv.</span></button>
             </div>
 
             <div class="connect-valg" id="connect-valg" hidden>
@@ -438,8 +438,8 @@
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
-                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en lagret pakke</span><span class="choice-card__desc">Et ferdig oppsett med fast budsjett, kanaler og periode. Raskest hvis dere bestiller det samme ofte.</span></button>
-                <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode.</span></button>
+                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en lagret pakke</span><span class="choice-card__desc">Fast budsjett, kanaler og periode.</span></button>
+                <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode selv.</span></button>
               </div>
             </div>
             <div class="felt blokk funnet__bred pakker" id="pakker">
@@ -605,8 +605,8 @@
   ];
   function byggMateriell(root) {
     root.innerHTML = '<div class="valg-to" role="group" aria-label="Type materiell">' +
-      '<button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>' +
-      '<button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser for kampanjen. Betales per time.</span></button></div>' +
+      '<button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder eller annonser.</span></button>' +
+      '<button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager det. Betales per time.</span></button></div>' +
       '<div class="mat-filer" hidden><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Legg ved filer</button>' +
       '<span class="form-hint">Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.</span><div class="filer"></div></div>';
   }
