@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=85">
+<link rel="stylesheet" href="../frantz-ds.css?v=86">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -17,6 +17,29 @@
   .lagret--lagrer .icon-lucide { color: var(--text-faint); }
   .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: var(--space-section-gap); }
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
+  .steg { display: flex; flex-direction: column; gap: var(--space-section-gap); }
+  .steg[hidden] { display: none; }
+  .nk-steg { margin: 0; }
+  .steg-blokk + .steg-blokk { margin-top: var(--space-section-gap); }
+  #del-materiell .del__hint, #del-oversikt .del__hint { margin-bottom: var(--space-section-gap); }
+  .steg-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); }
+  .steg-nav[hidden] { display: none; }
+  /* Buttons set their own display, so «hidden» needs help here */
+  .steg-nav .btn[hidden], .summary-panel__cta .btn[hidden], .steg-hint[hidden] { display: none; }
+  .steg-nav #steg-neste { margin-left: auto; }
+  .steg-nav__feil { flex-basis: 100%; margin: 0; text-align: right; }
+  .steg-hint { margin: 0; color: var(--text-muted); font: var(--type-body); }
+  .oversikt-gruppe { padding: var(--space-16) 0; border-top: 1px solid var(--border-default); }
+  .oversikt-gruppe:first-child { border-top: 0; padding-top: 0; }
+  .oversikt-gruppe__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
+  .oversikt-gruppe__topp h3 { margin: 0; color: var(--text-heading); font: var(--type-label); }
+  #del-oversikt #felt-faktura { margin-top: var(--space-16); padding-top: var(--space-16); border-top: 1px solid var(--border-default); }
+  /* Phone: four numbers in one row, only the current step keeps its name */
+  @media (max-width: 640px) {
+    .nk-steg { flex-wrap: nowrap; }
+    .nk-steg .step:not(.step--now) .step__tekst { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .nk-steg .step:not(.step--now), .nk-steg .step:not(.step--now) .step__link { padding-right: var(--space-8); }
+  }
 
   .del { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); padding: var(--space-card-padding); }
   .del[hidden] { display: none; }
@@ -280,6 +303,12 @@
       <div class="nk">
         <form class="nk-skjema" id="skjema" novalidate autocomplete="off">
 
+          <!-- Four steps. The order box on the right follows along. Nothing is sent before «Bestill» on the last step. -->
+          <nav aria-label="Steg i bestillingen">
+            <ol class="steps nk-steg" id="steg-liste"></ol>
+          </nav>
+
+          <div class="steg" data-steg="1">
           <!-- 1. Give us what you have -->
           <section class="del" id="del-start" aria-labelledby="t-start">
             <div class="start-topp">
@@ -411,20 +440,15 @@
                 <label class="form-label" for="avsender">Avsender <span class="valgfri">(hvilken Facebook-side annonsen vises fra)</span></label>
                 <input class="form-input" type="text" id="avsender" value="Nordlys Rekruttering AS">
               </div>
-              <div class="felt funnet__bred" id="felt-faktura">
-                <label class="form-label" for="faktura">Fakturamottaker</label>
-                <span class="form-select-wrap"><select class="form-select" id="faktura">
-                  <option>Nordlys Rekruttering AS</option>
-                  <option>Nordlys Rekruttering AS, avd. Oslo</option>
-                </select></span>
-                <p class="form-description">Fra listen i <a class="link" href="innstillinger.html#faktura">Innstillinger</a>. Hvert selskap i et konsern får sin egen faktura.</p>
-              </div>
             </div>
                 <div class="funnet-ferdig"><button class="btn btn--primary" type="button" id="funnet-ferdig">Lagre</button></div>
               </div>
             </div>
           </section>
 
+          </div>
+
+          <div class="steg" data-steg="2" hidden>
           <!-- 3. Everything the text did not answer, in one section -->
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
@@ -481,22 +505,52 @@
                 <div id="q-periode-valg"></div>
                 <p class="advarsel" id="frist-advarsel" role="status" hidden></p>
               </div>
-              <div class="felt blokk funnet__bred" id="blokk-materiell">
+            </div>
+            <div class="funnet-ferdig" id="mangler-lagre-rad"><button class="btn btn--primary" type="button" id="mangler-lagre">Lagre</button></div>
+          </section>
+          </div>
+
+          <div class="steg" data-steg="3" hidden>
+          <section class="del" id="del-materiell" aria-labelledby="t-materiell">
+            <h2 class="del__tittel" id="t-materiell">Materiell og tillegg</h2>
+            <p class="del__hint">Hvem lager annonsene, og vil dere ha noe ekstra? Alt her er valgfritt.</p>
+              <div class="felt blokk funnet__bred steg-blokk" id="blokk-materiell">
                 <span class="form-label" id="b-mat-lbl">Materiell</span>
                 <div id="q-materiell-valg"></div>
               </div>
-              <div class="felt blokk funnet__bred" id="blokk-tillegg">
+              <div class="felt blokk funnet__bred steg-blokk" id="blokk-tillegg">
                 <span class="form-label" id="b-til-lbl">Tilleggsprodukter <span class="valgfri">(valgfritt)</span></span>
                 <p class="form-description">Kryss av for det dere vil ha. Tekstproduksjon er inkludert. Det som har en pris, legges til totalsummen.</p>
                 <div id="q-tillegg-valg"></div>
               </div>
-            </div>
-            <div class="felt blokk funnet__bred" id="blokk-kommentar">
+            <div class="felt blokk funnet__bred steg-blokk" id="blokk-kommentar">
               <label class="form-label" for="notat">Kommentar <span class="valgfri">(valgfritt)</span></label>
               <textarea class="form-textarea" id="notat" rows="3" placeholder="Noe mer Frantz bør vite. F.eks. hvem dere vil nå, eller om kunden skal godkjenne annonsen."></textarea>
             </div>
-            <div class="funnet-ferdig" id="mangler-lagre-rad"><button class="btn btn--primary" type="button" id="mangler-lagre">Lagre</button></div>
           </section>
+          </div>
+
+          <div class="steg" data-steg="4" hidden>
+          <section class="del" id="del-oversikt" aria-labelledby="t-oversikt">
+            <h2 class="del__tittel" id="t-oversikt">Se over og bestill</h2>
+            <p class="del__hint">Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.</p>
+            <div id="oversikt"></div>
+              <div class="felt funnet__bred steg-blokk" id="felt-faktura">
+                <label class="form-label" for="faktura">Fakturamottaker</label>
+                <span class="form-select-wrap"><select class="form-select" id="faktura">
+                  <option>Nordlys Rekruttering AS</option>
+                  <option>Nordlys Rekruttering AS, avd. Oslo</option>
+                </select></span>
+                <p class="form-description">Fra listen i <a class="link" href="innstillinger.html#faktura">Innstillinger for firmaet</a>. Hvert selskap i et konsern får sin egen faktura.</p>
+              </div>
+          </section>
+          </div>
+
+          <div class="steg-nav" id="steg-nav">
+            <button class="btn btn--secondary" type="button" id="steg-tilbake"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span> Tilbake</button>
+            <button class="btn btn--primary" type="button" id="steg-neste">Neste <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
+            <p class="feil steg-nav__feil" id="steg-feil" role="alert" hidden></p>
+          </div>
           <input type="file" id="filer" aria-label="Legg ved filer" multiple hidden accept=".zip,.html,.htm,.mp4,.docx,.doc,.pdf,.jpg,.jpeg,.png">
         </form>
 
@@ -523,6 +577,7 @@
             </div>
             <p class="summary-panel__mva">Alle priser er eks. mva.</p>
             <div class="summary-panel__cta">
+              <p class="steg-hint" id="steg-hint">Du bestiller på siste steg. Ingenting sendes før det.</p>
               <button class="btn btn--accent" type="button" id="bestill" disabled aria-describedby="bestilling-venter">Bestill kampanjen</button>
               <p class="feil" id="feil-bestill" role="alert" hidden></p>
               <button class="btn btn--secondary" type="button" id="del-knapp" disabled aria-expanded="false" aria-controls="del-panel"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Del for godkjenning</button>
@@ -788,6 +843,8 @@
       if (tilstand.side.lede) $('side-lede').textContent = tilstand.side.lede;
     }
     tegnKanaler();
+    tilstand.lengst = 1;
+    if (tilstand.steg && tilstand.steg !== 1) visSteg(1, false);
     oppdater();
     settRediger(!$('stilling').value.trim() || !steder.verdi().length);
     if (a.tittel) (tilstand.side ? $('side-tittel') : $('del-funnet')).scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -799,7 +856,7 @@
   // The same five blocks, in the same order, everywhere: in «Resten av bestillingen» until they are
   // filled in, and inside the overview card (edit view) once they are.
   var FRA_PAKKE = ['budsjett', 'kanal'];
-  var PAA_KAMPANJE = ['periode', 'materiell', 'tillegg'];
+  var PAA_KAMPANJE = ['periode']; // material, add-ons and comment have their own step
   function visFelt(id, synlig) {
     var el = $('blokk-' + id);
     el.hidden = !synlig;
@@ -828,6 +885,7 @@
   // Budget is the one thing an order cannot do without
   function krevBudsjett(panelTekst) {
     if (budsjett()) return true;
+    if (tilstand.lest && tilstand.steg !== 2) visSteg(2);
     var f = $('feil-bestill');
     if (!tilstand.lest) { $('start-alert').hidden = true; $('lenke').focus(); if (panelTekst) { f.textContent = panelTekst; f.hidden = false; } return false; }
     if (tilstand.oppsett !== 'selv') {
@@ -1449,7 +1507,101 @@
     tegnMateriellOgTillegg();
     tegnPakker();
     visMangler();
+    if (tilstand.steg) { tegnOversikt(); tegnStegListe(); tegnStegNav(); }
   }
+
+  /* ---------- Steps ----------
+     1 Stillingen · 2 Kampanjen · 3 Materiell og tillegg · 4 Se over og bestill.
+     The order box follows along. «Bestill» shows only on step 4. */
+  var STEG = ['Stillingen', 'Kampanjen', 'Materiell og tillegg', 'Se over og bestill'];
+  tilstand.steg = 1; tilstand.lengst = 1;
+  // What a step needs before the user may go past it. Returns an error text, or ''.
+  function stegFeil(n) {
+    if (n === 1) {
+      if (!tilstand.lest) return 'Trykk «Fyll ut skjemaet» først.';
+      if (!$('stilling').value.trim() || !steder.verdi().length) return 'Fyll inn stilling og arbeidssted.';
+    }
+    if (n === 2 && !budsjett()) return tilstand.oppsett !== 'selv' ? 'Velg en pakke, eller velg «Sett opp selv».' : 'Skriv et budsjett.';
+    return '';
+  }
+  function kanGaTil(n) { for (var i = 1; i < n; i++) if (stegFeil(i)) return false; return true; }
+  function tegnStegListe() {
+    // The design system's «.steps»: done steps are links back, the current one is navy, later ones open when the step before is filled in
+    $('steg-liste').innerHTML = STEG.map(function (navn, i) {
+      var n = i + 1, na = n === tilstand.steg, ferdig = !na && n <= tilstand.lengst && !stegFeil(n);
+      var lov = !na && n <= tilstand.lengst + 1 && kanGaTil(n);
+      var innhold = '<span class="step__n" aria-hidden="true">' + (ferdig ? '✓' : n) + '</span><span class="step__tekst">' + navn + '</span>';
+      if (na) return '<li class="step step--now" aria-current="step">' + innhold + '</li>';
+      return '<li class="step' + (ferdig ? ' step--done' : '') + '">' + (lov ? '<button type="button" class="step__link" data-til-steg="' + n + '">' + innhold + '</button>' : innhold) + '</li>';
+    }).join('');
+  }
+  function tegnStegNav() {
+    var n = tilstand.steg;
+    $('steg-nav').hidden = n === 1 && !tilstand.lest;
+    $('steg-tilbake').hidden = n === 1;
+    $('steg-neste').hidden = n === 4;
+    $('steg-neste').innerHTML = n < 4 ? 'Neste: ' + STEG[n] + ' <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span>' : '';
+    // Ordering belongs to the last step
+    var sist = n === 4;
+    $('bestill').hidden = !sist; $('del-knapp').hidden = !sist;
+    $('steg-hint').hidden = sist;
+    if (!sist) { $('del-panel').hidden = true; $('del-knapp').setAttribute('aria-expanded', 'false'); }
+    $('bestilling-venter').hidden = $('bestilling-venter').hidden || !sist;
+  }
+  function visSteg(n, flytt) {
+    tilstand.steg = n;
+    tilstand.lengst = Math.max(tilstand.lengst, n);
+    Array.prototype.forEach.call(document.querySelectorAll('.steg'), function (el) { el.hidden = Number(el.dataset.steg) !== n; });
+    $('steg-feil').hidden = true;
+    tegnOversikt(); tegnStegListe(); tegnStegNav();
+    if (flytt !== false) {
+      $('steg-liste').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var tittel = document.querySelector('.steg[data-steg="' + n + '"] .del__tittel');
+      if (tittel) { tittel.setAttribute('tabindex', '-1'); tittel.focus({ preventScroll: true }); }
+    }
+  }
+  $('steg-neste').addEventListener('click', function () {
+    var feil = stegFeil(tilstand.steg);
+    if (feil) {
+      $('steg-feil').textContent = feil; $('steg-feil').hidden = false;
+      if (tilstand.steg === 1 && tilstand.lest) settRediger(true);
+      if (tilstand.steg === 2 && tilstand.oppsett === 'selv') { $('feil-budsjett').hidden = false; $('budsjett').focus(); }
+      return;
+    }
+    visSteg(tilstand.steg + 1);
+  });
+  $('steg-tilbake').addEventListener('click', function () { visSteg(tilstand.steg - 1); });
+  $('steg-liste').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-til-steg]'); if (b) visSteg(Number(b.dataset.tilSteg));
+  });
+
+  // Step 4: everything in one place, with «Endre» back to each step
+  function tegnOversikt() {
+    if (!$('oversikt') || !tilstand.lest) return;
+    var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var rad = function (dt, dd) { return dd ? '<dl class="summary-row"><dt>' + dt + '</dt><dd>' + dd + '</dd></dl>' : ''; };
+    var gruppe = function (tittel, steg, innhold) {
+      return '<div class="oversikt-gruppe"><div class="oversikt-gruppe__topp"><h3>' + tittel + '</h3>' +
+        '<button class="btn btn--ghost btn--sm" type="button" data-til-steg="' + steg + '"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span> Endre</button></div>' + innhold + '</div>';
+    };
+    var st = steder.verdi(), b = budsjett();
+    var tilleggSum = TILLEGG.reduce(function (sum, t) { return sum + (tilstand.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0);
+    $('oversikt').innerHTML =
+      gruppe('Stillingen', 1,
+        rad('Stilling', esc($('stilling').value.trim())) + rad('Arbeidssted', esc(navnListe(st))) +
+        rad('Søknadsfrist', $('frist').value ? kort($('frist').value) : '') + rad('Arbeidsgiver', esc($('arbeidsgiver').value.trim())) +
+        rad('Deres referanse', esc($('ref').value.trim()))) +
+      gruppe('Kampanjen', 2,
+        rad('Pakke', esc(pakkeTekst())) + rad('Budsjett', b ? kr(b) : '') + rad('Kanaler', FZ_KANALER.html(tilstand.kanaler)) +
+        rad('Periode', esc(periodeTekst()))) +
+      gruppe('Materiell og tillegg', 3,
+        rad('Materiell', tilstand.materiell ? esc(materiellTekst()) : 'Ikke valgt') +
+        rad('Tillegg', esc(tilleggListe().join(', ')) || 'Ingen') + (tilleggSum ? rad('Pris for tillegg', '+ ' + kr(tilleggSum)) : '') +
+        rad('Kommentar', esc($('notat').value.trim())));
+  }
+  $('oversikt').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-til-steg]'); if (b) visSteg(Number(b.dataset.tilSteg));
+  });
 
   /* ---------- Save by itself ---------- */
   var LAGER = 'fzNyKampanjeEnkel', lagreTimer = null;
@@ -1546,6 +1698,7 @@
     $('lenke').value = 'https://jobb.sorlandethelse.no/stilling/777845-helsesykepleier-kristiansand'; $('ref').value = 'Oppdrag 22 52'; tilstand.connectId = '777845';
     sideFra('Fortsett kladden', 'Helsesykepleier Kristiansand. Sjekk at det stemmer, og fyll ut resten.');
     startMed({ tittel: 'Helsesykepleier', steder: [FrantzPicker.finnSted('Kristiansand')].filter(Boolean), fristDato: '2026-11-08', arbeidsgiver: 'Sørlandet Helse' }, 'kladden din');
+    visSteg(2, false); // the draft has the stilling done, like the card on Hjem says
   } else if (qp.get('tittel') || qp.get('steder') || qp.get('sted')) {
     var liste = (qp.get('steder') || '').split('|').filter(Boolean);
     if (!liste.length && qp.get('sted')) { var fs = FrantzPicker.finnSted(qp.get('sted')); if (fs) liste = [fs]; }
@@ -1572,7 +1725,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=14"></script>
+<script src="../components/js/konto.js?v=15"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

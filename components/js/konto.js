@@ -123,7 +123,7 @@
   // Not on Ny kampanje itself, where it would only start the form over.
   if (!/ny-kampanje\.html$/.test(location.pathname)) {
     var ny = document.createElement('a');
-    ny.className = 'btn btn--primary topbar__ny';
+    ny.className = 'btn btn--accent topbar__ny'; // yellow: the main action, the same on desktop and phone
     ny.href = 'ny-kampanje.html';
     ny.innerHTML = '<span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje';
     topbar.insertBefore(ny, bjelle);
