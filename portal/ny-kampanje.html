@@ -18,6 +18,7 @@
   .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: var(--space-section-gap); }
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
   #del-funnet .husk__rad, #funnet-endre, #del-funnet .funnet-ferdig { display: none; }
+  .summary-panel__block[hidden] { display: none; }
   .sum-stilling__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); margin-bottom: var(--space-4); }
   /* A small spinner for «Leser …» on the button */
   .snurr { display: inline-block; width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: snurr .7s linear infinite; }
@@ -51,12 +52,16 @@
   .steg > .del.del--forst > .del__tittel,
   .steg > .del.del--forst > .start-topp .del__tittel,
   .steg > .del.del--forst > .del__topp .del__tittel { display: none; }
-  .steg-hode__navn { margin: 0 0 var(--space-12); color: var(--text-heading); font: var(--type-section); font-size: var(--text-2xl); }
+  .steg-vis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-24); }
+  .steg-hode { padding-bottom: var(--space-16); }
+  .steg-hode__navn { margin: 0; color: var(--text-heading); font: var(--type-section); font-size: var(--text-2xl); }
+  .steg-hode__meter { flex: 0 1 280px; }
+  .demo-eksempler { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-4) var(--space-12); margin: var(--space-8) 0 0; color: var(--text-muted); font: var(--type-support); }
   .steg-hode__navn:focus { outline: none; }
   .steg-hode__meter .meter__value { color: var(--text-heading); font: var(--type-support); font-weight: var(--font-weight-semibold); }
-  @media (max-width: 640px) { .steg-hode__navn { font-size: var(--text-xl); } }
+  @media (max-width: 640px) { .steg-hode__navn { font-size: var(--text-xl); } .steg-hode__meter { flex-basis: 100%; } }
   /* Where the bottom bar shows, it carries «Neste». The button in the page would only crowd it. */
-  @media (max-width: 1180px) { .steg-nav #steg-neste { display: none; } .steg-nav__feil { text-align: left; } }
+  @media (max-width: 1180px) { .steg-nav #steg-neste, .inn__fortsett { display: none; } .steg-nav__feil { text-align: left; } }
 
   .del { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); padding: var(--space-card-padding); }
   .del[hidden] { display: none; }
@@ -74,15 +79,15 @@
   .nk-skjema .picker__felt { padding-left: var(--space-16); padding-right: var(--space-16); }
 
   /* Give us what you have: all three are optional, we read all of them together */
-  .kilder { display: grid; gap: var(--space-32); }
+  .kilder { display: grid; gap: var(--space-20, 20px); }
   .lenke-rad { display: flex; gap: var(--space-8); align-items: center; }
   .lenke-rad .form-input { flex: 1; }
   .felt-topp__valg { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-8) var(--space-16); }
   .felt-topp { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); }
-  .pdf-rad { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); padding: var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); color: var(--text-muted); font-size: var(--text-sm); }
+  .pdf-rad { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-12); padding: var(--space-12) var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); color: var(--text-muted); font-size: var(--text-sm); }
   .pdf-rad.dra-over { border-color: var(--color-navy); background: var(--surface-subtle); }
   .pdf-rad__fil { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
-  .beskrivelse { min-height: 150px; resize: vertical; line-height: var(--leading-normal); }
+  .beskrivelse { min-height: 96px; resize: vertical; line-height: var(--leading-normal); }
   .inn__fortsett { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-16); margin-top: var(--space-24); }
   .status { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
   .status--ok { color: var(--text-success-strong); }
@@ -122,6 +127,7 @@
   #funnet-kort .husk__rediger .felt + .felt { margin-top: 0; }
   .funnet__bred { grid-column: 1 / -1; }
   .funnet .felt + .felt { margin-top: 0; }
+  .kilder .felt + .felt { margin-top: 0; } /* the grid gap spaces the fields */
 
   /* Budget: the design system amount field + slider, one short line of result */
   .estimat { margin-top: var(--space-16); }
@@ -190,7 +196,7 @@
   .periode-rad[hidden] { display: none; }
 
   /* More options */
-  .del__topp, .start-topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); margin-bottom: var(--space-24); }
+  .del__topp, .start-topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); margin-bottom: var(--space-20, 20px); }
   .del__topp .del__hint, .start-topp .del__hint { margin: 0; }
   .start-pil { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--surface-subtle); color: var(--text-heading); cursor: pointer; }
   .start-pil:hover { background: var(--border-subtle); }
@@ -331,7 +337,7 @@
       <div class="nk-topp">
         <div>
           <h1 class="text-h2" id="side-tittel">Ny kampanje</h1>
-          <p class="lede" id="side-lede">Gi oss det dere har. Frantz fyller ut resten, og dere sjekker at det stemmer.</p>
+          <p class="lede" id="side-lede" hidden></p>
         </div>
         <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
       </div>
@@ -350,7 +356,8 @@
             <div class="start-topp">
               <div>
                 <h2 class="del__tittel" id="t-start">Fortell oss om stillingen</h2>
-                <p class="del__hint" id="start-hint">Fyll inn det dere har, og trykk «Fyll ut skjemaet». Frantz leser alt og fyller ut resten.</p>
+                <p class="del__hint" id="start-hint">Fyll inn det dere har. Frantz fyller ut resten.</p>
+                <p class="demo-eksempler"><span>Demo:</span> <button class="link link--xs" type="button" data-demo="1">Bare lenke</button> <button class="link link--xs" type="button" data-demo="2">Lenke og tekst</button> <button class="link link--xs" type="button" data-demo="3">Bare tekst</button></p>
                 <p class="del__sammendrag" id="start-sammendrag" hidden></p>
               </div>
               <button class="husk__endre" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" hidden>Endre</button>
@@ -363,31 +370,23 @@
                 <input class="form-input" type="text" id="ref" placeholder="F.eks. deres referanse eller oppdragsnummer">
               </div>
               <div class="felt funnet__bred connect-valg" id="connect-valg">
-                <label class="form-label" id="connect-lbl" for="connect-sok">Velg stilling <span class="valgfri">(valgfritt)</span></label>
-                <p class="form-description" id="connect-hint" style="margin: 0">Velg en stilling fra deres system, og trykk «Fyll ut skjemaet». Bare stillinger uten kampanje vises.</p>
+                <div class="felt-topp">
+                  <label class="form-label" id="connect-lbl" for="connect-sok">Velg stilling <span class="valgfri">(valgfritt)</span></label>
+                  <a class="link link--xs" href="connect.html">Se alle stillinger</a>
+                </div>
                 <div class="picker" id="connect-picker">
-                  <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, referanse eller ID" autocomplete="off" aria-describedby="connect-hint"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
+                  <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, referanse eller ID" autocomplete="off"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
                   <div class="picker__liste connect-sok__liste" hidden></div>
                 </div>
-                <a class="link link--xs" href="connect.html">Se alle stillinger</a>
               </div>
               <div class="felt funnet__bred" id="felt-lenke">
-                <div class="felt-topp">
-                  <label class="form-label" for="lenke">Lenke til stillingsannonsen <span class="valgfri">(valgfritt)</span></label>
-                  <button class="link link--xs" type="button" data-demo="1" title="Eksempel: bare en lenke">Prøv eksempel 1</button>
-                </div>
+                <label class="form-label" for="lenke">Lenke til stillingsannonsen <span class="valgfri">(valgfritt)</span></label>
                 <input class="form-input" type="url" id="lenke" placeholder="https://…">
               </div>
               <div class="felt">
-                <div class="felt-topp">
-                  <label class="form-label" for="beskrivelse">Fortell med egne ord <span class="valgfri">(valgfritt)</span></label>
-                  <span class="felt-topp__valg">
-                    <button class="link link--xs" type="button" data-demo="2" title="Eksempel: lenke og tekst">Prøv eksempel 2</button>
-                    <button class="link link--xs" type="button" data-demo="3" title="Eksempel: bare tekst">Prøv eksempel 3</button>
-                  </span>
-                </div>
-                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="5" placeholder="F.eks. Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett kr 15 000. Kunden må godkjenne annonsen."></textarea>
-                <p class="form-description">Skriv det som er viktig for dere. Vi henter ut sted, frist, budsjett og kanaler hvis dere nevner dem.</p>
+                <label class="form-label" for="beskrivelse">Fortell med egne ord <span class="valgfri">(valgfritt)</span></label>
+                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="3" placeholder="F.eks. Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett kr 15 000. Kunden må godkjenne annonsen."></textarea>
+                <p class="form-description">Nevn gjerne sted, frist, budsjett og kanaler.</p>
               </div>
               <div class="felt">
                 <span class="form-label" id="pdf-lbl">PDF eller dokument <span class="valgfri">(valgfritt)</span></span>
@@ -875,7 +874,7 @@
     if (tilstand.side) {
       document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
       $('side-tittel').textContent = tilstand.side.tittel;
-      if (tilstand.side.lede) $('side-lede').textContent = tilstand.side.lede;
+      if (tilstand.side.lede) { $('side-lede').textContent = tilstand.side.lede; $('side-lede').hidden = false; }
     }
     tegnKanaler();
     tilstand.lengst = 1;
@@ -1060,7 +1059,7 @@
     var a = kilde();
     var feil = $('feil-start');
     feil.hidden = true;
-    if (!a && !c) { feil.hidden = false; feil.textContent = $('connect-valg') ? 'Velg en stilling, eller gi oss en lenke, en fil eller noen ord.' : 'Gi oss en lenke, en fil eller noen ord.'; return; }
+    if (!a && !c) { feil.hidden = false; setTimeout(function () { feil.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 0); feil.textContent = $('connect-valg') ? 'Velg en stilling, eller gi oss en lenke, en fil eller noen ord.' : 'Gi oss en lenke, en fil eller noen ord.'; return; }
     // A job from Connect is the base. What the user typed or uploaded wins over it.
     if (c) {
       var fraConnect = { tittel: c.stilling, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), fristDato: c.frist, arbeidsgiver: c.arbeidsgiver, meld: !!c.interessenter };
@@ -1081,6 +1080,8 @@
     knapp.disabled = true;
     knapp.setAttribute('aria-busy', 'true');
     knapp.innerHTML = '<span class="snurr" aria-hidden="true"></span> Leser …';
+    $('mobil-oppsummering').disabled = true;
+    $('mobil-oppsummering').innerHTML = knapp.innerHTML;
     boks.hidden = false;
     boks.scrollIntoView({ behavior: 'smooth', block: 'center' });
     var i = 0;
@@ -1093,6 +1094,7 @@
         knapp.disabled = false;
         knapp.removeAttribute('aria-busy');
         knapp.innerHTML = knappTekst;
+        $('mobil-oppsummering').disabled = false;
         boks.hidden = true;
         if (c) {
           tilstand.connectId = c.id;
@@ -1454,7 +1456,8 @@
 
   // The bottom bar: «Neste» on steps 1–3, «Bestill kampanjen» on step 4
   $('mobil-oppsummering').addEventListener('click', function () {
-    if (tilstand.steg < 4) $('steg-neste').click(); else $('bestill').click();
+    if (tilstand.steg === 1 && !tilstand.lest) $('fortsett').click();
+    else if (tilstand.steg < 4) $('steg-neste').click(); else $('bestill').click();
   });
 
   // The shortcut is useful while editing; the full panel already provides its actions.
@@ -1514,7 +1517,7 @@
     $('sum-tillegg').textContent = '+ ' + kr(tilleggSum);
     $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
     $('mobil-total').textContent = $('sum-total').textContent;
-    $('mobilbestilling').hidden = !tilstand.lest;
+    $('mobilbestilling').hidden = false; // phone footer from the start: «Fyll ut skjemaet» lives there on step 1
     document.body.classList.toggle('nk-har-mobilbestilling', !$('mobilbestilling').hidden);
     // The job, in the order box on every step
     $('sum-stilling').hidden = !tilstand.lest;
@@ -1584,7 +1587,9 @@
     $('steg-hint').hidden = sist;
     // Phone and tablet: the bar at the bottom carries the next step, and «Bestill» on the last one
     document.body.classList.toggle('nk-steg-4', sist);
-    $('mobil-oppsummering').innerHTML = sist ? 'Bestill kampanjen' : 'Neste <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span>';
+    $('mobil-oppsummering').innerHTML = sist ? 'Bestill kampanjen'
+      : n === 1 && !tilstand.lest ? '<span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span> Fyll ut skjemaet'
+      : 'Neste <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span>';
     $('mobil-oppsummering').className = sist ? 'btn btn--accent' : 'btn btn--primary';
     if (!sist) { $('del-panel').hidden = true; $('del-knapp').setAttribute('aria-expanded', 'false'); }
     $('bestilling-venter').hidden = $('bestilling-venter').hidden || !sist;
