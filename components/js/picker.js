@@ -140,7 +140,7 @@
 
     input.addEventListener('input', tegn);
     // A pick moves focus back to the field. That focus must not open the list again.
-    input.addEventListener('focus', function () { if (!input._stilleFokus) tegn(); });
+    input.addEventListener('focus', function () { if (!input._stilleFokus && !input._kunVedKlikk) tegn(); });
     input.addEventListener('blur', function () { setTimeout(function () { if (!root.contains(document.activeElement)) lukk(); }, 0); });
     input.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -389,12 +389,15 @@
       input.value = c.tittel;
       if (opt.onChange) opt.onChange(c);
     }, status(root));
+    // A long list should not jump open when the user tabs past. Open on click or typing only.
+    input._kunVedKlikk = true;
+    input.addEventListener('click', function () { if (input.getAttribute('aria-expanded') !== 'true') l.tegn(); });
     var apner = root.querySelector('[data-picker-toggle]');
     if (apner) apner.addEventListener('click', function () {
       if (input.getAttribute('aria-expanded') === 'true') { l.lukk(); stilleFokus(input); }
-      else { input.focus(); l.tegn(); }
+      else { stilleFokus(input); l.tegn(); }
     });
-    return { apne: function () { input.focus(); l.tegn(); }, lukk: l.lukk };
+    return { apne: function () { stilleFokus(input); l.tegn(); }, lukk: l.lukk };
   }
 
   window.FrantzPicker = { connect: connect, budsjett: budsjett, stilling: stilling, steder: steder, delSted: delSted, finnSted: finnSted, HELE_NORGE: HELE_NORGE, HJEMMEKONTOR: HJEMMEKONTOR };

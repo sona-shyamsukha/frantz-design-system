@@ -91,9 +91,7 @@
   .advarsel[hidden] { display: none; }
 
   /* Start: three equal ways in. New customers see two (no Connect). */
-  .start-valg { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: var(--space-16); gap: var(--space-grid-gap); }
-  #lenke-valg, .connect-valg { margin-top: var(--space-24); }
-  #lenke-valg[hidden], .connect-valg[hidden] { display: none; }
+  .connect-valg[hidden] { display: none; }
   .connect-valg { display: grid; gap: var(--space-8); }
   .connect-sok__apne { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-8); background: none; color: var(--text-heading); cursor: pointer; }
   .connect-sok__apne:focus-visible { outline: 2px solid var(--color-navy); outline-offset: 1px; }
@@ -167,7 +165,6 @@
   /* Once the stilling is read, the start shrinks to one line. «Endre» opens it again. */
   #del-start.start--lukket #lenke-valg,
   #del-start.start--lukket #connect-valg,
-  #del-start.start--lukket .start-valg,
   #del-start.start--lukket #start-hint { display: none; }
   #del-start.start--lukket .start-topp { margin-bottom: 0; }
   .start-alert { margin-top: var(--space-16); }
@@ -225,7 +222,7 @@
     .nk-topp h1, .del { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
   }
   @media (max-width: 640px) {
-    .inn, .valg-to, .funnet, .pakke-grid, .start-valg { grid-template-columns: 1fr; }
+    .inn, .valg-to, .funnet, .pakke-grid { grid-template-columns: 1fr; }
     .inn__fane { justify-content: flex-start; }
     .lenke-rad { flex-direction: column; }
   }
@@ -283,34 +280,27 @@
           <section class="del" id="del-start" aria-labelledby="t-start">
             <div class="start-topp">
               <div>
-                <h2 class="del__tittel" id="t-start">Hvordan vil dere starte?</h2>
-                <p class="del__hint" id="start-hint">Velg hvor stillingen kommer fra. Resten av bestillingen er lik uansett.</p>
+                <h2 class="del__tittel" id="t-start">Fortell oss om stillingen</h2>
+                <p class="del__hint" id="start-hint">Fyll inn det dere har. AI leser alt og fyller ut skjemaet for dere.</p>
                 <p class="del__sammendrag" id="start-sammendrag" hidden></p>
               </div>
               <button class="husk__endre" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" hidden>Endre</button>
             </div>
             <div id="start-innhold">
-            <div class="start-valg" role="group" aria-labelledby="t-start">
-              <button class="choice-card" type="button" data-start="connect" data-vis="eksisterende" aria-pressed="false"><span class="choice-card__name">Hent fra Connect</span><span class="choice-card__desc">Velg en stilling som er hentet fra deres system.</span></button>
-              <button class="choice-card" type="button" data-start="lenke" aria-pressed="false"><span class="choice-card__name">Lim inn lenke eller tekst</span><span class="choice-card__desc">Gi oss en lenke, tekst eller et dokument, så fyller AI ut skjemaet.</span></button>
-              <button class="choice-card" type="button" id="selv" data-start="selv" aria-pressed="false"><span class="choice-card__name">Fyll ut selv</span><span class="choice-card__desc">Skriv inn opplysningene om stillingen selv.</span></button>
-            </div>
-
-            <div class="connect-valg" id="connect-valg" hidden>
-              <label class="form-label" id="connect-lbl" for="connect-sok">Velg stilling fra Connect</label>
-              <p class="form-description" id="connect-hint" style="margin: 0">Stillinger som ikke har en kampanje ennå. Stillinger med kampanje finner dere under <a class="link" href="campaigns.html">Kampanjer</a>.</p>
-              <div class="picker" id="connect-picker">
-                <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, prosjekt eller ID" autocomplete="off" aria-describedby="connect-hint"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
-                <div class="picker__liste connect-sok__liste" hidden></div>
-              </div>
-              <a class="link link--xs" href="connect.html">Se alle stillinger i Connect</a>
-            </div>
-
-            <div id="lenke-valg" hidden>
+            <div id="lenke-valg">
             <div class="kilder">
               <div class="felt funnet__bred" id="felt-ref">
                 <label class="form-label" for="ref">Kampanjenavn / deres referanse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-posten." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-posten."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
                 <input class="form-input" type="text" id="ref" placeholder="F.eks. oppdragsnummer 22 45">
+              </div>
+              <div class="felt funnet__bred connect-valg" id="connect-valg">
+                <label class="form-label" id="connect-lbl" for="connect-sok">Hent stilling fra Connect <span class="valgfri">(valgfritt)</span></label>
+                <p class="form-description" id="connect-hint" style="margin: 0">Velg en stilling fra deres system, så fylles skjemaet ut. Bare stillinger uten kampanje vises.</p>
+                <div class="picker" id="connect-picker">
+                  <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, prosjekt eller ID" autocomplete="off" aria-describedby="connect-hint"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
+                  <div class="picker__liste connect-sok__liste" hidden></div>
+                </div>
+                <a class="link link--xs" href="connect.html">Se alle stillinger i Connect</a>
               </div>
               <div class="felt funnet__bred" id="felt-lenke">
                 <div class="felt-topp">
@@ -344,6 +334,7 @@
 
             <div class="inn__fortsett">
               <button class="btn btn--primary" type="button" id="fortsett"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span> Fyll ut skjemaet</button>
+              <button class="link" type="button" id="selv">Fyll ut selv</button>
             </div>
             <div class="alert alert--info start-alert" id="start-alert" role="status" aria-live="polite" hidden>
               <span class="icon-lucide icon-lucide--sparkles alert__icon" aria-hidden="true"></span>
@@ -575,7 +566,7 @@
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=8"></script>
 <script src="data/connect.js"></script>
-<script src="../components/js/picker.js?v=6"></script>
+<script src="../components/js/picker.js?v=7"></script>
 <script src="../components/js/reach-model.js?v=2"></script>
 <script>
 (function () {
@@ -900,7 +891,7 @@
     var ref = $('ref').value.trim();
     $('start-sammendrag').textContent = (k.length ? 'Vi leste ' + tekst : 'Fylles ut for hånd') + (ref ? ' · Referanse ' + ref : '');
     $('start-sammendrag').hidden = false;
-    $('start-endre').hidden = !!document.querySelector('[data-start="selv"][aria-pressed="true"]');
+    $('start-endre').hidden = false;
     $('start-endre').setAttribute('aria-expanded', 'false');
     $('start-endre').textContent = 'Endre';
     $('del-start').classList.add('start--lukket');
@@ -912,15 +903,15 @@
     $('start-endre').setAttribute('aria-expanded', 'true');
     $('start-endre').textContent = 'Lukk';
     $('start-sammendrag').hidden = true;
-    var valgt = document.querySelector('[data-start][aria-pressed="true"]');
-    (valgt || document.querySelector('[data-start]:not([hidden])')).focus();
+    plasserStartfelt();
+    $('ref').focus();
   }
   $('start-endre').addEventListener('click', function (e) { e.stopPropagation(); startVekslet(); });
   document.querySelector('.start-topp').addEventListener('click', function () { if ($('del-start').classList.contains('start--lukket')) startVekslet(); });
   $('selv').addEventListener('click', function () {
     velgStart('selv');
     $('start-alert').hidden = true;
-    if (!tilstand.lest) { tilstand.kilder = []; vis({}); }
+    if (!tilstand.lest) { tilstand.kilder = []; vis({}); lukkStart(); }
     else {
       $('funnet-felter').insertBefore($('felt-lenke'), $('funnet-felter').firstChild);
       $('funnet-felter').insertBefore($('felt-ref'), $('felt-stilling'));
@@ -928,23 +919,22 @@
     }
   });
 
-  /* Three equal ways in. Where the stilling comes from does not matter; the rest is the same. */
+  /* One set of fields for every start. Where the stilling comes from does not matter; the rest is the same. */
+  // Kampanjenavn and the link move into the Stillingen card once read. This puts them back at the top.
+  function plasserStartfelt() {
+    var kilder = $('lenke-valg').querySelector('.kilder');
+    kilder.insertBefore($('felt-ref'), kilder.firstChild);
+    var etter = $('connect-valg') || $('felt-ref');
+    kilder.insertBefore($('felt-lenke'), etter.nextSibling);
+  }
   function velgStart(hvordan) {
     $('del-start').hidden = !!tilstand.fraConnectSide;
     $('del-start').classList.remove('start--lukket');
     $('start-sammendrag').hidden = true;
     $('start-endre').hidden = true;
     $('start-endre').setAttribute('aria-expanded', 'true');
-    // Return the source fields to the input panel when changing method after import.
-    if (hvordan === 'lenke') {
-      var kilder = $('lenke-valg').querySelector('.kilder');
-      kilder.insertBefore($('felt-lenke'), kilder.firstChild);
-      kilder.insertBefore($('felt-ref'), kilder.firstChild);
-    }
-    Array.prototype.forEach.call(document.querySelectorAll('[data-start]'), function (b) { b.setAttribute('aria-pressed', String(b.dataset.start === hvordan)); });
-    $('lenke-valg').hidden = hvordan !== 'lenke';
-    $('connect-valg').hidden = hvordan !== 'connect';
-
+    tilstand.manuell = hvordan === 'selv';
+    if (!tilstand.manuell) plasserStartfelt();
   }
   var connectPicker = FrantzPicker.connect($('connect-picker'), {
     hent: function () { return FZ_CONNECT.alle(); },
@@ -953,14 +943,8 @@
       requestAnimationFrame(function () { $('funnet-endre').focus(); });
     }
   });
-  // Connect is only for some customers. Without it there are two ways in, not three.
-  if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) { var cKort = document.querySelector('[data-start="connect"]'); if (cKort) cKort.remove(); }
-  document.querySelector('.start-valg').addEventListener('click', function (e) {
-    var b = e.target.closest('[data-start]'); if (!b || b.dataset.start === 'selv') return;
-    velgStart(b.dataset.start);
-    if (b.dataset.start === 'connect') connectPicker.apne();
-    else $('lenke').focus();
-  });
+  // Connect is only for some customers. Without it, the field is not there at all.
+  if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) $('connect-valg').remove();
   $('fortsett').addEventListener('click', function () {
     if (tilstand.pdfFil && !tilstand.pdfTekst) {
       var leser = new FileReader();
