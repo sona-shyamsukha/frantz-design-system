@@ -87,10 +87,8 @@
   .app .periode__kalender { position: static; width: 100%; margin-top: var(--space-8); box-shadow: none; }
   .app .kal__dag { height: var(--space-44); }
   .app .kal__topp button { width: var(--space-44); height: var(--space-44); }
-  .app .flere__valg { display: grid; grid-template-columns: var(--space-20) minmax(0, 1fr); gap: var(--space-8) var(--space-12); }
+  .app :not(.kanal-piller) > .flere__valg { display: grid; grid-template-columns: var(--space-20) minmax(0, 1fr); gap: var(--space-8) var(--space-12); }
   .app .flere__pris { grid-column: 2; }
-  .app .kanal-liste .flere__valg { grid-template-columns: var(--space-20) minmax(0, 1fr) auto; }
-  .app .kanal-liste .flere__tekst { min-width: 0; flex-wrap: wrap; }
   .app .medie-lay .rutenett { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12); }
   .app .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12); }
   .app .metrics--fire > * { min-width: 0; padding: var(--space-12); }

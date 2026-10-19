@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=87">
+<link rel="stylesheet" href="../frantz-ds.css?v=90">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -32,10 +32,9 @@
   .steg-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); }
   .steg-nav[hidden] { display: none; }
   /* Buttons set their own display, so «hidden» needs help here */
-  .steg-nav .btn[hidden], .summary-panel__cta .btn[hidden], .steg-hint[hidden] { display: none; }
+  .steg-nav .btn[hidden], .summary-panel__cta .btn[hidden], .summary-panel__cta[hidden] { display: none; }
   .steg-nav #steg-neste { margin-left: auto; }
   .steg-nav__feil { flex-basis: 100%; margin: 0; text-align: right; }
-  .steg-hint { margin: 0; color: var(--text-muted); font: var(--type-body); }
   .oversikt-gruppe { padding: var(--space-16) 0; border-top: 1px solid var(--border-default); }
   .oversikt-gruppe:first-child { border-top: 0; padding-top: 0; }
   .oversikt-gruppe__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
@@ -64,6 +63,19 @@
   .annonse__handlinger { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
   .annonse__panel { display: grid; gap: var(--space-16); margin-top: var(--space-16); padding: var(--space-20, 20px); border-radius: var(--radius-12); background: var(--surface-subtle); }
   .annonse__panel[hidden] { display: none; }
+  #blokk-periode .estimat { margin-top: var(--space-24); } /* the estimate closes step 2 */
+  .annonse__valgrad { display: grid; gap: var(--space-8); }
+  .annonse__segment { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+  .annonse__segment .filter { display: inline-flex; align-items: center; gap: var(--space-6); }
+  .annonse__prikk { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--border-strong); }
+  .annonse__prikk--lys { background: var(--color-coral-wash); }
+  .annonse__prikk--hvit { background: var(--color-white); }
+  .annonse__prikk--marine { background: var(--color-navy); }
+  /* The preview follows the chosen look */
+  #pv .ad-preview__kreativ.er-mork { background: var(--color-navy); }
+  #pv .ad-preview__kreativ.er-mork .ad-preview__logo, #pv .ad-preview__kreativ.er-mork .ad-preview__tittel { color: var(--color-white); }
+  #pv .ad-preview__kreativ[data-storrelse="s"] .ad-preview__tittel { font-size: var(--text-lg); }
+  #pv .ad-preview__kreativ[data-storrelse="l"] .ad-preview__tittel { font-size: var(--text-3xl); }
   .annonse__panel-bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-8); }
   .annonse__to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
   .annonse__teller { margin: 0; font-variant-numeric: tabular-nums; }
@@ -139,12 +151,6 @@
   #funnet-kort .funnet { gap: var(--space-field-gap); }
   .felt[hidden], #sum-tillegg-rad[hidden], #sum-hjelp-rad[hidden], #sum-pakke-rad[hidden], #sum-kommentar-rad[hidden] { display: none; }
   /* Channels: one list, Frantz's choices ticked first */
-  .kanal-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: var(--space-8); }
-  .kanal-liste .flere__tekst { min-width: 0; } /* the name never runs out of its box */
-  .kanal-liste .flere__valg { align-items: center; }
-  .kanal-liste .flere__valg .form-check__box { margin-top: 0; }
-  .kanal-liste .flere__tekst { flex-direction: row; display: flex; align-items: center; gap: var(--space-8); color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
-  .kanal-liste .form-check--kort { padding: var(--space-12) var(--space-16); }
   /* «Del for godkjenning» */
   .del-panel { display: grid; gap: var(--space-8); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
   .del-panel[hidden] { display: none; }
@@ -304,6 +310,7 @@
   .oppsummering__lukk { display: none; }
   /* The order box is narrow: each row has its label on top and the value under it, so long values do not wrap into ragged columns */
   #ordre-oppsummering .summary-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); }
+  #ordre-oppsummering .summary-row[hidden] { display: none; }
   #ordre-oppsummering .summary-row dt { font: var(--type-support); }
   #ordre-oppsummering .summary-row dd { font-weight: var(--font-weight-semibold); overflow-wrap: break-word; text-align: left; }
   #ordre-oppsummering .summary-panel__block { gap: var(--space-12); }
@@ -316,11 +323,11 @@
   @media (max-width: 1180px) {
     .nk { grid-template-columns: 1fr; }
     .oppsummering {
-      position: fixed; left: var(--rail-width); right: 0; bottom: var(--mobile-orderbar-height); z-index: var(--z-dropdown);
-      max-height: calc(100dvh - var(--mobile-orderbar-height) - var(--topbar-height));
+      position: fixed; top: auto; left: var(--rail-width); right: 0; bottom: var(--nk-bunn, var(--mobile-orderbar-height)); z-index: var(--z-dropdown);
+      max-height: calc(100dvh - var(--nk-bunn, var(--mobile-orderbar-height)) - var(--topbar-height));
       overflow-y: auto; overscroll-behavior: contain;
       border-radius: var(--radius-16) var(--radius-16) 0 0; box-shadow: var(--shadow-dialog);
-      transform: translateY(calc(100% + var(--mobile-orderbar-height))); visibility: hidden;
+      transform: translateY(calc(100% + var(--nk-bunn, var(--mobile-orderbar-height)))); visibility: hidden;
       transition: transform .25s ease, visibility 0s linear .25s;
     }
     .oppsummering .summary-panel { border-radius: inherit; }
@@ -371,7 +378,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -551,7 +558,7 @@
                 <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
                 <div class="alert__content"><span class="alert__body" id="pakke-estimat-tekst"></span></div>
               </div>
-              <a class="link pakke-knapp" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span> Se og lag pakkene dine under Mine pakker</a>
+              <a class="link pakke-knapp" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span> Se og lag pakkene dine under Lagrede pakker</a>
             </div>
             <div class="mangler-blokker" id="mangler-blokker">
               <div class="felt blokk funnet__bred" id="blokk-budsjett">
@@ -567,16 +574,12 @@
               </div>
               <div class="slider-ends"><span>kr 8 000</span><span>kr 120 000</span></div>
             </div>
-            <div class="alert alert--info estimat" id="estimat" role="status" aria-live="polite" hidden>
-              <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
-              <div class="alert__content"><span class="alert__body"><span id="estimat-tekst"></span></span></div>
-            </div>
             <p class="advarsel" id="advarsel" hidden></p>
             <p class="feil" id="feil-budsjett" role="alert" hidden>Skriv et budsjett for å gå videre.</p>
               </div>
               <div class="felt blokk funnet__bred" id="blokk-kanal">
                 <span class="form-label" id="b-kanal-lbl">Kanaler</span>
-              <div class="kanal-liste" id="kanal-valg" role="group" aria-labelledby="b-kanal-lbl"></div>
+              <div class="kanal-liste kanal-piller" id="kanal-valg" role="group" aria-labelledby="b-kanal-lbl"></div>
               <p class="form-description" id="kanal-hint">Frantz har krysset av for kanalene vi anbefaler for denne stillingen. Vi flytter budsjett til kanalen som gir flest «Søk».</p>
               <p class="feil" id="feil-kanal" role="alert" hidden>Velg minst én kanal.</p>
               </div>
@@ -584,6 +587,10 @@
                 <span class="form-label" id="q-periode-lbl">Periode</span>
                 <div id="q-periode-valg"></div>
                 <p class="advarsel" id="frist-advarsel" role="status" hidden></p>
+                <div class="alert alert--info estimat" id="estimat" role="status" aria-live="polite" hidden>
+                  <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
+                  <div class="alert__content"><span class="alert__body"><span id="estimat-tekst"></span></span></div>
+                </div>
               </div>
             </div>
             <div class="funnet-ferdig" id="mangler-lagre-rad"><button class="btn btn--primary" type="button" id="mangler-lagre">Lagre</button></div>
@@ -598,8 +605,8 @@
             <div class="steg-blokk annonse" id="blokk-annonse">
               <span class="form-label" id="b-mat-lbl">Materiell</span>
               <div class="valg-tre" role="group" aria-labelledby="b-mat-lbl">
-                <button class="choice-card" type="button" data-materiell="bygg" aria-pressed="true"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Lag annonsen her</span><span class="choice-card__desc">Frantz har laget et forslag. Endre tekst og bilde selv.</span></button>
                 <button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>
+                <button class="choice-card" type="button" data-materiell="bygg" aria-pressed="true"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Lag annonsen her</span><span class="choice-card__desc">Frantz har laget et forslag. Endre tekst og bilde selv.</span></button>
                 <button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time.</span></button>
               </div>
               <div id="annonse-bygg" class="annonse__innhold">
@@ -620,6 +627,27 @@
                 <div class="annonse__handlinger">
                   <button class="btn btn--secondary btn--sm" type="button" id="annonse-endre-tekst" aria-expanded="false" aria-controls="annonse-tekst-panel"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span> Endre tekst</button>
                   <button class="btn btn--secondary btn--sm" type="button" id="annonse-bytt-bilde" aria-expanded="false" aria-controls="annonse-bilde-panel"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span> Bytt bilde</button>
+                  <button class="btn btn--secondary btn--sm" type="button" id="annonse-tilpass" aria-expanded="false" aria-controls="annonse-utseende-panel"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span> Tilpass utseende</button>
+                </div>
+                <div class="annonse__panel" id="annonse-utseende-panel" hidden>
+                  <label class="form-toggle"><input class="form-toggle__input" type="checkbox" role="switch" id="an-logo" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis logo</span></label>
+                  <div class="annonse__valgrad"><span class="form-label" id="an-bg-lbl">Bakgrunn</span><div class="annonse__segment" role="group" aria-labelledby="an-bg-lbl" data-annonse-valg="bg">
+                    <button type="button" class="filter" data-verdi="lys" aria-pressed="true"><span class="annonse__prikk annonse__prikk--lys" aria-hidden="true"></span>Lys</button>
+                    <button type="button" class="filter" data-verdi="hvit" aria-pressed="false"><span class="annonse__prikk annonse__prikk--hvit" aria-hidden="true"></span>Hvit</button>
+                    <button type="button" class="filter" data-verdi="marine" aria-pressed="false"><span class="annonse__prikk annonse__prikk--marine" aria-hidden="true"></span>Marine</button>
+                  </div></div>
+                  <div class="annonse__valgrad"><span class="form-label" id="an-str-lbl">Tekststørrelse</span><div class="annonse__segment" role="group" aria-labelledby="an-str-lbl" data-annonse-valg="storrelse">
+                    <button type="button" class="filter" data-verdi="s" aria-pressed="false">Liten</button>
+                    <button type="button" class="filter" data-verdi="m" aria-pressed="true">Middels</button>
+                    <button type="button" class="filter" data-verdi="l" aria-pressed="false">Stor</button>
+                  </div></div>
+                  <div class="annonse__valgrad"><span class="form-label" id="an-fmt-lbl">Format</span><div class="annonse__segment" role="group" aria-labelledby="an-fmt-lbl" data-annonse-valg="format">
+                    <button type="button" class="filter" data-verdi="1 / 1" aria-pressed="false">Kvadrat 1:1</button>
+                    <button type="button" class="filter" data-verdi="4 / 5" aria-pressed="true">Stående 4:5</button>
+                    <button type="button" class="filter" data-verdi="9 / 16" aria-pressed="false">Story 9:16</button>
+                  </div></div>
+                  <p class="form-hint">Logo og farger hentes fra <a class="link" href="innstillinger.html#merkevare">Firmainnstillinger › Merkevare</a>.</p>
+                  <div class="annonse__panel-bunn"><button class="btn btn--primary btn--sm" type="button" data-annonse-lukk="utseende">Ferdig</button></div>
                 </div>
                 <div class="annonse__panel" id="annonse-tekst-panel" hidden>
                   <div class="form-group"><div class="felt-topp"><label class="form-label" for="an-tittel">Overskrift</label><span class="form-hint annonse__teller" id="an-tittel-teller"></span></div><input class="form-input" id="an-tittel" maxlength="40"></div>
@@ -718,7 +746,6 @@
             </div>
             <p class="summary-panel__mva">Alle priser er eks. mva.</p>
             <div class="summary-panel__cta">
-              <p class="steg-hint" id="steg-hint">Du bestiller på siste steg. Ingenting sendes før det.</p>
               <button class="btn btn--accent" type="button" id="bestill" disabled aria-describedby="bestilling-venter">Bestill kampanjen</button>
               <p class="feil" id="feil-bestill" role="alert" hidden></p>
               <button class="btn btn--secondary" type="button" id="del-knapp" disabled aria-expanded="false" aria-controls="del-panel"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Del for godkjenning</button>
@@ -734,7 +761,6 @@
                 </div>
                 <p class="form-hint" style="margin: 0">Du får e-post når de svarer. Lenken gjelder i 14 dager.</p>
               </div>
-              <p style="margin: 0; color: var(--text-muted); font: var(--type-body)">En rådgiver sjekker bestillingen før noe publiseres. Svar kommer i én e-posttråd.</p>
             </div>
           </div>
 
@@ -876,7 +902,7 @@
     if (m) { var d = new Date(+(m[3] || I_DAG.getFullYear()), MND.indexOf(m[2]), +m[1]); if (d < I_DAG && !m[3]) d.setFullYear(d.getFullYear() + 1); a.fristDato = iso(d); }
     var bm = /(?:kr\.?\s?|budsjett(?:et)?(?:\s(?:på|er))?\s?)(\d[\d\s]{2,7}\d)|(\d[\d\s]{2,7}\d)\s?(?:kr|kroner)/.exec(lav);
     if (bm) { var n = Number((bm[1] || bm[2]).replace(/\s/g, '')); if (n >= 1000) a.budsjett = n; }
-    var rm = /(?:oppdrag(?:snummer)?|referanse|ref\.?)\s*:?\s*([a-z0-9æøå\-]+(?:\s\d+)?)/i.exec(t);
+    var rm = /(?:oppdrag(?:snummer)?|referanse|ref\.?)\s*:?\s*([a-z0-9æøå\-]+(?:\s\d+)*)/i.exec(t);
     if (rm) a.ref = rm[1].trim();
     if (/ferdig(?:e)? materiell|har (?:allerede )?(?:ferdig(?:e)? )?(?:materiell|bilder|annonser|logo)/.test(lav)) a.materiell = 'ferdig';
     if (/hjelp med (?:annonse|materiell)|lager annonsen|vil ha hjelp|trenger hjelp/.test(lav)) a.materiell = 'hjelp';
@@ -1398,7 +1424,9 @@
     { fil: 'dag-pa-akutten.jpg', navn: 'En dag på akutten' }, { fil: 'hverdagshelter-ulleval.jpg', navn: 'Hverdagshelter i Oslo' },
     { fil: 'bodo-havn.jpg', navn: 'Bodø havn i solnedgang' }, { fil: 'kontor-kongsberg.jpg', navn: 'Kontoret vårt i Tromsø' }
   ];
-  tilstand.annonse = { tittel: '', tekst: '', knapp: 'Søk nå', bilde: BILDER[0].fil, bildeUrl: '', endret: false, kanal: 'facebook' };
+  tilstand.annonse = { tittel: '', tekst: '', knapp: 'Søk nå', bilde: BILDER[0].fil, bildeUrl: '', endret: false, kanal: 'facebook',
+    // How the ad looks: logo, background, text size and format, like the Autopublish ad creator
+    utseende: { logo: true, bg: 'lys', storrelse: 'm', format: '4 / 5' } };
   function kanalVisninger() {
     var k = tilstand.kanaler.length ? tilstand.kanaler : ['Meta'], ut = [];
     if (k.indexOf('Meta') !== -1) ut.push(['facebook', 'Facebook'], ['instagram', 'Instagram']);
@@ -1435,6 +1463,12 @@
     $('pv-avatar').textContent = avsender.charAt(0).toUpperCase();
     $('pv-logo').textContent = avsender;
     $('pv-tittel').textContent = a.tittel;
+    var u = a.utseende, kreativ = document.querySelector('#pv .ad-preview__kreativ');
+    $('pv-logo').hidden = !u.logo;
+    kreativ.classList.toggle('uten-bg', u.bg === 'hvit');
+    kreativ.classList.toggle('er-mork', u.bg === 'marine');
+    kreativ.style.aspectRatio = u.format;
+    kreativ.dataset.storrelse = u.storrelse;
     $('pv-tekst').textContent = a.tekst;
     $('pv-cta').textContent = a.knapp;
     $('pv-stilling').textContent = $('stilling').value.trim();
@@ -1450,9 +1484,10 @@
   $('annonse-bilder').innerHTML = BILDER.map(function (b) {
     return '<button type="button" class="annonse__bildevalg" data-annonse-bilde="' + b.fil + '" aria-pressed="false" aria-label="' + b.navn + '"><img src="../assets/media/' + b.fil + '" alt=""></button>';
   }).join('');
+  var PANELKNAPP = { tekst: 'annonse-endre-tekst', bilde: 'annonse-bytt-bilde', utseende: 'annonse-tilpass' };
   function apnePanel(hvilket, pa) {
-    var panel = $('annonse-' + hvilket + '-panel'), knapp = $(hvilket === 'tekst' ? 'annonse-endre-tekst' : 'annonse-bytt-bilde');
-    if (pa) { apnePanel(hvilket === 'tekst' ? 'bilde' : 'tekst', false); }
+    var panel = $('annonse-' + hvilket + '-panel'), knapp = $(PANELKNAPP[hvilket]);
+    if (pa) Object.keys(PANELKNAPP).forEach(function (h) { if (h !== hvilket && !$('annonse-' + h + '-panel').hidden) { $('annonse-' + h + '-panel').hidden = true; $(PANELKNAPP[h]).setAttribute('aria-expanded', 'false'); } });
     panel.hidden = !pa; knapp.setAttribute('aria-expanded', String(pa));
     if (pa && hvilket === 'tekst') {
       $('an-tittel').value = tilstand.annonse.tittel; $('an-tekst').value = tilstand.annonse.tekst;
@@ -1463,10 +1498,13 @@
       Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', String(!tilstand.annonse.bildeUrl && x.dataset.annonseBilde === tilstand.annonse.bilde)); });
       var valgt = document.querySelector('[data-annonse-bilde][aria-pressed="true"]') || document.querySelector('[data-annonse-bilde]'); valgt.focus();
     }
+    if (pa && hvilket === 'utseende') $('an-logo').focus();
     if (!pa) knapp.focus({ preventScroll: true });
   }
   $('annonse-endre-tekst').addEventListener('click', function () { apnePanel('tekst', $('annonse-tekst-panel').hidden); });
   $('annonse-bytt-bilde').addEventListener('click', function () { apnePanel('bilde', $('annonse-bilde-panel').hidden); });
+  $('annonse-tilpass').addEventListener('click', function () { apnePanel('utseende', $('annonse-utseende-panel').hidden); });
+  $('an-logo').addEventListener('change', function () { tilstand.annonse.utseende.logo = this.checked; tegnAnnonse(); });
   ['an-tittel', 'an-tekst', 'an-knapp', 'an-avsender'].forEach(function (id) {
     $(id).addEventListener('input', function () {
       var a = tilstand.annonse;
@@ -1490,6 +1528,13 @@
     if (b) {
       tilstand.annonse.bilde = b.dataset.annonseBilde; tilstand.annonse.bildeUrl = ''; tilstand.annonse.endret = true;
       Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      tegnAnnonse(); return;
+    }
+    var v = e.target.closest('[data-annonse-valg] [data-verdi]');
+    if (v) {
+      var gruppe = v.parentNode;
+      tilstand.annonse.utseende[gruppe.dataset.annonseValg] = v.dataset.verdi;
+      Array.prototype.forEach.call(gruppe.querySelectorAll('[data-verdi]'), function (x) { x.setAttribute('aria-pressed', String(x === v)); });
       tegnAnnonse(); return;
     }
     var l = e.target.closest('[data-annonse-lukk]');
@@ -1634,6 +1679,11 @@
   });
 
   /* ---------- Summary ---------- */
+  // The sheet sits right on top of the footer: measure the footer, not a fixed guess
+  function maalBunn() { var h = $('mobilbestilling').offsetHeight; if (h) document.documentElement.style.setProperty('--nk-bunn', h + 'px'); }
+  if ('ResizeObserver' in window) new ResizeObserver(maalBunn).observe($('mobilbestilling'));
+  window.addEventListener('resize', maalBunn);
+
   // «Din bestilling» in the bottom bar opens and closes the whole order
   function visArk(pa) {
     document.body.classList.toggle('nk-ark-apen', pa);
@@ -1685,7 +1735,7 @@
     $('estimat').hidden = !estimatTekst;
     var visPakkeEstimat = tilstand.oppsett !== 'selv' && !!tilstand.pakke && !!estimatTekst;
     $('pakke-estimat-tekst').innerHTML = visPakkeEstimat ? estimatTekst : '';
-    $('pakke-estimat').hidden = !visPakkeEstimat;
+    $('pakke-estimat').hidden = true; // one estimate, under «Periode», for a package and for «Sett opp selv»
     var advarsel = '';
     if (b && b < 8000) advarsel = 'Under kr 8 000 gir lite for de fleste stillinger.';
     $('advarsel').hidden = !advarsel; $('advarsel').textContent = advarsel;
@@ -1788,7 +1838,8 @@
     // Ordering belongs to the last step
     var sist = n === 4;
     $('bestill').hidden = !sist; $('del-knapp').hidden = !sist;
-    $('steg-hint').hidden = sist;
+    // The order buttons belong to the last step. Before that the box ends with the total.
+    document.querySelector('#sammendrag .summary-panel__cta').hidden = !sist;
     // Phone and tablet: the bar at the bottom carries the next step, and «Bestill» on the last one
     document.body.classList.toggle('nk-steg-4', sist);
     $('mobil-tilbake').hidden = n === 1; // back sits beside «Neste» in the phone footer
