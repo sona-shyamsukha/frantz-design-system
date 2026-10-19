@@ -334,7 +334,6 @@
 
             <div class="inn__fortsett">
               <button class="btn btn--primary" type="button" id="fortsett"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span> Fyll ut skjemaet</button>
-              <button class="link" type="button" id="selv">Fyll ut selv</button>
             </div>
             <div class="alert alert--info start-alert" id="start-alert" role="status" aria-live="polite" hidden>
               <span class="icon-lucide icon-lucide--sparkles alert__icon" aria-hidden="true"></span>
@@ -908,17 +907,6 @@
   }
   $('start-endre').addEventListener('click', function (e) { e.stopPropagation(); startVekslet(); });
   document.querySelector('.start-topp').addEventListener('click', function () { if ($('del-start').classList.contains('start--lukket')) startVekslet(); });
-  $('selv').addEventListener('click', function () {
-    velgStart('selv');
-    $('start-alert').hidden = true;
-    if (!tilstand.lest) { tilstand.kilder = []; vis({}); lukkStart(); }
-    else {
-      $('funnet-felter').insertBefore($('felt-lenke'), $('funnet-felter').firstChild);
-      $('funnet-felter').insertBefore($('felt-ref'), $('felt-stilling'));
-      settRediger(true);
-    }
-  });
-
   /* One set of fields for every start. Where the stilling comes from does not matter; the rest is the same. */
   // Kampanjenavn and the link move into the Stillingen card once read. This puts them back at the top.
   function plasserStartfelt() {
@@ -939,9 +927,13 @@
   var connectPicker = FrantzPicker.connect($('connect-picker'), {
     hent: function () { return FZ_CONNECT.alle(); },
     onChange: function (c) {
-      startFraConnect(c);
-      requestAnimationFrame(function () { $('funnet-endre').focus(); });
+      tilstand.valgtConnect = c;
+      $('feil-start').hidden = true;
     }
+  });
+  // Clearing or changing the text in the field drops the chosen job
+  if ($('connect-sok')) $('connect-sok').addEventListener('input', function () {
+    if (tilstand.valgtConnect && this.value !== tilstand.valgtConnect.tittel) tilstand.valgtConnect = null;
   });
   // Connect is only for some customers. Without it, the field is not there at all.
   if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) $('connect-valg').remove();
@@ -952,17 +944,25 @@
       leser.readAsArrayBuffer(tilstand.pdfFil);
       return;
     }
+    var c = tilstand.valgtConnect;
     var a = kilde();
     var feil = $('feil-start');
     feil.hidden = true;
-    if (!a) { feil.hidden = false; feil.textContent = 'Gi oss en lenke, en fil eller noen ord. Eller velg «Fyll ut selv».'; return; }
+    if (!a && !c) { feil.hidden = false; feil.textContent = $('connect-valg') ? 'Velg en stilling fra Connect, eller gi oss en lenke, en fil eller noen ord.' : 'Gi oss en lenke, en fil eller noen ord.'; return; }
+    // A job from Connect is the base. What the user typed or uploaded wins over it.
+    if (c) {
+      var fraConnect = { tittel: c.stilling, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), fristDato: c.frist, arbeidsgiver: c.arbeidsgiver, meld: !!c.interessenter };
+      Object.keys(a || {}).forEach(function (k) { if (a[k] !== undefined && a[k] !== null && a[k] !== '') fraConnect[k] = a[k]; });
+      a = fraConnect;
+    }
     var knapp = $('fortsett'), boks = $('start-alert');
     tilstand.kilder = [];
+    if (c) tilstand.kilder.push('ConnectID ' + c.id);
     if ($('lenke').value.trim()) tilstand.kilder.push('stillingsannonsen');
     if (tilstand.pdf) tilstand.kilder.push('PDF-en');
     if ($('beskrivelse').value.trim()) tilstand.kilder.push('det dere skrev');
     // The alert says what Frantz is doing, one step at a time
-    var steg = tilstand.kilder.map(function (k) { return { t: 'Leser ' + k, b: k === 'det dere skrev' ? 'Vi leter etter sted, frist, budsjett, kanaler og periode.' : 'Vi leter etter stilling, sted, frist og arbeidsgiver.' }; });
+    var steg = tilstand.kilder.map(function (k) { return { t: (k.indexOf('ConnectID') === 0 ? 'Henter ' : 'Leser ') + k, b: k === 'det dere skrev' ? 'Vi leter etter sted, frist, budsjett, kanaler og periode.' : 'Vi leter etter stilling, sted, frist og arbeidsgiver.' }; });
     steg.push({ t: 'Fyller ut skjemaet', b: 'Du får se hva vi fant, og kan rette det som ikke stemmer.' });
     knapp.disabled = true;
     boks.hidden = false;
@@ -975,6 +975,11 @@
       setTimeout(function () {
         knapp.disabled = false;
         boks.hidden = true;
+        if (c) {
+          tilstand.connectId = c.id;
+          if (!$('lenke').value.trim()) $('lenke').value = c.lenke;
+          if (!$('ref').value.trim()) $('ref').value = c.prosjekt || '';
+        }
         lukkStart();
         vis(a);
       }, 650);
