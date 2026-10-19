@@ -56,19 +56,16 @@
   .row-alert__desc { margin-top: var(--space-2); color: var(--text-muted); font: var(--type-body); }
   .row-alert .icon-lucide--chevron-right { flex: none; margin-top: var(--space-8); color: var(--text-faint); }
 
-  /* New customer */
-  .forst { margin-top: var(--space-section-gap); }
-  .forst__tekst { max-width: 70ch; margin: var(--space-8) 0 0; color: var(--text-body); }
-  .forst__steg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-16); margin: var(--space-24) 0 0; padding: 0; list-style: none; }
-  .forst__steg li { display: flex; gap: var(--space-12); align-items: flex-start; color: var(--text-muted); font: var(--type-body); }
-  .forst__steg b { display: block; color: var(--text-heading); font: var(--type-label); }
-  .forst__nr { display: grid; flex: none; place-items: center; width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--bg-amber-soft); color: var(--color-amber-ink); font-weight: var(--font-weight-bold); }
-  .forst__bunn { margin: var(--space-20) 0 0; color: var(--text-muted); font: var(--type-body); }
-  .tom-kort { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-8); }
-  .tom-kort p { margin: 0; color: var(--text-muted); }
-  .tom-kort b { color: var(--text-heading); }
-  .tom-kort > .icon-lucide { color: var(--text-faint); }
-  @media (max-width: 860px) { .forst__steg { grid-template-columns: 1fr; } }
+  /* New customer: a slim banner, then a «Kom i gang» checklist. Reuses card, checklist, meter and buttons. */
+  .kom-i-gang { margin-top: var(--space-section-gap); }
+  .banner { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-24); padding: var(--space-24) var(--space-32); border-radius: var(--radius-16); background: var(--gradient-hero); color: var(--text-on-dark); }
+  .banner__tittel { margin: 0; color: var(--color-white); font: var(--type-section); }
+  .banner__tekst { max-width: 60ch; margin: var(--space-8) 0 0; color: var(--text-on-dark-muted); font: var(--type-body); }
+  .kom-i-gang .checklist { margin-top: var(--space-16); }
+  .kom-i-gang .checklist .link { display: inline-block; margin-top: var(--space-4); }
+  @media (max-width: 860px) {
+    .banner { grid-template-columns: 1fr; padding: var(--space-24); }
+  }
 
   .seksjonstittel { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-16); margin-bottom: var(--space-16); }
   .seksjonstittel h2 { margin: 0; color: var(--text-heading); font: var(--type-section); }
@@ -139,35 +136,45 @@
         <h1 class="text-h2">Velkommen, Kari</h1>
         <p class="lede">Her bestiller dere stillingsannonser og følger med på hvordan de går. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
-        <section class="card card--betjen forst" aria-labelledby="forst-tittel">
-          <h2 class="card__title" id="forst-tittel">Hva er en kampanje?</h2>
-          <p class="forst__tekst">En kampanje er én stilling som Frantz annonserer i flere kanaler samtidig, for eksempel Meta, LinkedIn og nettaviser. Dere velger budsjett og periode. Frantz lager og styrer annonsene, og dere ser resultatene her.</p>
-          <ol class="forst__steg">
-            <li><span class="forst__nr" aria-hidden="true">1</span><span><b>Fortell om stillingen</b>Lim inn en lenke, eller skriv med egne ord.</span></li>
-            <li><span class="forst__nr" aria-hidden="true">2</span><span><b>Velg pakke eller budsjett</b>Pakken viser hva dere får og hva det koster.</span></li>
-            <li><span class="forst__nr" aria-hidden="true">3</span><span><b>Godkjenn annonsene</b>En rådgiver sjekker alt før noe publiseres.</span></li>
-          </ol>
-          <p class="forst__bunn">Ingenting er bestilt før dere trykker «Bestill kampanjen» på siste steg. Det dere fyller ut, lagres underveis.</p>
-        </section>
-
-        <div class="cols">
-          <section aria-labelledby="tom-tittel">
-            <div class="seksjonstittel"><h2 id="tom-tittel">Kampanjene deres</h2></div>
-            <div class="card card--betjen tom-kort">
-              <span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>
-              <p><b>Ingen kampanjer ennå.</b> Når dere har bestilt, ser dere status, antall som trykket «Søk» og interessenter her.</p>
-              <a class="link" href="ny-kampanje.html">Start den første kampanjen</a>
+        <!-- A slim banner, then a "Kom i gang" checklist with progress -->
+        <div class="kom-i-gang">
+          <section class="banner" aria-labelledby="c-tittel">
+            <div>
+              <h2 class="banner__tittel" id="c-tittel">Klar for den første kampanjen?</h2>
+              <p class="banner__tekst">Det tar rundt fem minutter. Det dere fyller ut, lagres underveis.</p>
             </div>
+            <a class="btn btn--accent btn--lg" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Lag første kampanje</a>
           </section>
-          <aside class="flow">
-            <section class="card kalk-kort" aria-labelledby="kalk-tittel-ny">
-              <div>
-                <h3 class="card__title" id="kalk-tittel-ny">Hva når dere for budsjettet?</h3>
-                <p class="card__hint">Velg stilling, sted og budsjett. Se hva en kampanje kan gi, før dere bestemmer dere.</p>
-              </div>
-              <a class="btn btn--secondary" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Åpne tilbudskalkulator</a>
+          <div class="cols">
+            <section class="card card--betjen" aria-labelledby="c-liste">
+              <div class="card__head"><div>
+                <h2 class="card__title" id="c-liste">Kom i gang</h2>
+                <p class="card__hint">Fire steg fra konto til søkere.</p>
+              </div></div>
+              <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
+              <ul class="checklist">
+                <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Vokser AS er satt opp i Frantz.</div></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke til stillingen, og velg en pakke. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Godkjenn annonsene</b>Frantz lager annonsene. Dere ser dem før noe publiseres.</div></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Følg resultatene</b>Se hvor mange som trykker «Søk», og hvem som melder interesse.</div></li>
+              </ul>
             </section>
-          </aside>
+            <aside class="flow">
+              <section class="card kalk-kort" aria-labelledby="c-hva">
+                <div>
+                  <h3 class="card__title" id="c-hva">Hva er en kampanje?</h3>
+                  <p class="card__hint">Én stilling som Frantz annonserer i flere kanaler samtidig, for eksempel Meta, LinkedIn og nettaviser. Dere velger budsjett og periode.</p>
+                </div>
+              </section>
+              <section class="card kalk-kort" aria-labelledby="kalk-tittel-c">
+                <div>
+                  <h3 class="card__title" id="kalk-tittel-c">Hva når dere for budsjettet?</h3>
+                  <p class="card__hint">Se hva en kampanje kan gi, før dere bestemmer dere.</p>
+                </div>
+                <a class="btn btn--secondary" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Åpne tilbudskalkulator</a>
+              </section>
+            </aside>
+          </div>
         </div>
       </div>
 
