@@ -247,7 +247,7 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Importerte stillinger</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
@@ -294,13 +294,13 @@
                 <input class="form-input" type="text" id="ref" placeholder="F.eks. oppdragsnummer 22 45">
               </div>
               <div class="felt funnet__bred connect-valg" id="connect-valg">
-                <label class="form-label" id="connect-lbl" for="connect-sok">Velg importert stilling <span class="valgfri">(valgfritt)</span></label>
+                <label class="form-label" id="connect-lbl" for="connect-sok">Velg stilling <span class="valgfri">(valgfritt)</span></label>
                 <p class="form-description" id="connect-hint" style="margin: 0">Velg en stilling fra deres system, så fylles skjemaet ut. Bare stillinger uten kampanje vises.</p>
                 <div class="picker" id="connect-picker">
                   <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, prosjekt eller ID" autocomplete="off" aria-describedby="connect-hint"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
                   <div class="picker__liste connect-sok__liste" hidden></div>
                 </div>
-                <a class="link link--xs" href="connect.html">Se alle importerte stillinger</a>
+                <a class="link link--xs" href="connect.html">Se alle stillinger</a>
               </div>
               <div class="felt funnet__bred" id="felt-lenke">
                 <div class="felt-topp">
@@ -948,7 +948,7 @@
     var a = kilde();
     var feil = $('feil-start');
     feil.hidden = true;
-    if (!a && !c) { feil.hidden = false; feil.textContent = $('connect-valg') ? 'Velg en importert stilling, eller gi oss en lenke, en fil eller noen ord.' : 'Gi oss en lenke, en fil eller noen ord.'; return; }
+    if (!a && !c) { feil.hidden = false; feil.textContent = $('connect-valg') ? 'Velg en stilling, eller gi oss en lenke, en fil eller noen ord.' : 'Gi oss en lenke, en fil eller noen ord.'; return; }
     // A job from Connect is the base. What the user typed or uploaded wins over it.
     if (c) {
       var fraConnect = { tittel: c.stilling, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), fristDato: c.frist, arbeidsgiver: c.arbeidsgiver, meld: !!c.interessenter };
