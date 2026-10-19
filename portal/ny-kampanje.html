@@ -19,6 +19,10 @@
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
   #del-funnet .husk__rad, #funnet-endre, #del-funnet .funnet-ferdig { display: none; }
   .sum-stilling__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); margin-bottom: var(--space-4); }
+  /* A small spinner for «Leser …» on the button */
+  .snurr { display: inline-block; width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: snurr .7s linear infinite; }
+  @keyframes snurr { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .snurr { animation-duration: 2s; } }
   .steg { display: flex; flex-direction: column; gap: var(--space-section-gap); }
   .steg[hidden] { display: none; }
   .steg-hode { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
@@ -1072,8 +1076,13 @@
     // The alert says what Frantz is doing, one step at a time
     var steg = tilstand.kilder.map(function (k) { return { t: (k.indexOf('ConnectID') === 0 ? 'Henter ' : 'Leser ') + k, b: k === 'det dere skrev' ? 'Vi leter etter sted, frist, budsjett, kanaler og periode.' : 'Vi leter etter stilling, sted, frist og arbeidsgiver.' }; });
     steg.push({ t: 'Fyller ut skjemaet', b: 'Du får se hva vi fant, og kan rette det som ikke stemmer.' });
+    // Show the work where the user looks: on the button, and bring the blue box into view
+    var knappTekst = knapp.innerHTML;
     knapp.disabled = true;
+    knapp.setAttribute('aria-busy', 'true');
+    knapp.innerHTML = '<span class="snurr" aria-hidden="true"></span> Leser …';
     boks.hidden = false;
+    boks.scrollIntoView({ behavior: 'smooth', block: 'center' });
     var i = 0;
     (function neste() {
       $('start-alert-tittel').textContent = steg[i].t + ' …';
@@ -1082,6 +1091,8 @@
       if (i < steg.length) { setTimeout(neste, 450); return; }
       setTimeout(function () {
         knapp.disabled = false;
+        knapp.removeAttribute('aria-busy');
+        knapp.innerHTML = knappTekst;
         boks.hidden = true;
         if (c) {
           tilstand.connectId = c.id;
