@@ -1,17 +1,18 @@
-/* Each person's own packages. Ny kampanje and Min profil share this list.
+/* Packages. Ny kampanje and Lagrede pakker share this list.
    A package fills in everything that is not about the stilling itself.
-   A package belongs to the person who made it (eier). Nobody else sees it.
+   Frantz's own packages (eier: 'Frantz') are there for everyone, also a brand-new customer.
+   A package a person makes belongs to them (eier). Nobody else sees it.
    The demo keeps the list in this browser only. */
 window.FZ_PAKKER = (function () {
-  var LAGER = 'fzPakkerListe7';
+  var LAGER = 'fzPakkerListe8';
   var MEG = 'Kari Hansen'; // the logged-in user in the demo
   // Dummy data. A bigger package always gives more: more channels and a longer period.
   // The period is fixed in the package. To pick another period, the user fills in the order by hand.
   // [ANTAGELSE: price follows the period. Frantz has not confirmed how price, period and reach are linked.]
   var STANDARD = [
-    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'], eier: 'Kari Hansen' },
-    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], eier: 'Kari Hansen' },
-    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'], eier: 'Kari Hansen' },
+    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'], eier: 'Frantz' },
+    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], eier: 'Frantz' },
+    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'], eier: 'Frantz' },
     // Ingrid's own package. Kari never sees it.
     { navn: 'Barnehage Drammen', uker: 4, budsjett: 25000, kanaler: ['Meta'], eier: 'Ingrid Moe' }
   ];
@@ -20,7 +21,6 @@ window.FZ_PAKKER = (function () {
     { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }
   ];
   var TILLEGG = [
-    { navn: 'Tekstproduksjon', pris: 0, tekst: 'Frantz skriver annonseteksten og teksten på kampanjesiden.' },
     { navn: 'Strategisk rådgivning', pris: 8000, tekst: 'En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.' }
   ];
 
@@ -33,8 +33,9 @@ window.FZ_PAKKER = (function () {
   }
   var liste = les();
   function lagre() { try { localStorage.setItem(LAGER, JSON.stringify(liste)); } catch (e) {} }
-  // Only the packages this person made
-  function synlige() { return liste.filter(function (p) { return p.eier === MEG; }); }
+  // Frantz's packages first, then the ones this person made
+  function erFrantz(p) { return p.eier === 'Frantz'; }
+  function synlige() { return liste.filter(erFrantz).concat(liste.filter(function (p) { return p.eier === MEG; })); }
   function finn(navn) {
     var n = String(navn).trim().toLowerCase();
     return synlige().filter(function (p) { return p.navn.toLowerCase() === n; })[0];
@@ -53,7 +54,7 @@ window.FZ_PAKKER = (function () {
     }).join('') : '<span>Kanalene Frantz anbefaler</span>';
     var ikke = p.kanaler ? KANALER.filter(function (c) { return p.kanaler.indexOf(c.navn) === -1; }).map(function (c) { return c.navn; }) : [];
     return '<' + tag + ' class="pakke-kort' + (opt.valg ? ' pakke-kort--valg' : '') + (opt.ny ? ' er-ny' : '') + '"' + attr + '>' +
-      '<span class="pakke-kort__hode"><span class="pakke-kort__navn">' + esc(p.navn) + '</span>' +
+      '<span class="pakke-kort__hode"><span class="pakke-kort__navn">' + esc(p.navn) + (erFrantz(p) ? ' <span class="badge badge--default pakke-kort__fra">Fra Frantz</span>' : '') + '</span>' +
       (opt.valg ? '<span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span>' : '') + '</span>' +
       '<span class="pakke-kort__pris"><b>kr ' + esc(pris) + '</b><span class="pakke-kort__periode">' + (p.uker ? 'for ' + esc(p.uker) + ' uker' : 'Periode velges på kampanjen') + '</span></span>' +
       '<span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste">' + kanaler + '</span></span>' +
@@ -65,6 +66,7 @@ window.FZ_PAKKER = (function () {
     KANALER: KANALER,
     TILLEGG: TILLEGG,
     alle: synlige,
+    erFrantz: erFrantz,
     MEG: MEG,
     finn: finn,
     // Returns an error text, or '' when the package is saved

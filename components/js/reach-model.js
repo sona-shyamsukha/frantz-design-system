@@ -28,6 +28,25 @@
     { navn: 'Utvidet nasjonal dekning', k: 'nasjonal', fra: 60000 }
   ];
 
+  // What each channel gives per krone, compared with Meta alone. [ANTAGELSE: Frantz has not given real numbers.]
+  // visninger: how many views the money buys. klikk: how often a view becomes a click.
+  // sok: how often a visit becomes «Søk» (LinkedIn reaches people who already work in the field).
+  var KANAL_EFFEKT = {
+    'Meta': { visninger: 1, klikk: 1, sok: 1 },
+    'Nettsteder og aviser': { visninger: 1.4, klikk: 0.5, sok: 0.9 },
+    'LinkedIn': { visninger: 0.45, klikk: 0.9, sok: 1.6 },
+    'Snapchat': { visninger: 1.3, klikk: 0.8, sok: 0.6 },
+    'TikTok': { visninger: 1.5, klikk: 0.7, sok: 0.5 }
+  };
+  // The budget is split evenly over the channels, so the effect is the average
+  function kanalEffekt(kanaler) {
+    var liste = (kanaler || []).map(function (k) { return KANAL_EFFEKT[k]; }).filter(Boolean);
+    if (!liste.length) return { visninger: 1, klikk: 1, sok: 1 };
+    var snitt = function (felt) { return liste.reduce(function (sum, e) { return sum + e[felt]; }, 0) / liste.length; };
+    return { visninger: snitt('visninger'), klikk: snitt('klikk'), sok: snitt('sok') };
+  }
+  var BASIS_UKER = 4;
+
   function delSted(s) {
     var m = /^(.*) \((.*)\)$/.exec(s || '');
     return m ? { navn: m[1], type: m[2] } : { navn: s || '', type: '' };
@@ -62,10 +81,14 @@
     var dybde = 1 - Math.exp(-budsjett / (anbefalt / 0.916));
     var naadd = mg * dybde;
     var frekvens = 3 + Math.min(3, budsjett / anbefalt * 1.5);
-    var visninger = naadd * frekvens;
-    var klikk = visninger * 0.015 * (budsjett < 15000 ? 0.8 : 1);
+    // Channels change what the money buys. Without channels, the numbers are for Meta.
+    var effekt = kanalEffekt(valg.kanaler);
+    var visninger = naadd * frekvens * effekt.visninger;
+    var klikk = visninger * 0.015 * (budsjett < 15000 ? 0.8 : 1) * effekt.klikk;
     var besok = klikk * 0.853;
-    var sok = besok * 0.0257;
+    // The same money over more weeks gives more people time to see the ad and apply, with less gain each week
+    var uker = valg.uker > 0 ? valg.uker : BASIS_UKER;
+    var sok = besok * 0.0257 * effekt.sok * Math.pow(uker / BASIS_UKER, 0.35);
 
     return {
       malgruppe: mg, anbefalt: anbefalt, budsjett: budsjett, dybde: dybde,

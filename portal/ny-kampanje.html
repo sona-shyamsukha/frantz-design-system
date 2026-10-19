@@ -281,6 +281,8 @@
   .flere__valg .form-check__box { margin-top: calc((1lh - var(--space-20)) / 2); }
   .flere__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
   .flere__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .flere__forslag { display: flex; gap: var(--space-4); align-items: flex-start; color: var(--text-heading); font: var(--type-support); }
+  .flere__forslag[hidden] { display: none; }
   .flere__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
   .filer { display: flex; flex-wrap: wrap; gap: var(--space-8); }
   .filer:empty { display: none; }
@@ -539,11 +541,11 @@
           <!-- 3. Everything the text did not answer, in one section -->
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
-            <p class="del__hint" hidden id="mangler-hint">Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
+            <p class="del__hint" hidden id="mangler-hint">Velg en ferdig pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
-                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en av pakkene dine</span><span class="choice-card__desc">Et ferdig oppsett med budsjett, kanaler og periode.</span></button>
+                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en ferdig pakke</span><span class="choice-card__desc">Fast budsjett, kanaler og periode. Fra Frantz, eller en dere har lagret.</span></button>
                 <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode for denne kampanjen.</span></button>
               </div>
             </div>
@@ -558,7 +560,7 @@
                 <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
                 <div class="alert__content"><span class="alert__body" id="pakke-estimat-tekst"></span></div>
               </div>
-              <a class="link pakke-knapp" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span> Se og lag pakkene dine under Lagrede pakker</a>
+              <a class="link pakke-knapp" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span> Lag egne pakker under Lagrede pakker</a>
             </div>
             <div class="mangler-blokker" id="mangler-blokker">
               <div class="felt blokk funnet__bred" id="blokk-budsjett">
@@ -606,8 +608,8 @@
               <span class="form-label" id="b-mat-lbl">Materiell</span>
               <div class="valg-tre" role="group" aria-labelledby="b-mat-lbl">
                 <button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>
-                <button class="choice-card" type="button" data-materiell="bygg" aria-pressed="true"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Lag annonsen her</span><span class="choice-card__desc">Frantz har laget et forslag. Endre tekst og bilde selv.</span></button>
-                <button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time.</span></button>
+                <button class="choice-card" type="button" data-materiell="bygg" aria-pressed="true"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Lag annonsen her</span><span class="choice-card__desc">Frantz har skrevet teksten og valgt bilde. Endre det dere vil.</span></button>
+                <button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time for designet.</span></button>
               </div>
               <div id="annonse-bygg" class="annonse__innhold">
                 <div class="annonse__kanaler" id="annonse-kanaler" role="group" aria-label="Se annonsen i"></div>
@@ -794,11 +796,11 @@
 <script src="../components/js/annonse-studio.js?v=2"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
-<script src="data/pakker.js?v=11"></script>
+<script src="data/pakker.js?v=12"></script>
 <script src="data/kampanjer.js?v=3"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=7"></script>
-<script src="../components/js/reach-model.js?v=3"></script>
+<script src="../components/js/reach-model.js?v=4"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -822,13 +824,12 @@
   }
   byggPeriode($('q-periode-valg'));
   var TILLEGG = [
-    { navn: 'Tekstproduksjon', pris: 0, tekst: 'Frantz skriver annonseteksten og teksten på kampanjesiden.' },
     { navn: 'Strategisk rådgivning', pris: 8000, tekst: 'En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.' }
   ];
   // Step 3: the add-ons, with the «Meld interesse» button last
   function byggTillegg(root) {
     root.innerHTML = '<div class="tillegg-liste" role="group" aria-labelledby="b-til-lbl">' + TILLEGG.map(function (t) {
-      return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-tillegg="' + t.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span></span><span class="flere__pris">' + (t.pris ? '+ kr ' + R.tall(t.pris) : 'Inkludert') + '</span></label>';
+      return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-tillegg="' + t.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span><span class="flere__forslag" data-forslag="' + t.navn + '" hidden><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span> Dere nevnte dette i teksten. Kryss av hvis dere vil ha det.</span></span><span class="flere__pris">' + (t.pris ? '+ kr ' + R.tall(t.pris) : 'Inkludert') + '</span></label>';
     }).join('') + '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-meld><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span><span class="flere__pris">Inkludert</span></label></div>';
   }
   byggTillegg($('q-tillegg-valg'));
@@ -907,8 +908,8 @@
     if (/ferdig(?:e)? materiell|har (?:allerede )?(?:ferdig(?:e)? )?(?:materiell|bilder|annonser|logo)/.test(lav)) a.materiell = 'ferdig';
     if (/hjelp med (?:annonse|materiell)|lager annonsen|vil ha hjelp|trenger hjelp/.test(lav)) a.materiell = 'hjelp';
     var til = [];
-    if (/tekstproduksjon|skrive (?:annonse)?tekst|hjelp med tekst/.test(lav)) til.push('Tekstproduksjon');
-    if (/rådgivning/.test(lav)) til.push('Strategisk rådgivning');
+    // A paid extra is never ticked from free text. It shows as a suggestion in «Annonsen».
+    if (/rådgivning/.test(lav)) a.foreslatt = ['Strategisk rådgivning'];
     if (til.length) a.tillegg = til;
     if (/meld interesse/.test(lav)) a.meld = true;
     var kan = [];
@@ -958,6 +959,7 @@
     tilstand.lest = true;
     tilstand.stillingKlar = !!a.tittel;
     tilstand.funnet = { budsjett: !!a.budsjett, kanaler: !!(a.kanaler && a.kanaler.length), periode: !!(a.uker || a.fra), materiell: !!a.materiell, tillegg: !!((a.tillegg && a.tillegg.length) || a.meld) };
+    tilstand.foreslatt = (a.foreslatt || []).slice();
     // Text writing is part of «Frantz lager annonsen». The default is the ad made here, from Frantz's draft.
     tilstand.materiell = a.materiell || 'bygg';
     tilstand.annonse.endret = false; tilstand.tillegg = (a.tillegg || []).slice(); tilstand.meld = !!a.meld; tilstand.valgtMateriell = false; tilstand.lagret = false;
@@ -990,7 +992,7 @@
     $('t-funnet').textContent = 'Stillingen';
     $('funnet-hint').textContent = 'Stemmer det? Rett det som ikke stemmer.';
     $('t-mangler').textContent = 'Kampanjen';
-    $('mangler-hint').textContent = 'Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
+    $('mangler-hint').textContent = 'Velg en ferdig pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
     // The title stays «Ny kampanje». Where the order came from goes in the lead text.
     if (tilstand.side) document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
     tegnKanaler();
@@ -1029,6 +1031,8 @@
     PAA_KAMPANJE.forEach(function (id) { visFelt(id, true); });
     if (pakkeModus) {
       FRA_PAKKE.forEach(function (id) { $('blokk-' + id).hidden = true; });
+      // The period and the forecast follow the package, so they wait until one is picked
+      $('blokk-periode').hidden = !tilstand.pakke;
       $('mangler-lagre-rad').hidden = true;
       $('del-mangler').hidden = false;
       return;
@@ -1314,6 +1318,10 @@
     return { start: start, slutt: slutt };
   }
   // Both the first and the last day count. 03.09–03.10 is 31 days, like on the campaign page.
+  // The forecast for this order: the budget, the channels and how many weeks it runs
+  function prognose(stederListe, b) {
+    return R.beregn({ rolle: tilstand.rolle, steder: stederListe, budsjett: b, kanaler: tilstand.kanaler, uker: antallDager(periodeDatoer()) / 7 });
+  }
   function antallDager(d) { return Math.max(1, Math.round((d.slutt - d.start) / 86400000) + 1); }
   function periodeTekst() {
     var d = periodeDatoer();
@@ -1553,6 +1561,7 @@
     annonseUtkast();
     tegnAnnonse();
     Array.prototype.forEach.call(document.querySelectorAll('[data-tillegg]'), function (x) { x.checked = tilstand.tillegg.indexOf(x.dataset.tillegg) !== -1; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-forslag]'), function (x) { x.hidden = (tilstand.foreslatt || []).indexOf(x.dataset.forslag) === -1 || tilstand.tillegg.indexOf(x.dataset.forslag) !== -1; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-meld]'), function (x) { x.checked = tilstand.meld; });
   }
   $('filer').addEventListener('change', function () {
@@ -1613,7 +1622,7 @@
     // The package decides how long the campaign runs
     tilstand.fastUker = p.uker || null;
     if (p.uker) { tilstand.uker = p.uker; tilstand.til = null; tilstand.venter = false; tilstand.funnet.periode = false; }
-    tegnKanaler(); oppdater();
+    tegnKanaler(); visSporsmal(); oppdater();
   }
   $('oppsett').addEventListener('click', function (e) {
     var b = e.target.closest('[data-oppsett]'); if (!b || b.dataset.oppsett === tilstand.oppsett) return;
@@ -1626,6 +1635,8 @@
       if (o.kanaler) { tilstand.kanalmodus = 'selv'; tilstand.kanaler = o.kanaler.slice(); tegnKanaler(); }
       $('pakke-endring').hidden = true;
     }
+    // No package picked yet: the budget from «Sett opp selv» does not count
+    else if (!tilstand.sistePakke) budsjettKontroll.set(null);
     else if (tilstand.sistePakke) { tilstand.pakke = tilstand.sistePakke; var sp = finnPakke(tilstand.pakke); tilstand.fastUker = sp && sp.uker || null; if (tilstand.fastUker) { tilstand.uker = tilstand.fastUker; tilstand.til = null; } }
     visSporsmal(); oppdater();
   });
@@ -1647,7 +1658,7 @@
   /* ---------- Share for approval: a link that works without a login ---------- */
   function delLenke() {
     var stederListe = steder.verdi(), b = budsjett();
-    var r = tilstand.rolle && stederListe.length && b ? R.beregn({ rolle: tilstand.rolle, steder: stederListe, budsjett: b }) : null;
+    var r = tilstand.rolle && stederListe.length && b ? prognose(stederListe, b) : null;
     var tilleggSum = TILLEGG.reduce(function (sum, t) { return sum + (tilstand.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0);
     var d = periodeDatoer();
     var q = {
@@ -1722,7 +1733,7 @@
     var stederListe = steder.verdi();
     var klar = tilstand.rolle && stederListe.length;
     var b = budsjett();
-    var r = klar && b ? R.beregn({ rolle: tilstand.rolle, steder: stederListe, budsjett: b }) : null;
+    var r = klar && b ? prognose(stederListe, b) : null;
     var forslag = klar ? R.beregn({ rolle: tilstand.rolle, steder: stederListe }) : null;
     var anb = forslag ? forslag.anbefalt : null;
     budsjettKontroll.anbefalt(anb || undefined);
@@ -1757,7 +1768,7 @@
     $('sum-sok').textContent = r ? R.spenn(r.sok) : '—';
     $('sum-periode').textContent = tilstand.lest ? periodeTekst() : '—';
     $('sum-tillegg-rad').hidden = !tilleggSum;
-    $('sum-tillegg').textContent = '+ ' + kr(tilleggSum);
+    $('sum-tillegg').textContent = TILLEGG.filter(function (t) { return t.pris && tilstand.tillegg.indexOf(t.navn) !== -1; }).map(function (t) { return t.navn + ' + ' + kr(t.pris); }).join(', ');
     $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
     $('mobil-total').textContent = $('sum-total').textContent;
     $('mobilbestilling').hidden = false; // phone footer from the start: «Fyll ut skjemaet» lives there on step 1
@@ -1799,7 +1810,7 @@
   // What each step is about, under the title
   var STEG_LEDE = [
     'Fortell oss om stillingen. Frantz leser det dere gir oss, og fyller ut resten.',
-    'Velg en av pakkene dine, eller sett opp budsjett, kanaler og periode selv.',
+    'Velg en ferdig pakke, eller sett opp budsjett, kanaler og periode selv.',
     'Velg hvordan annonsen lages, og om dere vil ha noe ekstra. Frantz har laget et forslag fra stillingsannonsen.',
     'Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.'
   ];
@@ -1948,7 +1959,7 @@
       notat: $('notat').value.trim(), ute: tidligstUte(), connect: tilstand.connectId || '', avsender: $('avsender').value.trim(), pakke: pakkeTekst(),
       tid: String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0'),
       total: budsjett() + tilleggSum, periodeTekst: periodeTekst(),
-      sok: (function () { var r = tilstand.rolle && stederListe.length ? R.beregn({ rolle: tilstand.rolle, steder: stederListe, budsjett: budsjett() }) : null; return r ? R.spenn(r.sok) : ''; })(),
+      sok: (function () { var r = tilstand.rolle && stederListe.length && budsjett() ? prognose(stederListe, budsjett()) : null; return r ? R.spenn(r.sok) : ''; })(),
       radgivning: tilstand.tillegg.indexOf('Strategisk rådgivning') !== -1
     };
     // The order joins the campaign list, so Kampanjer and Hjem show it as «Bestilt»
