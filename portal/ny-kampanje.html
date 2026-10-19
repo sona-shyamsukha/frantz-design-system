@@ -39,19 +39,13 @@
   .oversikt-gruppe__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
   .oversikt-gruppe__topp h3 { margin: 0; color: var(--text-heading); font: var(--type-label); }
   #del-oversikt #felt-faktura { margin-top: var(--space-16); padding-top: var(--space-16); border-top: 1px solid var(--border-default); }
-  /* The stepper is the header of the step's card. The first card of the step hangs under it. */
-  .steg-hode {
-    margin-bottom: calc(var(--space-section-gap) * -1);
-    padding: var(--space-card-padding) var(--space-card-padding) var(--space-20, 20px);
-    border: 1px solid var(--border-default); border-bottom: 0; border-radius: var(--radius-16) var(--radius-16) 0 0;
-    background: var(--surface-raised); box-shadow: var(--shadow-subtle);
-  }
-  .steg > .del.del--forst { border-top-left-radius: 0; border-top-right-radius: 0; border-top: 1px solid var(--border-subtle); box-shadow: none; }
+  /* The header sits on the page, above the step's card: title, «Lagret», step name and progress bar.
+     The first card of the step drops its own title, since the header names the step. */
+  .steg-hode { margin-bottom: calc(var(--space-section-gap) * -1 + var(--space-16)); }
   .steg > .del.del--forst > .del__tittel,
   .steg > .del.del--forst > .start-topp .del__tittel,
   .steg > .del.del--forst > .del__topp .del__tittel { display: none; }
   .steg-vis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-24); }
-  .steg-hode { padding-bottom: var(--space-16); }
   .steg-hode__topp { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-4) var(--space-16); margin-bottom: var(--space-4); }
   .steg-hode__side { margin: 0; color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); letter-spacing: .06em; text-transform: uppercase; }
   .steg-hode__lede { margin: 0 0 var(--space-8); color: var(--text-body); font: var(--type-body); }
