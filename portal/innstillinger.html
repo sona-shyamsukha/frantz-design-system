@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=77">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -217,9 +217,7 @@
           <div class="skjema__rad pakke-felt">
             <div class="form-group"><label class="form-label" for="p-uker">Periode</label>
               <span class="form-select-wrap"><select class="form-select" id="p-uker"><option value="2">2 uker</option><option value="3">3 uker</option><option value="4" selected>4 uker</option><option value="6">6 uker</option><option value="8">8 uker</option></select></span>
-              <p class="form-hint">Perioden er fast i pakken. Trenger en kampanje en annen periode, fyller dere ut selv.</p></div>
-            <div class="form-group"><label class="form-label" for="p-beskrivelse">Når passer pakken? <span class="valgfri">(valgfritt)</span></label><input class="form-input" id="p-beskrivelse" placeholder="F.eks. Når stillingen er vanskelig å fylle" autocomplete="off">
-              <p class="form-hint">Vises på pakken når noen bestiller, så de vet hvorfor de skal velge den.</p></div>
+              <p class="form-hint">Perioden er fast i pakken. Trenger en kampanje en annen periode, velger dere «Sett opp selv».</p></div>
           </div>
           <fieldset class="valgliste pakke-felt" id="p-kanaler">
             <legend class="form-label">Kanaler</legend>
@@ -443,8 +441,7 @@ document.getElementById('ny-pakke').addEventListener('submit', function (e) {
     navn: document.getElementById('p-navn').value.trim(),
     budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
     kanaler: kanaler.length ? kanaler : null,
-    uker: Number(document.getElementById('p-uker').value),
-    beskrivelse: document.getElementById('p-beskrivelse').value.trim()
+    uker: Number(document.getElementById('p-uker').value)
   };
   var galt = FZ_PAKKER.leggTil(p);
   if (galt) { feil.textContent = galt; feil.hidden = false; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }

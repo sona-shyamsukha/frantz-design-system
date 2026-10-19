@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=77">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -16,7 +16,6 @@
   .lagret .icon-lucide { color: var(--color-green); }
   .lagret--lagrer .icon-lucide { color: var(--text-faint); }
   .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: var(--space-section-gap); }
-  .nk--uten-oppsummering { grid-template-columns: minmax(0, 1fr); }
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
 
   .del { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); padding: var(--space-card-padding); }
@@ -274,7 +273,7 @@
         <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
       </div>
 
-      <div class="nk nk--uten-oppsummering">
+      <div class="nk">
         <form class="nk-skjema" id="skjema" novalidate autocomplete="off">
 
           <!-- 1. Give us what you have -->
@@ -432,12 +431,12 @@
           <!-- 3. Everything the text did not answer, in one section -->
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
-            <p class="del__hint" id="mangler-hint">Velg en lagret pakke, eller velg budsjett og kanaler selv. En pakke har fast budsjett, kanaler og periode.</p>
+            <p class="del__hint" id="mangler-hint">Velg en lagret pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
                 <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en lagret pakke</span></button>
-                <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Velg budsjett og kanaler</span></button>
+                <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode.</span></button>
               </div>
             </div>
             <div class="felt blokk funnet__bred pakker" id="pakker">
@@ -498,7 +497,7 @@
           <input type="file" id="filer" aria-label="Legg ved filer" multiple hidden accept=".zip,.html,.htm,.mp4,.docx,.doc,.pdf,.jpg,.jpeg,.png">
         </form>
 
-        <aside class="oppsummering" id="ordre-oppsummering" tabindex="-1" hidden>
+        <aside class="oppsummering" id="ordre-oppsummering" tabindex="-1">
           <div class="summary-panel" id="sammendrag">
             <div class="summary-panel__head">
               <h2>Din bestilling</h2>
@@ -769,7 +768,7 @@
     $('t-funnet').textContent = 'Stillingen';
     $('funnet-hint').textContent = 'Stemmer det? Rett det som ikke stemmer.';
     $('t-mangler').textContent = 'Kampanjen';
-    $('mangler-hint').textContent = 'Velg en lagret pakke, eller velg budsjett og kanaler selv. En pakke har fast budsjett, kanaler og periode.';
+    $('mangler-hint').textContent = 'Velg en lagret pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
     if (tilstand.side) {
       document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
       $('side-tittel').textContent = tilstand.side.tittel;
@@ -1086,7 +1085,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('.periode__snarveier'), function (el) { el.hidden = !!fast; });
     Array.prototype.forEach.call(document.querySelectorAll('.periode__fast'), function (el) {
       el.hidden = !fast;
-      if (fast) el.textContent = fast + ' uker er fast i pakken. Velg startdato. Vil dere ha en annen periode, velg «Velg budsjett og kanaler».';
+      if (fast) el.textContent = fast + ' uker er fast i pakken. Velg startdato. Vil dere ha en annen periode, velg «Sett opp selv».';
     });
   }
 
@@ -1353,13 +1352,16 @@
     $('advarsel').hidden = !advarsel; $('advarsel').textContent = advarsel;
 
     var tittel = $('stilling').value.trim();
-    var visOppsummering = !!(tilstand.lest && tilstand.stillingKlar && tittel);
-    $('ordre-oppsummering').hidden = !visOppsummering;
-    document.querySelector('.nk').classList.toggle('nk--uten-oppsummering', !visOppsummering);
-    $('bestill').disabled = !visOppsummering || !b;
-    $('del-knapp').disabled = !visOppsummering || !b;
-    $('pakke-ny-knapp').disabled = !visOppsummering || !b;
-    $('bestilling-venter').hidden = !!b;
+    // The panel is always there, like a basket. It fills in as the user goes.
+    var stillingKlar = !!(tilstand.lest && tilstand.stillingKlar && tittel);
+    var klarTilBestilling = stillingKlar && !!b;
+    $('bestill').disabled = !klarTilBestilling;
+    $('del-knapp').disabled = !klarTilBestilling;
+    $('pakke-ny-knapp').disabled = !klarTilBestilling;
+    $('bestilling-venter').hidden = klarTilBestilling;
+    $('bestilling-venter').textContent = !stillingKlar
+      ? 'Fyll inn stillingen, og velg en pakke eller et budsjett, før dere bestiller eller deler.'
+      : 'Velg en pakke eller fyll inn et budsjett før dere bestiller eller deler.';
     var tillegg = tilleggListe();
     var tilleggSum = TILLEGG.reduce(function (sum, t) { return sum + (tilstand.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0);
     $('sum-budsjett').textContent = b ? kr(b) : '—';
@@ -1369,7 +1371,7 @@
     $('sum-tillegg').textContent = '+ ' + kr(tilleggSum);
     $('sum-total').textContent = b ? kr(b + tilleggSum) : '—';
     $('mobil-total').textContent = $('sum-total').textContent;
-    $('mobilbestilling').hidden = !visOppsummering || !b;
+    $('mobilbestilling').hidden = !klarTilBestilling;
     document.body.classList.toggle('nk-har-mobilbestilling', !$('mobilbestilling').hidden);
     $('sum-tittel-topp').textContent = tittel ? [tittel, stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' · ') : 'Ny kampanje';
     var pakke = pakkeTekst();

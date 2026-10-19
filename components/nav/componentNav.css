@@ -227,11 +227,17 @@
   font-size: var(--text-xs);
 }
 
+/* Content starts next to the menu, like most work tools, instead of floating in the middle.
+   Forms and detail pages keep 1320px. Lists and overviews (.wrap--bred) use more of a big screen. */
 .wrap {
   width: 100%;
   max-width: 1320px;
-  margin: 0 auto;
+  margin: 0;
   padding: var(--space-44) var(--space-32);
+}
+
+.wrap--bred {
+  max-width: 1680px;
 }
 
 .lede {

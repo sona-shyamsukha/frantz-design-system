@@ -7,12 +7,9 @@ window.FZ_PAKKER = (function () {
   // The period is fixed in the package. To pick another period, the user fills in the order by hand.
   // [ANTAGELSE: price follows the period. Frantz has not confirmed how price, period and reach are linked.]
   var STANDARD = [
-    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'],
-      beskrivelse: 'Når stillingen er lett å fylle, eller området er lite.' },
-    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'],
-      beskrivelse: 'Når dere trenger flere søkere, også blant dem som ikke leter aktivt.' },
-    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'],
-      beskrivelse: 'Når stillingen er vanskelig å fylle, eller dere trenger mange.' }
+    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'] },
+    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'] },
+    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'] }
   ];
   var KANALER = [
     { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
@@ -52,7 +49,6 @@ window.FZ_PAKKER = (function () {
     return '<' + tag + ' class="pakke-kort' + (opt.valg ? ' pakke-kort--valg' : '') + (opt.ny ? ' er-ny' : '') + '"' + attr + '>' +
       '<span class="pakke-kort__hode"><span class="pakke-kort__navn">' + esc(p.navn) + '</span>' +
       (opt.valg ? '<span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span>' : '') + '</span>' +
-      '<span class="pakke-kort__beskrivelse">' + esc(p.beskrivelse) + '</span>' +
       '<span class="pakke-kort__pris"><b>kr ' + esc(pris) + '</b><span class="pakke-kort__periode">' + (p.uker ? '<span>' + esc(p.uker) + ' uker</span><span class="pakke-kort__periodehjelp"> · Pris for hele perioden</span><span class="pakke-kort__mobil-total" aria-hidden="true"> totalt</span>' : 'Periode velges på kampanjen') + '</span></span>' +
       '<span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste">' + kanaler + '</span></span>' +
       '<span class="pakke-kort__ikke">' + (ikke.length ? 'Ikke inkludert: ' + esc(ikke.join(', ').replace(/, ([^,]*)$/, ' og $1')) : '') + '</span></' + tag + '>';

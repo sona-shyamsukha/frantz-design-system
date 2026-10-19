@@ -24,7 +24,6 @@
 .pakke-kort__navn { color: var(--text-heading); font: var(--type-section); }
 .pakke-kort__markor { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border: 1px solid var(--border-strong); border-radius: 50%; color: var(--color-white); }
 .pakke-kort__markor .icon-lucide { visibility: hidden; width: 14px; height: 14px; }
-.pakke-kort__beskrivelse { color: var(--text-muted); }
 .pakke-kort__pris { display: flex; flex-direction: column; gap: var(--space-4); margin-top: auto; }
 .pakke-kort__pris b { color: var(--text-heading); font-size: var(--text-xl); font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; }
 .pakke-kort__periode { color: var(--text-muted); font: var(--type-support); }
