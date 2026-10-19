@@ -226,6 +226,9 @@
   .mat-filer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-12); margin-top: var(--space-16); }
   .mat-filer .filer { flex-basis: 100%; }
   .mat-filer__hint { margin: 0; }
+  /* «Filer» is its own small section under the material choice */
+  .mat-filer { margin-top: var(--space-32); }
+  .mat-filer__tittel { flex-basis: 100%; margin: 0; }
   .mat-filer[hidden] { display: none; }
   .mat-filer .btn { justify-self: start; }
   .tillegg-liste { display: grid; gap: var(--space-12); }
@@ -268,6 +271,16 @@
   .kvittering .emne { padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
 
   .oppsummering__lukk { display: none; }
+  /* The order box is narrow: each row has its label on top and the value under it, so long values do not wrap into ragged columns */
+  #ordre-oppsummering .summary-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); }
+  #ordre-oppsummering .summary-row dt { font: var(--type-support); }
+  #ordre-oppsummering .summary-row dd { font-weight: var(--font-weight-semibold); overflow-wrap: break-word; text-align: left; }
+  #ordre-oppsummering .summary-panel__block { gap: var(--space-12); }
+  /* Desktop: the order box is a light grey card, so it reads apart from the white step cards */
+  @media (min-width: 1181px) {
+    .oppsummering .summary-panel { background: var(--surface-subtle); border-color: var(--border-subtle); }
+    .oppsummering .summary-panel__total { background: var(--surface-section); }
+  }
   /* Phone and tablet: the order lives in a fixed footer. «Din bestilling» opens the whole order from the bottom. */
   @media (max-width: 1180px) {
     .nk { grid-template-columns: 1fr; }
@@ -388,7 +401,6 @@
               <div class="felt">
                 <label class="form-label" for="beskrivelse">Fortell med egne ord <span class="valgfri">(valgfritt)</span></label>
                 <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="3" placeholder="F.eks. Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. oktober. Budsjett kr 15 000. Kunden må godkjenne annonsen."></textarea>
-                <p class="form-description">Nevn gjerne sted, frist, budsjett og kanaler.</p>
               </div>
               <div class="felt">
                 <span class="form-label" id="pdf-lbl">PDF eller dokument <span class="valgfri">(valgfritt)</span></span>
@@ -596,7 +608,7 @@
               <div>
                 <h2>Din bestilling</h2>
                 <p class="sum-id" id="sum-id">Kampanje #—</p>
-                <p id="sum-tittel-topp">Ny kampanje</p>
+                <p id="sum-tittel-topp" hidden></p>
                 <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
               </div>
               <button class="btn btn--ghost oppsummering__lukk" type="button" id="ark-lukk" aria-label="Lukk oversikten"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
@@ -707,7 +719,8 @@
     root.innerHTML = '<div class="valg-to" role="group" aria-label="Type materiell">' +
       '<button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>' +
       '<button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time.</span></button></div>' +
-      '<div class="mat-filer"><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Legg ved filer</button>' +
+      '<div class="mat-filer" role="group" aria-labelledby="mat-filer-tittel"><span class="form-label mat-filer__tittel" id="mat-filer-tittel">Filer <span class="valgfri">(valgfritt)</span></span>' +
+      '<button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Velg filer</button>' +
       '<span class="form-hint mat-filer__hint">Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.</span><div class="filer"></div></div>';
   }
   function byggTillegg(root) {
@@ -1525,7 +1538,9 @@
     $('sum-sted').textContent = stederListe.length ? navnListe(stederListe) : '—';
     $('sum-arbeidsgiver-rad').hidden = !agVerdi; $('sum-arbeidsgiver').textContent = agVerdi;
     $('sum-frist-dato-rad').hidden = !$('frist').value; $('sum-frist-dato').textContent = $('frist').value ? kort($('frist').value) : '';
-    $('sum-tittel-topp').textContent = tittel ? [tittel, stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' · ') : 'Ny kampanje';
+    // Under the campaign ID: the job, once we know it. Nothing before that.
+    $('sum-tittel-topp').textContent = tittel ? [tittel, stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' · ') : '';
+    $('sum-tittel-topp').hidden = !tittel;
     var pakke = pakkeTekst();
     $('sum-pakke-rad').hidden = !pakke; $('sum-pakke').textContent = pakke;
     var kommentar = $('notat').value.trim();
