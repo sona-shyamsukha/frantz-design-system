@@ -10,6 +10,8 @@
 <style>
   body { margin: 0; }
 
+  .sum-id { margin: var(--space-2) 0 0; color: var(--text-muted); font: var(--type-support); font-variant-numeric: tabular-nums; }
+  .summary-panel__head .lagret { margin-top: var(--space-4); font-size: var(--text-xs); }
   .lagret { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
   .lagret .icon-lucide { color: var(--color-green); }
   .lagret--lagrer .icon-lucide { color: var(--text-faint); }
@@ -25,7 +27,7 @@
   .steg { display: flex; flex-direction: column; gap: var(--space-section-gap); }
   .steg[hidden] { display: none; }
   .steg-hode { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
-  .steg-blokk + .steg-blokk { margin-top: var(--space-section-gap); }
+  #skjema .steg-blokk + .steg-blokk { margin-top: var(--nk-blokk); }
   #del-materiell .del__hint, #del-oversikt .del__hint { margin-bottom: var(--space-section-gap); }
   .steg-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); }
   .steg-nav[hidden] { display: none; }
@@ -38,26 +40,34 @@
   .oversikt-gruppe:first-child { border-top: 0; padding-top: 0; }
   .oversikt-gruppe__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
   .oversikt-gruppe__topp h3 { margin: 0; color: var(--text-heading); font: var(--type-label); }
+  .oversikt-gruppe__topp .btn { margin-block: calc(var(--space-6) * -1); } /* the button does not push the title down */
   #del-oversikt #felt-faktura { margin-top: var(--space-16); padding-top: var(--space-16); border-top: 1px solid var(--border-default); }
   /* The header sits on the page, above the step's card: title, «Lagret», step name and progress bar.
      The first card of the step drops its own title, since the header names the step. */
   .steg-hode { margin-bottom: calc(var(--space-section-gap) * -1 + var(--space-16)); }
+  #skjema .steg > .del.del--forst > .del__hint[hidden] + * { margin-top: 0; }
+  /* Nothing visible is left in step 1's top row once title and hint hide */
+  .steg > .del.del--forst > .start-topp { display: none; }
   .steg > .del.del--forst > .del__tittel,
   .steg > .del.del--forst > .start-topp .del__tittel,
   .steg > .del.del--forst > .del__topp .del__tittel { display: none; }
   .steg-vis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-24); }
-  .steg-hode__topp { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-4) var(--space-16); margin-bottom: var(--space-4); }
-  .steg-hode__side { margin: 0; color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); letter-spacing: .06em; text-transform: uppercase; }
-  .steg-hode__lede { margin: 0 0 var(--space-8); color: var(--text-body); font: var(--type-body); }
-  .steg-hode__navn { margin: 0; color: var(--text-heading); font: var(--type-section); font-size: var(--text-2xl); }
-  .steg-hode__meter { flex: 0 1 280px; }
+  .steg-hode__lede { margin-bottom: var(--space-16); }
+  .demo-eksempler[hidden] { display: none; }
+  .steg-hode__lede + .demo-eksempler { margin: calc(var(--space-8) * -1) 0 var(--space-16); } /* size and colour come from «.lede», like the other pages */
+  .steg-hode__navn { margin: 0; color: var(--text-heading); font: var(--type-label); font-weight: var(--font-weight-semibold); }
+  .steg-hode__meter { flex: 1 1 280px; }
   .demo-eksempler { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-4) var(--space-12); margin: var(--space-8) 0 0; color: var(--text-muted); font: var(--type-support); }
   .steg-hode__navn:focus { outline: none; }
   .steg-hode__meter .meter__value { color: var(--text-heading); font: var(--type-support); font-weight: var(--font-weight-semibold); }
-  @media (max-width: 640px) { .steg-hode__navn { font-size: var(--text-xl); } .steg-hode__meter { flex-basis: 100%; } }
+  @media (max-width: 640px) { .steg-hode__meter { flex-basis: 100%; } }
   /* Where the bottom bar shows, it carries «Neste». The button in the page would only crowd it. */
   @media (max-width: 1180px) { .steg-nav #steg-neste, .inn__fortsett { display: none; } .steg-nav__feil { text-align: left; } }
 
+  /* One rhythm for every step card: the same padding, and the same gap between blocks */
+  .nk { --nk-blokk: 40px; }
+  .steg > .del { padding: 40px; }
+  @media (max-width: 640px) { .nk { --nk-blokk: 32px; } .steg > .del { padding: var(--space-24); } }
   .del { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-subtle); padding: var(--space-card-padding); }
   .del[hidden] { display: none; }
   .del__tittel { color: var(--text-heading); font: var(--type-section); margin: 0 0 var(--space-heading-gap); }
@@ -66,15 +76,15 @@
   /* Separate campaign setup groups with the shared section rhythm. */
   #del-mangler > .felt,
   #del-mangler > .mangler-blokker,
-  #del-mangler > .funnet-ferdig { margin-top: var(--space-section-gap); }
-  #del-mangler > .felt + .felt { margin-top: var(--space-section-gap); }
+  #del-mangler > .funnet-ferdig { margin-top: var(--nk-blokk); }
+  #del-mangler > .felt + .felt { margin-top: var(--nk-blokk); }
   .valgfri { color: var(--text-faint); font-weight: var(--font-weight-normal); }
   .nk-skjema .form-input, .nk-skjema .picker__felt { box-sizing: border-box; min-height: 50px; font-size: var(--text-input); }
   .nk-skjema input.form-input { height: 50px; }
   .nk-skjema .picker__felt { padding-left: var(--space-16); padding-right: var(--space-16); }
 
   /* Give us what you have: all three are optional, we read all of them together */
-  .kilder { display: grid; gap: var(--space-20, 20px); }
+  .kilder { display: grid; gap: var(--space-32); }
   .lenke-rad { display: flex; gap: var(--space-8); align-items: center; }
   .lenke-rad .form-input { flex: 1; }
   .felt-topp__valg { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-8) var(--space-16); }
@@ -96,7 +106,7 @@
   .funnet-ferdig { display: flex; justify-content: flex-end; margin-top: var(--space-24); }
   .funnet-ferdig[hidden] { display: none; }
   #del-funnet.funnet--apen #funnet-endre { display: none; }
-  .mangler-blokker { display: grid; gap: var(--space-section-gap); }
+  .mangler-blokker { display: grid; gap: var(--nk-blokk); }
   .blokk + .blokk, .funnet .blokk + .felt, .funnet .felt + .blokk { margin-top: 0; }
   .blokk[hidden] { display: none; }
   #funnet-kort .husk__rediger { margin-top: 0; }
@@ -145,8 +155,7 @@
   .periode__fast { margin: var(--space-8) 0 0; }
   .periode__fast[hidden], .periode__snarveier[hidden] { display: none; }
   /* Add-ons are their own thing, not the price of help with material */
-  #blokk-tillegg { padding-top: var(--space-24); border-top: 1px solid var(--border-default); }
-  #blokk-tillegg .form-description { margin: var(--space-4) 0 var(--space-12); }
+  #b-til-lbl, #b-mat-lbl { display: block; margin-bottom: var(--space-12); }
 
   /* Channels */
   .valg-to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-grid-gap); }
@@ -214,7 +223,9 @@
   #del-start.start--lukket .start-topp { margin-bottom: 0; }
   .start-alert { margin-top: var(--space-16); }
   .start-alert[hidden] { display: none; }
-  .mat-filer { display: grid; gap: var(--space-8); margin-top: var(--space-16); }
+  .mat-filer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-12); margin-top: var(--space-16); }
+  .mat-filer .filer { flex-basis: 100%; }
+  .mat-filer__hint { margin: 0; }
   .mat-filer[hidden] { display: none; }
   .mat-filer .btn { justify-self: start; }
   .tillegg-liste { display: grid; gap: var(--space-12); }
@@ -336,11 +347,9 @@
           <!-- Four steps. The order box on the right follows along. Nothing is sent before «Bestill» on the last step. -->
           <!-- One header for the page and the step: the page title, «Lagret», the step name and the progress bar -->
           <header class="steg-hode">
-            <div class="steg-hode__topp">
-              <h1 class="steg-hode__side" id="side-tittel">Ny kampanje</h1>
-              <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
-            </div>
-            <p class="steg-hode__lede" id="side-lede" hidden></p>
+            <h1 class="text-h2 steg-hode__side" id="side-tittel">Ny kampanje</h1>
+            <p class="lede steg-hode__lede" id="side-lede"></p>
+            <p class="demo-eksempler" id="demo-eksempler"><span>Demo:</span> <button class="link link--xs" type="button" data-demo="1">Bare lenke</button> <button class="link link--xs" type="button" data-demo="2">Lenke og tekst</button> <button class="link link--xs" type="button" data-demo="3">Bare tekst</button></p>
             <div class="steg-vis" id="steg-liste"></div>
           </header>
 
@@ -350,8 +359,7 @@
             <div class="start-topp">
               <div>
                 <h2 class="del__tittel" id="t-start">Fortell oss om stillingen</h2>
-                <p class="del__hint" id="start-hint">Fyll inn det dere har. Frantz fyller ut resten.</p>
-                <p class="demo-eksempler"><span>Demo:</span> <button class="link link--xs" type="button" data-demo="1">Bare lenke</button> <button class="link link--xs" type="button" data-demo="2">Lenke og tekst</button> <button class="link link--xs" type="button" data-demo="3">Bare tekst</button></p>
+                <p class="del__hint" hidden id="start-hint">Fyll inn det dere har. Frantz fyller ut resten.</p>
                 <p class="del__sammendrag" id="start-sammendrag" hidden></p>
               </div>
               <button class="husk__endre" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" hidden>Endre</button>
@@ -481,7 +489,7 @@
           <!-- 3. Everything the text did not answer, in one section -->
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
-            <p class="del__hint" id="mangler-hint">Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
+            <p class="del__hint" hidden id="mangler-hint">Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
@@ -542,18 +550,17 @@
           <div class="steg" data-steg="3" hidden>
           <section class="del" id="del-materiell" aria-labelledby="t-materiell">
             <h2 class="del__tittel" id="t-materiell">Materiell og tillegg</h2>
-            <p class="del__hint">Hvem lager annonsene, og vil dere ha noe ekstra? Alt her er valgfritt.</p>
+            <p class="del__hint" hidden>Hvem lager annonsene, og vil dere ha noe ekstra? Alt her er valgfritt.</p>
               <div class="felt blokk funnet__bred steg-blokk" id="blokk-materiell">
                 <span class="form-label" id="b-mat-lbl">Materiell</span>
                 <div id="q-materiell-valg"></div>
               </div>
               <div class="felt blokk funnet__bred steg-blokk" id="blokk-tillegg">
-                <span class="form-label" id="b-til-lbl">Tilleggsprodukter <span class="valgfri">(valgfritt)</span></span>
-                <p class="form-description">Kryss av for det dere vil ha. Tekstproduksjon er inkludert. Det som har en pris, legges til totalsummen.</p>
+                <span class="form-label" id="b-til-lbl">Tilleggsprodukter</span>
                 <div id="q-tillegg-valg"></div>
               </div>
             <div class="felt blokk funnet__bred steg-blokk" id="blokk-kommentar">
-              <label class="form-label" for="notat">Kommentar <span class="valgfri">(valgfritt)</span></label>
+              <label class="form-label" for="notat">Kommentar til Frantz</label>
               <textarea class="form-textarea" id="notat" rows="3" placeholder="Noe mer Frantz bør vite. F.eks. hvem dere vil nå, eller om kunden skal godkjenne annonsen."></textarea>
             </div>
           </section>
@@ -562,7 +569,7 @@
           <div class="steg" data-steg="4" hidden>
           <section class="del" id="del-oversikt" aria-labelledby="t-oversikt">
             <h2 class="del__tittel" id="t-oversikt">Se over og bestill</h2>
-            <p class="del__hint">Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.</p>
+            <p class="del__hint" hidden>Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.</p>
             <div id="oversikt"></div>
               <div class="felt funnet__bred steg-blokk" id="felt-faktura">
                 <label class="form-label" for="faktura">Fakturamottaker</label>
@@ -588,7 +595,9 @@
             <div class="summary-panel__head">
               <div>
                 <h2>Din bestilling</h2>
+                <p class="sum-id" id="sum-id">Kampanje #—</p>
                 <p id="sum-tittel-topp">Ny kampanje</p>
+                <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
               </div>
               <button class="btn btn--ghost oppsummering__lukk" type="button" id="ark-lukk" aria-label="Lukk oversikten"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
             </div>
@@ -664,7 +673,7 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=11"></script>
-<script src="data/kampanjer.js?v=2"></script>
+<script src="data/kampanjer.js?v=3"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=7"></script>
 <script src="../components/js/reach-model.js?v=3"></script>
@@ -865,11 +874,8 @@
     $('funnet-hint').textContent = 'Stemmer det? Rett det som ikke stemmer.';
     $('t-mangler').textContent = 'Kampanjen';
     $('mangler-hint').textContent = 'Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
-    if (tilstand.side) {
-      document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
-      $('side-tittel').textContent = tilstand.side.tittel;
-      if (tilstand.side.lede) { $('side-lede').textContent = tilstand.side.lede; $('side-lede').hidden = false; }
-    }
+    // The title stays «Ny kampanje». Where the order came from goes in the lead text.
+    if (tilstand.side) document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
     tegnKanaler();
     tilstand.lengst = 1;
     oppdater();
@@ -1301,13 +1307,11 @@
   function tegnMateriellOgTillegg() {
     Array.prototype.forEach.call(document.querySelectorAll('[data-materiell]'), function (b) { b.setAttribute('aria-pressed', String(tilstand.materiell === b.dataset.materiell)); });
     // Both choices can send files: ready ads, or pictures and logo Frantz can use in the design
+    // The file row shows once the user has chosen who makes the ads
     Array.prototype.forEach.call(document.querySelectorAll('.mat-filer'), function (el) {
-      el.hidden = false;
+      el.hidden = !tilstand.materiell;
       var hint = el.querySelector('.mat-filer__hint');
-      if (hint) hint.textContent = tilstand.materiell === 'hjelp'
-        ? 'Valgfritt. Legg ved bilder, logo eller annet Frantz kan bruke i designet. Maks 10 MB per fil.'
-        : tilstand.materiell === 'ferdig' ? 'Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.'
-        : 'Bilder, logo, ferdige annonser eller annet Frantz kan bruke. Maks 10 MB per fil.';
+      if (hint) hint.textContent = tilstand.materiell === 'hjelp' ? 'Bilder eller logo Frantz kan bruke. Maks 10 MB.' : 'Bilder, video, HTML5 eller PDF. Maks 10 MB.';
     });
     Array.prototype.forEach.call(document.querySelectorAll('[data-tillegg]'), function (x) { x.checked = tilstand.tillegg.indexOf(x.dataset.tillegg) !== -1; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-meld]'), function (x) { x.checked = tilstand.meld; });
@@ -1545,6 +1549,13 @@
      1 Stillingen · 2 Kampanjen · 3 Materiell og tillegg · 4 Se over og bestill.
      The order box follows along. «Bestill» shows only on step 4. */
   var STEG = ['Stillingen', 'Kampanjen', 'Materiell og tillegg', 'Se over og bestill'];
+  // What each step is about, under the title
+  var STEG_LEDE = [
+    'Fortell oss om stillingen. Frantz leser det dere gir oss, og fyller ut resten.',
+    'Velg en av pakkene dine, eller sett opp budsjett, kanaler og periode selv.',
+    'Hvem lager annonsene, og vil dere ha noe ekstra? Alt her er valgfritt.',
+    'Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.'
+  ];
   tilstand.steg = 1; tilstand.lengst = 1;
   // What a step needs before the user may go past it. Returns an error text, or ''.
   function stegFeil(n) {
@@ -1560,6 +1571,8 @@
     // The step header: the current step's name, and one progress bar with «2 av 4 steg», like the draft card on Hjem.
     // No names for the other steps. «Tilbake» and «Endre» on the last step take the user back.
     var n0 = tilstand.steg, andel = Math.round(n0 / STEG.length * 100);
+    // Where the order came from (calculator, draft, a job) shows first, then what this step is about
+    $('side-lede').textContent = (tilstand.side && tilstand.side.lede && !tilstand.sideLest ? tilstand.side.lede + ' ' : '') + STEG_LEDE[n0 - 1];
     $('steg-liste').innerHTML = '<h2 class="steg-hode__navn" id="steg-navn" tabindex="-1">' + STEG[n0 - 1] + '</h2>' +
       '<div class="meter steg-hode__meter" role="progressbar" aria-label="Fremdrift i bestillingen" aria-valuemin="1" aria-valuemax="' + STEG.length + '" aria-valuenow="' + n0 + '" aria-valuetext="Steg ' + n0 + ' av ' + STEG.length + '">' +
         '<span class="meter__track"><span class="meter__bar" style="width:' + andel + '%"></span></span>' +
@@ -1590,10 +1603,13 @@
   }
   function visSteg(n, flytt) {
     if (document.body.classList.contains('nk-ark-apen')) visArk(false);
+    if (tilstand.steg && n !== tilstand.steg && tilstand.lest && tilstand.sideVist) tilstand.sideLest = true;
+    if (tilstand.side) tilstand.sideVist = true;
     tilstand.steg = n;
     tilstand.lengst = Math.max(tilstand.lengst, n);
     Array.prototype.forEach.call(document.querySelectorAll('.steg'), function (el) { el.hidden = Number(el.dataset.steg) !== n; });
     $('steg-feil').hidden = true;
+    $('demo-eksempler').hidden = n !== 1; // the demo only fills step 1
     tegnOversikt(); tegnStegListe(); tegnStegNav();
     if (flytt !== false) {
       $('steg-liste').parentNode.scrollIntoView({ behavior: 'smooth', block: 'start' }); // the stepper
@@ -1712,13 +1728,17 @@
     $('del-start').classList.remove('start--lukket');
     velgStart('lenke');
     tilstand.pdf = ''; tilstand.pdfFil = null; tilstand.pdfTekst = ''; $('slipp-fil').textContent = 'Dra filen hit, eller';
-    $('fortsett').click();
+    // The demo only fills in the fields. The user presses «Fyll ut skjemaet» themselves.
+    $('feil-start').hidden = true;
+    lagreUtkast();
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-demo]'); if (b) kjorDemo(b.dataset.demo);
   });
 
   tegnKanaler(); tegnFiler(); oppdater();
+  // The campaign has its ID from the start, so the user can refer to it in e-mails. A draft keeps its own.
+  $('sum-id').textContent = 'Kampanje #' + (new URLSearchParams(location.search).get('kladd') || FZ_KAMPANJER.nesteId());
   /* One page for every start. The title says where it came from. The stilling card
      holds the link and the job, and Kampanjen holds only what is still missing. */
   function sideFra(tittel, lede) { tilstand.side = { tittel: tittel, lede: lede }; }

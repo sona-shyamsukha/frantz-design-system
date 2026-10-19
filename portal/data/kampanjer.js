@@ -56,6 +56,8 @@ window.FZ_KAMPANJER = (function () {
     forConnect: function (connect) { return alle().filter(function (k) { return k.connect && k.connect === String(connect); })[0] || null; },
     dato: dato,
     dager: dager,
+    // The ID the next order gets. Ny kampanje shows it while the order is filled in.
+    nesteId: function () { return String(129075 + nye().length); },
     // Saves a new order. Returns the new campaign id.
     bestill: function (k) {
       var liste = nye();
