@@ -1,15 +1,19 @@
-/* The firm's saved packages. Ny kampanje and Innstillinger share this list.
+/* Each person's own packages. Ny kampanje and Min profil share this list.
    A package fills in everything that is not about the stilling itself.
+   A package belongs to the person who made it (eier). Nobody else sees it.
    The demo keeps the list in this browser only. */
 window.FZ_PAKKER = (function () {
-  var LAGER = 'fzPakkerListe5';
+  var LAGER = 'fzPakkerListe7';
+  var MEG = 'Kari Hansen'; // the logged-in user in the demo
   // Dummy data. A bigger package always gives more: more channels and a longer period.
   // The period is fixed in the package. To pick another period, the user fills in the order by hand.
   // [ANTAGELSE: price follows the period. Frantz has not confirmed how price, period and reach are linked.]
   var STANDARD = [
-    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'] },
-    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'] },
-    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'] }
+    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'], eier: 'Kari Hansen' },
+    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], eier: 'Kari Hansen' },
+    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'], eier: 'Kari Hansen' },
+    // Ingrid's own package. Kari never sees it.
+    { navn: 'Barnehage Drammen', uker: 4, budsjett: 25000, kanaler: ['Meta'], eier: 'Ingrid Moe' }
   ];
   var KANALER = [
     { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
@@ -29,9 +33,11 @@ window.FZ_PAKKER = (function () {
   }
   var liste = les();
   function lagre() { try { localStorage.setItem(LAGER, JSON.stringify(liste)); } catch (e) {} }
+  // Only the packages this person made
+  function synlige() { return liste.filter(function (p) { return p.eier === MEG; }); }
   function finn(navn) {
     var n = String(navn).trim().toLowerCase();
-    return liste.filter(function (p) { return p.navn.toLowerCase() === n; })[0];
+    return synlige().filter(function (p) { return p.navn.toLowerCase() === n; })[0];
   }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -58,14 +64,16 @@ window.FZ_PAKKER = (function () {
     kort: kort,
     KANALER: KANALER,
     TILLEGG: TILLEGG,
-    alle: function () { return liste; },
+    alle: synlige,
+    MEG: MEG,
     finn: finn,
     // Returns an error text, or '' when the package is saved
     leggTil: function (p) {
       if (!p.navn) return 'Gi pakken et navn.';
-      if (finn(p.navn)) return 'Dere har allerede en pakke med dette navnet.';
+      if (finn(p.navn)) return 'Du har allerede en pakke med dette navnet.';
       if (!(p.budsjett > 0)) return 'En pakke må ha et budsjett.';
       if (p.uker !== undefined && p.uker !== null && !(p.uker > 0)) return 'Velg hvor mange uker pakken varer.';
+      p.eier = MEG;
       liste.push(p); lagre();
       return '';
     },

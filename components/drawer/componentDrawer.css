@@ -134,3 +134,40 @@ button.topbar__who:focus-visible { outline: none; box-shadow: var(--focus-ring);
 .varsel__prikk { display: inline-block; width: 8px; height: 8px; margin-right: var(--space-6); border-radius: 50%; background: var(--color-coral); vertical-align: middle; }
 .varsel:not(.varsel--ulest) .varsel__prikk { display: none; }
 
+
+/* Account menu: the name in the top right opens it */
+.topbar__konto { position: relative; min-width: 0; }
+.topbar__pil { flex: none; color: var(--text-muted); }
+.konto-meny {
+  position: absolute;
+  top: calc(100% + var(--space-8));
+  right: 0;
+  z-index: var(--z-dropdown);
+  min-width: 15rem;
+  padding: var(--space-8);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-12);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-dialog);
+}
+.konto-meny[hidden] { display: none; }
+.konto-meny__hvem {
+  padding: var(--space-8) var(--space-12) var(--space-12);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.konto-meny__hvem b { display: block; overflow: hidden; color: var(--text-heading); white-space: nowrap; text-overflow: ellipsis; }
+.konto-meny__hvem small { color: var(--text-muted); font: var(--type-support); }
+.konto-meny__valg {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-8);
+  color: var(--text-body);
+  font: var(--type-body);
+  text-decoration: none;
+}
+.konto-meny__valg:hover { background: var(--surface-subtle); }
+.konto-meny__valg:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.konto-meny__valg--ut { margin-top: var(--space-4); border-top: 1px solid var(--border-subtle); border-radius: 0 0 var(--radius-8) var(--radius-8); }

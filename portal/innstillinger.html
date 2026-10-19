@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Innstillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=80">
+<title>Innstillinger for firmaet — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=85">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -32,6 +32,9 @@
   .faktura__topp { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-8); margin-bottom: var(--space-8); }
   .faktura__topp b { font-size: var(--text-base); color: var(--text-heading); }
   .faktura span { color: var(--text-muted); }
+  /* Long e-mails and names have no spaces to break at. Let them break anywhere so they stay inside the card. */
+  .faktura { min-width: 0; }
+  .faktura span, .faktura__topp b { min-width: 0; overflow-wrap: anywhere; }
   .faktura.er-inaktiv { opacity: .6; }
   .merke-arbeid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; gap: var(--space-section-gap); }
   .merke-arbeid__skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
@@ -100,7 +103,6 @@
   .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
   .valgliste--bred .form-check__box { margin-top: var(--space-2); }
   .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
-  .pakke-felt { margin-top: var(--space-16); }
   .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
   .feil[hidden] { display: none; }
   @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
@@ -131,7 +133,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
       <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
@@ -140,16 +142,15 @@
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@nordlysrekruttering.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
-      <h1 class="text-h2">Innstillinger</h1>
-      <p class="lede">Brukere, fakturamottakere, pakker og hvordan kampanjesidene og annonsene deres ser ut.</p>
-      <div class="sidefaner" role="tablist" aria-label="Innstillinger">
+      <h1 class="text-h2">Innstillinger for firmaet</h1>
+      <p class="lede">Gjelder alle i Nordlys Rekruttering AS: hvem som har tilgang, hvem som får fakturaen, og hvordan kampanjesidene og annonsene ser ut. Din egen profil finner du under <a class="link" href="min-profil.html">Min profil</a>.</p>
+      <div class="sidefaner" role="tablist" aria-label="Innstillinger for firmaet">
         <button type="button" class="filter" role="tab" id="fane-brukere" aria-controls="panel-brukere" data-fane="brukere" aria-selected="true" tabindex="0"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Brukere</button>
         <button type="button" class="filter" role="tab" id="fane-faktura" aria-controls="panel-faktura" data-fane="faktura" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--receipt" aria-hidden="true"></span>Fakturamottakere</button>
         <button type="button" class="filter" role="tab" id="fane-merkevare" aria-controls="panel-merkevare" data-fane="merkevare" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span>Merkevare</button>
-        <button type="button" class="filter" role="tab" id="fane-pakker" aria-controls="panel-pakker" data-fane="pakker" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Pakker</button>
       </div>
 
       <section class="panel" id="panel-brukere" role="tabpanel" aria-labelledby="fane-brukere">
@@ -199,34 +200,6 @@
           <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre</button><button class="btn btn--ghost" type="button" data-skjul="ny-faktura">Avbryt</button></div>
         </form>
         <div class="faktura-grid" id="fakturaer"></div>
-      </section>
-
-      <section class="panel" id="panel-pakker" role="tabpanel" aria-labelledby="fane-pakker" hidden>
-        <div class="panelhode">
-          <p>Pakker er oppsett dere bruker ofte. En pakke har fast budsjett, kanaler og periode. Materiell og tillegg velger dere på hver kampanje. Alle i Nordlys Rekruttering AS kan bruke dem.</p>
-          <div class="rad-hoyre">
-            <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
-          </div>
-        </div>
-        <form class="card card--betjen skjema" id="ny-pakke" novalidate hidden>
-          <h3 class="card__title" style="margin-bottom: var(--space-12)">Ny pakke</h3>
-          <div class="skjema__rad">
-            <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
-            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett for hele perioden (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000"></div>
-          </div>
-          <div class="skjema__rad pakke-felt">
-            <div class="form-group"><label class="form-label" for="p-uker">Periode</label>
-              <span class="form-select-wrap"><select class="form-select" id="p-uker"><option value="2">2 uker</option><option value="3">3 uker</option><option value="4" selected>4 uker</option><option value="6">6 uker</option><option value="8">8 uker</option></select></span>
-              <p class="form-hint">Perioden er fast i pakken. Trenger en kampanje en annen periode, velger dere «Sett opp selv».</p></div>
-          </div>
-          <fieldset class="valgliste pakke-felt" id="p-kanaler">
-            <legend class="form-label">Kanaler</legend>
-          </fieldset>
-          <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
-          <p class="feil" id="feil-pakke" role="alert" hidden></p>
-          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
-        </form>
-        <div class="pakke-grid" id="pakkeliste"></div>
       </section>
 
       <section class="panel" id="panel-merkevare" role="tabpanel" aria-labelledby="fane-merkevare" hidden>
@@ -363,7 +336,6 @@
   </div>
 </div>
 
-<script src="data/pakker.js?v=9"></script>
 <script>
 var brukere = [
   { navn: 'Kari Hansen', epost: 'kari.hansen@nordlysrekruttering.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
@@ -417,39 +389,6 @@ document.getElementById('ny-faktura').addEventListener('submit', function (e) {
   fakturaer.push({ navn: v('f-navn'), org: v('f-org'), adr: v('f-adr'), post: v('f-post'), epost: v('f-epost'), ref: v('f-ref'), aktiv: true });
   this.reset(); this.hidden = true; tegnFaktura();
 });
-// Pakker
-function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
-function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-function kort(innhold, data) {
-  return '<label class="form-check form-check--kort"><input class="form-check__input" type="checkbox" ' + data + '><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + innhold + '</span></label>';
-}
-function valgTekst(tittel, tekst) { return '<span class="valg__tekst"><b>' + esc(tittel) + '</b><span>' + esc(tekst) + '</span></span>'; }
-document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.KANALER.map(function (k) {
-  return kort('<span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn), 'data-p-kanal="' + esc(k.navn) + '"');
-}).join(''));
-var nyPakke = '';
-function tegnPakker() {
-  document.getElementById('pakkeliste').innerHTML = FZ_PAKKER.alle().map(function (p) {
-    return FZ_PAKKER.kort(p, { ny: p.navn === nyPakke });
-  }).join('');
-}
-document.getElementById('ny-pakke').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var skjema = this, feil = document.getElementById('feil-pakke');
-  var kanaler = Array.prototype.map.call(skjema.querySelectorAll('[data-p-kanal]:checked'), function (i) { return i.getAttribute('data-p-kanal'); });
-  var p = {
-    navn: document.getElementById('p-navn').value.trim(),
-    budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
-    kanaler: kanaler.length ? kanaler : null,
-    uker: Number(document.getElementById('p-uker').value)
-  };
-  var galt = FZ_PAKKER.leggTil(p);
-  if (galt) { feil.textContent = galt; feil.hidden = false; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
-  feil.hidden = true; nyPakke = p.navn;
-  this.reset(); this.hidden = true; tegnPakker();
-});
-document.querySelector('[data-skjul="ny-pakke"]').addEventListener('click', function () { document.getElementById('feil-pakke').hidden = true; });
-
 // Piltaster flytter mellom fanene, som i trakten (funnel.js)
 document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
   var liste = Array.prototype.slice.call(this.querySelectorAll('[role="tab"]'));
@@ -462,10 +401,11 @@ document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
   fane.click();
   fane.focus();
 });
+var FANER = ['brukere', 'faktura', 'merkevare'];
 function visFane(navn, oppdaterUrl) {
-  if (['brukere', 'faktura', 'merkevare', 'pakker'].indexOf(navn) === -1) navn = 'brukere';
+  if (FANER.indexOf(navn) === -1) navn = 'brukere';
   document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.tabIndex = på ? 0 : -1; });
-  ['brukere', 'faktura', 'merkevare', 'pakker'].forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
+  FANER.forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
   if (oppdaterUrl) history.replaceState(null, '', '#' + navn);
   // Keep the active tab visible in the phone's horizontal tab strip.
   if (window.matchMedia('(max-width: 640px)').matches) {
@@ -552,10 +492,12 @@ document.getElementById('merke-fil').addEventListener('change', function () {
   });
 });
 tegnBanner(); tegnProver();
-tegnBrukere(); tegnFaktura(); tegnPakker(); visFane(location.hash.slice(1), false);
+tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
+// The account menu links here with a #fane, also from this page
+window.addEventListener('hashchange', function () { visFane(location.hash.slice(1), false); });
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
+<script src="../components/js/konto.js?v=14"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

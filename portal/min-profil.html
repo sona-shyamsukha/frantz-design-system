@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Min profil — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=85">
+<script src="../components/js/brukerflyt.js?v=2"></script>
+<style>
+  body { margin: 0; }
+  .sidefaner { margin-top: var(--space-24); }
+  .sidefaner .filter { display: inline-flex; align-items: center; gap: var(--space-6); }
+  .panel[hidden] { display: none; }
+  .panel { margin-top: var(--space-24); }
+  .panelhode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-content-gap); }
+  .panelhode p { margin: 0; color: var(--text-muted); max-width: 60ch; font: var(--type-body); }
+  .skjema { margin-bottom: var(--space-16); }
+  .skjema[hidden] { display: none; }
+  .skjema__rad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-field-gap); }
+  .skjema__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-16); }
+  /* Same option cards as Ny kampanje: room to breathe, and a logo, a description or a price */
+  .valgliste { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-12); margin: var(--space-6) 0 0; padding: 0; border: 0; }
+  .valgliste--bred { grid-template-columns: 1fr; }
+  .valgliste legend { padding: 0; margin-bottom: var(--space-6); }
+  .valgliste .form-check--kort { align-items: center; }
+  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .valg__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
+  .valg__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); line-height: var(--leading-normal); }
+  .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
+  .valgliste--bred .form-check__box { margin-top: var(--space-2); }
+  .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+  .pakke-felt { margin-top: var(--space-16); }
+  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .feil[hidden] { display: none; }
+  .sidefaner { align-items: center; }
+  .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
+  .profil-grid { display: grid; gap: var(--space-16); max-width: 640px; }
+  .profil-kontakt__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
+  .profil-kontakt__topp .card__title { margin: 0; }
+  .profil-kontakt .tom { color: var(--text-muted); }
+  .profil-kontakt [data-lagret] { margin: var(--space-12) 0 0; }
+  .profil-kontakt .form-group + .form-group, .profil-to + .form-group { margin-top: var(--space-12); }
+  .profil-to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  .profil-tekst { margin: var(--space-8) 0 var(--space-12); color: var(--text-muted); font: var(--type-body); }
+  .profil-varsler { max-width: 640px; }
+  .profil-felt { display: grid; gap: var(--space-12); margin: 0 0 var(--space-24); padding: 0; border: 0; }
+  .profil-felt legend { margin-bottom: var(--space-8); }
+  .profil-felt .form-radio__label b { display: block; color: var(--text-heading); }
+  .profil-felt .form-hint { margin: 0; }
+  @media (max-width: 640px) { .profil-to { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
+
+    <div class="wrap">
+      <h1 class="text-h2">Min profil</h1>
+      <p class="lede">Alt som gjelder deg: kontaktinformasjon, varsler og pakkene dine.</p>
+      <div class="sidefaner" role="tablist" aria-label="Min profil">
+        <button type="button" class="filter" role="tab" id="fane-profil" aria-controls="panel-profil" data-fane="profil" aria-selected="true" tabindex="0"><span class="icon-lucide icon-lucide--user" aria-hidden="true"></span>Profil</button>
+        <button type="button" class="filter" role="tab" id="fane-varsler" aria-controls="panel-varsler" data-fane="varsler" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--bell" aria-hidden="true"></span>Varsler</button>
+        <button type="button" class="filter" role="tab" id="fane-pakker" aria-controls="panel-pakker" data-fane="pakker" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Mine pakker</button>
+      </div>
+
+      <section class="panel" id="panel-profil" role="tabpanel" aria-labelledby="fane-profil">
+        <div class="profil-grid">
+          <!-- Read first. «Endre» opens the fields, with «Lagre» and «Avbryt». -->
+          <form class="card card--betjen profil-kontakt" id="profil-kontakt" novalidate>
+            <div class="profil-kontakt__topp">
+              <h2 class="card__title">Kontaktinformasjon</h2>
+              <button class="btn btn--secondary btn--sm" type="button" data-profil-endre><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span> Endre</button>
+            </div>
+            <div data-profil-vis>
+              <dl class="summary-row"><dt>Navn</dt><dd data-vis-navn>Kari Hansen</dd></dl>
+              <dl class="summary-row"><dt>Telefon</dt><dd data-vis-tlf><span class="tom">Ikke lagt inn</span></dd></dl>
+              <dl class="summary-row"><dt>E-post</dt><dd>kari.hansen@nordlysrekruttering.no</dd></dl>
+              <dl class="summary-row"><dt>Rolle</dt><dd>Administrator</dd></dl>
+              <p class="status status--ok" data-lagret role="status" hidden>Lagret</p>
+            </div>
+            <div data-profil-rediger hidden>
+              <div class="profil-to">
+                <div class="form-group"><label class="form-label" for="p-fornavn">Fornavn</label><input class="form-input" id="p-fornavn" value="Kari" autocomplete="given-name"></div>
+                <div class="form-group"><label class="form-label" for="p-etternavn">Etternavn</label><input class="form-input" id="p-etternavn" value="Hansen" autocomplete="family-name"></div>
+              </div>
+              <div class="form-group"><label class="form-label" for="p-tlf">Telefon <span class="valgfri">(valgfritt)</span></label><input class="form-input" id="p-tlf" type="tel" placeholder="F.eks. 912 34 567" autocomplete="tel"></div>
+              <div class="form-group"><span class="form-label">E-post</span><div>kari.hansen@nordlysrekruttering.no</div><p class="form-hint">E-posten er brukernavnet ditt. Kontakt Frantz for å endre den.</p></div>
+              <p class="feil" id="feil-profil" role="alert" hidden>Skriv fornavnet ditt.</p>
+              <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre</button><button class="btn btn--ghost" type="button" data-profil-avbryt>Avbryt</button></div>
+            </div>
+          </form>
+          <div class="card card--betjen">
+            <h2 class="card__title">Språk</h2>
+            <div class="form-select-wrap" style="margin-top: var(--space-12)"><select class="form-select" aria-label="Språk"><option selected>Norsk (bokmål)</option><option>English</option></select></div>
+          </div>
+          <div class="card card--betjen">
+            <h2 class="card__title">Passord</h2>
+            <p class="profil-tekst">Vi sender deg en lenke på e-post for å lage et nytt passord.</p>
+            <button class="btn btn--secondary" type="button" onclick="this.textContent='Lenke sendt til kari.hansen@nordlysrekruttering.no'; this.disabled=true;">Endre passord</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-varsler" role="tabpanel" aria-labelledby="fane-varsler" hidden>
+        <div class="panelhode"><p>Hvilke e-poster du får fra Frantz. Det gjelder bare deg.</p></div>
+        <form class="card card--betjen profil-varsler" id="varselvalg">
+          <fieldset class="profil-felt">
+            <legend class="form-label">Nye interessenter</legend>
+            <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="hver"><span class="form-radio__dot"></span><span class="form-radio__label"><b>Én e-post for hver interessent</b>Raskest. Ring mens de er interesserte.</span></label>
+            <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="dag" checked><span class="form-radio__dot"></span><span class="form-radio__label"><b>Én oppsummering hver dag</b>Kl. 08.00, med alle fra siste døgn.</span></label>
+            <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="ingen"><span class="form-radio__dot"></span><span class="form-radio__label"><b>Ingen e-post</b>Du ser dem på kampanjesiden i portalen.</span></label>
+            <p class="form-hint">Mobilnummeret står først i e-posten, så du kan ringe med en gang.</p>
+          </fieldset>
+          <fieldset class="profil-felt">
+            <legend class="form-label">Andre varsler</legend>
+            <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Annonser som venter på godkjenning</span></label>
+            <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Ny status fra rådgiveren</span></label>
+            <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Rapporten er klar</span></label>
+          </fieldset>
+          <div class="lagre-linje"><button class="btn btn--primary" type="submit">Lagre varsler</button><span class="status status--ok" data-lagret role="status" hidden>Lagret</span></div>
+        </form>
+      </section>
+
+      <section class="panel" id="panel-pakker" role="tabpanel" aria-labelledby="fane-pakker" hidden>
+        <div class="panelhode">
+          <p>Pakkene dine er oppsett du bruker ofte. En pakke har fast budsjett, kanaler og periode. Bare du ser pakkene dine når du bestiller.</p>
+          <div class="rad-hoyre">
+            <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
+          </div>
+        </div>
+        <form class="card card--betjen skjema" id="ny-pakke" novalidate hidden>
+          <h3 class="card__title" style="margin-bottom: var(--space-12)">Ny pakke</h3>
+          <div class="skjema__rad">
+            <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
+            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett for hele perioden (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000"></div>
+          </div>
+          <div class="skjema__rad pakke-felt">
+            <div class="form-group"><label class="form-label" for="p-uker">Periode</label>
+              <span class="form-select-wrap"><select class="form-select" id="p-uker"><option value="2">2 uker</option><option value="3">3 uker</option><option value="4" selected>4 uker</option><option value="6">6 uker</option><option value="8">8 uker</option></select></span>
+              <p class="form-hint">Perioden er fast i pakken. Trenger en kampanje en annen periode, velger dere «Sett opp selv».</p></div>
+          </div>
+          <fieldset class="valgliste pakke-felt" id="p-kanaler">
+            <legend class="form-label">Kanaler</legend>
+          </fieldset>
+          <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
+          <p class="feil" id="feil-pakke" role="alert" hidden></p>
+          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
+        </form>
+        <div class="pakke-grid" id="pakkeliste"></div>
+        <p class="profil-tekst" id="pakkeliste-tom" hidden>Du har ingen pakker ennå. Lag en her, eller velg «Lagre som pakke» når du bestiller.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="data/pakker.js?v=11"></script>
+<script>
+// Pakker
+function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function kort(innhold, data) {
+  return '<label class="form-check form-check--kort"><input class="form-check__input" type="checkbox" ' + data + '><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + innhold + '</span></label>';
+}
+function valgTekst(tittel, tekst) { return '<span class="valg__tekst"><b>' + esc(tittel) + '</b><span>' + esc(tekst) + '</span></span>'; }
+document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.KANALER.map(function (k) {
+  return kort('<span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn), 'data-p-kanal="' + esc(k.navn) + '"');
+}).join(''));
+var nyPakke = '';
+function tegnPakker() {
+  var mine = FZ_PAKKER.alle();
+  document.getElementById('pakkeliste').innerHTML = mine.map(function (p) { return FZ_PAKKER.kort(p, { ny: p.navn === nyPakke }); }).join('');
+  document.getElementById('pakkeliste-tom').hidden = mine.length > 0;
+}
+document.getElementById('ny-pakke').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var skjema = this, feil = document.getElementById('feil-pakke');
+  var kanaler = Array.prototype.map.call(skjema.querySelectorAll('[data-p-kanal]:checked'), function (i) { return i.getAttribute('data-p-kanal'); });
+  var p = {
+    navn: document.getElementById('p-navn').value.trim(),
+    budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
+    kanaler: kanaler.length ? kanaler : null,
+    uker: Number(document.getElementById('p-uker').value)
+  };
+  var galt = FZ_PAKKER.leggTil(p);
+  if (galt) { feil.textContent = galt; feil.hidden = false; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
+  feil.hidden = true; nyPakke = p.navn;
+  this.reset(); this.hidden = true; tegnPakker();
+});
+document.querySelector('[data-skjul="ny-pakke"]').addEventListener('click', function () { document.getElementById('feil-pakke').hidden = true; });
+// Tabs, «Ny pakke» and «Avbryt»
+document.addEventListener('click', function (e) {
+  var v = e.target.closest('[data-vis]'); if (v) { var f = document.getElementById(v.dataset.vis); f.hidden = false; f.querySelector('input').focus(); }
+  var s = e.target.closest('[data-skjul]'); if (s) { var g = document.getElementById(s.dataset.skjul); g.reset(); g.hidden = true; }
+  var t = e.target.closest('[data-fane]'); if (t) visFane(t.dataset.fane, true);
+});
+
+// Piltaster flytter mellom fanene, som i trakten (funnel.js)
+document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
+  var liste = Array.prototype.slice.call(this.querySelectorAll('[role="tab"]'));
+  var i = liste.indexOf(e.target);
+  if (i === -1) return;
+  var ny = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: liste.length - 1 }[e.key];
+  if (ny === undefined) return;
+  e.preventDefault();
+  var fane = liste[(ny + liste.length) % liste.length];
+  fane.click();
+  fane.focus();
+});
+var FANER = ['profil', 'varsler', 'pakker'];
+function visFane(navn, oppdaterUrl) {
+  if (FANER.indexOf(navn) === -1) navn = 'profil';
+  document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.tabIndex = på ? 0 : -1; });
+  FANER.forEach(function (n) { document.getElementById('panel-' + n).hidden = n !== navn; });
+  if (oppdaterUrl) history.replaceState(null, '', '#' + navn);
+  // Keep the active tab visible in the phone's horizontal tab strip.
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    var valgt = document.querySelector('[data-fane="' + navn + '"]');
+    var stripe = valgt && valgt.parentElement;
+    if (stripe) stripe.scrollLeft = Math.max(0, valgt.offsetLeft - stripe.offsetLeft - (stripe.clientWidth - valgt.offsetWidth) / 2);
+  }
+}
+visFane(location.hash.slice(1), false);
+tegnPakker();
+// The account menu links here with #profil, #varsler or #pakker, also from this page
+window.addEventListener('hashchange', function () { visFane(location.hash.slice(1), false); });
+
+// Profile: read first. «Endre» opens the fields. «Avbryt» puts back what was there. «Lagre» shows the new values.
+(function () {
+  var kontakt = document.getElementById('profil-kontakt');
+  var vis = kontakt.querySelector('[data-profil-vis]'), rediger = kontakt.querySelector('[data-profil-rediger]');
+  var endre = kontakt.querySelector('[data-profil-endre]'), lagret = kontakt.querySelector('[data-lagret]');
+  var felt = function (id) { return document.getElementById(id); };
+  var forrige = {};
+  function apne(pa) {
+    vis.hidden = pa; rediger.hidden = !pa; endre.hidden = pa;
+    document.getElementById('feil-profil').hidden = true;
+    if (pa) {
+      ['p-fornavn', 'p-etternavn', 'p-tlf'].forEach(function (id) { forrige[id] = felt(id).value; });
+      lagret.hidden = true;
+      felt('p-fornavn').focus();
+    } else endre.focus();
+  }
+  endre.addEventListener('click', function () { apne(true); });
+  kontakt.querySelector('[data-profil-avbryt]').addEventListener('click', function () {
+    Object.keys(forrige).forEach(function (id) { felt(id).value = forrige[id]; });
+    apne(false);
+  });
+  kontakt.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!felt('p-fornavn').value.trim()) { document.getElementById('feil-profil').hidden = false; felt('p-fornavn').focus(); return; }
+    var navn = (felt('p-fornavn').value.trim() + ' ' + felt('p-etternavn').value.trim()).trim();
+    kontakt.querySelector('[data-vis-navn]').textContent = navn;
+    var tlf = felt('p-tlf').value.trim(), tlfEl = kontakt.querySelector('[data-vis-tlf]');
+    tlfEl.innerHTML = tlf ? '' : '<span class="tom">Ikke lagt inn</span>';
+    if (tlf) tlfEl.textContent = tlf;
+    // The name in the top right follows
+    var topp = document.querySelector('.topbar__navn b'); if (topp) topp.textContent = navn;
+    var knapp = document.querySelector('.topbar__who'); if (knapp) knapp.title = navn;
+    var av = document.querySelector('.topbar__who .avatar'), deler = navn.split(/\s+/);
+    if (av) av.textContent = (deler[0][0] + (deler.length > 1 ? deler[deler.length - 1][0] : '')).toUpperCase();
+    apne(false);
+    lagret.hidden = false;
+  });
+  document.getElementById('varselvalg').addEventListener('submit', function (e) {
+    e.preventDefault();
+    this.querySelector('[data-lagret]').hidden = false;
+  });
+  document.getElementById('varselvalg').addEventListener('change', function () { this.querySelector('[data-lagret]').hidden = true; });
+})();
+</script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=14"></script>
+<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant.js?v=9"></script>
+</body>
+</html>

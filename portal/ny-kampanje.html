@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=80">
+<link rel="stylesheet" href="../frantz-ds.css?v=85">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -257,7 +257,7 @@
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
       <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
@@ -266,7 +266,7 @@
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@nordlysrekruttering.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
       <div class="nk-topp">
@@ -428,11 +428,11 @@
           <!-- 3. Everything the text did not answer, in one section -->
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
-            <p class="del__hint" id="mangler-hint">Velg en lagret pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
+            <p class="del__hint" id="mangler-hint">Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
-                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en lagret pakke</span><span class="choice-card__desc">Et ferdig oppsett med budsjett, kanaler og periode.</span></button>
+                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en av pakkene dine</span><span class="choice-card__desc">Et ferdig oppsett med budsjett, kanaler og periode.</span></button>
                 <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode for denne kampanjen.</span></button>
               </div>
             </div>
@@ -447,7 +447,7 @@
                 <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
                 <div class="alert__content"><span class="alert__body" id="pakke-estimat-tekst"></span></div>
               </div>
-              <a class="link pakke-knapp" href="innstillinger.html#pakker"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span> Se og lag pakker i Innstillinger</a>
+              <a class="link pakke-knapp" href="min-profil.html#pakker"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span> Se og lag pakkene dine under Min profil</a>
             </div>
             <div class="mangler-blokker" id="mangler-blokker">
               <div class="felt blokk funnet__bred" id="blokk-budsjett">
@@ -543,7 +543,7 @@
               <div class="pakke-ny" id="pakke-ny" hidden>
                 <label class="form-label" for="pakke-navn">Navn på pakken</label>
                 <input class="form-input" type="text" id="pakke-navn" placeholder="F.eks. Pakke 4" autocomplete="off">
-                <p class="form-description" style="margin: 0">Vi lagrer budsjett, kanaler og antall uker. Materiell og tillegg hører til kampanjen. Alle i Nordlys Rekruttering AS kan bruke pakken.</p>
+                <p class="form-description" style="margin: 0">Vi lagrer budsjett, kanaler og antall uker. Materiell og tillegg hører til kampanjen. Bare du ser pakkene dine.</p>
                 <p class="feil" id="feil-pakke" role="alert" hidden></p>
                 <div class="btn-group"><button class="btn btn--secondary btn--sm" type="button" id="pakke-lagre">Lagre pakken</button><button class="btn btn--ghost btn--sm" type="button" id="pakke-avbryt">Avbryt</button></div>
               </div>
@@ -576,7 +576,7 @@
 
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
-<script src="data/pakker.js?v=9"></script>
+<script src="data/pakker.js?v=11"></script>
 <script src="data/kampanjer.js?v=2"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=7"></script>
@@ -781,7 +781,7 @@
     $('t-funnet').textContent = 'Stillingen';
     $('funnet-hint').textContent = 'Stemmer det? Rett det som ikke stemmer.';
     $('t-mangler').textContent = 'Kampanjen';
-    $('mangler-hint').textContent = 'Velg en lagret pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
+    $('mangler-hint').textContent = 'Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
     if (tilstand.side) {
       document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
       $('side-tittel').textContent = tilstand.side.tittel;
@@ -1307,9 +1307,10 @@
     var p = { navn: navn, budsjett: budsjett(), kanaler: tilstand.kanalmodus === 'frantz' ? null : tilstand.kanaler.slice(), uker: typeof tilstand.uker === 'number' && !tilstand.til ? tilstand.uker : null };
     var galt = FZ_PAKKER.leggTil(p);
     if (galt) { f.textContent = galt; f.hidden = false; $('pakke-navn').focus(); return; }
+    PAKKER = FZ_PAKKER.alle(); // the list is filtered per person, so read it again
     tilstand.pakke = navn;
     visPakkeNy(false);
-    $('pakke-ok').textContent = 'Lagret som «' + navn + '». Pakken ligger klar neste gang noen i Nordlys Rekruttering AS bestiller.';
+    $('pakke-ok').textContent = 'Lagret som «' + navn + '». Pakken ligger klar neste gang du bestiller.';
     $('pakke-ok').hidden = false;
     oppdater();
   }
@@ -1571,7 +1572,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
+<script src="../components/js/konto.js?v=14"></script>
 <script src="../components/js/assistant-widget.js?v=4"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

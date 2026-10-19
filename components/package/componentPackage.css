@@ -45,3 +45,4 @@
   .pakke-kort { display: grid; grid-template-rows: subgrid; grid-row: span 5; }
   .pakke-kort__pris { margin-top: 0; }
 }
+
