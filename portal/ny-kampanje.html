@@ -54,6 +54,28 @@
   .steg-vis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-24); }
   .steg-hode__lede { margin-bottom: var(--space-16); }
   .demo-eksempler[hidden] { display: none; }
+  #felt-avsender { display: none; } /* the sender is set in the ad editor, step 3 */
+  /* Step 3: the ad. Preview first, fields only when asked for. */
+  .annonse__kanaler { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-12); }
+  .annonse__scene { border-radius: var(--radius-12); }
+  .annonse__utkast { display: flex; align-items: center; gap: var(--space-6); margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
+  .annonse__utkast[hidden] { display: none; }
+  .annonse__utkast .icon-lucide { color: var(--color-amber-ink); }
+  .annonse__handlinger { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
+  .annonse__panel { display: grid; gap: var(--space-16); margin-top: var(--space-16); padding: var(--space-20, 20px); border-radius: var(--radius-12); background: var(--surface-subtle); }
+  .annonse__panel[hidden] { display: none; }
+  .annonse__panel-bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-8); }
+  .annonse__to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
+  .annonse__teller { margin: 0; font-variant-numeric: tabular-nums; }
+  .annonse__bilder { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: var(--space-8); }
+  .annonse__bildevalg { aspect-ratio: 1; padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: var(--radius-8); background: var(--surface-section); cursor: pointer; }
+  .annonse__bildevalg img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .annonse__bildevalg[aria-pressed="true"] { border-color: var(--color-navy); box-shadow: 0 0 0 2px var(--color-white) inset; }
+  .annonse__bildevalg:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .annonse__forklar { margin: 0 0 var(--space-16); max-width: 60ch; color: var(--text-body); font: var(--type-body); }
+  .mat-filer--alltid { margin-top: 0; }
+  #pv[data-plattform="nettsteder"] .ad-preview__topp, #pv[data-plattform="nettsteder"] .ad-preview__tekst { display: none; }
+  @media (max-width: 640px) { .annonse__to { grid-template-columns: 1fr; } .annonse__scene { padding: var(--space-16) var(--space-8); } }
   .steg-hode__lede + .demo-eksempler { margin: calc(var(--space-8) * -1) 0 var(--space-16); } /* size and colour come from «.lede», like the other pages */
   .steg-hode__navn { margin: 0; color: var(--text-heading); font: var(--type-label); font-weight: var(--font-weight-semibold); }
   .steg-hode__meter { flex: 1 1 280px; }
@@ -117,11 +139,12 @@
   #funnet-kort .funnet { gap: var(--space-field-gap); }
   .felt[hidden], #sum-tillegg-rad[hidden], #sum-hjelp-rad[hidden], #sum-pakke-rad[hidden], #sum-kommentar-rad[hidden] { display: none; }
   /* Channels: one list, Frantz's choices ticked first */
-  .kanal-liste { display: grid; gap: var(--space-8); }
+  .kanal-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: var(--space-8); }
+  .kanal-liste .flere__tekst { min-width: 0; } /* the name never runs out of its box */
   .kanal-liste .flere__valg { align-items: center; }
   .kanal-liste .flere__valg .form-check__box { margin-top: 0; }
   .kanal-liste .flere__tekst { flex-direction: row; display: flex; align-items: center; gap: var(--space-8); color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
-  .kanal-liste .tag { margin-left: auto; }
+  .kanal-liste .form-check--kort { padding: var(--space-12) var(--space-16); }
   /* «Del for godkjenning» */
   .del-panel { display: grid; gap: var(--space-8); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
   .del-panel[hidden] { display: none; }
@@ -163,6 +186,10 @@
 
   /* Channels */
   .valg-to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-grid-gap); }
+  .valg-tre { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-grid-gap); margin-top: var(--space-12); }
+  .annonse__innhold { margin-top: var(--space-24); }
+  .annonse__innhold[hidden] { display: none; }
+  @media (max-width: 860px) { .valg-tre { grid-template-columns: 1fr; } }
   .logo-rad { display: flex; gap: var(--space-6); margin-top: var(--space-12); }
 
   /* Things we already know */
@@ -565,19 +592,64 @@
 
           <div class="steg" data-steg="3" hidden>
           <section class="del" id="del-materiell" aria-labelledby="t-materiell">
-            <h2 class="del__tittel" id="t-materiell">Materiell og tillegg</h2>
-            <p class="del__hint" hidden>Hvem lager annonsene, og vil dere ha noe ekstra? Alt her er valgfritt.</p>
-              <div class="felt blokk funnet__bred steg-blokk" id="blokk-materiell">
-                <span class="form-label" id="b-mat-lbl">Materiell</span>
-                <div id="q-materiell-valg"></div>
+            <h2 class="del__tittel" id="t-materiell">Annonsen</h2>
+            <p class="del__hint" hidden>Slik blir annonsen.</p>
+            <!-- Preview first: Frantz's draft from the job ad. «Endre tekst» and «Bytt bilde» open the fields. -->
+            <div class="steg-blokk annonse" id="blokk-annonse">
+              <span class="form-label" id="b-mat-lbl">Materiell</span>
+              <div class="valg-tre" role="group" aria-labelledby="b-mat-lbl">
+                <button class="choice-card" type="button" data-materiell="bygg" aria-pressed="true"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Lag annonsen her</span><span class="choice-card__desc">Frantz har laget et forslag. Endre tekst og bilde selv.</span></button>
+                <button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>
+                <button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time.</span></button>
               </div>
-              <div class="felt blokk funnet__bred steg-blokk" id="blokk-tillegg">
-                <span class="form-label" id="b-til-lbl">Tilleggsprodukter</span>
-                <div id="q-tillegg-valg"></div>
+              <div id="annonse-bygg" class="annonse__innhold">
+                <div class="annonse__kanaler" id="annonse-kanaler" role="group" aria-label="Se annonsen i"></div>
+                <div class="studio__scene annonse__scene">
+                  <article class="ad-preview" id="pv" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook">
+                    <header class="ad-preview__topp"><span class="ad-preview__avatar" id="pv-avatar" aria-hidden="true">S</span><div><b id="pv-avsender">Arbeidsgiver</b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header>
+                    <p class="ad-preview__tekst" id="pv-tekst"></p>
+                    <div class="ad-preview__kreativ">
+                      <div class="ad-preview__logo" id="pv-logo"></div>
+                      <h4 class="ad-preview__tittel" id="pv-tittel"></h4>
+                      <div class="ad-preview__bilde" id="pv-bilde" data-flytt role="img" aria-label="Bildet i annonsen"></div>
+                    </div>
+                    <footer class="ad-preview__bunn"><div><small id="pv-lenke">frantz.no</small><b id="pv-stilling"></b></div><span class="ad-preview__cta" id="pv-cta">Søk nå</span></footer>
+                  </article>
+                </div>
+                <p class="annonse__utkast" id="annonse-utkast"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span> Forslag fra Frantz, laget fra stillingsannonsen.</p>
+                <div class="annonse__handlinger">
+                  <button class="btn btn--secondary btn--sm" type="button" id="annonse-endre-tekst" aria-expanded="false" aria-controls="annonse-tekst-panel"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span> Endre tekst</button>
+                  <button class="btn btn--secondary btn--sm" type="button" id="annonse-bytt-bilde" aria-expanded="false" aria-controls="annonse-bilde-panel"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span> Bytt bilde</button>
+                </div>
+                <div class="annonse__panel" id="annonse-tekst-panel" hidden>
+                  <div class="form-group"><div class="felt-topp"><label class="form-label" for="an-tittel">Overskrift</label><span class="form-hint annonse__teller" id="an-tittel-teller"></span></div><input class="form-input" id="an-tittel" maxlength="40"></div>
+                  <div class="form-group"><div class="felt-topp"><label class="form-label" for="an-tekst">Tekst over bildet</label><span class="form-hint annonse__teller" id="an-tekst-teller"></span></div><textarea class="form-textarea" id="an-tekst" rows="3" maxlength="125"></textarea></div>
+                  <div class="annonse__to">
+                    <div class="form-group"><label class="form-label" for="an-knapp">Knapp</label><span class="form-select-wrap"><select class="form-select" id="an-knapp"><option>Søk nå</option><option>Les mer</option></select></span></div>
+                    <div class="form-group"><label class="form-label" for="an-avsender">Avsender</label><input class="form-input" id="an-avsender"><p class="form-hint">Siden annonsen vises fra.</p></div>
+                  </div>
+                  <div class="annonse__panel-bunn"><button class="btn btn--primary btn--sm" type="button" data-annonse-lukk="tekst">Ferdig</button></div>
+                </div>
+                <div class="annonse__panel" id="annonse-bilde-panel" hidden>
+                  <span class="form-label" id="an-bilde-lbl">Velg et bilde</span>
+                  <div class="annonse__bilder" id="annonse-bilder" role="group" aria-labelledby="an-bilde-lbl"></div>
+                  <p class="form-hint">Bildene kommer fra <a class="link" href="mediebibliotek.html">Mediebiblioteket</a>. Dra i bildet i annonsen for å flytte utsnittet.</p>
+                  <div class="annonse__panel-bunn"><button class="btn btn--secondary btn--sm" type="button" id="an-last-opp"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp bilde</button><button class="btn btn--primary btn--sm" type="button" data-annonse-lukk="bilde">Ferdig</button></div>
+                  <input type="file" id="an-bilde-fil" accept="image/*" hidden aria-label="Last opp bilde">
+                </div>
               </div>
-            <div class="felt blokk funnet__bred steg-blokk" id="blokk-kommentar">
-              <label class="form-label" for="notat">Kommentar til Frantz</label>
-              <textarea class="form-textarea" id="notat" rows="3" placeholder="Noe mer Frantz bør vite. F.eks. hvem dere vil nå, eller om kunden skal godkjenne annonsen."></textarea>
+              <div id="annonse-opplast" class="annonse__innhold" hidden>
+                <p class="annonse__forklar">Last opp annonsene dere har laget. Frantz sjekker at de passer kanalene.</p>
+                <div class="mat-filer mat-filer--alltid"><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Velg filer</button><span class="form-hint mat-filer__hint">Bilder, video, HTML5 eller PDF. Maks 10 MB per fil.</span><div class="filer"></div></div>
+              </div>
+              <div id="annonse-frantz" class="annonse__innhold" hidden>
+                <p class="annonse__forklar">Frantz lager bildene og annonsene. Dere ser dem og godkjenner før noe publiseres.</p>
+                <div class="mat-filer mat-filer--alltid"><span class="form-label mat-filer__tittel">Bilder eller logo Frantz kan bruke <span class="valgfri">(valgfritt)</span></span><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Velg filer</button><span class="form-hint mat-filer__hint">Maks 10 MB per fil.</span><div class="filer"></div></div>
+              </div>
+            </div>
+            <div class="felt blokk funnet__bred steg-blokk" id="blokk-tillegg">
+              <span class="form-label" id="b-til-lbl">Tilleggsprodukter <span class="valgfri">(valgfritt)</span></span>
+              <div id="q-tillegg-valg"></div>
             </div>
           </section>
           </div>
@@ -587,6 +659,10 @@
             <h2 class="del__tittel" id="t-oversikt">Se over og bestill</h2>
             <p class="del__hint" hidden>Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.</p>
             <div id="oversikt"></div>
+            <div class="felt blokk funnet__bred steg-blokk" id="blokk-kommentar">
+              <label class="form-label" for="notat">Kommentar til Frantz <span class="valgfri">(valgfritt)</span></label>
+              <textarea class="form-textarea" id="notat" rows="3" placeholder="Noe mer Frantz bør vite. F.eks. hvem dere vil nå, eller om kunden skal godkjenne annonsen."></textarea>
+            </div>
               <div class="felt funnet__bred steg-blokk" id="felt-faktura">
                 <label class="form-label" for="faktura">Fakturamottaker</label>
                 <span class="form-select-wrap"><select class="form-select" id="faktura">
@@ -689,6 +765,7 @@
   </span>
 </div>
 
+<script src="../components/js/annonse-studio.js?v=2"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=11"></script>
@@ -722,20 +799,12 @@
     { navn: 'Tekstproduksjon', pris: 0, tekst: 'Frantz skriver annonseteksten og teksten på kampanjesiden.' },
     { navn: 'Strategisk rådgivning', pris: 8000, tekst: 'En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.' }
   ];
-  function byggMateriell(root) {
-    root.innerHTML = '<div class="valg-to" role="group" aria-label="Type materiell">' +
-      '<button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>' +
-      '<button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time.</span></button></div>' +
-      '<div class="mat-filer" role="group" aria-labelledby="mat-filer-tittel"><span class="form-label mat-filer__tittel" id="mat-filer-tittel">Filer <span class="valgfri">(valgfritt)</span></span>' +
-      '<button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Velg filer</button>' +
-      '<span class="form-hint mat-filer__hint">Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.</span><div class="filer"></div></div>';
-  }
+  // Step 3: the add-ons, with the «Meld interesse» button last
   function byggTillegg(root) {
-    root.innerHTML = '<div class="tillegg-liste" role="group" aria-label="Tilleggsprodukter">' + TILLEGG.map(function (t) {
+    root.innerHTML = '<div class="tillegg-liste" role="group" aria-labelledby="b-til-lbl">' + TILLEGG.map(function (t) {
       return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-tillegg="' + t.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>' + t.navn + '</b><span>' + t.tekst + '</span></span><span class="flere__pris">' + (t.pris ? '+ kr ' + R.tall(t.pris) : 'Inkludert') + '</span></label>';
-    }).join('') + '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-meld><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span></label></div>';
+    }).join('') + '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-meld><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span><span class="flere__pris">Inkludert</span></label></div>';
   }
-  byggMateriell($('q-materiell-valg'));
   byggTillegg($('q-tillegg-valg'));
 
   var stilling = FrantzPicker.stilling($('stilling-picker'), {
@@ -863,7 +932,9 @@
     tilstand.lest = true;
     tilstand.stillingKlar = !!a.tittel;
     tilstand.funnet = { budsjett: !!a.budsjett, kanaler: !!(a.kanaler && a.kanaler.length), periode: !!(a.uker || a.fra), materiell: !!a.materiell, tillegg: !!((a.tillegg && a.tillegg.length) || a.meld) };
-    tilstand.materiell = a.materiell || null; tilstand.tillegg = (a.tillegg || []).slice(); tilstand.meld = !!a.meld; tilstand.valgtMateriell = false; tilstand.lagret = false;
+    // Text writing is part of «Frantz lager annonsen». The default is the ad made here, from Frantz's draft.
+    tilstand.materiell = a.materiell || 'bygg';
+    tilstand.annonse.endret = false; tilstand.tillegg = (a.tillegg || []).slice(); tilstand.meld = !!a.meld; tilstand.valgtMateriell = false; tilstand.lagret = false;
     tilstand.uker = a.uker || 3; tilstand.fra = a.fra && a.fra >= iso(tidligstDato()) ? a.fra : null; tilstand.til = a.til || null;
     tilstand.valgtBudsjett = false; tilstand.valgtKanal = false; tilstand.pakke = null; tilstand.fastUker = null;
     tilstand.kanalmodus = 'frantz'; tilstand.kanaler = anbefalt();
@@ -1174,7 +1245,7 @@
       var rekke = KANALER.filter(function (c) { return anb.indexOf(c.navn) !== -1; }).concat(KANALER.filter(function (c) { return anb.indexOf(c.navn) === -1; }));
       $('kanal-valg').innerHTML = rekke.map(function (c) {
         return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-kanal="' + c.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn +
-          (anb.indexOf(c.navn) !== -1 ? '<span class="tag tag--outline tag--xs">Frantz anbefaler</span>' : '') + '</span></label>';
+          '</span></label>';
       }).join('');
     }
     Array.prototype.forEach.call(document.querySelectorAll('[data-kanal]'), function (x) { x.checked = tilstand.kanaler.indexOf(x.dataset.kanal) !== -1; });
@@ -1313,10 +1384,118 @@
 
   /* ---------- Material and add-ons ---------- */
   function materiellTekst() {
-    if (tilstand.materiell === 'hjelp') return 'Design av materiell fra Frantz' + (tilstand.filer.length ? ' · ' + tilstand.filer.length + (tilstand.filer.length === 1 ? ' fil' : ' filer') : '');
-    if (tilstand.materiell === 'ferdig') return 'Eget materiell' + (tilstand.filer.length ? ' · ' + tilstand.filer.length + (tilstand.filer.length === 1 ? ' fil' : ' filer') : '');
-    return '—';
+    var filer = tilstand.filer.length ? ' · ' + tilstand.filer.length + (tilstand.filer.length === 1 ? ' fil' : ' filer') : '';
+    if (tilstand.materiell === 'hjelp') return 'Design av materiell fra Frantz' + filer;
+    if (tilstand.materiell === 'ferdig') return 'Eget materiell' + filer;
+    return 'Laget her · «' + (tilstand.annonse.tittel || '') + '»';
   }
+
+  /* ---------- The ad (step 3) ----------
+     Frantz makes a draft from the job ad. The user checks it, and changes text or picture if they want.
+     Uploading finished ads, or letting Frantz make them, are quiet links under the preview. */
+  var BILDER = [
+    { fil: 'akutten-sykepleier.jpg', navn: 'Akutten, sykepleier' }, { fil: 'team-vaktrommet.jpg', navn: 'Team på vaktrommet' },
+    { fil: 'dag-pa-akutten.jpg', navn: 'En dag på akutten' }, { fil: 'hverdagshelter-ulleval.jpg', navn: 'Hverdagshelter i Oslo' },
+    { fil: 'bodo-havn.jpg', navn: 'Bodø havn i solnedgang' }, { fil: 'kontor-kongsberg.jpg', navn: 'Kontoret vårt i Tromsø' }
+  ];
+  tilstand.annonse = { tittel: '', tekst: '', knapp: 'Søk nå', bilde: BILDER[0].fil, bildeUrl: '', endret: false, kanal: 'facebook' };
+  function kanalVisninger() {
+    var k = tilstand.kanaler.length ? tilstand.kanaler : ['Meta'], ut = [];
+    if (k.indexOf('Meta') !== -1) ut.push(['facebook', 'Facebook'], ['instagram', 'Instagram']);
+    if (k.indexOf('LinkedIn') !== -1) ut.push(['linkedin', 'LinkedIn']);
+    if (k.indexOf('Nettsteder og aviser') !== -1) ut.push(['nettsteder', 'Nettsteder og aviser']);
+    return ut.length ? ut : [['facebook', 'Facebook']];
+  }
+  // Frantz's draft. It follows the job until the user writes their own.
+  function annonseUtkast() {
+    if (tilstand.annonse.endret) return;
+    var st = $('stilling').value.trim() || 'Ny stilling', liste = steder.verdi();
+    var sted = liste.length ? FrantzPicker.delSted(liste[0]).navn : '';
+    var ag = $('arbeidsgiver').value.trim();
+    tilstand.annonse.tittel = (st.charAt(0).toUpperCase() + st.slice(1) + (sted ? ', ' + sted : '')).slice(0, 40);
+    tilstand.annonse.tekst = ('Vil du jobbe som ' + st.toLowerCase() + (sted ? ' i ' + sted : '') + '? ' + (ag ? ag + ' søker deg. ' : '') +
+      ($('frist').value ? 'Søk innen ' + kort($('frist').value).slice(0, 5) + '.' : 'Les mer og søk i dag.')).slice(0, 125);
+    tilstand.annonse.bilde = /helsefag|omsorg/i.test(st) ? 'team-vaktrommet.jpg' : 'akutten-sykepleier.jpg';
+  }
+  function tegnAnnonse() {
+    var a = tilstand.annonse, modus = tilstand.materiell || 'bygg';
+    $('annonse-bygg').hidden = modus !== 'bygg';
+    $('annonse-opplast').hidden = modus !== 'ferdig';
+    $('annonse-frantz').hidden = modus !== 'hjelp';
+    if (modus !== 'bygg') return;
+    var vis = kanalVisninger();
+    if (!vis.some(function (v) { return v[0] === a.kanal; })) a.kanal = vis[0][0];
+    $('annonse-kanaler').innerHTML = vis.map(function (v) {
+      return '<button type="button" class="filter" data-annonse-kanal="' + v[0] + '" aria-pressed="' + (v[0] === a.kanal) + '">' + v[1] + '</button>';
+    }).join('');
+    var avsender = $('avsender').value.trim() || 'Arbeidsgiver';
+    $('pv').dataset.plattform = a.kanal;
+    $('pv').setAttribute('aria-label', 'Forhåndsvisning på ' + vis.filter(function (v) { return v[0] === a.kanal; })[0][1]);
+    $('pv-avsender').textContent = avsender;
+    $('pv-avatar').textContent = avsender.charAt(0).toUpperCase();
+    $('pv-logo').textContent = avsender;
+    $('pv-tittel').textContent = a.tittel;
+    $('pv-tekst').textContent = a.tekst;
+    $('pv-cta').textContent = a.knapp;
+    $('pv-stilling').textContent = $('stilling').value.trim();
+    $('pv-lenke').textContent = 'frantz.no/k/' + ($('sum-id').textContent.replace(/\D/g, '') || '');
+    var bilde = a.bildeUrl || '../assets/media/' + a.bilde;
+    $('pv-bilde').style.backgroundImage = 'url("' + bilde + '")';
+    var b = BILDER.filter(function (x) { return x.fil === a.bilde; })[0];
+    $('pv-bilde').setAttribute('aria-label', a.bildeUrl ? 'Bildet dere lastet opp' : (b ? b.navn : 'Bildet i annonsen'));
+    $('annonse-utkast').hidden = a.endret;
+    $('an-tittel-teller').textContent = $('an-tittel').value.length + ' / 40';
+    $('an-tekst-teller').textContent = $('an-tekst').value.length + ' / 125';
+  }
+  $('annonse-bilder').innerHTML = BILDER.map(function (b) {
+    return '<button type="button" class="annonse__bildevalg" data-annonse-bilde="' + b.fil + '" aria-pressed="false" aria-label="' + b.navn + '"><img src="../assets/media/' + b.fil + '" alt=""></button>';
+  }).join('');
+  function apnePanel(hvilket, pa) {
+    var panel = $('annonse-' + hvilket + '-panel'), knapp = $(hvilket === 'tekst' ? 'annonse-endre-tekst' : 'annonse-bytt-bilde');
+    if (pa) { apnePanel(hvilket === 'tekst' ? 'bilde' : 'tekst', false); }
+    panel.hidden = !pa; knapp.setAttribute('aria-expanded', String(pa));
+    if (pa && hvilket === 'tekst') {
+      $('an-tittel').value = tilstand.annonse.tittel; $('an-tekst').value = tilstand.annonse.tekst;
+      $('an-knapp').value = tilstand.annonse.knapp; $('an-avsender').value = $('avsender').value;
+      tegnAnnonse(); $('an-tittel').focus();
+    }
+    if (pa && hvilket === 'bilde') {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', String(!tilstand.annonse.bildeUrl && x.dataset.annonseBilde === tilstand.annonse.bilde)); });
+      var valgt = document.querySelector('[data-annonse-bilde][aria-pressed="true"]') || document.querySelector('[data-annonse-bilde]'); valgt.focus();
+    }
+    if (!pa) knapp.focus({ preventScroll: true });
+  }
+  $('annonse-endre-tekst').addEventListener('click', function () { apnePanel('tekst', $('annonse-tekst-panel').hidden); });
+  $('annonse-bytt-bilde').addEventListener('click', function () { apnePanel('bilde', $('annonse-bilde-panel').hidden); });
+  ['an-tittel', 'an-tekst', 'an-knapp', 'an-avsender'].forEach(function (id) {
+    $(id).addEventListener('input', function () {
+      var a = tilstand.annonse;
+      a.tittel = $('an-tittel').value; a.tekst = $('an-tekst').value; a.knapp = $('an-knapp').value; a.endret = true;
+      if (id === 'an-avsender') $('avsender').value = $('an-avsender').value;
+      tegnAnnonse();
+    });
+  });
+  $('an-knapp').addEventListener('change', function () { tilstand.annonse.knapp = this.value; tilstand.annonse.endret = true; tegnAnnonse(); });
+  $('an-last-opp').addEventListener('click', function () { $('an-bilde-fil').click(); });
+  $('an-bilde-fil').addEventListener('change', function () {
+    var f = this.files[0]; if (!f) return;
+    tilstand.annonse.bildeUrl = URL.createObjectURL(f); tilstand.annonse.endret = true; this.value = '';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', 'false'); });
+    tegnAnnonse();
+  });
+  document.addEventListener('click', function (e) {
+    var k = e.target.closest('[data-annonse-kanal]');
+    if (k) { tilstand.annonse.kanal = k.dataset.annonseKanal; tegnAnnonse(); return; }
+    var b = e.target.closest('[data-annonse-bilde]');
+    if (b) {
+      tilstand.annonse.bilde = b.dataset.annonseBilde; tilstand.annonse.bildeUrl = ''; tilstand.annonse.endret = true;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      tegnAnnonse(); return;
+    }
+    var l = e.target.closest('[data-annonse-lukk]');
+    if (l) apnePanel(l.dataset.annonseLukk, false);
+  });
+  if (window.flyttbar) flyttbar($('pv-bilde'));
   function tilleggListe() { return tilstand.tillegg.concat(tilstand.meld ? ['Meld interesse'] : []); }
   function tegnFiler() {
     var html = tilstand.filer.map(function (f, i) {
@@ -1326,13 +1505,8 @@
   }
   function tegnMateriellOgTillegg() {
     Array.prototype.forEach.call(document.querySelectorAll('[data-materiell]'), function (b) { b.setAttribute('aria-pressed', String(tilstand.materiell === b.dataset.materiell)); });
-    // Both choices can send files: ready ads, or pictures and logo Frantz can use in the design
-    // The file row shows once the user has chosen who makes the ads
-    Array.prototype.forEach.call(document.querySelectorAll('.mat-filer'), function (el) {
-      el.hidden = !tilstand.materiell;
-      var hint = el.querySelector('.mat-filer__hint');
-      if (hint) hint.textContent = tilstand.materiell === 'hjelp' ? 'Bilder eller logo Frantz kan bruke. Maks 10 MB.' : 'Bilder, video, HTML5 eller PDF. Maks 10 MB.';
-    });
+    annonseUtkast();
+    tegnAnnonse();
     Array.prototype.forEach.call(document.querySelectorAll('[data-tillegg]'), function (x) { x.checked = tilstand.tillegg.indexOf(x.dataset.tillegg) !== -1; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-meld]'), function (x) { x.checked = tilstand.meld; });
   }
@@ -1529,7 +1703,7 @@
     var tillegg = tilleggListe();
     var tilleggSum = TILLEGG.reduce(function (sum, t) { return sum + (tilstand.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0);
     $('sum-budsjett').textContent = b ? kr(b) : '—';
-    $('sum-hjelp-rad').hidden = tilstand.materiell !== 'hjelp';
+    $('sum-hjelp-rad').hidden = tilstand.materiell !== 'hjelp'; // design by Frantz is billed by the hour
     $('sum-sok').textContent = r ? R.spenn(r.sok) : '—';
     $('sum-periode').textContent = tilstand.lest ? periodeTekst() : '—';
     $('sum-tillegg-rad').hidden = !tilleggSum;
@@ -1569,14 +1743,14 @@
   }
 
   /* ---------- Steps ----------
-     1 Stillingen · 2 Kampanjen · 3 Materiell og tillegg · 4 Se over og bestill.
+     1 Stillingen · 2 Kampanjen · 3 Annonsen · 4 Se over og bestill.
      The order box follows along. «Bestill» shows only on step 4. */
-  var STEG = ['Stillingen', 'Kampanjen', 'Materiell og tillegg', 'Se over og bestill'];
+  var STEG = ['Stillingen', 'Kampanjen', 'Annonsen', 'Se over og bestill'];
   // What each step is about, under the title
   var STEG_LEDE = [
     'Fortell oss om stillingen. Frantz leser det dere gir oss, og fyller ut resten.',
     'Velg en av pakkene dine, eller sett opp budsjett, kanaler og periode selv.',
-    'Hvem lager annonsene, og vil dere ha noe ekstra? Alt her er valgfritt.',
+    'Velg hvordan annonsen lages, og om dere vil ha noe ekstra. Frantz har laget et forslag fra stillingsannonsen.',
     'Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.'
   ];
   tilstand.steg = 1; tilstand.lengst = 1;
@@ -1675,10 +1849,10 @@
       gruppe('Kampanjen', 2,
         rad('Pakke', esc(pakkeTekst())) + rad('Budsjett', b ? kr(b) : '') + rad('Kanaler', FZ_KANALER.html(tilstand.kanaler)) +
         rad('Periode', esc(periodeTekst()))) +
-      gruppe('Materiell og tillegg', 3,
-        rad('Materiell', tilstand.materiell ? esc(materiellTekst()) : 'Ikke valgt') +
-        rad('Tillegg', esc(tilleggListe().join(', ')) || 'Ingen') + (tilleggSum ? rad('Pris for tillegg', '+ ' + kr(tilleggSum)) : '') +
-        rad('Kommentar', esc($('notat').value.trim())));
+      gruppe('Annonsen', 3,
+        rad('Materiell', esc(materiellTekst())) +
+        (tilstand.materiell === 'bygg' ? rad('Avsender', esc($('avsender').value.trim())) : '') +
+        rad('Tillegg', esc(tilleggListe().join(', ')) || 'Ingen') + (tilleggSum ? rad('Pris for tillegg', '+ ' + kr(tilleggSum)) : ''));
   }
   $('sum-stilling').addEventListener('click', function (e) {
     if (e.target.closest('[data-til-steg]')) visSteg(1);
