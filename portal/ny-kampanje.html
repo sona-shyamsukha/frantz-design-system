@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=77">
+<link rel="stylesheet" href="../frantz-ds.css?v=78">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -92,7 +92,6 @@
 
   /* Start: three equal ways in. New customers see two (no Connect). */
   .start-valg { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: var(--space-16); gap: var(--space-grid-gap); }
-  .start-valg .choice-card > .icon-lucide { color: var(--text-heading); }
   #lenke-valg, .connect-valg { margin-top: var(--space-24); }
   #lenke-valg[hidden], .connect-valg[hidden] { display: none; }
   .connect-valg { display: grid; gap: var(--space-8); }
@@ -157,7 +156,7 @@
   .del__topp .del__hint, .start-topp .del__hint { margin: 0; }
   .start-pil { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--surface-subtle); color: var(--text-heading); cursor: pointer; }
   .start-pil:hover { background: var(--border-subtle); }
-  .start-pil[hidden] { display: none; }
+  .start-pil[hidden], #start-endre[hidden] { display: none; }
   #del-start .inn__fortsett[hidden],
   [data-demo][hidden] { display: none; }
   .start-pil .icon-lucide { transition: transform .15s; }
@@ -165,8 +164,12 @@
   #del-start.start--lukket .start-topp { cursor: pointer; }
   .del__sammendrag { margin: var(--space-2) 0 0; color: var(--text-body); font-size: var(--text-sm); }
   .del__sammendrag[hidden] { display: none; }
+  /* Once the stilling is read, the start shrinks to one line. «Endre» opens it again. */
   #del-start.start--lukket #lenke-valg,
-  #del-start.start--lukket #connect-valg { display: none; }
+  #del-start.start--lukket #connect-valg,
+  #del-start.start--lukket .start-valg,
+  #del-start.start--lukket #start-hint { display: none; }
+  #del-start.start--lukket .start-topp { margin-bottom: 0; }
   .start-alert { margin-top: var(--space-16); }
   .start-alert[hidden] { display: none; }
   .mat-filer { display: grid; gap: var(--space-8); margin-top: var(--space-16); }
@@ -284,13 +287,13 @@
                 <p class="del__hint" id="start-hint">Velg hvor stillingen kommer fra. Resten av bestillingen er lik uansett.</p>
                 <p class="del__sammendrag" id="start-sammendrag" hidden></p>
               </div>
-              <button class="start-pil" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" aria-label="Vis eller skjul" hidden><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button>
+              <button class="husk__endre" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" hidden>Endre</button>
             </div>
             <div id="start-innhold">
             <div class="start-valg" role="group" aria-labelledby="t-start">
-              <button class="choice-card" type="button" data-start="connect" data-vis="eksisterende" aria-pressed="false"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span><span class="choice-card__name">Hent fra Connect</span><span class="choice-card__desc">Velg en stilling fra deres eget system. Frantz fyller ut skjemaet.</span></button>
-              <button class="choice-card" type="button" data-start="lenke" aria-pressed="false"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span><span class="choice-card__name">Lim inn lenke eller tekst</span><span class="choice-card__desc">En lenke, egne ord eller en PDF. Frantz fyller ut skjemaet.</span></button>
-              <button class="choice-card" type="button" id="selv" data-start="selv" aria-pressed="false"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span><span class="choice-card__name">Fyll ut selv</span><span class="choice-card__desc">Skriv inn stillingen for hånd.</span></button>
+              <button class="choice-card" type="button" data-start="connect" data-vis="eksisterende" aria-pressed="false"><span class="choice-card__name">Hent fra Connect</span><span class="choice-card__desc">Velg en stilling fra deres eget system. Frantz fyller ut skjemaet.</span></button>
+              <button class="choice-card" type="button" data-start="lenke" aria-pressed="false"><span class="choice-card__name">Lim inn lenke eller tekst</span><span class="choice-card__desc">Lim inn en lenke, skriv med egne ord eller last opp et dokument. AI fyller ut skjemaet for dere.</span></button>
+              <button class="choice-card" type="button" id="selv" data-start="selv" aria-pressed="false"><span class="choice-card__name">Fyll ut selv</span><span class="choice-card__desc">Skriv inn stillingen for hånd.</span></button>
             </div>
 
             <div class="connect-valg" id="connect-valg" hidden>
@@ -435,7 +438,7 @@
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
-                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en lagret pakke</span></button>
+                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en lagret pakke</span><span class="choice-card__desc">Et ferdig oppsett med fast budsjett, kanaler og periode. Raskest hvis dere bestiller det samme ofte.</span></button>
                 <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode.</span></button>
               </div>
             </div>
@@ -899,6 +902,7 @@
     $('start-sammendrag').hidden = false;
     $('start-endre').hidden = !!document.querySelector('[data-start="selv"][aria-pressed="true"]');
     $('start-endre').setAttribute('aria-expanded', 'false');
+    $('start-endre').textContent = 'Endre';
     $('del-start').classList.add('start--lukket');
   }
   function startVekslet() {
@@ -906,6 +910,7 @@
     if (!lukket) { lukkStart(); return; }
     $('del-start').classList.remove('start--lukket');
     $('start-endre').setAttribute('aria-expanded', 'true');
+    $('start-endre').textContent = 'Lukk';
     $('start-sammendrag').hidden = true;
     var valgt = document.querySelector('[data-start][aria-pressed="true"]');
     (valgt || document.querySelector('[data-start]:not([hidden])')).focus();
