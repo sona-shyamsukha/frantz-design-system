@@ -166,6 +166,10 @@
   #del-start.start--lukket #lenke-valg,
   #del-start.start--lukket #connect-valg,
   #del-start.start--lukket #start-hint { display: none; }
+  /* Once read, the start section goes away. «Les inn på nytt» in Stillingen brings it back. */
+  #del-start.start--lukket { display: none; }
+  .del__kilde { margin: var(--space-4) 0 0; color: var(--text-muted); font: var(--type-support); }
+  .del__kilde[hidden] { display: none; }
   #del-start.start--lukket .start-topp { margin-bottom: 0; }
   .start-alert { margin-top: var(--space-16); }
   .start-alert[hidden] { display: none; }
@@ -350,12 +354,12 @@
               <div>
                 <h2 class="del__tittel" id="t-funnet">Stillingen</h2>
                 <p class="del__hint" id="funnet-hint">Fra det dere ga oss og fra forrige kampanje. Sjekk at det stemmer.</p>
+                <p class="del__kilde" id="funnet-kilde" hidden><span id="funnet-kilde-tekst"></span> · <button class="link" type="button" id="les-pa-nytt">Les inn på nytt</button></p>
               </div>
               <button class="husk__endre" type="button" id="funnet-endre" aria-expanded="false">Endre</button>
             </div>
             <div class="husk" id="funnet-kort">
               <div class="husk__rad">
-                <span id="rad-pakke" hidden><b>Pakke</b> <span id="k-pakke"></span></span>
                 <span id="rad-lenke" hidden><b>Lenke</b> <span id="k-lenke" class="kort__tekst"></span></span>
                 <span id="rad-stilling"><b>Stilling</b> <span id="k-stilling"></span></span>
                 <span id="rad-sted"><b>Sted</b> <span id="k-sted"></span></span>
@@ -438,6 +442,10 @@
                 <p class="lede" id="pakke-status">Hver pakke viser hva dere får, hva som ikke er med, og hva den koster for hele perioden.</p>
               </div>
               <div class="pakke-grid" id="pakke-valg" role="group" aria-labelledby="pakke-lbl"></div>
+              <div class="alert alert--info estimat" id="pakke-estimat" role="status" aria-live="polite" hidden>
+                <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
+                <div class="alert__content"><span class="alert__body" id="pakke-estimat-tekst"></span></div>
+              </div>
               <a class="link pakke-knapp" href="innstillinger.html#pakker"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span> Se og lag pakker i Innstillinger</a>
             </div>
             <div class="mangler-blokker" id="mangler-blokker">
@@ -597,8 +605,8 @@
     root.innerHTML = '<div class="valg-to" role="group" aria-label="Type materiell">' +
       '<button class="choice-card" type="button" data-materiell="ferdig" aria-pressed="false"><span class="choice-card__price">Gratis</span><span class="choice-card__name">Bruk eget materiell</span><span class="choice-card__desc">Last opp bilder, logo eller ferdige annonser.</span></button>' +
       '<button class="choice-card" type="button" data-materiell="hjelp" aria-pressed="false"><span class="choice-card__price">Fra kr 2 180 / time</span><span class="choice-card__name">Legg til design av materiell</span><span class="choice-card__desc">Frantz lager bilder og annonser. Dere betaler per time.</span></button></div>' +
-      '<div class="mat-filer" hidden><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Legg ved filer</button>' +
-      '<span class="form-hint">Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.</span><div class="filer"></div></div>';
+      '<div class="mat-filer"><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Legg ved filer</button>' +
+      '<span class="form-hint mat-filer__hint">Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.</span><div class="filer"></div></div>';
   }
   function byggTillegg(root) {
     root.innerHTML = '<div class="tillegg-liste" role="group" aria-label="Tilleggsprodukter">' + TILLEGG.map(function (t) {
@@ -874,8 +882,6 @@
     if (tilstand.materiell) $('k-materiell').textContent = materiellTekst(); else $('k-materiell').innerHTML = mangler;
     $('rad-tillegg').hidden = !tilstand.funnet.tillegg;
     $('k-tillegg').textContent = tilleggListe().join(', ') || 'Ingen';
-    $('rad-pakke').hidden = !tilstand.pakke;
-    $('k-pakke').textContent = pakkeTekst();
     var lenke = $('lenke').value.trim();
     $('rad-lenke').hidden = !lenke;
     $('k-lenke').textContent = lenke;
@@ -894,6 +900,9 @@
     $('start-endre').setAttribute('aria-expanded', 'false');
     $('start-endre').textContent = 'Endre';
     $('del-start').classList.add('start--lukket');
+    // Only where it came from. The reference already shows in the card below.
+    $('funnet-kilde-tekst').textContent = k.length ? 'Hentet fra ' + tekst : 'Fylt ut for hånd';
+    $('funnet-kilde').hidden = false;
   }
   function startVekslet() {
     var lukket = $('del-start').classList.contains('start--lukket');
@@ -906,6 +915,10 @@
     $('ref').focus();
   }
   $('start-endre').addEventListener('click', function (e) { e.stopPropagation(); startVekslet(); });
+  $('les-pa-nytt').addEventListener('click', function () {
+    if ($('del-start').classList.contains('start--lukket')) startVekslet();
+    $('del-start').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  });
   document.querySelector('.start-topp').addEventListener('click', function () { if ($('del-start').classList.contains('start--lukket')) startVekslet(); });
   /* One set of fields for every start. Where the stilling comes from does not matter; the rest is the same. */
   // Kampanjenavn and the link move into the Stillingen card once read. This puts them back at the top.
@@ -1039,6 +1052,18 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-kanal]'), function (x) { x.checked = tilstand.kanaler.indexOf(x.dataset.kanal) !== -1; });
     $('feil-kanal').hidden = tilstand.kanaler.length > 0;
   }
+  // «Med kr 30 000 over 4 uker på Meta, LinkedIn og Nettsteder og aviser kan dere vente …»
+  function estimatSetning(b, r) {
+    var d = periodeDatoer();
+    var dager = Math.max(1, Math.round((d.slutt - d.start) / 86400000));
+    var periode = dager % 7 === 0 ? (dager / 7) + (dager === 7 ? ' uke' : ' uker') : dager + ' dager';
+    var kanaler = tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length
+      ? 'kanalene Frantz anbefaler'
+      : tilstand.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1');
+    return 'Med <strong>kr ' + R.tall(b) + '</strong> over <strong>' + periode + '</strong> på ' + kanaler +
+      ' kan dere vente rundt <strong>' + R.spenn(r.visninger) + '</strong> visninger, <strong>' + R.spenn(r.klikk) +
+      '</strong> klikk og <strong>' + R.spenn(r.sok) + '</strong> som trykker «Søk».';
+  }
   function kanalTekst() {
     return tilstand.kanaler.join(', ') + (tilstand.kanalmodus === 'frantz' ? ' (Frantz anbefaler)' : '');
   }
@@ -1156,7 +1181,7 @@
 
   /* ---------- Material and add-ons ---------- */
   function materiellTekst() {
-    if (tilstand.materiell === 'hjelp') return 'Design av materiell fra Frantz';
+    if (tilstand.materiell === 'hjelp') return 'Design av materiell fra Frantz' + (tilstand.filer.length ? ' · ' + tilstand.filer.length + (tilstand.filer.length === 1 ? ' fil' : ' filer') : '');
     if (tilstand.materiell === 'ferdig') return 'Eget materiell' + (tilstand.filer.length ? ' · ' + tilstand.filer.length + (tilstand.filer.length === 1 ? ' fil' : ' filer') : '');
     return '—';
   }
@@ -1169,7 +1194,15 @@
   }
   function tegnMateriellOgTillegg() {
     Array.prototype.forEach.call(document.querySelectorAll('[data-materiell]'), function (b) { b.setAttribute('aria-pressed', String(tilstand.materiell === b.dataset.materiell)); });
-    Array.prototype.forEach.call(document.querySelectorAll('.mat-filer'), function (el) { el.hidden = tilstand.materiell !== 'ferdig'; });
+    // Both choices can send files: ready ads, or pictures and logo Frantz can use in the design
+    Array.prototype.forEach.call(document.querySelectorAll('.mat-filer'), function (el) {
+      el.hidden = false;
+      var hint = el.querySelector('.mat-filer__hint');
+      if (hint) hint.textContent = tilstand.materiell === 'hjelp'
+        ? 'Valgfritt. Legg ved bilder, logo eller annet Frantz kan bruke i designet. Maks 10 MB per fil.'
+        : tilstand.materiell === 'ferdig' ? 'Bilder, logo, video, zip, HTML5 eller PDF. Maks 10 MB per fil.'
+        : 'Bilder, logo, ferdige annonser eller annet Frantz kan bruke. Maks 10 MB per fil.';
+    });
     Array.prototype.forEach.call(document.querySelectorAll('[data-tillegg]'), function (x) { x.checked = tilstand.tillegg.indexOf(x.dataset.tillegg) !== -1; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-meld]'), function (x) { x.checked = tilstand.meld; });
   }
@@ -1338,9 +1371,13 @@
     var tips = anb ? 'Anbefalt for denne stillingen er ' + kr(anb) + '.' : 'Velg stilling og sted, så viser vi anbefalt budsjett.';
     if (b) { $('feil-budsjett').hidden = true; $('feil-bestill').hidden = true; }
     $('budsjett-tips').dataset.tooltip = tips; $('budsjett-tips').setAttribute('aria-label', 'Mer info: ' + tips);
-    var estimatTekst = r ? 'Med kr ' + R.tall(b) + ' kan dere vente <strong>' + R.spenn(r.sok) + '</strong> som trykker «Søk» og <strong>' + R.spenn(r.klikk) + '</strong> klikk.' : (b ? 'Velg stilling og sted, så viser vi hva dere kan vente.' : '');
+    // What the budget, channels and period can give. The same box shows for a package and for «Sett opp selv».
+    var estimatTekst = r ? estimatSetning(b, r) : (b ? 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
     $('estimat-tekst').innerHTML = estimatTekst;
     $('estimat').hidden = !estimatTekst;
+    var visPakkeEstimat = tilstand.oppsett !== 'selv' && !!tilstand.pakke && !!estimatTekst;
+    $('pakke-estimat-tekst').innerHTML = visPakkeEstimat ? estimatTekst : '';
+    $('pakke-estimat').hidden = !visPakkeEstimat;
     var advarsel = '';
     if (b && b < 8000) advarsel = 'Under kr 8 000 gir lite for de fleste stillinger.';
     $('advarsel').hidden = !advarsel; $('advarsel').textContent = advarsel;
