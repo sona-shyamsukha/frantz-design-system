@@ -10,12 +10,10 @@
 <style>
   body { margin: 0; }
 
-  .nk-topp { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-16); }
-  .nk-topp h1 { margin: 0; }
   .lagret { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
   .lagret .icon-lucide { color: var(--color-green); }
   .lagret--lagrer .icon-lucide { color: var(--text-faint); }
-  .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: var(--space-section-gap); }
+  .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: 0; }
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
   #del-funnet .husk__rad, #funnet-endre, #del-funnet .funnet-ferdig { display: none; }
   .summary-panel__block[hidden] { display: none; }
@@ -54,6 +52,9 @@
   .steg > .del.del--forst > .del__topp .del__tittel { display: none; }
   .steg-vis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-24); }
   .steg-hode { padding-bottom: var(--space-16); }
+  .steg-hode__topp { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-4) var(--space-16); margin-bottom: var(--space-4); }
+  .steg-hode__side { margin: 0; color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); letter-spacing: .06em; text-transform: uppercase; }
+  .steg-hode__lede { margin: 0 0 var(--space-8); color: var(--text-body); font: var(--type-body); }
   .steg-hode__navn { margin: 0; color: var(--text-heading); font: var(--type-section); font-size: var(--text-2xl); }
   .steg-hode__meter { flex: 0 1 280px; }
   .demo-eksempler { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-4) var(--space-12); margin: var(--space-8) 0 0; color: var(--text-muted); font: var(--type-support); }
@@ -287,7 +288,7 @@
   @media (prefers-reduced-motion: reduce) { .oppsummering, .nk-mobilbestilling__pil { transition: none !important; } }
   @media (max-width: 860px) {
     /* Keep imported sections below the fixed mobile header when scrolled into view. */
-    .nk-topp h1, .del { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
+    .del { scroll-margin-top: calc(var(--topbar-height) + var(--space-16)); }
   }
   @media (max-width: 640px) {
     .inn, .valg-to, .funnet, .pakke-grid { grid-template-columns: 1fr; }
@@ -334,21 +335,20 @@
     <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
-      <div class="nk-topp">
-        <div>
-          <h1 class="text-h2" id="side-tittel">Ny kampanje</h1>
-          <p class="lede" id="side-lede" hidden></p>
-        </div>
-        <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
-      </div>
 
       <div class="nk">
         <form class="nk-skjema" id="skjema" novalidate autocomplete="off">
 
           <!-- Four steps. The order box on the right follows along. Nothing is sent before «Bestill» on the last step. -->
-          <nav class="steg-hode" aria-label="Steg i bestillingen">
+          <!-- One header for the page and the step: the page title, «Lagret», the step name and the progress bar -->
+          <header class="steg-hode">
+            <div class="steg-hode__topp">
+              <h1 class="steg-hode__side" id="side-tittel">Ny kampanje</h1>
+              <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
+            </div>
+            <p class="steg-hode__lede" id="side-lede" hidden></p>
             <div class="steg-vis" id="steg-liste"></div>
-          </nav>
+          </header>
 
           <div class="steg" data-steg="1">
           <!-- 1. Give us what you have -->
