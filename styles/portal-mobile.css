@@ -16,8 +16,6 @@
 @media (max-width: 640px) {
   /* Descriptive facts stack; short amounts in the order panel stay aligned. */
   .app .card .summary-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-4); }
-  .app .summary-panel .summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-12); }
-  .app .summary-panel .summary-row dd { text-align: right; }
   .app .summary-row dt { font: var(--type-support); }
   .app .summary-row dd { min-width: 0; }
   .app .summary-panel__total { flex-wrap: wrap; gap: var(--space-8); }

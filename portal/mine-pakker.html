@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Lagrede pakker — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=90">
+<link rel="stylesheet" href="../frantz-ds.css?v=91">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -98,9 +98,9 @@
       <h1 class="text-h2">Lagrede pakker</h1>
       <p class="lede">Oppsett du bruker ofte når du bestiller. Velg en pakke i «Ny kampanje», så fylles budsjett, kanaler og periode ut.</p>
 
-      <section class="panel" id="panel-pakker" aria-label="Pakker">
+      <section class="panel" id="panel-pakker" aria-label="Pakkene dine">
         <div class="panelhode">
-          <p>Pakkene merket «Fra Frantz» kan alle bruke. Pakker du lager selv, ser bare du.</p>
+          <p>Bare du ser pakkene dine. Kollegaene dine har sine egne.</p>
           <div class="rad-hoyre">
             <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
           </div>
@@ -124,13 +124,13 @@
           <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
         </form>
         <div class="pakke-grid" id="pakkeliste"></div>
-        <p class="profil-tekst" id="pakkeliste-tom" hidden>Du har ingen pakker ennå. Lag en her, eller velg «Lagre som pakke» når du bestiller.</p>
+        <p class="profil-tekst" id="pakkeliste-tom" hidden>Du har ingen pakker ennå. Lag en her, så kan du bruke den i «Ny kampanje».</p>
       </section>
     </div>
   </div>
 </div>
 
-<script src="data/pakker.js?v=12"></script>
+<script src="data/pakker.js?v=13"></script>
 <script>
 // Pakker
 function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }

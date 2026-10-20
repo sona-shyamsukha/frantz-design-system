@@ -30,14 +30,14 @@
 @import './components/checklist/componentChecklist.css?v=76';
 @import './components/geo/componentGeo.css?v=76';
 @import './components/timeline/componentTimeline.css?v=76';
-@import './components/summary/componentSummary.css?v=77';
+@import './components/summary/componentSummary.css?v=78';
 @import './components/tour/componentTour.css?v=76';
 @import './components/piksel/componentPiksel.css?v=76';
 @import './components/steps/componentSteps.css?v=76';
 @import './components/slider/componentSlider.css?v=76';
 @import './components/select-card/componentSelectCard.css?v=76';
 @import './components/choice-card/componentChoiceCard.css?v=78';
-@import './components/package/componentPackage.css?v=79';
+@import './components/package/componentPackage.css?v=80';
 @import './components/funnel/componentFunnel.css?v=76';
 @import './components/results/componentResults.css?v=76';
 @import './components/picker/componentPicker.css?v=76';
@@ -47,4 +47,4 @@
 @import './components/drawer/componentDrawer.css?v=79';
 @import './components/studio/componentStudio.css?v=76';
 
-@import './styles/portal-mobile.css?v=79';
+@import './styles/portal-mobile.css?v=80';

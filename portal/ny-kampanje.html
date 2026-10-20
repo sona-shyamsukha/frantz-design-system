@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Ny kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=90">
+<link rel="stylesheet" href="../frantz-ds.css?v=91">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -310,17 +310,7 @@
   .kvittering .emne { padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-heading); font-weight: var(--font-weight-semibold); }
 
   .oppsummering__lukk { display: none; }
-  /* The order box is narrow: each row has its label on top and the value under it, so long values do not wrap into ragged columns */
-  #ordre-oppsummering .summary-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); }
-  #ordre-oppsummering .summary-row[hidden] { display: none; }
-  #ordre-oppsummering .summary-row dt { font: var(--type-support); }
-  #ordre-oppsummering .summary-row dd { font-weight: var(--font-weight-semibold); overflow-wrap: break-word; text-align: left; }
-  #ordre-oppsummering .summary-panel__block { gap: var(--space-12); }
-  /* Desktop: the order box is a light grey card, so it reads apart from the white step cards */
-  @media (min-width: 1181px) {
-    .oppsummering .summary-panel { background: var(--surface-subtle); border-color: var(--border-subtle); }
-    .oppsummering .summary-panel__total { background: var(--surface-section); }
-  }
+  /* The order box uses the shared side-box style (componentSummary.css). The phone sheet stays white. */
   /* Phone and tablet: the order lives in a fixed footer. «Din bestilling» opens the whole order from the bottom. */
   @media (max-width: 1180px) {
     .nk { grid-template-columns: 1fr; }
@@ -332,7 +322,8 @@
       transform: translateY(calc(100% + var(--nk-bunn, var(--mobile-orderbar-height)))); visibility: hidden;
       transition: transform .25s ease, visibility 0s linear .25s;
     }
-    .oppsummering .summary-panel { border-radius: inherit; }
+    .oppsummering .summary-panel { border-radius: inherit; background: var(--surface-raised); }
+    .oppsummering .summary-panel__total { background: var(--surface-subtle); }
     body.nk-ark-apen .oppsummering { transform: none; visibility: visible; transition: transform .25s ease; }
     .oppsummering .summary-panel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-12); }
     .oppsummering__lukk { display: inline-flex; }
@@ -541,11 +532,11 @@
           <!-- 3. Everything the text did not answer, in one section -->
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
-            <p class="del__hint" hidden id="mangler-hint">Velg en ferdig pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
+            <p class="del__hint" hidden id="mangler-hint">Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.</p>
             <div class="felt blokk funnet__bred">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valg-to" id="oppsett" role="group" aria-labelledby="oppsett-lbl">
-                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en ferdig pakke</span><span class="choice-card__desc">Fast budsjett, kanaler og periode. Fra Frantz, eller en dere har lagret.</span></button>
+                <button class="choice-card" type="button" id="oppsett-pakke" data-oppsett="pakke" aria-pressed="true"><span class="choice-card__name">Bruk en av pakkene dine</span><span class="choice-card__desc">Et oppsett dere har lagret, med fast budsjett, kanaler og periode.</span></button>
                 <button class="choice-card" type="button" id="oppsett-selv" data-oppsett="selv" aria-pressed="false"><span class="choice-card__name">Sett opp selv</span><span class="choice-card__desc">Velg budsjett, kanaler og periode for denne kampanjen.</span></button>
               </div>
             </div>
@@ -796,7 +787,7 @@
 <script src="../components/js/annonse-studio.js?v=2"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
-<script src="data/pakker.js?v=12"></script>
+<script src="data/pakker.js?v=13"></script>
 <script src="data/kampanjer.js?v=3"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=7"></script>
@@ -967,7 +958,8 @@
     tilstand.valgtBudsjett = false; tilstand.valgtKanal = false; tilstand.pakke = null; tilstand.fastUker = null;
     tilstand.kanalmodus = 'frantz'; tilstand.kanaler = anbefalt();
     // A budget or channels from the user: set up by hand, so nothing they asked for is lost
-    tilstand.oppsett = a.budsjett || (a.kanaler && a.kanaler.length) ? 'selv' : 'pakke';
+    // No saved packages (a new customer): set up by hand
+    tilstand.oppsett = a.budsjett || (a.kanaler && a.kanaler.length) || !PAKKER.length ? 'selv' : 'pakke';
     tilstand.onsket = { budsjett: a.budsjett || null, kanaler: a.kanaler ? a.kanaler.slice() : null };
     tilstand.sistePakke = null; $('pakke-endring').hidden = true;
     budsjettKontroll.set(null);
@@ -992,7 +984,7 @@
     $('t-funnet').textContent = 'Stillingen';
     $('funnet-hint').textContent = 'Stemmer det? Rett det som ikke stemmer.';
     $('t-mangler').textContent = 'Kampanjen';
-    $('mangler-hint').textContent = 'Velg en ferdig pakke, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
+    $('mangler-hint').textContent = 'Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett, kanaler og periode.';
     // The title stays «Ny kampanje». Where the order came from goes in the lead text.
     if (tilstand.side) document.title = tilstand.side.tittel + ' — Frantz kampanjeportal';
     tegnKanaler();
@@ -1027,6 +1019,8 @@
     $('oppsett-pakke').setAttribute('aria-pressed', String(pakkeModus));
     $('oppsett-selv').setAttribute('aria-pressed', String(!pakkeModus));
     $('pakker').hidden = !pakkeModus || !PAKKER.length;
+    // Without saved packages there is nothing to choose between
+    $('oppsett').closest('.felt').hidden = !PAKKER.length;
     // Period, material and extras belong to this campaign, in both choices.
     PAA_KAMPANJE.forEach(function (id) { visFelt(id, true); });
     if (pakkeModus) {
@@ -1810,7 +1804,7 @@
   // What each step is about, under the title
   var STEG_LEDE = [
     'Fortell oss om stillingen. Frantz leser det dere gir oss, og fyller ut resten.',
-    'Velg en ferdig pakke, eller sett opp budsjett, kanaler og periode selv.',
+    PAKKER.length ? 'Velg en av pakkene dine, eller sett opp budsjett, kanaler og periode selv.' : 'Velg budsjett, kanaler og periode for kampanjen.',
     'Velg hvordan annonsen lages, og om dere vil ha noe ekstra. Frantz har laget et forslag fra stillingsannonsen.',
     'Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.'
   ];
