@@ -1,25 +1,38 @@
 /* Packages. Ny kampanje and Lagrede pakker share this list.
-   A package fills in everything that is not about the stilling itself.
-   Packages are always made by the user. A package belongs to the person who made it (eier). Nobody else sees it.
+   A package holds a budget and channels. It has no period: the user picks the period on each campaign,
+   and Frantz spreads the budget over it (decided in the design review 20.10.2026).
+   Packages are always made by the user. Each channel has a minimum spend. A package below it gets a warning. A package belongs to the person who made it (eier). Nobody else sees it.
    A new customer (?bruker=ny) has made none yet, so Kari's demo packages are hidden for them.
    The demo keeps the list in this browser only. */
 window.FZ_PAKKER = (function () {
-  var LAGER = 'fzPakkerListe8';
+  var LAGER = 'fzPakkerListe9';
   var MEG = 'Kari Hansen'; // the logged-in user in the demo
-  // Dummy data. A bigger package always gives more: more channels and a longer period.
-  // The period is fixed in the package. To pick another period, the user fills in the order by hand.
-  // [ANTAGELSE: price follows the period. Frantz has not confirmed how price, period and reach are linked.]
+  // Dummy data. A bigger package always gives more channels.
   var STANDARD = [
-    { navn: 'Liten', uker: 3, budsjett: 15000, kanaler: ['Meta', 'Nettsteder og aviser'], eier: 'Kari Hansen', demo: true },
-    { navn: 'Mellom', uker: 4, budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], eier: 'Kari Hansen', demo: true },
-    { navn: 'Stor', uker: 6, budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'], eier: 'Kari Hansen', demo: true },
+    { navn: 'Liten', budsjett: 18000, kanaler: ['Meta', 'Nettsteder og aviser'], eier: 'Kari Hansen', demo: true },
+    { navn: 'Mellom', budsjett: 30000, kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], eier: 'Kari Hansen', demo: true },
+    { navn: 'Stor', budsjett: 50000, kanaler: ['Meta', 'LinkedIn', 'Snapchat', 'Nettsteder og aviser'], eier: 'Kari Hansen', demo: true },
     // Ingrid's own package. Kari never sees it.
-    { navn: 'Barnehage Drammen', uker: 4, budsjett: 25000, kanaler: ['Meta'], eier: 'Ingrid Moe' }
+    { navn: 'Barnehage Drammen', budsjett: 25000, kanaler: ['Meta'], eier: 'Ingrid Moe' }
   ];
+  // Minimum and maximum spend per channel, from Tore's mail «Maks min kanaler» (13.10.2026).
+  // [ANTAGELSE: «Nettsteder og aviser» is BidTheatre in Frantz's system. Confirm with Tore.]
   var KANALER = [
-    { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
-    { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }
+    { navn: 'Meta', k: 'meta', min: 6000, maks: 15000 },
+    { navn: 'LinkedIn', k: 'linkedin', min: 3000, maks: 10000 },
+    { navn: 'Snapchat', k: 'snapchat', min: 5000, maks: 9000 },
+    { navn: 'TikTok', k: 'tiktok', min: 5000, maks: 12000 },
+    { navn: 'Nettsteder og aviser', k: 'nettsteder', min: 8000, maks: 65000 }
   ];
+  // Sum of the minimum (and maximum) spend for the picked channels. No channels: Frantz picks, so no minimum here.
+  function rad(kanaler) {
+    var valgte = KANALER.filter(function (c) { return (kanaler || []).indexOf(c.navn) !== -1; });
+    return {
+      min: valgte.reduce(function (s, c) { return s + c.min; }, 0),
+      maks: valgte.reduce(function (s, c) { return s + c.maks; }, 0),
+      kanaler: valgte
+    };
+  }
   var TILLEGG = [
     { navn: 'Strategisk rådgivning', pris: 8000, tekst: 'En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.' }
   ];
@@ -55,7 +68,8 @@ window.FZ_PAKKER = (function () {
     var ikke = p.kanaler ? KANALER.filter(function (c) { return p.kanaler.indexOf(c.navn) === -1; }).map(function (c) { return c.navn; }) : [];
     return '<' + tag + ' class="pakke-kort' + (opt.valg ? ' pakke-kort--valg' : '') + (opt.ny ? ' er-ny' : '') + '"' + attr + '>' +
       '<span class="pakke-kort__hode"><span class="pakke-kort__navn">' + esc(p.navn) + '</span>' +
-      (opt.valg ? '<span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span>' : '') + '</span>' +
+      (opt.valg ? '<span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span>' : '') +
+      (opt.slett ? '<button type="button" class="pakke-kort__slett" data-slett-pakke="' + esc(p.navn) + '" aria-label="Slett pakken ' + esc(p.navn) + '" title="Slett pakken"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span></button>' : '') + '</span>' +
       '<span class="pakke-kort__pris"><b>kr ' + esc(pris) + '</b><span class="pakke-kort__periode">' + (p.uker ? 'for ' + esc(p.uker) + ' uker' : 'Periode velges på kampanjen') + '</span></span>' +
       '<span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste">' + kanaler + '</span></span>' +
       '<span class="pakke-kort__ikke">' + (ikke.length ? 'Ikke inkludert: ' + esc(ikke.join(', ').replace(/, ([^,]*)$/, ' og $1')) : '') + '</span></' + tag + '>';
@@ -65,6 +79,7 @@ window.FZ_PAKKER = (function () {
     kort: kort,
     KANALER: KANALER,
     TILLEGG: TILLEGG,
+    rad: rad,
     alle: synlige,
     MEG: MEG,
     finn: finn,
@@ -73,11 +88,21 @@ window.FZ_PAKKER = (function () {
       if (!p.navn) return 'Gi pakken et navn.';
       if (finn(p.navn)) return 'Du har allerede en pakke med dette navnet.';
       if (!(p.budsjett > 0)) return 'En pakke må ha et budsjett.';
-      if (p.uker !== undefined && p.uker !== null && !(p.uker > 0)) return 'Velg hvor mange uker pakken varer.';
+      var r = rad(p.kanaler);
+      if (p.budsjett < r.min) return 'Budsjettet må være minst kr ' + Math.round(r.min).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' ') + ' for kanalene du har valgt.';
       p.eier = MEG;
       liste.push(p); lagre();
       return '';
     },
+    // Removes one of this person's packages. Returns it, so the page can offer «Angre».
+    fjern: function (navn) {
+      var p = finn(navn); if (!p) return null;
+      p._plass = liste.indexOf(p);
+      liste.splice(p._plass, 1); lagre();
+      return p;
+    },
+    // Puts a removed package back where it was
+    tilbake: function (p) { var i = p._plass; delete p._plass; liste.splice(i >= 0 ? i : liste.length, 0, p); lagre(); },
     pris: function (p) { return p.budsjett; },
     kanalTekst: function (p) {
       return p.kanaler ? p.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1') : 'Kanalene Frantz anbefaler';

@@ -35,30 +35,43 @@
 
 }
 
-/* Keep the order reachable whenever the desktop summary moves below the form. */
-@media (max-width: 1180px) {
+/* Opprett kampanje: the end of every step. The total, «Tilbake» and «Neste» in one row under the step.
+   On a phone the row sticks to the bottom, where the thumb is. */
+.nk-mobilbestilling:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  padding: 0;
+}
+.nk-mobilbestilling__pris { display: grid; gap: var(--space-2); color: var(--text-heading); font: var(--type-label); }
+.nk-mobilbestilling__pris > span { color: var(--text-muted); font: var(--type-support); }
+.nk-mobilbestilling .btn { min-height: var(--space-44); flex: none; }
+@media (max-width: 640px) {
   .nk-mobilbestilling:not([hidden]) {
     position: fixed;
-    inset: auto 0 0 var(--rail-width);
+    inset: auto 0 0 0;
     z-index: var(--z-dropdown);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-16);
+    flex-wrap: nowrap;
     min-height: var(--mobile-orderbar-height);
     box-sizing: border-box;
+    margin: 0;
     padding: var(--space-12) var(--space-16) calc(var(--space-12) + env(safe-area-inset-bottom));
+    border: 0;
     border-top: 1px solid var(--border-default);
-    background: var(--surface-raised);
+    border-radius: 0;
+    background: var(--surface-raised); /* solid, so the page does not show through */
     box-shadow: var(--shadow-card);
   }
-  .nk-mobilbestilling__pris { display: grid; gap: var(--space-2); color: var(--text-heading); font: var(--type-label); }
-  .nk-mobilbestilling__pris > span { color: var(--text-muted); font: var(--type-support); }
-  .nk-mobilbestilling .btn { min-height: var(--space-44); flex: none; }
+  .nk-mobilbestilling #mobil-tilbake { width: var(--space-44); padding: 0; justify-content: center; }
+  /* Only the arrow shows on a phone; the word stays for screen readers */
+  .nk-tilbake__tekst { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   body.nk-har-mobilbestilling .wrap { padding-bottom: calc(var(--space-96) + env(safe-area-inset-bottom)); }
   body.nk-har-mobilbestilling .assist-fab { bottom: calc(var(--mobile-orderbar-height) + var(--space-16) + env(safe-area-inset-bottom)); }
+  /* The keyboard needs the room */
   body:has(.nk input:focus, .nk textarea:focus) .nk-mobilbestilling { display: none; }
-  #ordre-oppsummering { scroll-margin-top: var(--space-24); }
+}
 }
 @media (max-width: 860px) {
   .nk-mobilbestilling:not([hidden]) { left: 0; }

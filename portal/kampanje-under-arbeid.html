@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Helsefagarbeider Tromsø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=91">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -98,7 +98,14 @@
             <div class="handlinger btn-row btn-row--stack">
               <button class="btn btn--primary" type="button" onclick="this.closest('.card').querySelector('.card__hint').textContent='Takk! Annonsene er godkjent. Kampanjen starter 05.10.';this.remove()">Godkjenn annonsene</button>
               <button class="btn btn--secondary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
+              <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false" aria-controls="del-panel"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Del for godkjenning</button>
             </div>
+            <!-- Someone else approves: a leader or the agency's own customer. No login. -->
+            <div class="del-panel" id="del-panel" hidden
+              data-deler="plan annonser side" data-valgt="annonser side" data-status="setup" data-id="129072"
+              data-tittel="Helsefagarbeider" data-sted="Tromsø" data-arbeidsgiver="Nord-Norge Helse"
+              data-periode="05.10 – 02.11.2026 · 4 uker" data-kanaler="Meta, Nettsteder og aviser" data-budsjett="28000"
+              data-frist="02.10.2026" data-side="frantz.no/k/129072" data-fra="Kari Hansen" data-firma="Nordlys Rekruttering AS"></div>
             <p class="form-hint">Dette er Frantz sine utkast til dere. Dere kan også svare «OK» på e-posten fra Frantz. Det gjør det samme.</p>
           </div>
           <div class="card card--les">
@@ -129,10 +136,11 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
+<script src="../components/js/del-godkjenning.js?v=2"></script>
 <script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=16"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

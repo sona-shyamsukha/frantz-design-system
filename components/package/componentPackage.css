@@ -31,6 +31,9 @@
 .pakke-kort__etikett { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
 .pakke-kort__kanalliste { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-12); }
 .pakke-kort__kanal { display: inline-flex; align-items: center; gap: var(--space-6); }
+.pakke-kort__slett { display: grid; place-items: center; flex: none; width: var(--space-44); height: var(--space-44); margin: calc(var(--space-12) * -1) calc(var(--space-12) * -1) 0 0; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-muted); cursor: pointer; }
+.pakke-kort__slett:hover { background: var(--surface-subtle); color: var(--text-danger-moderate); }
+.pakke-kort__slett:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .pakke-kort__ikke { color: var(--text-muted); font: var(--type-support); }
 .pakke-kort--valg { cursor: pointer; }
 .pakke-kort--valg:hover { border-color: var(--color-navy); }

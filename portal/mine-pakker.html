@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Lagrede pakker — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=91">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -36,6 +36,17 @@
   .valgliste--bred .form-check__box { margin-top: var(--space-2); }
   .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
   .pakke-felt { margin-top: var(--space-16); }
+  .pakke-slettet { align-items: center; margin-bottom: var(--space-16); }
+  .pakke-slettet[hidden] { display: none; }
+  /* Budget advice for the picked channels */
+  .pakke-rad { margin-top: var(--space-16); }
+  .pakke-rad .alert__title { margin: 0 0 var(--space-4); }
+  .pakke-rad__liste { margin: var(--space-4) 0 var(--space-8); padding-left: var(--space-20); }
+  .pakke-rad__liste li + li { margin-top: var(--space-2); }
+  .pakke-rad .alert__body p { margin: 0; }
+  .pakke-rad .alert__body b { display: inline; }
+  .pakke-rad[hidden] { display: none; }
+  .pakke-rad__bruk { margin-top: var(--space-8); }
   .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
   .feil[hidden] { display: none; }
   .sidefaner { align-items: center; }
@@ -96,7 +107,7 @@
 
     <div class="wrap">
       <h1 class="text-h2">Lagrede pakker</h1>
-      <p class="lede">Oppsett du bruker ofte når du bestiller. Velg en pakke i «Ny kampanje», så fylles budsjett, kanaler og periode ut.</p>
+      <p class="lede">Oppsett du bruker ofte når du bestiller. Velg en pakke i «Ny kampanje», så fylles budsjett og kanaler ut. Perioden velger du på hver kampanje.</p>
 
       <section class="panel" id="panel-pakker" aria-label="Pakkene dine">
         <div class="panelhode">
@@ -109,20 +120,30 @@
           <h3 class="card__title" style="margin-bottom: var(--space-12)">Ny pakke</h3>
           <div class="skjema__rad">
             <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
-            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett for hele perioden (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000"></div>
-          </div>
-          <div class="skjema__rad pakke-felt">
-            <div class="form-group"><label class="form-label" for="p-uker">Periode</label>
-              <span class="form-select-wrap"><select class="form-select" id="p-uker"><option value="2">2 uker</option><option value="3">3 uker</option><option value="4" selected>4 uker</option><option value="6">6 uker</option><option value="8">8 uker</option></select></span>
-              <p class="form-hint">Perioden er fast i pakken. Trenger en kampanje en annen periode, velger dere «Sett opp selv».</p></div>
+            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000" aria-describedby="p-budsjett-hint">
+              <p class="form-hint" id="p-budsjett-hint">Perioden velger du på hver kampanje. Frantz fordeler budsjettet over perioden.</p></div>
           </div>
           <fieldset class="valgliste kanal-piller pakke-felt" id="p-kanaler">
             <legend class="form-label">Kanaler</legend>
           </fieldset>
           <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
+          <!-- Shown only when the budget is below the minimum for the picked channels -->
+          <div class="alert alert--warning pakke-rad" id="p-rad" role="status" aria-live="polite" hidden>
+            <span class="icon-lucide icon-lucide--triangle-alert alert__icon" aria-hidden="true"></span>
+            <div class="alert__content">
+              <p class="alert__title" id="p-rad-tittel">Budsjettet er under minimum</p>
+              <div class="alert__body" id="p-rad-tekst"></div>
+              <button class="btn btn--secondary btn--sm pakke-rad__bruk" type="button" id="p-bruk-min"></button>
+            </div>
+          </div>
           <p class="feil" id="feil-pakke" role="alert" hidden></p>
           <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
         </form>
+        <div class="alert alert--info pakke-slettet" id="pakke-slettet" role="status" hidden>
+          <span class="icon-lucide icon-lucide--trash-2 alert__icon" aria-hidden="true"></span>
+          <div class="alert__content"><span class="alert__body" id="pakke-slettet-tekst"></span></div>
+          <button class="btn btn--secondary btn--sm" type="button" id="pakke-angre">Angre</button>
+        </div>
         <div class="pakke-grid" id="pakkeliste"></div>
         <p class="profil-tekst" id="pakkeliste-tom" hidden>Du har ingen pakker ennå. Lag en her, så kan du bruke den i «Ny kampanje».</p>
       </section>
@@ -130,7 +151,7 @@
   </div>
 </div>
 
-<script src="data/pakker.js?v=13"></script>
+<script src="data/pakker.js?v=17"></script>
 <script>
 // Pakker
 function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
@@ -145,7 +166,7 @@ document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.K
 var nyPakke = '';
 function tegnPakker() {
   var mine = FZ_PAKKER.alle();
-  document.getElementById('pakkeliste').innerHTML = mine.map(function (p) { return FZ_PAKKER.kort(p, { ny: p.navn === nyPakke }); }).join('');
+  document.getElementById('pakkeliste').innerHTML = mine.map(function (p) { return FZ_PAKKER.kort(p, { ny: p.navn === nyPakke, slett: true }); }).join('');
   document.getElementById('pakkeliste-tom').hidden = mine.length > 0;
 }
 document.getElementById('ny-pakke').addEventListener('submit', function (e) {
@@ -155,11 +176,10 @@ document.getElementById('ny-pakke').addEventListener('submit', function (e) {
   var p = {
     navn: document.getElementById('p-navn').value.trim(),
     budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
-    kanaler: kanaler.length ? kanaler : null,
-    uker: Number(document.getElementById('p-uker').value)
+    kanaler: kanaler.length ? kanaler : null
   };
   var galt = FZ_PAKKER.leggTil(p);
-  if (galt) { feil.textContent = galt; feil.hidden = false; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
+  if (galt) { tegnRad(); feil.textContent = galt; feil.hidden = !document.getElementById('p-rad').hidden; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
   feil.hidden = true; nyPakke = p.navn;
   this.reset(); this.hidden = true; tegnPakker();
 });
@@ -169,11 +189,52 @@ document.addEventListener('click', function (e) {
   var v = e.target.closest('[data-vis]'); if (v) { var f = document.getElementById(v.dataset.vis); f.hidden = false; f.querySelector('input').focus(); }
   var s = e.target.closest('[data-skjul]'); if (s) { var g = document.getElementById(s.dataset.skjul); g.reset(); g.hidden = true; }
 });
+// Warn only when the budget is below the minimum spend for the picked channels
+function valgteKanaler() {
+  return Array.prototype.map.call(document.querySelectorAll('[data-p-kanal]:checked'), function (i) { return i.getAttribute('data-p-kanal'); });
+}
+function tegnRad() {
+  var r = FZ_PAKKER.rad(valgteKanaler());
+  var b = Number(document.getElementById('p-budsjett').value.replace(/\D/g, ''));
+  var lav = !!b && b < r.min;
+  document.getElementById('p-rad').hidden = !lav;
+  if (!lav) return;
+  document.getElementById('p-rad-tekst').innerHTML = '<p>Kanalene du har valgt trenger minst <b>' + kr(r.min) + '</b> til sammen:</p>' +
+    '<ul class="pakke-rad__liste">' + r.kanaler.map(function (c) { return '<li>' + esc(c.navn) + ': minst ' + kr(c.min) + '</li>'; }).join('') + '</ul>' +
+    '<p>Øk budsjettet, eller velg færre kanaler.</p>';
+  var bruk = document.getElementById('p-bruk-min');
+  bruk.dataset.belop = r.min;
+  bruk.textContent = 'Bruk ' + kr(r.min);
+}
+document.getElementById('p-kanaler').addEventListener('change', tegnRad);
+document.getElementById('p-budsjett').addEventListener('input', function () { document.getElementById('feil-pakke').hidden = true; tegnRad(); });
+document.getElementById('p-bruk-min').addEventListener('click', function () {
+  var felt = document.getElementById('p-budsjett');
+  felt.value = String(this.dataset.belop).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  tegnRad(); felt.focus();
+});
+document.getElementById('ny-pakke').addEventListener('reset', function () { setTimeout(tegnRad, 0); });
+// Delete: gone at once, with «Angre» in case it was a mistake
+var sistSlettet = null;
+document.getElementById('pakkeliste').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-slett-pakke]'); if (!b) return;
+  sistSlettet = FZ_PAKKER.fjern(b.dataset.slettPakke); if (!sistSlettet) return;
+  nyPakke = '';
+  tegnPakker();
+  document.getElementById('pakke-slettet-tekst').textContent = 'Pakken «' + sistSlettet.navn + '» er slettet.';
+  document.getElementById('pakke-slettet').hidden = false;
+  document.getElementById('pakke-angre').focus();
+});
+document.getElementById('pakke-angre').addEventListener('click', function () {
+  if (sistSlettet) { FZ_PAKKER.tilbake(sistSlettet); nyPakke = sistSlettet.navn; sistSlettet = null; tegnPakker(); }
+  document.getElementById('pakke-slettet').hidden = true;
+});
+tegnRad();
 tegnPakker();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=16"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

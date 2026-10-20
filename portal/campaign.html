@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=91">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -105,8 +105,14 @@
         <span class="badge badge--active">Aktiv</span>
         <span class="oppdatert"><span class="icon-lucide icon-lucide--clock icon-lucide--sm" aria-hidden="true"></span>Tall oppdatert i dag kl. 06.00</span>
         <div class="detalj__knapper"><button class="btn btn--secondary" type="button" data-til-fane="detaljer" data-til="annonser"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span> Se annonsene</button>
-        <button class="btn btn--secondary" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);this.lastChild.textContent=' Lenke kopiert'"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Kopier rapportlenke</button></div>
+        <button class="btn btn--secondary" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);this.lastChild.textContent=' Lenke kopiert'"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Kopier rapportlenke</button>
+        <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false" aria-controls="del-panel"><span class="icon-lucide icon-lucide--check-check" aria-hidden="true"></span> Del for godkjenning</button></div>
       </div>
+      <!-- Works in every status, also when an active campaign gets new ads or a new round -->
+      <div class="del-panel del-panel--topp" id="del-panel" hidden
+        data-deler="plan annonser side" data-valgt="annonser" data-status="aktiv" data-id="129041"
+        data-tittel="Sykepleier" data-sted="Oslo" data-arbeidsgiver="Oslo Sykehusdrift" data-periode="03.09 – 03.10.2026" data-budsjett="48200"
+        data-kanaler="Meta, Nettsteder og aviser" data-side="frantz.no/k/129041" data-fra="Kari Hansen" data-firma="Nordlys Rekruttering AS"></div>
 
 
       <div class="cols">
@@ -361,6 +367,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
+<script src="../components/js/del-godkjenning.js?v=2"></script>
 <script>
 /* Copy and download buttons on this page. The demo only says that it worked. */
 (function () {
@@ -540,7 +547,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=16"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

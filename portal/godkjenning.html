@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Godkjenn kampanjen — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=91">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <style>
   /* Offentlig side uten innlogging: ingen sidemeny, smal toppstripe, alt i én kolonne */
   body { margin: 0; background: var(--surface-default); }
@@ -36,6 +36,16 @@
   .gk .ad-preview { margin: 0 auto; }
   .gk .ad-preview__tittel { font-family: var(--font-heading); letter-spacing: var(--tracking-heading); }
   .gk .ad-preview__bilde { cursor: default; touch-action: auto; }
+  /* Kampanjesiden: a small picture of the page, and a link to all of it */
+  .gk-seksjon[hidden] { display: none; }
+  .gk-side { overflow: hidden; border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
+  .gk-side__adresse { display: flex; align-items: center; gap: var(--space-6); padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border-subtle); background: var(--surface-subtle); color: var(--text-muted); font: var(--type-support); }
+  .gk-side__innhold { display: grid; justify-items: start; gap: var(--space-8); padding: var(--space-24); }
+  .gk-side__innhold p { margin: 0; }
+  .gk-side__overtittel { color: var(--text-muted); font: var(--type-support); }
+  .gk-side__tittel { font: var(--type-section); color: var(--text-heading); }
+  .gk-side__tekst { color: var(--text-body); font: var(--type-body); }
+  .gk-side__lenke { display: inline-block; margin-top: var(--space-12); }
   .gk-notat { display: flex; align-items: center; justify-content: center; gap: var(--space-6); margin: var(--space-12) 0 0; color: var(--text-muted); font-size: var(--text-sm); text-align: center; }
 
   /* Svaret */
@@ -84,7 +94,7 @@
   <p class="gk-sub" id="gk-hvem">Kari vil ha ditt ja før kampanjen bestilles hos Frantz. Se over prisen og annonsen. Du trenger ikke logge inn, og ingenting bestilles før du har svart.</p>
   <p class="gk-gyldig"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span>Lenken gjelder til 25.10.2026</p>
 
-  <section class="gk-seksjon" aria-labelledby="kampanje-tittel">
+  <section class="gk-seksjon" id="del-plan" aria-labelledby="kampanje-tittel">
     <div class="summary-panel">
       <div class="summary-panel__head">
         <h2 id="kampanje-tittel">Kampanjen</h2>
@@ -111,7 +121,7 @@
     </div>
   </section>
 
-  <section class="gk-seksjon" aria-labelledby="annonse-tittel">
+  <section class="gk-seksjon" id="del-annonser" aria-labelledby="annonse-tittel">
     <h2 class="gk-seksjon__tittel" id="annonse-tittel">Slik kan annonsen se ut</h2>
     <article class="ad-preview" data-plattform="facebook" aria-label="Eksempel på annonsen på Facebook">
       <header class="ad-preview__topp">
@@ -130,7 +140,21 @@
         <span class="ad-preview__cta">Les mer</span>
       </footer>
     </article>
-    <p class="gk-notat"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>Endelig annonse lages av Frantz etter godkjenning.</p>
+    <p class="gk-notat" id="annonse-notat"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span><span id="annonse-notat-tekst">Endelig annonse lages av Frantz etter godkjenning.</span></p>
+  </section>
+
+  <section class="gk-seksjon" id="del-side" aria-labelledby="side-tittel" hidden>
+    <h2 class="gk-seksjon__tittel" id="side-tittel">Kampanjesiden</h2>
+    <div class="gk-side">
+      <div class="gk-side__adresse"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span><span id="side-adresse">frantz.no/k/129072</span></div>
+      <div class="gk-side__innhold">
+        <p class="gk-side__overtittel" id="side-arbeidsgiver">Nord-Norge Helse</p>
+        <p class="gk-side__tittel" id="side-tittel-tekst">Bli helsefagarbeider i Tromsø</p>
+        <p class="gk-side__tekst">Her leser søkerne om stillingen og trykker «Søk nå».</p>
+        <span class="btn btn--accent btn--sm" aria-hidden="true">Søk nå</span>
+      </div>
+    </div>
+    <a class="link gk-side__lenke" id="side-lenke" href="landingsside.html" target="_blank" rel="noopener">Åpne hele kampanjesiden <span class="chat__sr">(åpnes i ny fane)</span></a>
   </section>
 
   <section class="gk-seksjon" aria-labelledby="svar-tittel">
@@ -150,7 +174,7 @@
       </div>
 
       <div class="gk-knapper">
-        <button class="btn btn--accent" type="submit" id="godkjenn"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span> Godkjenn kampanjen</button>
+        <button class="btn btn--accent" type="submit" id="godkjenn"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span> <span id="godkjenn-tekst">Godkjenn kampanjen</span></button>
         <button class="btn btn--secondary" type="button" id="endre" aria-expanded="false" aria-controls="endring"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span> Be om endring</button>
       </div>
 
@@ -201,12 +225,36 @@
   var iSetning = tittel.length > 1 && tittel.charAt(1) === tittel.charAt(1).toLowerCase()
     ? tittel.charAt(0).toLowerCase() + tittel.slice(1) : tittel;
 
+  // What to approve: the campaign plan, the ads, the campaign page. The sender picked it.
+  var NAVN = { plan: 'kampanjen', annonser: 'annonsene', side: 'kampanjesiden' };
+  var deler = hent('deler', 'plan,annonser').split(',').filter(function (d) { return NAVN[d]; });
+  if (!deler.length) deler = ['plan', 'annonser'];
+  var med = function (d) { return deler.indexOf(d) !== -1; };
+  var hva = (function (n) { return n.length > 1 ? n.slice(0, -1).join(', ') + ' og ' + n[n.length - 1] : n[0]; })(deler.map(function (d) { return NAVN[d]; }));
+  // A draft is not ordered yet. After the order, Frantz waits for the answer before publishing.
+  var status = hent('status', 'utkast');
+  var til = hent('til', '');
+  var id = hent('id', '');
+  $('del-plan').hidden = !med('plan');
+  $('del-annonser').hidden = !med('annonser');
+  $('del-side').hidden = !med('side');
+  if (status !== 'utkast') {
+    $('annonse-tittel').textContent = 'Annonsen';
+    $('annonse-notat-tekst').textContent = 'Slik annonsen er satt opp nå. Frantz publiserer ikke endringer før du har svart.';
+  }
+  var side = hent('side', id ? 'frantz.no/k/' + id : 'frantz.no/k/');
+  $('side-adresse').textContent = side;
+
   // Toppen
-  $('overskrift').textContent = fra + ' i ' + firma + ' ber deg godkjenne en kampanje';
-  $('gk-hvem').textContent = fornavn + ' vil ha ditt ja før kampanjen bestilles hos Frantz. Se over prisen og annonsen. Du trenger ikke logge inn, og ingenting bestilles før du har svart.';
+  $('overskrift').textContent = fra + ' i ' + firma + ' ber ' + (til ? til.split(/\s+/)[0] : 'deg') + ' godkjenne ' + hva;
+  $('gk-hvem').textContent = (status === 'utkast'
+    ? fornavn + ' vil ha ditt ja før kampanjen bestilles hos Frantz. Ingenting bestilles før du har svart.'
+    : fornavn + ' vil ha ditt ja før Frantz publiserer. Ingenting endres før du har svart.') + ' Du trenger ikke logge inn.';
+  if (til) $('navn').value = til;
+  $('godkjenn-tekst').textContent = 'Godkjenn ' + hva;
   $('svar-hint').textContent = fra + ' får svaret ditt med en gang.';
   $('send-tekst').textContent = 'Send til ' + fornavn;
-  document.title = 'Godkjenn kampanjen: ' + tittel + ' — Frantz';
+  document.title = 'Godkjenn ' + hva + ': ' + tittel + ' — Frantz';
 
   // Oppsummeringen
   $('k-undertittel').textContent = tittel + ' i ' + sted;
@@ -230,6 +278,8 @@
   $('a-tekst').textContent = 'Vi har ledig stilling som ' + iSetning + ' i ' + sted + '. Les mer og søk i dag.';
   $('a-tittel').textContent = tittel + ', ' + sted;
   $('a-overskrift').textContent = tittel + ' i ' + sted;
+  $('side-arbeidsgiver').textContent = arbeidsgiver || firma;
+  $('side-tittel-tekst').textContent = 'Bli ' + iSetning + ' i ' + sted;
 
   // Svaret
   var skjema = $('svar'), navn = $('navn'), navnFeil = $('navn-feil');
@@ -297,7 +347,7 @@
     merke.className = 'badge badge--active';
     merke.textContent = 'Godkjent';
     visKvittering(
-      'Takk, ' + v + '. Kampanjen er godkjent.',
+      'Takk, ' + v + '. Du har godkjent ' + hva + '.',
       fra + ' og Frantz har fått beskjed. Godkjent ' + dato + ' kl. ' + tid + '.',
       'Godkjenningen er lagret med navnet ditt og tidspunktet.'
     );

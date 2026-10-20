@@ -27,7 +27,8 @@
 }
 
 /* Plass nederst så knappen ikke dekker det siste på siden. */
-body:has(.assist-fab) .wrap {
+.assist-fab[hidden] { display: none; }
+body:has(.assist-fab:not([hidden])) .wrap {
   padding-bottom: calc(var(--space-96) + var(--space-16));
 }
 
