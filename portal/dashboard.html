@@ -45,8 +45,19 @@
   .venter > .btn { grid-column: 2; justify-self: start; }
   .venter:first-child { border-top: 0; padding-top: 0; }
   .venter__tekst { display: grid; gap: var(--space-2); min-width: 0; }
-  /* One column on small screens: what waits for you comes first */
-  @media (max-width: 1180px) { [data-vis="eksisterende"] .cols > aside { order: -1; } }
+  /* «Venter på deg» sits under the campaign table */
+  .venter-kort { margin-top: var(--space-section-gap); }
+
+  /* Results from ended campaigns: two totals, then one row per campaign */
+  .resultat-tall { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 0 var(--space-16); }
+  .resultat-tall .fakta dd { font-size: var(--text-xl); }
+  .resultat-liste { display: grid; margin: 0; padding: 0; list-style: none; }
+  .resultat { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); padding: var(--space-12) 0; border-top: 1px solid var(--border-subtle); color: inherit; text-decoration: none; }
+  .resultat:hover .row-alert__title { text-decoration: underline; }
+  .resultat__tall { display: grid; justify-items: end; gap: var(--space-2); text-align: right; }
+  .resultat__tall b { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .resultat__tall span { color: var(--text-muted); font: var(--type-support); }
+  .resultat-kort .forklar { margin-top: var(--space-16); }
   .kladd__topp { display: flex; gap: var(--space-12); align-items: flex-start; }
   .kladd__topp .row-alert__title, .kladd__topp .row-alert__desc { display: block; }
   .kladd__steg { display: flex; flex-direction: column; gap: var(--space-6); margin: 0; padding: 0; list-style: none; font-size: var(--text-sm); color: var(--text-muted); }
@@ -211,16 +222,30 @@
               <tbody id="na-rader"></tbody>
             </table>
           </div>
-        </section>
 
-        <aside class="flow">
-          <section class="card card--betjen" aria-labelledby="venter-tittel">
+          <section class="card card--betjen venter-kort" aria-labelledby="venter-tittel">
             <div class="card__head"><div>
               <h3 class="card__title" id="venter-tittel">Venter på deg</h3>
               <p class="card__hint">Det Frantz trenger fra deg nå.</p>
             </div></div>
             <ul class="venter-liste" id="venter-liste"></ul>
             <p class="kladd__tom" id="venter-tom" hidden>Ingenting venter på deg nå.</p>
+          </section>
+        </section>
+
+        <aside class="flow">
+          <section class="card card--betjen resultat-kort" aria-labelledby="resultat-tittel">
+            <div class="card__head"><div>
+              <h3 class="card__title" id="resultat-tittel">Slik gikk kampanjene dine</h3>
+              <p class="card__hint" id="resultat-hint"></p>
+            </div></div>
+            <div class="nokkel resultat-tall">
+              <dl class="fakta"><dt>Trykket «Søk»</dt><dd id="resultat-sok"></dd></dl>
+              <dl class="fakta"><dt>Snitt per «Søk»</dt><dd id="resultat-snitt"></dd></dl>
+            </div>
+            <ul class="resultat-liste" id="resultat-liste"></ul>
+            <p class="kladd__tom" id="resultat-tom" hidden>Når en kampanje er ferdig, ser du resultatet her.</p>
+            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr «Søk»?</summary><p>Antall som trykket «Søk» i annonsen og gikk videre til søknadsskjemaet deres. Pris per «Søk» er budsjettet delt på antall «Søk».</p></details>
           </section>
         </aside>
       </div>
@@ -231,7 +256,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=3"></script>
+<script src="data/kampanjer.js?v=4"></script>
 <script>
 // Hjem has two parts: the campaigns running or on the way, and what Frantz needs from you.
 // Both read the shared campaign list, so a new order shows here as «Bestilt».
@@ -262,6 +287,24 @@
       '<a class="btn btn--secondary btn--sm" href="' + v.href + '">' + v.knapp + '</a></li>';
   }).join('');
   document.getElementById('venter-tom').hidden = venter.length > 0;
+
+  // How your ended campaigns did: «Søk» in total, the average price per «Søk», and one row per campaign
+  var kr = function (n) { return 'kr ' + String(Math.round(n / 10) * 10).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); };
+  var ferdige = alle.filter(function (k) { return k.status === 'Avsluttet' && k.bestiller === 'Kari Hansen' && k.sok; });
+  var sumSok = ferdige.reduce(function (s, k) { return s + k.sok; }, 0);
+  var sumKr = ferdige.reduce(function (s, k) { return s + k.budsjett; }, 0);
+  var billigst = ferdige.slice().sort(function (a, b) { return a.budsjett / a.sok - b.budsjett / b.sok; })[0];
+  document.getElementById('resultat-hint').textContent = ferdige.length === 1 ? '1 avsluttet kampanje.' : ferdige.length + ' avsluttede kampanjer.';
+  document.getElementById('resultat-sok').textContent = sumSok;
+  document.getElementById('resultat-snitt').textContent = sumSok ? kr(sumKr / sumSok) : '–';
+  document.getElementById('resultat-liste').innerHTML = ferdige.map(function (k) {
+    return '<li><a class="resultat" href="' + k.side + '">' +
+      '<span class="venter__tekst"><span class="row-alert__title">' + esc(k.tittel) + '</span><span class="row-alert__desc">Ferdig ' + FZ_KAMPANJER.dato(k.til) +
+      (k === billigst && ferdige.length > 1 ? ' · <span class="tag tag--raised tag--good">Billigst per «Søk»</span>' : '') + '</span></span>' +
+      '<span class="resultat__tall"><b>' + k.sok + ' «Søk»</b><span>' + kr(k.budsjett / k.sok) + ' per «Søk»</span></span></a></li>';
+  }).join('');
+  document.getElementById('resultat-tom').hidden = ferdige.length > 0;
+  document.querySelector('.resultat-tall').hidden = !ferdige.length;
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>

@@ -1,6 +1,7 @@
 /* Every campaign the firm has. Kampanjer, Hjem and Stillinger all read this list,
    so a campaign shows the same name, period, budget and status everywhere.
    connect: the ConnectID (job) the campaign belongs to.
+   sok: how many pressed «Søk». Only ended campaigns have it. Bodø matches rapport.html.
    A new order is kept in this browser only (demo). It shows first, with the status «Bestilt». */
 window.FZ_KAMPANJER = (function () {
   var NYE = 'fzKampanjerNye';
@@ -15,15 +16,15 @@ window.FZ_KAMPANJER = (function () {
       kanaler: null, fra: '', til: '', frist: '2026-11-08', budsjett: 0, status: 'Kladd', bestiller: 'Kari Hansen', side: 'ny-kampanje.html?kladd=129070',
       endret: 'i går kl. 14.12' },
     { id: '129068', connect: '777731', stilling: 'Anestesisykepleier', sted: 'Stavanger', arbeidsgiver: 'Vestlandet Helse', ref: 'Rekruttering Stavanger',
-      kanaler: ['Meta', 'LinkedIn'], fra: '2026-09-10', til: '2026-09-27', budsjett: 22000, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
+      kanaler: ['Meta', 'LinkedIn'], fra: '2026-09-10', til: '2026-09-27', budsjett: 22000, sok: 11, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
     { id: '129062', connect: '777112', stilling: 'Sykepleier', sted: 'Trondheim', arbeidsgiver: 'Trøndelag Helse', ref: 'Nybygg Trondheim',
-      kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-08-28', til: '2026-09-22', budsjett: 35000, status: 'Avsluttet', bestiller: 'Ingrid Moe', side: 'rapport.html' },
+      kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-08-28', til: '2026-09-22', budsjett: 35000, sok: 19, status: 'Avsluttet', bestiller: 'Ingrid Moe', side: 'rapport.html' },
     { id: '129055', connect: '777702', stilling: 'Intensivsykepleier', sted: 'Bergen', arbeidsgiver: 'Vestlandet Helse', ref: 'Rekruttering Bergen',
-      kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], fra: '2026-08-14', til: '2026-09-04', budsjett: 26000, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
+      kanaler: ['Meta', 'LinkedIn', 'Nettsteder og aviser'], fra: '2026-08-14', til: '2026-09-04', budsjett: 26000, sok: 16, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
     { id: '128984', connect: '777301', stilling: 'Sykepleier', sted: 'Bodø', arbeidsgiver: 'Nordland Sykehjem', ref: 'Rekruttering Bodø',
-      kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-07-02', til: '2026-07-30', budsjett: 31200, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
+      kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-07-02', til: '2026-07-30', budsjett: 31200, sok: 18, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
     { id: '128951', connect: '777544', stilling: 'Jordmor', sted: 'Ålesund', arbeidsgiver: 'Vestlandet Helse', ref: 'Sommervikarer',
-      kanaler: ['Meta'], fra: '2026-06-08', til: '2026-06-22', budsjett: 15000, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' }
+      kanaler: ['Meta'], fra: '2026-06-08', til: '2026-06-22', budsjett: 15000, sok: 6, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' }
   ];
 
   function nye() { try { return JSON.parse(localStorage.getItem(NYE) || '[]'); } catch (e) { return []; } }

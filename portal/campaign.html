@@ -141,7 +141,7 @@
           <div class="card card--betjen" data-samtykke="129041">
             <div class="card__head"><div>
               <h3 class="card__title">Meldte interesse</h3>
-              <p class="card__hint">9 personer har meldt interesse så langt. 3 er nye siden i går. Ta kontakt mens de er varme.</p>
+              <p class="card__hint">9 personer har meldt interesse så langt. 3 er nye siden 26.09. Ta kontakt mens de er varme.</p>
             </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-129041" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
             <div class="samtykke" data-samtykke-boks>
               <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
@@ -157,7 +157,7 @@
             <div class="prospekt-teller">
               <span class="tag tag--info">6 vil bli kontaktet</span>
               <span class="tag tag--muted">3 vil ha varsel før søknadsfrist</span>
-              <span class="tag">2 av 9 håndtert</span>
+              <span class="tag" data-handtert data-totalt="9">1 av 9 håndtert</span>
             </div>
             <div class="results__scroll">
               <table class="table table--inset prospekt" tabindex="-1" aria-label="Meldte interesse">
@@ -378,6 +378,14 @@
     ferdig(b, 'Kopiert');
   });
 })();
+</script>
+<script>
+// «x av 9 håndtert» follows the switches, also on rows that «Se alle» adds
+document.addEventListener('change', function (e) {
+  var tabell = e.target.closest('.prospekt'); if (!tabell) return;
+  var teller = document.querySelector('[data-handtert]');
+  teller.textContent = tabell.querySelectorAll('.form-toggle__input:checked').length + ' av ' + teller.dataset.totalt + ' håndtert';
+});
 </script>
 <script src="../components/js/week-chart.js?v=2"></script>
 <script>
