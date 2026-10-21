@@ -52,6 +52,30 @@ Sona selected the version with the summary at the top as the main local design. 
 - Per-order browser storage retains original material, source-step files, design instructions, template, colours and crop. Ordered campaign sections are Hva skjer nå?, Bestillingen, then Annonse og materiell.
 - Campaign names and job details share one campaign-table column. The calculator supports manually named saved searches in a table and shareable search URLs.
 - Preview sizes remain provisional: LinkedIn square is a supported format; Meta feed specifications could not be directly verified, and website formats require Frantz's publisher specifications. Channel labels distinguish feed previews and the website example. Removed the visible ratio label.
-- Client-logo selection is still a proposal, not implemented. The current logo is a sender-name/initial stand-in. Agency client selection versus per-campaign logo upload is awaiting Sona's preference.
+- Sona chose an optional custom-logo upload per campaign, inside the collapsed “Tilpass logo, farger og knapp” section. PNG, JPG and WebP up to 2 MB are supported. Users can replace or remove the logo; its original colours and proportions remain. The uploaded original is retained with the order and available in Annonse og materiell. Saved client profiles remain outside this change.
 - Validation for this checkpoint: 15 Node checks passed; 32 inline portal scripts parsed; whitespace check passed. The design-token checker fails on literal styles in the ad concept explorations, new ad-template CSS, existing experimental layout widths, and the existing media-library overlay. Token cleanup remains outstanding; this checkpoint does not claim that check passed.
 - This is a local prototype checkpoint, not a production order system or client release. Orders, files and saved searches are stored in the browser and are separate between browsers and hostnames.
+
+## Custom logo follow-up — 21 October 2026
+
+- Browser-checked logo upload, both template previews, no logo overlay for Ingen mal, and original-logo retention in a local demo order. Confirmed the upload starts hidden inside the optional disclosure and the expanded section fits a 390px viewport without horizontal overflow.
+- 16 functional checks pass, including retention of the original logo file; page scripts parse and whitespace checks pass. Existing design-token cleanup remains outstanding.
+
+## Customisation hierarchy review — 21 October 2026
+
+- Sona requested a calmer Tilpass section with fewer competing controls and clearer hierarchy. The heading remains “Tilpass logo, farger og knapp”, as explicitly requested earlier.
+- Current local iteration: compact layout choices first, aligned Logo and Bakgrunn rows, shortened file guidance and an expandable Avsender og knapp row showing the current values. Logo controls remain hidden for Ingen mal. This iteration is ready for Sona's review, not recorded as an accepted design.
+- Browser-checked logo upload/removal, logo visibility, template switching, colour selection, sender/button editing and widths of 320, 390, 768 and 1024px without horizontal overflow. All 16 functional checks, inline-script parsing and whitespace checks pass. Existing broader design-token cleanup is still open.
+
+## Image adjustment grouped with customisation — 21 October 2026
+
+- At Sona's request, moved Tilpass bilde and its zoom/fit controls into the shared Tilpass section, before Utforming. The existing heading stays unchanged. This supersedes the earlier placement in the preview header.
+- Clicking or using arrow keys on the preview image opens the same section. Closing the section ends crop editing; changes stay applied. Video does not show image-adjustment controls.
+- Browser-checked zoom updates, keyboard positioning, reset, opening/closing and 320/390px layouts without horizontal overflow. Page scripts parse and whitespace checks pass.
+
+## Local checkpoint before commit — 21 October 2026
+
+- Current customisation order: Utforming, Bilde, Logo, Bakgrunn, then directly visible Avsender and Knapp fields. Heading: “Tilpass utforming, bilde, logo, farger og knapp”. The preview-only sample-text note is removed. Din bestilling uses the same grey surface as Se oppsummering, and the date picker clears the summary control.
+- Added the shared form-select--pill variant, library preview and copyable example; applied it to Stillinger status and sorting. Fixed a hidden column label escaping the table scroll area. Verified the page fits at 320, 390, 768 and 1024px while wide tables retain their own scrolling.
+- Final checks: all 16 functional checks pass; 35 inline scripts parse; whitespace check passes. The design-token checker still reports the earlier style-cleanup findings; it is not recorded as passing. Review screenshots remain local and are excluded from this source commit.
+- Approval research remains separate from implementation. Sona clarified that an agency can approve, but the client usually does. Jamie: Mikael, 23 September, 14:46–15:45, describes client approval of media plan and content before ordering; Lise, 24 September, 14:24–14:33, describes client approval before ordering; Michael, Admin intervju, 11 September, 38:55–39:20, describes proof approval before activation when Frantz prepares the work. These support handling already-approved material and requesting further approval when needed; they do not establish a mandatory two-stage gate for every campaign. No approval-flow change was implemented in this chat.

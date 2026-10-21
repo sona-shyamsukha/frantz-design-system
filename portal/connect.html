@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Stillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=98">
+<link rel="stylesheet" href="../frantz-ds.css?v=101">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -41,7 +41,6 @@
   .faner .filter span { color: inherit; opacity: 0.7; font-weight: var(--font-weight-medium); }
   .sortering { display: flex; align-items: center; gap: var(--space-8); color: var(--text-muted); font-size: var(--text-base); white-space: nowrap; }
   .sortering .form-select-wrap { min-width: 200px; }
-  .sortering .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-base); }
 
   .aktive {
     display: flex;
@@ -86,7 +85,6 @@
   }
   .search-wrap .form-input { padding-left: var(--control-icon-padding); border-radius: var(--radius-full); }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
-  .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-sm); }
   .nullstill {
     padding: 0;
     border: 0;
@@ -109,7 +107,8 @@
     .sortering .form-select-wrap { flex: 1; min-width: 0; }
   }
 
-  .table-card { padding: 0; overflow-x: auto; }
+  /* Keep the hidden column label inside the table’s scroll area. */
+  .table-card { position: relative; padding: 0; overflow-x: auto; }
 
   .pagination-wrap { margin-top: var(--space-24); }
   .connect__ekstra { margin: var(--space-24) 0 0; color: var(--text-muted); font: var(--type-body); }
@@ -123,7 +122,6 @@
     .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
   }
-  .verktoy .form-select { font-size: var(--text-base); }
   .pagination-wrap .pagination__meta { color: var(--text-body); font-size: var(--text-base); }
   .pagination-wrap .pagination__meta b { color: var(--text-heading); }
 
@@ -185,7 +183,7 @@
         </div>
         <label class="sortering"><span class="chat__sr">Status</span>
           <span class="form-select-wrap">
-            <select class="form-select" id="f-status">
+            <select class="form-select form-select--pill" id="f-status">
               <option value="">Alle statuser</option>
               <option value="Uten kampanje">Uten kampanje</option>
               <option value="Kladd">Kladd</option>
@@ -198,7 +196,7 @@
         </label>
         <label class="sortering"><span class="chat__sr">Sorter etter</span>
           <span class="form-select-wrap">
-            <select class="form-select" id="sortering">
+            <select class="form-select form-select--pill" id="sortering">
               <option value="nyeste">Nyeste først</option>
               <option value="eldste">Eldste først</option>
               <option value="tittel">Stilling A–Å</option>

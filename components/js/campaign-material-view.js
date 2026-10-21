@@ -49,19 +49,21 @@
     $('submitted-preview').hidden = !showPreview;
     $('material-files').replaceChildren();
     if (image) $('material-files').appendChild(fileRow(image, imageUrl));
+    var logoUrl = material.logo ? source(material.logo) : '';
+    if (material.logo) $('material-files').appendChild(fileRow(material.logo, logoUrl));
     (material.filer || []).forEach(function (file) { $('material-files').appendChild(fileRow(file, source(file))); });
     $('material-files-block').hidden = !$('material-files').children.length;
     $('material-source-files').replaceChildren();
     (material.kilder || []).forEach(function (file) { $('material-source-files').appendChild(fileRow(file, source(file))); });
     $('material-sources-block').hidden = !$('material-source-files').children.length;
-    if (paid && !image && !(material.filer || []).length && !material.designbrief) {
+    if (paid && !image && !material.logo && !(material.filer || []).length && !material.designbrief) {
       $('material-explanation').textContent = 'Frantz skal lage annonsedesignet. Ingen annonsefiler eller designønsker ble lagt ved bestillingen.';
     }
     if (!showPreview) return;
     var sender = material.avsender || 'Arbeidsgiver';
     $('submitted-sender').textContent = sender; $('submitted-avatar').textContent = sender.charAt(0).toUpperCase();
     $('submitted-over-text').textContent = material.tekst || ''; $('submitted-over-text').hidden = !material.tekst;
-    $('submitted-logo').textContent = sender; $('submitted-title').textContent = material.tittel || '';
+    FrantzAdLogo.render($('submitted-logo'), sender, logoUrl); $('submitted-title').textContent = material.tittel || '';
     $('submitted-title').hidden = !material.tittel || material.ferdig;
     $('submitted-logo').hidden = material.ferdig || material.utseende.logo === false;
     $('submitted-job').textContent = record.ordre.stilling || '';

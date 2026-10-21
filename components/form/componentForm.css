@@ -28,6 +28,11 @@
   appearance: none;
 }
 
+/* List-toolbar dropdowns share the rounded shape of search and filter controls. */
+.form-select--pill {
+  border-radius: var(--radius-full);
+}
+
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus,

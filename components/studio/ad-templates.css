@@ -37,8 +37,6 @@
 .an-templates__choices { grid-template-columns: repeat(3,minmax(0,1fr)); }
 .an-template__sketch--none { padding: 0; background: transparent; }
 .an-template:has(:disabled) { opacity: .55; cursor: default; }
-#pv-placeholder-note { margin: 0 0 var(--space-16); }
-#pv-placeholder-note[hidden] { display: none; }
 @media(max-width:1100px) { .an-template__sketch { display: none; } }
 @media(max-width:460px) { .an-templates__choices { grid-template-columns: 1fr; } .an-template__sketch { display: block; width: 28px; height: 32px; } }
 #pv .ad-preview__kreativ.har-fil .ad-preview__fil { object-fit: contain; }
@@ -88,3 +86,15 @@
 .preview-edit-tools { width: 100%; max-width: none; margin: 0; }
 .preview-edit-tools:has(.crop-toolbar:not([hidden])) { margin-bottom: var(--space-16); }
 .preview-edit-tools .crop-toolbar { margin-top: 0; }
+
+/* Campaign-specific logos retain their proportions and original colours. */
+#annonse-bygg #an-logo-felt[hidden], .custom-logo [hidden] { display: none; }
+.custom-logo { margin-bottom: var(--space-24); }
+#annonse-bygg #an-logo-felt { grid-column: 1 / -1; margin: 0; }
+.custom-logo__row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-12); margin-top: var(--space-12); }
+.custom-logo__selected { display: flex; align-items: center; gap: var(--space-12); min-width: 0; max-width: 100%; font: var(--type-support); }
+.custom-logo__selected span { overflow-wrap: anywhere; min-width: 0; }
+.custom-logo__selected img { width: var(--space-64); height: var(--space-44); object-fit: contain; flex: 0 0 auto; background: var(--surface-raised); border: 1px solid var(--border-default); border-radius: var(--radius-8); padding: var(--space-6); }
+.ad-composition[data-template] .ad-preview__logo.has-custom-logo::before { content: none; }
+.ad-custom-logo { display: block; width: auto; height: auto; max-width: 60%; max-height: 12cqw; object-fit: contain; }
+#an-logo-status:empty { display: none; }

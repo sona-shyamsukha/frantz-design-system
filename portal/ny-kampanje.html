@@ -7,7 +7,7 @@
 <title>Opprett kampanje — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=100">
 <script src="../components/js/brukerflyt.js?v=2"></script>
-<link rel="stylesheet" href="../components/studio/ad-templates.css?v=11">
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=14">
 <style>
   body { margin: 0; }
 
@@ -324,7 +324,8 @@
   .periode__knapp:hover { border-color: var(--color-navy); }
   .periode__knapp .periode-tekst { flex: 1; }
   .periode__snarveier { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-8); }
-  .periode__kalender { position: absolute; top: 56px; left: 0; z-index: 20; width: 320px; max-width: 100%; padding: var(--space-12); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
+  /* The calendar must also clear the summary control in the form footer. */
+  .periode__kalender { position: absolute; top: 56px; left: 0; z-index: calc(var(--z-dropdown) + 1); width: 320px; max-width: 100%; padding: var(--space-12); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
   .periode__kalender[hidden] { display: none; }
   .kal__topp { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-8); font-weight: var(--font-weight-semibold); color: var(--text-heading); }
   .kal__topp button { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: var(--radius-8); background: none; cursor: pointer; }
@@ -646,9 +647,9 @@
   @container (min-width: 1000px) {
     .steg, .steg[data-steg="3"] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--space-32); }
   }
-  .ordre-meny #sammendrag, .ordre-meny .summary-panel__head, .ordre-meny .ordre-scrollhint { background: var(--surface-raised); }
+  .ordre-meny #sammendrag, .ordre-meny .summary-panel__head, .ordre-meny .ordre-scrollhint { background: var(--surface-section); }
   /* Only the last step exposes the full summary in the right column. */
-  body.nk-steg-4 .steg > #ordre-oppsummering #sammendrag { background: var(--surface-raised); }
+  body.nk-steg-4 .steg > #ordre-oppsummering #sammendrag { background: var(--surface-section); }
   #ad-side #annonse-forhandsvisning { background: var(--surface-section); padding: var(--space-32); }
   #ad-side .annonse__kanaler { margin-bottom: var(--space-24); }
   @media (max-width: 640px) {
@@ -681,6 +682,42 @@
   .ordre-meny .summary-panel__block { border-bottom: 0; }
   .ordre-meny #ordre-detaljer > .summary-panel__block:first-child { border-top: 0; }
   body.nk-summary-side #ordre-detaljer { overflow: visible; scrollbar-gutter: auto; }
+
+  /* Optional adjustments share consistent labels and spacing. */
+  #an-mer .customisation { display: flex; flex-direction: column; gap: 0; margin-top: var(--space-8); }
+  #an-mer #an-templates { padding-block: var(--space-16); margin: 0; }
+  #an-mer #an-templates legend { float: left; width: 100%; margin: 0 0 var(--space-12); font: var(--type-label); }
+  #an-mer .an-templates__choices { clear: both; gap: var(--space-8); }
+  #an-mer .an-template { min-height: var(--space-44); padding: var(--space-12); gap: var(--space-8); font: var(--type-support); }
+  #an-mer .customisation-label { margin: 0; font: var(--type-label); color: var(--text-heading); }
+  #an-mer .customisation-row { display: grid; grid-template-columns: calc(var(--space-96) + var(--space-16)) minmax(0, 1fr); align-items: start; gap: var(--space-12); }
+  #an-mer #an-logo-felt { padding-block: var(--space-16); border-top: 1px solid var(--border-subtle); margin: 0; }
+  #an-mer #an-logo-tittel { padding-block: var(--space-12); }
+  #an-mer .custom-logo__body { display: flex; align-items: flex-start; gap: var(--space-16); min-width: 0; }
+  #an-mer .custom-logo__toggle { min-height: var(--space-44); flex-shrink: 0; }
+  #an-mer #an-logo-controls { min-width: 0; }
+  #an-mer .custom-logo__row { gap: var(--space-8) var(--space-16); margin: 0; min-height: var(--space-44); }
+  #an-mer .custom-logo__row .link { min-height: var(--space-44); font: var(--type-support); }
+  #an-mer .custom-logo__selected { flex-basis: 100%; }
+  #an-mer #an-logo-hint { margin: 0; font: var(--type-support); }
+  #an-mer #an-logo-feil { grid-column: 2; margin: 0; }
+  #an-mer #an-del-farger { gap: 0; padding-block: var(--space-16); border-top: 1px solid var(--border-subtle); }
+  #an-mer #an-bg-lbl { align-self: center; }
+  #an-mer .an-farge__rad { gap: var(--space-12); padding: var(--space-4); }
+  #an-mer .customisation-image { padding-block: var(--space-16); border-top: 1px solid var(--border-subtle); }
+  #an-mer .customisation-image > .customisation-row { align-items: center; }
+  #an-mer .customisation-image__button { display: inline-flex; justify-self: start; align-items: center; gap: var(--space-8); min-height: var(--space-44); font: var(--type-support); }
+  #an-mer .customisation-image .crop-toolbar { max-width: none; margin: 0; padding: var(--space-16); background: var(--surface-section); border-color: var(--border-subtle); border-radius: var(--radius-8); box-shadow: none; }
+  #an-mer .customisation-image .preview-edit-tools:has(.crop-toolbar:not([hidden])) { margin-top: var(--space-8); margin-bottom: 0; }
+  #an-mer .customisation-meta { border-top: 1px solid var(--border-subtle); padding-block: var(--space-16); }
+  #an-mer .customisation-meta .annonse__to { padding-bottom: var(--space-8); }
+  #an-mer .customisation-meta .form-group { margin: 0; }
+  #an-mer [hidden] { display: none; }
+  @media (max-width: 640px) {
+    #an-mer .customisation-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+    #an-mer #an-logo-tittel { padding: 0; }
+    #an-mer #an-logo-feil { grid-column: 1; }
+  }
 </style>
 </head>
 <body data-assistant="form">
@@ -774,6 +811,7 @@
             <div class="summary-panel__block" id="sum-annonseseksjon" hidden>
               <div class="sum-stilling__topp"><span class="summary-panel__label">Annonsen</span><button class="link link--xs" type="button" data-til-steg="3" aria-label="Endre annonsen">Endre</button></div>
               <dl class="summary-row" id="sum-materiell-rad" hidden><dt>Materiell</dt><dd id="sum-materiell"></dd></dl>
+              <dl class="summary-row" id="sum-logo-rad" hidden><dt>Egen logo</dt><dd id="sum-logo"></dd></dl>
               <dl class="summary-row" id="sum-hjelp-rad" hidden><dt>Design av materiell</dt><dd>Fra kr 2 180 / time</dd></dl>
               <dl class="summary-row ordre-bred" id="sum-designbrief-rad" hidden><dt>Ønsker til designet</dt><dd id="sum-designbrief"></dd></dl>
             </div>
@@ -1046,15 +1084,6 @@
                     <p class="form-hint" id="an-ferdig-hint" hidden></p>
                   </section>
 
-                  <fieldset class="an-templates" id="an-templates" hidden>
-                    <legend>Utforming</legend>
-                    <div class="an-templates__choices">
-                      <label class="an-template"><input type="radio" name="an-template" value="profile" checked><span class="an-template__sketch" aria-hidden="true"></span><span><b>Profil øverst</b></span></label>
-                      <label class="an-template"><input type="radio" name="an-template" value="frame"><span class="an-template__sketch an-template__sketch--frame" aria-hidden="true"></span><span><b>Luft rundt bildet</b></span></label>
-                      <label class="an-template"><input type="radio" name="an-template" value="none"><span class="an-template__sketch an-template__sketch--none" aria-hidden="true"></span><span><b>Ingen mal</b></span></label>
-                    </div>
-                  </fieldset>
-
                   <section class="an-del" aria-labelledby="an-t2">
                     <div class="felt-topp"><h3 class="an-del__tittel" id="an-t2">Annonsetekst</h3><button class="link link--xs" type="button" id="an-tekstforslag">Bruk tekstforslag</button></div>
                     <div class="form-group" id="an-tittel-felt"><div class="felt-topp"><label class="form-label" for="an-tittel">Budskap i annonsen <span class="valgfri">(valgfritt)</span></label><span class="form-hint annonse__teller" id="an-tittel-teller"></span></div><input class="form-input" id="an-tittel" maxlength="40" placeholder="F.eks. Vi søker sykepleiere" aria-describedby="an-tittel-hint"><p class="form-hint" id="an-tittel-hint">Vises i et eget tekstfelt over eller under bildet, avhengig av utformingen.</p></div>
@@ -1063,23 +1092,63 @@
 
                   <!-- Everything with a good default sits behind one link -->
                   <details class="an-mer" id="an-mer" hidden>
-                    <summary class="an-mer__knapp">Tilpass logo, farger og knapp <span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></summary>
-                    <div class="an-mer__innhold">
-                      <div class="annonse__to">
-                        <div class="form-group"><label class="form-label" for="an-knapp">Knapp</label><span class="form-select-wrap"><select class="form-select" id="an-knapp"><option>Søk nå</option><option>Les mer</option></select></span></div>
-                        <div class="form-group"><label class="form-label" for="an-avsender">Avsender</label><input class="form-input" id="an-avsender"><p class="form-hint">Siden annonsen vises fra.</p></div>
-                      </div>
+                    <summary class="an-mer__knapp">Tilpass utforming, bilde, logo, farger og knapp <span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></summary>
+                    <div class="an-mer__innhold customisation">
+                      <fieldset class="an-templates" id="an-templates" hidden>
+                        <legend>Utforming</legend>
+                        <div class="an-templates__choices">
+                          <label class="an-template"><input type="radio" name="an-template" value="profile" checked><span>Profil øverst</span></label>
+                          <label class="an-template"><input type="radio" name="an-template" value="frame"><span>Luft rundt bildet</span></label>
+                          <label class="an-template"><input type="radio" name="an-template" value="none"><span>Ingen mal</span></label>
+                        </div>
+                      </fieldset>
+
+                      <section class="customisation-image" id="an-image-adjustment" aria-labelledby="an-image-label" hidden>
+                        <div class="customisation-row">
+                          <h3 class="customisation-label" id="an-image-label">Bilde</h3>
+                          <button type="button" class="link customisation-image__button" id="crop-open" aria-label="Tilpass bilde" aria-expanded="false" aria-controls="an-crop" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v12a3 3 0 0 0 3 3h12M3 6h12a3 3 0 0 1 3 3v12"/></svg><span>Tilpass bilde</span></button>
+                        </div>
+                  <div class="preview-edit-tools">
+                  <div class="crop-toolbar" id="an-crop" role="group" aria-label="Bildejustering" hidden>
+                    <div class="crop-toolbar__head"><span>Flytt bildet i forhåndsvisningen</span><button type="button" class="crop-toolbar__done" id="crop-done">Ferdig</button></div>
+                    <label class="crop-toolbar__zoom" for="crop-zoom">Zoom <input type="range" id="crop-zoom" min="1" max="3" step="0.05" value="1"></label>
+                    <div class="crop-toolbar__bottom"><div class="crop-toolbar__fit" role="group" aria-label="Bildetilpasning"><label><input type="radio" name="crop-fit" value="contain">Hele bildet</label><label><input type="radio" name="crop-fit" value="cover">Fyll flaten</label></div><button type="button" class="crop-toolbar__reset" id="crop-reset" aria-label="Tilbakestill utsnitt" title="Tilbakestill utsnitt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></svg></button></div>
+                    <p class="sr-only">Bruk piltastene når bildet har fokus for å flytte utsnittet. Home sentrerer bildet.</p>
+                  </div>
+                  </div>
+                      </section>
+
+                      <section class="custom-logo customisation-row" id="an-logo-felt" aria-labelledby="an-logo-tittel" hidden>
+                        <h3 class="customisation-label" id="an-logo-tittel">Logo</h3>
+                        <div class="custom-logo__body">
+                          <label class="form-toggle custom-logo__toggle"><input class="form-toggle__input" type="checkbox" role="switch" id="an-logo" aria-label="Vis logo" checked><span class="form-toggle__track" aria-hidden="true"></span></label>
+                          <div id="an-logo-controls">
+                            <div class="custom-logo__row">
+                              <div class="custom-logo__selected" id="an-logo-valgt" hidden><img id="an-logo-mini" alt="Valgt logo"><span id="an-logo-navn"></span></div>
+                              <button class="link" type="button" id="an-logo-last-opp">Last opp logo</button>
+                              <button class="link" type="button" id="an-logo-fjern" hidden>Fjern logo</button>
+                            </div>
+                            <p class="form-hint" id="an-logo-hint">PNG, JPG eller WebP · maks 2 MB</p>
+                          </div>
+                        </div>
+                        <input type="file" id="an-logo-fil" accept="image/png,image/jpeg,image/webp" aria-label="Last opp egen logo" aria-describedby="an-logo-hint an-logo-feil" hidden>
+                        <p class="chat__sr" id="an-logo-status" role="status" aria-live="polite"></p>
+                        <p class="feil an-feil" id="an-logo-feil" role="alert" hidden></p>
+                      </section>
+
                       <div class="an-farger" id="an-del-farger">
-                        <label class="form-toggle"><input class="form-toggle__input" type="checkbox" role="switch" id="an-logo" checked><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Vis logo</span></label>
-                        <div class="an-farge" data-farge="bg">
-                          <span class="form-label" id="an-bg-lbl">Bakgrunn</span>
-                          <div class="an-farge__rad" role="group" aria-labelledby="an-bg-lbl"></div>
+                        <div class="an-farge customisation-row" data-farge="bg">
+                          <span class="customisation-label" id="an-bg-lbl">Bakgrunn</span>
+                          <div class="an-farge__rad" role="group" aria-labelledby="an-bg-lbl" aria-describedby="an-bg-hint"></div>
                         </div>
-                        <div class="an-farge" data-farge="tekst">
-                          <span class="form-label" id="an-tf-lbl">Tekst og logo</span>
-                          <div class="an-farge__rad" role="group" aria-labelledby="an-tf-lbl"></div>
+                        <p class="form-hint chat__sr" id="an-bg-hint">Tekstfargen tilpasses automatisk.</p>
+                      </div>
+
+                      <div class="customisation-meta" id="an-meta">
+                        <div class="annonse__to">
+                          <div class="form-group"><label class="form-label" for="an-avsender">Avsender</label><input class="form-input" id="an-avsender"></div>
+                          <div class="form-group"><label class="form-label" for="an-knapp">Knapp</label><span class="form-select-wrap"><select class="form-select" id="an-knapp"><option>Søk nå</option><option>Les mer</option></select></span></div>
                         </div>
-                        <p class="form-hint">Fargene kommer fra <a class="link" href="innstillinger.html#merkevare">Merkevare</a>. Velg en egen farge med «+».</p>
                       </div>
                     </div>
                   </details>
@@ -1095,16 +1164,7 @@
           </section>
           <aside id="ad-side" aria-label="Oppsummering og annonsevisning">
                 <div class="annonse__lerret" id="annonse-forhandsvisning" hidden>
-                  <div class="preview-heading-row"><div class="preview-heading-copy"><h2 class="preview-heading">Slik blir annonsen</h2></div><button type="button" class="crop-on-image" id="crop-open" aria-label="Tilpass bilde" aria-expanded="false" aria-controls="an-crop" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v12a3 3 0 0 0 3 3h12M3 6h12a3 3 0 0 1 3 3v12"/></svg><span>Tilpass bilde</span></button></div>
-                  <div class="preview-edit-tools">
-                  <div class="crop-toolbar" id="an-crop" role="group" aria-label="Bildejustering" hidden>
-                    <div class="crop-toolbar__head"><span>Dra bildet for å flytte det</span><button type="button" class="crop-toolbar__done" id="crop-done">Ferdig</button></div>
-                    <label class="crop-toolbar__zoom" for="crop-zoom">Zoom <input type="range" id="crop-zoom" min="1" max="3" step="0.05" value="1"></label>
-                    <div class="crop-toolbar__bottom"><div class="crop-toolbar__fit" role="group" aria-label="Bildetilpasning"><label><input type="radio" name="crop-fit" value="contain">Hele bildet</label><label><input type="radio" name="crop-fit" value="cover">Fyll flaten</label></div><button type="button" class="crop-toolbar__reset" id="crop-reset" aria-label="Tilbakestill utsnitt" title="Tilbakestill utsnitt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></svg></button></div>
-                    <p class="sr-only">Bruk piltastene når bildet har fokus for å flytte utsnittet. Home sentrerer bildet.</p>
-                  </div>
-                  </div>
-                  <p class="form-hint" id="pv-placeholder-note" hidden>Eksempelteksten viser plasseringen. Den blir ikke med i bestillingen.</p>
+                  <div class="preview-heading-row"><div class="preview-heading-copy"><h2 class="preview-heading">Slik blir annonsen</h2></div></div>
                   <div class="annonse__kanaler" id="annonse-kanaler" role="group" aria-label="Se annonsen i"></div>
                   <div class="studio__scene annonse__scene">
                   <article class="ad-preview" id="pv" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook">
@@ -1198,7 +1258,8 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=19"></script>
-<script src="../components/js/campaign-material.js?v=4"></script>
+<script src="../components/js/campaign-material.js?v=5"></script>
+<script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
 <script src="data/kampanjer.js?v=4"></script>
@@ -1928,7 +1989,7 @@
     bg: [{ navn: 'Dyp grønn', v: '#174c50' }, { navn: 'Lys', v: token('--color-coral-wash') }, { navn: 'Hvit', v: token('--color-white') }, { navn: 'Marine', v: token('--color-navy') }, { navn: 'Oransje', v: token('--color-amber') }],
     tekst: [{ navn: 'Marine', v: token('--color-navy') }, { navn: 'Hvit', v: token('--color-white') }, { navn: 'Svart', v: token('--color-black') || '#000000' }]
   };
-  tilstand.annonse = { crop: { x: 50, y: 50, zoom: 1, fit: 'auto' }, template: 'profile', tittel: '', tekst: '', knapp: 'Søk nå', bilde: BILDER[0].fil, bildeUrl: '', filnavn: '', video: false, egetBilde: false,
+  tilstand.annonse = { crop: { x: 50, y: 50, zoom: 1, fit: 'auto' }, template: 'profile', tittel: '', tekst: '', knapp: 'Søk nå', bilde: BILDER[0].fil, bildeUrl: '', filnavn: '', logoFil: null, logoUrl: '', video: false, egetBilde: false,
     endret: false, brukForslag: false, kanal: 'facebook',
     erFerdig: false, // true: the picture is the whole ad, with text and logo already on it
     utseende: { logo: true, bg: '#174c50', tekst: '#ffffff', bakgrunner: { profile: '#174c50', frame: '#ecefe9' } } };
@@ -2001,6 +2062,7 @@
     $('an-t1').textContent = 'Bilde eller annonse';
     $('an-t1').hidden = klar;
     $('an-valgt').hidden = !klar;
+    $('an-image-adjustment').hidden = !klar || a.video;
     $('crop-open').hidden = !klar || a.video;
     if (!klar || a.video) setCropEditing(false);
     $('an-valgt-bilde').hidden = a.video || !klar;
@@ -2024,12 +2086,21 @@
     $('an-ferdig-hint').textContent = a.video ? 'Videoen brukes som den er. Dere kan legge til tekst over annonsen.'
       : ferdig ? 'Vi bruker filen som den er, uten å legge på ny tekst eller logo.' : 'Logo og budskap får egne flater. Velg utforming og legg til teksten under.';
     $('an-templates').hidden = !klar;
+    $('an-logo-felt').hidden = !klar || ferdig;
+    $('an-logo-valgt').hidden = !a.logoUrl;
+    $('an-logo-fjern').hidden = !a.logoUrl;
+    $('an-logo-controls').hidden = !a.utseende.logo;
+    $('an-logo-hint').hidden = !!a.logoUrl;
+    $('an-logo-last-opp').textContent = a.logoUrl ? 'Bytt logo' : 'Last opp logo';
+    $('an-logo-navn').textContent = a.logoFil ? a.logoFil.name : '';
+    if (a.logoUrl) $('an-logo-mini').src = a.logoUrl;
+    else $('an-logo-mini').removeAttribute('src');
     $('an-tittel-felt').hidden = ferdig;
     $('an-tittel-teller').textContent = $('an-tittel').value.length + ' / 40';
     $('an-tekst-teller').textContent = $('an-tekst').value.length + ' / 125';
     $('an-del-farger').hidden = ferdig;
     document.querySelectorAll('#an-del-farger .an-farge').forEach(function (field) { field.hidden = field.dataset.farge !== 'bg'; });
-    $('an-del-farger').querySelector('.form-hint').textContent = 'Velg bakgrunnsfarge eller bruk + for en egen farge. Tekst og logo får automatisk en farge med god kontrast.';
+    $('an-bg-hint').textContent = a.logoUrl ? 'Tekstfargen tilpasses automatisk. Logoen beholder originalfargene.' : 'Tekstfargen tilpasses automatisk.';
     $('an-mer').hidden = !klar;
     // The preview
     var vis = kanalVisninger();
@@ -2043,9 +2114,8 @@
     $('pv').setAttribute('aria-label', 'Forhåndsvisning på ' + kanalNavn);
     $('pv-avsender').textContent = avsender;
     $('pv-avatar').textContent = avsender.charAt(0).toUpperCase();
-    $('pv-logo').textContent = avsender;
+    FrantzAdLogo.render($('pv-logo'), avsender, a.logoUrl);
     $('pv-tittel').textContent = a.tittel.trim() || 'Gjør en forskjell. Sammen med oss.';
-    $('pv-placeholder-note').hidden = !!a.tittel.trim() || ferdig || !klar;
     $('pv-tekst').textContent = a.tekst;
     $('pv-cta').textContent = a.knapp;
     $('pv-stilling').textContent = $('stilling').value.trim();
@@ -2148,6 +2218,45 @@
   document.querySelectorAll('[name="an-template"]').forEach(function (radio) {
     radio.addEventListener('change', function () { tilstand.annonse.template = this.value; tilstand.annonse.utseende.bg = tilstand.annonse.utseende.bakgrunner[this.value] || tilstand.annonse.utseende.bg; tegnFarger(); tegnAnnonse(); oppdater(); });
   });
+  // Validate image decoding before replacing a previously selected logo.
+  var logoRequest = 0;
+  $('an-logo-last-opp').addEventListener('click', function () { $('an-logo-fil').click(); });
+  $('an-logo-fil').addEventListener('change', function () {
+    var file = this.files[0], request = ++logoRequest;
+    this.value = '';
+    if (!file) return;
+    $('an-logo-feil').hidden = true;
+    if (['image/png', 'image/jpeg', 'image/webp'].indexOf(file.type) === -1 || file.size > 2 * 1024 * 1024) {
+      $('an-logo-feil').textContent = 'Velg en PNG-, JPG- eller WebP-fil på maks 2 MB.';
+      $('an-logo-feil').hidden = false; return;
+    }
+    var url = URL.createObjectURL(file), image = new Image();
+    image.onload = function () {
+      if (request !== logoRequest) { URL.revokeObjectURL(url); return; }
+      var a = tilstand.annonse;
+      if (a.logoUrl) URL.revokeObjectURL(a.logoUrl);
+      a.logoFil = file; a.logoUrl = url; a.utseende.logo = true;
+      $('an-logo').checked = true;
+      $('an-logo-status').textContent = 'Logoen er lagt til for denne kampanjen.';
+      tegnAnnonse(); oppdater();
+    };
+    image.onerror = function () {
+      URL.revokeObjectURL(url);
+      if (request !== logoRequest) return;
+      $('an-logo-feil').textContent = 'Kunne ikke lese bildet. Prøv en annen logofil.';
+      $('an-logo-feil').hidden = false;
+    };
+    image.src = url;
+  });
+  $('an-logo-fjern').addEventListener('click', function () {
+    ++logoRequest;
+    var a = tilstand.annonse;
+    if (a.logoUrl) URL.revokeObjectURL(a.logoUrl);
+    a.logoFil = null; a.logoUrl = '';
+    $('an-logo-feil').hidden = true;
+    $('an-logo-status').textContent = 'Egen logo er fjernet.';
+    tegnAnnonse(); oppdater(); $('an-logo-last-opp').focus();
+  });
   $('an-logo').addEventListener('change', function () { tilstand.annonse.utseende.logo = this.checked; tegnAnnonse(); });
   ['an-tittel', 'an-tekst', 'an-knapp', 'an-avsender'].forEach(function (id) {
     $(id).addEventListener('input', function () {
@@ -2179,12 +2288,14 @@
   var cropEditing = false;
   function setCropEditing(open) {
     cropEditing = !!open;
+    if (cropEditing) $('an-mer').open = true;
     $('an-crop').hidden = !cropEditing;
     $('crop-open').setAttribute('aria-expanded', String(cropEditing));
     $('pv-bilde').classList.toggle('is-cropping', cropEditing);
     document.querySelector('#pv .ad-preview__kreativ').classList.toggle('is-cropping', cropEditing);
   }
   $('crop-open').addEventListener('click', function () { setCropEditing(!cropEditing); });
+  $('an-mer').addEventListener('toggle', function () { if (!this.open && cropEditing) setCropEditing(false); });
   $('crop-done').addEventListener('click', function () { setCropEditing(false); $('crop-open').focus(); });
   [$('pv-bilde'), $('pv-fil')].forEach(function (element) {
     element.addEventListener('pointerdown', function (event) { if (!event.target.closest('button, .crop-toolbar')) setCropEditing(true); });
@@ -2645,6 +2756,8 @@
     $('sum-annonseseksjon').hidden = tilstand.steg < 3 && !tilstand.valgtMateriell;
     FZ_KANALER.tegn($('sum-kanaler'), tilstand.kanaler);
     $('sum-materiell').textContent = tilstand.materiell === 'hjelp' ? 'Frantz lager designet' : materiellTekst();
+    $('sum-logo-rad').hidden = !tilstand.annonse.logoFil;
+    $('sum-logo').textContent = tilstand.annonse.logoFil ? tilstand.annonse.logoFil.name : '';
     $('sum-designbrief-rad').hidden = tilstand.materiell !== 'hjelp' || !$('an-designbrief').value.trim();
     $('sum-designbrief').textContent = $('an-designbrief').value.trim();
     $('oversikt').innerHTML =
@@ -2657,6 +2770,7 @@
         rad('Periode', esc(periodeTekst()))) +
       gruppe('Annonsen', 3,
         rad('Materiell', esc(materiellTekst())) +
+        (tilstand.annonse.logoFil ? rad('Egen logo', esc(tilstand.annonse.logoFil.name)) : '') +
         (tilstand.materiell === 'hjelp' ? rad('Ønsker til designet', esc($('an-designbrief').value.trim())) : '') +
         (tilstand.materiell === 'bygg' ? rad('Avsender', esc($('avsender').value.trim())) : ''));
     // Add-ons are picked right under this overview, so they are not repeated here

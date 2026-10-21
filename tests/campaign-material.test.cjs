@@ -78,3 +78,16 @@ test('saves a copy of the chosen crop with the order',()=>{
  s.ad.crop.x=80;
  assert.equal(stored.x,20);assert.equal(stored.zoom,1.6);assert.equal(stored.fit,'cover');
 });
+
+test('keeps the original custom logo with the order without saving its preview URL', () => {
+  const s = setup();
+  const file = new File(['logo'], 'client-logo.png', { type: 'image/png' });
+  s.ad.logoFil = file;
+  s.ad.logoUrl = 'blob:temporary-logo';
+  const logo = s.snapshot().materiell.logo;
+  assert.equal(logo.fil, file);
+  assert.equal(logo.navn, 'client-logo.png');
+  assert.equal(logo.url, undefined);
+  s.ad.logoFil = null;
+  assert.equal(s.snapshot().materiell.logo, null);
+});

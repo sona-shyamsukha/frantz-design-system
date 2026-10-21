@@ -66,6 +66,7 @@
       id: root.crypto.randomUUID(), ordre: order, innsendt: new Date().toISOString(),
       materiell: {
         kilder: options.sourceFile ? [{ navn: options.sourceFile.name, fil: options.sourceFile, kilde: 'stillingsgrunnlag' }] : [],
+        logo: ad.logoFil ? { navn: ad.logoFil.name, fil: ad.logoFil, kilde: 'egen-logo' } : null,
         crop: ad.crop ? Object.assign({}, ad.crop) : null, template: ad.template || '', modus: options.mode, designbrief: options.brief || '', bilde: image, filer: files,
         tittel: ad.tittel || '', tekst: ad.tekst || '', knapp: ad.knapp || 'Søk nå',
         ferdig: !!ad.erFerdig, video: !!ad.video, avsender: options.sender || '',

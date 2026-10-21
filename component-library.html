@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=100">
+<link rel="stylesheet" href="frantz-ds.css?v=101">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=76">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 </head>
@@ -611,6 +611,13 @@
         </div>
       </div>
       <div class="cl-sep"></div>
+      <span class="cl-variant">Nedtrekk i verktøylinjer</span>
+      <p class="cl-note">Pilleform sammen med søk og filtre. Vanlige skjemafelt beholder 8px radius.</p>
+      <div class="feltrad">
+        <div class="felt"><label for="cl-status-pill">Status</label><div class="form-select-wrap"><select class="form-select form-select--pill" id="cl-status-pill"><option>Alle statuser</option><option>Under arbeid</option><option>Aktiv</option><option>Avsluttet</option></select></div></div>
+        <div class="felt"><label for="cl-sortering-pill">Sorter etter</label><div class="form-select-wrap"><select class="form-select form-select--pill" id="cl-sortering-pill"><option>Nyeste først</option><option>Eldste først</option><option>Stilling A–Å</option></select></div></div>
+      </div>
+      <div class="cl-sep"></div>
       <span class="cl-variant">Chips / filter</span>
       <p class="cl-note">Av: hvit + kant. På: navy fyll, hvit tekst. Hover på av: navy tekst.</p>
       <div class="quick-replies">
@@ -657,6 +664,7 @@
           <tr><td><code>.input</code> / <code>.form-input</code></td><td>Tekstfelt. Tom, fylt, fokus, feil, disabled</td></tr>
           <tr><td><code>.form-textarea</code></td><td>Lang tekst, min 120px</td></tr>
           <tr><td><code>.form-select</code></td><td>I <code>.form-select-wrap</code> for chevron</td></tr>
+          <tr><td><code>.form-select--pill</code></td><td>Pilleform for sortering og filtre i verktøylinjer. Brukes sammen med <code>.form-select</code>.</td></tr>
           <tr><td><code>.chip</code></td><td>Filter. På: <code>aria-pressed="true"</code></td></tr>
         </tbody>
       </table>
@@ -726,6 +734,16 @@
       &lt;option&gt;Trondheim&lt;/option&gt;
     &lt;/select&gt;
   &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Nedtrekk med pilleform</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;label for="status"&gt;Status&lt;/label&gt;
+&lt;div class="form-select-wrap"&gt;
+  &lt;select class="form-select form-select--pill" id="status"&gt;
+    &lt;option value=""&gt;Alle statuser&lt;/option&gt;
+    &lt;option value="aktiv"&gt;Aktiv&lt;/option&gt;
+  &lt;/select&gt;
 &lt;/div&gt;</code></pre>
         </div>
         <div class="cl-snippet">
