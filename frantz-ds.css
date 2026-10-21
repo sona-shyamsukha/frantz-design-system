@@ -27,7 +27,7 @@
 @import './components/quote/componentQuote.css?v=76';
 @import './components/ad-card/componentAdCard.css?v=76';
 @import './components/journey/componentJourney.css?v=76';
-@import './components/checklist/componentChecklist.css?v=76';
+@import './components/checklist/componentChecklist.css?v=77';
 @import './components/geo/componentGeo.css?v=76';
 @import './components/timeline/componentTimeline.css?v=76';
 @import './components/summary/componentSummary.css?v=78';
@@ -37,7 +37,7 @@
 @import './components/slider/componentSlider.css?v=76';
 @import './components/select-card/componentSelectCard.css?v=76';
 @import './components/choice-card/componentChoiceCard.css?v=78';
-@import './components/package/componentPackage.css?v=81';
+@import './components/package/componentPackage.css?v=83';
 @import './components/funnel/componentFunnel.css?v=76';
 @import './components/results/componentResults.css?v=76';
 @import './components/picker/componentPicker.css?v=76';

@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="no"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connect dropdown — scale check</title>
+<link rel="stylesheet" href="../../frantz-ds.css?v=68">
+<style>main{max-width:650px;padding:24px;margin:auto}.picker__opt{flex-direction:column;align-items:stretch}.connect-sok__meta{font-size:12px;color:var(--text-muted)}</style>
+<main><h1>Connect scale check</h1><label for="scale-input">Velg teststilling</label><div class="picker" id="scale-picker"><div class="picker__felt"><input class="picker__input" id="scale-input" autocomplete="off"></div><div class="picker__liste" hidden></div></div><p id="selected" role="status">Ingen valgt</p></main>
+<script src="../../components/js/picker.js?v=7"></script>
+<script>
+var jobs = Array.from({length:201}, function (_, i) { return {id:String(900000+i),tittel:'Sykepleier – avdeling '+i,arbeidsgiver:'Testbedrift '+(i%10),sted:'Bergen',prosjekt:'Prosjekt '+i,kampanje:i===0?{id:'eksisterende'}:null}; });
+FrantzPicker.connect(document.getElementById('scale-picker'), {hent:function(){return jobs;},onChange:function(c){document.getElementById('selected').textContent='Valgt ConnectID '+c.id;}});
+</script></html>

@@ -65,14 +65,12 @@ window.FZ_PAKKER = (function () {
       var k = KANALER.filter(function (c) { return c.navn === n; })[0];
       return '<span class="pakke-kort__kanal">' + (k ? '<span class="kanal-logo kanal-logo--sm kanal-logo--' + k.k + '" aria-hidden="true"></span>' : '') + esc(n) + '</span>';
     }).join('') : '<span>Kanalene Frantz anbefaler</span>';
-    var ikke = p.kanaler ? KANALER.filter(function (c) { return p.kanaler.indexOf(c.navn) === -1; }).map(function (c) { return c.navn; }) : [];
     return '<' + tag + ' class="pakke-kort' + (opt.valg ? ' pakke-kort--valg' : '') + (opt.ny ? ' er-ny' : '') + '"' + attr + '>' +
       '<span class="pakke-kort__hode"><span class="pakke-kort__navn">' + esc(p.navn) + '</span>' +
       (opt.valg ? '<span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span>' : '') +
       (opt.slett ? '<button type="button" class="pakke-kort__slett" data-slett-pakke="' + esc(p.navn) + '" aria-label="Slett pakken ' + esc(p.navn) + '" title="Slett pakken"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span></button>' : '') + '</span>' +
-      '<span class="pakke-kort__pris"><b>kr ' + esc(pris) + '</b><span class="pakke-kort__periode">' + (p.uker ? 'for ' + esc(p.uker) + ' uker' : 'Periode velges på kampanjen') + '</span></span>' +
-      '<span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste">' + kanaler + '</span></span>' +
-      '<span class="pakke-kort__ikke">' + (ikke.length ? 'Ikke inkludert: ' + esc(ikke.join(', ').replace(/, ([^,]*)$/, ' og $1')) : '') + '</span></' + tag + '>';
+      '<span class="pakke-kort__pris"><b>kr ' + esc(pris) + '</b>' + (p.uker ? '<span class="pakke-kort__periode">for ' + esc(p.uker) + ' uker</span>' : '') + '</span>' +
+      '<span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste">' + kanaler + '</span></span></' + tag + '>';
   }
 
   return {

@@ -7,8 +7,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Barnehagelærer Drammen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=98">
+<link rel="stylesheet" href="../frantz-ds.css?v=100">
 <script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=11">
 <style>
   body { margin: 0; }
   .summary-row[hidden] { display: none; }
@@ -16,6 +17,36 @@
   .card--les .card__head { margin-bottom: var(--space-8); }
   .card--les .summary-row { padding: var(--space-6) 0; font-size: var(--text-base); }
   .card--les #d-kommentar { font-weight: var(--font-weight-normal); color: var(--text-body); }
+  .material-card { container-type: inline-size; }
+  .material-card [hidden] { display: none; }
+  .material-card__status { color: var(--text-muted); font: var(--type-support); }
+  .material-card__explanation { margin: var(--space-8) 0 var(--space-24); color: var(--text-muted); font: var(--type-support); }
+  .cols[hidden] { display: none; }
+  .material-content { display: grid; gap: var(--space-24); align-items: start; }
+  .submitted-preview { padding: var(--space-24); background: var(--surface-section); border-radius: var(--radius-12); min-width: 0; }
+  .submitted-platforms { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-16); }
+  .submitted-preview .ad-preview { max-width: 360px; margin-inline: auto; }
+  .submitted-preview .ad-preview__bilde { cursor: default; }
+  .submitted-preview .ad-preview__kreativ { background: var(--pv-bg, var(--color-coral-wash)); }
+  .submitted-preview .ad-preview__logo, .submitted-preview .ad-preview__tittel { color: var(--pv-tekst, var(--color-navy)); }
+  .submitted-preview .ad-preview__tittel { overflow-wrap: anywhere; }
+  .submitted-preview .submitted-creative--finished { padding: 0; }
+  .submitted-file { width: 100%; height: 100%; object-fit: contain; display: block; }
+  #submitted-ad[data-plattform="nettsteder"] .ad-preview__topp, #submitted-ad[data-plattform="nettsteder"] .ad-preview__tekst { display: none; }
+  .material-info { display: grid; gap: var(--space-24); min-width: 0; }
+  .material-info h4 { margin: 0 0 var(--space-8); color: var(--text-heading); font: var(--type-label); }
+  .material-info p { white-space: pre-wrap; margin: 0; overflow-wrap: anywhere; }
+  .material-files { display: grid; gap: var(--space-12); padding: 0; margin: 0; list-style: none; }
+  .material-files li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); }
+  .material-files li > div:first-child { min-width: 0; flex: 1 1 140px; overflow-wrap: anywhere; }
+  .material-files b { display: block; font: var(--type-label); }
+  .material-file__meta { display: block; margin-top: var(--space-4); color: var(--text-muted); font: var(--type-support); }
+  .material-file__actions { display: flex; flex-wrap: wrap; gap: var(--space-16); font: var(--type-support); }
+  .material-empty { color: var(--text-muted); font: var(--type-body); }
+  @container (min-width: 720px) {
+    .material-content { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .material-content:has(#submitted-preview[hidden]) .material-info { grid-column: 1 / -1; }
+  }
 </style>
 </head>
 <body>
@@ -88,6 +119,40 @@
             <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
             <dl class="summary-row"><dt>Kommentar</dt><dd id="d-kommentar">Bruk gjerne bilder fra uteområdet.</dd></dl>
           </div>
+          <section class="card card--betjen material-card" aria-labelledby="material-heading">
+            <div class="card__head"><h2 class="card__title" id="material-heading">Annonse og materiell</h2></div>
+            <p class="material-empty" id="material-loading" role="status">Laster inn materiellet …</p>
+            <p class="material-empty" id="material-empty" hidden>Det er ikke lagret en forhåndsvisning eller originalfiler for denne bestillingen.</p>
+            <div id="submitted-material" hidden>
+              <p class="material-card__status" id="material-status"></p>
+              <p class="material-card__explanation" id="material-explanation"></p>
+              <div class="material-content">
+                <div class="submitted-preview" id="submitted-preview" hidden>
+                  <div class="submitted-platforms" id="submitted-platforms" role="group" aria-label="Se innsendt annonse i"></div>
+                  <article class="ad-preview" id="submitted-ad">
+                    <header class="ad-preview__topp"><span class="ad-preview__avatar" id="submitted-avatar" aria-hidden="true"></span><div><b id="submitted-sender"></b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header>
+                    <p class="ad-preview__tekst" id="submitted-over-text"></p>
+                    <div class="ad-preview__kreativ" id="submitted-creative">
+                      <div class="ad-preview__logo" id="submitted-logo"></div>
+                      <h3 class="ad-preview__tittel" id="submitted-title"></h3>
+                      <div class="ad-preview__bilde" id="submitted-image" role="img" aria-label="Innsendt bilde"></div>
+                      <img class="submitted-file" id="submitted-file-image" alt="" hidden>
+                      <video class="submitted-file" id="submitted-video" controls playsinline preload="metadata" aria-label="Innsendt video" hidden></video>
+                    </div>
+                    <footer class="ad-preview__bunn"><div><small id="submitted-link"></small><b id="submitted-job"></b></div><span class="ad-preview__cta" id="submitted-cta"></span></footer>
+                  </article>
+                </div>
+                <div class="material-info">
+                  <div hidden><h4>Ønsker til designet</h4><p id="material-brief"></p></div>
+                  <div hidden><h4>Budskap i annonsen</h4><p id="material-image-text"></p></div>
+                  <div hidden><h4>Tekst over annonsen</h4><p id="material-ad-text"></p></div>
+                  <div id="material-sources-block" hidden><h4>Stillingsgrunnlag</h4><ul class="material-files" id="material-source-files"></ul></div>
+                  <div id="material-files-block" hidden><h4>Innsendte filer</h4><ul class="material-files" id="material-files"></ul></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
         <aside>
           <div class="summary-panel">
@@ -116,17 +181,45 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=16"></script>
+<script src="data/kampanjer.js?v=4"></script>
+<script src="../components/js/campaign-material.js?v=4"></script>
+<script src="../components/js/ad-colors.js?v=1"></script>
+<script src="../components/js/ad-crop.js?v=3"></script>
+<script src="../components/js/campaign-material-view.js?v=5"></script>
 <script>
 // Coming from «Bestill kampanjen»: show the order that was just placed. Otherwise the page keeps its example content.
-(function () {
-  var o = null;
-  try { if (new URLSearchParams(location.search).get('ny')) o = JSON.parse(sessionStorage.getItem('fzOrdre') || 'null'); } catch (e) {}
-  if (!o) return;
+(async function () {
+  var params = new URLSearchParams(location.search), id = params.get('id');
+  var campaign = id ? FZ_KAMPANJER.finn(id) : null;
+  var session = null;
+  try { session = JSON.parse(sessionStorage.getItem('fzOrdre') || 'null'); } catch (e) {}
+  if (session && id && String(session.id) !== id) session = null;
+  if (!id && !params.get('ny')) session = null;
+  var materialId = campaign && campaign.materiellId || session && session.materiellId;
+  var record = null;
+  if (materialId) { try { record = await FrantzCampaignMaterial.read(materialId); } catch (e) {} }
+  var o = record ? Object.assign({}, record.ordre, { id: id || session && session.id }) : session;
+  if (!o && campaign) o = {
+    id: campaign.id, tittel: campaign.tittel, stilling: campaign.stilling, sted: campaign.sted,
+    ref: campaign.ref, kanaler: campaign.kanaler, budsjett: campaign.budsjett || 0,
+    periodeTekst: campaign.periode, start: campaign.fra ? FZ_KAMPANJER.dato(campaign.fra) : '',
+    materiell: '', notat: '', tilleggSum: 0
+  };
+  FrantzCampaignMaterialView.render(record);
+  if (!o) {
+    if (id) {
+      document.getElementById('k-tittel').textContent = 'Fant ikke kampanjen';
+      document.getElementById('b-tittel').textContent = 'Ukjent kampanje';
+      document.getElementById('status-alert').textContent = 'Vi finner ikke denne bestillingen. Gå tilbake til Kampanjer og velg en bestilling.';
+      document.querySelector('.cols').hidden = true;
+    }
+    return;
+  }
   var $ = function (id) { return document.getElementById(id); };
   var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
   document.title = o.tittel + ' — Frantz kampanjeportal';
   $('b-tittel').textContent = o.tittel; $('k-tittel').textContent = o.tittel;
-  $('b-tid').textContent = 'I dag kl. ' + String(o.tid).replace(':', '.') + '.';
+  $('b-tid').textContent = record ? new Date(record.innsendt).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short' }) : o.tid ? 'I dag kl. ' + String(o.tid).replace(':', '.') + '.' : 'Bestillingen er mottatt.';
   $('b-start').textContent = 'Ønsket start ' + o.start + '.';
   $('d-stilling').textContent = o.stilling || 'Ikke oppgitt';
   $('d-sted').textContent = o.sted || 'Ikke oppgitt';
@@ -141,15 +234,16 @@
   $('d-total').textContent = kr(o.budsjett + (o.tilleggSum || 0));
   $('r-sok').hidden = !o.sok; $('d-sok').textContent = o.sok || '';
   $('b-radgivning').hidden = !o.radgivning;
-  $('d-bestilt').textContent = 'I dag kl. ' + String(o.tid).replace(':', '.');
+  $('d-bestilt').textContent = record ? new Date(record.innsendt).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short' }) : o.tid ? 'I dag kl. ' + String(o.tid).replace(':', '.') : 'Ikke oppgitt';
   $('piksel').setAttribute('data-piksel', o.id || '129075');
   if (o.connect) $('piksel').setAttribute('data-connect', o.connect); // ordered from Connect: the code is the ConnectID's
+  if (window.FrantzPiksel) FrantzPiksel.render();
   if (o.pakke) { $('r-pakke').hidden = false; $('d-pakke').textContent = o.pakke; }
   if (o.ref) { $('r-ref').hidden = false; $('d-ref').textContent = o.ref; }
   if (o.tillegg && o.tillegg.length) { $('r-tillegg').hidden = false; $('d-tillegg').textContent = o.tillegg.join(', '); }
 })();
 </script>
-<script src="../components/js/piksel.js?v=2"></script>
+<script src="../components/js/piksel.js?v=3"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

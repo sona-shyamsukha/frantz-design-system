@@ -1,0 +1,7 @@
+# Internal files. Not for the client.
+feedback/
+output/
+scripts/
+.claude/
+.cursor/
+README.md

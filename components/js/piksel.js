@@ -16,6 +16,7 @@
   };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
+  function render() {
   document.querySelectorAll('[data-piksel]').forEach(function (el) {
     var connect = el.dataset.connect;
     var id = connect || el.dataset.piksel, status = STATUS[el.dataset.status] ? el.dataset.status : 'venter';
@@ -47,4 +48,7 @@
       setTimeout(function () { knapp.innerHTML = gammel; melding.textContent = ''; }, 2000);
     });
   });
+  }
+  window.FrantzPiksel = { render: render };
+  render();
 })();

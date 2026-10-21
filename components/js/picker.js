@@ -315,7 +315,7 @@
       alle.filter(function (s) { return delSted(s).navn.toLowerCase() === p; })[0] || null;
   }
 
-  /* Budget: typed amount and slider stay in sync.
+  /* Budget: typed amount and optional slider stay in sync.
      FrantzPicker.budsjett(root, { onChange(verdi) }) → { verdi(), set(n), anbefalt(n) } */
   function budsjett(root, opt) {
     opt = opt || {};
@@ -323,16 +323,18 @@
     var slider = root.querySelector('.budsjett-slider');
     var merke = root.querySelector('.slider-wrap__mark');
     var knapp = root.querySelector('.budsjett-kontroll__anbefalt');
-    var min = Number(slider.min), max = Number(slider.max);
+    var min = slider ? Number(slider.min) : null, max = slider ? Number(slider.max) : null;
     var verdi = null, forslag = null;
     var tall = function (n) { return Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
 
     function vis() {
-      slider.value = verdi === null ? min : Math.min(max, Math.max(min, verdi));
-      slider.setAttribute('aria-valuetext', verdi === null ? 'Ikke valgt' : 'kr ' + tall(verdi));
-      var pst = (Number(slider.value) - min) / (max - min) * 100;
-      slider.style.background = 'linear-gradient(to right, var(--color-navy) ' + pst + '%, var(--surface-section) ' + pst + '%)';
-      if (merke) {
+      if (slider) {
+        slider.value = verdi === null ? min : Math.min(max, Math.max(min, verdi));
+        slider.setAttribute('aria-valuetext', verdi === null ? 'Ikke valgt' : 'kr ' + tall(verdi));
+        var pst = (Number(slider.value) - min) / (max - min) * 100;
+        slider.style.background = 'linear-gradient(to right, var(--color-navy) ' + pst + '%, var(--surface-section) ' + pst + '%)';
+      }
+      if (merke && slider) {
         merke.hidden = forslag === null;
         if (forslag !== null) merke.style.left = ((Math.min(max, Math.max(min, forslag)) - min) / (max - min) * 100) + '%';
       }
@@ -353,7 +355,7 @@
       felt.setSelectionRange(ny, ny);
       sett(siffer ? Number(siffer) : null, true);
     });
-    slider.addEventListener('input', function () { sett(Number(slider.value)); });
+    if (slider) slider.addEventListener('input', function () { sett(Number(slider.value)); });
     if (knapp) knapp.addEventListener('click', function () { if (forslag !== null) sett(forslag); });
 
     vis();
