@@ -22,19 +22,17 @@
   .skjema[hidden] { display: none; }
   .skjema__rad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-field-gap); }
   .skjema__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-16); }
-  /* Same option cards as Ny kampanje: room to breathe, and a logo, a description or a price */
-  .valgliste { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-12); margin: var(--space-6) 0 0; padding: 0; border: 0; }
-  .valgliste--bred { grid-template-columns: 1fr; }
-  .valgliste.kanal-piller { display: flex; } /* channels show as pills */
-  .valgliste.kanal-piller legend { flex-basis: 100%; }
-  .valgliste legend { padding: 0; margin-bottom: var(--space-6); }
-  .valgliste .form-check--kort { align-items: center; }
-  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
-  .valg__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
-  .valg__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); line-height: var(--leading-normal); }
-  .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
-  .valgliste--bred .form-check__box { margin-top: var(--space-2); }
-  .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+  /* Same channel checkbox cards as Ny kampanje: logo and name, minimum spend on the right */
+  .kanal-liste { display: grid; gap: var(--space-12); padding: 0; border: 0; }
+  .kanal-liste legend { padding: 0; margin-bottom: var(--space-6); }
+  .flere__valg .form-check__box { margin-top: calc((1lh - var(--space-20)) / 2); }
+  .flere__tekst { flex: 1; display: grid; gap: var(--space-2); }
+  .flere__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .kanal-valg__navn { display: flex; align-items: center; gap: var(--space-8); }
+  .flere__pris { color: var(--text-muted); font: var(--type-support); white-space: nowrap; }
+  /* Channel names are short: on phones the minimum stays on the same row */
+  .app .kanal-liste > .flere__valg { grid-template-columns: var(--space-20) minmax(0, 1fr) auto; }
+  .app .kanal-liste .flere__pris { grid-column: auto; }
   .pakke-felt { margin-top: var(--space-16); }
   .pakke-slettet { align-items: center; margin-bottom: var(--space-16); }
   .pakke-slettet[hidden] { display: none; }
@@ -120,13 +118,16 @@
           <h3 class="card__title" style="margin-bottom: var(--space-12)">Ny pakke</h3>
           <div class="skjema__rad">
             <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
-            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000" aria-describedby="p-budsjett-hint">
-              <p class="form-hint" id="p-budsjett-hint">Perioden velger du på hver kampanje. Frantz fordeler budsjettet over perioden.</p></div>
           </div>
-          <fieldset class="valgliste kanal-piller pakke-felt" id="p-kanaler">
+          <fieldset class="kanal-liste pakke-felt" id="p-kanaler">
             <legend class="form-label">Kanaler</legend>
           </fieldset>
           <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
+          <!-- Budget comes after the channels, so the minimum spend is known when you type it -->
+          <div class="skjema__rad pakke-felt">
+            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000" aria-describedby="p-budsjett-hint">
+              <p class="form-hint" id="p-budsjett-hint">Perioden velger du på hver kampanje. Frantz fordeler budsjettet over perioden.</p></div>
+          </div>
           <!-- Shown only when the budget is below the minimum for the picked channels -->
           <div class="alert alert--warning pakke-rad" id="p-rad" role="status" aria-live="polite" hidden>
             <span class="icon-lucide icon-lucide--triangle-alert alert__icon" aria-hidden="true"></span>
@@ -156,12 +157,10 @@
 // Pakker
 function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
 function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-function kort(innhold, data) {
-  return '<label class="form-check form-check--kort"><input class="form-check__input" type="checkbox" ' + data + '><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + innhold + '</span></label>';
-}
-function valgTekst(tittel, tekst) { return '<span class="valg__tekst"><b>' + esc(tittel) + '</b><span>' + esc(tekst) + '</span></span>'; }
 document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.KANALER.map(function (k) {
-  return kort('<span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn), 'data-p-kanal="' + esc(k.navn) + '"');
+  return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-p-kanal="' + esc(k.navn) + '"><span class="form-check__box" aria-hidden="true"></span>' +
+    '<span class="flere__tekst"><b class="kanal-valg__navn"><span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn) + '</b></span>' +
+    '<span class="flere__pris">fra ' + kr(k.min) + '</span></label>';
 }).join(''));
 var nyPakke = '';
 function tegnPakker() {
