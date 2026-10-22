@@ -7,7 +7,7 @@
 <title>Opprett kampanje — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=100">
 <script src="../components/js/brukerflyt.js?v=2"></script>
-<link rel="stylesheet" href="../components/studio/ad-templates.css?v=14">
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
 <style>
   body { margin: 0; }
@@ -137,7 +137,16 @@
   /* Ready ads: one row per file, with its size and where it is used */
   .fa-liste { display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; }
   .fa-liste[hidden], .fa-mangler[hidden] { display: none; }
-  .fa-fil { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); padding: var(--space-8) var(--space-12) var(--space-8) var(--space-8); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
+  .fa-fil { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); padding: var(--space-8) var(--space-12) var(--space-8) var(--space-8); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
+  .fa-fil__vis { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: var(--space-12); min-width: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .fa-fil__vis:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-8); }
+  .fa-fil--vist { border-color: var(--color-navy); background: var(--tint-navy-4); }
+  .pv-variant { display: flex; align-items: center; justify-content: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-body); font: var(--type-support); text-align: center; }
+  .pv-variant[hidden], .pv-variant:not(.pv-variant--flere) .pv-variant__pil { display: none; }
+  .pv-variant__pil { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border: 1px solid var(--border-default); border-radius: 50%; background: var(--surface-raised); color: var(--text-heading); cursor: pointer; }
+  .pv-variant__pil:hover { border-color: var(--color-navy); }
+  .pv-variant__pil:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  #pv.ad-preview--hoy { max-width: 300px; margin-inline: auto; } /* 9:16 placements are narrow */
   .fa-fil img, .fa-fil video { display: block; width: 56px; height: 56px; border-radius: var(--radius-8); object-fit: cover; background: var(--surface-section); }
   .fa-fil__info { display: grid; gap: var(--space-2); min-width: 0; }
   .fa-fil__info b { overflow: hidden; color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; text-overflow: ellipsis; }
@@ -646,11 +655,9 @@
     #q-periode-valg { max-width: calc((100% - var(--space-24)) / 2); }
     #mangler-blokker > #estimat { margin-top: var(--space-24); }
     #annonse-bygg .annonse__kontroller { display: block; }
-    #annonse-bygg .an-del:not(.an-del--bilde), .annonse__tekst > .an-del { margin-top: var(--space-24); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-16) var(--space-24); }
-    .annonse__tekst > .an-del { margin-top: 0; }
-    #annonse-bygg .an-del:not(.an-del--bilde) > .felt-topp, .annonse__tekst > .an-del > .felt-topp { grid-column: 1 / -1; }
-    #annonse-bygg .an-del:not(.an-del--bilde) > .form-group, .annonse__tekst > .an-del > .form-group { margin: 0; }
-    .annonse__tekst > .an-del > .form-group[hidden] + .form-group { grid-column: 1 / -1; }
+    #annonse-bygg .an-del:not(.an-del--bilde) { margin-top: var(--space-24); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-16) var(--space-24); }
+    #annonse-bygg .an-del:not(.an-del--bilde) > .felt-topp { grid-column: 1 / -1; }
+    #annonse-bygg .an-del:not(.an-del--bilde) > .form-group { margin: 0; }
     #annonse-bygg #an-mer { margin-top: var(--space-24); }
   }
   #ad-side { min-width: 0; display: grid; align-content: start; gap: var(--space-16); }
@@ -1102,8 +1109,8 @@
               <span class="form-label" id="materiell-lbl">Hva har dere til annonsen?</span>
               <div class="valgfaner" id="materiell-valg" role="tablist" aria-labelledby="materiell-lbl">
                 <button class="valgfaner__valg" id="materiell-ferdig" type="button" role="tab" aria-selected="true" aria-controls="annonse-ferdig" data-materiell="ferdig">Jeg har ferdige annonser</button>
-                <button class="valgfaner__valg" id="materiell-hjelp" type="button" role="tab" aria-selected="false" aria-controls="annonse-frantz" data-materiell="hjelp" tabindex="-1">Bestill design fra Frantz</button>
                 <button class="valgfaner__valg" id="materiell-bygg" type="button" role="tab" aria-selected="false" aria-controls="annonse-bygg" data-materiell="bygg" tabindex="-1">Lag annonsen selv</button>
+                <button class="valgfaner__valg" id="materiell-hjelp" type="button" role="tab" aria-selected="false" aria-controls="annonse-frantz" data-materiell="hjelp" tabindex="-1">Bestill design fra Frantz</button>
               </div>
               <p class="feil" id="an-materiell-feil" role="alert" hidden></p>
             </div>
@@ -1159,7 +1166,6 @@
                         <div class="an-templates__choices">
                           <label class="an-template"><input type="radio" name="an-template" value="profile" checked><span>Profil øverst</span></label>
                           <label class="an-template"><input type="radio" name="an-template" value="frame"><span>Luft rundt bildet</span></label>
-                          <label class="an-template"><input type="radio" name="an-template" value="none"><span>Ingen mal</span></label>
                         </div>
                       </fieldset>
 
@@ -1269,6 +1275,11 @@
                     </div>
                     <footer class="ad-preview__bunn"><div><small id="pv-lenke">frantz.no</small><b id="pv-stilling"></b></div><span class="ad-preview__cta" id="pv-cta">Søk nå</span></footer>
                   </article>
+                  </div>
+                  <div class="pv-variant" id="pv-variant" hidden>
+                    <button type="button" class="pv-variant__pil" data-variant="-1" aria-label="Forrige fil"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
+                    <span class="pv-variant__tekst" id="pv-variant-tekst" aria-live="polite"></span>
+                    <button type="button" class="pv-variant__pil" data-variant="1" aria-label="Neste fil"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
                   </div>
                   <p class="annonse__sjekk">Forhåndsvisning av valgt plassering. Nettstedsannonser vises som et eksempel; endelig format avhenger av publiseringsstedet.</p>
                 </div>
@@ -2053,6 +2064,12 @@
     if (k.indexOf('Meta') !== -1) ut.push(['facebook', 'Facebook · feed'], ['instagram', 'Instagram · feed']);
     if (k.indexOf('LinkedIn') !== -1) ut.push(['linkedin', 'LinkedIn · feed']);
     if (k.indexOf('Nettsteder og aviser') !== -1) ut.push(['nettsteder', 'Nettsteder · eksempel']);
+    // Ready ads can have their own 9:16 file, so those placements get a preview too
+    if (tilstand.materiell === 'ferdig') {
+      if (k.indexOf('Meta') !== -1) ut.push(['story', 'Stories · eksempel']);
+      if (k.indexOf('Snapchat') !== -1) ut.push(['snapchat', 'Snapchat · eksempel']);
+      if (k.indexOf('TikTok') !== -1) ut.push(['tiktok', 'TikTok · eksempel']);
+    }
     return ut.length ? ut : [['facebook', 'Facebook · feed']];
   }
   // Frantz's draft. It follows the job until the user writes their own.
@@ -2110,7 +2127,6 @@
     synkSummaryPanel();
     if (modus === 'hjelp') { $('pv-video').pause(); return; }
     synkAvsender();
-    if (modus === 'ferdig') tegnFerdige();
     var b = BILDER.filter(function (x) { return x.fil === a.bilde; })[0];
     var url = a.bildeUrl || '../assets/media/' + a.bilde;
     $('an-t1').textContent = 'Bilde';
@@ -2134,7 +2150,7 @@
     $('an-ferdig-hint').hidden = !a.bildeUrl;
     $('an-ferdig-hint').textContent = a.video ? 'Videoen brukes som den er. Dere kan legge til tekst over annonsen.'
       : ferdig ? 'Vi bruker filen som den er, uten å legge på ny tekst eller logo.' : 'Logo og budskap får egne flater. Velg utforming og legg til teksten under.';
-    $('an-templates').hidden = !harBilde;
+    $('an-templates').hidden = !harBilde || a.video; // a video is used as it is, so there is no layout to choose
     $('an-logo-felt').hidden = !harBilde || ferdig;
     $('an-logo-valgt').hidden = !a.logoUrl;
     $('an-logo-fjern').hidden = !a.logoUrl;
@@ -2156,6 +2172,7 @@
     if (!vis.some(function (v) { return v[0] === a.kanal; })) a.kanal = vis[0][0];
     var kanalNavn = vis.filter(function (v) { return v[0] === a.kanal; })[0][1];
     var fv = modus === 'ferdig' ? ferdigFor(a.kanal) : null;
+    if (modus === 'ferdig') { tegnFerdige(fv); tegnVariant(fv); } else $('pv-variant').hidden = true;
     var pvUrl = fv ? fv.url : url, pvVideo = fv ? fv.video : a.video;
     $('annonse-kanaler').innerHTML = vis.map(function (v) {
       return '<button type="button" class="filter" data-annonse-kanal="' + v[0] + '" aria-pressed="' + (v[0] === a.kanal) + '">' + v[1] + '</button>';
@@ -2166,7 +2183,7 @@
     $('pv-avsender').textContent = avsender;
     $('pv-avatar').textContent = avsender.charAt(0).toUpperCase();
     FrantzAdLogo.render($('pv-logo'), avsender, a.logoUrl);
-    $('pv-tittel').textContent = a.tittel.trim() || 'Gjør en forskjell. Sammen med oss.';
+    $('pv-tittel').textContent = a.tittel.trim(); // empty: no text on the image, as on the order and approval pages
     $('pv-tekst').textContent = a.tekst;
     $('pv-cta').textContent = a.knapp;
     $('pv-stilling').textContent = $('stilling').value.trim();
@@ -2181,8 +2198,9 @@
     u.tekst = FrantzAdColors.textFor(u.bg);
     kreativ.style.setProperty('--pv-bg', u.bg);
     kreativ.style.setProperty('--pv-tekst', u.tekst);
-    $('pv-tittel').hidden = ferdig;
-    kreativ.style.aspectRatio = a.kanal === 'linkedin' || a.kanal === 'nettsteder' ? '1 / 1' : '4 / 5';
+    $('pv-tittel').hidden = ferdig || !a.tittel.trim();
+    kreativ.style.aspectRatio = modus === 'ferdig' ? FORHOLD[PV_FORMAT[a.kanal]] : a.kanal === 'linkedin' || a.kanal === 'nettsteder' ? '1 / 1' : '4 / 5';
+    $('pv').classList.toggle('ad-preview--hoy', modus === 'ferdig' && PV_FORMAT[a.kanal] === '9:16');
     kreativ.dataset.storrelse = tittelStorrelse(a.tittel);
     $('pv-logo').hidden = !u.logo || ferdig;
     $('pv-bilde').style.backgroundImage = pvVideo ? 'none' : 'url("' + pvUrl + '")';
@@ -2234,7 +2252,7 @@
     var a = tilstand.annonse;
     if (a.bildeUrl) URL.revokeObjectURL(a.bildeUrl);
     $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true;
-    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bilde = fil; a.bildeUrl = ''; a.fil = null; a.filnavn = ''; a.video = false; a.egetBilde = true; a.erFerdig = false;
+    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bilde = fil; a.bildeUrl = ''; a.fil = null; a.filnavn = ''; a.video = false; a.egetBilde = true; a.erFerdig = false; if (a.template === 'none') a.template = 'profile';
     lukkBildevalg(); tegnAnnonse(); oppdater();
   }
   document.addEventListener('click', function (e) {
@@ -2270,7 +2288,9 @@
     { navn: 'LinkedIn', kanal: 'LinkedIn', format: '1:1' }, { navn: 'Nettsteder og aviser', kanal: 'Nettsteder og aviser', format: '1:1' },
     { navn: 'Snapchat', kanal: 'Snapchat', format: '9:16' }, { navn: 'TikTok', kanal: 'TikTok', format: '9:16' }
   ];
-  var PV_FORMAT = { facebook: '4:5', instagram: '4:5', linkedin: '1:1', nettsteder: '1:1' }; // the preview's placements
+  var PV_FORMAT = { facebook: '4:5', instagram: '4:5', linkedin: '1:1', nettsteder: '1:1', story: '9:16', snapchat: '9:16', tiktok: '9:16' }; // the preview's placements
+  var FORHOLD = { '1:1': '1 / 1', '4:5': '4 / 5', '9:16': '9 / 16' };
+  tilstand.ferdigVariant = 0;
   tilstand.ferdige = [];
   function formatFor(w, h) {
     if (!w || !h) return null;
@@ -2285,7 +2305,7 @@
   }
   async function leggTilFerdige(liste) {
     for (var i = 0; i < liste.length; i++) { liste[i].format = await malFil(liste[i].url, liste[i].video); tilstand.ferdige.push(liste[i]); }
-    if (liste.length) { $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true; }
+    if (liste.length) { $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true; visFerdig(liste[0]); }
     tegnAnnonse(); oppdater();
   }
   function leggTilFerdigeFiler(filer) {
@@ -2298,37 +2318,70 @@
     $('fa-feil').textContent = avvist.length ? avvist.join(', ') + ' ble ikke lagt til. Velg JPG, PNG, WebP eller MP4 under 10 MB.' : '';
     leggTilFerdige(ok);
   }
-  // The placements for the chosen channels, each with the first file in its size
+  // The placements for the chosen channels, each with every file in its size
   function ferdigePlasseringer() {
     return PLASSERINGER.filter(function (p) { return tilstand.kanaler.indexOf(p.kanal) !== -1; }).map(function (p) {
-      return { p: p, fil: tilstand.ferdige.filter(function (f) { return f.format && f.format.id === p.format; })[0] || null };
+      return { p: p, filer: tilstand.ferdige.filter(function (f) { return f.format && f.format.id === p.format; }) };
     });
   }
+  // The files the preview can show for a placement: all files in its size, or else the closest size
+  function ferdigeFor(kanal) {
+    var onsket = PV_FORMAT[kanal], r = FORMATER.filter(function (f) { return f.id === onsket; })[0].r;
+    var like = tilstand.ferdige.filter(function (f) { return f.format && f.format.id === onsket; });
+    if (like.length) return { filer: like, naermest: false, format: onsket };
+    var avstand = function (f) { return f.format ? Math.abs(Math.log(f.format.r / r)) : 99; };
+    return { filer: tilstand.ferdige.slice().sort(function (x, y) { return avstand(x) - avstand(y); }).slice(0, 1), naermest: true, format: onsket };
+  }
   function ferdigFor(kanal) {
-    var onsket = PV_FORMAT[kanal];
-    return tilstand.ferdige.filter(function (f) { return f.format && f.format.id === onsket; })[0] || tilstand.ferdige[0] || null;
+    var v = ferdigeFor(kanal);
+    if (!v.filer.length) return null;
+    tilstand.ferdigVariant = Math.min(Math.max(tilstand.ferdigVariant, 0), v.filer.length - 1);
+    return v.filer[tilstand.ferdigVariant];
+  }
+  // Under the preview: which file it shows, «1 av 2» with arrows when several files fit, or that it is the closest size
+  function tegnVariant(fv) {
+    var v = ferdigeFor(tilstand.annonse.kanal), el = $('pv-variant');
+    el.hidden = !fv;
+    if (!fv) return;
+    el.classList.toggle('pv-variant--flere', v.filer.length > 1);
+    $('pv-variant-tekst').textContent = fv.navn + (v.filer.length > 1 ? ' · ' + (tilstand.ferdigVariant + 1) + ' av ' + v.filer.length : '') +
+      (v.naermest ? ' · ingen fil i ' + v.format + ', viser nærmeste størrelse' : '');
+  }
+  // Show one file in the preview: go to a placement in its size, on that file
+  function visFerdig(f) {
+    var plass = kanalVisninger().filter(function (v) { return f.format && PV_FORMAT[v[0]] === f.format.id; })[0];
+    if (plass) tilstand.annonse.kanal = plass[0];
+    tilstand.ferdigVariant = Math.max(0, ferdigeFor(tilstand.annonse.kanal).filer.indexOf(f));
   }
   function ogListe(navn) { return navn.join(', ').replace(/, ([^,]*)$/, ' og $1'); }
-  function tegnFerdige() {
+  function tegnFerdige(vist) {
     var deler = ferdigePlasseringer();
     $('fa-liste').hidden = !tilstand.ferdige.length;
     $('fa-liste').innerHTML = tilstand.ferdige.map(function (f, i) {
-      var brukes = deler.filter(function (d) { return d.fil === f; }).map(function (d) { return d.p.navn; });
+      var brukes = deler.filter(function (d) { return d.filer.indexOf(f) !== -1; }).map(function (d) { return d.p.navn; });
       var info = (f.format ? f.format.navn : 'Ukjent størrelse') + ' · ' + (brukes.length ? ogListe(brukes) : 'brukes ikke i kanalene dere har valgt');
       var media = f.video ? '<video src="' + f.url + '" muted preload="metadata"></video>' : '<img src="' + f.url + '" alt="">';
-      return '<li class="fa-fil">' + media + '<div class="fa-fil__info"><b>' + esc(f.navn) + '</b><span>' + esc(info) + '</span></div>' +
+      return '<li class="fa-fil' + (f === vist ? ' fa-fil--vist' : '') + '"><button type="button" class="fa-fil__vis" data-vis-ferdig="' + i + '"' + (f === vist ? ' aria-current="true"' : '') + ' aria-label="Vis ' + esc(f.navn) + ' i forhåndsvisningen">' + media + '<span class="fa-fil__info"><b>' + esc(f.navn) + '</b><span>' + esc(info) + '</span></span></button>' +
         '<button class="btn btn--ghost btn--sm" type="button" data-fjern-ferdig="' + i + '" aria-label="Fjern ' + esc(f.navn) + '" title="Fjern"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span></button></li>';
     }).join('');
-    var mangler = deler.filter(function (d) { return !d.fil; }).map(function (d) { return d.p.navn + ' (' + d.p.format + ')'; });
+    var mangler = deler.filter(function (d) { return !d.filer.length; }).map(function (d) { return d.p.navn + ' (' + d.p.format + ')'; });
     $('fa-mangler').hidden = !tilstand.ferdige.length || !mangler.length;
     $('fa-mangler').textContent = mangler.length ? 'Mangler riktig størrelse for ' + ogListe(mangler) + '.' : '';
   }
   $('fa-velg').addEventListener('click', function () { $('fa-filer').click(); });
+  $('pv-variant').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-variant]'); if (!b) return;
+    var n = ferdigeFor(tilstand.annonse.kanal).filer.length;
+    tilstand.ferdigVariant = (tilstand.ferdigVariant + Number(b.dataset.variant) + n) % n;
+    tegnAnnonse();
+  });
   $('fa-filer').addEventListener('change', function () { leggTilFerdigeFiler(this.files); this.value = ''; });
   $('fa-slipp').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('dra-over'); });
   $('fa-slipp').addEventListener('dragleave', function () { this.classList.remove('dra-over'); });
   $('fa-slipp').addEventListener('drop', function (e) { e.preventDefault(); this.classList.remove('dra-over'); leggTilFerdigeFiler(e.dataTransfer.files); });
   $('fa-liste').addEventListener('click', function (e) {
+    var vis = e.target.closest('[data-vis-ferdig]');
+    if (vis) { visFerdig(tilstand.ferdige[Number(vis.dataset.visFerdig)]); tegnAnnonse(); return; }
     var b = e.target.closest('[data-fjern-ferdig]'); if (!b) return;
     var f = tilstand.ferdige.splice(Number(b.dataset.fjernFerdig), 1)[0];
     if (f && f.kilde === 'fil') URL.revokeObjectURL(f.url);
@@ -2359,7 +2412,7 @@
     }
     var a = tilstand.annonse;
     if (a.bildeUrl) URL.revokeObjectURL(a.bildeUrl);
-    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bildeUrl = URL.createObjectURL(f); a.fil = f; a.filnavn = f.name; a.video = f.type === 'video/mp4'; a.egetBilde = true; a.erFerdig = a.video || a.template === 'none'; if (a.video) a.template = 'none';
+    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bildeUrl = URL.createObjectURL(f); a.fil = f; a.filnavn = f.name; a.video = f.type === 'video/mp4'; a.egetBilde = true; if (a.video) a.template = 'none'; else if (a.template === 'none') a.template = 'profile'; a.erFerdig = a.video; // «Ingen mal» is gone: only a video is used as it is
     $('an-fil-feil').hidden = true; $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true;
     lukkBildevalg();
     tegnAnnonse(); oppdater(); $('an-bytt').focus();
@@ -2441,7 +2494,7 @@
   $('an-knapp').addEventListener('change', function () { tilstand.annonse.knapp = this.value; tilstand.annonse.endret = true; tegnAnnonse(); });
   document.addEventListener('click', function (e) {
     var k = e.target.closest('[data-annonse-kanal]');
-    if (k) { tilstand.annonse.kanal = k.dataset.annonseKanal; tegnAnnonse(); return; }
+    if (k) { tilstand.annonse.kanal = k.dataset.annonseKanal; tilstand.ferdigVariant = 0; tegnAnnonse(); return; }
     var f = e.target.closest('[data-farge-verdi]');
     if (f) { velgBakgrunn(f.dataset.fargeVerdi); tegnFarger(); tegnAnnonse(); }
   });

@@ -7,6 +7,8 @@
 .ad-composition[data-template] .ad-preview__bilde { min-height: 0; flex: 1; margin: 0; background-size: cover; }
 .ad-composition[data-template="profile"] { padding-bottom: 0; }
 .ad-composition[data-template="profile"] .ad-preview__bilde { margin-inline: -6cqw; }
+/* No logo and no text: the picture fills the top, so no empty strip is left */
+.ad-composition[data-template="profile"]:has(> .ad-preview__logo[hidden]):has(> .ad-preview__tittel[hidden]) { padding-top: 0; }
 .ad-composition[data-template="frame"] .ad-preview__logo { order: 1; }
 .ad-composition[data-template="frame"] .ad-preview__bilde { order: 2; border-radius: 8px; }
 .ad-composition[data-template="frame"] .ad-preview__tittel { order: 3; }
