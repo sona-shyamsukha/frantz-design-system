@@ -722,21 +722,20 @@
 </style>
 <!-- Variant B: fewer questions on each step. All fields from ny-kampanje.html stay in the page, so its script keeps working. -->
 <style>
-  .enkel-variant { margin: 0 0 var(--space-16); color: var(--text-muted); font: var(--type-support); }
-  .enkel-linje { margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
-  .enkel-linje[hidden] { display: none; }
+  /* All links in the form use the normal link size */
+  #skjema .link--xs { font-size: var(--text-sm); }
 
-  /* Step 1: one box for a link or text. The campaign name comes from the job and place. */
-  #felt-ref, #felt-lenke, #felt-fil > .form-label { display: none !important; }
+  /* Step 1: pick a job you already have, then add a link or text. The campaign name comes from the job and place. */
+  #felt-ref, #felt-lenke, #felt-fil > .form-label, #funnet-hint { display: none !important; }
   .kilde-felter { grid-template-columns: minmax(0, 1fr) !important; gap: var(--space-16) !important; }
-  #felt-tekst { order: 1; }
-  #felt-fil { order: 2; }
-  #connect-valg { order: 3; }
+  #connect-valg { order: 1; margin-bottom: var(--space-8); }
+  #felt-tekst { order: 2; }
+  #felt-fil { order: 3; }
   #felt-fil .pdf-rad { padding: var(--space-12) var(--space-16); }
+  #kilde-status { display: none !important; }
 
-  /* Step 2: the packages are a plain list. «Sett opp selv» is a link, not a tab. */
-  .oppsett-felt, .pakke-knapp, #pakke-status { display: none !important; }
-  #del-mangler > .oppsett-felt + #pakker, #del-mangler > .oppsett-felt + #pakker[hidden] + #mangler-blokker { margin-top: 0; }
+  /* Step 2: the tabs stay, with no question above them and no hint under them */
+  #oppsett-lbl, .pakke-knapp, #pakke-status, #oppsett-hint { display: none !important; }
   #pakke-valg { grid-template-columns: minmax(0, 1fr) !important; gap: var(--space-8); }
   #pakke-valg .pakke-kort {
     display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'head price' 'channels price';
@@ -754,29 +753,54 @@
     #pakke-valg .pakke-kort__pris b { font-size: var(--text-lg); }
   }
 
-  /* The period: quick choices first, then the dates as one line you can change */
-  .periode { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-8); }
-  .periode__snarveier { order: 1; margin-top: 0; }
-  .periode__fast { order: 2; }
-  .periode__knapp { order: 3; width: auto; min-height: 44px; padding: 0; border: 0; background: none; color: var(--text-muted); font: var(--type-support); }
-  .periode__knapp > .icon-lucide { display: none; }
-  .periode__knapp .periode-tekst { flex: none; }
-  .periode__knapp::after { content: 'Velg datoer'; margin-left: var(--space-8); color: var(--text-heading); font-weight: var(--font-weight-medium); text-decoration: underline; text-underline-offset: 3px; }
-  .periode__kalender { top: calc(100% + var(--space-4)); }
+  /* Step 3: no tabs. Design help is a checkbox like the add-ons in step 4. Headings look like the field labels in the other steps. */
+  #materiell-lbl, #materiell-valg, #materiell-hint, #materiell-designinfo { display: none !important; }
+  .materiell-start[hidden] { display: none; }
+  #enkel-design { margin: 0; }
+  #annonse-frantz > #enkel-design { margin-bottom: var(--space-24); }
+  #skjema .an-del__tittel { font: var(--type-label); }
+  #an-t1[hidden] { display: flex !important; }
+  /* «Bytt bilde» is an icon button next to «Fjern» */
+  .enkel-bildeknapper { display: flex; gap: var(--space-4); }
+  #skjema #an-bytt { font-size: 0; justify-self: auto; }
+  #skjema #an-bytt[hidden] { display: none; }
+  /* Several sizes: one list, each file labelled with its size and where it is used */
+  .enkel-filer { display: grid; gap: var(--space-8); }
+  #an-ferdig-hint { display: none !important; }
+  #skjema .an-valgt__info { width: 100%; }
+  #skjema .an-valgt__info b { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; overflow-wrap: normal; }
+  .enkel-filer[hidden], .enkel-flere[hidden], .enkel-mangler[hidden] { display: none; }
+  .enkel-fil video { width: 56px; height: 56px; border-radius: var(--radius-8); object-fit: cover; background: var(--surface-section); }
+  .enkel-format { color: var(--text-muted); font: var(--type-support); }
+  .enkel-flere { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-16); }
+  .enkel-mangler { margin: 0; color: var(--text-muted); font: var(--type-support); }
+  #skjema #an-bytt::before { content: ''; display: block; flex: none; width: 16px; height: 16px; background: currentColor; -webkit-mask: var(--enkel-ikon) center / contain no-repeat; mask: var(--enkel-ikon) center / contain no-repeat; }
+  .annonse__arbeid--klar .an-del--bilde { padding-bottom: var(--space-24); border-bottom: 1px solid var(--border-subtle); }
+  #annonse-bygg .an-del:not(.an-del--bilde) { padding-top: var(--space-24); }
 
-  /* Step 3: no tabs, no optional headline. «Bestill design» is a link. */
-  #materiell-lbl, #materiell-valg, #materiell-hint, #an-tittel-felt { display: none !important; }
-  .materiell-start .enkel-linje { margin-top: 0; }
-
-  /* Step 4: the invoice line uses the default. Approval is one line under «Bestill». */
+  /* Step 4: the invoice line uses the default. Approval is a clear button that opens a dialog. */
   #felt-faktura:not(.er-apen) > :not(.enkel-faktura), #felt-faktura.er-apen > .enkel-faktura { display: none; }
   .enkel-faktura { margin: 0; font: var(--type-body); }
   #blokk-del > .form-label, .bestilling-deling { display: none !important; }
-  #blokk-del #del-knapp { font: var(--type-support); }
-  #blokk-del #del-knapp .icon-lucide { display: none; }
-  #enkel-venter { margin: var(--space-16) 0 0; text-align: right; }
+  .enkel-del { justify-self: stretch; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12) var(--space-16); }
+  .enkel-del[hidden] { display: none; }
+  .enkel-del p { margin: 0; color: var(--text-body); font: var(--type-body); }
+  dialog.enkel-dialog { position: fixed; inset: 0; margin: auto; height: fit-content; width: min(520px, calc(100vw - 2 * var(--space-16))); max-height: calc(100vh - 2 * var(--space-32)); padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: 0 24px 64px rgb(0 0 0 / 0.24); overflow: auto; }
+  .enkel-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
+  .enkel-dialog .approval-inline { margin: 0; padding: 0; border: 0; }
+  .enkel-dialog .approval-inline__head { flex-wrap: nowrap; align-items: flex-start; }
+  .enkel-dialog .approval-inline__head h3 { flex: 1; font: var(--type-section); }
+  .enkel-dialog .del-panel__to { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-16); }
+  .enkel-dialog .approval-inline__actions { margin-top: var(--space-8); }
+  .enkel-dialog .approval-inline__actions .form-hint { display: none; }
+  .enkel-lukk { display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin: calc(var(--space-8) * -1) calc(var(--space-8) * -1) 0 0; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-heading); cursor: pointer; }
+  .enkel-lukk:hover { background: var(--surface-subtle); }
+  .enkel-lukk:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .enkel-dialog .approval-test { display: none; }
+  .enkel-dialog .approval-form { margin-top: var(--space-16); }
+  @media (max-width: 600px) { dialog.enkel-dialog { margin: auto 0 0; width: 100vw; max-width: 100vw; padding: var(--space-24) var(--space-16); border-radius: var(--radius-16) var(--radius-16) 0 0; } }
+  #enkel-venter { margin: 0; }
   #enkel-venter[hidden] { display: none; }
-  @media (max-width: 760px) { #enkel-venter { text-align: left; } }
 </style>
 </head>
 <body data-assistant="form">
@@ -899,7 +923,6 @@
 
             <p class="lede steg-hode__lede" id="side-lede"></p>
           </header>
-          <p class="enkel-variant">Variant B, forenklet · <a class="link link--xs" href="ny-kampanje.html">Se dagens versjon</a></p>
 
 
 
@@ -1317,7 +1340,7 @@
 <script src="data/kampanjer.js?v=4"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
-<script src="../components/js/reach-model.js?v=4"></script>
+<script src="../components/js/reach-model.js?v=5"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -3004,18 +3027,10 @@
 /* Variant B: moves, relabels and pre-fills the fields from variant A. It adds no new data to the order. */
 (function () {
   var $ = function (id) { return document.getElementById(id); };
-  function linje(tekst, knapp, ved) {
-    var p = document.createElement('p'), b = document.createElement('button');
-    p.className = 'enkel-linje'; b.type = 'button'; b.className = 'link link--xs'; b.textContent = knapp;
-    b.addEventListener('click', ved);
-    if (tekst) p.append(tekst + ' ');
-    p.append(b); return p;
-  }
 
-  /* Step 1: one box. A link in the text goes to the hidden link field before the form is read. */
+  /* Step 1: pick a job from Stillinger first, then one box for more. A link in the text goes to the hidden link field before the form is read. */
   document.querySelector('label[for="beskrivelse"]').textContent = 'Lim inn en lenke eller tekst om stillingen';
   $('beskrivelse').placeholder = 'F.eks. https://… eller: Vi trenger to sykepleiere til akuttmottaket i Kristiansand. Søknadsfrist 30. november.';
-  $('connect-lbl').textContent = 'Eller hent en stilling fra Stillinger';
   $('skjema').addEventListener('click', function (e) {
     if (!e.target.closest('#fortsett, #oppdater-kilder')) return;
     var tekst = $('beskrivelse').value, url = tekst.match(/https?:\/\/\S+/);
@@ -3023,43 +3038,203 @@
     $('lenke').value = url[0]; $('beskrivelse').value = tekst.replace(url[0], '').trim();
     ['lenke', 'beskrivelse'].forEach(function (id) { $(id).dispatchEvent(new Event('input', { bubbles: true })); });
   }, true);
-  // Back on step 1, the link shows in the one box again
-  $('start-endre').addEventListener('click', function () {
-    var lenke = $('lenke').value.trim();
-    if (!lenke || $('beskrivelse').value.indexOf(lenke) !== -1) return;
-    $('beskrivelse').value = (lenke + '\n' + $('beskrivelse').value).trim();
+  // The demo fills the one box too: the link goes first in the text
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-demo]')) return;
+    var lenke = $('lenke').value.trim(), tekst = $('beskrivelse').value.trim();
+    if (!lenke) return;
+    $('beskrivelse').value = tekst ? lenke + '\n' + tekst : lenke; $('lenke').value = '';
+    ['lenke', 'beskrivelse'].forEach(function (id) { $(id).dispatchEvent(new Event('input', { bubbles: true })); });
   });
+  // The job ad link is a field in «Stillingen», where the other job details are.
+  // It updates the saved link without counting as a new source to read again.
+  var lenkeFelt = document.createElement('div');
+  lenkeFelt.className = 'felt funnet__bred';
+  lenkeFelt.innerHTML = '<label class="form-label" for="enkel-lenke">Lenke til stillingsannonsen</label><input class="form-input" type="url" id="enkel-lenke" placeholder="https://…">';
+  $('funnet-felter').prepend(lenkeFelt);
+  $('enkel-lenke').addEventListener('input', function () { $('lenke').value = this.value.trim(); });
 
-  /* Step 2: switch between package and own setup with a link */
-  $('pakker').appendChild(linje('Vil dere velge budsjett og kanaler selv?', 'Sett opp selv', function () { $('oppsett-selv').click(); }));
-  $('oppsett-egendefinert').prepend(linje('', 'Bruk en av pakkene i stedet', function () { $('oppsett-pakke').click(); }));
 
-  /* Step 3: «Bestill design» as a link */
-  var tilDesign = linje('Har dere ikke bilde?', 'La Frantz lage annonsen', function () { $('materiell-hjelp').click(); });
-  var tilEget = linje('', 'Vi har bilde selv', function () { $('materiell-bygg').click(); });
-  $('an-slipp').after(tilDesign); $('materiell-valg').after(tilEget);
+  /* Step 3: design help is a checkbox card. Checking it switches to the design order, unchecking goes back. */
+  var designKort = document.createElement('label');
+  designKort.className = 'form-check form-check--kort flere__valg'; designKort.id = 'enkel-design';
+  designKort.innerHTML = '<input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span>' +
+    '<span class="flere__tekst"><b>Få hjelp med designet fra Frantz</b><span>Frantz lager annonsen med bildene, logoen og teksten dere har. Dere godkjenner designet før publisering.</span></span>' +
+    '<span class="flere__pris">Fra kr 2 180 / time</span>';
+  designKort.querySelector('input').addEventListener('change', function () { $(this.checked ? 'materiell-hjelp' : 'materiell-bygg').click(); });
+  document.querySelector('.an-del--bilde').appendChild(designKort);
+  // «Bytt bilde» moves next to «Fjern» as an icon button. The main script keeps its text, which stays the accessible name.
+  var knapper = document.createElement('div'); knapper.className = 'enkel-bildeknapper';
+  $('an-fjern').before(knapper); knapper.append($('an-bytt'), $('an-fjern'));
+  $('an-bytt').title = 'Bytt bilde'; $('an-bytt').className = $('an-fjern').className;
+  var ikon = document.createElement('span'); ikon.className = 'icon-lucide icon-lucide--pencil'; document.body.appendChild(ikon);
+  $('an-bytt').style.setProperty('--enkel-ikon', getComputedStyle(ikon).webkitMaskImage || getComputedStyle(ikon).maskImage); ikon.remove();
+
+  /* Several sizes. The first file is the main file the preview and crop use. Every other file is listed under it with its size,
+     goes with the order as an attachment, and is shown in the preview for the placement that has its size. */
+  var FORMATER = [{ id: '1:1', navn: 'Kvadrat 1:1', r: 1 }, { id: '4:5', navn: 'Stående 4:5', r: 0.8 }, { id: '9:16', navn: 'Story 9:16', r: 9 / 16 }, { id: '1.91:1', navn: 'Liggende 1.91:1', r: 1.91 }];
+  var PLASSERINGER = [
+    { navn: 'Facebook og Instagram', kanal: 'Meta', format: '4:5', vis: ['facebook', 'instagram'] },
+    { navn: 'stories', kanal: 'Meta', format: '9:16' },
+    { navn: 'LinkedIn', kanal: 'LinkedIn', format: '1:1', vis: ['linkedin'] },
+    { navn: 'nettsteder', kanal: 'Nettsteder og aviser', format: '1:1', vis: ['nettsteder'] },
+    { navn: 'Snapchat', kanal: 'Snapchat', format: '9:16' },
+    { navn: 'TikTok', kanal: 'TikTok', format: '9:16' }
+  ];
+  function formatFor(w, h) {
+    if (!w || !h) return null;
+    var r = w / h;
+    return FORMATER.slice().sort(function (a, b) { return Math.abs(Math.log(a.r / r)) - Math.abs(Math.log(b.r / r)); })[0];
+  }
+  function malFil(fil) {
+    return new Promise(function (ferdig) {
+      var url = URL.createObjectURL(fil);
+      if (fil.type === 'video/mp4') { var v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = function () { ferdig({ url: url, format: formatFor(v.videoWidth, v.videoHeight) }); }; v.onerror = function () { ferdig({ url: url, format: null }); }; v.src = url; }
+      else { var i = new Image(); i.onload = function () { ferdig({ url: url, format: formatFor(i.naturalWidth, i.naturalHeight) }); }; i.onerror = function () { ferdig({ url: url, format: null }); }; i.src = url; }
+    });
+  }
+  function gyldig(fil) { return fil && ['image/jpeg', 'image/png', 'image/webp', 'video/mp4'].indexOf(fil.type) !== -1 && fil.size <= 10 * 1024 * 1024; }
+  var ekstra = [], hoved = { hoved: true, format: null };
+  function valgteKanaler() { var t = $('sum-kanaler').textContent; return PLASSERINGER.filter(function (p) { return t.indexOf(p.kanal) !== -1; }); }
+  // Which file each placement uses: the first file with the right size, otherwise the main file, cropped
+  function fordeling() {
+    var alle = [hoved].concat(ekstra);
+    return valgteKanaler().map(function (p) {
+      var fil = alle.filter(function (f) { return f.format && f.format.id === p.format; })[0];
+      return { p: p, fil: fil || alle[0], egen: !!fil };
+    });
+  }
+  // Attachments go through the page's own «Legg ved filer» input, so the order keeps the original files
+  function leggVed(filer) {
+    var dt = new DataTransfer(); filer.forEach(function (f) { dt.items.add(f); });
+    $('filer').files = dt.files; $('filer').dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  function fjernVedlegg(navn) {
+    var b = Array.prototype.filter.call(document.querySelectorAll('[data-fjern-fil]'), function (x) { return x.getAttribute('aria-label') === 'Fjern ' + navn.replace(/"/g, ''); })[0];
+    if (b) b.click();
+  }
+  async function leggTil(filer) {
+    var nye = Array.prototype.filter.call(filer, gyldig);
+    if (!nye.length) return;
+    for (var i = 0; i < nye.length; i++) { var m = await malFil(nye[i]); ekstra.push({ fil: nye[i], navn: nye[i].name, url: m.url, format: m.format, video: nye[i].type === 'video/mp4' }); }
+    leggVed(nye); tegnFilliste();
+  }
+  function fjernEkstra(i) {
+    var f = ekstra.splice(i, 1)[0]; if (!f) return;
+    fjernVedlegg(f.navn); URL.revokeObjectURL(f.url); tegnFilliste();
+  }
+  // Several files picked or dropped at once: the first is the main file, the rest go in the list
+  $('an-bilde-fil').multiple = true;
+  document.addEventListener('change', function (e) {
+    if (e.target.id !== 'an-bilde-fil' || e.target.files.length < 2) return;
+    var filer = Array.prototype.slice.call(e.target.files), dt = new DataTransfer(); dt.items.add(filer[0]);
+    e.target.files = dt.files; leggTil(filer.slice(1));
+  }, true);
+  $('an-slipp').addEventListener('drop', function (e) { if (e.dataTransfer.files.length > 1) leggTil(Array.prototype.slice.call(e.dataTransfer.files, 1)); }, true);
+  // Removing the main file makes the next file the main file
+  $('an-fjern').addEventListener('click', function () {
+    if (!ekstra.length) return;
+    var neste = ekstra.shift(); fjernVedlegg(neste.navn); URL.revokeObjectURL(neste.url);
+    var dt = new DataTransfer(); dt.items.add(neste.fil); $('an-bilde-fil').files = dt.files;
+    setTimeout(function () { $('an-bilde-fil').dispatchEvent(new Event('change', { bubbles: true })); tegnFilliste(); }, 0);
+  });
+  // The main file's size comes from the image or video the page shows
+  $('an-valgt-bilde').addEventListener('load', function () { hoved.format = formatFor(this.naturalWidth, this.naturalHeight); tegnFilliste(); });
+  $('pv-video').addEventListener('loadedmetadata', function () { if (!$('an-valgt-bilde').src || $('an-valgt-bilde').hidden) { hoved.format = formatFor(this.videoWidth, this.videoHeight); tegnFilliste(); } });
+
+  var hovedTekst = document.createElement('span'); hovedTekst.className = 'enkel-format';
+  document.querySelector('.an-valgt__info').appendChild(hovedTekst);
+  var liste = document.createElement('div'); liste.className = 'enkel-filer'; liste.hidden = true;
+  var flere = document.createElement('div'); flere.className = 'enkel-flere'; flere.hidden = true;
+  var flereFil = document.createElement('input'); flereFil.type = 'file'; flereFil.multiple = true; flereFil.hidden = true; flereFil.accept = 'image/jpeg,image/png,image/webp,video/mp4'; flereFil.setAttribute('aria-label', 'Legg til flere størrelser');
+  var flereKnapp = document.createElement('button'); flereKnapp.type = 'button'; flereKnapp.className = 'btn btn--secondary btn--sm';
+  flereKnapp.innerHTML = '<span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Legg til flere størrelser';
+  flereKnapp.addEventListener('click', function () { flereFil.click(); });
+  flereFil.addEventListener('change', function () { leggTil(this.files); this.value = ''; });
+  var mangler = document.createElement('p'); mangler.className = 'enkel-mangler'; mangler.hidden = true;
+  flere.append(flereKnapp, flereFil);
+  $('an-valgt').after(liste); liste.after(flere); flere.after(mangler);
+  function bruk(fil, deler) {
+    var steder = deler.filter(function (d) { return d.egen && d.fil === fil; }).map(function (d) { return d.p.navn; });
+    var navn = fil.format ? fil.format.navn : 'Ukjent størrelse';
+    if (!steder.length) return navn + (fil.hoved ? '' : ' · brukes ikke i kanalene dere har valgt');
+    var tekst = steder.join(', ').replace(/, ([^,]*)$/, ' og $1');
+    return navn + ' · ' + tekst.charAt(0).toUpperCase() + tekst.slice(1);
+  }
+  function tegnFilliste() {
+    var klar = !$('an-valgt').hidden, deler = fordeling();
+    hovedTekst.textContent = klar ? bruk(hoved, deler) : '';
+    liste.hidden = !klar || !ekstra.length; flere.hidden = !klar;
+    liste.innerHTML = '';
+    ekstra.forEach(function (f, i) {
+      var rad = document.createElement('div'); rad.className = 'an-valgt enkel-fil';
+      var media = document.createElement(f.video ? 'video' : 'img'); media.src = f.url; if (f.video) media.muted = true; else media.alt = '';
+      var info = document.createElement('div'); info.className = 'an-valgt__info';
+      var b = document.createElement('b'); b.textContent = f.navn;
+      var t = document.createElement('span'); t.className = 'enkel-format'; t.textContent = bruk(f, deler);
+      info.append(b, t);
+      var knapper = document.createElement('div'); knapper.className = 'enkel-bildeknapper';
+      var fjern = document.createElement('button'); fjern.type = 'button'; fjern.className = $('an-fjern').className; fjern.setAttribute('aria-label', 'Fjern ' + f.navn); fjern.title = 'Fjern';
+      fjern.innerHTML = '<span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span>';
+      fjern.addEventListener('click', function () { fjernEkstra(i); flereKnapp.focus(); });
+      knapper.append(fjern); rad.append(media, info, knapper); liste.appendChild(rad);
+    });
+    var beskjares = deler.filter(function (d) { return !d.egen; }).map(function (d) { return d.p.navn; });
+    var unike = beskjares.filter(function (n, i) { return beskjares.indexOf(n) === i; });
+    mangler.hidden = !klar || !ekstra.length || !unike.length;
+    var tekst = unike.join(', ').replace(/, ([^,]*)$/, ' og $1');
+    mangler.textContent = 'Uten egen størrelse: ' + tekst + '. Vi beskjærer det første bildet.';
+    visRiktigFil();
+  }
+  // The preview shows the file that has the size of the chosen placement
+  function visRiktigFil() {
+    var plass = $('pv').dataset.plattform, valg = fordeling().filter(function (d) { return d.p.vis && d.p.vis.indexOf(plass) !== -1; })[0];
+    var fil = valg && valg.egen && !valg.fil.hoved ? valg.fil : null, bilde = $('pv-bilde'), ferdigFil = $('pv-fil');
+    if (!fil || fil.video) return;
+    var bg = 'url("' + fil.url + '")';
+    if (bilde.style.backgroundImage !== bg) { bilde.style.backgroundImage = bg; bilde.style.setProperty('--pv-pos', '50% 50%'); bilde.style.setProperty('--crop-zoom', 1); bilde.style.setProperty('--crop-fit', 'cover'); }
+    if (!ferdigFil.hidden && ferdigFil.getAttribute('src') !== fil.url) { ferdigFil.src = fil.url; ferdigFil.style.objectPosition = '50% 50%'; ferdigFil.style.transform = 'none'; }
+  }
+  new MutationObserver(visRiktigFil).observe($('pv'), { subtree: true, attributes: true, attributeFilter: ['data-plattform', 'style', 'src'] });
+  // Redraw the list when the main file appears or goes, or the channels change
+  new MutationObserver(tegnFilliste).observe($('an-valgt'), { attributes: true, attributeFilter: ['hidden'] });
+  new MutationObserver(tegnFilliste).observe($('sum-kanaler'), { childList: true, subtree: true, characterData: true });
 
   /* Step 4: the invoice goes to the default company. «Endre» shows the list. */
   var faktura = document.createElement('p');
   faktura.className = 'enkel-faktura';
   faktura.innerHTML = 'Faktura til <b id="enkel-faktura-navn"></b> · ';
   var endreFaktura = document.createElement('button');
-  endreFaktura.type = 'button'; endreFaktura.className = 'link link--xs'; endreFaktura.textContent = 'Endre';
+  endreFaktura.type = 'button'; endreFaktura.className = 'link'; endreFaktura.textContent = 'Endre';
   endreFaktura.addEventListener('click', function () { $('felt-faktura').classList.add('er-apen'); $('faktura').focus(); });
   faktura.appendChild(endreFaktura);
   $('felt-faktura').prepend(faktura);
   function fakturaNavn() { $('enkel-faktura-navn').textContent = $('faktura').value; }
   $('faktura').addEventListener('change', fakturaNavn); fakturaNavn();
 
-  // Approval is one line, and «Bestill» says why it waits
-  var delLinje = document.createElement('p');
-  delLinje.className = 'enkel-linje'; delLinje.append('Skal noen godkjenne først? ');
-  $('del-knapp').classList.remove('btn', 'btn--secondary'); $('del-knapp').classList.add('link', 'link--xs');
-  $('del-knapp').before(delLinje); delLinje.appendChild($('del-knapp'));
+  // Approval: one question and a clear button. The form opens in a dialog, and «Bestill» says why it waits.
+  var delLinje = document.createElement('div'), delTekst = document.createElement('p');
+  delLinje.className = 'enkel-del'; delTekst.textContent = 'Skal noen godkjenne planen før dere bestiller?';
+  $('del-knapp').before(delLinje); delLinje.append(delTekst, $('del-knapp'));
+  var editor = $('blokk-del').querySelector('.approval-inline'), dialog = document.createElement('dialog');
+  dialog.className = 'enkel-dialog'; document.body.appendChild(dialog); dialog.appendChild(editor);
+  function avbryt() { var b = editor.querySelector('.approval-inline__head button'); if (b) b.click(); }
+  dialog.addEventListener('cancel', function (e) { e.preventDefault(); avbryt(); });
+  dialog.addEventListener('click', function (e) { if (e.target === dialog) avbryt(); });
+  new MutationObserver(function () {
+    if (!editor.hidden && !dialog.open) {
+      // A cross closes the dialog instead of «Avbryt»
+      var lukk = editor.querySelector('.approval-inline__head button');
+      if (lukk) { lukk.className = 'enkel-lukk'; lukk.setAttribute('aria-label', 'Lukk'); lukk.innerHTML = '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span>'; }
+      dialog.setAttribute('aria-labelledby', editor.id + '-title'); dialog.showModal();
+      var f = editor.querySelector('input'); if (f) f.focus();
+    }
+    else if (editor.hidden && dialog.open) dialog.close();
+  }).observe(editor, { attributes: true, attributeFilter: ['hidden'] });
   var venter = document.createElement('p');
   venter.className = 'form-hint'; venter.id = 'enkel-venter'; venter.hidden = true;
   venter.textContent = 'Venter på svar på godkjenningen. Dere kan bestille når planen er godkjent, eller trekke tilbake forespørselen.';
-  $('steg-nav').before(venter);
+  $('blokk-del').appendChild(venter);
 
   /* Keep the links in step with the state the main script sets */
   var forrigeSteg = null;
@@ -3071,8 +3246,13 @@
     // Entering step 3 with no text yet: start with the text suggestion
     if (steg3 && forrigeSteg !== 3 && !$('an-tekst').value.trim()) $('an-tekstforslag').click();
     forrigeSteg = steg2 ? 2 : steg3 ? 3 : null;
-    var hjelp = $('materiell-hjelp').getAttribute('aria-selected') === 'true';
-    tilDesign.hidden = hjelp || !$('an-valgt').hidden; tilEget.hidden = !hjelp;
+    if (document.activeElement !== $('enkel-lenke')) $('enkel-lenke').value = $('lenke').value;
+    // Design help: the checkbox follows the choice, sits under the image when unchecked and on top when checked
+    var hjelp = $('materiell-hjelp').getAttribute('aria-selected') === 'true', boks = designKort.querySelector('input'), fokus = document.activeElement === boks;
+    boks.checked = hjelp;
+    var plass = hjelp ? $('annonse-frantz') : document.querySelector('.an-del--bilde');
+    if (designKort.parentElement !== plass) { if (hjelp) plass.prepend(designKort); else plass.appendChild(designKort); if (fokus) boks.focus(); }
+    $('materiell-valg').closest('.materiell-start').hidden = $('an-materiell-feil').hidden;
     var oppsummering = $('blokk-del').querySelector('.approval-summary');
     var harForesporsel = !!oppsummering && !oppsummering.hidden;
     delLinje.hidden = harForesporsel;
@@ -3080,7 +3260,7 @@
     venter.hidden = !steg4 || !harForesporsel || !/Venter på svar/.test(oppsummering.textContent);
   }
   var venteTimer;
-  new MutationObserver(function () { cancelAnimationFrame(venteTimer); venteTimer = requestAnimationFrame(synk); })
+  new MutationObserver(function () { clearTimeout(venteTimer); venteTimer = setTimeout(synk, 0); })
     .observe($('skjema'), { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'aria-selected'] });
   synk();
 })();

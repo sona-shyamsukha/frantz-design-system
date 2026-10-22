@@ -9,6 +9,7 @@
 <title>Helsefagarbeider Tromsø — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
 <style>
   body { margin: 0; }
 </style>
@@ -96,10 +97,11 @@
               </div>
             </div>
             <div class="handlinger btn-row btn-row--stack">
-              <button class="btn btn--primary" type="button" onclick="this.closest('.card').querySelector('.card__hint').textContent='Takk! Annonsene er godkjent. Kampanjen starter 05.10.';this.remove()">Godkjenn annonsene</button>
+              <button class="btn btn--primary" type="button" id="approve-campaign-material" onclick="document.getElementById('material-customer-status').hidden=false;this.disabled=true">Godkjenn annonsene</button>
               <button class="btn btn--secondary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
-              <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false" aria-controls="del-panel"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Del for godkjenning</button>
+              <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Send annonsene til godkjenning</button>
             </div>
+            <p id="material-customer-status" class="form-hint" role="status" hidden>Materiellet er godkjent. Frantz følger opp publisering i et eget steg.</p>
             <!-- Someone else approves: a leader or the agency's own customer. No login. -->
             <div class="del-panel" id="del-panel" hidden
               data-deler="plan annonser side" data-valgt="annonser side" data-status="setup" data-id="129072"
@@ -136,7 +138,8 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="../components/js/del-godkjenning.js?v=2"></script>
+<script src="../components/js/approval-store.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=3"></script>
 <script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=16"></script>

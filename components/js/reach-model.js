@@ -83,12 +83,14 @@
     var frekvens = 3 + Math.min(3, budsjett / anbefalt * 1.5);
     // Channels change what the money buys. Without channels, the numbers are for Meta.
     var effekt = kanalEffekt(valg.kanaler);
-    var visninger = naadd * frekvens * effekt.visninger;
+    // More weeks give the ad more time to reach people, so views, clicks and «Søk» grow with the period,
+    // with less gain each week. Four weeks is the base. [ANTAGELSE: Frantz has not given real numbers.]
+    var uker = valg.uker > 0 ? valg.uker : BASIS_UKER;
+    var tid = Math.pow(uker / BASIS_UKER, 0.4);
+    var visninger = naadd * frekvens * effekt.visninger * tid;
     var klikk = visninger * 0.015 * (budsjett < 15000 ? 0.8 : 1) * effekt.klikk;
     var besok = klikk * 0.853;
-    // The same money over more weeks gives more people time to see the ad and apply, with less gain each week
-    var uker = valg.uker > 0 ? valg.uker : BASIS_UKER;
-    var sok = besok * 0.0257 * effekt.sok * Math.pow(uker / BASIS_UKER, 0.35);
+    var sok = besok * 0.0257 * effekt.sok;
 
     return {
       malgruppe: mg, anbefalt: anbefalt, budsjett: budsjett, dybde: dybde,

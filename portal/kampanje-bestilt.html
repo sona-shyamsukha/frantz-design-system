@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="../frantz-ds.css?v=100">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=14">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
 <style>
   body { margin: 0; }
   .summary-row[hidden] { display: none; }
@@ -126,6 +127,7 @@
             <div id="submitted-material" hidden>
               <p class="material-card__status" id="material-status"></p>
               <p class="material-card__explanation" id="material-explanation"></p>
+              <div id="ordered-approval-actions" hidden><button class="btn btn--secondary" type="button" id="ordered-share" aria-expanded="false">Send annonsene til godkjenning</button></div>
               <div class="material-content">
                 <div class="submitted-preview" id="submitted-preview" hidden>
                   <div class="submitted-platforms" id="submitted-platforms" role="group" aria-label="Se innsendt annonse i"></div>
@@ -187,6 +189,8 @@
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
 <script src="../components/js/campaign-material-view.js?v=6"></script>
+<script src="../components/js/approval-store.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=3"></script>
 <script>
 // Coming from «Bestill kampanjen»: show the order that was just placed. Otherwise the page keeps its example content.
 (async function () {
@@ -207,6 +211,18 @@
     materiell: '', notat: '', tilleggSum: 0
   };
   FrantzCampaignMaterialView.render(record);
+  if (record && o) {
+    var shareActions = document.getElementById('ordered-approval-actions');
+    shareActions.hidden = record.materiell.modus === 'hjelp' || !record.materiell.bilde;
+    FrantzApprovalShare.attach(document.getElementById('ordered-share'), {
+      campaign: o.approvalKey || campaign && campaign.approvalKey || String(o.id), rounds: ['material'], host: shareActions, ordered: true,
+      readContent: function () { return {
+        title: o.stilling || o.tittel, employer: record.materiell.avsender, location: o.sted,
+        period: o.periodeTekst, budget: o.budsjett, extras: o.tilleggSum || 0,
+        channels: record.materiell.kanaler, material: record.materiell
+      }; }
+    });
+  }
   if (!o) {
     if (id) {
       document.getElementById('k-tittel').textContent = 'Fant ikke kampanjen';

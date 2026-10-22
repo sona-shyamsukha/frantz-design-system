@@ -9,6 +9,7 @@
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-body); font: var(--type-support); }
@@ -106,7 +107,7 @@
         <span class="oppdatert"><span class="icon-lucide icon-lucide--clock icon-lucide--sm" aria-hidden="true"></span>Tall oppdatert i dag kl. 06.00</span>
         <div class="detalj__knapper"><button class="btn btn--secondary" type="button" data-til-fane="detaljer" data-til="annonser"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span> Se annonsene</button>
         <button class="btn btn--secondary" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);this.lastChild.textContent=' Lenke kopiert'"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Kopier rapportlenke</button>
-        <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false" aria-controls="del-panel"><span class="icon-lucide icon-lucide--check-check" aria-hidden="true"></span> Del for godkjenning</button></div>
+        <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false"><span class="icon-lucide icon-lucide--check-check" aria-hidden="true"></span> Send annonsene til godkjenning</button></div>
       </div>
       <!-- Works in every status, also when an active campaign gets new ads or a new round -->
       <div class="del-panel del-panel--topp" id="del-panel" hidden
@@ -367,7 +368,8 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="../components/js/del-godkjenning.js?v=2"></script>
+<script src="../components/js/approval-store.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=3"></script>
 <script>
 /* Copy and download buttons on this page. The demo only says that it worked. */
 (function () {
