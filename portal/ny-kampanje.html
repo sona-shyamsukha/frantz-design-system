@@ -246,6 +246,22 @@
   #funnet-kort .funnet { gap: var(--space-field-gap); }
   .felt[hidden], #sum-tillegg-rad[hidden], #sum-hjelp-rad[hidden], #sum-pakke-rad[hidden], #sum-kommentar-rad[hidden] { display: none; }
   /* Channels: one list, Frantz's choices ticked first */
+  /* Approval modal matches the simplified campaign flow. */
+  dialog.plan-dialog { position: fixed; inset: 0; margin: auto; height: fit-content; width: min(520px, calc(100vw - 2 * var(--space-16))); max-height: calc(100vh - 2 * var(--space-32)); padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: 0 24px 64px rgb(0 0 0 / 0.24); overflow: auto; }
+  .plan-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
+  .plan-dialog .approval-inline { margin: 0; padding: 0; border: 0; }
+  .plan-dialog .approval-inline__head { flex-wrap: nowrap; align-items: flex-start; }
+  .plan-dialog .approval-inline__head h3 { flex: 1; font: var(--type-section); }
+  .plan-dialog .del-panel__to { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-16); }
+  .plan-dialog .approval-inline__actions { margin-top: var(--space-8); }
+  .plan-dialog .approval-inline__actions .form-hint { display: none; }
+  .plan-dialog__close { display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin: calc(var(--space-8) * -1) calc(var(--space-8) * -1) 0 0; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-heading); cursor: pointer; }
+  .plan-dialog__close:hover { background: var(--surface-subtle); }
+  .plan-dialog__close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .plan-dialog .approval-test { display: none; }
+  .plan-dialog .approval-form { margin-top: var(--space-16); }
+  @media (max-width: 600px) { dialog.plan-dialog { margin: auto 0 0; width: 100vw; max-width: 100vw; padding: var(--space-24) var(--space-16); border-radius: var(--radius-16) var(--radius-16) 0 0; } }
+
   /* «Send planen til godkjenning» */
   .del-panel { display: grid; gap: var(--space-8); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
   .del-panel[hidden] { display: none; }
@@ -2665,6 +2681,23 @@
       if (tilstand.steg === 4) $('mobil-oppsummering').disabled = approvalBlocked;
     }
   });
+  var editor = $('blokk-del').querySelector('.approval-inline'), dialog = document.createElement('dialog');
+  dialog.className = 'plan-dialog'; document.body.appendChild(dialog); dialog.appendChild(editor);
+  function avbryt() { var b = editor.querySelector('.approval-inline__head button'); if (b) b.click(); }
+  dialog.addEventListener('cancel', function (e) { e.preventDefault(); avbryt(); });
+  dialog.addEventListener('click', function (e) { if (e.target === dialog) avbryt(); });
+  new MutationObserver(function () {
+    if (!editor.hidden && !dialog.open) {
+      // A cross closes the dialog instead of «Avbryt»
+      var lukk = editor.querySelector('.approval-inline__head button');
+      if (lukk) { lukk.className = 'plan-dialog__close'; lukk.setAttribute('aria-label', 'Lukk'); lukk.innerHTML = '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span>'; }
+      dialog.setAttribute('aria-labelledby', editor.id + '-title'); dialog.showModal();
+      var f = editor.querySelector('input'); if (f) f.focus();
+    }
+    else if (editor.hidden && dialog.open) dialog.close();
+  }).observe(editor, { attributes: true, attributeFilter: ['hidden'] });
+  $('del-knapp').setAttribute('aria-haspopup', 'dialog');
+
   function checkApprovalVersion() {
     clearTimeout(approvalChangedTimer);
     approvalChangedTimer = setTimeout(async function () {
