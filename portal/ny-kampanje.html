@@ -1621,7 +1621,7 @@
     tilstand.lengst = 1;
     oppdater();
     settRediger(true);
-    // All found: straight on to «Kampanjen». The job details show again on «Se over». Something missing: stay and say what.
+    // Let the user review the filled job fields before continuing to the campaign.
     tilstand.lestKilde = kildeSignatur();
     tegnKilder();
     if (tilstand.oppdatererKilder) {
@@ -1633,7 +1633,11 @@
       $('kilde-oppdatert').hidden = false;
       $('del-funnet').scrollIntoView({ block: 'start' });
     }
-    else if (!stegFeil(1)) visSteg(2);
+    else if (!stegFeil(1)) {
+      visSteg(1, false);
+      $('del-funnet').scrollIntoView({ block: 'start' });
+      $('del-funnet').focus({ preventScroll: true });
+    }
     else {
       visSteg(1, false);
       $('steg-feil').textContent = 'Vi fant ikke stilling og arbeidssted. Fyll dem inn under «Stillingen».';
@@ -1884,7 +1888,6 @@
           if (!$('lenke').value.trim()) $('lenke').value = c.lenke;
           if (!$('ref').value.trim()) $('ref').value = c.prosjekt || '';
         }
-        lukkStart();
         vis(a);
       }, 650);
     })();
