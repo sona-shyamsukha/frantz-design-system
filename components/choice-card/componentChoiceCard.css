@@ -11,6 +11,11 @@
 }
 
 .choice-card {
+  /* Text starts at the top, so cards side by side line up even when one has more text */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
   padding: var(--space-16);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-12);
@@ -27,6 +32,7 @@
 
 .choice-card__price {
   display: inline-block;
+  align-self: flex-start;
   margin-bottom: var(--space-8);
   padding: var(--space-4) var(--space-12);
   border-radius: var(--radius-full);

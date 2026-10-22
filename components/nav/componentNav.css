@@ -197,11 +197,14 @@
   border-bottom: 1px solid var(--border-default);
 }
 
-/* Account: round avatar, then name with e-mail under it */
+/* Account: round avatar, then the name. No e-mail: it can be very long.
+   A long name ends with «…»; the full name shows on hover. */
 .topbar__who {
   display: flex;
   align-items: center;
   gap: var(--space-12);
+  min-width: 0;
+  max-width: 16rem;
   text-align: left;
   line-height: var(--leading-section);
 }
@@ -212,14 +215,13 @@
   line-height: var(--leading-tight);
 }
 
-.topbar__navn small {
-  display: block;
-}
-
 .topbar__who b {
   display: block;
+  overflow: hidden;
   font-size: var(--text-sm);
   color: var(--text-heading);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .topbar__who small {
@@ -227,11 +229,17 @@
   font-size: var(--text-xs);
 }
 
+/* Content starts next to the menu, like most work tools, instead of floating in the middle.
+   Forms and detail pages keep 1320px. Lists and overviews (.wrap--bred) use more of a big screen. */
 .wrap {
   width: 100%;
   max-width: 1320px;
-  margin: 0 auto;
+  margin: 0;
   padding: var(--space-44) var(--space-32);
+}
+
+.wrap--bred {
+  max-width: 1680px;
 }
 
 .lede {
@@ -338,7 +346,6 @@
 /* «Ny kampanje» in the topbar: same place on every page (added by konto.js) */
 .topbar__ny { flex: none; }
 .mobiltopp__hoyre { display: inline-flex; align-items: center; gap: var(--space-8); }
-.mobiltopp .topbar__ny { border-color: var(--color-white); background: var(--color-white); color: var(--color-navy); }
 
 .rail .flytbytte--mobil { display: none; }
 @media (max-width: 860px) {

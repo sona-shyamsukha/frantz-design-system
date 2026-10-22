@@ -80,7 +80,7 @@ class AdvisorInbox {
     this.reply.disabled = true;
     this.sendBtn.disabled = true;
     this.setState('inbox__state--customer', 'Venter på kunde');
-    this.showNotice('Svaret er sendt i kampanjetråden og som svar i Karis e-posttråd «[#129041 · Deres ref. 22 31] Sykepleier Oslo».', 'success');
+    this.showNotice('Svaret er sendt i kampanjetråden og som svar i Karis e-posttråd «[#129041 · Oppdrag 22 31] Sykepleier Oslo».', 'success');
     const pane = this.root.querySelector('.case');
     pane.scrollTo({ top: Math.max(0, msg.offsetTop - 120), behavior: 'smooth' });
   }

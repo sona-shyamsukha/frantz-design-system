@@ -25,6 +25,25 @@ Open **http://127.0.0.1:8080/style-guide.html**
 
 Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-data.js`.
 
+## Approval prototype
+
+`Send planen til godkjenning` and `Send annonsene til godkjenning` expand an inline recipient form beside the campaign material. One name and email are required.
+Campaign-plan approval is available on the last creation step; material approval is
+available on campaign pages and on locally submitted orders with creative material.
+The recipient opens `godkjenning.html?request=...` without signing in. Each request
+stores an immutable version of the plan and creative, including original uploaded
+images, video, custom logos and crop settings. Replies persist and refresh the sender's
+view across tabs. Revised plans require a fresh request; ordering remains a separate action.
+
+This is a browser-local demonstration using IndexedDB, with simulated emails and
+notifications. Use `Se e-posten` to test the email-to-approval journey in the same
+browser and origin. Links cannot deliver saved files to another device. A production
+implementation needs server-side storage, access enforcement and email delivery;
+the local identifiers and recipient labels do not verify the approver's identity.
+Existing example campaigns include all displayed ads in one request, with the same names, channels and media types. Feedback identifies which ad needs changes; there is no subset-selection step. Example previews are labelled as example content. New orders use their actual
+submitted creative rather than substituting sample artwork. No request automatically
+places an order or publishes a campaign.
+
 ## Use
 
 ```html
@@ -64,3 +83,18 @@ compact navigation and packages below 860px, and the campaign summary shortcut b
 1180px when the order panel moves under the form. Keep package markup shared through
 `portal/data/pakker.js`. Check phone widths of 320px and 390px, tablet widths of 768px
 and 1024px, and the desktop layout when changing these rules.
+
+## Approval comparison, 22 October 2026
+
+Open `portal/godkjenning-sammenligning.html` to compare the current A flow with the
+isolated `*-approval-b.html` experiment. A pages and approval modules are unchanged.
+B has separate approval/material databases and draft/order keys; shared campaign
+examples, ad rendering, brand styles and calculation logic remain reused. Its code
+lives in `components/js/approval-b/` and `approval-b.css`. This deliberate duplication
+keeps the experiment reversible; consolidate only after choosing a direction.
+
+B tests combined plan/creative approval when the customer has prepared the creative,
+and separate proof approval when Frantz designs it. Sending is optional and never blocks ordering. The matching request follows the
+order, and later replies update its status without changing the submitted order. Own material approval and
+invited approval share one stored decision; approval never publishes a campaign.
+Business assumptions and three walkthrough tasks are on the comparison page.

@@ -1,0 +1,13 @@
+{
+  "portal/ny-kampanje.html": "14664e199bc66066f9f1d0afb156128164577191e0275789cdcd7a64c96e9436",
+  "portal/kampanje-bestilt.html": "26a2eb3f9a86e0702e74a88b7e538d3df3318573b3b00030dd8531b8927871c3",
+  "portal/kampanje-under-arbeid.html": "004a8773c8b0ab913c7f4db8b8c4e891aed305484a8972023b5bf69e4891bd54",
+  "portal/campaign.html": "aa72742a85e358a0c57f53b921e689a3a3cb1b710907fa1fb678ae75c0fb12e7",
+  "portal/godkjenning.html": "0f4a93a9ca8905f8a03acbd813619b49f880d89f2ea605b81a20f8100ac5f825",
+  "components/js/approval-store.js": "48a7ed06687a896a81b437a87370bf697d217f46f09f6d4c47b30a7e91839a5c",
+  "components/js/approval-share.js": "ae72231793e6c36ac72f6eaf870da6bacb43cd7365cef1fe9c2ed77a9a003ddc",
+  "components/js/approval-review.js": "7d3f0390cd688f754fc882043d793c204ba8c71d59b53c28054b7f4ccdf650ca",
+  "components/js/campaign-material.js": "0ccc961e9e9a3903c35ed8ffec6de12119ccd32ad5cb7a943811bbc2bab8abea",
+  "components/del-godkjenning/approval.css": "804c0838c450aab28e0e36ad16dd38b4c95487326ec22e78ec52e2d909a84005",
+  "portal/data/kampanjer.js": "49742cb5a3c6b1271708a7b957fa1d96d179bc7faeb5288978e4267f6577a507"
+}

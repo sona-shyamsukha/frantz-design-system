@@ -3,9 +3,10 @@
   top: var(--space-24);
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-16);
-  background: var(--surface-raised);
+  /* A light grey card, so the side box reads apart from the white cards beside it */
+  background: var(--surface-subtle);
 }
 
 .summary-panel__head {
@@ -26,7 +27,7 @@
 
 .summary-panel__block {
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-12);
   border-bottom: 1px solid var(--border-subtle);
   padding: var(--space-panel-padding);
 }
@@ -64,7 +65,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  background: var(--surface-subtle);
+  background: var(--surface-section);
   padding: var(--space-panel-padding);
 }
 
@@ -86,4 +87,19 @@
   gap: var(--space-8);
   background: var(--surface-subtle);
   padding: var(--space-panel-padding);
+}
+
+/* The side box is narrow: each row has a small label on top and the value under it,
+   so long values do not wrap into ragged columns */
+.summary-panel .summary-row { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); }
+.summary-panel .summary-row[hidden] { display: none; }
+.summary-panel .summary-row dt { font: var(--type-support); }
+.summary-panel .summary-row dd { font-weight: var(--font-weight-semibold); overflow-wrap: break-word; }
+
+/* A short note under the total, e.g. «Alle priser er eks. mva.» */
+.summary-panel__mva {
+  margin: 0;
+  padding: var(--space-8) var(--space-panel-padding) 0;
+  color: var(--text-muted);
+  font: var(--type-body);
 }

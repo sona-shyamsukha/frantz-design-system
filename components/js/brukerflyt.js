@@ -1,6 +1,6 @@
 /* Brukerflyt: the demo shows two kinds of user.
    ?bruker=ny            a new customer. No campaigns yet, no Connect, the pages explain more.
-   ?bruker=eksisterende  Kari at Vokser AS, with history and Connect. This is the default.
+   ?bruker=eksisterende  Kari at Nordlys Rekruttering AS, with history and Connect. This is the default.
    The choice is kept for the rest of the visit (this browser tab).
    Load it in <head>, so the page never flashes the wrong flow.
 

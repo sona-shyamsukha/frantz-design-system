@@ -68,3 +68,28 @@
   border-color: var(--color-navy);
   background: var(--tint-navy-4);
 }
+
+/* Channel pills: a group of checkboxes that look like toggle pills.
+   The box hides; the whole pill shows the state. The real checkbox stays for keyboard and screen readers. */
+.kanal-piller { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+.kanal-piller .form-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  width: auto;
+  min-height: var(--space-44);
+  margin: 0;
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  cursor: pointer;
+}
+.kanal-piller .form-check__box { display: none; }
+.kanal-piller .form-check__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.kanal-piller .form-check:hover { border-color: var(--color-navy-lift); }
+.kanal-piller .form-check:has(.form-check__input:checked) { border-color: var(--color-navy); background: var(--surface-selected); }
+.kanal-piller .form-check:has(.form-check__input:focus-visible) { box-shadow: var(--focus-ring); }
+.kanal-piller .form-check__label,
+.kanal-piller .flere__tekst { display: inline-flex; flex-direction: row; align-items: center; gap: var(--space-8); padding: 0; color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); white-space: nowrap; }

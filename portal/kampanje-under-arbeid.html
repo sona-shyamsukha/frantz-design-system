@@ -7,8 +7,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Helsefagarbeider Tromsø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
 <style>
   body { margin: 0; }
 </style>
@@ -32,22 +33,23 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
@@ -95,13 +97,22 @@
               </div>
             </div>
             <div class="handlinger btn-row btn-row--stack">
-              <button class="btn btn--primary" type="button" onclick="this.closest('.card').querySelector('.card__hint').textContent='Takk! Annonsene er godkjent. Kampanjen starter 05.10.';this.remove()">Godkjenn annonsene</button>
+              <button class="btn btn--primary" type="button" id="approve-campaign-material" onclick="document.getElementById('material-customer-status').hidden=false;this.disabled=true">Godkjenn annonsene</button>
               <button class="btn btn--secondary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
+              <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" aria-expanded="false"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Send annonsene til godkjenning</button>
             </div>
+            <p id="material-customer-status" class="form-hint" role="status" hidden>Materiellet er godkjent. Frantz følger opp publisering i et eget steg.</p>
+            <!-- Someone else approves: a leader or the agency's own customer. No login. -->
+            <div class="del-panel" id="del-panel" hidden
+              data-deler="plan annonser side" data-valgt="annonser side" data-status="setup" data-id="129072"
+              data-tittel="Helsefagarbeider" data-sted="Tromsø" data-arbeidsgiver="Nord-Norge Helse"
+              data-periode="05.10 – 02.11.2026 · 4 uker" data-kanaler="Meta, Nettsteder og aviser" data-budsjett="28000"
+              data-frist="02.10.2026" data-side="frantz.no/k/129072" data-fra="Kari Hansen" data-firma="Nordlys Rekruttering AS"></div>
+            <p class="form-hint">Dette er Frantz sine utkast til dere. Dere kan også svare «OK» på e-posten fra Frantz. Det gjør det samme.</p>
           </div>
           <div class="card card--les">
             <div class="card__head"><h3 class="card__title">Hva Frantz har gjort</h3></div>
-            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small>26.09.2026.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Målrettingen er satt opp</b><small>Helsefagarbeidere i Troms, 25–55 år.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Annonsene er laget</b><small>3 utkast på Meta og Nettsteder.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du godkjenner annonsene</b><small>Frist 02.10.</small></div></li></ul>
+            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small>26.09.2026.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Målrettingen er satt opp</b><small>Helsefagarbeidere i Troms, 25–55 år.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Annonsene er laget</b><small>3 utkast på Meta og på Nettsteder og aviser.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du godkjenner annonsene</b><small>Frist 02.10.</small></div></li></ul>
             <form class="kommentar" onsubmit="event.preventDefault(); var t=this.querySelector('textarea'); if(!t.value.trim()){t.focus();return;} this.querySelector('[data-sendt]').hidden=false; t.value='';" style="margin-top: var(--space-16)">
               <label class="form-label" for="kommentar-malgruppe">Noe Frantz bør vite om målgruppen?</label>
               <textarea class="form-input" id="kommentar-malgruppe" rows="3" placeholder="F.eks. Ta med Finnmark også."></textarea>
@@ -115,10 +126,10 @@
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Planlagt periode</dt><dd>05.10 – 02.11.2026</dd></dl>
               <dl class="summary-row"><dt>Budsjett</dt><dd>kr 28 000</dd></dl>
-              <dl class="summary-row"><dt>Kanaler</dt><dd data-vis-kanaler>Meta, Nettsteder</dd></dl>
+              <dl class="summary-row"><dt>Kanaler</dt><dd data-vis-kanaler>Meta, Nettsteder og aviser</dd></dl>
               <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
             </div>
-            <div class="summary-panel__block piksel" id="piksel" data-piksel="129072" data-status="venter"></div>
+            <div class="summary-panel__block piksel" id="piksel" data-piksel="129072" data-connect="777860" data-status="venter"></div>
           </div>
         </aside>
       </div>
@@ -127,10 +138,12 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
+<script src="../components/js/approval-store.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=3"></script>
 <script src="../components/js/piksel.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

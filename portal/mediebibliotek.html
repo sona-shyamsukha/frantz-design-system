@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Mediebibliotek — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -34,6 +34,7 @@
   .detalj { position: sticky; top: var(--space-24); }
   .detalj[hidden] { display: none; }
   .medie__bilde[data-lys], .detalj__bilde[data-lys] { color: var(--text-heading); }
+  .medie__spill { display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--radius-full); background: rgba(0, 0, 0, 0.45); color: var(--color-white); }
   .detalj__bilde { display: grid; place-items: center; aspect-ratio: 1; border-radius: var(--radius-8); color: var(--color-white); }
   .detalj__navn { margin: var(--space-16) 0 0; color: var(--text-heading); font: var(--type-section); }
   .detalj dl { margin: var(--space-12) 0 0; }
@@ -66,24 +67,25 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html" aria-current="page"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
-    <div class="wrap">
+    <div class="wrap wrap--bred">
       <div class="detalj__topp" style="display:flex;align-items:center;justify-content:space-between;gap: var(--space-12);flex-wrap:wrap">
         <div>
           <h1 class="text-h2">Mediebibliotek</h1>
@@ -115,17 +117,24 @@
 <script>
 var K = { meta: ['Meta', 'meta.svg'], linkedin: ['LinkedIn', 'linkedin.svg'], nettsteder: ['Nettsteder og aviser', 'nettsteder.svg'], tiktok: ['TikTok', 'tiktok.svg'], snapchat: ['Snapchat', 'snapchat.svg'] };
 var passer = { '1080 × 1080': ['meta', 'linkedin'], '1080 × 1920': ['meta', 'tiktok', 'snapchat'], '1200 × 628': ['nettsteder', 'linkedin', 'meta'], 'SVG': [] };
+// Demo photos are free stock photos from Unsplash (unsplash.com/license). The photographer is named in the details.
 var medier = [
-  { id: 1, navn: 'Akutten, sykepleier', type: 'Bilde', format: '1080 × 1080', dato: '11.09.2026', farge: 'var(--color-data-700)', brukt: [['Sykepleier Oslo', 'campaign.html']], tagger: ['helse', 'sykepleier'] },
-  { id: 2, navn: 'Hverdagshelter på Ullevål', type: 'Video', format: '1080 × 1920', dato: '02.09.2026', farge: 'var(--color-navy)', brukt: [['Sykepleier Oslo', 'campaign.html']], tagger: ['helse', 'video'] },
-  { id: 3, navn: 'Bodø havn i solnedgang', type: 'Bilde', format: '1200 × 628', dato: '28.06.2026', farge: 'var(--color-amber-ink)', brukt: [['Sykepleier Bodø', 'rapport.html']], tagger: ['bodø', 'natur'] },
-  { id: 4, navn: 'Team på vaktrommet', type: 'Bilde', format: '1080 × 1080', dato: '28.06.2026', farge: 'var(--color-navy-lift)', brukt: [['Sykepleier Bodø', 'rapport.html']], tagger: ['helse', 'team'] },
-  { id: 5, navn: 'En dag på akutten', type: 'Video', format: '1080 × 1920', dato: '27.06.2026', farge: 'var(--color-navy-mid)', brukt: [['Sykepleier Bodø', 'rapport.html']], tagger: ['video'] },
-  { id: 6, navn: 'Kontorlandskap Kongsberg', type: 'Bilde', format: '1200 × 628', dato: '14.05.2026', farge: 'var(--text-success-moderate)', brukt: [], tagger: ['kontor'] },
-  { id: 7, navn: 'Vokser logo, mørk', type: 'Logo', format: 'SVG', dato: '02.03.2026', farge: 'var(--color-rail)', brukt: [['Alle kampanjesider', 'innstillinger.html#merkevare']], tagger: ['logo'] },
-  { id: 8, navn: 'Vokser logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', lys: true, farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
+  { id: 1, navn: 'Akutten, sykepleier', type: 'Bilde', format: '1080 × 1080', dato: '11.09.2026', farge: 'var(--color-data-700)', brukt: [['Sykepleier Oslo', 'campaign.html']], bilde: '../assets/media/akutten-sykepleier.jpg', kreditt: 'JESHOOTS.COM', tagger: ['helse', 'sykepleier'] },
+  { id: 2, navn: 'Hverdagshelter i Oslo', type: 'Video', format: '1080 × 1920', dato: '02.09.2026', farge: 'var(--color-navy)', brukt: [['Sykepleier Oslo', 'campaign.html']], bilde: '../assets/media/hverdagshelter-ulleval.jpg', kreditt: 'Hush Naidoo Jade Photography', tagger: ['helse', 'video'] },
+  { id: 3, navn: 'Bodø havn i solnedgang', type: 'Bilde', format: '1200 × 628', dato: '28.06.2026', farge: 'var(--color-amber-ink)', brukt: [['Sykepleier Bodø', 'rapport.html']], bilde: '../assets/media/bodo-havn.jpg', kreditt: 'Ingrid Martinussen', tagger: ['bodø', 'natur'] },
+  { id: 4, navn: 'Team på vaktrommet', type: 'Bilde', format: '1080 × 1080', dato: '28.06.2026', farge: 'var(--color-navy-lift)', brukt: [['Sykepleier Bodø', 'rapport.html']], bilde: '../assets/media/team-vaktrommet.jpg', kreditt: 'Centre for Ageing Better', tagger: ['helse', 'team'] },
+  { id: 5, navn: 'En dag på akutten', type: 'Video', format: '1080 × 1920', dato: '27.06.2026', farge: 'var(--color-navy-mid)', brukt: [['Sykepleier Bodø', 'rapport.html']], bilde: '../assets/media/dag-pa-akutten.jpg', kreditt: 'CDC', tagger: ['video'] },
+  { id: 6, navn: 'Kontoret vårt i Tromsø', type: 'Bilde', format: '1200 × 628', dato: '14.05.2026', farge: 'var(--text-success-moderate)', brukt: [], bilde: '../assets/media/kontor-kongsberg.jpg', kreditt: 'LYCS Architecture', tagger: ['kontor'] },
+  { id: 7, navn: 'Nordlys logo, mørk', type: 'Logo', format: 'SVG', dato: '02.03.2026', farge: 'var(--color-rail)', brukt: [['Alle kampanjesider', 'innstillinger.html#merkevare']], tagger: ['logo'] },
+  { id: 8, navn: 'Nordlys logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', lys: true, farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
 ];
 var filter = 'alle', sok = '', valgt = null;
+var bakgrunn = function (m) { return m.bilde ? m.farge + ' url(' + m.bilde + ') center / cover no-repeat' : m.farge; };
+// A photo needs no icon. A video keeps the play button on top of its still image.
+var merke = function (m) {
+  if (m.type === 'Video') return '<span class="medie__spill"><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></span>';
+  return m.bilde ? '' : '<span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span>';
+};
 var ikon = function (t) { return t === 'Video' ? 'play' : (t === 'Logo' ? 'palette' : 'image'); };
 var kanalIkoner = function (m) { return (passer[m.format] || []).map(function (k) { return '<img src="../assets/kanaler/' + K[k][1] + '" alt="' + K[k][0] + '" title="' + K[k][0] + '">'; }).join(''); };
 
@@ -137,7 +146,7 @@ function tegnRutenett() {
   var html = '<button type="button" class="opplast" id="opplast"><span class="icon-lucide icon-lucide--upload icon-lucide--lg" aria-hidden="true"></span><b>Last opp filer</b><span>Dra filer hit, eller klikk for å velge</span></button>';
   html += liste.map(function (m) {
     return '<button type="button" class="medie" data-id="' + m.id + '" aria-pressed="' + (valgt === m.id) + '">' +
-      '<span class="medie__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + m.farge + '"><span class="tag tag--overlay">' + m.type + '</span><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></span>' +
+      '<span class="medie__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + bakgrunn(m) + '"><span class="tag tag--overlay">' + m.type + '</span>' + merke(m) + '</span>' +
       '<span class="medie__body"><span class="medie__navn">' + m.navn + '</span><span class="medie__meta" style="display:block">' + m.format + '</span>' +
       '<span class="kanalikoner">' + kanalIkoner(m) + '</span></span></button>';
   }).join('');
@@ -153,12 +162,13 @@ function tegnDetalj() {
   var p = passer[m.format] || [];
   d.innerHTML =
     '<div style="display:flex;justify-content:flex-end;margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-8)"><button type="button" class="btn btn--ghost" data-lukk-detalj aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>' +
-    '<div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + m.farge + '"><span class="icon-lucide icon-lucide--' + ikon(m.type) + ' icon-lucide--lg" aria-hidden="true"></span></div>' +
+    '<div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + bakgrunn(m) + '">' + merke(m) + '</div>' +
     '<h2 class="detalj__navn">' + m.navn + '</h2>' +
     '<dl>' +
       '<dl class="summary-row"><dt>Type</dt><dd>' + m.type + '</dd></dl>' +
       '<dl class="summary-row"><dt>Format</dt><dd>' + m.format + (m.format === 'SVG' ? '' : ' px') + '</dd></dl>' +
       '<dl class="summary-row"><dt>Lastet opp</dt><dd>' + m.dato + '</dd></dl>' +
+      (m.kreditt ? '<dl class="summary-row"><dt>Foto</dt><dd>' + m.kreditt + ' / Unsplash</dd></dl>' : '') +
     '</dl>' +
     '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><span class="summary-panel__label">Passer for</span><div class="passer" style="margin-top: var(--space-8)">' +
       (p.length ? p.map(function (k) { return '<span><img src="../assets/kanaler/' + K[k][1] + '" alt="">' + K[k][0] + '</span>'; }).join('') : '<span style="color: var(--text-muted)">Brukes på kampanjesider og bannere</span>') +
@@ -167,7 +177,7 @@ function tegnDetalj() {
       (m.brukt.length ? m.brukt.map(function (b) { return '<a href="' + b[1] + '">' + b[0] + '</a>'; }).join('') : '<span style="font-size: var(--text-sm);color: var(--text-muted)">Ikke brukt ennå</span>') +
     '</div></div>' +
     '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><label class="summary-panel__label" for="ny-tagg">Tagger</label>' +
-      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '">×</button></span>'; }).join('') + '</div>' +
+      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '"><span class="icon-lucide icon-lucide--x icon-lucide--sm" aria-hidden="true"></span></button></span>'; }).join('') + '</div>' +
       '<input class="form-input" id="ny-tagg" placeholder="Legg til tagg og trykk Enter" style="margin-top: var(--space-8)"></div>' +
     '<div class="detalj__knapper"><button class="btn btn--secondary" type="button"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned</button>' +
     '<button class="btn btn--ghost" type="button" data-slett style="color: var(--text-danger-strong)"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span> Slett</button></div>';
@@ -223,8 +233,8 @@ document.getElementById('fil').addEventListener('change', function (e) {
 tegnRutenett(); tegnDetalj();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

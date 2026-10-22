@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Lagrede pakker — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=100">
+<script src="../components/js/brukerflyt.js?v=2"></script>
+<style>
+  body { margin: 0; }
+  .sidefaner { margin-top: var(--space-24); }
+  .sidefaner .filter { display: inline-flex; align-items: center; gap: var(--space-6); }
+  .panel[hidden] { display: none; }
+  .panel { margin-top: var(--space-24); }
+  .rad-hoyre { display: flex; align-items: center; gap: var(--space-16); flex-wrap: wrap; }
+  .panelhode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-content-gap); }
+  .panelhode p { margin: 0; color: var(--text-muted); max-width: 60ch; font: var(--type-body); }
+  .skjema { margin-bottom: var(--space-16); }
+  .skjema[hidden] { display: none; }
+  .skjema__rad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-field-gap); }
+  .skjema__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-16); }
+  /* Same option cards as Ny kampanje: room to breathe, and a logo, a description or a price */
+  .valgliste { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-12); margin: var(--space-6) 0 0; padding: 0; border: 0; }
+  .valgliste--bred { grid-template-columns: 1fr; }
+  .valgliste.kanal-piller { display: flex; } /* channels show as pills */
+  .valgliste.kanal-piller legend { flex-basis: 100%; }
+  .valgliste legend { padding: 0; margin-bottom: var(--space-6); }
+  .valgliste .form-check--kort { align-items: center; }
+  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .valg__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
+  .valg__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); line-height: var(--leading-normal); }
+  .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
+  .valgliste--bred .form-check__box { margin-top: var(--space-2); }
+  .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+  .pakke-felt { margin-top: var(--space-16); }
+  .pakke-slettet { align-items: center; margin-bottom: var(--space-16); }
+  .pakke-slettet[hidden] { display: none; }
+  /* Budget advice for the picked channels */
+  .pakke-rad { margin-top: var(--space-16); }
+  .pakke-rad .alert__title { margin: 0 0 var(--space-4); }
+  .pakke-rad__liste { margin: var(--space-4) 0 var(--space-8); padding-left: var(--space-20); }
+  .pakke-rad__liste li + li { margin-top: var(--space-2); }
+  .pakke-rad .alert__body p { margin: 0; }
+  .pakke-rad .alert__body b { display: inline; }
+  .pakke-rad[hidden] { display: none; }
+  .pakke-rad__bruk { margin-top: var(--space-8); }
+  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .feil[hidden] { display: none; }
+  .sidefaner { align-items: center; }
+  .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
+  .profil-grid { display: grid; gap: var(--space-16); max-width: 640px; }
+  .profil-kontakt__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-bottom: var(--space-8); }
+  .profil-kontakt__topp .card__title { margin: 0; }
+  .profil-kontakt .tom { color: var(--text-muted); }
+  .profil-kontakt [data-lagret] { margin: var(--space-12) 0 0; }
+  .profil-kontakt .form-group + .form-group, .profil-to + .form-group { margin-top: var(--space-12); }
+  .profil-to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  .profil-tekst { margin: var(--space-8) 0 var(--space-12); color: var(--text-muted); font: var(--type-body); }
+  .profil-varsler { max-width: 640px; }
+  .profil-felt { display: grid; gap: var(--space-12); margin: 0 0 var(--space-24); padding: 0; border: 0; }
+  .profil-felt legend { margin-bottom: var(--space-8); }
+  .profil-felt .form-radio__label b { display: block; color: var(--text-heading); }
+  .profil-felt .form-hint { margin: 0; }
+  @media (max-width: 640px) { .profil-to { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html" aria-current="page"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
+
+    <div class="wrap">
+      <h1 class="text-h2">Lagrede pakker</h1>
+      <p class="lede">Oppsett du bruker ofte når du bestiller. Velg en pakke i «Ny kampanje», så fylles budsjett og kanaler ut. Perioden velger du på hver kampanje.</p>
+
+      <section class="panel" id="panel-pakker" aria-label="Pakkene dine">
+        <div class="panelhode">
+          <p>Bare du ser pakkene dine. Kollegaene dine har sine egne.</p>
+          <div class="rad-hoyre">
+            <button class="btn btn--primary" type="button" data-vis="ny-pakke"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span> Ny pakke</button>
+          </div>
+        </div>
+        <form class="card card--betjen skjema" id="ny-pakke" novalidate hidden>
+          <h3 class="card__title" style="margin-bottom: var(--space-12)">Ny pakke</h3>
+          <div class="skjema__rad">
+            <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
+            <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000" aria-describedby="p-budsjett-hint">
+              <p class="form-hint" id="p-budsjett-hint">Perioden velger du på hver kampanje. Frantz fordeler budsjettet over perioden.</p></div>
+          </div>
+          <fieldset class="valgliste kanal-piller pakke-felt" id="p-kanaler">
+            <legend class="form-label">Kanaler</legend>
+          </fieldset>
+          <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
+          <!-- Shown only when the budget is below the minimum for the picked channels -->
+          <div class="alert alert--warning pakke-rad" id="p-rad" role="status" aria-live="polite" hidden>
+            <span class="icon-lucide icon-lucide--triangle-alert alert__icon" aria-hidden="true"></span>
+            <div class="alert__content">
+              <p class="alert__title" id="p-rad-tittel">Budsjettet er under minimum</p>
+              <div class="alert__body" id="p-rad-tekst"></div>
+              <button class="btn btn--secondary btn--sm pakke-rad__bruk" type="button" id="p-bruk-min"></button>
+            </div>
+          </div>
+          <p class="feil" id="feil-pakke" role="alert" hidden></p>
+          <div class="skjema__knapper"><button class="btn btn--primary" type="submit">Lagre pakken</button><button class="btn btn--ghost" type="button" data-skjul="ny-pakke">Avbryt</button></div>
+        </form>
+        <div class="alert alert--info pakke-slettet" id="pakke-slettet" role="status" hidden>
+          <span class="icon-lucide icon-lucide--trash-2 alert__icon" aria-hidden="true"></span>
+          <div class="alert__content"><span class="alert__body" id="pakke-slettet-tekst"></span></div>
+          <button class="btn btn--secondary btn--sm" type="button" id="pakke-angre">Angre</button>
+        </div>
+        <div class="pakke-grid" id="pakkeliste"></div>
+        <p class="profil-tekst" id="pakkeliste-tom" hidden>Du har ingen pakker ennå. Lag en her, så kan du bruke den i «Ny kampanje».</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="data/pakker.js?v=19"></script>
+<script>
+// Pakker
+function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function kort(innhold, data) {
+  return '<label class="form-check form-check--kort"><input class="form-check__input" type="checkbox" ' + data + '><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + innhold + '</span></label>';
+}
+function valgTekst(tittel, tekst) { return '<span class="valg__tekst"><b>' + esc(tittel) + '</b><span>' + esc(tekst) + '</span></span>'; }
+document.getElementById('p-kanaler').insertAdjacentHTML('beforeend', FZ_PAKKER.KANALER.map(function (k) {
+  return kort('<span class="kanal-logo kanal-logo--' + k.k + '" aria-hidden="true"></span>' + esc(k.navn), 'data-p-kanal="' + esc(k.navn) + '"');
+}).join(''));
+var nyPakke = '';
+function tegnPakker() {
+  var mine = FZ_PAKKER.alle();
+  document.getElementById('pakkeliste').innerHTML = mine.map(function (p) { return FZ_PAKKER.kort(p, { ny: p.navn === nyPakke, slett: true }); }).join('');
+  document.getElementById('pakkeliste-tom').hidden = mine.length > 0;
+}
+document.getElementById('ny-pakke').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var skjema = this, feil = document.getElementById('feil-pakke');
+  var kanaler = Array.prototype.map.call(skjema.querySelectorAll('[data-p-kanal]:checked'), function (i) { return i.getAttribute('data-p-kanal'); });
+  var p = {
+    navn: document.getElementById('p-navn').value.trim(),
+    budsjett: Number(document.getElementById('p-budsjett').value.replace(/\D/g, '')),
+    kanaler: kanaler.length ? kanaler : null
+  };
+  var galt = FZ_PAKKER.leggTil(p);
+  if (galt) { tegnRad(); feil.textContent = galt; feil.hidden = !document.getElementById('p-rad').hidden; document.getElementById(galt.indexOf('budsjett') !== -1 ? 'p-budsjett' : 'p-navn').focus(); return; }
+  feil.hidden = true; nyPakke = p.navn;
+  this.reset(); this.hidden = true; tegnPakker();
+});
+document.querySelector('[data-skjul="ny-pakke"]').addEventListener('click', function () { document.getElementById('feil-pakke').hidden = true; });
+// «Ny pakke» and «Avbryt»
+document.addEventListener('click', function (e) {
+  var v = e.target.closest('[data-vis]'); if (v) { var f = document.getElementById(v.dataset.vis); f.hidden = false; f.querySelector('input').focus(); }
+  var s = e.target.closest('[data-skjul]'); if (s) { var g = document.getElementById(s.dataset.skjul); g.reset(); g.hidden = true; }
+});
+// Warn only when the budget is below the minimum spend for the picked channels
+function valgteKanaler() {
+  return Array.prototype.map.call(document.querySelectorAll('[data-p-kanal]:checked'), function (i) { return i.getAttribute('data-p-kanal'); });
+}
+function tegnRad() {
+  var r = FZ_PAKKER.rad(valgteKanaler());
+  var b = Number(document.getElementById('p-budsjett').value.replace(/\D/g, ''));
+  var lav = !!b && b < r.min;
+  document.getElementById('p-rad').hidden = !lav;
+  if (!lav) return;
+  document.getElementById('p-rad-tekst').innerHTML = '<p>Kanalene du har valgt trenger minst <b>' + kr(r.min) + '</b> til sammen:</p>' +
+    '<ul class="pakke-rad__liste">' + r.kanaler.map(function (c) { return '<li>' + esc(c.navn) + ': minst ' + kr(c.min) + '</li>'; }).join('') + '</ul>' +
+    '<p>Øk budsjettet, eller velg færre kanaler.</p>';
+  var bruk = document.getElementById('p-bruk-min');
+  bruk.dataset.belop = r.min;
+  bruk.textContent = 'Bruk ' + kr(r.min);
+}
+document.getElementById('p-kanaler').addEventListener('change', tegnRad);
+document.getElementById('p-budsjett').addEventListener('input', function () { document.getElementById('feil-pakke').hidden = true; tegnRad(); });
+document.getElementById('p-bruk-min').addEventListener('click', function () {
+  var felt = document.getElementById('p-budsjett');
+  felt.value = String(this.dataset.belop).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  tegnRad(); felt.focus();
+});
+document.getElementById('ny-pakke').addEventListener('reset', function () { setTimeout(tegnRad, 0); });
+// Delete: gone at once, with «Angre» in case it was a mistake
+var sistSlettet = null;
+document.getElementById('pakkeliste').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-slett-pakke]'); if (!b) return;
+  sistSlettet = FZ_PAKKER.fjern(b.dataset.slettPakke); if (!sistSlettet) return;
+  nyPakke = '';
+  tegnPakker();
+  document.getElementById('pakke-slettet-tekst').textContent = 'Pakken «' + sistSlettet.navn + '» er slettet.';
+  document.getElementById('pakke-slettet').hidden = false;
+  document.getElementById('pakke-angre').focus();
+});
+document.getElementById('pakke-angre').addEventListener('click', function () {
+  if (sistSlettet) { FZ_PAKKER.tilbake(sistSlettet); nyPakke = sistSlettet.navn; sistSlettet = null; tegnPakker(); }
+  document.getElementById('pakke-slettet').hidden = true;
+});
+tegnRad();
+tegnPakker();
+</script>
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
+<script src="../components/js/assistant.js?v=9"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -85,6 +85,32 @@
     .res-kort .results__steps { grid-template-columns: 1fr; }
     .res-kort .results__step + .results__step::before { display: none; }
   }
+  .sok-handlinger { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-16); }
+  .sok-status { margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
+  .sok-status:empty { display: none; }
+  .lagrede-sok { margin-top: var(--space-44); }
+  .lagrede-sok__hode { display: flex; align-items: baseline; gap: var(--space-12); margin-bottom: var(--space-16); }
+  .lagrede-sok__hode h2 { margin: 0; font: var(--type-section); }
+  .lagrede-sok__antall { color: var(--text-muted); font: var(--type-support); }
+  .lagrede-sok__tom { padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
+  .lagrede-sok__tom p { margin: var(--space-8) 0 0; color: var(--text-muted); }
+  .lagrede-sok .table-card { border: 0; background: transparent; }
+  .lagrede-sok__knapper { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-8); }
+  .lagrede-sok [hidden] { display: none; }
+  .calculator-dialog { width: min(560px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); padding: var(--space-24); overflow-y: auto; border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
+  .calculator-dialog::backdrop { background: var(--scrim-strong); }
+  .calculator-dialog__hode { display: flex; justify-content: space-between; align-items: start; gap: var(--space-16); margin-bottom: var(--space-24); }
+  .calculator-dialog__hode h2 { margin: 0; font: var(--type-section); color: var(--text-heading); }
+  .calculator-dialog__lukk { padding: 0; width: var(--space-44); min-height: var(--space-44); flex: none; }
+  .calculator-dialog__kriterier { margin: 0 0 var(--space-24); color: var(--text-muted); font: var(--type-support); }
+  .calculator-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-24); }
+  .calculator-dialog .form-group { margin: 0; }
+  .calculator-dialog .feil { color: var(--text-danger-moderate); margin-top: var(--space-12); }
+  @media (max-width: 640px) {
+    .sok-handlinger > .btn { flex: 1; }
+    .lagrede-sok__knapper { justify-content: flex-start; flex-wrap: wrap; }
+    .calculator-dialog { padding: var(--space-20); }
+  }
 </style>
 </head>
 <body>
@@ -107,29 +133,30 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html" aria-current="page"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
 <main class="kalk">
   <h1 class="text-h2">Hva når dere for budsjettet?</h1>
   <p class="lede">Velg stilling, sted og budsjett. Du ser med en gang hvor mange kampanjen kan nå, og hva dere kan vente dere.</p>
 
-  <section class="inndata" aria-label="Kampanjen">
+  <section class="inndata" aria-label="Kampanjen" tabindex="-1">
     <div>
       <label class="form-label" for="stilling">Stilling</label>
       <div class="picker" id="stilling-picker">
@@ -166,6 +193,12 @@
       <div class="slider-ends"><span>kr 8 000</span><span>kr 120 000</span></div>
     </div>
   </section>
+
+  <div class="sok-handlinger" aria-label="Lagre eller dele søket">
+    <button class="btn btn--secondary" id="lagre-sok" type="button"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagre søk</button>
+    <button class="btn btn--secondary" id="del-sok" type="button"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del søk</button>
+  </div>
+  <p class="sok-status" id="sok-status" role="status" aria-live="polite"></p>
 
   <section class="resultat" aria-live="polite" aria-label="Resultat">
     <div class="res-kort">
@@ -211,6 +244,30 @@
       </div>
     </div>
   </section>
+  <section class="lagrede-sok" aria-labelledby="lagrede-sok-tittel">
+    <div class="lagrede-sok__hode"><h2 id="lagrede-sok-tittel">Lagrede søk</h2><span class="lagrede-sok__antall" id="lagrede-sok-antall"></span></div>
+    <div class="lagrede-sok__tom" id="lagrede-sok-tom"><b>Ta vare på søk dere vil bruke igjen</b><p>Velg stilling, sted og budsjett, og trykk «Lagre søk».</p></div>
+    <div class="table-card" id="lagrede-sok-tabell" hidden>
+      <table class="table"><thead><tr><th>Navn</th><th>Stilling og sted</th><th>Budsjett</th><th>Lagret</th><th><span class="chat__sr">Handlinger</span></th></tr></thead><tbody id="lagrede-sok-rader"></tbody></table>
+    </div>
+  </section>
+
+  <dialog class="calculator-dialog" id="lagre-sok-dialog" aria-labelledby="lagre-sok-tittel">
+    <form id="lagre-sok-form">
+      <div class="calculator-dialog__hode"><h2 id="lagre-sok-tittel">Lagre søk</h2><button class="btn btn--ghost calculator-dialog__lukk" type="button" data-lukk-dialog="lagre-sok-dialog" aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>
+      <p class="calculator-dialog__kriterier" id="lagre-sok-kriterier"></p>
+      <div class="form-group"><label class="form-label" for="sok-navn">Navn på søket</label><input class="form-input" id="sok-navn" name="navn" maxlength="100" required autocomplete="off" placeholder="F.eks. Sykepleiere · høstkampanje"></div>
+      <p class="feil" id="lagre-sok-feil" role="alert" hidden></p>
+      <div class="calculator-dialog__bunn"><button class="btn btn--secondary" type="button" data-lukk-dialog="lagre-sok-dialog">Avbryt</button><button class="btn btn--primary" type="submit">Lagre søket</button></div>
+    </form>
+  </dialog>
+  <dialog class="calculator-dialog" id="del-sok-dialog" aria-labelledby="del-sok-tittel">
+    <div class="calculator-dialog__hode"><h2 id="del-sok-tittel">Del søk</h2><button class="btn btn--ghost calculator-dialog__lukk" type="button" data-lukk-dialog="del-sok-dialog" aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>
+    <p class="calculator-dialog__kriterier" id="del-sok-kriterier"></p>
+    <div class="form-group"><label class="form-label" for="sok-lenke">Lenke til søket</label><input class="form-input" id="sok-lenke" type="url" readonly><p class="form-hint">Lenken åpner kalkulatoren med samme stilling, arbeidssted og budsjett.</p></div>
+    <p class="sok-status" id="kopier-status" role="status" aria-live="polite"></p>
+    <div class="calculator-dialog__bunn"><button class="btn btn--primary" id="kopier-sok-lenke" type="button"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier lenke</button></div>
+  </dialog>
 </main>
     </div>
   </div>
@@ -219,8 +276,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="data/frantz-data.js"></script>
-<script src="../components/js/picker.js?v=4"></script>
-<script src="../components/js/reach-model.js?v=2"></script>
+<script src="../components/js/picker.js?v=8"></script>
+<script src="../components/js/reach-model.js?v=5"></script>
+<script src="../components/js/calculator-searches.js?v=1"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -253,6 +311,8 @@
   var rolle = 'Sykepleier';
   var steder = ['Kristiansand (by)'];
   var sisteAnbefalt = null;
+  var initialiserer = true;
+  var S = window.FrantzCalculatorSearches;
 
   // Map
   var kart = L.map('kart', { scrollWheelZoom: false }).setView([64.5, 12], 4);
@@ -337,29 +397,117 @@
       '&steder=' + encodeURIComponent(steder.join('|')) + '&budsjett=' + r.budsjett;
 
     tegnKart(r.dybde);
+    var gyldig = !!gjeldendeSok();
+    $('lagre-sok').disabled = !gyldig; $('del-sok').disabled = !gyldig;
   }
 
   var stille = false;
   var kontroll = FrantzPicker.budsjett($('budsjett-kontroll'), { onChange: function () { if (!stille) oppdater(false); } });
 
-  FrantzPicker.stilling($('stilling-picker'), {
+  var stillingPicker = FrantzPicker.stilling($('stilling-picker'), {
     onChange: function (v) {
       var ny = v && v.rolle ? v.rolle : (v ? v.tittel : '');
-      if (ny === rolle) return;
+      var endret = ny !== rolle;
       rolle = ny;
-      oppdater(true);
+      if (!initialiserer) oppdater(endret);
     }
-  }).set('Sykepleier');
-  FrantzPicker.steder($('sted-picker'), {
+  });
+  stillingPicker.set('Sykepleier');
+  var stedPicker = FrantzPicker.steder($('sted-picker'), {
     start: steder,
-    onChange: function (liste) { steder = liste; if (sisteAnbefalt !== null) oppdater(true); }
+    onChange: function (liste) { steder = liste; if (!initialiserer && sisteAnbefalt !== null) oppdater(true); }
   });
 
-  oppdater(true);
+  function gjeldendeSok() {
+    return S.criteria({ stilling: $('stilling').value, steder: steder, budsjett: kontroll.verdi() });
+  }
+  function kjenteSteder(liste) {
+    return liste.filter(function (s) { return (window.FRANTZ_STEDER || []).indexOf(s) !== -1 || s === FrantzPicker.HELE_NORGE || s === FrantzPicker.HJEMMEKONTOR; });
+  }
+  function beskriv(sok) { return sok.stilling + ' · ' + navnListe(sok.steder) + ' · ' + kr(sok.budsjett); }
+  function brukSok(sok) {
+    var state = S.criteria(sok);
+    if (!state || kjenteSteder(state.steder).length !== state.steder.length) return false;
+    initialiserer = true; stille = true;
+    stillingPicker.set(state.stilling); stedPicker.set(state.steder);
+    kontroll.set(state.budsjett);
+    // oppdater(false) must preserve the shared amount, including on first load.
+    sisteAnbefalt = R.beregn({ rolle: rolle, steder: steder }).anbefalt;
+    initialiserer = false; stille = false; oppdater(false);
+    return true;
+  }
+  var esc = function (t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  function lesLagredeSok() { try { return S.read(window.localStorage); } catch (e) { return []; } }
+  function tegnLagredeSok() {
+    var rows = lesLagredeSok();
+    $('lagrede-sok-tom').hidden = !!rows.length; $('lagrede-sok-tabell').hidden = !rows.length;
+    $('lagrede-sok-antall').textContent = rows.length ? String(rows.length) : '';
+    $('lagrede-sok-rader').innerHTML = rows.map(function (row) {
+      var dato = new Date(row.lagret).toLocaleDateString('nb-NO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      return '<tr><td data-label="Navn"><span class="table__title">' + esc(row.navn) + '</span></td>' +
+        '<td data-label="Stilling og sted"><span>' + esc(row.stilling) + '</span><span class="table__meta">' + esc(navnListe(row.steder)) + '</span></td>' +
+        '<td data-label="Budsjett">' + kr(row.budsjett) + '</td><td data-label="Lagret">' + dato + '</td>' +
+        '<td data-label="Handlinger"><div class="lagrede-sok__knapper"><button class="btn btn--secondary btn--sm" type="button" data-apne-sok="' + esc(row.id) + '" aria-label="Åpne søket ' + esc(row.navn) + '">Åpne</button>' +
+        '<button class="btn btn--ghost btn--sm" type="button" data-del-sok="' + esc(row.id) + '" aria-label="Del søket ' + esc(row.navn) + '"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del</button></div></td></tr>';
+    }).join('');
+  }
+  function delSok(sok) {
+    $('sok-lenke').value = S.toUrl(location.href, sok);
+    $('del-sok-kriterier').textContent = beskriv(sok);
+    $('kopier-status').textContent = '';
+    $('del-sok-dialog').showModal();
+  }
+  $('lagre-sok').addEventListener('click', function () {
+    var state = gjeldendeSok(); if (!state) return;
+    $('lagre-sok-feil').hidden = true;
+    $('lagre-sok-kriterier').textContent = beskriv(state);
+    $('sok-navn').value = state.stilling + ' · ' + navnListe(state.steder);
+    $('lagre-sok-dialog').showModal(); $('sok-navn').select();
+  });
+  $('lagre-sok-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('sok-navn').value.trim();
+    if (!name) { $('sok-navn').setCustomValidity('Gi søket et navn.'); $('sok-navn').reportValidity(); return; }
+    try {
+      var row = S.save(window.localStorage, gjeldendeSok(), name);
+      tegnLagredeSok(); $('lagre-sok-dialog').close();
+      $('sok-status').textContent = '«' + row.navn + '» er lagret under Lagrede søk.';
+    } catch (err) {
+      $('lagre-sok-feil').textContent = 'Kunne ikke lagre søket. Sjekk at nettleseren tillater lagring, og prøv igjen.';
+      $('lagre-sok-feil').hidden = false;
+    }
+  });
+  $('sok-navn').addEventListener('input', function () { this.setCustomValidity(''); });
+  $('del-sok').addEventListener('click', function () { var state = gjeldendeSok(); if (state) delSok(state); });
+  document.querySelectorAll('[data-lukk-dialog]').forEach(function (button) { button.addEventListener('click', function () { $(button.dataset.lukkDialog).close(); }); });
+  $('kopier-sok-lenke').addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText($('sok-lenke').value); $('kopier-status').textContent = 'Lenken er kopiert.'; }
+    catch (err) { $('sok-lenke').focus(); $('sok-lenke').select(); $('kopier-status').textContent = 'Marker og kopier lenken fra feltet.'; }
+  });
+  $('lagrede-sok-rader').addEventListener('click', function (e) {
+    var button = e.target.closest('[data-apne-sok], [data-del-sok]'); if (!button) return;
+    var id = button.dataset.apneSok || button.dataset.delSok;
+    var row = lesLagredeSok().filter(function (r) { return r.id === id; })[0]; if (!row) return;
+    if (button.dataset.delSok) { delSok(row); return; }
+    if (brukSok(row)) {
+      $('sok-status').textContent = 'Viser «' + row.navn + '».';
+      document.querySelector('.inndata').focus({ preventScroll: true });
+      document.querySelector('.inndata').scrollIntoView({ block: 'start' });
+    } else $('sok-status').textContent = 'Kunne ikke åpne søket. Velg stilling og arbeidssted på nytt.';
+  });
+  window.addEventListener('storage', function (e) { if (e.key === 'fzCalculatorSearchesV1') tegnLagredeSok(); });
+  initialiserer = false;
+  var shared = S.fromUrl(location.href);
+  if (shared && brukSok(shared)) $('sok-status').textContent = 'Viser søket fra den delte lenken.';
+  else {
+    oppdater(true);
+    if (new URLSearchParams(location.search).has('stilling')) $('sok-status').textContent = 'Lenken inneholdt ikke et gyldig søk. Velg kriteriene på nytt.';
+  }
+  tegnLagredeSok();
 })();
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
+<script src="../components/js/konto.js?v=16"></script>
 </body>
 </html>

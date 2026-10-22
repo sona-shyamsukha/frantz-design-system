@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>ConnectID — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -114,27 +114,28 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
-          <li class="breadcrumb__item"><a href="connect.html">Connect</a></li>
+          <li class="breadcrumb__item"><a href="connect.html">Stillinger</a></li>
           <li class="breadcrumb__item"><span aria-current="page" id="sti">ConnectID</span></li>
         </ol>
       </nav>
@@ -170,7 +171,7 @@
 
           <div class="felt-rad">
             <div class="form-group"><label class="form-label" for="c-arbeidsgiver">Arbeidsgiver</label><input class="form-input" type="text" id="c-arbeidsgiver" autocomplete="off"></div>
-            <div class="form-group"><label class="form-label" for="c-prosjekt">Deres prosjekt <span class="valgfri">(valgfritt)</span></label><input class="form-input" type="text" id="c-prosjekt" placeholder="F.eks. oppdragsnummer" autocomplete="off"></div>
+            <div class="form-group"><label class="form-label" for="c-prosjekt">Kampanjenavn <span class="valgfri">(valgfritt)</span></label><input class="form-input" type="text" id="c-prosjekt" placeholder="F.eks. oppdragsnummer" autocomplete="off"></div>
           </div>
 
           <div class="felt-rad">
@@ -229,7 +230,8 @@
   </div>
 </div>
 
-<script src="data/connect.js"></script>
+<script src="data/kampanjer.js?v=4"></script>
+<script src="data/connect.js?v=4"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -265,7 +267,15 @@
       '<p class="kampanje__tekst">Det er ingen kampanje for stillingen ennå. Opprett en, så starter målingen når kampanjen starter. Du bestiller først på siste steg. Det du har fylt ut under, blir med.</p>' +
       '<button class="btn btn--primary" type="button" id="bestill-topp">Opprett kampanje</button>';
   } else {
-    var k = c.kampanje, rapport = k.status === 'Avsluttet';
+    var k = c.kampanje, rapport = k.status === 'Avsluttet', startet = k.status === 'Aktiv' || rapport;
+    var knapp = rapport ? 'Åpne rapporten' : k.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen';
+    // Not started yet (draft, ordered, in progress): no visits or report yet
+    if (!startet) {
+      kort.innerHTML = '<div class="kampanje__topp"><h2 class="card__title" id="kampanje-tittel">Kampanje #' + k.id + '</h2><span class="badge ' + FZ_CONNECT.badge(k.status) + '">' + k.status + '</span></div>' +
+        '<p class="kampanje__tekst">' + FZ_CONNECT.statusTekst(c) + '</p>' +
+        (k.fra ? '<dl class="summary-row"><dt>Ønsket periode</dt><dd>' + k.fra + ' – ' + k.til + '</dd></dl>' : '') +
+        '<a class="btn btn--primary" href="' + k.side + '">' + knapp + '</a>';
+    } else {
     kort.innerHTML = '<div class="kampanje__topp"><h2 class="card__title" id="kampanje-tittel">Kampanje #' + k.id + '</h2><span class="badge ' + FZ_CONNECT.badge(k.status) + '">' + k.status + '</span></div>' +
       '<p class="kampanje__tekst">' + FZ_CONNECT.statusTekst(c) + '</p>' +
       '<dl class="summary-row"><dt>Periode</dt><dd>' + k.fra + ' – ' + k.til + '</dd></dl>' +
@@ -273,9 +283,10 @@
       '<div class="form-group kampanje__rapport"><label class="form-label" for="c-rapport">Rapportlenke</label><div class="kopi-rad">' +
       '<input class="form-input" type="text" id="c-rapport" value="business.frantz.no/Insights/' + c.id + '" readonly>' +
       '<button class="btn btn--secondary" type="button" id="kopier"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier</button></div></div>' +
-      '<a class="btn btn--primary" href="' + k.side + '">' + (rapport ? 'Åpne rapporten' : 'Åpne kampanjen') + '</a>';
+      '<a class="btn btn--primary" href="' + k.side + '">' + knapp + '</a>';
+    }
     var kp = $('kopier');
-    kp.addEventListener('click', function () {
+    if (kp) kp.addEventListener('click', function () {
       try { navigator.clipboard.writeText($('c-rapport').value); } catch (e) {}
       kp.lastChild.textContent = 'Kopiert';
       setTimeout(function () { kp.lastChild.textContent = 'Kopier'; }, 2000);
@@ -351,8 +362,8 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

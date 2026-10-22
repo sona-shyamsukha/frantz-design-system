@@ -28,6 +28,25 @@
     { navn: 'Utvidet nasjonal dekning', k: 'nasjonal', fra: 60000 }
   ];
 
+  // What each channel gives per krone, compared with Meta alone. [ANTAGELSE: Frantz has not given real numbers.]
+  // visninger: how many views the money buys. klikk: how often a view becomes a click.
+  // sok: how often a visit becomes «Søk» (LinkedIn reaches people who already work in the field).
+  var KANAL_EFFEKT = {
+    'Meta': { visninger: 1, klikk: 1, sok: 1 },
+    'Nettsteder og aviser': { visninger: 1.4, klikk: 0.5, sok: 0.9 },
+    'LinkedIn': { visninger: 0.45, klikk: 0.9, sok: 1.6 },
+    'Snapchat': { visninger: 1.3, klikk: 0.8, sok: 0.6 },
+    'TikTok': { visninger: 1.5, klikk: 0.7, sok: 0.5 }
+  };
+  // The budget is split evenly over the channels, so the effect is the average
+  function kanalEffekt(kanaler) {
+    var liste = (kanaler || []).map(function (k) { return KANAL_EFFEKT[k]; }).filter(Boolean);
+    if (!liste.length) return { visninger: 1, klikk: 1, sok: 1 };
+    var snitt = function (felt) { return liste.reduce(function (sum, e) { return sum + e[felt]; }, 0) / liste.length; };
+    return { visninger: snitt('visninger'), klikk: snitt('klikk'), sok: snitt('sok') };
+  }
+  var BASIS_UKER = 4;
+
   function delSted(s) {
     var m = /^(.*) \((.*)\)$/.exec(s || '');
     return m ? { navn: m[1], type: m[2] } : { navn: s || '', type: '' };
@@ -62,10 +81,16 @@
     var dybde = 1 - Math.exp(-budsjett / (anbefalt / 0.916));
     var naadd = mg * dybde;
     var frekvens = 3 + Math.min(3, budsjett / anbefalt * 1.5);
-    var visninger = naadd * frekvens;
-    var klikk = visninger * 0.015 * (budsjett < 15000 ? 0.8 : 1);
+    // Channels change what the money buys. Without channels, the numbers are for Meta.
+    var effekt = kanalEffekt(valg.kanaler);
+    // More weeks give the ad more time to reach people, so views, clicks and «Søk» grow with the period,
+    // with less gain each week. Four weeks is the base. [ANTAGELSE: Frantz has not given real numbers.]
+    var uker = valg.uker > 0 ? valg.uker : BASIS_UKER;
+    var tid = Math.pow(uker / BASIS_UKER, 0.4);
+    var visninger = naadd * frekvens * effekt.visninger * tid;
+    var klikk = visninger * 0.015 * (budsjett < 15000 ? 0.8 : 1) * effekt.klikk;
     var besok = klikk * 0.853;
-    var sok = besok * 0.0257;
+    var sok = besok * 0.0257 * effekt.sok;
 
     return {
       malgruppe: mg, anbefalt: anbefalt, budsjett: budsjett, dybde: dybde,
@@ -75,10 +100,12 @@
   }
 
   function tall(n) { return Math.round(n).toLocaleString('nb-NO').replace(/[  ]/g, ' '); }
+  // Whole numbers, rounded so a range reads easily: 26 000, 1 300, 480. No «k».
   function kort(n) {
     if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + ' mill.';
-    if (n >= 10000) return Math.round(n / 1000) + 'k';
-    if (n >= 1000) return (n / 1000).toFixed(1).replace('.', ',') + 'k';
+    if (n >= 10000) return tall(Math.round(n / 1000) * 1000);
+    if (n >= 1000) return tall(Math.round(n / 100) * 100);
+    if (n >= 100) return tall(Math.round(n / 10) * 10);
     return String(Math.round(n));
   }
   function spenn(n) {

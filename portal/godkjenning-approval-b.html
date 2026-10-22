@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Godkjenning — Frantz</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=101">
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
+<link rel="stylesheet" href="../components/del-godkjenning/approval-b.css?v=2">
+<script src="../components/js/approval-b/rules.js?v=3"></script>
+<script src="../components/js/approval-b/demo.js?v=3" defer></script>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+<header class="approval-top"><div class="approval-top__inner"><img src="../assets/logo-frantz.png" alt="Frantz"><span>Ingen innlogging trengs</span></div></header>
+<main class="approval-page" id="innhold" tabindex="-1">
+  <p id="approval-loading" role="status">Laster forespørselen …</p>
+  <section id="approval-unavailable" hidden><h1 id="unavailable-title">Lenken er ikke tilgjengelig</h1><p id="unavailable-text"></p></section>
+  <section class="approval-mail" id="approval-email" hidden aria-labelledby="email-title">
+    <p class="approval-page__meta" id="email-to"></p><p class="approval-page__meta">Fra: Frantz</p>
+    <h1 id="email-title"></h1><p id="email-greeting"></p><p id="email-summary" class="approval-email-summary"></p><p id="email-design-note" class="form-hint" hidden></p><p id="email-copy"></p><blockquote class="approval-comment" id="email-message" hidden></blockquote>
+    <a class="btn btn--primary" id="email-open" href="#">Se og godkjenn</a>
+    <p class="form-hint">Du trenger ikke logge inn. Å åpne lenken godkjenner ingenting.</p>
+
+  </section>
+  <div id="approval-review" hidden>
+    <span class="badge badge--setup" id="request-status">Venter på svar</span>
+    <h1 id="request-title"></h1><p class="approval-page__intro" id="request-intro"></p>
+    <p class="approval-page__meta" id="request-recipient"></p><p class="approval-page__meta" id="request-expiry"></p>
+    <blockquote class="approval-comment" id="request-message" hidden></blockquote>
+    <section class="approval-page__section" id="request-plan" aria-labelledby="plan-title" hidden>
+      <div class="summary-panel"><div class="summary-panel__head"><h2 id="plan-title">Kampanjeplanen</h2></div><div class="summary-panel__block">
+        <dl class="summary-row" id="plan-package-row" hidden><dt>Pakke</dt><dd id="plan-package"></dd></dl><dl class="summary-row" id="plan-forecast-row" hidden><dt>Forventet «Søk»</dt><dd id="plan-forecast"></dd></dl>
+        <dl class="summary-row"><dt>Stilling</dt><dd id="plan-job"></dd></dl><dl class="summary-row"><dt>Arbeidsgiver</dt><dd id="plan-employer"></dd></dl>
+        <dl class="summary-row"><dt>Arbeidssted</dt><dd id="plan-location"></dd></dl><dl class="summary-row"><dt>Periode</dt><dd id="plan-period"></dd></dl>
+        <dl class="summary-row"><dt>Kanaler</dt><dd id="plan-channels" data-vis-kanaler></dd></dl><dl class="summary-row"><dt>Budsjett</dt><dd id="plan-budget"></dd></dl>
+        <dl class="summary-row" id="plan-extras-row" hidden><dt>Tillegg</dt><dd id="plan-extras"></dd></dl>
+      </div><div class="summary-panel__total"><span>Totalsum</span><b id="plan-total"></b></div><p class="summary-panel__mva">Alle priser er eks. mva.</p><p class="summary-panel__mva" id="plan-design-note" hidden></p></div>
+    </section>
+    <section class="approval-page__section approval-response" id="request-response" aria-labelledby="response-title">
+      <h2 id="response-title">Ditt svar</h2><p id="response-effect"></p>
+      <div class="btn-row"><button class="btn btn--accent" type="button" id="approve-request">Godkjenn</button><button class="btn btn--secondary" type="button" id="request-change" aria-expanded="false" aria-controls="change-form">Be om endring</button></div>
+      <form class="approval-changes" id="change-form" hidden><label class="form-label" for="change-comment">Hva må endres?</label><textarea class="form-textarea" id="change-comment" rows="4" required aria-describedby="response-error"></textarea><button class="btn btn--primary" type="submit">Send endringsønske</button></form>
+      <p class="approval-response-error" id="response-error" role="alert" hidden></p>
+    </section>
+    <section class="approval-page__section approval-response" id="request-receipt" role="status" hidden><h2 id="receipt-title" tabindex="-1"></h2><p id="receipt-body"></p><p class="approval-page__meta" id="receipt-time"></p><blockquote class="approval-comment" id="receipt-comment" hidden></blockquote></section>
+    <a class="approval-jump" href="#request-ads" id="review-ads-link">Se annonsene før du svarer ↓</a>
+    <section class="approval-page__section" id="request-ads" aria-labelledby="ads-title">
+      <h2 id="ads-title">Annonseforhåndsvisning</h2><span class="badge badge--setup" id="ads-status"></span><p class="form-hint" id="ads-hint"></p><a class="approval-jump" href="#request-response">Tilbake til svaret ditt ↑</a>
+      <div class="approval-preview" id="request-preview"></div>
+    </section>
+    <section class="approval-page__section" id="request-landing" hidden aria-labelledby="landing-title">
+      <h2 id="landing-title">Kampanjesiden</h2><details class="approval-landing"><summary>Se kampanjesiden som skal godkjennes</summary><p class="form-hint" id="landing-employer"></p><h3 id="landing-heading"></h3><p id="landing-body"></p><span class="tag">Søk nå</span></details>
+    </section>
+
+  </div>
+</main>
+<script src="../components/js/kanaler.js?v=2"></script>
+<script src="../components/js/approval-b/approval-store.js?v=3"></script>
+<script src="../components/js/ad-logo.js?v=1"></script>
+<script src="../components/js/ad-colors.js?v=1"></script>
+<script src="../components/js/ad-crop.js?v=3"></script>
+<script src="../components/js/approval-preview.js?v=3"></script>
+<script src="../components/js/approval-b/approval-review.js?v=3"></script>
+</body>
+</html>

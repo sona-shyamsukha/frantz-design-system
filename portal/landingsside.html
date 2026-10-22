@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rediger kampanjesiden — Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -156,22 +156,23 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html" aria-current="page"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Sti">
@@ -190,7 +191,7 @@
         </div>
       </div>
       <p class="lede">Endre tekst og bilder på frantz.no/k/129041. Send endringene til Frantz når du er fornøyd. Den publiserte siden er uendret til Frantz har godkjent.</p>
-      <p class="lp-hint"><span class="icon-lucide icon-lucide--palette icon-lucide--sm" aria-hidden="true"></span>Logo, farger og skrift gjelder alle nye kampanjer. Dem endrer du i <a class="link" href="innstillinger.html#merkevare">Innstillinger › Merkevare</a>.</p>
+      <p class="lp-hint"><span class="icon-lucide icon-lucide--palette icon-lucide--sm" aria-hidden="true"></span>Logo, farger og skrift gjelder alle nye kampanjer. Dem endrer du i <a class="link" href="innstillinger.html#merkevare">Innstillinger for firmaet › Merkevare</a>.</p>
       <a class="link lp-tilvis" href="#forhandsvisning">Gå til forhåndsvisningen</a>
 
       <div class="alert alert--success status-alert" id="sendt" tabindex="-1" hidden>
@@ -324,7 +325,7 @@
             <div class="lp-ramme__adresse">frantz.no/k/129041</div>
             <div class="lp-ramme__vindu" tabindex="0" role="region" aria-label="Kampanjesiden slik den blir">
               <article class="lp" id="lp">
-                <div class="lp__topp"><span class="lp__logo">vokser</span></div>
+                <div class="lp__topp"><span class="lp__logo">nordlys</span></div>
                 <div class="lp__bilde" id="lp-bilde" role="img" aria-label="Hovedbilde"></div>
                 <div class="lp__innhold">
                   <p class="lp__tittel" id="lp-tittel"></p>
@@ -344,7 +345,7 @@
                   </div>
                   <p class="lp__kontakt" id="lp-kontakt"><span class="lp__etikett">Spørsmål om stillingen?</span><b id="lp-kontakt-navn"></b><span id="lp-telefon"></span></p>
                 </div>
-                <div class="lp__bunn">Vokser AS · Kampanjeside levert av Frantz</div>
+                <div class="lp__bunn">Nordlys Rekruttering AS · Kampanjeside levert av Frantz</div>
               </article>
             </div>
           </div>
@@ -405,7 +406,7 @@
     kontakt: 'Kari Hansen',
     telefon: '917 55 210',
     knapp: 'Søk på stillingen',
-    lenke: 'https://vokser.no/stillinger/sykepleier-oslo'
+    lenke: 'https://jobb.oslosykehusdrift.no/stilling/777689-sykepleier-oslo'
   };
 
   var status = 'publisert'; // publisert, utkast eller venter
@@ -614,7 +615,7 @@
     ['overskrift', 'knapp', 'lenke'].forEach(function (k) { fjernFeil($(k)); });
     if (!d.overskrift) { visFeil($('overskrift'), 'Skriv en overskrift.'); feil.push($('overskrift')); }
     if (!d.knapp) { visFeil($('knapp'), 'Skriv en tekst på knappen.'); feil.push($('knapp')); }
-    if (!/^https?:\/\/[^\s\/]+\.[^\s]+$/i.test(d.lenke)) { visFeil($('lenke'), 'Skriv hele adressen, for eksempel https://vokser.no/jobb.'); feil.push($('lenke')); }
+    if (!/^https?:\/\/[^\s\/]+\.[^\s]+$/i.test(d.lenke)) { visFeil($('lenke'), 'Skriv hele adressen, for eksempel https://nordlysrekruttering.no/jobb.'); feil.push($('lenke')); }
     return feil;
   }
 
@@ -685,8 +686,8 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

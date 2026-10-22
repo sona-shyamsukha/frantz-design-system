@@ -1,0 +1,20 @@
+/* «Del for godkjenning»: the panel that makes a share link. Used on Ny kampanje and on the campaign pages.
+   The script is components/js/del-godkjenning.js. */
+.del-panel { display: grid; gap: var(--space-12); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
+.del-panel[hidden], .del-panel [hidden] { display: none; }
+.del-panel__tittel { margin: 0; font: var(--type-section); }
+.del-panel__tekst { margin: 0; max-width: 60ch; color: var(--text-body); font: var(--type-body); }
+.del-panel__deler { display: grid; gap: var(--space-8); margin: 0; padding: 0; border: 0; }
+.del-panel__deler legend { margin-bottom: var(--space-4); padding: 0; }
+.del-panel__deler .form-check__label { display: grid; gap: var(--space-2); }
+.del-panel__deler .form-check__label b { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+.del-panel__deler .form-check__label small { color: var(--text-muted); font: var(--type-support); }
+.del-panel__to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-field-gap); }
+.del-panel__feil { margin: 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+.del-panel__lag { justify-self: start; }
+.del-panel__resultat { display: grid; gap: var(--space-8); }
+.del-panel__lenke { display: block; padding: var(--space-8) var(--space-12); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-body); overflow-wrap: anywhere; font: var(--type-support); }
+.del-panel__knapper { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); }
+.del-panel__merk { margin: 0; }
+@media (max-width: 640px) { .del-panel__to { grid-template-columns: 1fr; } }
+.del-panel--topp { margin-bottom: var(--space-section-gap); }

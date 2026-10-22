@@ -15,6 +15,8 @@
   fab.setAttribute('aria-controls', 'assist-panel');
   fab.innerHTML = '<span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span><span class="assist-fab__label">Spør Frantz</span>';
   fab.setAttribute('aria-label', 'Spør Frantz');
+  // The floating button is hidden for now (20.10.2026). The panel still opens from «Be om endring» and the Assistent page.
+  fab.hidden = true;
 
   const panel = document.createElement('div');
   panel.className = 'assist-panel';

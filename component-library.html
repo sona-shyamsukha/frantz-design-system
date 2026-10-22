@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=76">
+<link rel="stylesheet" href="frantz-ds.css?v=101">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=76">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 </head>
@@ -51,7 +51,7 @@
   <div class="cl-tab-group">Skjema</div>
   <button class="cl-tab" type="button" data-tab="form" data-sok="form form-input form-select form-textarea felt input .felt .input .form-select" onclick="showTab('form', this)">Skjemafelt</button>
   <button class="cl-tab" type="button" data-tab="datepicker" data-sok="datepicker .datepicker" onclick="showTab('datepicker', this)">Dato</button>
-  <button class="cl-tab" type="button" data-tab="choice" data-sok="choice form-check form-radio form-toggle .form-check .form-radio .form-toggle" onclick="showTab('choice', this)">Valg</button>
+  <button class="cl-tab" type="button" data-tab="choice" data-sok="choice form-check form-radio form-toggle kanal-piller kanalpiller .form-check .form-radio .form-toggle .kanal-piller" onclick="showTab('choice', this)">Valg</button>
   <button class="cl-tab" type="button" data-tab="picker" data-sok="picker .picker" onclick="showTab('picker', this)">Feltvelger</button>
   <button class="cl-tab" type="button" data-tab="slider" data-sok="slider budsjett-slider .budsjett-slider" onclick="showTab('slider', this)">Budsjettskyver</button>
   <button class="cl-tab" type="button" data-tab="selectcard" data-sok="selectcard select-card .select-card" onclick="showTab('selectcard', this)">Velgbart kort</button>
@@ -69,6 +69,7 @@
 
   <div class="cl-tab-group">Innhold</div>
   <button class="cl-tab" type="button" data-tab="card" data-sok="card .card" onclick="showTab('card', this)">Kort</button>
+  <button class="cl-tab" type="button" data-tab="pakke" data-sok="pakke pakkekort package pakke-kort .pakke-kort .pakke-grid" onclick="showTab('pakke', this)">Pakkekort</button>
   <button class="cl-tab" type="button" data-tab="summary" data-sok="summary summary-panel .summary-panel" onclick="showTab('summary', this)">Oppsummeringspanel</button>
   <button class="cl-tab" type="button" data-tab="checklist" data-sok="checklist .checklist" onclick="showTab('checklist', this)">Sjekkliste</button>
   <button class="cl-tab" type="button" data-tab="quote" data-sok="quote .quote" onclick="showTab('quote', this)">Sitat</button>
@@ -111,14 +112,18 @@
           <div class="railtopp"><img class="logo" src="assets/logo-frantz.png" alt="Frantz"></div>
           <nav class="nav" aria-label="Hovedmeny">
             <button type="button" class="nav__item" aria-current="page"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</button>
             <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</button>
-            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</button>
             <div class="nav__group">Ressurser</div>
-            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</button>
+            <button type="button" class="nav__item"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</button>
           </nav>
         </aside>
         <div class="main">
-          <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@ous.no</small></span></div></header>
+          <header class="topbar"><button class="btn btn--accent topbar__ny" type="button"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje</button><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
           <div class="wrap"><h1 class="text-h2">Hjem</h1><p class="lede">Oversikt over kampanjene.</p></div>
         </div>
       </div>
@@ -331,7 +336,7 @@
       <dt>Bruk når</dt><dd>Sider to nivåer ned eller mer, så brukeren ser hvor de er og kan gå tilbake.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke på Hjem eller sider rett under menyen.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('nav')">Portal-nav</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-dashbord.html">Dashbord · Sykepleier Oslo</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
@@ -606,6 +611,13 @@
         </div>
       </div>
       <div class="cl-sep"></div>
+      <span class="cl-variant">Nedtrekk i verktøylinjer</span>
+      <p class="cl-note">Pilleform sammen med søk og filtre. Vanlige skjemafelt beholder 8px radius.</p>
+      <div class="feltrad">
+        <div class="felt"><label for="cl-status-pill">Status</label><div class="form-select-wrap"><select class="form-select form-select--pill" id="cl-status-pill"><option>Alle statuser</option><option>Under arbeid</option><option>Aktiv</option><option>Avsluttet</option></select></div></div>
+        <div class="felt"><label for="cl-sortering-pill">Sorter etter</label><div class="form-select-wrap"><select class="form-select form-select--pill" id="cl-sortering-pill"><option>Nyeste først</option><option>Eldste først</option><option>Stilling A–Å</option></select></div></div>
+      </div>
+      <div class="cl-sep"></div>
       <span class="cl-variant">Chips / filter</span>
       <p class="cl-note">Av: hvit + kant. På: navy fyll, hvit tekst. Hover på av: navy tekst.</p>
       <div class="quick-replies">
@@ -652,6 +664,7 @@
           <tr><td><code>.input</code> / <code>.form-input</code></td><td>Tekstfelt. Tom, fylt, fokus, feil, disabled</td></tr>
           <tr><td><code>.form-textarea</code></td><td>Lang tekst, min 120px</td></tr>
           <tr><td><code>.form-select</code></td><td>I <code>.form-select-wrap</code> for chevron</td></tr>
+          <tr><td><code>.form-select--pill</code></td><td>Pilleform for sortering og filtre i verktøylinjer. Brukes sammen med <code>.form-select</code>.</td></tr>
           <tr><td><code>.chip</code></td><td>Filter. På: <code>aria-pressed="true"</code></td></tr>
         </tbody>
       </table>
@@ -721,6 +734,16 @@
       &lt;option&gt;Trondheim&lt;/option&gt;
     &lt;/select&gt;
   &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Nedtrekk med pilleform</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;label for="status"&gt;Status&lt;/label&gt;
+&lt;div class="form-select-wrap"&gt;
+  &lt;select class="form-select form-select--pill" id="status"&gt;
+    &lt;option value=""&gt;Alle statuser&lt;/option&gt;
+    &lt;option value="aktiv"&gt;Aktiv&lt;/option&gt;
+  &lt;/select&gt;
 &lt;/div&gt;</code></pre>
         </div>
         <div class="cl-snippet">
@@ -1034,7 +1057,7 @@
   <div class="cl-component">
     <div class="cl-component-header">
       <h2 class="cl-component-name">Valg</h2>
-      <span class="cl-component-class">.form-check .form-radio .form-toggle</span>
+      <span class="cl-component-class">.form-check .form-radio .form-toggle .kanal-piller</span>
     </div>
 
     <p class="cl-intro">Avkrysning, radioknapp og bryter. Bruk avkrysning for flere valg, radio for ett valg og bryter for av og på.</p>
@@ -1076,6 +1099,14 @@
           <span class="form-check__label">Strategisk rådgivning<br>En rådgiver går gjennom målgruppe, kanaler og budsjett med dere før start.</span>
         </label>
       </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Kanalpiller — flere valg som knapper</span>
+      <div class="kanal-piller" role="group" aria-label="Kanaler">
+  <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label"><span class="kanal-logo kanal-logo--meta" aria-hidden="true"></span>Meta</span></label>
+  <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label"><span class="kanal-logo kanal-logo--linkedin" aria-hidden="true"></span>LinkedIn</span></label>
+  <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label"><span class="kanal-logo kanal-logo--snapchat" aria-hidden="true"></span>Snapchat</span></label>
+  <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label"><span class="kanal-logo kanal-logo--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</span></label>
+</div>
       <div class="cl-sep"></div>
       <span class="cl-variant">Radio — dekning</span>
       <div class="cl-stack">
@@ -1160,6 +1191,7 @@
           <tr><td><code>.form-radio</code></td><td>Ett valg i en gruppe (<code>name</code>)</td></tr>
           <tr><td><code>.form-toggle</code></td><td>Binær innstilling, f.eks. autopubliser</td></tr>
           <tr><td><code>.form-toggle--liten</code></td><td>Bryter i tabellrader og tette lister</td></tr>
+          <tr><td><code>.kanal-piller</code></td><td>Gruppe av avkrysninger som ser ut som piller. Boksen er skjult. Hele pillen viser om den er valgt.</td></tr>
         </tbody>
       </table>
 
@@ -1253,6 +1285,15 @@
   &lt;span class="form-toggle__track" aria-hidden="true"&gt;&lt;/span&gt;
   &lt;span class="form-toggle__label"&gt;Håndtert&lt;/span&gt;
 &lt;/label&gt;</code></pre>
+        </div>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Kanalpiller</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;div class="kanal-piller" role="group" aria-label="Kanaler"&gt;
+  &lt;label class="form-check"&gt;&lt;input class="form-check__input" type="checkbox" checked&gt;&lt;span class="form-check__box" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="form-check__label"&gt;&lt;span class="kanal-logo kanal-logo--meta" aria-hidden="true"&gt;&lt;/span&gt;Meta&lt;/span&gt;&lt;/label&gt;
+  &lt;label class="form-check"&gt;&lt;input class="form-check__input" type="checkbox"&gt;&lt;span class="form-check__box" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="form-check__label"&gt;&lt;span class="kanal-logo kanal-logo--linkedin" aria-hidden="true"&gt;&lt;/span&gt;LinkedIn&lt;/span&gt;&lt;/label&gt;
+  &lt;label class="form-check"&gt;&lt;input class="form-check__input" type="checkbox"&gt;&lt;span class="form-check__box" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="form-check__label"&gt;&lt;span class="kanal-logo kanal-logo--snapchat" aria-hidden="true"&gt;&lt;/span&gt;Snapchat&lt;/span&gt;&lt;/label&gt;
+  &lt;label class="form-check"&gt;&lt;input class="form-check__input" type="checkbox" checked&gt;&lt;span class="form-check__box" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="form-check__label"&gt;&lt;span class="kanal-logo kanal-logo--nettsteder" aria-hidden="true"&gt;&lt;/span&gt;Nettsteder og aviser&lt;/span&gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
         </div>
       </div>
     </details>
@@ -1731,7 +1772,7 @@
       <dt>Bruk når</dt><dd>Lange lister med flere kolonner som skal sammenlignes.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke for tre-fire tall. Bruk Nøkkeltall.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('pagination')">Paginering</button><button type="button" class="cl-see" onclick="showTab('metric')">Nøkkeltall</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
@@ -2037,7 +2078,7 @@
       <dt>Bruk når</dt><dd>Hvor langt et tall har kommet mot et mål, som klikk mot estimat.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke for steg i en flyt. Bruk Trinn.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('steps')">Trinn</button><button type="button" class="cl-see" onclick="showTab('metric')">Nøkkeltall</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
@@ -2168,7 +2209,7 @@
       <dt>Bruk når</dt><dd>Samle innhold som hører sammen i en flate.</dd>
       <dt>Ikke bruk når</dt><dd>Ikke rundt hele siden eller kort inni kort.</dd>
       <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('summary')">Oppsummeringspanel</button></dd>
-      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/login.html">Logg inn</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/rapport.html">Rapport</a><a class="cl-used" href="portal/rapporter.html">Rapporter</a></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/campaign.html">Sykepleier Oslo</a><a class="cl-used" href="portal/campaigns.html">Kampanjer</a><a class="cl-used" href="portal/connect-detalj.html?id=777845">ConnectID 777845</a><a class="cl-used" href="portal/connect-detalj.html">ConnectID 777689</a><a class="cl-used" href="portal/connect.html">Connect</a><a class="cl-used" href="portal/dashboard.html">Hjem</a><a class="cl-used" href="portal/innstillinger.html">Innstillinger</a><a class="cl-used" href="portal/kampanje-bestilt.html">Barnehagelærer Drammen</a><a class="cl-used" href="portal/kampanje-under-arbeid.html">Helsefagarbeider Tromsø</a><a class="cl-used" href="portal/landingsside.html">Rediger kampanjesiden</a><a class="cl-used" href="portal/login.html">Logg inn</a><a class="cl-used" href="portal/mediebibliotek.html">Mediebibliotek</a><a class="cl-used" href="portal/rapport.html">Rapport</a></dd>
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
@@ -2357,6 +2398,135 @@
   </div>
 </div>
 
+<div class="cl-panel" id="panel-pakke">
+  <div class="cl-component">
+    <div class="cl-component-header">
+      <h2 class="cl-component-name">Pakkekort</h2>
+      <span class="cl-component-class">.pakke-grid .pakke-kort</span>
+    </div>
+
+    <p class="cl-intro">Et kort for én lagret pakke: navn, pris, periode og kanaler. Brukeren lager pakkene selv. Ingen andre ser dem.</p>
+    <div class="cl-demo">
+      <span class="cl-variant">Velg en pakke — Ny kampanje</span>
+      <div class="pakke-grid" role="group" aria-label="Velg pakke">
+<button class="pakke-kort pakke-kort--valg" type="button" aria-pressed="false">
+  <span class="pakke-kort__hode"><span class="pakke-kort__navn">Liten</span><span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span></span>
+  <span class="pakke-kort__pris"><b>kr 15 000</b><span class="pakke-kort__periode">for 3 uker</span></span>
+  <span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste"><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"></span>Meta</span><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</span></span></span>
+</button>
+<button class="pakke-kort pakke-kort--valg" type="button" aria-pressed="true">
+  <span class="pakke-kort__hode"><span class="pakke-kort__navn">Mellom</span><span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span></span>
+  <span class="pakke-kort__pris"><b>kr 30 000</b><span class="pakke-kort__periode">for 4 uker</span></span>
+  <span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste"><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"></span>Meta</span><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--linkedin" aria-hidden="true"></span>LinkedIn</span><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</span></span></span>
+</button>
+<button class="pakke-kort pakke-kort--valg" type="button" aria-pressed="false">
+  <span class="pakke-kort__hode"><span class="pakke-kort__navn">Stor</span><span class="pakke-kort__markor" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span></span>
+  <span class="pakke-kort__pris"><b>kr 50 000</b><span class="pakke-kort__periode">for 6 uker</span></span>
+  <span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste"><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"></span>Meta</span><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--linkedin" aria-hidden="true"></span>LinkedIn</span><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--snapchat" aria-hidden="true"></span>Snapchat</span><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</span></span></span>
+</button>
+      </div>
+      <div class="cl-sep"></div>
+      <span class="cl-variant">Bare visning — Lagrede pakker</span>
+      <div style="max-width:320px">
+      <div class="pakke-grid">
+<article class="pakke-kort">
+  <span class="pakke-kort__hode"><span class="pakke-kort__navn">Barnehage Drammen</span></span>
+  <span class="pakke-kort__pris"><b>kr 25 000</b><span class="pakke-kort__periode">for 4 uker</span></span>
+  <span class="pakke-kort__kanaler"><span class="pakke-kort__etikett">Kanaler</span><span class="pakke-kort__kanalliste"><span class="pakke-kort__kanal"><span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"></span>Meta</span></span></span>
+</article>
+      </div>
+      </div>
+    </div>
+
+    <div class="cl-install">
+      <h3 class="cl-install__title">Slik legger du den til</h3>
+      <dl class="cl-install__facts">
+        <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
+        <dt>JavaScript</dt><dd>Nei. I portalen lager <code>portal/data/pakker.js</code> kortene med <code>FZ_PAKKER.kort()</code>, så de ser like ut overalt.</dd>
+      </dl>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;link rel="stylesheet" href="tokens/base.css"&gt;
+&lt;link rel="stylesheet" href="styles/reset.css"&gt;
+&lt;link rel="stylesheet" href="components/icon/lucide-icons.css"&gt;
+&lt;link rel="stylesheet" href="components/package/componentPackage.css"&gt;</code></pre>
+        </div>
+    </div>
+
+    <details class="cl-details">
+      <summary class="cl-details__summary"><span class="cl-details__title">Teknisk</span><span class="cl-details__hint">Når du bruker den, klasser, regler og tilgjengelighet</span></summary>
+      <div class="cl-details__body">
+        <h3 class="cl-details__h">Når du bruker den</h3>
+        <dl class="cl-about cl-about--inline" data-generated="bruk">
+      <dt>Bruk når</dt><dd>Brukeren skal velge en lagret pakke, eller se pakkene sine.</dd>
+      <dt>Ikke bruk når</dt><dd>Ikke for andre valg enn pakker. Bruk Valgkort eller Velgbart kort.</dd>
+      <dt>Se også</dt><dd class="cl-about__links"><button type="button" class="cl-see" onclick="showTab('choicecard')">Valgkort</button><button type="button" class="cl-see" onclick="showTab('kanaler')">Kanalfarger og logoer</button></dd>
+      <dt>Brukes i</dt><dd class="cl-about__links"><a class="cl-used" href="portal/ny-kampanje.html">Ny kampanje</a><a class="cl-used" href="portal/mine-pakker.html">Lagrede pakker</a></dd>
+    </dl>
+
+        <h3 class="cl-details__h">Klasser</h3>
+        <table class="cl-spec">
+        <thead><tr><th>Klasse</th><th>Rolle</th></tr></thead>
+        <tbody>
+          <tr><td><code>.pakke-grid</code></td><td>Rutenett. Kortene blir like høye, og pris og kanaler står på linje.</td></tr>
+          <tr><td><code>.pakke-kort</code></td><td>Ett kort. Bruk <code>&lt;article&gt;</code> når kortet bare viser.</td></tr>
+          <tr><td><code>.pakke-kort--valg</code></td><td>Kortet kan velges. Bruk <code>&lt;button aria-pressed&gt;</code>.</td></tr>
+          <tr><td><code>.pakke-kort__markor</code></td><td>Runden øverst til høyre. Får hake når kortet er valgt.</td></tr>
+          <tr><td><code>.pakke-kort__pris</code> / <code>__periode</code></td><td>Prisen og hvor mange uker</td></tr>
+          <tr><td><code>.pakke-kort__kanaler</code> / <code>__kanal</code></td><td>Kanalene, hver med logo</td></tr>
+          <tr><td><code>.er-ny</code></td><td>Myk ring rundt en pakke som nettopp er lagret</td></tr>
+        </tbody>
+      </table>
+
+        <h3 class="cl-details__h">Regler</h3>
+        <ul class="cl-rules">
+        <li>Samme kort overalt. Bare valget endres fra side til side.</li>
+        <li>Pakkene tilhører brukeren som lagde dem. Ikke merk dem «Fra Frantz».</li>
+        <li>En pakke har budsjett og kanaler, men ingen periode. Brukeren velger perioden på hver kampanje, og Frantz fordeler budsjettet over den.</li>
+      </ul>
+
+        <h3 class="cl-details__h">Tilgjengelighet</h3>
+        <ul class="cl-rules">
+          <li>Et kort som kan velges, er en <code>&lt;button type="button"&gt;</code> med <code>aria-pressed</code>. Skjermleseren sier da «valgt» eller «ikke valgt».</li>
+          <li>Legg kortene i en gruppe med <code>role="group"</code> og <code>aria-label="Velg pakke"</code>.</li>
+          <li>Logoene og haken har <code>aria-hidden="true"</code>. Kanalnavnet står alltid som tekst.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="cl-details">
+      <summary class="cl-details__summary"><span class="cl-details__title">Kode</span><span class="cl-details__hint">Kopier blokken du trenger.</span></summary>
+      <div class="cl-details__body cl-details__body--code">
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Velg en pakke</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;div class="pakke-grid" role="group" aria-label="Velg pakke"&gt;
+&lt;button class="pakke-kort pakke-kort--valg" type="button" aria-pressed="false"&gt;
+  &lt;span class="pakke-kort__hode"&gt;&lt;span class="pakke-kort__navn"&gt;Liten&lt;/span&gt;&lt;span class="pakke-kort__markor" aria-hidden="true"&gt;&lt;span class="icon-lucide icon-lucide--check"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="pakke-kort__pris"&gt;&lt;b&gt;kr 15 000&lt;/b&gt;&lt;span class="pakke-kort__periode"&gt;for 3 uker&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="pakke-kort__kanaler"&gt;&lt;span class="pakke-kort__etikett"&gt;Kanaler&lt;/span&gt;&lt;span class="pakke-kort__kanalliste"&gt;&lt;span class="pakke-kort__kanal"&gt;&lt;span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"&gt;&lt;/span&gt;Meta&lt;/span&gt;&lt;span class="pakke-kort__kanal"&gt;&lt;span class="kanal-logo kanal-logo--sm kanal-logo--nettsteder" aria-hidden="true"&gt;&lt;/span&gt;Nettsteder og aviser&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;button class="pakke-kort pakke-kort--valg" type="button" aria-pressed="true"&gt;
+  &lt;span class="pakke-kort__hode"&gt;&lt;span class="pakke-kort__navn"&gt;Mellom&lt;/span&gt;&lt;span class="pakke-kort__markor" aria-hidden="true"&gt;&lt;span class="icon-lucide icon-lucide--check"&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="pakke-kort__pris"&gt;&lt;b&gt;kr 30 000&lt;/b&gt;&lt;span class="pakke-kort__periode"&gt;for 4 uker&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="pakke-kort__kanaler"&gt;&lt;span class="pakke-kort__etikett"&gt;Kanaler&lt;/span&gt;&lt;span class="pakke-kort__kanalliste"&gt;&lt;span class="pakke-kort__kanal"&gt;&lt;span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"&gt;&lt;/span&gt;Meta&lt;/span&gt;&lt;span class="pakke-kort__kanal"&gt;&lt;span class="kanal-logo kanal-logo--sm kanal-logo--linkedin" aria-hidden="true"&gt;&lt;/span&gt;LinkedIn&lt;/span&gt;&lt;span class="pakke-kort__kanal"&gt;&lt;span class="kanal-logo kanal-logo--sm kanal-logo--nettsteder" aria-hidden="true"&gt;&lt;/span&gt;Nettsteder og aviser&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare visning</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;div class="pakke-grid"&gt;
+&lt;article class="pakke-kort"&gt;
+  &lt;span class="pakke-kort__hode"&gt;&lt;span class="pakke-kort__navn"&gt;Barnehage Drammen&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="pakke-kort__pris"&gt;&lt;b&gt;kr 25 000&lt;/b&gt;&lt;span class="pakke-kort__periode"&gt;for 4 uker&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="pakke-kort__kanaler"&gt;&lt;span class="pakke-kort__etikett"&gt;Kanaler&lt;/span&gt;&lt;span class="pakke-kort__kanalliste"&gt;&lt;span class="pakke-kort__kanal"&gt;&lt;span class="kanal-logo kanal-logo--sm kanal-logo--meta" aria-hidden="true"&gt;&lt;/span&gt;Meta&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
 <div class="cl-panel" id="panel-summary">
   <div class="cl-component">
     <div class="cl-component-header">
@@ -2364,30 +2534,36 @@
       <span class="cl-component-class">.summary-panel</span>
     </div>
 
-    <p class="cl-intro">Et panel ved siden av innholdet som står fast mens brukeren scroller. Det viser fakta, for eksempel bestillingen.</p>
+    <p class="cl-intro">Et lysegrått panel ved siden av innholdet som står fast mens brukeren scroller. Det viser fakta, for eksempel bestillingen. Hver rad har navnet øverst og verdien under.</p>
     <div class="cl-demo">
-      <span class="cl-variant">Kampanjeoppsett</span>
+      <span class="cl-variant">Din bestilling</span>
       <div style="max-width:340px">
-        <div class="summary-panel">
-          <div class="summary-panel__head">
-            <h2>Sammendrag</h2>
-            <p>Utkast 129070</p>
-          </div>
-          <div class="summary-panel__block">
-            <span class="summary-panel__label">Strategien</span>
-            <dl class="summary-row"><dt>Kanaler</dt><dd>Meta, Nettsteder</dd></dl>
-            <dl class="summary-row"><dt>Periode</dt><dd>Til søknadsfrist</dd></dl>
-            <dl class="summary-row"><dt>Dekning</dt><dd>Regionalt</dd></dl>
-          </div>
-          <div class="summary-panel__total">
-            <span>Totalsum</span>
-            <b>kr 36 500</b>
-          </div>
-          <div class="summary-panel__cta">
-            <button class="btn btn--primary">Videre til materiell</button>
-            <button class="btn btn--secondary">Lagre utkast</button>
-          </div>
-        </div>
+<div class="summary-panel">
+  <div class="summary-panel__head">
+    <h2>Din bestilling</h2>
+    <p>Kampanje #129075</p>
+  </div>
+  <div class="summary-panel__block">
+    <span class="summary-panel__label">Stillingen</span>
+    <dl class="summary-row"><dt>Stilling</dt><dd>Sykepleier</dd></dl>
+    <dl class="summary-row"><dt>Arbeidssted</dt><dd>Oslo</dd></dl>
+  </div>
+  <div class="summary-panel__block">
+    <dl class="summary-row"><dt>Pakke</dt><dd>Mellom</dd></dl>
+    <dl class="summary-row"><dt>Budsjett</dt><dd>kr 30 000</dd></dl>
+    <dl class="summary-row"><dt>Periode</dt><dd>4 uker, 26.10 – 22.11.2026</dd></dl>
+    <dl class="summary-row"><dt>Forventet «Søk»</dt><dd>30–40</dd></dl>
+  </div>
+  <div class="summary-panel__total">
+    <span>Totalsum</span>
+    <b>kr 30 000</b>
+  </div>
+  <p class="summary-panel__mva">Alle priser er eks. mva.</p>
+  <div class="summary-panel__cta">
+    <button class="btn btn--accent" type="button">Bestill kampanjen</button>
+    <button class="btn btn--secondary" type="button">Del for godkjenning</button>
+  </div>
+</div>
       </div>
     </div>
 
@@ -2428,6 +2604,7 @@
           <tr><td><code>.summary-panel__block</code></td><td>Gruppe av rader</td></tr>
           <tr><td><code>.summary-row</code></td><td>Label + verdi (dt/dd)</td></tr>
           <tr><td><code>.summary-panel__total</code></td><td>Totalsum, tonet bunn</td></tr>
+          <tr><td><code>.summary-panel__mva</code></td><td>Kort merknad under totalen, for eksempel «Alle priser er eks. mva.»</td></tr>
           <tr><td><code>.summary-panel__cta</code></td><td>Knapper</td></tr>
         </tbody>
       </table>
@@ -2435,7 +2612,9 @@
         <h3 class="cl-details__h">Regler</h3>
         <ul class="cl-rules">
         <li>Én total, tydelig nederst før CTA — ikke gjem den i en blokk.</li>
-        <li>Primærknapp øverst i <code>.summary-panel__cta</code>, sekundær under.</li>
+        <li>Hovedknappen øverst i <code>.summary-panel__cta</code>, sekundær under. «Bestill kampanjen» er gul (<code>.btn--accent</code>), som «Ny kampanje» i topplinjen.</li>
+        <li>Panelet er smalt. Derfor står navnet over verdien i hver rad. Da brytes ikke lange verdier i ujevne kolonner.</li>
+        <li>Skjul rader som er tomme med <code>hidden</code>. Ikke vis «—» i mange rader.</li>
         <li>Maks 320–360px bred, ved siden av hovedflyten, ikke alene på siden.</li>
       </ul>
 
@@ -2457,22 +2636,28 @@
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Standard</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;div class="summary-panel"&gt;
   &lt;div class="summary-panel__head"&gt;
-    &lt;h2&gt;Sammendrag&lt;/h2&gt;
-    &lt;p&gt;Utkast 129070&lt;/p&gt;
+    &lt;h2&gt;Din bestilling&lt;/h2&gt;
+    &lt;p&gt;Kampanje #129075&lt;/p&gt;
   &lt;/div&gt;
   &lt;div class="summary-panel__block"&gt;
-    &lt;span class="summary-panel__label"&gt;Strategien&lt;/span&gt;
-    &lt;dl class="summary-row"&gt;&lt;dt&gt;Kanaler&lt;/dt&gt;&lt;dd&gt;Meta, Nettsteder&lt;/dd&gt;&lt;/dl&gt;
-    &lt;dl class="summary-row"&gt;&lt;dt&gt;Periode&lt;/dt&gt;&lt;dd&gt;Til søknadsfrist&lt;/dd&gt;&lt;/dl&gt;
-    &lt;dl class="summary-row"&gt;&lt;dt&gt;Dekning&lt;/dt&gt;&lt;dd&gt;Regionalt&lt;/dd&gt;&lt;/dl&gt;
+    &lt;span class="summary-panel__label"&gt;Stillingen&lt;/span&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Stilling&lt;/dt&gt;&lt;dd&gt;Sykepleier&lt;/dd&gt;&lt;/dl&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Arbeidssted&lt;/dt&gt;&lt;dd&gt;Oslo&lt;/dd&gt;&lt;/dl&gt;
+  &lt;/div&gt;
+  &lt;div class="summary-panel__block"&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Pakke&lt;/dt&gt;&lt;dd&gt;Mellom&lt;/dd&gt;&lt;/dl&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Budsjett&lt;/dt&gt;&lt;dd&gt;kr 30 000&lt;/dd&gt;&lt;/dl&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Periode&lt;/dt&gt;&lt;dd&gt;4 uker, 26.10 – 22.11.2026&lt;/dd&gt;&lt;/dl&gt;
+    &lt;dl class="summary-row"&gt;&lt;dt&gt;Forventet «Søk»&lt;/dt&gt;&lt;dd&gt;30–40&lt;/dd&gt;&lt;/dl&gt;
   &lt;/div&gt;
   &lt;div class="summary-panel__total"&gt;
     &lt;span&gt;Totalsum&lt;/span&gt;
-    &lt;b&gt;kr 36 500&lt;/b&gt;
+    &lt;b&gt;kr 30 000&lt;/b&gt;
   &lt;/div&gt;
+  &lt;p class="summary-panel__mva"&gt;Alle priser er eks. mva.&lt;/p&gt;
   &lt;div class="summary-panel__cta"&gt;
-    &lt;button class="btn btn--primary" type="button"&gt;Videre til materiell&lt;/button&gt;
-    &lt;button class="btn btn--secondary" type="button"&gt;Lagre utkast&lt;/button&gt;
+    &lt;button class="btn btn--accent" type="button"&gt;Bestill kampanjen&lt;/button&gt;
+    &lt;button class="btn btn--secondary" type="button"&gt;Del for godkjenning&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
         </div>
@@ -2584,7 +2769,7 @@ tegnTrakt(document.getElementById('trakt'), {
       <span class="cl-component-class">.steps</span>
     </div>
 
-    <p class="cl-intro">Viser hvor brukeren er i en flyt med to til fire steg, for eksempel «Ny kampanje».</p>
+    <p class="cl-intro">Viser hvor brukeren er i en flyt med to til fire steg. «Ny kampanje» bruker nå en fremdriftslinje i stedet.</p>
     <div class="cl-demo">
       <nav aria-label="Trinn i ny kampanje">
         <ol class="steps">
@@ -2622,7 +2807,7 @@ tegnTrakt(document.getElementById('trakt'), {
     </dl>
 
         <h3 class="cl-details__h">Detaljer</h3>
-        <p class="cl-note cl-note--wide">Fremdrift i «Ny kampanje»-veiviseren. Fullførte trinn er klikkbare og går tilbake. Nåværende trinn får amber tallsirkel.</p>
+        <p class="cl-note cl-note--wide">«Ny kampanje» bruker ikke lenger trinn. Den viser én fremdriftslinje med «2 av 4 steg» (se Fremdrift). Bruk trinn bare når brukeren må kunne hoppe tilbake til et bestemt steg. Fullførte trinn er klikkbare. Nåværende trinn får amber tallsirkel.</p>
 
         <h3 class="cl-details__h">Klasser</h3>
         <table class="cl-spec">

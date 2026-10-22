@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Connect — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=76">
+<title>Stillinger — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=101">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -41,7 +41,6 @@
   .faner .filter span { color: inherit; opacity: 0.7; font-weight: var(--font-weight-medium); }
   .sortering { display: flex; align-items: center; gap: var(--space-8); color: var(--text-muted); font-size: var(--text-base); white-space: nowrap; }
   .sortering .form-select-wrap { min-width: 200px; }
-  .sortering .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-base); }
 
   .aktive {
     display: flex;
@@ -86,7 +85,6 @@
   }
   .search-wrap .form-input { padding-left: var(--control-icon-padding); border-radius: var(--radius-full); }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
-  .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-sm); }
   .nullstill {
     padding: 0;
     border: 0;
@@ -109,7 +107,8 @@
     .sortering .form-select-wrap { flex: 1; min-width: 0; }
   }
 
-  .table-card { padding: 0; overflow-x: auto; }
+  /* Keep the hidden column label inside the table’s scroll area. */
+  .table-card { position: relative; padding: 0; overflow-x: auto; }
 
   .pagination-wrap { margin-top: var(--space-24); }
   .connect__ekstra { margin: var(--space-24) 0 0; color: var(--text-muted); font: var(--type-body); }
@@ -123,7 +122,6 @@
     .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
   }
-  .verktoy .form-select { font-size: var(--text-base); }
   .pagination-wrap .pagination__meta { color: var(--text-body); font-size: var(--text-base); }
   .pagination-wrap .pagination__meta b { color: var(--text-heading); }
 
@@ -151,28 +149,29 @@
     </div>
     <nav class="nav" aria-label="Hovedmeny">
       <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
-      <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Connect</a>
+      <a class="nav__item" href="connect.html" aria-current="page"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
       <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
       <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
       <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
-      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span>Innstillinger</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
-      <b>Vokser AS</b><small>kari.hansen@vokser.no</small>
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
       <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
     </div>
   </aside>
 
   <div class="main" id="innhold" tabindex="-1">
-    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b><small>kari.hansen@vokser.no</small></span></div></header>
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
-    <div class="wrap">
+    <div class="wrap wrap--bred">
       <div class="liste__topp">
         <div>
-          <h1 class="text-h2">Connect</h1>
-          <p class="lede">Stillingene deres hos Frantz. Finn stillingen og opprett en kampanje. Dere bestiller først på siste steg.</p>
+          <h1 class="text-h2">Stillinger</h1>
+          <p class="lede">Stillingene hentes automatisk fra deres eget rekrutteringssystem via Connect. Finn stillingen og opprett en kampanje. Dere bestiller først på siste steg.</p>
         </div>
       </div>
 
@@ -180,13 +179,16 @@
         <div class="search-wrap">
           <span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>
           <label class="chat__sr" for="sok">Søk</label>
-          <input class="form-input" type="search" id="sok" placeholder="Søk på stilling, arbeidsgiver, prosjekt eller ID" autocomplete="off">
+          <input class="form-input" type="search" id="sok" placeholder="Søk på stilling, arbeidsgiver, kampanjenavn eller ID" autocomplete="off">
         </div>
         <label class="sortering"><span class="chat__sr">Status</span>
           <span class="form-select-wrap">
-            <select class="form-select" id="f-status">
+            <select class="form-select form-select--pill" id="f-status">
               <option value="">Alle statuser</option>
               <option value="Uten kampanje">Uten kampanje</option>
+              <option value="Kladd">Kladd</option>
+              <option value="Bestilt">Bestilt</option>
+              <option value="Under arbeid">Under arbeid</option>
               <option value="Aktiv">Aktiv</option>
               <option value="Avsluttet">Avsluttet</option>
             </select>
@@ -194,7 +196,7 @@
         </label>
         <label class="sortering"><span class="chat__sr">Sorter etter</span>
           <span class="form-select-wrap">
-            <select class="form-select" id="sortering">
+            <select class="form-select form-select--pill" id="sortering">
               <option value="nyeste">Nyeste først</option>
               <option value="eldste">Eldste først</option>
               <option value="tittel">Stilling A–Å</option>
@@ -207,7 +209,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanje</th><th>Deres prosjekt</th><th>Kampanjeperiode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanjenavn</th><th>Kampanjeperiode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader"></tbody>
         </table>
@@ -230,7 +232,8 @@
   </div>
 </div>
 
-<script src="data/connect.js"></script>
+<script src="data/kampanjer.js?v=4"></script>
+<script src="data/connect.js?v=4"></script>
 <script>
 (function () {
   // Rows come from the shared ConnectID list, so they match the ConnectID page and Ny kampanje
@@ -241,14 +244,14 @@
     // A stilling with a campaign opens that campaign, or the report when it has ended.
     // One without a campaign opens the order form, already filled from the ConnectID.
     var maal = k ? k.side : 'ny-kampanje.html?connect=' + c.id;
-    var pil = !k ? 'Opprett kampanje' : (c.status === 'Avsluttet' ? 'Åpne rapporten' : 'Åpne kampanjen');
+    var pil = !k ? 'Opprett kampanje' : c.status === 'Avsluttet' ? 'Åpne rapporten' : c.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen';
     return '<tr tabindex="0" data-href="' + maal + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-start="' + c.start + '">' +
       '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span><span class="table__meta">ConnectID <span class="table__id">' + c.id + '</span></span></span></td>' +
       '<td data-label="Arbeidsgiver">' + esc(c.arbeidsgiver) + '</td>' +
-      '<td data-label="Kampanje">' + (k ? '<a class="table__lenke" href="' + k.side + '">#' + k.id + '</a>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
-      '<td data-label="Deres prosjekt">' + (c.prosjekt ? esc(c.prosjekt) : mangler('Ikke satt')) + '</td>' +
-      '<td data-label="Periode">' + (k ? k.fra + ' – ' + k.til : mangler('—')) + '</td>' +
-      '<td data-label="Status"><span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span></td>' +
+      '<td data-label="Kampanjenavn">' + (c.prosjekt ? esc(c.prosjekt) : mangler('Ikke satt')) + '</td>' +
+      '<td data-label="Periode">' + (k && k.fra ? k.fra + ' – ' + k.til : mangler('—')) + '</td>' +
+      // No campaign yet: the next step is the button, not a status pill
+      '<td data-label="Status">' + (k ? '<span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + pil + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
   // A click on the row opens the campaign, the report, or the prefilled order. Links and buttons in the row keep their own target.
@@ -300,8 +303,8 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=9"></script>
-<script src="../components/js/assistant-widget.js?v=4"></script>
+<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>
 </html>

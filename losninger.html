@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Løsninger</title>
-<link rel="stylesheet" href="frantz-ds.css?v=76">
+<link rel="stylesheet" href="frantz-ds.css?v=91">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 <style>
   .lo-main { padding-top: var(--docs-topbar-height); }
@@ -60,15 +60,14 @@
     <div class="ds-overline">Demo</div>
     <h2 class="ds-title">Slik viser du det, steg for steg</h2>
     <ol class="lo-rute">
-      <li><div><b>Hjem og omvisningen</b><span>Omvisningen starter av seg selv første gang. Den viser menyen, varsler og «Spør Frantz».</span></div><a class="btn btn--secondary btn--sm" href="portal/dashboard.html?tur">Åpne</a></li>
-      <li><div><b>Ny kampanje fra Connect</b><span>Bruk en pakke, se kanalene Frantz anbefaler, og trykk «Del for godkjenning». Trykk så «Bestill kampanjen», så ser du din egen bestilling.</span></div><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje.html?connect=777845">Åpne</a></li>
-      <li><div><b>Lederen godkjenner</b><span>Siden lederen eller kunden får. Ingen innlogging. Lenken viser Helsesykepleier Kristiansand fra steg 2.</span></div><a class="btn btn--secondary btn--sm" href="portal/godkjenning.html">Åpne</a></li>
+      <li><div><b>Hjem for en ny kunde</b><span>Banner, «Kom i gang» med fire steg, og «Hva er en kampanje?». Ingen Stillinger i menyen.</span></div><a class="btn btn--secondary btn--sm" href="portal/dashboard.html?bruker=ny">Åpne</a></li>
+      <li><div><b>Hjem og omvisningen</b><span>For en kunde som har brukt Frantz før. Omvisningen starter av seg selv første gang. Den viser menyen, varsler og «Spør Frantz».</span></div><a class="btn btn--secondary btn--sm" href="portal/dashboard.html?tur">Åpne</a></li>
+      <li><div><b>Ny kampanje fra en stilling</b><span>Fire steg: Stillingen, Kampanjen, Annonsen, Se over og bestill. Velg en av pakkene dine eller sett opp selv, lag annonsen, og trykk «Del for godkjenning». Trykk så «Bestill kampanjen».</span></div><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje.html?connect=777845">Åpne</a></li>
+      <li><div><b>Lederen godkjenner</b><span>Siden lederen eller kunden får. Ingen innlogging. Lenken viser Helsesykepleier Kristiansand fra steg 3.</span></div><a class="btn btn--secondary btn--sm" href="portal/godkjenning.html">Åpne</a></li>
       <li><div><b>Kampanjen er bestilt</b><span>Sporingskoden ligger i «Om kampanjen», med «Kopier koden». Lenken viser et eksempel: Barnehagelærer Drammen.</span></div><a class="btn btn--secondary btn--sm" href="portal/kampanje-bestilt.html">Åpne</a></li>
-      <li><div><b>Kampanjelisten</b><span>«Mine kampanjer» eller «Alle på Vokser AS», filter med brikker og «Nullstill».</span></div><a class="btn btn--secondary btn--sm" href="portal/campaigns.html">Åpne</a></li>
+      <li><div><b>Lagrede pakker</b><span>Brukeren lager sine egne pakker, og bare hen ser dem. En ny kunde har ingen pakker ennå, og setter opp kampanjen selv.</span></div><a class="btn btn--secondary btn--sm" href="portal/mine-pakker.html">Åpne</a></li>
+      <li><div><b>Kampanjelisten</b><span>«Mine kampanjer» eller «Alle på Nordlys Rekruttering AS», filter med brikker og «Nullstill».</span></div><a class="btn btn--secondary btn--sm" href="portal/campaigns.html?bruker=eksisterende">Åpne</a></li>
       <li><div><b>Aktiv kampanje</b><span>Visninger først, dag for dag, nettsteder og aviser, e-posttråden og «Rediger kampanjesiden».</span></div><a class="btn btn--secondary btn--sm" href="portal/campaign.html">Åpne</a></li>
-      <li><div><b>Kampanjen som dashbord</b><span>Eksempelside: alle tallene på én side, med målet, budsjettet, kanalene og annonsene. Sjekk med Frantz.</span></div><a class="btn btn--secondary btn--sm" href="portal/kampanje-dashbord.html">Åpne</a></li>
-      <li><div><b>Rediger kampanjesiden</b><span>Endre tekst og bilde, og send til godkjenning.</span></div><a class="btn btn--secondary btn--sm" href="portal/landingsside.html">Åpne</a></li>
-      <li><div><b>Rapport</b><span>Det samme for en avsluttet kampanje, med endelige tall.</span></div><a class="btn btn--secondary btn--sm" href="portal/rapport.html">Åpne</a></li>
     </ol>
   </div>
 
@@ -94,59 +93,60 @@
   var GRUPPER = [
     ['Bestilling', [
       ['1', 'Én bestillingsflyt, uten valg av produkt', 'fantes', 'Frantz velger oppsettet ut fra stillingen og budsjettet.', NK],
-      ['2', 'Kort skjema, lenken er valgfri', 'fantes', 'Lenke, PDF eller egne ord. Bare budsjett må være med.', NK],
-      ['3', 'Lagres av seg selv', 'fantes', '«Lagret kl. 14.02» øverst. Ingen «Lagre kladd»-knapp.', NK],
+      ['2', 'Kort skjema, lenken er valgfri', 'fantes', 'Lenke, PDF eller egne ord. Bare budsjett må være med. «Lim inn bestillingen» er fjernet, så «Ny kampanje» er den eneste veien inn.', NK],
+      ['3', 'Lagres av seg selv', 'fantes', '«Lagres av seg selv» i «Din bestilling», og «Lagret kl. 14.02» etter hver endring. Ingen «Lagre kladd»-knapp.', NK],
       ['4', 'Budsjett med advarsel, ikke stopp', 'fantes', 'Under kr 8 000 gir en advarsel.', NK],
-      ['5', 'Lagrede pakker per firma', 'ny', 'Pakker med firmaets egne navn. Ett klikk fyller ut resten. «Lagre som pakke» i bestillingen.', NK],
-      ['6', 'Kanaler som avkrysning, «Frantz anbefaler» først', 'ny', 'Én liste. Frantz har krysset av, og anbefalingen følger stillingen. Skriv «CFO», så kommer LinkedIn med.', NK],
-      ['7', 'Totalpris som oppdateres', 'fantes', '«Din bestilling» viser totalsum mens du velger.', NK],
+      ['5', 'Lagrede pakker', 'ny', 'Brukeren lager og eier pakkene sine under Lagrede pakker. Bare den som lager dem, ser dem. Hvert kort viser pris, fast periode, kanaler og «Ikke inkludert». En ny kunde uten pakker ser ikke pakkevalget. Hvordan pris, periode og rekkevidde henger sammen, må Frantz bekrefte.', 'portal/mine-pakker.html'],
+      ['6', 'Kanaler som valg, «Frantz anbefaler» først', 'ny', 'Kanalene er knapper man slår av og på. Frantz har valgt de anbefalte, og anbefalingen følger stillingen. Skriv «CFO», så kommer LinkedIn med.', NK],
+      ['7', 'Totalpris som oppdateres, uten skjulte kostnader', 'ny', '«Din bestilling» viser totalsum mens du velger. Prisen står på designvalget, og tilleggene har egen overskrift. Et betalt tillegg krysses aldri av ut fra fritekst. Det vises som et forslag.', NK],
       ['8', 'Del pris og annonse, med «Godkjenn»', 'ny', '«Del for godkjenning» lager en lenke. Lederen eller kunden godkjenner uten å logge inn.', 'portal/godkjenning.html'],
-      ['9', 'Start fra stillingen i Connect', 'fantes', '«Hent fra Connect» i Ny kampanje, eller «Opprett kampanje» i Connect, fyller ut skjemaet.', 'portal/connect.html'],
+      ['9', 'Start fra stillingen i Connect', 'ny', '«Velg stilling» i første steg av Ny kampanje, bare for kunder som har Connect. Eller «Opprett kampanje» på siden Stillinger. Begge fyller ut skjemaet når brukeren trykker «Fyll ut skjemaet». Bare den siste knappen i skjemaet sier «Bestill kampanjen».', 'portal/connect.html'],
       ['10', 'Sporingskoden (pikselen) med en gang, med «Kopier»', 'ny', 'Samme blokk i «Om kampanjen» på alle kampanjesider, fra den er bestilt.', 'portal/kampanje-bestilt.html'],
       ['11', 'Flere arbeidssteder, «Hele Norge», «Hjemmekontor»', 'fantes', '', NK],
-      ['12', 'Fakturamottaker som nedtrekksliste', 'skisse', 'Nedtrekksliste under «Endre» i oversikten. Lenken «Innstillinger» åpner fanen «Fakturamottakere». Listen må hentes fra Innstillinger i den ekte løsningen.', NK],
-      ['13', 'Ønsket start og forventet publisering', 'skisse', '«Tidligst ute» i «Din bestilling» og på siden for bestilt kampanje: 3 arbeidsdager etter bestilling.', NK],
-      ['14', 'Kundens eget oppdragsnummer', 'fantes', '«Kampanjenavn / deres referanse».', NK],
+      ['12', 'Fakturamottaker som nedtrekksliste', 'skisse', 'Nedtrekksliste i steg 4 «Se over og bestill». Lenken går til «Innstillinger for firmaet». Listen må hentes fra Innstillinger i den ekte løsningen.', NK],
+      ['13', 'Ønsket start og forventet publisering', 'skisse', '«Tidligst ute» i «Din bestilling»: 3 arbeidsdager etter bestilling. Siden for bestilt kampanje viser ønsket start.', NK],
+      ['14', 'Kundens eget oppdragsnummer', 'fantes', '«Kampanjenavn (valgfritt)» i første steg, for eksempel deres referanse eller oppdragsnummer. Frantz leser det også ut av teksten.', NK],
       ['15', 'Vedlegg uten beskrivelse', 'fantes', '', NK],
-      ['16', '«Ny kampanje» som hovedknapp på Hjem', 'fantes', '', 'portal/dashboard.html']
+      ['16', '«Ny kampanje» som hovedknapp', 'ny', 'Gul knapp øverst til høyre, på samme sted på alle sider. Det store banneret på Hjem vises bare for en ny kunde uten kampanjer.', 'portal/dashboard.html']
     ]],
     ['Målretting', [
-      ['17', 'Målretting fra tittel, også CFO og kommunale titler', 'skisse', 'Vanlige titler som CFO, CEO, rådmann og enhetsleder kobles til riktig målgruppe.', NK],
-      ['18', 'Vis målgruppen før start, og la brukeren kommentere', 'ny', 'Målgruppen står i «Kampanje under arbeid», med et felt for kommentar til Frantz. Ved bestilling: «Noe mer Frantz bør vite?».', 'portal/kampanje-under-arbeid.html']
+      ['17', 'Målretting fra tittel, også CFO og kommunale titler', 'skisse', 'Vanlige titler som CFO, CEO og rådmann kobles til riktig målgruppe.', NK],
+      ['18', 'Vis målgruppen før start, og la brukeren kommentere', 'ny', 'Målgruppen står i «Kampanje under arbeid», med et felt for kommentar til Frantz. Ved bestilling: «Kommentar til Frantz» i steg 4.', 'portal/kampanje-under-arbeid.html']
     ]],
     ['Kampanjeliste og kampanjeside', [
       ['19', 'Søk når brukeren trykker Enter', 'senere', 'Teknisk. Søket virker mens du skriver.', 'portal/campaigns.html'],
       ['20', 'Aktive filter som brikker, «Nullstill», lukk med Esc', 'ny', 'Filtermeny som lukkes ved klikk utenfor eller Esc.', 'portal/campaigns.html'],
-      ['21', '«Mine kampanjer»', 'ny', 'Velg mellom «Mine kampanjer» og «Alle på Vokser AS». «Mine kampanjer» er standardvisningen. «Alle på Vokser AS» er et filter.', 'portal/campaigns.html'],
+      ['21', '«Mine kampanjer»', 'ny', 'Velg mellom «Mine kampanjer» og «Alle på Nordlys Rekruttering AS». «Mine kampanjer» er standardvisningen.', 'portal/campaigns.html'],
       ['22', 'Status «Avsluttet» av seg selv', 'senere', 'Teknisk: en jobb som kjører etter sluttdato.', ''],
-      ['23', 'Delelenker og materiell, «Kopier lenke» og «Last ned»', 'ny', '«Last ned alle» og «Last ned» per annonse. «Kopier» på kampanjesiden.', 'portal/campaign.html'],
+      ['23', 'Delelenker og materiell, «Kopier lenke» og «Last ned»', 'ny', '«Last ned alle» og «Last ned» per annonse. «Kopier rapportlenke» øverst på kampanjesiden.', 'portal/campaign.html'],
       ['24', '«Se annonsen»', 'fantes', '', 'portal/campaign.html'],
       ['25', 'Video i mediebiblioteket', 'fantes', '', 'portal/mediebibliotek.html'],
       ['26', 'All tekst på norsk', 'fantes', '', '']
     ]],
     ['Dialog og interessenter', [
       ['27', 'Én e-posttråd per kampanje', 'fantes', 'Tråden for Sykepleier Oslo, fra bestilling til aktiv kampanje.', 'portal/epost-visning.html'],
-      ['28', 'Oppdragsnummer i emnet', 'fantes', '«[#129041 · Deres ref. 22 31]». Åpnes fra «Se e-posttråden» på kampanjesiden.', 'portal/epost-visning.html'],
+      ['28', 'Oppdragsnummer i emnet', 'fantes', '«[#129041 · Oppdrag 22 31]». Åpnes fra «Se e-posttråden» på kampanjesiden.', 'portal/epost-visning.html'],
       ['29', 'Send interessenter til leder eller kunde', 'fantes', '«Send listen til» på kampanjesiden.', 'portal/campaign.html'],
-      ['30', 'Velg varsler: per interessent, daglig eller ingen', 'delvis', 'Under «Min profil» (trykk på navnet øverst til høyre). E-posten med en ny interessent er ikke laget ennå. Den skal vise mobilnummeret først.', 'portal/dashboard.html'],
+      ['30', 'Velg varsler: per interessent, daglig eller ingen', 'delvis', 'Under «Min profil». E-posten med en ny interessent er ikke laget ennå. Den skal vise mobilnummeret først.', 'portal/min-profil.html#varsler'],
       ['31', 'Rediger kampanjesiden selv, send til godkjenning', 'ny', 'Egen side med forhåndsvisning. Åpnes fra «Rediger kampanjesiden».', 'portal/landingsside.html']
     ]],
     ['Rapport', [
-      ['32', 'Én setning per tall, og sammenligning', 'fantes', '«Normalt» og «Hva betyr dette?».', 'portal/rapport.html'],
+      ['32', 'Én setning per tall, og sammenligning', 'ny', 'Hvert tall viser bare hvor mye bedre eller dårligere det er enn normalt, for eksempel «13 % flere». «Hva betyr «normalt»?» forklarer sammenligningen.', 'portal/rapport.html'],
       ['33', 'Visninger som første tall', 'ny', 'Fire tall øverst, visninger først. Også på eksempelsiden «Kampanjen som dashbord».', 'portal/campaign.html'],
       ['34', 'Linjegraf dag for dag', 'skisse', 'Visninger og «Søk» per dag, under «Detaljer».', 'portal/campaign.html'],
       ['35', 'Når tallene sist ble oppdatert', 'skisse', 'Ved siden av status øverst: «Tall oppdatert i dag kl. 06.00».', 'portal/campaign.html'],
       ['36', 'Bare kanalene kampanjen brukte, med faste farger', 'fantes', '', 'portal/campaign.html'],
-      ['37', 'Liste over aviser og nettsteder med visninger', 'skisse', 'Under «Detaljer». Tallene må komme fra annonseplattformen.', 'portal/campaign.html'],
-      ['38', '«Søk» er det siste Frantz kan måle', 'ny', '«Hva skjer etter «Søk»?» og i trakten.', 'portal/campaign.html']
+      ['37', 'Liste over aviser og nettsteder med visninger', 'skisse', 'Under «Detaljer», for eksempel VG.no, Aftenposten og Finn.no. Tallene må komme fra annonseplattformen.', 'portal/campaign.html'],
+      ['38', '«Søk» er det siste Frantz kan måle', 'ny', '«Hva skjer etter «Søk»?» og i trakten.', 'portal/campaign.html'],
+      ['39', 'Tall og rapport inne i hver kampanje', 'delvis', 'Rapporter er fjernet fra menyen. Hver kampanje har sine tall, grafer og «Last ned rapport (PDF)». Nøkkeltall per rad i kampanjelisten er ikke laget ennå.', 'portal/campaigns.html?bruker=eksisterende']
     ]],
     ['Forretning', [
       ['F1', 'Enklere produkter, skjul produktnavnene', 'fantes', 'Ingen produktnavn i portalen.', NK],
       ['F2', 'Små kampanjer, kundens side som avsender', 'delvis', 'Lave budsjett og «Avsender»-felt. Tilgang til kundens Meta-side er teknisk.', NK],
-      ['F3', 'Forhandlere: pakker, egne navn, egne priser', 'delvis', 'Pakker og egne navn er løst. Egne priser er ikke laget.', NK],
+      ['F3', 'Forhandlere: pakker, egne navn, egne priser', 'delvis', 'Pakker og egne navn er løst. Egne priser er ikke laget.', 'portal/mine-pakker.html'],
       ['F4', 'Godkjenning som del av salget', 'ny', 'Samme som punkt 8.', 'portal/godkjenning.html'],
       ['F5', 'Sammenligning som salgsargument', 'fantes', '', 'portal/rapport.html'],
-      ['F6', 'Enkle ord og en kort guide for nye brukere', 'ny', '«Vis meg rundt» på Hjem. Starter av seg selv første gang.', 'portal/dashboard.html?tur'],
+      ['F6', 'Enkle ord og en kort guide for nye brukere', 'ny', '«Vis meg rundt» på Hjem. Starter av seg selv første gang. En ny kunde ser «Hva er en kampanje?» på Hjem. Ordet må testes med 2–3 personer som aldri har brukt Frantz.', 'portal/dashboard.html?tur'],
       ['F7', 'Løfte om publiseringstid', 'skisse', 'Samme som punkt 13.', NK],
       ['F8', 'Færre telefoner til rådgiverne', 'fantes', 'Brukeren ser målgruppen før start (punkt 18).', 'portal/kampanje-under-arbeid.html'],
       ['F9', 'Riktig faktura per selskap i konsernet', 'skisse', 'Samme som punkt 12.', NK],
@@ -160,9 +160,15 @@
       ['T9', 'Automatisk målretting og flere titler', 'skisse', 'Samme som punkt 17.', NK],
       ['T10', 'Rapportdata: per dag, per nettsted, sist oppdatert', 'skisse', 'Vist med eksempeltall. Dataene må hentes fra plattformene.', 'portal/campaign.html'],
       ['T13', 'Brukere og selskaper: «Mine kampanjer», slå av bruker', 'delvis', '«Mine kampanjer» og «Slå av» bruker finnes. Selskaper i konsern og sluttkundeinnlogging er ikke laget.', 'portal/innstillinger.html'],
-      ['T14', 'Varselinnstillinger per bruker', 'ny', 'Samme som punkt 30.', 'portal/dashboard.html'],
+      ['T14', 'Varselinnstillinger per bruker', 'ny', 'Samme som punkt 30.', 'portal/min-profil.html#varsler'],
       ['T15', 'Delelenker med godkjenning uten innlogging', 'ny', 'Samme som punkt 8.', 'portal/godkjenning.html'],
       ['T1, T3, T4, T8, T11, T12, T16', 'Krasj ved oppdatering, API, Connect-integrasjon, jobb for «Avsluttet», video i annonseformater, kundens Meta-side, norske etiketter', 'senere', 'Teknisk arbeid som en prototype ikke kan vise.', '']
+    ]],
+    ['Nytt i prototypen', [
+      ['N1', 'To flyter: ny og eksisterende kunde', 'ny', 'Samme sider. «Demo: Ny kunde · Bytt» i menyen bytter flyt.', 'portal/dashboard.html?bruker=ny'],
+      ['N2', 'Ny kampanje i fire steg', 'ny', 'Stillingen, Kampanjen, Annonsen, Se over og bestill. Én fremdriftslinje, og «Tilbake» ved siden av «Neste» på mobil.', NK],
+      ['N3', 'Lag annonsen i portalen', 'ny', 'Frantz skriver et forslag fra stillingsannonsen. Endre tekst og bilde, og velg logo, bakgrunn, tekststørrelse og format. Se den i Facebook, Instagram og på nettsteder.', NK],
+      ['N4', 'Prognose som følger kanaler og uker', 'skisse', 'Visninger, klikk og «Søk» endres med budsjett, kanaler og periode. Tallene er antakelser til Frantz gir oss ekte tall.', NK]
     ]]
   ];
 
