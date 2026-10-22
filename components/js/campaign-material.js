@@ -51,14 +51,16 @@
   }, true);
   function snapshot(order, options) {
     var ad = options.ad, hasMaterial = !!(ad.bildeUrl || ad.egetBilde);
+    // A page that keeps its own originals passes them; otherwise the files captured from the form are used
+    var main = options.mainFile !== undefined ? options.mainFile : mainFile;
     var names = options.files || [];
     var files = names.map(function (name, i) {
       var file = attachments[i];
       return { navn: name, fil: file && file.name === name ? file : null };
-    });
+    }).concat(options.extraFiles || []);
     var image = null;
     if (hasMaterial) {
-      if (ad.bildeUrl && mainFile) image = { navn: mainFile.name, fil: mainFile, kilde: 'opplastet' };
+      if (ad.bildeUrl && main) image = { navn: main.name, fil: main, kilde: 'opplastet' };
       else if (!ad.bildeUrl && /^[a-z0-9][a-z0-9._-]*\.(jpe?g|png|webp)$/i.test(ad.bilde)) image = { navn: ad.bilde, sti: '../assets/media/' + ad.bilde, kilde: 'mediebibliotek' };
       else throw new Error('Upload the original image again');
     }

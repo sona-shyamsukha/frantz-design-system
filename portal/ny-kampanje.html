@@ -109,12 +109,47 @@
   #pv .ad-preview__kreativ[data-storrelse="l"] .ad-preview__tittel { font-size: var(--text-3xl); }
   .annonse__to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); }
   .annonse__teller { margin: 0; font-variant-numeric: tabular-nums; }
-  .annonse__bilder { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: var(--space-8); }
-  .annonse__bilder[hidden] { display: none; }
-  .annonse__bildevalg { aspect-ratio: 1; padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: var(--radius-8); background: var(--surface-section); cursor: pointer; }
-  .annonse__bildevalg img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .annonse__bildevalg[aria-pressed="true"] { border-color: var(--color-navy); box-shadow: 0 0 0 2px var(--color-white) inset; }
-  .annonse__bildevalg:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  /* Media library: a dialog, so many files are easy to see */
+  .bibliotek { position: fixed; inset: 0; margin: auto; height: fit-content; width: min(720px, calc(100vw - 2 * var(--space-16))); max-height: calc(100vh - 2 * var(--space-32)); padding: 0; border: 0; border-radius: var(--radius-16); background: var(--surface-raised); box-shadow: var(--shadow-lg, 0 24px 48px rgb(12 63 89 / .18)); }
+  .bibliotek[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .bibliotek::backdrop { background: rgb(12 63 89 / .45); }
+  .bibliotek__topp { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-16); padding: var(--space-24) var(--space-24) var(--space-16); }
+  .bibliotek__tittel { margin: 0; font: var(--type-section); color: var(--text-heading); }
+  .bibliotek__hint { margin: var(--space-4) 0 0; color: var(--text-muted); font: var(--type-support); }
+  .bibliotek__lukk { display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin: calc(var(--space-8) * -1) calc(var(--space-8) * -1) 0 0; border: 0; border-radius: 50%; background: none; color: var(--text-heading); cursor: pointer; }
+  .bibliotek__lukk:hover { background: var(--surface-subtle); }
+  .bibliotek__lukk:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .bibliotek__rutenett { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-12); padding: 0 var(--space-24); overflow-y: auto; }
+  .bibliotek__bilde { position: relative; display: grid; gap: var(--space-8); padding: var(--space-8); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); color: var(--text-body); font: var(--type-support); text-align: left; cursor: pointer; }
+  .bibliotek__bilde img { display: block; width: 100%; aspect-ratio: 1; border-radius: var(--radius-8); object-fit: cover; background: var(--surface-section); }
+  .bibliotek__bilde:hover { border-color: var(--color-navy-lift); }
+  .bibliotek__bilde[aria-pressed="true"] { border-color: var(--color-navy); background: var(--tint-navy-4); box-shadow: 0 0 0 1px var(--color-navy); }
+  .bibliotek__bilde:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .bibliotek__merke { position: absolute; top: var(--space-16); right: var(--space-16); display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--color-navy); color: var(--color-white); }
+  .bibliotek__bilde[aria-pressed="false"] .bibliotek__merke { display: none; }
+  .bibliotek__bunn { display: flex; justify-content: flex-end; gap: var(--space-12); padding: var(--space-16) var(--space-24) var(--space-24); }
+  @media (max-width: 600px) {
+    .bibliotek { width: 100vw; max-width: 100vw; max-height: 90vh; margin: auto 0 0; border-radius: var(--radius-16) var(--radius-16) 0 0; }
+    .bibliotek__rutenett { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 var(--space-16); }
+    .bibliotek__topp { padding: var(--space-20) var(--space-16) var(--space-12); }
+    .bibliotek__bunn { padding: var(--space-16); }
+  }
+  /* Ready ads: one row per file, with its size and where it is used */
+  .fa-liste { display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; }
+  .fa-liste[hidden], .fa-mangler[hidden] { display: none; }
+  .fa-fil { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); padding: var(--space-8) var(--space-12) var(--space-8) var(--space-8); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
+  .fa-fil img, .fa-fil video { display: block; width: 56px; height: 56px; border-radius: var(--radius-8); object-fit: cover; background: var(--surface-section); }
+  .fa-fil__info { display: grid; gap: var(--space-2); min-width: 0; }
+  .fa-fil__info b { overflow: hidden; color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; text-overflow: ellipsis; }
+  .fa-fil__info span, .fa-mangler { color: var(--text-muted); font: var(--type-support); }
+  .fa-mangler { margin: 0; }
+  #annonse-ferdig { display: block; } /* one column, like «Lag annonsen selv»; the preview sits beside the form */
+  #annonse-ferdig[hidden] { display: none; }
+  #annonse-ferdig .an-del--bilde { padding-bottom: 0; border-bottom: 0; }
+  /* The ad text sits under the ready ads and the builder */
+  .annonse__tekst[hidden] { display: none; }
+  .annonse__tekst { margin-top: var(--space-24); padding-top: var(--space-24); border-top: 1px solid var(--border-subtle); }
+  .annonse__tekst > .an-del { padding: 0; border: 0; }
   .annonse__forklar { margin: 0 0 var(--space-16); max-width: 60ch; color: var(--text-body); font: var(--type-body); }
   .annonse__ekstra { margin-top: var(--space-24); }
   .annonse__ekstra[hidden], .annonse__arbeid[hidden] { display: none; }
@@ -173,12 +208,14 @@
   .lenke-rad .form-input { flex: 1; }
   .felt-topp__valg { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-8) var(--space-16); }
   .felt-topp { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); }
-  .pdf-rad { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-12); padding: var(--space-24); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); background: var(--surface-section); color: var(--text-muted); font-size: var(--text-sm); }
+  .pdf-rad { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); background: var(--surface-section); color: var(--text-muted); font-size: var(--text-sm); }
+  .pdf-rad > .icon-lucide { flex: none; }
+  .pdf-rad__tekst { min-width: 0; overflow-wrap: anywhere; }
+  .pdf-rad--fil #slipp-fil { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
   .pdf-rad.dra-over { border-color: var(--color-navy); background: var(--surface-selected); }
   .kilde-oppdatering { display: grid; justify-items: start; gap: var(--space-12); margin-top: var(--space-16); }
   .kilde-oppdatering[hidden] { display: none; }
   .kilde-oppdatering .form-hint { margin: 0; }
-  .pdf-rad__fil { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
   .beskrivelse { min-height: 96px; resize: vertical; line-height: var(--leading-normal); }
   .inn__fortsett { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-16); margin-top: var(--space-24); }
   .status { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
@@ -236,6 +273,15 @@
   .connect-sok__liste .picker__tom { margin: 0; }
   .periode__fast { margin: var(--space-8) 0 0; }
   .periode__fast[hidden], .periode__snarveier[hidden] { display: none; }
+  .kanal-valg__navn { display: flex; align-items: center; gap: var(--space-8); }
+  /* Channel names are short: on phones the price stays on the same row, not under the name like the add-ons */
+  #kanal-valg > .flere__valg { grid-template-columns: var(--space-20) minmax(0, 1fr) auto; }
+  /* The minimum is secondary to the channel name */
+  #kanal-valg .flere__pris { grid-column: auto; color: var(--text-muted); font: var(--type-support); }
+  .kanal-min { margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
+  .kanal-min[hidden] { display: none; }
+  .kanal-min__belop { white-space: nowrap; }
+  .kanal-min--lav { color: var(--color-amber-ink); font-weight: var(--font-weight-semibold); }
   .periode__under { display: block; margin: var(--space-24) 0 var(--space-8); }
   .periode__under[hidden] { display: none; }
 
@@ -288,13 +334,16 @@
   #oppsett-egendefinert[hidden] { display: none; }
   .materiell-start { display: grid; gap: var(--space-12); margin-bottom: var(--space-32); }
   .materiell-start .form-label, .materiell-start .form-hint { margin: 0; }
-  .materiell-pris { margin: 0; color: var(--text-heading); font: var(--type-support); }
+  .materiell-pris { margin: 0; color: var(--text-heading); font: var(--type-body); } /* same size as the points under it */
   .materiell-designinfo { display: grid; gap: var(--space-8); }
   .materiell-designinfo[hidden] { display: none; }
-  .an-opplasting { display: grid; justify-items: start; gap: var(--space-12); padding: var(--space-24); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); background: var(--surface-section); }
-  .an-opplasting.dra-over { border-color: var(--color-navy); background: var(--surface-selected); }
-  .an-opplasting .form-hint { margin: 0; }
-  .an-opplasting__tittel { margin: 0; color: var(--text-heading); font: var(--type-label); }
+  .an-opplasting { display: grid; justify-items: start; gap: var(--space-12); }
+  .an-opplasting > .pdf-rad { justify-self: stretch; }
+  .an-opplasting.dra-over > .pdf-rad { border-color: var(--color-navy); background: var(--surface-selected); }
+  .mat-filer > .pdf-rad { flex-basis: 100%; }
+  .materiell-far { display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; color: var(--text-body); font: var(--type-body); }
+  .materiell-far li { display: flex; align-items: flex-start; gap: var(--space-8); }
+  .materiell-far .icon-lucide { flex: none; margin-top: 0.2em; color: var(--color-green); }
   .an-bytte { justify-self: start; }
   .an-valgt { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-section); }
   .an-valgt[hidden], .an-valgt img[hidden] { display: none; }
@@ -305,7 +354,7 @@
   .an-bytte[hidden], #an-slipp[hidden], #an-t1[hidden], #an-fjern[hidden] { display: none; }
   .annonse__arbeid--klar .an-del--bilde { padding-bottom: 0; border-bottom: 0; }
   .annonse__arbeid--klar .an-opplasting { padding: 0; border: 0; background: none; }
-  .an-ferdig[hidden], .an-opplasting__tittel[hidden], #an-opplasting-hint[hidden] { display: none; }
+  .an-ferdig[hidden] { display: none; }
   #annonse-bygg:not(.annonse__arbeid--klar) { display: block; }
   #annonse-bygg[hidden] { display: none; }
   .an-frantz { display: grid; gap: var(--space-24); }
@@ -341,30 +390,7 @@
   .husk__rediger { display: none; width: 100%; margin-top: var(--space-field-gap); }
   .husk--apen .husk__rediger { display: block; }
   .periode { position: relative; }
-  .periode__knapp { display: inline-flex; align-items: center; gap: var(--space-8); width: 100%; box-sizing: border-box; min-height: 50px; padding: 0 var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-body); font: inherit; font-size: var(--text-input); text-align: left; cursor: pointer; }
-  .periode__knapp:hover { border-color: var(--color-navy); }
-  .periode__knapp .periode-tekst { flex: 1; }
   .periode__snarveier { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-8); }
-  /* The calendar must also clear the summary control in the form footer. */
-  .periode__kalender { position: absolute; top: 56px; left: 0; z-index: calc(var(--z-dropdown) + 1); width: 320px; max-width: 100%; padding: var(--space-12); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
-  .periode__kalender[hidden] { display: none; }
-  .kal__topp { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-8); font-weight: var(--font-weight-semibold); color: var(--text-heading); }
-  .kal__topp button { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: var(--radius-8); background: none; cursor: pointer; }
-  .kal__topp button:hover { background: var(--tint-navy-16); }
-  .kal__rutenett { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-2) 0; text-align: center; }
-  .kal__ukedag { padding: var(--space-4) 0; color: var(--text-muted); font: var(--type-support); }
-  .kal__dag { height: 36px; border: 0; background: none; color: var(--text-body); font: inherit; font-size: var(--text-sm); cursor: pointer; }
-  .kal__dag:hover:not(:disabled) { background: var(--tint-navy-22); border-radius: var(--radius-8); }
-  .kal__dag--i:hover:not(:disabled) { background: var(--tint-navy-30); }
-  .kal__dag--start:hover:not(:disabled), .kal__dag--slutt:hover:not(:disabled) { background: var(--color-navy); }
-  .kal__dag:disabled { color: var(--text-faint); cursor: default; opacity: .5; }
-  .kal__dag--i { background: var(--tint-navy-8); }
-  .kal__dag--start, .kal__dag--slutt { background: var(--color-navy); color: var(--color-white); font-weight: var(--font-weight-semibold); }
-  .kal__dag--start { border-radius: var(--radius-8) 0 0 var(--radius-8); }
-  .kal__dag--slutt { border-radius: 0 var(--radius-8) var(--radius-8) 0; }
-  .kal__dag--start.kal__dag--slutt { border-radius: var(--radius-8); }
-  .kal__dag--frist { box-shadow: inset 0 -2px 0 var(--color-amber); }
-  .kal__hjelp { margin: var(--space-8) 0 0; color: var(--text-muted); font: var(--type-support); }
   .periode-rad { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
   .periode-rad[hidden] { display: none; }
 
@@ -400,7 +426,6 @@
   .start-alert[hidden] { display: none; }
   .mat-filer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-12); margin-top: var(--space-16); }
   .mat-filer .filer { flex-basis: 100%; }
-  .mat-filer__hint { margin: 0; }
   /* «Filer» is its own small section under the material choice */
   .mat-filer { margin-top: var(--space-32); }
   .mat-filer__tittel { flex-basis: 100%; margin: 0; }
@@ -586,7 +611,8 @@
     #funnet-felter > .funnet__bred { grid-column: auto; }
     #funnet-felter > #felt-avsender { grid-column: 1 / -1; }
     .kilder { gap: var(--space-20); }
-    #del-mangler > .felt, #del-mangler > .mangler-blokker { margin-top: var(--space-24); }
+    /* Both tabs start at the same height under the tabs */
+    #del-mangler > .felt, #del-mangler > .felt + .felt, #del-mangler > .mangler-blokker { margin-top: var(--space-24); }
     #mangler-blokker { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-24); }
     #oppsett-egendefinert:not([hidden]) { display: contents; }
     #blokk-budsjett { grid-column: 1; grid-row: 1; }
@@ -620,9 +646,11 @@
     #q-periode-valg { max-width: calc((100% - var(--space-24)) / 2); }
     #mangler-blokker > #estimat { margin-top: var(--space-24); }
     #annonse-bygg .annonse__kontroller { display: block; }
-    #annonse-bygg .an-del:not(.an-del--bilde) { margin-top: var(--space-24); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-16) var(--space-24); }
-    #annonse-bygg .an-del:not(.an-del--bilde) > .felt-topp { grid-column: 1 / -1; }
-    #annonse-bygg .an-del:not(.an-del--bilde) > .form-group { margin: 0; }
+    #annonse-bygg .an-del:not(.an-del--bilde), .annonse__tekst > .an-del { margin-top: var(--space-24); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-16) var(--space-24); }
+    .annonse__tekst > .an-del { margin-top: 0; }
+    #annonse-bygg .an-del:not(.an-del--bilde) > .felt-topp, .annonse__tekst > .an-del > .felt-topp { grid-column: 1 / -1; }
+    #annonse-bygg .an-del:not(.an-del--bilde) > .form-group, .annonse__tekst > .an-del > .form-group { margin: 0; }
+    .annonse__tekst > .an-del > .form-group[hidden] + .form-group { grid-column: 1 / -1; }
     #annonse-bygg #an-mer { margin-top: var(--space-24); }
   }
   #ad-side { min-width: 0; display: grid; align-content: start; gap: var(--space-16); }
@@ -671,6 +699,10 @@
   .ordre-meny #sammendrag, .ordre-meny .summary-panel__head, .ordre-meny .ordre-scrollhint { background: var(--surface-section); }
   /* Only the last step exposes the full summary in the right column. */
   body.nk-steg-4 .steg > #ordre-oppsummering #sammendrag { background: var(--surface-section); }
+  /* The summary is a grey panel on every step. Soft lines disappear on grey, so its border and dividers use the strong line colour. */
+  #ordre-oppsummering #sammendrag { border-color: var(--border-strong); }
+  #sammendrag .summary-panel__head { border-bottom-color: var(--border-strong); }
+  #sammendrag .summary-panel__block, #sammendrag .ordre-scrollhint { border-top-color: var(--border-strong); }
   #ad-side #annonse-forhandsvisning { background: var(--surface-section); padding: var(--space-32); }
   #ad-side .annonse__kanaler { margin-bottom: var(--space-24); }
   @media (max-width: 640px) {
@@ -901,17 +933,16 @@
                 <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="4" placeholder="Skriv det dere vet, for eksempel budsjett, periode eller kanaler. Vi bruker det til å fylle ut resten av skjemaet."></textarea>
               </div>
               <div class="felt kilde-bred" id="felt-fil">
-                <span class="form-label" id="pdf-lbl">Last opp stillingsannonsen <span class="valgfri">(valgfritt)</span></span>
+                <span class="form-label" id="pdf-lbl">Vedlegg <span class="valgfri">(valgfritt)</span></span>
+                <!-- One line: drag or pick a file, and the formats. With a file: its name and «bytt fil». -->
                 <div class="pdf-rad" id="slipp" aria-labelledby="pdf-lbl">
                   <span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>
-                  <span class="pdf-rad__fil" id="slipp-fil">Dra filen hit, eller</span>
-                  <button class="btn btn--secondary btn--sm" type="button" id="velg-pdf">Velg fil</button>
-                  <span class="form-hint" style="flex-basis:100%;margin: 0">PDF, Word eller bilde. Maks 10 MB. <a class="link link--xs" href="eksempler/stillingsannonse-helsesykepleier-kristiansand.pdf" download>Last ned et eksempel</a></span>
-                  <input type="file" id="pdf" aria-label="Velg stillingsannonse" hidden accept=".pdf,.docx,.doc,.jpg,.jpeg,.png">
+                  <span class="pdf-rad__tekst"><span id="slipp-fil">Dra en fil hit, eller</span> <button class="link" type="button" id="velg-pdf">velg fil</button><span id="slipp-format">. PDF, Word eller bilde, maks 10 MB.</span></span>
+                  <input type="file" id="pdf" aria-label="Velg vedlegg" hidden accept=".pdf,.docx,.doc,.jpg,.jpeg,.png">
                 </div>
               </div>
               </div>
-              <p class="kilde-status" id="kilde-status" role="status" aria-live="polite"></p>
+              <p class="kilde-status" id="kilde-status" role="status" aria-live="polite" hidden></p>
               <div class="kilde-oppdatering" id="kilde-oppdatering" hidden>
                 <p class="form-hint">Dere har endret grunnlaget. Oppdater informasjonen for å bruke endringene i kampanjen.</p>
                 <button class="btn btn--primary" type="button" id="oppdater-kilder">Oppdater informasjon</button>
@@ -1015,7 +1046,6 @@
                 <button class="valgfaner__valg" type="button" id="oppsett-pakke" data-oppsett="pakke" role="tab" aria-selected="false" aria-controls="pakker">Bruk en pakke</button>
                 <button class="valgfaner__valg" type="button" id="oppsett-selv" data-oppsett="selv" role="tab" aria-selected="false" aria-controls="oppsett-egendefinert" tabindex="-1">Sett opp selv</button>
               </div>
-              <p class="form-hint" id="oppsett-hint"></p>
             </div>
             <div class="felt blokk funnet__bred pakker valgpanel" id="pakker" role="tabpanel" aria-labelledby="oppsett-pakke" hidden>
               <div class="pakke-hode">
@@ -1045,12 +1075,13 @@
               </div>
               <div class="felt blokk funnet__bred" id="blokk-kanal">
                 <span class="form-label" id="b-kanal-lbl">Kanaler</span>
-              <div class="kanal-liste kanal-piller" id="kanal-valg" role="group" aria-labelledby="b-kanal-lbl"></div>
+              <div class="tillegg-liste kanal-liste" id="kanal-valg" role="group" aria-labelledby="b-kanal-lbl"></div>
               <p class="feil" id="feil-kanal" role="alert" hidden>Velg minst én kanal.</p>
+              <p class="kanal-min" id="kanal-min" role="status" aria-live="polite" hidden></p>
               </div>
               </div>
               <div class="felt blokk funnet__bred" id="blokk-periode">
-                <span class="form-label" id="q-periode-lbl">Startdato</span>
+                <label class="form-label" id="q-periode-lbl" for="startdato">Startdato</label>
                 <div id="q-periode-valg"></div>
                 <p class="advarsel" id="frist-advarsel" role="status" hidden></p>
                 <div class="alert alert--info estimat" id="estimat" role="status" aria-live="polite" hidden>
@@ -1070,18 +1101,33 @@
             <div class="materiell-start">
               <span class="form-label" id="materiell-lbl">Hva har dere til annonsen?</span>
               <div class="valgfaner" id="materiell-valg" role="tablist" aria-labelledby="materiell-lbl">
-                <button class="valgfaner__valg" id="materiell-bygg" type="button" role="tab" aria-selected="true" aria-controls="annonse-bygg" data-materiell="bygg">Jeg har materiell</button>
+                <button class="valgfaner__valg" id="materiell-ferdig" type="button" role="tab" aria-selected="true" aria-controls="annonse-ferdig" data-materiell="ferdig">Jeg har ferdige annonser</button>
                 <button class="valgfaner__valg" id="materiell-hjelp" type="button" role="tab" aria-selected="false" aria-controls="annonse-frantz" data-materiell="hjelp" tabindex="-1">Bestill design fra Frantz</button>
-              </div>
-              <p class="form-hint" id="materiell-hint"></p>
-              <div class="materiell-designinfo" id="materiell-designinfo" hidden>
-                <p class="materiell-pris" id="materiell-designpris"><strong>Fra kr 2 180 / time</strong>, i tillegg til kampanjebudsjettet.</p>
-                <p class="form-hint">Frantz lager annonsedesignet med bildene, logoen og teksten dere har. Dere godkjenner designet før publisering.</p>
+                <button class="valgfaner__valg" id="materiell-bygg" type="button" role="tab" aria-selected="false" aria-controls="annonse-bygg" data-materiell="bygg" tabindex="-1">Lag annonsen selv</button>
               </div>
               <p class="feil" id="an-materiell-feil" role="alert" hidden></p>
             </div>
             <div class="steg-blokk annonse" id="blokk-annonse">
-              <div id="annonse-bygg" class="annonse__arbeid valgpanel" role="tabpanel" aria-labelledby="materiell-bygg">
+              <!-- Ready ads: several files at once. Each file is matched to the placements with its size. -->
+              <div id="annonse-ferdig" class="annonse__arbeid valgpanel" role="tabpanel" aria-labelledby="materiell-ferdig" hidden>
+                <div class="annonse__kontroller">
+                <section class="an-del an-del--bilde" aria-labelledby="fa-tittel">
+                  <h3 class="an-del__tittel" id="fa-tittel">Annonsene</h3>
+                  <div class="an-opplasting" id="fa-slipp">
+                    <div class="pdf-rad">
+                      <span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>
+                      <span class="pdf-rad__tekst">Dra filene hit, eller <button class="link" type="button" id="fa-velg">velg filer</button>. JPG, PNG, WebP eller MP4, maks 10 MB per fil.</span>
+                    </div>
+                    <button class="link link--xs" type="button" data-bibliotek="ferdig" aria-haspopup="dialog">Eller velg fra mediebiblioteket</button>
+                  </div>
+                  <input type="file" id="fa-filer" multiple accept="image/jpeg,image/png,image/webp,video/mp4" hidden aria-label="Velg ferdige annonser">
+                  <p class="feil an-feil" id="fa-feil" role="alert" hidden></p>
+                  <ul class="fa-liste" id="fa-liste" aria-label="Annonsene dere har lagt til" hidden></ul>
+                  <p class="fa-mangler" id="fa-mangler" hidden></p>
+                </section>
+                </div>
+              </div>
+              <div id="annonse-bygg" class="annonse__arbeid valgpanel" role="tabpanel" aria-labelledby="materiell-bygg" hidden>
                 <div class="annonse__kontroller">
                   <section class="an-del an-del--bilde" aria-label="Bilde eller annonse">
                     <h3 class="an-del__tittel" id="an-t1">Bilde</h3>
@@ -1090,25 +1136,18 @@
                       <div class="an-valgt__info"><b id="an-valgt-navn"></b><button class="btn btn--secondary btn--sm an-bytte" type="button" id="an-bytt" aria-expanded="false" aria-controls="an-slipp">Bytt bilde</button></div>
                       <button class="btn btn--ghost btn--sm" type="button" id="an-fjern" aria-label="Fjern valgt fil" title="Fjern valgt fil"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span></button>
                     </div>
+                    <!-- The same one-line box as «Vedlegg» in step 1, with the media library under it -->
                     <div class="an-opplasting" id="an-slipp">
-                      <p class="an-opplasting__tittel" id="an-opplasting-tittel">Legg til bildet dere vil bruke</p>
-                      <p class="form-hint" id="an-opplasting-hint">Dra bildet hit, eller velg en fil. JPG, PNG eller WebP, maks 10 MB.</p>
-                      <div class="an-bilde__knapper">
-                        <button class="btn btn--secondary btn--sm" type="button" id="an-last-opp"><span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> Last opp bilde</button>
-                        <button class="link link--xs" type="button" id="an-flere" aria-expanded="false" aria-controls="annonse-bilder">Velg fra mediebiblioteket</button>
+                      <div class="pdf-rad">
+                        <span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>
+                        <span class="pdf-rad__tekst">Dra en fil hit, eller <button class="link" type="button" id="an-last-opp">velg fil</button><span id="an-opplasting-hint">. JPG, PNG, WebP eller MP4, maks 10 MB.</span></span>
                       </div>
+                      <button class="link link--xs" type="button" id="an-flere" data-bibliotek="bygg" aria-haspopup="dialog">Eller velg fra mediebiblioteket</button>
                     </div>
                     <input type="file" id="an-bilde-fil" accept="image/jpeg,image/png,image/webp" hidden aria-label="Last opp bilde">
                     <p class="feil an-feil" id="an-fil-feil" role="alert" hidden></p>
-                    <div class="annonse__bilder" id="annonse-bilder" role="group" aria-label="Bildene våre" hidden></div>
                     <label class="form-toggle an-ferdig" id="an-ferdig-rad" hidden><input class="form-toggle__input" type="checkbox" role="switch" id="an-ferdig"><span class="form-toggle__track" aria-hidden="true"></span><span class="form-toggle__label">Filen er en ferdig annonse, med tekst og logo</span></label>
                     <p class="form-hint" id="an-ferdig-hint" hidden></p>
-                  </section>
-
-                  <section class="an-del" aria-labelledby="an-t2">
-                    <div class="felt-topp"><h3 class="an-del__tittel" id="an-t2">Annonsetekst</h3><button class="link link--xs" type="button" id="an-tekstforslag">Bruk tekstforslag</button></div>
-                    <div class="form-group" id="an-tittel-felt"><div class="felt-topp"><label class="form-label" for="an-tittel">Budskap i annonsen <span class="valgfri">(valgfritt)</span></label><span class="form-hint annonse__teller" id="an-tittel-teller"></span></div><input class="form-input" id="an-tittel" maxlength="40" placeholder="F.eks. Vi søker sykepleiere" aria-describedby="an-tittel-hint"><p class="form-hint" id="an-tittel-hint">Vises i et eget tekstfelt over eller under bildet, avhengig av utformingen.</p></div>
-                    <div class="form-group"><div class="felt-topp"><label class="form-label" for="an-tekst">Tekst over annonsen</label><span class="form-hint annonse__teller" id="an-tekst-teller"></span></div><textarea class="form-textarea" id="an-tekst" rows="3" maxlength="125" placeholder="Skriv eller lim inn teksten som skal stå over annonsen"></textarea></div>
                   </section>
 
                   <!-- Everything with a good default sits behind one link -->
@@ -1178,11 +1217,40 @@
 
               </div>
               <div id="annonse-frantz" class="an-frantz valgpanel" role="tabpanel" aria-labelledby="materiell-hjelp" hidden>
+                <div class="materiell-designinfo" id="materiell-designinfo" hidden>
+                  <p class="materiell-pris" id="materiell-designpris"><strong>Fra kr 2 180 per time</strong>, i tillegg til kampanjebudsjettet.</p>
+                  <ul class="materiell-far" aria-label="Dette får dere">
+                    <li><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span><span>Annonser i riktig størrelse for <span id="materiell-kanaler">kanalene dere har valgt</span></span></li>
+                    <li><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Laget med bildene, logoen og teksten dere legger ved</li>
+                    <li><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Dere ser og godkjenner designet før noe publiseres</li>
+                  </ul>
+                </div>
                 <div class="form-group"><label class="form-label" for="an-designbrief">Hva skal annonsen formidle? <span class="valgfri">(valgfritt)</span></label><textarea class="form-textarea" id="an-designbrief" rows="3" placeholder="F.eks. hvem dere søker, viktigste budskap og ønsker til uttrykket."></textarea></div>
-                <div class="mat-filer mat-filer--alltid"><span class="form-label mat-filer__tittel">Bilder, logo eller tekst <span class="valgfri">(valgfritt)</span></span><button class="btn btn--secondary btn--sm" type="button" data-velg-filer><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span> Legg ved filer</button><span class="form-hint mat-filer__hint">Maks 10 MB per fil.</span><div class="filer"></div></div>
+                <div class="mat-filer mat-filer--alltid"><span class="form-label mat-filer__tittel" id="mat-filer-lbl">Vedlegg <span class="valgfri">(valgfritt)</span></span>
+                  <div class="pdf-rad" id="mat-slipp" aria-labelledby="mat-filer-lbl"><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span><span class="pdf-rad__tekst">Dra bilder, logo eller tekst hit, eller <button class="link" type="button" data-velg-filer>velg filer</button>. Maks 10 MB per fil.</span></div>
+                  <div class="filer"></div></div>
+              </div>
+              <!-- The ad text belongs to both ready ads and an ad built here -->
+              <div class="annonse__tekst" id="annonse-tekst">
+              <section class="an-del" aria-labelledby="an-t2">
+                <div class="felt-topp"><h3 class="an-del__tittel" id="an-t2">Annonsetekst</h3><button class="link link--xs" type="button" id="an-tekstforslag">Bruk tekstforslag</button></div>
+                <div class="form-group" id="an-tittel-felt"><div class="felt-topp"><label class="form-label" for="an-tittel">Budskap i annonsen <span class="valgfri">(valgfritt)</span></label><span class="form-hint annonse__teller" id="an-tittel-teller"></span></div><input class="form-input" id="an-tittel" maxlength="40" placeholder="F.eks. Vi søker sykepleiere" aria-describedby="an-tittel-hint"><p class="form-hint" id="an-tittel-hint">Vises i et eget tekstfelt over eller under bildet, avhengig av utformingen.</p></div>
+                <div class="form-group"><div class="felt-topp"><label class="form-label" for="an-tekst">Tekst over annonsen</label><span class="form-hint annonse__teller" id="an-tekst-teller"></span></div><textarea class="form-textarea" id="an-tekst" rows="3" maxlength="125" placeholder="Skriv eller lim inn teksten som skal stå over annonsen"></textarea></div>
+              </section>
               </div>
             </div>
           </section>
+          <dialog class="bibliotek" id="bibliotek" aria-labelledby="bibliotek-tittel">
+            <div class="bibliotek__topp">
+              <div><h2 class="bibliotek__tittel" id="bibliotek-tittel">Mediebiblioteket</h2><p class="bibliotek__hint" id="bibliotek-hint"></p></div>
+              <button type="button" class="bibliotek__lukk" data-bibliotek-lukk aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+            </div>
+            <div class="bibliotek__rutenett" id="bibliotek-rutenett" role="group" aria-labelledby="bibliotek-tittel"></div>
+            <div class="bibliotek__bunn">
+              <button class="btn btn--secondary" type="button" data-bibliotek-lukk>Avbryt</button>
+              <button class="btn btn--primary" type="button" id="bibliotek-bruk" disabled>Bruk bildet</button>
+            </div>
+          </dialog>
           <aside id="ad-side" aria-label="Oppsummering og annonsevisning">
                 <div class="annonse__lerret" id="annonse-forhandsvisning" hidden>
                   <div class="preview-heading-row"><div class="preview-heading-copy"><h2 class="preview-heading">Slik blir annonsen</h2></div></div>
@@ -1269,7 +1337,7 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=19"></script>
-<script src="../components/js/campaign-material.js?v=5"></script>
+<script src="../components/js/campaign-material.js?v=6"></script>
 <script src="../components/js/approval-store.js?v=3"></script>
 <script src="../components/js/approval-share.js?v=3"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
@@ -1288,8 +1356,11 @@
     { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
     { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }
   ];
+  // Lowest spend per channel, from Tore's mail (FZ_PAKKER)
+  var KANAL_MIN = {};
+  FZ_PAKKER.KANALER.forEach(function (c) { KANAL_MIN[c.navn] = c.min; });
   var I_DAG = window.FZ_I_DAG();
-  var tilstand = { lest: false, funnet: {}, valgtBudsjett: false, valgtKanal: false, valgtMateriell: false, materiell: null, tillegg: [], meld: false, kanalmodus: 'frantz', kanaler: ['Meta'], filer: [], uker: 3, fra: null, til: null, venter: false, pdf: '', oppsett: null };
+  var tilstand = { lest: false, funnet: {}, valgtBudsjett: false, valgtKanal: false, valgtMateriell: false, materiell: null, tillegg: [], meld: true, kanalmodus: 'frantz', kanaler: ['Meta'], filer: [], uker: 3, fra: null, til: null, venter: false, pdf: '', oppsett: null };
 
   // Tabs preserve their inputs. Arrow keys, Home and End move within each group.
   function synkFaner(root, valgt) {
@@ -1327,13 +1398,11 @@
   // The user picks a start date and a number of weeks. The end date follows from them.
   function byggPeriode(root) {
     root.innerHTML = '<div class="periode">' +
-      '<button class="periode__knapp" type="button" aria-expanded="false" aria-labelledby="q-periode-lbl periode-start"><span class="icon-lucide icon-lucide--calendar" aria-hidden="true"></span><span class="periode-tekst" id="periode-start">Velg startdato</span><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button>' +
-      '<div class="periode__kalender" role="dialog" aria-label="Velg startdato" hidden></div>' +
+      '<input class="form-input" type="date" id="startdato">' +
       '<span class="form-label periode__under periode__uker-lbl" id="uker-lbl">Antall uker</span>' +
       '<div class="periode__snarveier" role="group" aria-labelledby="uker-lbl">' +
       [2, 3, 4, 6].map(function (u) { return '<button type="button" class="picker__snarvei" data-uker="' + u + '" aria-pressed="false">' + u + ' uker</button>'; }).join('') +
       '<button type="button" class="picker__snarvei" data-uker="frist" aria-pressed="false">Til søknadsfristen</button></div>' +
-      '<p class="form-hint periode__slutt" aria-live="polite"></p>' +
       '<p class="form-hint periode__fast" hidden></p></div>';
   }
   byggPeriode($('q-periode-valg'));
@@ -1486,8 +1555,8 @@
     tilstand.funnet = { budsjett: !!a.budsjett, kanaler: !!(a.kanaler && a.kanaler.length), periode: !!(a.uker || a.fra), materiell: !!a.materiell, tillegg: !!((a.tillegg && a.tillegg.length) || a.meld) };
     tilstand.foreslatt = (a.foreslatt || []).slice();
     // Paid design is selected by the user, never inferred from the source text.
-    if (!tilstand.valgtMateriell) velgMateriell(a.materiell === 'ferdig' ? 'ferdig' : 'bygg');
-    tilstand.tillegg = (a.tillegg || []).slice(); tilstand.meld = !!a.meld; tilstand.lagret = false;
+    if (!tilstand.valgtMateriell) velgMateriell(a.materiell || 'ferdig');
+    tilstand.tillegg = (a.tillegg || []).slice(); if (!tilstand.valgtMeld) tilstand.meld = true; tilstand.lagret = false;
     tilstand.uker = a.uker || 3; tilstand.fra = a.fra && a.fra >= iso(tidligstDato()) ? a.fra : null; tilstand.til = a.til || null;
     tilstand.valgtBudsjett = false; tilstand.valgtKanal = false; tilstand.pakke = null; tilstand.fastUker = null;
     tilstand.kanalmodus = 'frantz'; tilstand.kanaler = anbefalt();
@@ -1549,18 +1618,15 @@
   // Step 2 never starts empty. A package named in the text, or one with the budget they wrote, comes first.
   // A budget that fits no package goes to «Sett opp selv». Nothing written: the middle package.
   function velgOppsettFraStart(a) {
-    tilstand.oppsettHint = '';
     var p = a.pakke && finnPakke(a.pakke);
     if (!p && a.budsjett) p = PAKKER.filter(function (x) { return x.budsjett === a.budsjett; })[0];
-    if (p) { brukPakke(p); tilstand.oppsettHint = a.pakke ? 'Valgt ut fra teksten dere la inn.' : p.navn + ' har budsjettet dere skrev.'; return; }
+    if (p) { brukPakke(p); return; }
     if (a.budsjett || !PAKKER.length) {
       tilstand.oppsett = 'selv';
-      if (a.budsjett) { budsjettKontroll.set(a.budsjett); tilstand.valgtBudsjett = true; }
-      tilstand.oppsettHint = a.budsjett ? 'Ingen av pakkene har budsjettet dere skrev, så vi har satt det opp for dere.' : '';
+      budsjettKontroll.set(a.budsjett || forslagBudsjett()); tilstand.valgtBudsjett = !!a.budsjett;
       return;
     }
     brukPakke(PAKKER[Math.floor((PAKKER.length - 1) / 2)]);
-    tilstand.oppsettHint = 'Vi har valgt en pakke for dere. Velg en annen om dere vil.';
   }
 
   /* One question at a time: only what the text did not answer, and each one after the last */
@@ -1580,8 +1646,6 @@
     var valgt = !!tilstand.oppsett, pakkeModus = tilstand.oppsett === 'pakke';
     synkFaner($('oppsett'), valgt ? $(pakkeModus ? 'oppsett-pakke' : 'oppsett-selv') : null);
     $('oppsett-egendefinert').hidden = !valgt || pakkeModus;
-    $('oppsett-hint').hidden = !valgt || !tilstand.oppsettHint;
-    $('oppsett-hint').textContent = tilstand.oppsettHint || '';
     $('pakker').hidden = !pakkeModus;
     if (!valgt) {
       FRA_PAKKE.forEach(function (id) { visFelt(id, false); });
@@ -1808,6 +1872,12 @@
   });
 
   /* File drop */
+  function visVedlegg(navn) {
+    $('slipp').classList.toggle('pdf-rad--fil', !!navn);
+    $('slipp-fil').textContent = navn ? navn + ' ·' : 'Dra en fil hit, eller';
+    $('velg-pdf').textContent = navn ? 'bytt fil' : 'velg fil';
+    $('slipp-format').hidden = !!navn;
+  }
   function settPdf(f) {
     if (!f) return;
     tilstand.pdf = f.name;
@@ -1815,8 +1885,7 @@
     tilstand.pdfTekst = '';
     tilstand.pdfLest = false;
     tilstand.pdfVersjon = (tilstand.pdfVersjon || 0) + 1;
-    $('slipp-fil').textContent = f.name;
-    $('velg-pdf').textContent = 'Bytt fil';
+    visVedlegg(f.name);
     tegnKilder();
     var leser = new FileReader();
     leser.onload = function () { tilstand.pdfTekst = pdfTilTekst(leser.result); tilstand.pdfLest = true; };
@@ -1855,8 +1924,10 @@
       sisteAnbefalt = anb.join('|');
       var rekke = KANALER.filter(function (c) { return anb.indexOf(c.navn) !== -1; }).concat(KANALER.filter(function (c) { return anb.indexOf(c.navn) === -1; }));
       $('kanal-valg').innerHTML = rekke.map(function (c) {
-        return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-kanal="' + c.navn + '"><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn +
-          '</span></label>';
+        // The same checkbox card as the add-ons: logo and name, the channel's lowest spend on the right
+        return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-kanal="' + c.navn + '"><span class="form-check__box" aria-hidden="true"></span>' +
+          '<span class="flere__tekst"><b class="kanal-valg__navn"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn + '</b></span>' +
+          (KANAL_MIN[c.navn] ? '<span class="flere__pris">fra ' + kr(KANAL_MIN[c.navn]) + '</span>' : '') + '</label>';
       }).join('');
     }
     Array.prototype.forEach.call(document.querySelectorAll('[data-kanal]'), function (x) { x.checked = tilstand.kanaler.indexOf(x.dataset.kanal) !== -1; });
@@ -1864,12 +1935,12 @@
   }
   // «Med kr 30 000 over 4 uker på Meta, LinkedIn og Nettsteder og aviser kan dere vente …»
   function estimatSetning(b, r) {
-    var dager = antallDager(periodeDatoer());
-    var periode = dager % 7 === 0 ? (dager / 7) + (dager === 7 ? ' uke' : ' uker') : dager + ' dager';
+    var pd = periodeDatoer(), dag = function (d) { return d.getDate() + '.' + (d.getMonth() + 1) + '.'; };
+    var periode = ukeTekst(antallDager(pd) / 7) + '</strong> (' + dag(pd.start) + '–' + dag(pd.slutt) + ')';
     var kanaler = tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length
       ? 'kanalene Frantz anbefaler'
       : tilstand.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1');
-    return 'Med <strong>kr ' + R.tall(b) + '</strong> over <strong>' + periode + '</strong> på ' + kanaler +
+    return 'Med <strong>kr ' + R.tall(b) + '</strong> over <strong>' + periode + ' på ' + kanaler +
       ' kan dere vente rundt <strong>' + R.spenn(r.visninger) + '</strong> visninger, <strong>' + R.spenn(r.klikk) +
       '</strong> klikk og <strong>' + R.spenn(r.sok) + '</strong> som trykker «Søk».';
   }
@@ -1912,11 +1983,9 @@
     return kort(iso(d.start)) + ' – ' + kort(iso(d.slutt)) + ' · ' + (dager % 7 === 0 ? dager / 7 + (dager === 7 ? ' uke' : ' uker') : dager + ' dager');
   }
   function tegnPeriode() {
-    var pd = periodeDatoer();
-    Array.prototype.forEach.call(document.querySelectorAll('.periode-tekst'), function (t) { t.textContent = UKEDAG[pd.start.getDay()] + ' ' + kort(iso(pd.start)); });
-    Array.prototype.forEach.call(document.querySelectorAll('.periode__slutt'), function (t) {
-      t.textContent = 'Kampanjen går i ' + ukeTekst(antallDager(pd) / 7) + ', til ' + UKEDAG[pd.slutt.getDay()] + ' ' + kort(iso(pd.slutt)) + '.';
-    });
+    var pd = periodeDatoer(), felt = $('startdato');
+    felt.min = iso(tidligstDato());
+    if (document.activeElement !== felt) felt.value = iso(pd.start);
     Array.prototype.forEach.call(document.querySelectorAll('[data-uker]'), function (b) {
       b.setAttribute('aria-pressed', String(!tilstand.til && !tilstand.venter && String(tilstand.uker) === b.dataset.uker));
       if (b.dataset.uker === 'frist') b.hidden = !$('frist').value;
@@ -1926,73 +1995,24 @@
     Array.prototype.forEach.call(document.querySelectorAll('.periode__snarveier, .periode__uker-lbl'), function (el) { el.hidden = !!fast; });
     Array.prototype.forEach.call(document.querySelectorAll('.periode__fast'), function (el) {
       el.hidden = !fast;
-      el.textContent = fast ? fast + ' uker er fast i pakken. Velg startdato. Vil dere ha en annen periode, velg «Sett opp selv».' : '';
+      el.textContent = fast ? fast + ' uker er fast i pakken. Vil dere ha en annen periode, velg «Sett opp selv».' : '';
     });
   }
 
-  /* One period picker: pick start, then end, or one click on a length */
-  var kal = { mnd: null, inst: null };
-  var MNDNAVN = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'];
-  function tegnKal() {
-    var inst = kal.inst; if (!inst) return;
-    var el = inst.querySelector('.periode__kalender');
-    var m = kal.mnd, forste = new Date(m.getFullYear(), m.getMonth(), 1);
-    var tomme = (forste.getDay() + 6) % 7, antall = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
-    var d = periodeDatoer(), a = iso(d.start), b = tilstand.venter ? '' : iso(d.slutt), f = $('frist').value, idag = iso(I_DAG);
-    var html = '<div class="kal__topp"><button type="button" data-kal="-1" aria-label="Forrige måned"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>' +
-      '<span>' + MNDNAVN[m.getMonth()].charAt(0).toUpperCase() + MNDNAVN[m.getMonth()].slice(1) + ' ' + m.getFullYear() + '</span>' +
-      '<button type="button" data-kal="1" aria-label="Neste måned"><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button></div>' +
-      '<div class="kal__rutenett">' + ['ma', 'ti', 'on', 'to', 'fr', 'lø', 'sø'].map(function (x) { return '<span class="kal__ukedag">' + x + '</span>'; }).join('') + new Array(tomme + 1).join('<span></span>');
-    for (var i = 1; i <= antall; i++) {
-      var x = iso(new Date(m.getFullYear(), m.getMonth(), i));
-      var k = 'kal__dag' + (x === a ? ' kal__dag--start' : '') + (b && x === b ? ' kal__dag--slutt' : '') + (b && x > a && x < b ? ' kal__dag--i' : '') + (x === f ? ' kal__dag--frist' : '');
-      html += '<button type="button" class="' + k + '" data-dag="' + x + '"' + (x < iso(tidligstDato()) || (tilstand.venter && x < a) ? ' disabled' : '') + ' aria-label="' + i + '. ' + MNDNAVN[m.getMonth()] + '">' + i + '</button>';
-    }
-    el.innerHTML = html + '</div><p class="kal__hjelp">Trykk på startdato.' + (f ? ' Søknadsfristen er markert med gult.' : '') + '</p>';
-  }
-  function lukkKal() {
-    Array.prototype.forEach.call(document.querySelectorAll('.periode__kalender'), function (el) { el.hidden = true; });
-    Array.prototype.forEach.call(document.querySelectorAll('.periode__knapp'), function (b) { b.setAttribute('aria-expanded', 'false'); });
-    kal.inst = null;
-    if (tilstand.venter) { tilstand.venter = false; oppdater(); } // left half way: keep the old period
-  }
+  /* Start date and number of weeks. The end date follows from them. */
   document.addEventListener('click', function (e) {
-    var uker = e.target.closest('[data-uker]');
-    if (uker) {
-      tilstand.uker = uker.dataset.uker === 'frist' ? 'frist' : Number(uker.dataset.uker);
-      tilstand.til = null; tilstand.venter = false;
-      oppdater(); return;
-    }
-    var knapp = e.target.closest('.periode__knapp');
-    if (knapp) {
-      var inst = knapp.closest('.periode'), apen = !inst.querySelector('.periode__kalender').hidden;
-      lukkKal();
-      if (!apen) {
-        kal.inst = inst;
-        kal.mnd = new Date(periodeDatoer().start); kal.mnd.setDate(1);
-        inst.querySelector('.periode__kalender').hidden = false;
-        knapp.setAttribute('aria-expanded', 'true');
-        tegnKal();
-      }
-      return;
-    }
-    if (e.target.closest('.periode__kalender')) {
-      var nav = e.target.closest('[data-kal]');
-      if (nav) { kal.mnd.setMonth(kal.mnd.getMonth() + Number(nav.dataset.kal)); tegnKal(); return; }
-      var dag = e.target.closest('[data-dag]'); if (!dag) return;
-      // One click picks the start. The number of weeks stays, so the end date moves with it.
-      var forrige = periodeDatoer();
-      if (tilstand.til) tilstand.uker = Math.max(1, Math.round(antallDager(forrige) / 7));
-      tilstand.fra = dag.dataset.dag; tilstand.til = null; tilstand.venter = false;
-      if (tilstand.fastUker) tilstand.uker = tilstand.fastUker;
-      var knappen = kal.inst.querySelector('.periode__knapp');
-      lukkKal(); oppdater(); knappen.focus();
-      return;
-    }
-    if (kal.inst) lukkKal();
+    var uker = e.target.closest('[data-uker]'); if (!uker) return;
+    tilstand.uker = uker.dataset.uker === 'frist' ? 'frist' : Number(uker.dataset.uker);
+    tilstand.til = null; tilstand.venter = false;
+    oppdater();
   });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && kal.inst) { var k = kal.inst.querySelector('.periode__knapp'); lukkKal(); k.focus(); }
+  // A new start keeps the number of weeks, so the end date moves with it. A day before the earliest start is not used.
+  $('startdato').addEventListener('change', function () {
+    if (!this.value || this.value < this.min) { tegnPeriode(); return; }
+    if (tilstand.til) tilstand.uker = Math.max(1, Math.round(antallDager(periodeDatoer()) / 7));
+    tilstand.fra = this.value; tilstand.til = null; tilstand.venter = false;
+    if (tilstand.fastUker) tilstand.uker = tilstand.fastUker;
+    oppdater();
   });
   $('arbeidsgiver').addEventListener('input', function () { oppdater(); });
   $('frist').addEventListener('change', oppdater);
@@ -2002,6 +2022,7 @@
   function materiellTekst() {
     var filer = tilstand.filer.length ? ' · ' + tilstand.filer.length + (tilstand.filer.length === 1 ? ' fil' : ' filer') : '';
     if (tilstand.materiell === 'hjelp') return 'Design fra Frantz · fra kr 2 180 / time' + filer;
+    if (tilstand.materiell === 'ferdig') { var n = tilstand.ferdige.length; return 'Ferdige annonser · ' + (n ? n + (n === 1 ? ' fil' : ' filer') : 'ingen filer ennå'); }
     var a = tilstand.annonse;
     if (a.erFerdig) return 'Egen ferdig annonse' + (a.filnavn ? ' · ' + a.filnavn : '');
     return 'Bilde og tekst' + (a.filnavn ? ' · ' + a.filnavn : a.egetBilde ? ' · bilde fra mediebiblioteket' : ' · bilde mangler') + (a.tittel ? ' · «' + a.tittel + '»' : '');
@@ -2072,43 +2093,39 @@
     });
   }
   function tegnAnnonse() {
-    var a = tilstand.annonse, modus = tilstand.materiell || 'bygg';
-    var valg = modus === 'hjelp' ? 'hjelp' : 'bygg';
-    var klar = !!(a.bildeUrl || a.egetBilde);
+    var a = tilstand.annonse, modus = tilstand.materiell || 'ferdig', valg = modus;
+    var harBilde = !!(a.bildeUrl || a.egetBilde);
+    var klar = modus === 'ferdig' ? tilstand.ferdige.length > 0 : harBilde;
     a.erFerdig = a.template === 'none' || a.video;
-    var ferdig = a.erFerdig && klar;
+    var ferdig = modus === 'ferdig' || (a.erFerdig && harBilde);
     synkFaner($('materiell-valg'), $('materiell-' + valg));
-    $('materiell-hint').hidden = valg === 'hjelp';
-    $('materiell-hint').textContent = 'Last opp det dere har av bilde, video eller ferdig annonse. Legg til annonseteksten under.';
     $('materiell-designinfo').hidden = valg !== 'hjelp';
+    $('materiell-kanaler').textContent = tilstand.kanaler.length ? tilstand.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1') : 'kanalene dere har valgt';
     $('annonse-frantz').hidden = modus !== 'hjelp';
-    $('annonse-bygg').hidden = modus === 'hjelp';
-    $('annonse-bygg').setAttribute('aria-labelledby', 'materiell-bygg');
-    $('annonse-bygg').classList.toggle('annonse__arbeid--klar', klar);
+    $('annonse-ferdig').hidden = modus !== 'ferdig';
+    $('annonse-bygg').hidden = modus !== 'bygg';
+    $('annonse-tekst').hidden = modus === 'hjelp';
+    $('annonse-bygg').classList.toggle('annonse__arbeid--klar', harBilde);
     $('annonse-forhandsvisning').hidden = !klar || modus === 'hjelp';
     synkSummaryPanel();
     if (modus === 'hjelp') { $('pv-video').pause(); return; }
     synkAvsender();
+    if (modus === 'ferdig') tegnFerdige();
     var b = BILDER.filter(function (x) { return x.fil === a.bilde; })[0];
     var url = a.bildeUrl || '../assets/media/' + a.bilde;
-    $('an-t1').textContent = 'Bilde eller annonse';
-    $('an-t1').hidden = klar;
-    $('an-valgt').hidden = !klar;
-    $('an-image-adjustment').hidden = !klar || a.video;
-    $('crop-open').hidden = !klar || a.video;
-    if (!klar || a.video) setCropEditing(false);
-    $('an-valgt-bilde').hidden = a.video || !klar;
-    if (klar && !a.video) $('an-valgt-bilde').src = url;
+    $('an-t1').textContent = 'Bilde';
+    $('an-t1').hidden = harBilde;
+    $('an-valgt').hidden = !harBilde;
+    $('an-image-adjustment').hidden = !harBilde || a.video || modus === 'ferdig';
+    $('crop-open').hidden = !harBilde || a.video || modus === 'ferdig';
+    if (!harBilde || a.video || modus === 'ferdig') setCropEditing(false);
+    $('an-valgt-bilde').hidden = a.video || !harBilde;
+    if (harBilde && !a.video) $('an-valgt-bilde').src = url;
     $('an-valgt-navn').textContent = a.bildeUrl ? a.filnavn : (b ? b.navn : 'Valgt bilde');
-    $('an-bytt').hidden = !klar;
+    $('an-bytt').hidden = !harBilde;
     $('an-bytt').textContent = a.video ? 'Bytt video' : ferdig ? 'Bytt annonse' : 'Bytt bilde';
-    $('an-slipp').hidden = klar && $('an-bytt').getAttribute('aria-expanded') !== 'true';
-    $('an-fjern').hidden = !klar;
-    $('an-opplasting-tittel').textContent = 'Legg til det dere har';
-    $('an-opplasting-tittel').hidden = klar;
-    $('an-opplasting-hint').textContent = 'Dra filen hit, eller velg en fil. JPG, PNG, WebP eller MP4, maks 10 MB.';
-    $('an-opplasting-hint').hidden = klar;
-    $('an-last-opp').innerHTML = '<span class="icon-lucide icon-lucide--upload" aria-hidden="true"></span> ' + (klar ? 'Bytt fil' : 'Last opp fil');
+    $('an-slipp').hidden = harBilde && $('an-bytt').getAttribute('aria-expanded') !== 'true';
+    $('an-fjern').hidden = !harBilde;
     $('an-bilde-fil').accept = 'image/jpeg,image/png,image/webp,video/mp4';
     $('an-bilde-fil').setAttribute('aria-label', 'Last opp bilde, video eller ferdig annonse');
     $('an-ferdig-rad').hidden = true;
@@ -2117,8 +2134,8 @@
     $('an-ferdig-hint').hidden = !a.bildeUrl;
     $('an-ferdig-hint').textContent = a.video ? 'Videoen brukes som den er. Dere kan legge til tekst over annonsen.'
       : ferdig ? 'Vi bruker filen som den er, uten å legge på ny tekst eller logo.' : 'Logo og budskap får egne flater. Velg utforming og legg til teksten under.';
-    $('an-templates').hidden = !klar;
-    $('an-logo-felt').hidden = !klar || ferdig;
+    $('an-templates').hidden = !harBilde;
+    $('an-logo-felt').hidden = !harBilde || ferdig;
     $('an-logo-valgt').hidden = !a.logoUrl;
     $('an-logo-fjern').hidden = !a.logoUrl;
     $('an-logo-controls').hidden = !a.utseende.logo;
@@ -2133,11 +2150,13 @@
     $('an-del-farger').hidden = ferdig;
     document.querySelectorAll('#an-del-farger .an-farge').forEach(function (field) { field.hidden = field.dataset.farge !== 'bg'; });
     $('an-bg-hint').textContent = a.logoUrl ? 'Tekstfargen tilpasses automatisk. Logoen beholder originalfargene.' : 'Tekstfargen tilpasses automatisk.';
-    $('an-mer').hidden = !klar;
+    $('an-mer').hidden = !harBilde;
     // The preview
     var vis = kanalVisninger();
     if (!vis.some(function (v) { return v[0] === a.kanal; })) a.kanal = vis[0][0];
     var kanalNavn = vis.filter(function (v) { return v[0] === a.kanal; })[0][1];
+    var fv = modus === 'ferdig' ? ferdigFor(a.kanal) : null;
+    var pvUrl = fv ? fv.url : url, pvVideo = fv ? fv.video : a.video;
     $('annonse-kanaler').innerHTML = vis.map(function (v) {
       return '<button type="button" class="filter" data-annonse-kanal="' + v[0] + '" aria-pressed="' + (v[0] === a.kanal) + '">' + v[1] + '</button>';
     }).join('');
@@ -2166,47 +2185,169 @@
     kreativ.style.aspectRatio = a.kanal === 'linkedin' || a.kanal === 'nettsteder' ? '1 / 1' : '4 / 5';
     kreativ.dataset.storrelse = tittelStorrelse(a.tittel);
     $('pv-logo').hidden = !u.logo || ferdig;
-    $('pv-bilde').style.backgroundImage = a.video ? 'none' : 'url("' + url + '")';
+    $('pv-bilde').style.backgroundImage = pvVideo ? 'none' : 'url("' + pvUrl + '")';
     $('pv-bilde').setAttribute('aria-label', a.bildeUrl ? 'Bildet dere lastet opp' : (b ? b.navn : 'Bildet i annonsen'));
     // A finished ad: the picture is the whole ad
     var venterPaFil = ferdig && !klar; // finished ad chosen, nothing uploaded yet
-    $('pv-fil').hidden = !ferdig || a.video || venterPaFil;
-    if (ferdig && !a.video && !venterPaFil) { $('pv-fil').src = url; $('pv-fil').alt = 'Annonsen, slik dere lastet den opp'; }
+    $('pv-fil').hidden = !ferdig || pvVideo || venterPaFil;
+    if (ferdig && !pvVideo && !venterPaFil) { $('pv-fil').src = pvUrl; $('pv-fil').alt = 'Annonsen, slik dere lastet den opp'; }
     $('pv-tom').hidden = true;
-    $('pv-video').hidden = !a.video || !klar;
-    if (a.video && klar) { if ($('pv-video').getAttribute('src') !== url) $('pv-video').src = url; }
+    $('pv-video').hidden = !pvVideo || !klar;
+    if (pvVideo && klar) { if ($('pv-video').getAttribute('src') !== pvUrl) $('pv-video').src = pvUrl; }
     else { $('pv-video').pause(); $('pv-video').removeAttribute('src'); }
-    if (klar && !a.video) {
-      var crop = FrantzAdCrop.normalise(a.crop);
+    if (klar && !pvVideo) {
+      var crop = FrantzAdCrop.normalise(fv ? { x: 50, y: 50, zoom: 1, fit: 'auto' } : a.crop);
       FrantzAdCrop.apply($('pv-bilde'), $('pv-fil'), crop, ferdig);
       $('crop-zoom').value = crop.zoom;
       document.querySelectorAll('[name="crop-fit"]').forEach(function (radio) { radio.checked = radio.value === (crop.fit === 'auto' ? ferdig ? 'contain' : 'cover' : crop.fit); });
     }
     $('pv-tom-tekst').textContent = venterPaFil ? 'Last opp annonsen dere har laget' : 'Video: ' + a.filnavn;
   }
-  $('annonse-bilder').innerHTML = BILDER.map(function (b) {
-    return '<button type="button" class="annonse__bildevalg" data-annonse-bilde="' + b.fil + '" aria-pressed="false" aria-label="' + b.navn + '"><img src="../assets/media/' + b.fil + '" alt=""></button>';
-  }).join('');
-  function lukkBildevalg() {
-    $('annonse-bilder').hidden = true;
-    $('an-flere').setAttribute('aria-expanded', 'false');
-    $('an-bytt').setAttribute('aria-expanded', 'false');
-  }
+  function lukkBildevalg() { $('an-bytt').setAttribute('aria-expanded', 'false'); }
   $('an-bytt').addEventListener('click', function () {
     var apne = this.getAttribute('aria-expanded') !== 'true';
     this.setAttribute('aria-expanded', String(apne));
     if (!apne) lukkBildevalg();
     $('an-slipp').hidden = !apne;
   });
-  $('an-flere').addEventListener('click', function () {
-    var apne = $('annonse-bilder').hidden;
-    $('annonse-bilder').hidden = !apne; this.setAttribute('aria-expanded', String(apne));
-    Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', String(!tilstand.annonse.bildeUrl && x.dataset.annonseBilde === tilstand.annonse.bilde)); });
+  /* ---------- Media library: a dialog. One picture for «Lag annonsen selv», one or more files for ready ads. ---------- */
+  var bibliotek = { modus: 'bygg', valgt: [], knapp: null };
+  $('bibliotek-rutenett').innerHTML = BILDER.map(function (b) {
+    return '<button type="button" class="bibliotek__bilde" data-bibliotek-bilde="' + b.fil + '" aria-pressed="false"><img src="../assets/media/' + b.fil + '" alt=""><span>' + b.navn + '</span>' +
+      '<span class="bibliotek__merke" aria-hidden="true"><span class="icon-lucide icon-lucide--check"></span></span></button>';
+  }).join('');
+  function tegnBibliotek() {
+    var flere = bibliotek.modus === 'ferdig', n = bibliotek.valgt.length;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-bibliotek-bilde]'), function (x) { x.setAttribute('aria-pressed', String(bibliotek.valgt.indexOf(x.dataset.bibliotekBilde) !== -1)); });
+    $('bibliotek-hint').textContent = flere ? 'Velg én eller flere filer.' : 'Velg bildet dere vil bygge annonsen med.';
+    $('bibliotek-bruk').disabled = !n;
+    $('bibliotek-bruk').textContent = !flere ? 'Bruk bildet' : n > 1 ? 'Legg til ' + n + ' filer' : 'Legg til filen';
+  }
+  function apneBibliotek(modus, knapp) {
+    var a = tilstand.annonse;
+    bibliotek.modus = modus; bibliotek.knapp = knapp;
+    bibliotek.valgt = modus === 'bygg' && a.egetBilde && !a.bildeUrl ? [a.bilde] : [];
+    tegnBibliotek(); $('bibliotek').showModal();
+  }
+  // «Lag annonsen selv» builds on a picture from the library
+  function brukBibliotekBilde(fil) {
+    var a = tilstand.annonse;
+    if (a.bildeUrl) URL.revokeObjectURL(a.bildeUrl);
+    $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true;
+    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bilde = fil; a.bildeUrl = ''; a.fil = null; a.filnavn = ''; a.video = false; a.egetBilde = true; a.erFerdig = false;
+    lukkBildevalg(); tegnAnnonse(); oppdater();
+  }
+  document.addEventListener('click', function (e) {
+    var apne = e.target.closest('[data-bibliotek]');
+    if (apne) { apneBibliotek(apne.dataset.bibliotek, apne); return; }
+    var bilde = e.target.closest('[data-bibliotek-bilde]');
+    if (bilde) {
+      var fil = bilde.dataset.bibliotekBilde, i = bibliotek.valgt.indexOf(fil);
+      if (bibliotek.modus === 'bygg') bibliotek.valgt = [fil];
+      else if (i === -1) bibliotek.valgt.push(fil); else bibliotek.valgt.splice(i, 1);
+      tegnBibliotek(); return;
+    }
+    if (e.target.closest('[data-bibliotek-lukk]')) { $('bibliotek').close(); return; }
+    if (e.target === $('bibliotek')) $('bibliotek').close(); // a click on the backdrop
   });
+  $('bibliotek-bruk').addEventListener('click', function () {
+    var valgt = bibliotek.valgt.slice();
+    $('bibliotek').close();
+    if (bibliotek.modus === 'bygg') brukBibliotekBilde(valgt[0]);
+    else leggTilFerdige(valgt.map(function (fil) {
+      var b = BILDER.filter(function (x) { return x.fil === fil; })[0];
+      return { navn: b ? b.navn : fil, url: '../assets/media/' + fil, video: false, fil: null, bilde: fil, kilde: 'bibliotek' };
+    }));
+  });
+  $('bibliotek').addEventListener('close', function () { if (bibliotek.knapp) bibliotek.knapp.focus(); });
+
+  /* ---------- Ready ads ----------
+     Each file is matched to the placements that use its size. Placements without a file of their own are listed.
+     [ANTAGELSE: the size per placement uses common platform formats. Confirm with Frantz which sizes they need.] */
+  var FORMATER = [{ id: '1:1', navn: 'Kvadrat 1:1', r: 1 }, { id: '4:5', navn: 'Stående 4:5', r: 0.8 }, { id: '9:16', navn: 'Story 9:16', r: 9 / 16 }, { id: '1.91:1', navn: 'Liggende 1.91:1', r: 1.91 }];
+  var PLASSERINGER = [
+    { navn: 'Facebook og Instagram', kanal: 'Meta', format: '4:5' }, { navn: 'Stories', kanal: 'Meta', format: '9:16' },
+    { navn: 'LinkedIn', kanal: 'LinkedIn', format: '1:1' }, { navn: 'Nettsteder og aviser', kanal: 'Nettsteder og aviser', format: '1:1' },
+    { navn: 'Snapchat', kanal: 'Snapchat', format: '9:16' }, { navn: 'TikTok', kanal: 'TikTok', format: '9:16' }
+  ];
+  var PV_FORMAT = { facebook: '4:5', instagram: '4:5', linkedin: '1:1', nettsteder: '1:1' }; // the preview's placements
+  tilstand.ferdige = [];
+  function formatFor(w, h) {
+    if (!w || !h) return null;
+    var r = w / h;
+    return FORMATER.slice().sort(function (x, y) { return Math.abs(Math.log(x.r / r)) - Math.abs(Math.log(y.r / r)); })[0];
+  }
+  function malFil(url, video) {
+    return new Promise(function (ferdig) {
+      if (video) { var v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = function () { ferdig(formatFor(v.videoWidth, v.videoHeight)); }; v.onerror = function () { ferdig(null); }; v.src = url; return; }
+      var i = new Image(); i.onload = function () { ferdig(formatFor(i.naturalWidth, i.naturalHeight)); }; i.onerror = function () { ferdig(null); }; i.src = url;
+    });
+  }
+  async function leggTilFerdige(liste) {
+    for (var i = 0; i < liste.length; i++) { liste[i].format = await malFil(liste[i].url, liste[i].video); tilstand.ferdige.push(liste[i]); }
+    if (liste.length) { $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true; }
+    tegnAnnonse(); oppdater();
+  }
+  function leggTilFerdigeFiler(filer) {
+    var ok = [], avvist = [];
+    Array.prototype.forEach.call(filer, function (f) {
+      if (['image/jpeg', 'image/png', 'image/webp', 'video/mp4'].indexOf(f.type) !== -1 && f.size <= 10 * 1024 * 1024) ok.push({ navn: f.name, url: URL.createObjectURL(f), video: f.type === 'video/mp4', fil: f, kilde: 'fil' });
+      else avvist.push(f.name);
+    });
+    $('fa-feil').hidden = !avvist.length;
+    $('fa-feil').textContent = avvist.length ? avvist.join(', ') + ' ble ikke lagt til. Velg JPG, PNG, WebP eller MP4 under 10 MB.' : '';
+    leggTilFerdige(ok);
+  }
+  // The placements for the chosen channels, each with the first file in its size
+  function ferdigePlasseringer() {
+    return PLASSERINGER.filter(function (p) { return tilstand.kanaler.indexOf(p.kanal) !== -1; }).map(function (p) {
+      return { p: p, fil: tilstand.ferdige.filter(function (f) { return f.format && f.format.id === p.format; })[0] || null };
+    });
+  }
+  function ferdigFor(kanal) {
+    var onsket = PV_FORMAT[kanal];
+    return tilstand.ferdige.filter(function (f) { return f.format && f.format.id === onsket; })[0] || tilstand.ferdige[0] || null;
+  }
+  function ogListe(navn) { return navn.join(', ').replace(/, ([^,]*)$/, ' og $1'); }
+  function tegnFerdige() {
+    var deler = ferdigePlasseringer();
+    $('fa-liste').hidden = !tilstand.ferdige.length;
+    $('fa-liste').innerHTML = tilstand.ferdige.map(function (f, i) {
+      var brukes = deler.filter(function (d) { return d.fil === f; }).map(function (d) { return d.p.navn; });
+      var info = (f.format ? f.format.navn : 'Ukjent størrelse') + ' · ' + (brukes.length ? ogListe(brukes) : 'brukes ikke i kanalene dere har valgt');
+      var media = f.video ? '<video src="' + f.url + '" muted preload="metadata"></video>' : '<img src="' + f.url + '" alt="">';
+      return '<li class="fa-fil">' + media + '<div class="fa-fil__info"><b>' + esc(f.navn) + '</b><span>' + esc(info) + '</span></div>' +
+        '<button class="btn btn--ghost btn--sm" type="button" data-fjern-ferdig="' + i + '" aria-label="Fjern ' + esc(f.navn) + '" title="Fjern"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span></button></li>';
+    }).join('');
+    var mangler = deler.filter(function (d) { return !d.fil; }).map(function (d) { return d.p.navn + ' (' + d.p.format + ')'; });
+    $('fa-mangler').hidden = !tilstand.ferdige.length || !mangler.length;
+    $('fa-mangler').textContent = mangler.length ? 'Mangler riktig størrelse for ' + ogListe(mangler) + '.' : '';
+  }
+  $('fa-velg').addEventListener('click', function () { $('fa-filer').click(); });
+  $('fa-filer').addEventListener('change', function () { leggTilFerdigeFiler(this.files); this.value = ''; });
+  $('fa-slipp').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('dra-over'); });
+  $('fa-slipp').addEventListener('dragleave', function () { this.classList.remove('dra-over'); });
+  $('fa-slipp').addEventListener('drop', function (e) { e.preventDefault(); this.classList.remove('dra-over'); leggTilFerdigeFiler(e.dataTransfer.files); });
+  $('fa-liste').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-fjern-ferdig]'); if (!b) return;
+    var f = tilstand.ferdige.splice(Number(b.dataset.fjernFerdig), 1)[0];
+    if (f && f.kilde === 'fil') URL.revokeObjectURL(f.url);
+    tegnAnnonse(); oppdater(); $('fa-velg').focus();
+  });
+  // What the order and the approval link get: the ready ads, or the ad built here
+  function materiellFor() {
+    if (tilstand.materiell !== 'ferdig') return { ad: tilstand.annonse, mainFile: tilstand.annonse.bildeUrl ? tilstand.annonse.fil || null : null, files: tilstand.filer };
+    var f = tilstand.ferdige, forste = f[0];
+    var ad = Object.assign({}, tilstand.annonse, {
+      template: 'none', erFerdig: true, egetBilde: !!forste, video: !!(forste && forste.video), filnavn: forste ? forste.navn : '',
+      bildeUrl: forste && forste.kilde === 'fil' ? forste.url : '', bilde: forste && forste.kilde === 'bibliotek' ? forste.bilde : tilstand.annonse.bilde
+    });
+    return { ad: ad, mainFile: forste && forste.fil || null, files: tilstand.filer,
+      extraFiles: f.slice(1).map(function (x) { return { navn: x.navn, fil: x.fil }; }) };
+  }
   $('an-last-opp').addEventListener('click', function () { $('an-bilde-fil').click(); });
   function velgMateriell(valg) {
-    tilstand.materiell = valg === 'hjelp' ? 'hjelp' : 'bygg';
-    if (valg === 'ferdig') tilstand.annonse.erFerdig = true;
+    tilstand.materiell = ['ferdig', 'hjelp', 'bygg'].indexOf(valg) !== -1 ? valg : 'ferdig';
     $('an-fil-feil').hidden = true; $('an-materiell-feil').hidden = true;
   }
   function settAnnonseFil(f) {
@@ -2218,10 +2359,9 @@
     }
     var a = tilstand.annonse;
     if (a.bildeUrl) URL.revokeObjectURL(a.bildeUrl);
-    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bildeUrl = URL.createObjectURL(f); a.filnavn = f.name; a.video = f.type === 'video/mp4'; a.egetBilde = true; a.erFerdig = a.video || a.template === 'none'; if (a.video) a.template = 'none';
+    a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bildeUrl = URL.createObjectURL(f); a.fil = f; a.filnavn = f.name; a.video = f.type === 'video/mp4'; a.egetBilde = true; a.erFerdig = a.video || a.template === 'none'; if (a.video) a.template = 'none';
     $('an-fil-feil').hidden = true; $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true;
     lukkBildevalg();
-    Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', 'false'); });
     tegnAnnonse(); oppdater(); $('an-bytt').focus();
   }
   $('an-bilde-fil').addEventListener('change', function () { settAnnonseFil(this.files[0]); this.value = ''; });
@@ -2230,7 +2370,7 @@
   $('an-slipp').addEventListener('drop', function (e) { e.preventDefault(); this.classList.remove('dra-over'); settAnnonseFil(e.dataTransfer.files[0]); });
   $('an-fjern').addEventListener('click', function () {
     var a = tilstand.annonse; if (a.bildeUrl) URL.revokeObjectURL(a.bildeUrl);
-    a.bildeUrl = ''; a.filnavn = ''; a.video = false; a.egetBilde = false; a.erFerdig = false;
+    a.bildeUrl = ''; a.fil = null; a.filnavn = ''; a.video = false; a.egetBilde = false; a.erFerdig = false;
     lukkBildevalg();
     tegnAnnonse(); oppdater(); $('an-last-opp').focus();
   });
@@ -2302,16 +2442,6 @@
   document.addEventListener('click', function (e) {
     var k = e.target.closest('[data-annonse-kanal]');
     if (k) { tilstand.annonse.kanal = k.dataset.annonseKanal; tegnAnnonse(); return; }
-    var b = e.target.closest('[data-annonse-bilde]');
-    if (b) {
-      var a = tilstand.annonse;
-      if (a.bildeUrl) URL.revokeObjectURL(a.bildeUrl);
-      $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true;
-      a.crop = { x: 50, y: 50, zoom: 1, fit: 'auto' }; a.bilde = b.dataset.annonseBilde; a.bildeUrl = ''; a.filnavn = ''; a.video = false; a.egetBilde = true; a.erFerdig = false;
-      Array.prototype.forEach.call(document.querySelectorAll('[data-annonse-bilde]'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      lukkBildevalg();
-      tegnAnnonse(); oppdater(); $('an-bytt').focus(); return;
-    }
     var f = e.target.closest('[data-farge-verdi]');
     if (f) { velgBakgrunn(f.dataset.fargeVerdi); tegnFarger(); tegnAnnonse(); }
   });
@@ -2357,10 +2487,11 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-forslag]'), function (x) { x.hidden = (tilstand.foreslatt || []).indexOf(x.dataset.forslag) === -1 || tilstand.tillegg.indexOf(x.dataset.forslag) !== -1; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-meld]'), function (x) { x.checked = tilstand.meld; });
   }
-  $('filer').addEventListener('change', function () {
-    Array.prototype.forEach.call(this.files, function (f) { tilstand.filer.push(f.name); });
-    this.value = ''; tegnFiler(); oppdater();
-  });
+  function leggVedFiler(filer) { Array.prototype.forEach.call(filer, function (f) { tilstand.filer.push(f.name); }); tegnFiler(); oppdater(); }
+  $('filer').addEventListener('change', function () { leggVedFiler(this.files); this.value = ''; });
+  $('mat-slipp').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('dra-over'); });
+  $('mat-slipp').addEventListener('dragleave', function () { this.classList.remove('dra-over'); });
+  $('mat-slipp').addEventListener('drop', function (e) { e.preventDefault(); this.classList.remove('dra-over'); leggVedFiler(e.dataTransfer.files); });
   document.addEventListener('click', function (e) {
     var m = e.target.closest('[data-materiell]');
     if (m) { velgMateriell(m.dataset.materiell); tilstand.valgtMateriell = true; $('steg-feil').hidden = true; oppdater(); visSporsmal(true); return; }
@@ -2371,7 +2502,7 @@
   document.addEventListener('change', function (e) {
     var t = e.target.closest && e.target.closest('[data-tillegg]');
     if (t) { var i = tilstand.tillegg.indexOf(t.dataset.tillegg); if (t.checked && i === -1) tilstand.tillegg.push(t.dataset.tillegg); if (!t.checked && i !== -1) tilstand.tillegg.splice(i, 1); oppdater(); return; }
-    if (e.target.matches && e.target.matches('[data-meld]')) { tilstand.meld = e.target.checked; oppdater(); }
+    if (e.target.matches && e.target.matches('[data-meld]')) { tilstand.meld = e.target.checked; tilstand.valgtMeld = true; oppdater(); }
   });
 
   /* ---------- Saved packages ----------
@@ -2422,15 +2553,17 @@
   }
   $('oppsett').addEventListener('click', function (e) {
     var b = e.target.closest('[data-oppsett]'); if (!b || b.dataset.oppsett === tilstand.oppsett) return;
-    tilstand.oppsettHint = '';
     if (tilstand.oppsett === 'selv') tilstand.egetOppsett = { budsjett: budsjett(), kanaler: tilstand.kanaler.slice(), kanalmodus: tilstand.kanalmodus };
     tilstand.oppsett = b.dataset.oppsett;
     if (tilstand.oppsett === 'selv') {
       tilstand.sistePakke = tilstand.pakke; tilstand.pakke = null; tilstand.lagret = false; tilstand.fastUker = null;
       // «Sett opp selv» brings back what the user wrote
       var o = tilstand.egetOppsett || tilstand.onsket || {};
-      if (o.budsjett !== undefined) budsjettKontroll.set(o.budsjett);
-      if (o.kanaler) { tilstand.kanalmodus = o.kanalmodus || 'selv'; tilstand.kanaler = o.kanaler.slice(); tegnKanaler(); }
+      // Nothing of their own yet: start from Frantz's channels, then the budget those channels need
+      if (o.kanaler) { tilstand.kanalmodus = o.kanalmodus || 'selv'; tilstand.kanaler = o.kanaler.slice(); }
+      else tilstand.kanalmodus = 'frantz';
+      tegnKanaler();
+      budsjettKontroll.set(o.budsjett || forslagBudsjett());
       $('pakke-endring').hidden = true;
     }
     // No package picked yet: the budget from «Sett opp selv» does not count
@@ -2439,7 +2572,7 @@
     visSporsmal(); oppdater();
   });
   $('pakke-valg').addEventListener('click', function (e) {
-    var b = e.target.closest('[data-pakke]'); if (b) { tilstand.oppsettHint = ''; brukPakke(PAKKER[Number(b.dataset.pakke)]); }
+    var b = e.target.closest('[data-pakke]'); if (b) brukPakke(PAKKER[Number(b.dataset.pakke)]);
   });
 
   /* ---------- Earliest publishing date: 3 working days after the order ---------- */
@@ -2461,8 +2594,9 @@
   function approvalContent() {
     var st = steder.verdi();
     var extras = TILLEGG.reduce(function (sum, item) { return sum + (tilstand.tillegg.indexOf(item.navn) !== -1 ? item.pris : 0); }, 0);
+    var mf = materiellFor();
     var material = FrantzCampaignMaterial.snapshot({}, {
-      ad: tilstand.annonse, mode: tilstand.materiell, files: tilstand.filer,
+      ad: mf.ad, mainFile: mf.mainFile, extraFiles: mf.extraFiles, mode: tilstand.materiell, files: mf.files,
       brief: $('an-designbrief').value.trim(), sender: $('avsender').value.trim(),
       channels: tilstand.kanaler, position: $('pv-bilde').style.getPropertyValue('--pv-pos')
     }).materiell;
@@ -2600,10 +2734,9 @@
     var visPakkeEstimat = tilstand.oppsett !== 'selv' && !!tilstand.pakke && !!estimatTekst;
     $('pakke-estimat-tekst').innerHTML = visPakkeEstimat ? estimatTekst : '';
     $('pakke-estimat').hidden = true; // one estimate, under «Periode», for a package and for «Sett opp selv»
-    var advarsel = '', min = FZ_PAKKER.rad(tilstand.kanaler);
-    if (forLiteBudsjett()) advarsel = 'Budsjettet på ' + kr(b) + ' dekker ikke kanalene dere har valgt. De trenger minst ' + kr(min.min) + ' til sammen (' +
-      min.kanaler.map(function (c) { return c.navn + ' ' + kr(c.min); }).join(', ') + '). Øk budsjettet, eller fjern en kanal.';
-    else if (b && b < 8000) advarsel = 'Under kr 8 000 gir lite for de fleste stillinger.';
+    var advarsel = '';
+    if (!forLiteBudsjett() && b && b < 8000) advarsel = 'Under kr 8 000 gir lite for de fleste stillinger.';
+    tegnKanalMin();
     $('advarsel').hidden = !advarsel; $('advarsel').textContent = advarsel;
 
     var tittel = $('stilling').value.trim();
@@ -2700,13 +2833,37 @@
     }
     if (n === 2 && !tilstand.oppsett) return 'Velg «Bruk en pakke» eller «Sett opp selv».';
     if (n === 2 && !tilstand.kanaler.length) return 'Velg minst én kanal.';
-    if (n === 3 && tilstand.materiell !== 'hjelp' && !tilstand.annonse.egetBilde && !tilstand.annonse.bildeUrl) return 'Last opp materiell, velg et bilde fra mediebiblioteket, eller velg «Bestill design fra Frantz».';
+    if (n === 3 && tilstand.materiell === 'ferdig' && !tilstand.ferdige.length) return 'Legg til de ferdige annonsene, eller velg dem fra mediebiblioteket.';
+    if (n === 3 && tilstand.materiell === 'bygg' && !tilstand.annonse.egetBilde && !tilstand.annonse.bildeUrl) return 'Legg til et bilde, eller velg et fra mediebiblioteket.';
     if (n === 2 && !budsjett()) return tilstand.oppsett !== 'selv' ? 'Velg en pakke, eller velg «Sett opp selv».' : 'Skriv et budsjett.';
     if (n === 2 && forLiteBudsjett()) return 'Øk budsjettet til minst ' + kr(FZ_PAKKER.rad(tilstand.kanaler).min) + ', eller fjern en kanal.';
     return '';
   }
   // Each channel has a minimum spend (FZ_PAKKER, from Tore's mail). With «Sett opp selv» the budget must cover the channels picked,
   // so a custom setup is never a cheaper way to get more channels than a package.
+  // Under the channels, only when the budget is too low for them: say so, and offer the lowest amount.
+  // Each channel shows its own minimum, so a budget that covers them needs no message.
+  function tegnKanalMin() {
+    var min = FZ_PAKKER.rad(tilstand.kanaler).min, lav = forLiteBudsjett(), el = $('kanal-min');
+    el.hidden = !lav;
+    el.classList.toggle('kanal-min--lav', lav);
+    var belop = '<span class="kanal-min__belop">' + kr(min) + '</span>'; // the amount never breaks over two lines
+    var html = lav
+      ? 'Kanalene dere har valgt trenger minst ' + belop + '. Øk budsjettet, eller fjern en kanal. <button class="link" type="button" data-bruk-min="' + min + '">Bruk ' + belop + '</button>'
+      : '';
+    if (el.innerHTML !== html) el.innerHTML = html;
+  }
+  $('kanal-min').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-bruk-min]'); if (!b) return;
+    budsjettKontroll.set(Number(b.dataset.brukMin)); tilstand.valgtBudsjett = true; oppdater(); $('budsjett').focus();
+  });
+  // Frantz's suggestion for «Sett opp selv»: the recommended budget, at least what the channels need
+  function forslagBudsjett() {
+    var stederListe = steder.verdi();
+    if (!tilstand.rolle || !stederListe.length) return null;
+    var anb = R.beregn({ rolle: tilstand.rolle, steder: stederListe }).anbefalt;
+    return Math.ceil(Math.max(anb, FZ_PAKKER.rad(tilstand.kanaler).min) / 1000) * 1000;
+  }
   function forLiteBudsjett() {
     var b = budsjett();
     return tilstand.oppsett === 'selv' && !!b && b < FZ_PAKKER.rad(tilstand.kanaler).min;
@@ -2778,7 +2935,7 @@
     if (feil) {
       if (tilstand.steg === 3) {
         $('an-materiell-feil').textContent = feil; $('an-materiell-feil').hidden = false;
-        $('an-last-opp').focus(); return;
+        $(tilstand.materiell === 'ferdig' ? 'fa-velg' : 'an-last-opp').focus(); return;
       }
       $('steg-feil').textContent = feil; $('steg-feil').hidden = false;
       $('steg-feil').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2824,7 +2981,7 @@
         rad('Materiell', esc(materiellTekst())) +
         (tilstand.annonse.logoFil ? rad('Egen logo', esc(tilstand.annonse.logoFil.name)) : '') +
         (tilstand.materiell === 'hjelp' ? rad('Ønsker til designet', esc($('an-designbrief').value.trim())) : '') +
-        (tilstand.materiell === 'bygg' ? rad('Avsender', esc($('avsender').value.trim())) : ''));
+        (tilstand.materiell !== 'hjelp' ? rad('Avsender', esc($('avsender').value.trim())) : ''));
     // Add-ons are picked right under this overview, so they are not repeated here
   }
   $('sum-stilling').addEventListener('click', function (e) {
@@ -2890,8 +3047,9 @@
     var pd = periodeDatoer();
     var materiale;
     try {
+      var mf = materiellFor();
       materiale = FrantzCampaignMaterial.snapshot(ordre, {
-        ad: tilstand.annonse, mode: tilstand.materiell, files: tilstand.filer,
+        ad: mf.ad, mainFile: mf.mainFile, extraFiles: mf.extraFiles, mode: tilstand.materiell, files: mf.files,
         brief: $('an-designbrief').value.trim(), sender: $('avsender').value.trim(),
         sourceFile: tilstand.pdfFil, channels: tilstand.kanaler, position: $('pv-bilde').style.getPropertyValue('--pv-pos')
       });
@@ -2929,7 +3087,7 @@
     tilstand.valgtConnect = null; if ($('connect-sok')) $('connect-sok').value = '';
     $('del-start').classList.remove('start--lukket');
     velgStart('lenke');
-    tilstand.pdf = ''; tilstand.pdfFil = null; tilstand.pdfTekst = ''; $('slipp-fil').textContent = 'Dra filen hit, eller';
+    tilstand.pdf = ''; tilstand.pdfFil = null; tilstand.pdfTekst = ''; visVedlegg('');
     // The demo only fills in the fields. The user presses «Fyll ut skjemaet» themselves.
     $('feil-start').hidden = true;
     tegnKilder();
