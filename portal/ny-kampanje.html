@@ -324,7 +324,7 @@
   #pakke-valg .pakke-kort__etikett { display: none; }
   #pakke-valg .pakke-kort__kanal { overflow-wrap: normal; }
   @media (max-width: 600px) {
-    #pakke-valg .pakke-kort { grid-template-areas: 'head price' 'channels channels'; padding: var(--space-16); }
+    #pakke-valg .pakke-kort { grid-template-areas: 'head' 'price' 'channels'; padding: var(--space-16); }
     #pakke-valg .pakke-kort__pris b { font-size: var(--text-lg); }
   }
   /* Add-ons are their own thing, not the price of help with material */
@@ -794,6 +794,33 @@
     #an-mer #an-logo-tittel { padding: 0; }
     #an-mer #an-logo-feil { grid-column: 1; }
   }
+
+  /* Shared setup controls and compact forecast for both campaign setup options. */
+  .anbefaling { margin-bottom: var(--space-24); }
+  #anbefaling-valg { margin-top: 0; }
+  #anbefaling-valg [aria-pressed="true"] { border-color: var(--border-default); background: var(--surface-raised); color: var(--text-heading); box-shadow: var(--shadow-subtle); }
+  .anbefaling #anbefaling-hint { margin: var(--space-16) 0; }
+  .anbefaling-kortpar { margin-top: var(--space-20); }
+  #anbefaling-resultat { padding: 0; }
+  .anbefaling [hidden], #anbefaling-prognose[hidden], #anbefaling-forbehold[hidden], #budsjett-kontroll[hidden] { display: none !important; }
+  #del-mangler .oppsett-felt { display: none; }
+  #oppsett-egendefinert { display: grid; gap: var(--space-24); }
+  #oppsett-egendefinert[hidden] { display: none; }
+  #blokk-budsjett, #blokk-kanal { margin: 0; }
+  #blokk-periode { border-top: 1px solid var(--border-default); padding-top: var(--space-24); }
+  #anbefaling-prognose { margin-top: var(--space-20); padding: var(--space-16); background: var(--bg-info-soft); border: 0; border-radius: var(--radius-8); box-shadow: none; }
+  #anbefaling-prognose #estimat { display: block; margin: 0; padding: 0; border: 0; background: transparent; color: var(--text-muted); font: var(--type-support); }
+  #anbefaling-prognose .alert__icon { display: none; }
+  #anbefaling-prognose .metrics__title { margin: 0; font: var(--type-support); color: var(--text-muted); }
+  #anbefaling-prognose .metrics { display: flex; flex-wrap: wrap; gap: var(--space-12) var(--space-24); margin-top: var(--space-8); }
+  #anbefaling-prognose .metric { flex-direction: row; align-items: baseline; gap: var(--space-4); padding: 0; background: transparent; }
+  #anbefaling-prognose .metric__value { margin: 0; font: var(--type-support); font-weight: 600; }
+  #anbefaling-prognose .metric__label { margin: 0; }
+  #anbefaling-forbehold { margin: var(--space-8) 0 0; }
+  @media (max-width: 600px) {
+    #anbefaling-valg { display: flex; flex-wrap: wrap; }
+    #anbefaling-valg .valgfaner__valg { flex: 1 1 auto; white-space: normal; }
+  }
 </style>
 </head>
 <body data-assistant="form">
@@ -1063,6 +1090,16 @@
           <section class="del" id="del-mangler" aria-labelledby="t-mangler" hidden>
             <h2 class="del__tittel" id="t-mangler">Kampanjen</h2>
             <p class="del__hint" hidden id="mangler-hint">Velg en av pakkene dine, eller sett opp selv. En pakke har fast budsjett og kanaler. Perioden velger dere her.</p>
+            <div class="anbefaling">
+              <div class="valgfaner" role="group" aria-label="Velg oppsett" id="anbefaling-valg">
+                <button type="button" class="valgfaner__valg" id="anbefaling-reset" aria-pressed="true">Velg selv</button>
+                <button type="button" class="valgfaner__valg" id="anbefaling-pakker" aria-pressed="false">Lagrede pakker</button>
+              </div>
+              <p class="del__hint" id="anbefaling-hint">Et forslag til budsjett og kanaler for stillingen din.</p>
+              <div class="anbefaling-kortpar" id="anbefaling-kortpar"><div id="anbefaling-resultat"><p class="form-hint" id="anbefaling-pakkekilde" hidden></p><div id="anbefaling-felt"></div></div>
+              <aside class="card card--betjen" id="anbefaling-prognose" aria-label="Estimert resultat"></aside></div>
+              <p class="form-hint" id="anbefaling-forbehold">Estimat for kampanjeperioden, ikke garanterte resultater.</p>
+            </div>
             <div class="felt blokk funnet__bred oppsett-felt">
               <span class="form-label" id="oppsett-lbl">Hvordan vil dere sette opp kampanjen?</span>
               <div class="valgfaner" id="oppsett" role="tablist" aria-labelledby="oppsett-lbl">
@@ -1109,7 +1146,7 @@
                 <p class="advarsel" id="frist-advarsel" role="status" hidden></p>
                 <div class="alert alert--info estimat" id="estimat" role="status" aria-live="polite" hidden>
                   <span class="icon-lucide icon-lucide--trending-up alert__icon" aria-hidden="true"></span>
-                  <div class="alert__content"><span class="alert__body"><span id="estimat-tekst"></span></span></div>
+                  <div class="alert__content"><div class="alert__body" id="estimat-tekst"></div></div>
                 </div>
               </div>
             </div>
@@ -1646,19 +1683,93 @@
     }
   }
 
-  // Step 2 never starts empty. A package named in the text, or one with the budget they wrote, comes first.
-  // A budget that fits no package goes to «Sett opp selv». Nothing written: the middle package.
-  function velgOppsettFraStart(a) {
-    var p = a.pakke && finnPakke(a.pakke);
-    if (!p && a.budsjett) p = PAKKER.filter(function (x) { return x.budsjett === a.budsjett; })[0];
-    if (p) { brukPakke(p); return; }
-    if (a.budsjett || !PAKKER.length) {
-      tilstand.oppsett = 'selv';
-      budsjettKontroll.set(a.budsjett || forslagBudsjett()); tilstand.valgtBudsjett = !!a.budsjett;
-      return;
-    }
-    brukPakke(PAKKER[Math.floor((PAKKER.length - 1) / 2)]);
+  // Prototype rule agreed with Sona: same channels, nearest budget within 10%.
+  function matchendePakke(budget, channels) {
+    return PAKKER.filter(function (p) {
+      return Math.abs(p.budsjett - budget) <= budget * 0.1 && p.kanaler.length === channels.length &&
+        channels.every(function (channel) { return p.kanaler.indexOf(channel) !== -1; });
+    }).sort(function (a, b) { return Math.abs(a.budsjett - budget) - Math.abs(b.budsjett - budget); })[0] || null;
   }
+  var tilpassetAnbefaling = null;
+  var anbefalingOriginal = null, anbefalingModus = 'anbefalt', egetForslag = null, valgtLagretPakke = null;
+  function velgOppsettFraStart(a) {
+    anbefalingModus = 'anbefalt'; egetForslag = null; valgtLagretPakke = null; tilpassetAnbefaling = null;
+    tilstand.oppsett = 'selv';
+    tilstand.pakke = null;
+    tilstand.kanalmodus = 'frantz';
+    tilstand.kanaler = anbefalt();
+    var recommendedBudget = forslagBudsjett();
+    anbefalingOriginal = { pakke: matchendePakke(recommendedBudget, tilstand.kanaler), budsjett: recommendedBudget, kanaler: tilstand.kanaler.slice(), uker: 3, fra: tilstand.fra, til: null };
+    if (anbefalingOriginal.pakke) anbefalingOriginal.budsjett = anbefalingOriginal.pakke.budsjett;
+    tilstand.uker = 3; tilstand.til = null; tilstand.venter = false;
+    budsjettKontroll.set(anbefalingOriginal.budsjett);
+    tilstand.valgtBudsjett = true;
+    tilstand.valgtKanal = true;
+    var p = a.pakke && finnPakke(a.pakke);
+    if (p) brukPakke(p);
+  }
+  function synkAnbefaling() {
+    if (!anbefalingOriginal) return;
+    var recommended = anbefalingModus === 'anbefalt';
+    $('anbefaling-kortpar').hidden = !recommended;
+    $('anbefaling-resultat').hidden = !recommended;
+    $('anbefaling-hint').hidden = recommended || (anbefalingModus === 'pakke' && PAKKER.length > 0);
+    var showForecast = recommended || (anbefalingModus === 'pakke' && !!tilstand.pakke);
+    $('anbefaling-forbehold').hidden = !showForecast;
+    $('anbefaling-prognose').hidden = !showForecast;
+    $('budsjett-kontroll').hidden = false;
+    $('budsjett').readOnly = false;
+    $('budsjett').setAttribute('aria-label', 'Totalbudsjett i kroner');
+    var fieldParent = recommended ? $('anbefaling-felt') : $('mangler-blokker');
+    if ($('oppsett-egendefinert').parentNode !== fieldParent) {
+      fieldParent.insertBefore($('oppsett-egendefinert'), fieldParent.firstChild);
+    }
+    $('oppsett-egendefinert').setAttribute('aria-labelledby', recommended ? 'anbefaling-reset' : 'oppsett-selv');
+    $('oppsett-egendefinert').hidden = anbefalingModus === 'pakke';
+    $('b-kanal-lbl').textContent = 'Kanaler';
+    $('anbefaling-pakkekilde').hidden = true;
+    $('anbefaling-pakkekilde').textContent = anbefalingOriginal.pakke ? 'Forslaget tar utgangspunkt i pakken «' + anbefalingOriginal.pakke.navn + '».' : '';
+    if (recommended) {
+      $('anbefaling-prognose').appendChild($('estimat'));
+      $('blokk-budsjett').appendChild($('anbefaling-prognose'));
+      $('blokk-budsjett').appendChild($('anbefaling-forbehold'));
+    }
+    else if (anbefalingModus === 'pakke') {
+      $('anbefaling-prognose').appendChild($('estimat'));
+      $('pakker').appendChild($('anbefaling-prognose'));
+      $('pakker').appendChild($('anbefaling-forbehold'));
+    } else $('blokk-periode').appendChild($('estimat'));
+    $('anbefaling-hint').textContent = recommended ? 'Budsjett og kanaler er foreslått for stillingen din. Du kan gå rett videre.' : anbefalingModus === 'selv' ? 'Juster budsjett, kanaler og periode. Vi tar vare på endringene når du bytter oppsett.' : PAKKER.length ? 'Velg en lagret pakke. Budsjett og kanaler hentes fra pakken.' : 'Du har ingen lagrede pakker ennå. Bruk anbefalingen eller velg oppsett selv.';
+    [['anbefaling-reset', 'anbefalt'], ['anbefaling-pakker', 'pakke']].forEach(function (entry) {
+      $(entry[0]).setAttribute('aria-pressed', String(anbefalingModus === entry[1]));
+    });
+  }
+  function byttAnbefalingModus(mode) {
+    if (!anbefalingOriginal || mode === anbefalingModus) return;
+    if (anbefalingModus === 'anbefalt') tilpassetAnbefaling = anbefalingVerdier();
+    if (anbefalingModus === 'selv') egetForslag = { budsjett: budsjett(), kanaler: tilstand.kanaler.slice(), uker: tilstand.uker, til: tilstand.til };
+    if (anbefalingModus === 'pakke') valgtLagretPakke = tilstand.pakke;
+    anbefalingModus = mode;
+    tilstand.fastUker = null; tilstand.pakke = null; tilstand.venter = false;
+    tilstand.oppsett = mode === 'pakke' ? 'pakke' : 'selv';
+    if (mode === 'pakke') {
+      var saved = finnPakke(valgtLagretPakke);
+      if (saved) brukPakke(saved);
+      else budsjettKontroll.set(null);
+      tegnPakker();
+    } else {
+      var setup = mode === 'selv' && egetForslag ? egetForslag : (tilpassetAnbefaling || anbefalingOriginal);
+      tilstand.kanaler = setup.kanaler.slice(); tilstand.kanalmodus = mode === 'anbefalt' && !tilpassetAnbefaling ? 'frantz' : 'selv';
+      tilstand.uker = setup.uker; tilstand.til = setup.til;
+      budsjettKontroll.set(setup.budsjett);
+    }
+    tegnKanaler(); visSporsmal(); oppdater();
+  }
+  function anbefalingVerdier() {
+    return { budsjett: budsjett(), kanaler: tilstand.kanaler.slice(), uker: tilstand.uker, fra: tilstand.fra, til: tilstand.til };
+  }
+  $('anbefaling-reset').addEventListener('click', function () { byttAnbefalingModus('anbefalt'); });
+  $('anbefaling-pakker').addEventListener('click', function () { byttAnbefalingModus('pakke'); });
 
   /* One question at a time: only what the text did not answer, and each one after the last */
   function budsjettBesvart() { return tilstand.funnet.budsjett || tilstand.valgtBudsjett; }
@@ -2586,7 +2697,7 @@
     var aktiv = $('pakke-valg').contains(document.activeElement) ? document.activeElement.getAttribute('data-pakke') : null;
     // Only the empty state needs words under «Velg pakke»
     $('pakke-status').hidden = !!PAKKER.length;
-    $('pakke-status').textContent = PAKKER.length ? '' : 'Dere har ingen lagrede pakker ennå. Velg «Sett opp selv», eller lag en pakke under Lagrede pakker.';
+    $('pakke-status').textContent = PAKKER.length ? '' : 'Dere har ingen lagrede pakker ennå.';
     $('pakke-valg').innerHTML = PAKKER.map(function (p, i) {
       return FZ_PAKKER.kort(p, { valg: true, indeks: i, valgt: tilstand.pakke === p.navn });
     }).join('');
@@ -2613,15 +2724,17 @@
     $('pakke-endring').textContent = deler.length ? deler.join(' ') + ' Vil dere beholde det dere skrev, velg «Sett opp selv».' : '';
   }
   function brukPakke(p) {
+    anbefalingModus = 'pakke'; tilstand.oppsett = 'pakke';
     pakkeEndring(p);
     budsjettKontroll.set(p.budsjett);
     tilstand.kanalmodus = p.kanaler ? 'selv' : 'frantz'; tilstand.kanaler = p.kanaler ? p.kanaler.slice() : anbefalt();
     tilstand.pakke = p.navn;
     tilstand.valgtBudsjett = true; tilstand.valgtKanal = true;
     // The package decides how long the campaign runs
-    tilstand.fastUker = p.uker || null;
+    tilstand.fastUker = null;
     if (p.uker) { tilstand.uker = p.uker; tilstand.til = null; tilstand.venter = false; tilstand.funnet.periode = false; }
     tegnKanaler(); visSporsmal(); oppdater();
+
   }
   $('oppsett').addEventListener('click', function (e) {
     var b = e.target.closest('[data-oppsett]'); if (!b || b.dataset.oppsett === tilstand.oppsett) return;
@@ -2804,6 +2917,7 @@
   }
 
   function oppdater() {
+    synkAnbefaling();
     if (planShare) checkApprovalVersion();
     if (!steder || !stilling || !budsjettKontroll) return;
     var stederListe = steder.verdi();
@@ -2811,14 +2925,20 @@
     var b = budsjett();
     var r = klar && b ? prognose(stederListe, b) : null;
     var forslag = klar ? R.beregn({ rolle: tilstand.rolle, steder: stederListe }) : null;
-    var anb = forslag ? forslag.anbefalt : null;
+    var anb = anbefalingModus === 'anbefalt' && anbefalingOriginal ? anbefalingOriginal.budsjett : forslag ? forslagBudsjett() : null;
     budsjettKontroll.anbefalt(anb || undefined);
+    if (anbefalingModus === 'anbefalt' && anb) $('budsjett-kontroll').querySelector('.budsjett-kontroll__anbefalt').hidden = false;
     var tips = anb ? 'Anbefalt for denne stillingen er ' + kr(anb) + '.' : 'Velg stilling og sted, så viser vi anbefalt budsjett.';
     if (b) { $('feil-budsjett').hidden = true; $('feil-bestill').hidden = true; }
     $('budsjett-tips').dataset.tooltip = tips; $('budsjett-tips').setAttribute('aria-label', 'Mer info: ' + tips);
     // What the budget, channels and period can give. The same box shows for a package and for «Sett opp selv».
     var estimatTekst = r ? estimatSetning(b, r) : (b ? 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
-    $('estimat-tekst').innerHTML = estimatTekst;
+    $('estimat-tekst').innerHTML = (anbefalingModus === 'anbefalt' || anbefalingModus === 'pakke') && r
+      ? '<h3 class="metrics__title">Estimert resultat</h3><div class="metrics">' +
+        [[r.visninger, 'visninger'], [r.klikk, 'klikk'], [r.sok, 'trykk på «Søk»']].map(function (item) {
+          return '<div class="metric"><span class="metric__value">' + R.spenn(item[0]) + '</span><span class="metric__label">' + item[1] + '</span></div>';
+        }).join('') + '</div>'
+      : estimatTekst;
     $('estimat').hidden = !estimatTekst;
     var visPakkeEstimat = tilstand.oppsett !== 'selv' && !!tilstand.pakke && !!estimatTekst;
     $('pakke-estimat-tekst').innerHTML = visPakkeEstimat ? estimatTekst : '';
