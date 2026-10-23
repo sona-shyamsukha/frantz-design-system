@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ny kampanje · Oversikt — Frantz</title><link rel="icon" href="../assets/logo-frantz.png"><link rel="stylesheet" href="../frantz-ds.css?v=100"><script src="../components/js/brukerflyt.js?v=2"></script><style>body { margin: 0; }
+[hidden] { display: none !important; }
+.onepage { max-width: 1440px; }
+.flytbytte { display: none !important; }
+.topbar__ny { display: none; }
+.onepage button,.onepage input,.onepage textarea,.onepage select { font-family: inherit; }
+.onepage button { cursor: pointer; }
+.onepage :focus-visible,dialog :focus-visible { outline: 2px solid var(--border-focus); outline-offset: 3px; }
+.review-nav,.section-head,.overview-heading,.source-bar,.order-bar,.inline-actions,.editor-head,.editor-actions,.file-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); }
+.review-nav { flex-wrap: wrap; margin-bottom: var(--space-12); font: var(--type-support); }
+.prototype-note { color: var(--text-muted); font: var(--type-support); margin: 0 0 var(--space-32); }
+.page-heading { margin-bottom: var(--space-24); }
+.page-heading h1 { margin: 0; }
+#intake-form { max-width: 760px; }
+.del { border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
+.del { padding: var(--space-32); }
+.del__tittel { color: var(--text-heading); font: var(--type-section); margin: 0 0 var(--space-12); }
+.del__hint { margin: 0 0 var(--space-24); color: var(--text-muted); }
+.start-topp { display: flex; justify-content: space-between; }
+.kilder,.kilde-felter { display: grid; gap: var(--space-24); }
+.felt { min-width: 0; }
+.felt-topp { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+.valgfri { font-weight: var(--font-weight-normal); color: var(--text-muted); }
+.form-input,.form-textarea { width: 100%; min-width: 0; box-sizing: border-box; }
+.form-input { min-height: 50px; }
+.beskrivelse { resize: vertical; min-height: 130px; }
+.pdf-rad { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-16); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); color: var(--text-muted); background: var(--surface-section); font: var(--type-support); }
+.pdf-rad__tekst { overflow-wrap: anywhere; min-width: 0; }
+.pdf-rad.dra-over { border-color: var(--border-focus); background: var(--surface-selected); }
+.inn__fortsett { display: flex; justify-content: flex-end; margin-top: var(--space-24); padding-top: var(--space-24); border-top: 1px solid var(--border-subtle); }
+.demo-eksempler { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-8) var(--space-16); margin-top: var(--space-24); color: var(--text-muted); font: var(--type-support); }
+.demo-eksempler .link { font: inherit; min-height: 36px; }
+.feil { color: var(--text-danger-moderate); font: var(--type-support); margin-top: var(--space-12); }
+.connect-sok__apne { display: grid; place-items: center; min-width: 44px; height: 44px; background: transparent; border: 0; color: var(--text-heading); }
+.connect-sok__liste { max-height: 300px; overflow: auto; }
+.connect-option { display: block; width: 100%; padding: var(--space-12) var(--space-16); border: 0; border-bottom: 1px solid var(--border-subtle); background: var(--surface-raised); text-align: left; color: var(--text-heading); }
+.connect-option:hover,.connect-option:focus-visible { background: var(--surface-selected); }
+.connect-option small { display: block; margin-top: var(--space-4); color: var(--text-muted); }
+.return-overview { margin-top: var(--space-24); }
+.overview-heading { align-items: flex-start; margin-bottom: var(--space-24); flex-wrap: wrap; }
+.overview-heading h1 { margin: var(--space-8) 0; }
+.overview-heading p { margin: 0; color: var(--text-muted); }
+.eyebrow { color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); }
+.source-bar { flex-wrap: wrap; padding: var(--space-16) var(--space-20); margin-bottom: var(--space-24); background: var(--surface-section); border-radius: var(--radius-12); font: var(--type-support); }
+.source-bar p { margin: 0; }
+.source-bar .link { font: inherit; }
+/* One populated form overview, built with the existing card, picker and summary components. */
+.overview-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-24) var(--space-32); align-items: start; padding: var(--space-24); }
+.compact-panel { min-width: 0; padding: 0; }
+.compact-panel:nth-child(n+3) { border-top: 1px solid var(--border-subtle); padding-top: var(--space-20); }
+.overview-heading p,#source-summary,#overview-role-picker .picker__valgt { display: none; }
+.source-bar { justify-content: flex-end; padding: 0; margin: 0 0 var(--space-16); background: transparent; }
+.section-head { align-items: baseline; flex-direction: row; gap: var(--space-12); margin-bottom: var(--space-16); }
+.section-head h2 { margin: 0; }
+.section-head .link { flex: none; font: var(--type-support); min-height: var(--space-32); }
+.order-data { display: grid; gap: var(--space-8); margin: 0; }
+.order-data .summary-row { margin: 0; grid-template-columns: minmax(110px, 38%) minmax(0,1fr); gap: var(--space-12); font: var(--type-support); }
+.order-data .summary-row dd { min-width: 0; }
+.order-data .link { white-space: normal; overflow-wrap: anywhere; }
+#overview-role-field { margin-bottom: var(--space-16); }
+#overview-role-picker .picker__valgt { font: var(--type-support); }
+.chosen-channels { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-16); }
+.preserve-text { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; font: var(--type-support); }
+.compact-copy { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.compact-periods { display: flex; flex-wrap: wrap; gap: var(--space-16); margin-top: var(--space-16); }
+.compact-period { flex: 1 1 180px; }
+.compact-period>.muted { display: block; margin-bottom: var(--space-8); }
+.compact-note { margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
+.attachment-list { display: grid; gap: var(--space-8); }
+.attachment-name { display: flex; align-items: flex-start; gap: var(--space-8); min-width: 0; overflow-wrap: anywhere; }
+.attachment-name .icon-lucide { flex: none; }
+.muted { color: var(--text-muted); font: var(--type-support); }
+.missing-link { border: 0; background: transparent; padding: 0; color: var(--text-warning-strong); text-align: left; text-decoration: underline; text-underline-offset: 3px; font: inherit; font-weight: var(--font-weight-semibold); min-height: var(--space-32); }
+.section-footnote { margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
+.tillegg-liste { display: grid; gap: var(--space-12); }
+.flere__valg .form-check__box { margin-top: calc((1lh - var(--space-20)) / 2); }
+.flere__tekst { flex: 1; min-width: 0; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
+.flere__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+.flere__pris { color: var(--text-muted); font: var(--type-support); white-space: nowrap; }
+.kanal-valg__navn { display: flex; align-items: center; gap: var(--space-8); }
+.kanal-liste .form-check.flere__valg { display: grid; grid-template-columns: var(--space-20) minmax(0,1fr) auto; align-items: center; }
+.kanal-liste .form-check__box { margin-top: 0; }
+.kanal-liste .flere__pris { grid-column: auto; }
+.file-row { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-12); font: var(--type-support); overflow-wrap: anywhere; }
+.file-row span { min-width: 0; }
+.asset-files { display: grid; gap: var(--space-8); margin-top: var(--space-16); }
+.periode__snarveier { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-8); }
+.valgfaner { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+.valgfaner__valg { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); min-height: var(--space-44); padding: var(--space-8) var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: var(--type-support); font-weight: var(--font-weight-semibold); cursor: pointer; }
+.valgfaner__valg[aria-pressed="true"] { border-color: var(--color-navy); background: var(--surface-selected); }
+.order-bar { margin-top: var(--space-16); padding: var(--space-20) var(--space-24); align-items: center; }
+.order-bar h2 { margin: 0 0 var(--space-8); font: var(--type-label); color: var(--text-heading); }
+.order-bar p { margin: 0; font: var(--type-support); max-width: 65ch; }
+.order-bar .btn { flex: none; white-space: normal; }
+.order-error { margin: var(--space-16) 0; padding: var(--space-16); border-left: 3px solid var(--text-danger-moderate); background: var(--bg-danger-soft); color: var(--text-danger-moderate); }
+.inline-editor { margin-top: var(--space-16); padding: var(--space-16); background: var(--surface-section); border-radius: var(--radius-8); }
+.inline-editor label { margin-bottom: var(--space-8); }
+.inline-actions { margin-top: var(--space-12); justify-content: flex-start; flex-wrap: wrap; }
+/* Existing centered dialog pattern from portal/kalkulator.html. */
+.calculator-dialog { width: min(560px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); margin: auto; padding: var(--space-24); overflow-y: auto; border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
+.calculator-dialog::backdrop { background: var(--scrim-strong); }
+.calculator-dialog__hode { display: flex; justify-content: space-between; align-items: start; gap: var(--space-16); margin-bottom: var(--space-24); }
+.calculator-dialog__hode h2 { margin: 0; font: var(--type-section); color: var(--text-heading); }
+.calculator-dialog__lukk { padding: 0; width: var(--space-44); min-height: var(--space-44); flex: none; }
+.calculator-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-24); }
+.calculator-dialog .form-group { margin: 0; }
+.calculator-dialog .feil { color: var(--text-danger-moderate); margin-top: var(--space-12); }
+.calculator-dialog .form-grid { gap: var(--space-24); }
+.calculator-dialog .form-grid p { margin: 0; }
+.editor fieldset { margin: 0; padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); min-width: 0; }
+.editor legend { padding: 0 var(--space-8); font: var(--type-label); }
+.period-fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+.period-fields input { min-width: 0; }
+
+.editor-details { border-top: 1px solid var(--border-default); padding-top: var(--space-16); }
+.original-brief { max-height: 260px; overflow: auto; padding: var(--space-16); margin-top: var(--space-12); background: var(--surface-section); }
+.receipt { max-width: 800px; padding: var(--space-32); }
+.receipt h1 { margin: var(--space-16) 0; }
+.receipt .receipt-details { margin: var(--space-24) 0; padding: var(--space-20); background: var(--surface-section); border-radius: var(--radius-12); }
+.receipt .btn-group { flex-wrap: wrap; }
+body:has(dialog[open]) { overflow: hidden; }
+@media(max-width:1100px) { .overview-grid { grid-template-columns: minmax(0,1fr); } .compact-panel + .compact-panel { border-top: 1px solid var(--border-subtle); padding-top: var(--space-20); } }
+@media(max-width:640px) { .del,.overview-grid { padding: var(--space-20); } .compact-panel { padding: 0; } .overview-heading h1 { font-size: var(--text-2xl); } .order-bar { flex-direction: column; align-items: stretch; padding: var(--space-20); } .order-bar .btn { width: 100%; } .period-fields { grid-template-columns: minmax(0,1fr); } .pdf-rad { align-items: flex-start; } .btn { white-space: normal; } .inn__fortsett .btn { width: 100%; } .compact-panel .summary-row { grid-template-columns: minmax(0,1fr); row-gap: var(--space-2); } }
+/* Keep this design review free of inherited motion. */
+html { scroll-behavior: auto !important; }
+*,*::before,*::after { animation: none !important; transition: none !important; }
+
+/* Entry → summary experiment. Shared Frantz controls; no motion before review. */
+.onepage { max-width: 1240px; }
+#edit-source { display:inline-flex; align-items:center; gap:6px; }
+h1[tabindex="-1"]:focus { outline:none; }
+.prototype-strip { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:28px; color:var(--text-muted); font:var(--type-support); }
+#intake-form { max-width: none; }
+#intake-form .del { max-width: 850px; }
+.summary-sheet { border:1px solid var(--border-default); border-radius:16px; background:var(--surface-raised); overflow:hidden; }
+.overview-grid { padding:28px 32px; gap:32px; }
+.compact-panel:nth-child(n+3) { border:0; padding:0; }
+.section-head h2,.section-head h3 { margin:0; font:var(--type-label); color:var(--text-heading); }
+.section-head h2 { font-size:18px; }
+.section-head .link { min-height:32px; }
+.overview-heading p { display:block; margin-top:8px; font:var(--type-support); }
+#overview-heading { font-size:30px; }
+.order-data { gap:10px; }
+.order-data .summary-row { grid-template-columns:118px minmax(0,1fr); font-size:14px; line-height:1.55; align-items:baseline; }
+.order-data .summary-row dt { color:var(--text-muted); }
+.order-data .summary-row dd { color:var(--text-heading); text-align:left; margin:0; }
+.role-title { margin:0 0 18px; font-size:20px; line-height:1.4; font-weight:600; color:var(--text-heading); overflow-wrap:anywhere; }
+.period-summary { border-top:1px solid var(--border-subtle); margin-top:20px; padding-top:16px; }
+.period-summary .section-head { margin-bottom:10px; }
+.forecast-strip { padding:20px 32px; display:flex; gap:24px; align-items:center; background:var(--surface-section); border-block:1px solid var(--border-subtle); }
+.forecast-caption { flex:1; }
+.forecast-caption h2 { margin:0; font:var(--type-label); }
+.forecast-caption p,.forecast-note { font-size:12px; color:var(--text-muted); margin:4px 0 0; }
+.forecast-numbers { display:flex; flex-wrap:wrap; gap:18px 32px; }
+.forecast-numbers div { display:grid; gap:3px; font-size:12px; color:var(--text-muted); }
+.forecast-numbers strong { font-size:18px; color:var(--text-heading); font-weight:600; }
+.materials-section { padding:24px 32px; }
+.material-note { margin:0 0 16px; font:var(--type-support); color:var(--text-muted); }
+.attachment-list { grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.attachment-item { display:flex; gap:12px; align-items:center; border:1px solid var(--border-subtle); border-radius:8px; padding:10px; min-width:0; }
+.attachment-item img,.file-symbol { width:44px; height:44px; object-fit:cover; border-radius:4px; flex:none; background:var(--surface-section); }
+.file-symbol { display:grid; place-items:center; }
+.attachment-item a { font-size:13px; overflow-wrap:anywhere; }
+.attachment-item small { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; }
+.empty-material { display:flex; flex-wrap:wrap; gap:12px; align-items:center; font:var(--type-support); color:var(--text-muted); }
+.extras-section { margin-top:32px; }
+.optional { font-size:13px; font-weight:400; color:var(--text-muted); margin-left:8px; }
+#extras-content .tillegg-liste { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+#extras-content .form-check { background:var(--surface-raised); margin:0; }
+.flere__valg { align-items:start; }
+.flere__tekst span { font-size:13px; line-height:1.5; }
+.flere__tekst b { font-size:14px; }
+.closing-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:28px; }
+.cost-summary .summary-row { display:flex; justify-content:space-between; gap:16px; margin:0 0 8px; font:var(--type-support); }
+.cost-summary dd { margin:0; text-align:right; }
+.cost-summary .total-row { padding-top:12px; border-top:1px solid var(--border-default); font-weight:600; color:var(--text-heading); }
+.cost-summary .billing-label { margin:12px 0 0; font-size:12px; color:var(--text-muted); }
+.order-bar { border:0; border-top:1px solid var(--border-default); border-radius:0; background:transparent; padding:24px 0 0; margin-top:24px; }
+.recommendation-label { display:inline-block; font-size:11px; padding:2px 6px; border-radius:4px; background:var(--surface-selected); margin-left:6px; }
+.budget-recommendation p { font-size:12px; color:var(--text-muted); margin:5px 0; }
+.budget-recommendation .link { font-size:13px; min-height:32px; }
+.budsjett-felt { display:flex; align-items:center; gap:12px; }
+.package-select { margin-bottom:20px; }
+.calculator-dialog { box-sizing:border-box; width:min(640px,calc(100vw - 32px)); }
+.calculator-dialog .form-grid { display:grid; grid-template-columns: minmax(0,1fr); }
+.calculator-dialog__bunn { position:sticky; bottom:-24px; padding:16px 0 0; background:var(--surface-raised); }
+.upload-error { margin-top:8px; color:var(--text-danger-moderate); font:var(--type-support); }
+@media(min-width:1101px) { .compact-panel + .compact-panel { border-left:1px solid var(--border-subtle); padding-left:32px; } }
+@media(max-width:1100px) { .overview-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; } .compact-panel + .compact-panel { border:0; padding-top:0; } .forecast-strip { align-items:flex-start; flex-direction:column; } }
+@media(max-width:760px) { .overview-grid,.closing-grid { grid-template-columns:1fr; } .compact-panel + .compact-panel { border-top:1px solid var(--border-subtle); padding-top:24px; } #extras-content .tillegg-liste { grid-template-columns:1fr; } .attachment-list { grid-template-columns:1fr 1fr; } }
+@media(max-width:640px) { .overview-grid,.materials-section,.forecast-strip { padding:20px; } .attachment-list { grid-template-columns:1fr; } .order-data .summary-row { grid-template-columns:100px minmax(0,1fr); gap:10px; } #overview-heading { font-size:25px; } .calculator-dialog { width:100%; max-width:none; height:100dvh; max-height:100dvh; margin:0; border:0; border-radius:0; padding:20px; } .calculator-dialog__bunn { bottom:-20px; padding-bottom:8px; } .calculator-dialog__bunn .btn { flex:1; } .forecast-numbers { gap:16px; } .prototype-strip { font-size:12px; } .flere__pris { white-space:normal; } }
+
+</style></head><body><a class="hopp" href="#innhold">Hopp til innholdet</a><header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
+
+<main class="wrap onepage"><div class="prototype-strip"><span>Designutkast · Eksempeldata</span><a class="link" href="ny-kampanje.html">Åpne dagens flyt ↗</a></div><div id="intake-view"><header class="page-heading"><h1 class="text-h2" tabindex="-1" id="intake-heading">Opprett kampanje</h1></header><form id="intake-form" novalidate>          <section class="del" id="del-start" aria-labelledby="t-start">
+            <div class="start-topp">
+              <div>
+                <h2 class="del__tittel" id="t-start">Fortell oss om stillingen</h2>
+                <p class="del__hint" id="start-hint">Gi oss det dere har, så samler vi bestillingen i én oversikt.</p>
+                <p class="del__sammendrag" id="start-sammendrag" hidden></p>
+              </div>
+              <button class="husk__endre" type="button" id="start-endre" aria-expanded="false" aria-controls="start-innhold" hidden>Endre</button>
+            </div>
+            <div id="start-innhold">
+            <div id="lenke-valg">
+            <div class="kilder">
+              <div class="felt funnet__bred kilde-referanse" id="felt-ref">
+                <label class="form-label" for="ref">Kampanjenavn <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="text" id="ref" maxlength="150" placeholder="F.eks. Sykepleier Kristiansand">
+              </div>
+              <div class="kilde-felter" role="group" aria-label="Informasjon om stillingen">
+              <div class="felt connect-valg" id="connect-valg">
+                <div class="felt-topp">
+                  <label class="form-label" id="connect-lbl" for="connect-sok">Hent fra Stillinger <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Stillinger dere har importert fra Connect. Velg en, så fyller vi ut skjemaet. Finner dere den ikke, lim inn en lenke eller skriv under." aria-label="Mer info: Stillinger dere har importert fra Connect. Velg en, så fyller vi ut skjemaet. Finner dere den ikke, lim inn en lenke eller skriv under."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                </div>
+                <div class="picker" id="connect-picker">
+                  <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, referanse eller ID" autocomplete="off" aria-controls="connect-list"><button class="connect-sok__apne" type="button" id="connect-toggle" aria-expanded="false" aria-controls="connect-list" aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
+                  <div class="picker__liste connect-sok__liste" id="connect-list" hidden></div>
+                </div>
+              </div>
+              <div class="felt funnet__bred" id="felt-lenke">
+                <label class="form-label" for="lenke">Lenke til eksisterende stillingsannonse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="For eksempel på Finn eller nettsiden deres. Lenken følger bestillingen til Frantz." aria-label="Mer info: For eksempel på Finn eller nettsiden deres. Lenken følger bestillingen til Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="url" id="lenke" placeholder="https://…">
+              </div>
+              <div class="felt kilde-bred" id="felt-tekst">
+                <label class="form-label" for="beskrivelse">Lim inn stillingsannonsen eller beskriv behovet <span class="valgfri">(valgfritt)</span></label>
+                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="4" placeholder="Skriv det dere vet, for eksempel budsjett, periode eller kanaler. Vi bruker det til å fylle ut resten av skjemaet."></textarea>
+              </div>
+              <div class="felt kilde-bred" id="felt-fil">
+                <span class="form-label" id="pdf-lbl">Vedlegg <span class="valgfri">(valgfritt)</span></span>
+                <!-- One line: drag or pick a file, and the formats. With a file: its name and «bytt fil». -->
+                <div class="pdf-rad" id="slipp" aria-labelledby="pdf-lbl">
+                  <span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>
+                  <span class="pdf-rad__tekst"><span id="slipp-fil">Dra filer hit, eller</span> <button class="link" type="button" id="velg-pdf">velg filer</button><span id="slipp-format">. PDF, Word eller bilde, maks 10 MB per fil.</span></span>
+                  <input type="file" id="pdf" aria-label="Velg vedlegg" multiple hidden accept=".pdf,.docx,.doc,.jpg,.jpeg,.png">
+                </div>
+              </div>
+              </div>
+              <p class="kilde-status" id="kilde-status" role="status" aria-live="polite" hidden></p>
+              <div class="kilde-oppdatering" id="kilde-oppdatering" hidden>
+                <p class="form-hint">Dere har endret grunnlaget. Oppdater informasjonen for å bruke endringene i kampanjen.</p>
+                <button class="btn btn--primary" type="button" id="oppdater-kilder">Oppdater informasjon</button>
+              </div>
+              <p class="kilde-status" id="kilde-oppdatert" role="status" aria-live="polite" hidden>Informasjonen er oppdatert. Se over feltene under.</p>
+            </div>
+
+<p class="form-hint">I dette utkastet kan du prøve eksempeldata eller skrive inn opplysninger. Lenker og filer blir vedlagt, men leses ikke automatisk.</p><p class="demo-eksempler"><span>Prøv et eksempel:</span> <button class="link" type="button" data-demo="complete">Komplett bestilling</button> <button class="link" type="button" data-demo="missing">Bestilling med mangler</button></p>
+
+            <div class="inn__fortsett">
+              <button class="btn btn--primary" type="button" id="fortsett"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span> Se kampanjeoversikt</button>
+            </div>
+            <div class="alert alert--info start-alert" id="start-alert" role="status" aria-live="polite" hidden>
+              <span class="icon-lucide icon-lucide--sparkles alert__icon" aria-hidden="true"></span>
+              <div class="alert__content"><b id="start-alert-tittel"></b><span class="alert__body" id="start-alert-tekst"></span></div>
+            </div>
+            <p class="feil" id="feil-start" hidden></p>
+            </div>
+            </div>
+          </section>
+
+</form><button type="button" class="link return-overview" id="return-overview" hidden>Tilbake til kampanjeoversikten uten å oppdatere</button></div><div id="overview-view" hidden>
+  <header class="overview-heading"><div><h1 class="text-h2" id="overview-heading" tabindex="-1">Se over kampanjen</h1><p>Sjekk at alt stemmer. En rådgiver i Frantz går gjennom bestillingen før noe publiseres.</p></div><span class="badge badge--default" id="order-status">Utkast</span></header>
+  <div class="source-bar"><p id="source-summary"></p><button type="button" class="link" id="edit-source"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span> Se og endre grunnlaget</button></div>
+  <div class="summary-sheet">
+    <div class="overview-grid">
+      <section class="compact-panel" aria-labelledby="job-heading"><div class="section-head"><h2 id="job-heading">Stillingen</h2><button class="link" type="button" data-edit="job" aria-label="Endre stillingen">Endre</button></div><div id="job-content"></div></section>
+      <section class="compact-panel" aria-labelledby="campaign-heading"><div class="section-head"><h2 id="campaign-heading">Kampanjen</h2><button class="link" type="button" data-edit="campaign" aria-label="Endre kampanjen">Endre</button></div><div id="campaign-content"></div><div class="period-summary"><div class="section-head"><h3>Periode</h3><button class="link" type="button" data-edit="period" aria-label="Endre periode">Endre</button></div><div id="period-content"></div></div></section>
+    </div>
+    <section class="forecast-strip" aria-labelledby="forecast-heading"><div class="forecast-caption"><h2 id="forecast-heading">Hva kan kampanjen gi?</h2><p>Estimat for hele perioden</p></div><div id="forecast-content"></div></section>
+    <section class="materials-section" aria-labelledby="creative-heading"><div class="section-head"><h2 id="creative-heading">Materiell og vedlegg</h2><button class="link" type="button" data-edit="creative" aria-label="Endre materiell og vedlegg">Endre</button></div><div id="creative-summary"></div></section>
+  </div>
+  <section class="extras-section" aria-labelledby="extras-heading"><div class="section-head"><h2 id="extras-heading">Tilleggsprodukter <span class="optional">Valgfritt</span></h2></div><div id="extras-content"></div></section>
+  <div class="closing-grid"><section><label class="form-label" for="order-comment">Kommentar til Frantz <span class="valgfri">(valgfritt)</span></label><textarea class="form-textarea" id="order-comment" rows="3" placeholder="Er det noe mer vi bør vite?"></textarea></section><section class="cost-summary" aria-label="Pris og fakturamottaker"><div class="section-head"><h2>Din bestilling</h2><button type="button" class="link" data-edit="order" aria-label="Endre fakturamottaker">Endre faktura</button></div><div id="order-content"></div></section></div>
+  <p id="order-error" class="order-error" role="alert" tabindex="-1" hidden></p>
+  <footer class="card card--read order-bar"><div><h2>Klar til å bestille?</h2><p id="review-wording">Frantz går gjennom bestillingen før oppstart.</p><p class="section-footnote" id="readiness"></p></div><button type="button" class="btn btn--accent" id="place-order">Bestill kampanjen <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button></footer>
+</div>
+<section class="card card--action receipt" id="receipt-view" hidden aria-labelledby="receipt-heading"><span class="badge badge--active">Eksempel på bestillingsbekreftelse</span><h1 class="text-h2" id="receipt-heading" tabindex="-1">Slik ser bekreftelsen ut</h1><p>Dette er en lokal prototype. Ingen bestilling er sendt.</p><div class="receipt-details" id="receipt-details"></div><div class="btn-group"><button type="button" class="btn btn--primary" id="back-to-order">Tilbake til bestillingen</button></div></section>
+<p id="live-status" class="sr-only" role="status" aria-live="polite"></p>
+<dialog class="calculator-dialog editor" id="edit-dialog" aria-labelledby="editor-title"><form id="edit-form"><header class="calculator-dialog__hode"><h2  id="editor-title"></h2><button class="btn btn--ghost calculator-dialog__lukk" type="button" id="close-editor" aria-label="Lukk redigering"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></header><div id="editor-body" class="form-grid"></div><footer class="calculator-dialog__bunn"><button type="button" class="btn btn--secondary" id="cancel-editor">Avbryt</button><button type="submit" class="btn btn--primary">Lagre endringer</button></footer></form></dialog>
+</main></div></div><script src="data/frantz-data.js"></script><script src="../components/js/picker.js?v=8"></script><script src="data/connect.js?v=4"></script><script src="data/pakker.js?v=19"></script><script src="../components/js/reach-model.js"></script><script>(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const currency = value => 'kr ' + new Intl.NumberFormat('nb-NO').format(value);
+  const jobs = window.FZ_CONNECT.alle();
+  const channelOptions = window.FZ_PAKKER.KANALER;
+  const channels = channelOptions.map(channel => channel.navn);
+  const demoBrief = `Stilling: Sykepleier til akuttmottaket
+Arbeidsgiver: Sørlandet Helse
+Arbeidssted: Kristiansand
+Søknadsfrist: 2026-11-30
+Strategi: Bruk kampanjestrategien som kunden allerede har godkjent. Vis fagmiljøet og muligheten til å gjøre en forskjell.
+Målgruppe: Autoriserte sykepleiere i Kristiansand og nærliggende kommuner, særlig med erfaring fra akuttmottak.
+Kanaler: Meta og LinkedIn
+Budsjett: kr 15 000
+Prisavtale: Tilpasset bestilling. Bruk vår avtalte pris, ingen standardpakke.
+Startdato: 2026-11-02
+Antall uker: 4
+Materiell: Vi har ferdig JPEG/PNG. Bruk vedlagte filer uendret.
+Annonsetittel: Vil du bli en del av akuttmottaket?
+Annonsetekst: Hos Sørlandet Helse får du en variert arbeidshverdag og kolleger som stiller opp. Vi søker sykepleiere til akuttmottaket i Kristiansand.
+Instrukser: Ikke skriv om kundens godkjente strategi eller legg ny tekst på bildene. Kontakt oss ved behov for tilpasninger.`;
+  const missingBrief = `Stilling: Sykepleier til akuttmottaket
+Arbeidsgiver: Sørlandet Helse
+Arbeidssted: Kristiansand
+Søknadsfrist: 2026-11-30
+Strategi: Rekruttere til akuttmottaket. Løft frem fagmiljøet og samarbeid i team.
+Målgruppe: Autoriserte sykepleiere i Kristiansand og omegn.
+Kanaler: Meta
+Periode: 2026-11-02 til 2026-11-15
+Materiell: Vi trenger hjelp fra Frantz med design.
+Instrukser: Frantz kan avklare kostnaden for design med oss. Budsjettet må legges til før vi bestiller.`;
+  const state = { order: null, selectedJob: null, intakeFiles: [], creativeFiles: [], demo: '', previousExtraction: null, editor: '', opener: null, submitted: false };
+  let editorFiles = null;
+  let editorIntakeFiles = null;
+  const blankOrder = () => ({ name:'', title:'', employer:'', location:'', deadline:'', link:'', strategy:'', audience:'', channels:[], budget:'', agreement:'', periods:[], scheduleNote:'', material:'clarify', adTitle:'', adText:'', notes:'', suggestion:false, source:'', sources:{}, files:[], role:'', workplaces:[], sender:'Nordlys Rekruttering AS', billing:'Nordlys Rekruttering AS', extras:[], meld:false, designBrief:'', comment:'', additionalPeriodNote:'' });
+  const fieldNames = { 'stilling':'title', 'arbeidsgiver':'employer', 'arbeidssted':'location', 'søknadsfrist':'deadline', 'strategi':'strategy', 'målgruppe':'audience', 'kanaler':'channels', 'budsjett':'budget', 'totalbudsjett':'budget', 'startdato':'startDate', 'antall uker':'weeks', 'kampanjenavn':'name', 'budskap i annonsen':'adTitle', 'tekst over annonsen':'adText', 'kommentar til frantz':'notes', 'prisavtale':'agreement', 'periode':'periods', 'materiell':'material', 'annonsetittel':'adTitle', 'annonsetekst':'adText', 'instrukser':'notes', 'avsender':'sender', 'fakturamottaker':'billing', 'rolle':'role', 'hva skal annonsen formidle?':'designBrief' };
+
+  // Deliberately limited local extraction: labelled text and known Connect examples only.
+  // Unmapped input always remains attached to the order in its original form.
+  function extract() {
+    const result = blankOrder();
+    const source = $('beskrivelse').value.trim();
+    const parsed = {};
+    let current = '';
+    for (const line of source.split('\n')) {
+      const match = line.match(/^\s*([^:]+):\s*(.*)$/);
+      const key = match && fieldNames[match[1].toLocaleLowerCase('nb').trim()];
+      if (key) { current = key; if (key === 'periods') (parsed.periods ||= []).push(match[2]); else parsed[key] = match[2]; }
+      else if (current && line.trim()) {
+        if (current === 'periods') parsed.periods[parsed.periods.length - 1] += '\n' + line;
+        else parsed[current] += '\n' + line;
+      }
+    }
+    if (state.selectedJob) {
+      const job = state.selectedJob;
+      Object.assign(result, { title:job.stilling, employer:job.arbeidsgiver, location:job.sted, deadline:job.frist || '', link:job.lenke });
+      ['title','employer','location','deadline','link'].forEach(key => { result.sources[key] = 'Fra Stillinger'; });
+    }
+    for (const [key,value] of Object.entries(parsed)) {
+      if (key === 'channels') result.channels = channels.filter(channel => new RegExp(channel === 'Meta' ? 'meta|facebook|instagram' : channel, 'i').test(value));
+      else if (key === 'budget') { const amount = value.match(/\d[\d\s.,]*/); result.budget = amount ? Number(amount[0].replace(/[\s.]/g,'').replace(',','.')) : ''; }
+      else if (key === 'periods') {
+        for (const period of value) {
+          const dates = period.match(/(\d{4}-\d{2}-\d{2})\s*(?:til|–|-)\s*(\d{4}-\d{2}-\d{2})/);
+          if (dates && validDate(dates[1]) && validDate(dates[2])) result.periods.push({ start:dates[1], end:dates[2] });
+          else result.scheduleNote += (result.scheduleNote ? '\n' : '') + period;
+        }
+      }
+      else if (key === 'startDate' || key === 'weeks') continue;
+      else if (key === 'material') result.material = /hjelp|design fra|frantz.*design/i.test(value) ? 'help' : /ferdig|jpeg|png|uendret/i.test(value) ? 'supplied' : 'clarify';
+      else result[key] = value;
+      result.sources[key] = 'Fra bestillingen';
+    }
+    if(!result.periods.length && validDate(parsed.startDate||'') && parsed.weeks){
+      let end='';
+      if(/til søknadsfristen/i.test(parsed.weeks))end=result.deadline;
+      else {const weeks=Number.parseFloat(parsed.weeks);if(weeks>0){const date=new Date(parsed.startDate+'T12:00:00');date.setDate(date.getDate()+weeks*7-1);end=date.toISOString().slice(0,10);}}
+      if(validDate(end))result.periods=[{start:parsed.startDate,end}];
+    }
+    if(result.periods.length>1){
+      result.additionalPeriodNote='Ekstra kjøreperioder ønskes: '+result.periods.slice(1).map(period=>displayDate(period.start)+' – '+displayDate(period.end)).join(', ')+'. Avklares med Frantz.';
+      result.periods=result.periods.slice(0,1);
+    }
+    if (!parsed.budget) { const amount = source.match(/(?:budsjett\s*(?:på|er|:)?\s*(?:kr\s*)?)(\d[\d ]{2,})/i); if (amount) { result.budget = Number(amount[1].replace(/\s/g,'')); result.sources.budget = 'Fra bestillingen'; } }
+    if (!parsed.channels) { result.channels = channels.filter(c => new RegExp(c === 'Meta' ? '\\b(meta|facebook|instagram)\\b' : c,'i').test(source)); if (result.channels.length) result.sources.channels='Fra bestillingen'; }
+    const inputLink = $('lenke').value.trim();
+    if (inputLink) result.link = inputLink;
+    result.name = $('ref').value.trim()||result.name;
+    result.source = source;
+    result.files = [...state.intakeFiles];
+    if (!parsed.notes) result.notes = source ? 'Se originalgrunnlaget. Alle instruksene følger bestillingen.' : '';
+    if (!result.role && result.title) {
+      const roles=window.FRANTZ_TAKSONOMI.flatMap(category=>category.grupper.flatMap(group=>group.stillinger.length?group.stillinger:[group.navn]));
+      result.role=roles.filter(role=>result.title.toLocaleLowerCase('nb').startsWith(role.toLocaleLowerCase('nb'))).sort((a,b)=>b.length-a.length)[0]||'';
+    }
+    if(result.location) result.workplaces=result.location.split(/,\s*/).map(name=>window.FRANTZ_STEDER.find(place=>FrantzPicker.delSted(place).navn.toLocaleLowerCase('nb')===name.toLocaleLowerCase('nb'))||name);
+    result.comment=parsed.notes||'';
+    result.extras=FZ_PAKKER.TILLEGG.filter(extra=>source.toLocaleLowerCase('nb').includes(extra.navn.toLocaleLowerCase('nb'))).map(extra=>extra.navn);
+    return result;
+  }
+  function validDate(value) { return /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0,10) === value; }
+  function displayDate(value) { return validDate(value) ? new Intl.DateTimeFormat('nb-NO',{ day:'numeric',month:'short',year:'numeric' }).format(new Date(value+'T12:00:00')) : value; }
+  function httpLink(value) { try { const url = new URL(value); return ['https:','http:'].includes(url.protocol) ? url.href : ''; } catch { return ''; } }
+  function missing(label, edit, inline=false) { return `<button type="button" class="missing-link" data-edit="${edit}">${escape(label)} <span aria-hidden="true">↗</span></button>`; }
+  function row(label,value) { return `<dl class="summary-row"><dt>${label}</dt><dd>${value}</dd></dl>`; }
+  function sourceTag(key) { return state.order.sources[key] ? `<span class="provenance">${escape(state.order.sources[key])}</span>` : ''; }
+  function speak(message) { $('live-status').textContent = message; }
+  function essentialMissing() { const o=state.order; return [!o.title&&'stilling',!o.location&&'arbeidssted',!o.employer&&'arbeidsgiver',!(Number(o.budget)>0)&&'budsjett',!o.channels.length&&'kanaler',Number(o.budget)>0&&Number(o.budget)<FZ_PAKKER.rad(o.channels).min&&'høyere budsjett',!o.periods.length&&'periode',o.material==='clarify'&&'valg av materiell',(o.material==='supplied'||o.material==='build')&&!o.files.length&&!state.creativeFiles.length&&'annonsemateriell'].filter(Boolean); }
+  function channelTiles(selected, editing=false) {
+    return channelOptions.map(channel => `<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" ${editing?'name="channel"':'data-overview-channel'} value="${escape(channel.navn)}" ${selected.includes(channel.navn)?'checked':''}><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b class="kanal-valg__navn"><span class="kanal-logo kanal-logo--${channel.k}" aria-hidden="true"></span>${escape(channel.navn)}</b></span><span class="flere__pris">fra ${currency(channel.min)}</span></label>`).join('');
+  }
+  function comments(order) {
+    return order.comment||[order.strategy&&'Kampanjestrategi: '+order.strategy,order.audience&&'Målgruppe: '+order.audience,order.additionalPeriodNote,order.agreement&&'Prisavtale: '+order.agreement,order.notes].filter(Boolean).join('\n\n');
+  }
+  function weeksFor(period) { return Math.round((Date.parse(period.end)-Date.parse(period.start))/86400000+1)/7; }
+  function chosenChannels(selected) {
+    return selected.length?selected.map(name=>{const channel=channelOptions.find(item=>item.navn===name);return `<span class="pakke-kort__kanal">${channel?`<span class="kanal-logo kanal-logo--sm kanal-logo--${channel.k}" aria-hidden="true"></span>`:''}${escape(name)}</span>`;}).join(''):missing('Velg kanaler','campaign');
+  }
+  function inferRole(title) {
+    const roles=window.FRANTZ_TAKSONOMI.flatMap(category=>category.grupper.flatMap(group=>group.stillinger.length?group.stillinger:[group.navn]));
+    return roles.filter(role=>title.toLocaleLowerCase('nb').startsWith(role.toLocaleLowerCase('nb'))).sort((a,b)=>b.length-a.length)[0]||'';
+  }
+  function recommendation() {
+    const o=state.order;
+    if(!o.role || !o.workplaces.length) return null;
+    return Math.ceil(Math.max(FrantzRekkevidde.beregn({rolle:o.role,steder:o.workplaces}).anbefalt,FZ_PAKKER.rad(o.channels).min)/1000)*1000;
+  }
+  function extraCost() { return state.order.extras.reduce((sum,name)=>sum+(FZ_PAKKER.TILLEGG.find(extra=>extra.navn===name)?.pris||0),0); }
+  function renderTotals() {
+    const o=state.order, extras=extraCost();
+    $('order-content').innerHTML=row('Kampanjebudsjett',o.budget?currency(o.budget):'Ikke valgt')+row('Tilleggsprodukter',extras?currency(extras):'Ingen betalte tillegg')+`<dl class="summary-row total-row"><dt>Totalt eks. mva.</dt><dd>${o.budget?currency(Number(o.budget)+extras):'—'}</dd></dl>`+(o.material==='help'?'<p class="section-footnote">Design kommer i tillegg. Pris avklares med Frantz.</p>':'')+`<p class="billing-label">Fakturamottaker: ${escape(o.billing)}</p>`;
+  }
+  function render() {
+    const o=state.order, period=o.periods[0], rec=recommendation();
+    $('overview-heading').textContent='Se over kampanjen';
+    $('source-summary').textContent='Grunnlaget deres følger bestillingen';
+    $('job-content').innerHTML=`<p class="role-title">${escape(o.title)||missing('Legg til stilling','job')}</p><div class="order-data">${row('Arbeidsgiver',escape(o.employer)||missing('Legg til arbeidsgiver','job'))}${row('Arbeidssted',escape(o.location)||missing('Legg til arbeidssted','job'))}${row('Søknadsfrist',escape(displayDate(o.deadline))||missing('Legg til frist','job'))}${row('Avsender',escape(o.sender))}${row('Annonse',httpLink(o.link)?`<a class="link" target="_blank" rel="noopener" href="${escape(httpLink(o.link))}">Se annonsen ↗</a>`:missing('Legg til lenke','job'))}</div>`;
+    const budget=o.budget?`<strong>${currency(o.budget)}</strong>`:rec?`<div class="budget-recommendation"><strong>${currency(rec)}</strong><span class="recommendation-label">Anbefalt</span><p>Forslag ut fra stilling og sted.</p><button type="button" class="link" id="accept-budget">Bruk anbefalt</button></div>`:missing('Legg til budsjett','campaign');
+    $('campaign-content').innerHTML=`<div class="order-data">${row('Navn',escape(o.name)||missing('Gi kampanjen et navn','campaign'))}${o.package?row('Lagret pakke',escape(o.package)):''}${row('Budsjett',budget)}${row('Kanaler',`<div class="chosen-channels">${chosenChannels(o.channels)}</div>`)}</div>`;
+    $('period-content').innerHTML=`<div class="order-data">${row('Startdato',period?escape(displayDate(period.start)):missing('Velg startdato','period'))}${row('Varighet',period?escape(String(weeksFor(period)))+' uker <span class="muted">· til '+escape(displayDate(period.end))+'</span>':missing('Velg varighet','period'))}</div>`+(period&&o.deadline&&period.end>o.deadline?'<p class="section-footnote">Kampanjen slutter etter søknadsfristen. Sjekk perioden.</p>':'');
+    const ready=o.role&&o.workplaces.length&&o.channels.length&&period&&(o.budget||rec);
+    const estimate=ready?FrantzRekkevidde.beregn({rolle:o.role,steder:o.workplaces,budsjett:Number(o.budget||rec),kanaler:o.channels,uker:weeksFor(period)}):null;
+    $('forecast-content').innerHTML=estimate?`<div class="forecast-numbers">${[[estimate.visninger,'visninger'],[estimate.klikk,'klikk'],[estimate.sok,'trykk på «Søk»']].map(([value,label])=>`<div><strong>${FrantzRekkevidde.spenn(value)}</strong><span>${label}</span></div>`).join('')}</div><p class="forecast-note">${!o.budget?'Basert på anbefalt budsjett. ':''}Eksempelestimat, ikke garanterte resultater.</p>`:'<p class="muted">Legg til stilling, sted, kanaler og periode for å se et estimat.</p>';
+    const files=[...o.files,...state.creativeFiles];
+    const material={supplied:'Dere leverer ferdige annonser',help:'Frantz lager designet · pris avklares',build:'Dere leverer bilder og tekst'}[o.material];
+    $('creative-summary').innerHTML=(material?`<p class="material-note">${material}</p>`:'')+(files.length?`<div class="attachment-list">${files.map(file=>`<div class="attachment-item">${file.type?.startsWith('image/')&&file.url?`<img src="${escape(file.url)}" alt="" loading="lazy">`:'<span class="file-symbol icon-lucide icon-lucide--file-text" aria-hidden="true"></span>'}<div>${file.url?`<a class="link" href="${escape(file.url)}" target="_blank" rel="noopener">${escape(file.name)}</a>`:escape(file.name)}<small>${file.name.split('.').pop().toUpperCase()}</small></div></div>`).join('')}</div>`:`<div class="empty-material"><span>Ingen vedlegg lagt til.</span>${missing('Legg til materiell','creative')}</div>`)+(o.designBrief?`<p class="section-footnote">${escape(o.designBrief)}</p>`:'');
+    $('extras-content').innerHTML=extrasMarkup(o);
+    $('order-comment').value=o.comment;
+    renderTotals();
+    const fields=essentialMissing();
+    $('order-status').textContent=fields.length?'Utkast':'Klar til bestilling';
+    $('readiness').textContent=fields.length?'Gjenstår: '+fields.join(', ')+'.':'Sjekk at opplysningene stemmer før du bestiller.';
+    $('order-error').hidden=true;
+  }
+  $('extras-content').addEventListener('change',()=>{state.order.extras=[...$('extras-content').querySelectorAll('[name="extra"]:checked')].map(el=>el.value);state.order.meld=$('extras-content').querySelector('[name="meld"]').checked;renderTotals();speak('Prisen er oppdatert.');});
+  $('order-comment').addEventListener('input',()=>{state.order.comment=$('order-comment').value;});
+  document.addEventListener('click',event=>{if(event.target.closest('#accept-budget')){state.order.budget=recommendation();render();document.querySelector('[aria-label="Endre kampanjen"]').focus();speak('Anbefalt budsjett er valgt.');}});
+  function showView(view, focusId) {
+    ['intake','overview','receipt'].forEach(v=>$(v+'-view').hidden=v!==view);
+    window.scrollTo(0,0);
+    $(focusId).focus({preventScroll:true});
+  }
+  $('intake-form').addEventListener('submit',event=>{event.preventDefault(); $('fortsett').click();});
+  $('fortsett').addEventListener('click',()=>{
+    if (!$('beskrivelse').value.trim() && !$('lenke').value.trim() && !state.intakeFiles.length && !state.selectedJob) {
+      $('feil-start').textContent='Velg en stilling, eller gi oss en lenke, en fil eller noen ord.'; $('feil-start').hidden=false; $('beskrivelse').focus(); return;
+    }
+    if ($('lenke').value.trim() && !httpLink($('lenke').value.trim())) { $('feil-start').textContent='Legg inn en fullstendig lenke som starter med https:// eller http://.'; $('feil-start').hidden=false; $('lenke').focus(); return; }
+    const extracted=extract();
+    if (!state.order) state.order=extracted;
+    else {
+      // Source changes update only changed fields; unchanged source keeps inline edits.
+      Object.keys(extracted).filter(key=>key!=='sources').forEach(key=>{
+        if (JSON.stringify(extracted[key])!==JSON.stringify(state.previousExtraction?.[key])) {
+          state.order[key]=extracted[key];
+          if(extracted.sources[key]) state.order.sources[key]=extracted.sources[key];
+        }
+      });
+    }
+    state.previousExtraction=structuredClone(extracted);
+    $('feil-start').hidden=true;  render(); showView('overview','overview-heading');
+  });
+  $('edit-source').addEventListener('click',()=>{ $('return-overview').hidden=false; $('fortsett').innerHTML='Oppdater kampanjeoversikten'; showView('intake','intake-heading'); });
+  $('return-overview').addEventListener('click',()=>{
+    // Return without applying unsaved source edits; restore the actual attached source.
+    $('beskrivelse').value=state.previousExtraction.source; $('lenke').value=state.previousExtraction.link; $('ref').value=state.previousExtraction.name;
+    state.intakeFiles=[...state.previousExtraction.files]; updateIntakeFiles(); showView('overview','overview-heading');
+  });
+  $('connect-toggle').addEventListener('click',()=>toggleJobs($('connect-list').hidden));
+  function toggleJobs(open) { $('connect-list').hidden=!open; $('connect-toggle').setAttribute('aria-expanded',String(open)); if(open) renderJobs(); }
+  function renderJobs() {
+    const term=$('connect-sok').value.toLocaleLowerCase('nb');
+    const found=jobs.filter(j=>[j.stilling,j.sted,j.arbeidsgiver,j.prosjekt,j.id].join(' ').toLocaleLowerCase('nb').includes(term));
+    $('connect-list').innerHTML=found.map(j=>`<button type="button" class="connect-option" data-job="${escape(j.id)}">${escape(j.tittel)}<small>${escape(j.arbeidsgiver)} · ${escape(j.id)}</small></button>`).join('')||'<p class="muted">Ingen treff. Bruk tekstfeltet eller legg ved en lenke.</p>';
+  }
+  $('connect-sok').addEventListener('input',()=>{state.selectedJob=null;toggleJobs(true);});
+  $('connect-sok').addEventListener('keydown',event=>{if(event.key==='ArrowDown'){event.preventDefault();toggleJobs(true);$('connect-list').querySelector('button')?.focus();}if(event.key==='Escape')toggleJobs(false);});
+  $('connect-list').addEventListener('click',event=>{const button=event.target.closest('[data-job]');if(!button)return;state.selectedJob=jobs.find(j=>j.id===button.dataset.job);$('connect-sok').value=state.selectedJob.tittel;$('lenke').value=state.selectedJob.lenke;toggleJobs(false);$('connect-sok').focus();});
+  $('connect-list').addEventListener('keydown',event=>{const buttons=[...$('connect-list').querySelectorAll('button')];const i=buttons.indexOf(document.activeElement);if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();buttons[(i+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();}if(event.key==='Escape'){toggleJobs(false);$('connect-sok').focus();}});
+  document.addEventListener('click',event=>{if(!$('connect-picker').contains(event.target))toggleJobs(false);});
+  if (window.FZ_BRUKER && !FZ_BRUKER.harConnect) $('connect-valg').hidden=true;
+  function makeFiles(fileList) {
+    const accepted=[],errors=[];
+    for(const file of fileList) {
+      if(file.size>10*1024*1024){errors.push(file.name+' er større enn 10 MB.');continue;}
+      if(!/\.(pdf|docx?|jpe?g|png)$/i.test(file.name)){errors.push('Velg PDF, Word, JPEG eller PNG.');continue;}
+      accepted.push({name:file.name,type:file.type,url:URL.createObjectURL(file)});
+    }
+    const target=$('edit-dialog').open?$('upload-error'):$('feil-start');
+    if(target){target.textContent=errors.join(' ');target.hidden=!errors.length;}
+    if(errors.length)speak(errors.join(' '));
+    return accepted;
+  }
+  function updateIntakeFiles() { $('slipp-fil').textContent=state.intakeFiles.length?state.intakeFiles.map(f=>f.name).join(', ')+' · ':'Dra filer hit, eller'; $('slipp-format').hidden=!!state.intakeFiles.length; }
+  $('velg-pdf').addEventListener('click',()=>$('pdf').click());
+  $('pdf').addEventListener('change',()=>{state.intakeFiles.push(...makeFiles($('pdf').files));$('pdf').value='';updateIntakeFiles();});
+  $('slipp').addEventListener('dragover',e=>{e.preventDefault();$('slipp').classList.add('dra-over');});
+  $('slipp').addEventListener('dragleave',()=>$('slipp').classList.remove('dra-over'));
+  $('slipp').addEventListener('drop',e=>{e.preventDefault();$('slipp').classList.remove('dra-over');state.intakeFiles.push(...makeFiles(e.dataTransfer.files));updateIntakeFiles();});
+  document.addEventListener('click',event=>{
+    const demo=event.target.closest('[data-demo]');
+    if(demo){state.demo=demo.dataset.demo;state.order=null;state.previousExtraction=null;state.creativeFiles=[];state.selectedJob=null;$('connect-sok').value='';$('lenke').value='https://www.finn.no/job/ad/sykepleier-akutt-kristiansand';$('ref').value='Sykepleier Kristiansand';$('beskrivelse').value=state.demo==='complete'?demoBrief:missingBrief;state.intakeFiles=state.demo==='complete'?[{name:'akutten-sykepleier.jpg',type:'image/jpeg',url:'../assets/media/akutten-sykepleier.jpg',demo:true}]:[];updateIntakeFiles();$('feil-start').hidden=true;speak('Eksempel lagt inn. Trykk Se kampanjeoversikt for å se oversikten.');return;}
+    const edit=event.target.closest('[data-edit]');if(edit)openEditor(edit.dataset.edit,edit);
+  });
+  const input=(id,label,value,type='text',required=false)=>`<div><label class="form-label" for="edit-${id}">${label}</label><input class="form-input" id="edit-${id}" name="${id}" type="${type}" value="${escape(value)}" ${required?'required':''}></div>`;
+  const textarea=(id,label,value)=>`<div><label class="form-label" for="edit-${id}">${label}</label><textarea class="form-textarea" id="edit-${id}" name="${id}">${escape(value)}</textarea></div>`;
+  const titles={job:'Endre stillingen',campaign:'Endre kampanjen',period:'Endre periode',creative:'Materiell og vedlegg',order:'Fakturamottaker'};
+  let editorRole=null,editorPlaces=null,periodSequence=0;
+  function pickerMarkup(id,places=false) {
+    return `<div class="form-group"><label class="form-label" for="${id}">${places?'Arbeidssted':'Stilling'}</label><div class="picker" id="${id}-picker"><div class="picker__felt">${places?'<span class="picker__chips" style="display:contents"></span>':'<span class="icon-lucide icon-lucide--search" aria-hidden="true"></span>'}<input class="picker__input" id="${id}" type="text" ${places?'':'required'} placeholder="${places?'Skriv et sted, f.eks. Kristiansand':'Begynn å skrive, f.eks. sykepleier'}" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"></div><div class="picker__liste" role="listbox" aria-label="${places?'Arbeidssteder':'Forslag til stilling'}" hidden></div>${places?'<div class="picker__snarveier"><button class="picker__snarvei" type="button" data-sted-snarvei="Hele Norge (landsdekkende)" aria-pressed="false">Hele Norge</button><button class="picker__snarvei" type="button" data-sted-snarvei="Hjemmekontor (fjernarbeid)" aria-pressed="false">Hjemmekontor</button></div>':'<p class="picker__valgt" aria-live="polite" hidden></p>'}</div></div>`;
+  }
+  function periodFields(period,index) {
+    const id=++periodSequence,weeks=period.start?weeksFor(period):2;
+    return `<div class="form-grid" data-period><label class="form-label" for="period-start-${id}">Startdato</label><input class="form-input" type="date" id="period-start-${id}" data-period-start value="${escape(period.start)}" required><span class="form-label" id="period-weeks-${id}">Antall uker</span><div class="periode__snarveier" role="group" aria-labelledby="period-weeks-${id}">${[...new Set([weeks,2,3,4,6])].sort((a,b)=>a-b).map(value=>`<button type="button" class="picker__snarvei" data-period-weeks="${value}" aria-pressed="${weeks===value}">${value} ${value===1?'uke':'uker'}</button>`).join('')}<button type="button" class="picker__snarvei" data-period-weeks="frist" aria-pressed="false">Til søknadsfristen</button></div><input type="hidden" data-period-duration value="${weeks}"></div>`;
+  }
+  function extrasMarkup(o) {
+    return `<div class="tillegg-liste">${window.FZ_PAKKER.TILLEGG.map(extra=>`<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" name="extra" value="${escape(extra.navn)}" ${o.extras.includes(extra.navn)?'checked':''}><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>${escape(extra.navn)}</b><span>${escape(extra.tekst)}</span></span><span class="flere__pris">+ ${currency(extra.pris)}</span></label>`).join('')}<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" name="meld" ${o.meld?'checked':''}><span class="form-check__box" aria-hidden="true"></span><span class="flere__tekst"><b>Vis «Meld interesse»-knapp i annonsen</b><span>Kandidater kan melde interesse uten å søke. Dere får navn og kontaktinfo på e-post.</span></span><span class="flere__pris">Inkludert</span></label></div>`;
+  }
+  function openEditor(section,opener) {
+    state.editor=section;state.opener=opener;const o=state.order;let html='';
+    if(section==='job')html=pickerMarkup('edit-role')+pickerMarkup('edit-workplace',true)+input('deadline','Søknadsfrist <span class="valgfri">(valgfritt)</span>',validDate(o.deadline)?o.deadline:'','date')+input('employer','Arbeidsgiver',o.employer,'text',true)+input('sender','Avsender <span class="valgfri">(hvilken Facebook-side annonsen vises fra)</span>',o.sender)+input('link','Lenke til eksisterende stillingsannonse <span class="valgfri">(valgfritt)</span>',o.link,'url');
+    if(section==='campaign')html=input('name','Kampanjenavn',o.name)+`<div class="package-select"><label class="form-label" for="edit-package">Lagret pakke</label><select class="form-select" id="edit-package"><option value="">Sett opp selv</option>${FZ_PAKKER.alle().map((p,i)=>`<option value="${i}" ${o.package===p.navn?'selected':''}>${escape(p.navn)} · ${currency(p.budsjett)}</option>`).join('')}</select></div><div><label class="form-label" for="edit-budget">Kampanjebudsjett</label><div class="budsjett-felt"><span>kr</span><input class="form-input" id="edit-budget" name="budget" type="number" min="1" required inputmode="numeric" value="${escape(o.budget)}"></div>${recommendation()?`<button type="button" class="link" id="editor-recommend">Bruk anbefalt · ${currency(recommendation())}</button>`:''}</div><fieldset><legend>Kanaler</legend><div class="tillegg-liste kanal-liste">${channelTiles(o.channels,true)}</div></fieldset><p class="feil" role="alert" id="campaign-error" hidden></p>`;
+    if(section==='period')html=`<div id="period-edit-list" class="form-grid">${[o.periods[0]||{start:'',end:''}].map(periodFields).join('')}</div><p class="feil" role="alert" id="period-error" hidden></p>`;
+    if(section==='creative'){
+      editorFiles=[...state.creativeFiles];editorIntakeFiles=[...o.files];
+      html=`<div><span class="form-label" id="material-label">Hva har dere til annonsen?</span><div class="valgfaner" role="group" aria-labelledby="material-label">${[['supplied','Jeg har ferdige annonser'],['build','Jeg har bilder og tekst'],['help','Bestill design fra Frantz']].map(([value,label])=>`<button type="button" class="valgfaner__valg" data-edit-material="${value}" aria-pressed="${o.material===value}">${label}</button>`).join('')}</div><input type="hidden" id="edit-material" name="material" value="${escape(o.material)}"></div><div id="design-brief-field" ${o.material==='help'?'':'hidden'}>${textarea('designBrief','Hva skal annonsen formidle? <span class="valgfri">(valgfritt)</span>',o.designBrief)}<p class="form-hint">Pris for design avklares før arbeidet starter.</p></div>${input('adTitle','Budskap i annonsen <span class="valgfri">(valgfritt)</span>',o.adTitle)}<p class="form-hint">Vises i et eget tekstfelt over eller under bildet, avhengig av utformingen.</p>${textarea('adText','Tekst over annonsen',o.adText)}<div><span class="form-label">Vedlegg <span class="valgfri">(valgfritt)</span></span><div class="pdf-rad" id="creative-drop"><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span><span class="pdf-rad__tekst">Dra bilder, logo eller tekst hit, eller <button type="button" class="link" id="choose-creative-files">velg filer</button>. Maks 10 MB per fil.</span></div><input type="file" id="creative-upload" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" hidden aria-label="Velg vedlegg"><p id="upload-error" class="upload-error" role="alert" hidden></p><div id="editor-file-list" class="asset-files"></div></div>`;
+    }
+    if(section==='order')html=`<div><label class="form-label" for="edit-billing">Fakturamottaker</label><select class="form-select" id="edit-billing" name="billing">${['Nordlys Rekruttering AS','Nordlys Rekruttering AS, avd. Oslo'].map(name=>`<option ${o.billing===name?'selected':''}>${name}</option>`).join('')}</select></div>`;
+    $('editor-title').textContent=titles[section];$('editor-body').innerHTML=html;
+    if(section==='campaign') {
+      $('edit-package').addEventListener('change',()=>{const value=$('edit-package').value;if(value==='')return;const p=FZ_PAKKER.alle()[Number(value)];$('edit-budget').value=p.budsjett;$('editor-body').querySelectorAll('[name="channel"]').forEach(el=>el.checked=p.kanaler.includes(el.value));});
+      $('editor-recommend')?.addEventListener('click',()=>{$('edit-budget').value=recommendation();$('edit-package').value='';});
+    }
+    if(section==='job'){
+      editorRole=FrantzPicker.stilling($('edit-role-picker'));editorRole.set(o.title);
+      editorPlaces=FrantzPicker.steder($('edit-workplace-picker'),{placeholder:'Skriv et sted, f.eks. Kristiansand'});editorPlaces.set(o.workplaces.length?o.workplaces:o.location?[o.location]:[]);
+    }
+    if(section==='creative'){
+      renderEditorFiles();$('creative-drop').addEventListener('dragover',event=>event.preventDefault());$('creative-drop').addEventListener('drop',event=>{event.preventDefault();editorFiles.push(...makeFiles(event.dataTransfer.files));renderEditorFiles();});$('choose-creative-files').addEventListener('click',()=>$('creative-upload').click());
+      $('creative-upload').addEventListener('change',()=>{editorFiles.push(...makeFiles($('creative-upload').files));$('creative-upload').value='';renderEditorFiles();});
+      $('edit-adTitle').maxLength=40;$('edit-adText').maxLength=125;
+    }
+    $('edit-dialog').showModal();$('editor-body').querySelector('input:not([type="hidden"]),textarea,select,button')?.focus();
+  }
+  function renderEditorFiles(){
+    const group=(files,type)=>files.map((f,i)=>`<div class="file-row"><span>${escape(f.name)}</span><button type="button" class="link" data-remove-file="${i}" data-file-group="${type}" aria-label="Fjern ${escape(f.name)}">Fjern</button></div>`).join('');
+    $('editor-file-list').innerHTML=group(editorIntakeFiles,'intake')+group(editorFiles,'creative')||'<p class="muted">Ingen vedlegg ennå.</p>';
+  }
+  $('editor-body').addEventListener('click',event=>{
+    const weeks=event.target.closest('[data-period-weeks]');
+    if(weeks){const root=weeks.closest('[data-period]');root.querySelector('[data-period-duration]').value=weeks.dataset.periodWeeks;root.querySelectorAll('[data-period-weeks]').forEach(button=>button.setAttribute('aria-pressed',String(button===weeks)));return;}
+    const material=event.target.closest('[data-edit-material]');
+    if(material){$('edit-material').value=material.dataset.editMaterial;$('design-brief-field').hidden=material.dataset.editMaterial!=='help';$('editor-body').querySelectorAll('[data-edit-material]').forEach(button=>button.setAttribute('aria-pressed',String(button===material)));return;}
+    const file=event.target.closest('[data-remove-file]');if(file){(file.dataset.fileGroup==='intake'?editorIntakeFiles:editorFiles).splice(Number(file.dataset.removeFile),1);renderEditorFiles();$('choose-creative-files').focus();return;}const remove=event.target.closest('[data-remove-period]');if(remove){remove.closest('[data-period]').remove();$('add-period').focus();}});
+  function closeEditor(){ $('edit-dialog').close();state.opener?.focus();editorFiles=null; }
+  $('close-editor').addEventListener('click',closeEditor);$('cancel-editor').addEventListener('click',closeEditor);
+  $('edit-dialog').addEventListener('cancel',event=>{event.preventDefault();closeEditor();});
+  $('edit-dialog').addEventListener('click',event=>{if(event.target===$('edit-dialog')){const box=$('edit-dialog').getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)closeEditor();}});
+  $('edit-form').addEventListener('submit',event=>{
+    event.preventDefault();const form=$('edit-form');if(!form.reportValidity())return;const values=new FormData(form),o=state.order;
+    const set=(key,value=values.get(key)?.trim()||'')=>{o[key]=value;o.sources[key]='Lagt til av dere';};
+    if(state.editor==='job'){
+      ['employer','deadline','sender','link'].forEach(key=>set(key));
+      const role=editorRole.verdi();set('title',$('edit-role').value.trim());set('role',role?.rolle||inferRole($('edit-role').value.trim()));
+      set('workplaces',editorPlaces.verdi());set('location',o.workplaces.map(place=>FrantzPicker.delSted(place).navn).join(', '));
+    }
+    if(state.editor==='creative'){
+      set('material',values.get('material'));set('adTitle');set('adText');set('designBrief');
+      state.creativeFiles=[...editorFiles];o.files=[...editorIntakeFiles];state.intakeFiles=[...editorIntakeFiles];state.previousExtraction.files=structuredClone(editorIntakeFiles);updateIntakeFiles();
+    }
+    if(state.editor==='order')set('billing');
+    if(state.editor==='period'){
+      const periods=[...$('period-edit-list').querySelectorAll('[data-period]')].map(field=>{
+        const start=field.querySelector('[data-period-start]').value,duration=field.querySelector('[data-period-duration]').value;
+        let end='';
+        if(duration==='frist')end=o.deadline;
+        else if(validDate(start)){const date=new Date(start+'T12:00:00');date.setDate(date.getDate()+Number(duration)*7-1);end=date.toISOString().slice(0,10);}
+        return{start,end};
+      });
+      if(periods.some(period=>!validDate(period.end)||period.end<period.start)){$('period-error').textContent='Sjekk startdato og antall uker. Søknadsfrist må være lagt til hvis dere velger «Til søknadsfristen».';$('period-error').hidden=false;return;}
+      const sorted=[...periods].sort((a,b)=>a.start.localeCompare(b.start));
+      if(sorted.some((period,index)=>index>0&&period.start<=sorted[index-1].end)){$('period-error').textContent='Periodene overlapper. Juster datoene eller antall uker.';$('period-error').hidden=false;return;}
+      set('periods',sorted);
+    }
+    if(state.editor==='campaign') {
+      const selected=values.getAll('channel'), budget=Number(values.get('budget')), min=FZ_PAKKER.rad(selected).min;
+      if(!selected.length||budget<min) { $('campaign-error').textContent=!selected.length?'Velg minst én kanal.':'Valgte kanaler krever minst '+currency(min)+'. Øk budsjettet eller fjern en kanal.'; $('campaign-error').hidden=false; return; }
+      set('name');set('budget',budget);set('channels',selected);
+      const index=$('edit-package').value, pack=index===''?null:FZ_PAKKER.alle()[Number(index)];
+      set('package',pack&&pack.budsjett===budget&&JSON.stringify([...pack.kanaler].sort())===JSON.stringify([...selected].sort())?pack.navn:'');
+    }
+    const returnSection=state.editor;closeEditor();render();document.querySelector(`[data-edit="${returnSection}"]`)?.focus();speak('Endringene er lagret i bestillingen.');
+  });
+  $('place-order').addEventListener('click',()=>{
+    const fields=essentialMissing();if(fields.length){$('order-error').textContent='Legg til '+fields.join(' og ')+' før du sender bestillingen. Bruk lenkene i oversikten.';$('order-error').hidden=false;$('order-error').focus();return;}
+    const o=state.order;state.submitted=true;
+    $('receipt-details').innerHTML=`<h2 class="text-h3">${escape(o.name||o.title)}</h2><p>${escape(o.employer)} · Totalt ${currency(Number(o.budget)+extraCost())} eks. mva.${o.material==='help'?' · Design kommer i tillegg':''}</p><p>${o.periods.length?o.periods.map(p=>escape(displayDate(p.start))+' – '+escape(displayDate(p.end))).join('<br>'):'Perioder avklares med Frantz'}</p><p>Frantz går gjennom bestillingen og tar kontakt om åpne detaljer. Deretter klargjøres kampanjen for publisering.</p>`;
+    showView('receipt','receipt-heading');
+  });
+  $('back-to-order').addEventListener('click',()=>showView('overview','overview-heading'));
+  const demo=new URLSearchParams(location.search).get('eksempel');
+  if(['complete','missing'].includes(demo)){document.querySelector(`[data-demo="${demo}"]`).click();if(new URLSearchParams(location.search).has('oversikt'))$('fortsett').click();}
+})();
+</script><script src="../components/js/interactions.js?v=6"></script><script src="../components/js/konto.js?v=16"></script></body></html>

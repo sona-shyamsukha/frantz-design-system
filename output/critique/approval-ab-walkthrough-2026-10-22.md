@@ -1,5 +1,7 @@
 # Share for approval: A/B walkthrough, 22 October 2026
 
+> Retired on 23 October 2026: Sona chose to remove the Approval B experiment. This note preserves the earlier review and decisions; its prototype paths are historical.
+
 **Later decision, 22 October:** Sona confirmed that approval must not pause ordering. B now lets the customer order in every approval state. A matching pending request follows the order; later approval/feedback updates its receipt without amending the order. The observations below describe the earlier A/B walkthrough before this decision.
 
 Local design experiment on the existing checkout. This is a designer/agent walkthrough, not user research or client approval. No real emails, orders or publishing. Start at `/portal/godkjenning-sammenligning.html`.
