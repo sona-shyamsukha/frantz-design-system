@@ -821,6 +821,7 @@
     #anbefaling-valg { display: flex; flex-wrap: wrap; }
     #anbefaling-valg .valgfaner__valg { flex: 1 1 auto; white-space: normal; }
   }
+  #kanal-min { margin-top: var(--space-12); font: var(--type-support); color: var(--text-warning-strong); }
 </style>
 </head>
 <body data-assistant="form">
@@ -1130,14 +1131,13 @@
               </div>
               <div class="budsjett-felt"><span>kr</span><input class="form-input" type="text" inputmode="numeric" id="budsjett" placeholder="F.eks. 10 000"></div>
             </div>
-            <p class="advarsel" id="advarsel" hidden></p>
+              <div class="alert alert--warning kanal-min" id="kanal-min" role="status" aria-live="polite" hidden></div>
             <p class="feil" id="feil-budsjett" role="alert" hidden>Skriv et budsjett for å gå videre.</p>
               </div>
               <div class="felt blokk funnet__bred" id="blokk-kanal">
                 <span class="form-label" id="b-kanal-lbl">Kanaler</span>
               <div class="tillegg-liste kanal-liste" id="kanal-valg" role="group" aria-labelledby="b-kanal-lbl"></div>
               <p class="feil" id="feil-kanal" role="alert" hidden>Velg minst én kanal.</p>
-              <p class="kanal-min" id="kanal-min" role="status" aria-live="polite" hidden></p>
               </div>
               </div>
               <div class="felt blokk funnet__bred" id="blokk-periode">
@@ -2692,6 +2692,10 @@
      Each firm keeps its own packages, with its own names. A package fills in everything that is
      not about the stilling itself. The demo keeps new packages in this browser only. */
   var PAKKER = FZ_PAKKER.alle();
+  // Explicit preview fixture; never saved to the customer's package library.
+  if (new URLSearchParams(location.search).get('test') === 'lav-pakke') {
+    PAKKER = PAKKER.concat([{ navn: 'Testpakke – under minimum', budsjett: 10000, kanaler: ['Meta', 'Nettsteder og aviser'] }]);
+  }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function tegnPakker() {
     var aktiv = $('pakke-valg').contains(document.activeElement) ? document.activeElement.getAttribute('data-pakke') : null;
@@ -2943,10 +2947,7 @@
     var visPakkeEstimat = tilstand.oppsett !== 'selv' && !!tilstand.pakke && !!estimatTekst;
     $('pakke-estimat-tekst').innerHTML = visPakkeEstimat ? estimatTekst : '';
     $('pakke-estimat').hidden = true; // one estimate, under «Periode», for a package and for «Sett opp selv»
-    var advarsel = '';
-    if (!forLiteBudsjett() && b && b < 8000) advarsel = 'Under kr 8 000 gir lite for de fleste stillinger.';
     tegnKanalMin();
-    $('advarsel').hidden = !advarsel; $('advarsel').textContent = advarsel;
 
     var tittel = $('stilling').value.trim();
     // The panel is always there, like a basket. It fills in as the user goes.
@@ -3050,19 +3051,32 @@
   }
   // Each channel has a minimum spend (FZ_PAKKER, from Tore's mail). With «Sett opp selv» the budget must cover the channels picked,
   // so a custom setup is never a cheaper way to get more channels than a package.
-  // Under the channels, only when the budget is too low for them: say so, and offer the lowest amount.
+  // Under the budget, only when it is too low for the selected channels: say so, and offer the lowest amount.
   // Each channel shows its own minimum, so a budget that covers them needs no message.
   function tegnKanalMin() {
     var min = FZ_PAKKER.rad(tilstand.kanaler).min, lav = forLiteBudsjett(), el = $('kanal-min');
+    var pakke = tilstand.oppsett === 'pakke';
+    if (pakke) $('pakke-valg').after(el);
+    else $('budsjett-kontroll').after(el);
     el.hidden = !lav;
     el.classList.toggle('kanal-min--lav', lav);
     var belop = '<span class="kanal-min__belop">' + kr(min) + '</span>'; // the amount never breaks over two lines
+    var handling = pakke
+      ? '<button class="link" type="button" data-tilpass-pakke>Tilpass budsjett og kanaler</button>'
+      : '<button class="link" type="button" data-bruk-min="' + min + '">Bruk&nbsp;' + kr(min).replace(/ /g, '&nbsp;') + '</button>';
     var html = lav
-      ? 'Kanalene dere har valgt trenger minst ' + belop + '. Øk budsjettet, eller fjern en kanal. <button class="link" type="button" data-bruk-min="' + min + '">Bruk ' + belop + '</button>'
+      ? '<span class="icon-lucide icon-lucide--triangle-alert alert__icon" aria-hidden="true"></span><div class="alert__content"><strong class="alert__title">Budsjettet er for lavt for valgte kanaler</strong><span class="alert__body">Kanalene krever minst ' + belop + '. Øk budsjettet, eller fjern en kanal.</span> ' + handling + '</div>'
       : '';
     if (el.innerHTML !== html) el.innerHTML = html;
   }
   $('kanal-min').addEventListener('click', function (e) {
+    if (e.target.closest('[data-tilpass-pakke]')) {
+      // Copy into this campaign's editable setup; never alter the saved package.
+      tilpassetAnbefaling = anbefalingVerdier();
+      byttAnbefalingModus('anbefalt');
+      $('budsjett').focus();
+      return;
+    }
     var b = e.target.closest('[data-bruk-min]'); if (!b) return;
     budsjettKontroll.set(Number(b.dataset.brukMin)); tilstand.valgtBudsjett = true; oppdater(); $('budsjett').focus();
   });
@@ -3075,7 +3089,7 @@
   }
   function forLiteBudsjett() {
     var b = budsjett();
-    return tilstand.oppsett === 'selv' && !!b && b < FZ_PAKKER.rad(tilstand.kanaler).min;
+    return !!b && b < FZ_PAKKER.rad(tilstand.kanaler).min;
   }
   function kanGaTil(n) { for (var i = 1; i < n; i++) if (stegFeil(i)) return false; return true; }
   function tegnStegListe() {
