@@ -5,9 +5,27 @@
 .approval-inline__head h3 { margin: 0; font: var(--type-section); }
 .approval-inline__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
 .approval-inline .form-group { margin: 0; }
-.approval-message summary, .approval-test summary { display: flex; align-items: center; gap: var(--space-8); min-height: 44px; color: var(--text-muted); font: var(--type-support); cursor: pointer; }
-.approval-message summary::before, .approval-test summary::before { content: '+'; }
-.approval-message[open] summary::before, .approval-test[open] summary::before { content: '−'; }
+/* Shared expandable row. Native details owns the state and keyboard behaviour. */
+.approval-message > summary, .approval-test > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  min-height: var(--space-44);
+  padding-block: var(--space-12);
+  list-style: none;
+  color: var(--text-heading);
+  font: var(--type-label);
+  cursor: pointer;
+}
+.approval-message > summary { border-bottom: 1px solid var(--border-default); }
+.approval-test > summary { color: var(--text-muted); font: var(--type-support); }
+.approval-message > summary::-webkit-details-marker, .approval-test > summary::-webkit-details-marker { display: none; }
+.approval-message > summary::marker, .approval-test > summary::marker { content: ''; }
+.approval-message > summary:hover, .approval-test > summary:hover { background: var(--surface-subtle); }
+.approval-message > summary:focus-visible, .approval-test > summary:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
+.approval-message > summary > .icon-lucide, .approval-test > summary > .icon-lucide { margin-left: auto; color: var(--text-muted); }
+.approval-message[open] > summary > .icon-lucide, .approval-test[open] > summary > .icon-lucide { transform: rotate(180deg); }
 .approval-message .form-group { margin-top: var(--space-8); }
 .approval-test { margin-top: var(--space-12); }
 .approval-test .del-panel__knapper { padding-bottom: var(--space-8); }

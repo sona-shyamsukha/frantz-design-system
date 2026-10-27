@@ -18,7 +18,7 @@ make a separately styled control an existing component.
 | Adviser assessment | `.quote`, `components/quote/componentQuote.css`; `.avatar--sm.avatar--data` | Existing adviser quote and identity treatment. |
 | Progress | `.meter.meter--sm`, `.meter__track`, `.meter__bar`, `components/progress/componentProgress.css` | Existing bar, with accessible progress attributes. Width is calculated from campaign data, not a new design token. |
 | Tables | `.table.table--inset`, `components/table/componentTable.css`; `.results__scroll` | Daily, ad, placement and geography tables follow the existing responsive table pattern. Cells include their mobile labels. |
-| Expandable information | `.approval-message`, `components/del-godkjenning/approval.css` | Existing disclosure control; expanded content uses an existing read card. No new plus/minus, border, radius or summary-button style. |
+| Expandable information | `.approval-message`, `components/del-godkjenning/approval.css` | Shared disclosure control refined at Sona's request: full-width label, existing right-aligned chevron, token-based separator and focus ring. Expanded content uses an existing read card. See component-library.html#disclosure. |
 | Tracking task | `.alert.alert--warning`, `components/alert/componentAlert.css` | Existing warning treatment and normal secondary button. |
 | Status | `.badge--ordered`, `.badge--setup`, `.badge--active`, `.badge--ended` | Existing status colours and sizes. |
 | Fields and checkbox | `.form-group`, `.form-input`, `.form-select`, `.form-label`, `.form-check` | Sharing controls reuse the existing form components. |
@@ -44,7 +44,7 @@ make a separately styled control an existing component.
 | Share-report panel | The arrangement and behaviour of link creation, cost visibility, expiry and revocation | Existing card, labels, checkbox, fields, select, buttons, button row and disclosure | New composition for Sona's design review. Local behaviour only; server-backed access and field filtering are still required. No new visual primitive. |
 | Standalone report page | A recipient layout without portal navigation | Existing typography, cards, metrics, quote, progress, tables, disclosures and PDF action button | New page composition for review. Final-report update policy remains open. No new visual primitive. |
 | Candidate tab | A third destination in the campaign page | Existing tabs, candidate table, consent checkbox and follow-up switches | Existing components reorganised; candidate data is excluded from the shared page. |
-| Expanded campaign details | A disclosure followed by a read card | Existing `.approval-message` and `.card--les` | Composition of existing components, not a new accordion component. If a separate full-width accordion is wanted, record and approve it before building one. |
+| Expanded campaign details | A disclosure followed by a read card | Existing `.approval-message` and `.card--les` | Composition of existing components. The existing disclosure was refined on 27 October at Sona's request and documented in the component library. No page-specific variant or new tokens. |
 | Review overview | Internal page for comparing states | Existing cards, typography, links, badges and buttons | Internal review composition only. |
 
 There is no currently implemented new visual primitive or new token to approve.
@@ -65,3 +65,19 @@ violations were found in the modified sources.
 
 The earlier visual-review screenshots show the superseded custom styles and should
 not be used to assess the corrected version.
+
+## Shared expand/collapse refinement — 27 October 2026
+
+Sona requested a clearer design for the plus/minus control. The existing disclosure
+component in `components/del-godkjenning/approval.css` now uses a right-aligned
+Lucide chevron, a stronger main label, a subtle divider, a full-row target and the
+existing focus ring. Secondary prototype/help disclosures keep the quieter text role.
+Open state reverses the same icon immediately; no animation or new token was added.
+Direct-child selectors keep a parent disclosure from changing a nested disclosure's
+indicator. Static and generated instances share the same markup and CSS.
+
+Examples, markup and keyboard guidance: `component-library.html#disclosure`.
+This is a requested refinement on the review branch, not client approval.
+Mouse, Enter and Space were checked in the component example. Expanded campaign
+and report sections fit 320 px and 1280 px layouts. A closed nested disclosure keeps
+its downward indicator while its parent is open. The 18 focused checks still pass.
