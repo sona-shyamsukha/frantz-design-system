@@ -8,6 +8,10 @@
 @container (max-width: 640px) { .report-summary .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (max-width: 360px) { .report-summary .metrics--fire { grid-template-columns: minmax(0, 1fr); } }
 .campaign-header .campaign-meta { margin-top: var(--space-8); }
+/* Long order labels need room to wrap at words, alongside the detail value. */
+@media (min-width: 641px) {
+  .campaign-page[data-campaign-page="ordered"] .flow .summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+}
 .campaign-meta > span { margin-inline: var(--space-6); }
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
