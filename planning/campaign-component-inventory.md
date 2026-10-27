@@ -81,3 +81,12 @@ This is a requested refinement on the review branch, not client approval.
 Mouse, Enter and Space were checked in the component example. Expanded campaign
 and report sections fit 320 px and 1280 px layouts. A closed nested disclosure keeps
 its downward indicator while its parent is open. The 18 focused checks still pass.
+
+### Accordion padding correction
+
+Sona flagged missing padding, especially Sporingskode in Om kampanjen. Shared
+summary rows now use `--space-12` vertically and `--space-panel-padding` horizontally,
+including the quieter variant. Tracking disclosures inside a summary panel reuse
+`summary-panel__block` for expanded content instead of nesting a read card. The
+summary panel owns the outer surface and the tracking component remains unchanged.
+No new spacing token or card variant was introduced.

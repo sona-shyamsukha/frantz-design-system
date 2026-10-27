@@ -12,7 +12,7 @@
   justify-content: space-between;
   gap: var(--space-16);
   min-height: var(--space-44);
-  padding-block: var(--space-12);
+  padding: var(--space-12) var(--space-panel-padding);
   list-style: none;
   color: var(--text-heading);
   font: var(--type-label);
@@ -26,6 +26,8 @@
 .approval-message > summary:focus-visible, .approval-test > summary:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
 .approval-message > summary > .icon-lucide, .approval-test > summary > .icon-lucide { margin-left: auto; color: var(--text-muted); }
 .approval-message[open] > summary > .icon-lucide, .approval-test[open] > summary > .icon-lucide { transform: rotate(180deg); }
+/* Inside a summary panel, use its normal content section, without a second card. */
+.summary-panel > .approval-message > .summary-panel__block { margin-top: 0; }
 .approval-message .form-group { margin-top: var(--space-8); }
 .approval-test { margin-top: var(--space-12); }
 .approval-test .del-panel__knapper { padding-bottom: var(--space-8); }
