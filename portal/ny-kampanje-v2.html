@@ -846,6 +846,7 @@
   .v2-rad { display: grid; grid-template-columns: 11.5rem minmax(0, 1fr) auto; gap: var(--space-12) var(--space-16); align-items: center; padding: var(--space-16) var(--space-24); border-top: 1px solid var(--border-subtle); }
   .v2-rad__navn { color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); }
   .v2-rad__verdi { margin: 0; color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .v2-rad__navn, .v2-rad__verdi { min-width: 0; overflow-wrap: anywhere; }
   .v2-rad--mangler .v2-rad__verdi { color: var(--color-amber-ink); }
   .v2-rad--obligatorisk .v2-rad__verdi { display: flex; align-items: center; gap: var(--space-8); }
   .v2-rad--obligatorisk .icon-lucide { flex: none; }
@@ -873,7 +874,7 @@
   .v2-rad__skjema > #blokk-kanal > #b-kanal-lbl { display: none; }
   .v2-rad__knapper { display: flex; flex-wrap: wrap; gap: var(--space-8); }
   .v2 .valgfaner__valg[aria-pressed="true"] { border-color: var(--border-default); background: var(--surface-raised); color: var(--text-heading); box-shadow: var(--shadow-subtle); }
-  .v2-bunn { display: flex; justify-content: flex-end; padding: var(--space-24); border-top: 1px solid var(--border-subtle); }
+  .v2-bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); padding: var(--space-24); border-top: 1px solid var(--border-subtle); }
   .v2-status { margin: 0; padding: 0 var(--space-24) var(--space-16); }
   .v2-status { color: var(--color-amber-ink); font-weight: var(--font-weight-semibold); }
   .v2-status[hidden], .v2-bunn .btn[hidden] { display: none; }
@@ -895,13 +896,42 @@
   .v2-seksjon__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-12) var(--space-24); background: var(--surface-section); border-top: 1px solid var(--border-subtle); }
   .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; }
   .v2-rad { grid-template-columns: 11.5rem minmax(0, 1fr); }
-  dialog.v2-dialog { width: min(680px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); overflow: auto; box-shadow: var(--shadow-subtle); }
+  dialog.v2-dialog { width: min(680px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); overflow: hidden; box-shadow: var(--shadow-subtle); }
   .v2-dialog::backdrop { background: var(--scrim); }
+  #v2-dialog-form { display: flex; flex-direction: column; min-height: 0; max-height: calc(100dvh - var(--space-32)); }
+  .v2-dialog__topp, .v2-dialog__bunn, .v2-dialog__feil { flex: none; }
+  .v2-dialog__innhold { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+  .v2-dialog__innhold::-webkit-scrollbar { width: 8px; }
+  .v2-dialog__innhold::-webkit-scrollbar-thumb { background: var(--border-strong); border: 2px solid var(--surface-raised); border-radius: var(--radius-full); }
+  .v2-dialog__innhold--kampanje { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-32); align-items: start; }
+  .v2-dialog__innhold--kampanje > .v2-pakkevalg { margin: 0; min-width: 0; }
+  .v2-dialog__innhold--kampanje [data-v2-dialog-felt="periode"] { grid-column: 1 / -1; }
+  .v2-dialog__innhold--kampanje #estimat { margin-top: var(--space-24); }
+  /* Keep the reading order row by row, with the period as the final pair. */
+  .v2-dialog__innhold--kampanje #blokk-periode { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8) var(--space-24); align-items: start; }
+  .v2-dialog__innhold--kampanje #q-periode-valg,
+  .v2-dialog__innhold--kampanje .periode { display: contents; }
+  .v2-dialog__innhold--kampanje #q-periode-lbl { grid-column: 1; grid-row: 1; margin: 0; }
+  .v2-dialog__innhold--kampanje #startdato { grid-column: 1; grid-row: 2; width: 100%; }
+  .v2-dialog__innhold--kampanje .periode__uker-lbl { grid-column: 2; grid-row: 1; margin: 0; }
+  .v2-dialog__innhold--kampanje .periode__snarveier { grid-column: 2; grid-row: 2; margin: 0; }
+  .v2-dialog__innhold--kampanje .periode__fast,
+  .v2-dialog__innhold--kampanje #frist-advarsel { grid-column: 1 / -1; }
+  .v2-dialog__scrollhint { display: flex; align-items: center; gap: var(--space-8); margin-right: auto; color: var(--text-muted); font: var(--type-support); }
+  .v2-dialog__scrollhint[hidden] { display: none; }
+  @media (max-width: 899px) {
+    .v2-dialog__innhold--kampanje { grid-template-columns: minmax(0, 1fr); }
+    .v2-dialog__innhold--kampanje #blokk-periode { grid-template-columns: minmax(0, 1fr); }
+    .v2-dialog__innhold--kampanje .periode__uker-lbl { grid-column: 1; grid-row: 3; margin-top: var(--space-16); }
+    .v2-dialog__innhold--kampanje .periode__snarveier { grid-column: 1; grid-row: 4; }
+  }
+  @media (max-width: 640px) { #v2-dialog-form { max-height: calc(100dvh - var(--space-16)); } .v2-dialog__scrollhint { flex-basis: 100%; } }
   .v2-dialog__topp { display: flex; justify-content: space-between; align-items: center; gap: var(--space-16); padding: var(--space-24); border-bottom: 1px solid var(--border-subtle); }
   .v2-dialog__topp h2 { margin: 0; font: var(--type-section); color: var(--text-heading); }
   .v2-dialog__innhold { display: grid; gap: var(--space-24); padding: var(--space-24); }
   .v2-dialog__felt { min-width: 0; }
   .v2-dialog__felt > .felt, .v2-dialog__felt > .blokk { margin: 0; width: 100%; min-width: 0; }
+  .v2-dialog__felt > .form-hint { margin: var(--space-8) 0 0; }
   .v2-dialog__felt #blokk-periode { border-top: 0; padding-top: 0; }
   .v2-dialog .form-input, .v2-dialog .picker__felt { max-width: 100%; }
   .v2-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); position: sticky; bottom: 0; padding: var(--space-16) var(--space-24); background: var(--surface-raised); border-top: 1px solid var(--border-subtle); }
@@ -913,6 +943,16 @@
   .v2-studio #an-meta .annonse__to { grid-template-columns: minmax(0, 1fr); }
   .v2-dialog #blokk-tillegg, .v2-dialog #felt-faktura { margin: 0; }
   .v2-dialog #felt-avsender { display: grid; margin: 0; }
+  .v2-produkter, .v2-faktura, .v2-ekstra-inline { padding: var(--space-24); }
+  .v2-ekstra-inline #felt-ekstra { margin: 0; }
+  .v2-produkter #blokk-tillegg { margin: 0; padding: 0; border: 0; }
+  .v2-faktura #felt-faktura { margin: 0; padding: 0; border: 0; }
+  .v2-produkter #b-til-lbl { display: none; }
+  .v2-bestill-hint { margin: 0; padding: 0 var(--space-24) var(--space-16); color: var(--text-muted); font: var(--type-support); }
+  .v2-bestill-hint[hidden] { display: none; }
+  #v2-pakke { width: 100%; min-width: 0; text-overflow: ellipsis; }
+  #v2-pakke-detaljer { overflow-wrap: anywhere; }
+  @media (max-width: 640px) { .v2-produkter, .v2-faktura, .v2-ekstra-inline { padding: var(--space-16); } .v2-bestill-hint { padding-inline: var(--space-16); } }
   .v2-dialog__feil { margin: var(--space-24) var(--space-24) 0; }
   .v2-pris { display: grid; gap: var(--space-12); padding: var(--space-24); border-top: 1px solid var(--border-subtle); }
   .v2-pris .summary-row { grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-12); }
@@ -922,7 +962,7 @@
   #v2-godkjenning { padding: 0 var(--space-24); }
   #v2-status { margin: 0 var(--space-24) var(--space-16); padding: var(--space-16); }
   @media (max-width: 640px) { .v2-bunn .btn { width: 100%; } .v2-pris { padding: var(--space-16); } }
-  dialog.v2-dialog--studio { width: min(1120px, calc(100vw - var(--space-32))); }
+  dialog.v2-dialog--studio, dialog.v2-dialog--kampanje { width: min(1120px, calc(100vw - var(--space-32))); }
   .v2-studio { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-24); padding-top: var(--space-24); }
   .v2-studio[hidden] { display: none; }
   .v2-studio #del-materiell { width: 100%; max-width: none; padding: 0; margin: 0; border: 0; box-shadow: none; }
@@ -930,6 +970,9 @@
   .v2-studio #blokk-annonse { margin: 0; }
   .v2-studio .annonse__arbeid { display: block; }
   .v2-studio #annonse-forhandsvisning { grid-column: auto; grid-row: auto; position: static; margin: 0; min-width: 0; }
+  /* One spacing rhythm also covers wrapped channel descriptions and placement tabs. */
+  .v2-studio #annonse-forhandsvisning:not([hidden]) { display: flex; flex-direction: column; gap: var(--space-16); }
+  .v2-studio #annonse-forhandsvisning > * { margin-block: 0; }
   .v2-studio .annonse__scene { padding: var(--space-16); }
   .v2-studio .ad-preview { width: 100%; max-width: 360px; margin-inline: auto; }
   .v2-studio .ad-preview__tittel { font-size: var(--text-xl); }
@@ -1100,7 +1143,7 @@
               <div id="v2-ekstra-lager" hidden>
                 <div class="felt" id="felt-ekstra">
                   <label class="form-label" for="v2-ekstra">Tilleggsinformasjon <span class="valgfri">(valgfritt)</span></label>
-                  <textarea class="form-textarea" id="v2-ekstra" rows="6" placeholder="For eksempel geografisk målretting, ønsket målgruppe eller andre ønsker til Frantz."></textarea>
+                  <textarea class="form-textarea" id="v2-ekstra" rows="3" placeholder="F.eks. målgruppe, geografisk område eller andre ønsker."></textarea>
                 </div>
               </div>
               <div id="v2-ref-lager" hidden>
@@ -1543,9 +1586,10 @@
             </section>
             <div id="v2-godkjenning"></div>
             <p class="alert alert--error v2-status" id="v2-status" role="alert" hidden></p>
+            <p class="v2-bestill-hint" id="v2-bestill-hint" role="status" aria-live="polite" hidden></p>
             <div class="v2-bunn">
-              <button class="btn btn--secondary" type="button" id="v2-del">Send planen til godkjenning</button>
-              <button class="btn btn--accent" type="button" id="v2-bestill">Bestill kampanjen</button>
+              <button class="btn btn--secondary" type="button" id="v2-del" aria-describedby="v2-bestill-hint">Send planen til godkjenning</button>
+              <button class="btn btn--accent" type="button" id="v2-bestill" aria-describedby="v2-bestill-hint">Bestill kampanjen</button>
             </div>
           </section>
 
@@ -1584,6 +1628,7 @@
     <p class="alert alert--error v2-dialog__feil" id="v2-dialog-feil" role="alert" hidden></p>
     <div class="v2-dialog__innhold" id="v2-dialog-felt"></div>
     <footer class="v2-dialog__bunn">
+      <span class="v2-dialog__scrollhint" id="v2-dialog-scrollhint" hidden><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span>Flere valg nedenfor</span>
       <button type="button" class="btn btn--secondary" id="v2-dialog-avbryt">Avbryt</button>
       <button type="submit" class="btn btn--primary">Lagre endringer</button>
     </footer>
@@ -1863,6 +1908,7 @@
     ]},
     { id: 'kampanje', tittel: 'Kampanjen', felt: [
       ['navn', 'Kampanjenavn/deres referansekode'],
+      ['pakke', 'Lagret pakke'],
       ['budsjett', 'Budsjett'],
       ['kanaler', 'Kanaler'],
       ['periode', 'Periode']
@@ -1910,13 +1956,13 @@
     if (id === 'budsjett') return budsjett() ? kr(budsjett()) : '';
     if (id === 'kanaler') return tilstand.kanaler.join(', ');
     if (id === 'periode') return periodeTekst();
+    if (id === 'pakke') return pakkeTekst();
     if (id === 'produkter') return tilleggListe().join(', ') || 'Ingen tilleggsprodukter valgt';
     if (id === 'faktura') return $('faktura').value;
+    if (id === 'ekstra') return $('v2-ekstra').value.trim();
     if (id === 'avsender') return $('avsender').value.trim();
     if (id === 'fil') return v2Filnavn().join(', ');
     if (Object.prototype.hasOwnProperty.call(ok, id)) return ok[id];
-    if (id === 'budsjett') return ok.budsjett || (kilde.budsjett ? kr(kilde.budsjett) : '');
-    if (id === 'kanaler') return ok.kanaler || (kilde.kanaler ? kilde.kanaler.join(', ') : '');
     if (id === 'materiell') {
       if (ok.materiell) return ok.materiell;
       if (kilde.materiell === 'hjelp') return 'Frantz lager annonsen';
@@ -1979,17 +2025,30 @@
       endre.dataset.v2Gruppe = seksjon.id;
       endre.setAttribute('aria-label', 'Endre ' + seksjon.tittel.toLowerCase());
       endre.textContent = 'Endre';
-      topp.appendChild(endre);
+      if (seksjon.id === 'produkter' || seksjon.id === 'ekstra') {
+        var valgfritt = document.createElement('span'); valgfritt.className = 'form-hint'; valgfritt.textContent = 'Valgfritt'; topp.appendChild(valgfritt);
+      } else if (seksjon.id !== 'bestilling') topp.appendChild(endre);
       blokk.appendChild(topp);
+      if (seksjon.id === 'produkter') {
+        var valg = document.createElement('div'); valg.className = 'v2-produkter';
+        v2flytt('produkter', valg); blokk.appendChild(valg); rot.appendChild(blokk);
+        return;
+      }
+      if (seksjon.id === 'bestilling') {
+        var faktura = document.createElement('div'); faktura.className = 'v2-faktura';
+        v2flytt('faktura', faktura); blokk.appendChild(faktura); rot.appendChild(blokk);
+        return;
+      }
+      if (seksjon.id === 'ekstra') {
+        var ekstra = document.createElement('div'); ekstra.className = 'v2-ekstra-inline';
+        v2flytt('ekstra', ekstra);
+        ekstra.querySelector('label').classList.add('sr-only');
+        blokk.appendChild(ekstra); rot.appendChild(blokk);
+        return;
+      }
       seksjon.felt.forEach(function (felt) {
+        if (felt[0] === 'pakke' && !tilstand.pakke) return;
         var verdi = v2VisVerdi(felt[0]);
-        if (felt[0] === 'ekstra') {
-          var avsnitt = document.createElement('p');
-          avsnitt.className = 'v2-ekstra';
-          avsnitt.textContent = verdi || 'Ingen tilleggsinformasjon lagt til.';
-          blokk.appendChild(avsnitt);
-          return;
-        }
         var rad = document.createElement('div');
         var mangler = V2OBLIGATORISK.indexOf(felt[0]) !== -1 && !verdi;
         rad.className = 'v2-rad' + (mangler ? ' v2-rad--mangler' : '');
@@ -2053,9 +2112,12 @@
     $('v2-dialog-tittel').textContent = 'Endre ' + seksjon.tittel.toLowerCase();
     var rot = $('v2-dialog-felt');
     rot.replaceChildren();
-    if (seksjon.id === 'kampanje') v2Pakkevelger(rot);
+    var kampanje = seksjon.id === 'kampanje';
+    rot.classList.toggle('v2-dialog__innhold--kampanje', kampanje);
     if (seksjon.id === 'produkter') tegnMateriellOgTillegg();
-    seksjon.felt.forEach(function (felt) {
+    var feltListe = kampanje ? ['navn', 'budsjett', 'kanaler', 'periode'].map(function (id) { return seksjon.felt.find(function (felt) { return felt[0] === id; }); }) : seksjon.felt;
+    feltListe.forEach(function (felt) {
+      if (felt[0] === 'pakke') return;
       var wrapper = document.createElement('div');
       wrapper.className = 'v2-dialog__felt';
       wrapper.dataset.v2DialogFelt = felt[0];
@@ -2076,14 +2138,30 @@
         wrapper.appendChild(studio);
       } else v2flytt(felt[0], wrapper);
       rot.appendChild(wrapper);
+      if (kampanje && felt[0] === 'navn') v2Pakkevelger(rot);
     });
+    if (seksjon.id === 'kampanje') {
+      var estimatHint = document.createElement('p'); estimatHint.className = 'form-hint';
+      estimatHint.textContent = 'Estimat for kampanjeperioden, ikke garanterte resultater.';
+      rot.querySelector('[data-v2-dialog-felt="budsjett"]').appendChild(estimatHint);
+    }
     $('v2-dialog').classList.toggle('v2-dialog--studio', seksjon.id === 'materiell');
+    $('v2-dialog').classList.toggle('v2-dialog--kampanje', kampanje);
     if (seksjon.id === 'materiell') { v2flytt('bibliotek', $('v2-dialog-form')); v2StudioValg(); visVedlegg(tilstand.pdf); }
     $('v2-dialog').showModal();
+    rot.scrollTop = 0;
+    requestAnimationFrame(v2DialogScroll);
     var target = id === seksjon.id ? null : rot.querySelector('[data-v2-dialog-felt="' + id + '"]');
     $('v2-dialog-tittel').focus();
     if (target) target.scrollIntoView({ block: 'nearest' });
   }
+  function v2DialogScroll() {
+    var innhold = $('v2-dialog-felt');
+    $('v2-dialog-scrollhint').hidden = !$('v2-dialog').open || innhold.scrollHeight - innhold.clientHeight - innhold.scrollTop < 8;
+  }
+  $('v2-dialog-felt').addEventListener('scroll', v2DialogScroll, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(v2DialogScroll).observe($('v2-dialog-felt'));
+  new MutationObserver(function () { requestAnimationFrame(v2DialogScroll); }).observe($('v2-dialog-felt'), { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['hidden', 'open'] });
   function v2StudioValg() {
     var studio = $('v2-studio');
     if (!studio) return;
@@ -2116,21 +2194,36 @@
     $('v2-total-label').textContent = design ? 'Sum eks. mva., uten design' : 'Totalt eks. mva.';
     $('v2-designkostnad').hidden = !design;
     $('v2-designkostnad').textContent = 'Design: ' + $('materiell-designpris').textContent.trim() + ' Dette er ikke inkludert i summen over.';
-    $('v2-bestill').disabled = !!approvalBlocked || v2Bestiller;
-    $('v2-del').disabled = false;
-    $('v2-del').hidden = $('del-knapp').hidden;
+    var feil = v2FeilBestilling();
+    $('v2-bestill').disabled = !!feil || !!approvalBlocked || v2Bestiller;
+    $('v2-del').disabled = !!feil || v2Bestiller;
+    var grunn = feil ? feil.tekst : '';
+    if (!grunn && approvalBlocked) {
+      var request = planShare && planShare.latest('plan');
+      grunn = request && FrantzApprovals.status(request) === 'pending' ? 'Vent på godkjenningen, eller trekk forespørselen tilbake før du bestiller.' : 'Planen må godkjennes på nytt før du kan bestille.';
+    }
+    $('v2-bestill-hint').textContent = grunn;
+    $('v2-bestill-hint').hidden = !grunn;
+    $('v2-del').hidden = !!(planShare && planShare.latest('plan'));
   }
   function v2Pakkevelger(rot) {
-    var felt = document.createElement('div'); felt.className = 'felt';
+    var felt = document.createElement('div'); felt.className = 'felt v2-pakkevalg';
     var label = document.createElement('label'); label.className = 'form-label'; label.htmlFor = 'v2-pakke'; label.textContent = 'Bruk lagret pakke (valgfritt)';
     var wrap = document.createElement('span'); wrap.className = 'form-select-wrap';
     var select = document.createElement('select'); select.id = 'v2-pakke'; select.className = 'form-select';
     var standard = document.createElement('option'); standard.value = ''; standard.textContent = 'Eget budsjett og kanaler'; select.appendChild(standard);
     PAKKER.forEach(function (p, index) {
-      var option = document.createElement('option'); option.value = String(index); option.textContent = p.navn + ' · ' + kr(p.budsjett);
+      var option = document.createElement('option'); option.value = String(index); option.textContent = p.navn + ' · ' + kr(p.budsjett) + ' · ' + (p.kanaler || []).join(', ');
       option.selected = p.navn === tilstand.pakke; select.appendChild(option);
     });
+    var detaljer = document.createElement('p'); detaljer.className = 'form-hint'; detaljer.id = 'v2-pakke-detaljer'; detaljer.setAttribute('aria-live', 'polite');
+    select.setAttribute('aria-describedby', detaljer.id);
+    function visPakkedetaljer() {
+      var pakke = select.value === '' ? null : PAKKER[Number(select.value)];
+      detaljer.textContent = pakke ? kr(pakke.budsjett) + ' · ' + (pakke.kanaler || []).join(', ') + '. Perioden velger du separat.' : 'En pakke fyller ut budsjett og kanaler. Perioden velger du separat.';
+    }
     select.addEventListener('change', function () {
+      visPakkedetaljer();
       if (select.value === '') { tilstand.pakke = null; return; }
       var period = { fra: tilstand.fra, til: tilstand.til, uker: tilstand.uker, venter: tilstand.venter };
       brukPakke(PAKKER[Number(select.value)]);
@@ -2139,11 +2232,12 @@
       ['blokk-budsjett', 'blokk-kanal', 'blokk-periode'].forEach(function (id) { $(id).hidden = false; });
       oppdater();
     });
-    wrap.appendChild(select); felt.append(label, wrap); rot.appendChild(felt);
+    visPakkedetaljer();
+    wrap.appendChild(select); felt.append(label, wrap, detaljer); rot.appendChild(felt);
   }
   function v2FeilBestilling() {
     var mangler = V2OBLIGATORISK.filter(function (id) { return !v2VisVerdi(id); });
-    if (mangler.length) return { felt: mangler[0], tekst: 'Fyll inn ' + mangler.map(function (id) { return v2AlleFelt().find(function (f) { return f[0] === id; })[1].toLowerCase(); }).join(', ') + ' før du fortsetter.' };
+    if (mangler.length) return { felt: mangler[0], tekst: 'Fyll inn ' + ogListe(mangler.map(function (id) { return v2AlleFelt().find(function (f) { return f[0] === id; })[1].toLowerCase(); })) + ' før du fortsetter.' };
     if (forLiteBudsjett()) return { felt: 'budsjett', tekst: 'Budsjettet må være minst ' + kr(FZ_PAKKER.rad(tilstand.kanaler).min) + ' for kanalene du har valgt. Øk budsjettet, eller fjern en kanal.' };
     var pd = periodeDatoer();
     if (tilstand.venter || !Number.isFinite(pd.start.getTime()) || !Number.isFinite(pd.slutt.getTime()) || pd.slutt < pd.start) return { felt: 'periode', tekst: 'Velg en gyldig kampanjeperiode.' };
@@ -2378,10 +2472,13 @@
       fil: tilstand.pdf || '', ekstra: a.ekstra || ''
     };
     tilstand.v2ok = {};
+    $('v2-ekstra').value = a.ekstra || '';
     anbefalingModus = 'selv'; tilstand.oppsett = 'selv'; tilstand.kanalmodus = 'selv';
     tilstand.kanaler = (a.kanaler || []).slice(); tilstand.pakke = null;
     tilstand.meld = !!a.meld; tilstand.tillegg = [];
     tilstand.uker = a.uker || 3; tilstand.venter = false;
+    tilstand.fra = a.fra && a.fra >= iso(tidligstDato()) ? a.fra : null;
+    tilstand.til = a.til || null;
     tilstand.materiell = a.materiell || '';
     budsjettKontroll.set(a.budsjett || null);
     tegnKanaler(); tegnPeriode();
@@ -2449,7 +2546,7 @@
       $('anbefaling-prognose').appendChild($('estimat'));
       $('pakker').appendChild($('anbefaling-prognose'));
       $('pakker').appendChild($('anbefaling-forbehold'));
-    } else $('blokk-periode').appendChild($('estimat'));
+    } else (v2DialogGroup && v2DialogGroup.id === 'kampanje' ? $('blokk-budsjett') : $('blokk-periode')).appendChild($('estimat'));
     $('anbefaling-hint').textContent = recommended ? 'Budsjett og kanaler er foreslått for stillingen din. Du kan gå rett videre.' : anbefalingModus === 'selv' ? 'Juster budsjett, kanaler og periode. Vi tar vare på endringene når du bytter oppsett.' : PAKKER.length ? 'Velg en lagret pakke. Budsjett og kanaler hentes fra pakken.' : 'Du har ingen lagrede pakker ennå. Bruk anbefalingen eller velg oppsett selv.';
     [['anbefaling-reset', 'anbefalt'], ['anbefaling-pakker', 'pakke']].forEach(function (entry) {
       $(entry[0]).setAttribute('aria-pressed', String(anbefalingModus === entry[1]));
@@ -3693,7 +3790,7 @@
     var stederListe = steder.verdi();
     var klar = tilstand.rolle && stederListe.length;
     var b = budsjett();
-    var r = klar && b ? prognose(stederListe, b) : null;
+    var r = klar && b && tilstand.kanaler.length ? prognose(stederListe, b) : null;
     var forslag = klar ? R.beregn({ rolle: tilstand.rolle, steder: stederListe }) : null;
     var anb = anbefalingModus === 'anbefalt' && anbefalingOriginal ? anbefalingOriginal.budsjett : forslag ? forslagBudsjett() : null;
     budsjettKontroll.anbefalt(anb || undefined);
@@ -3702,7 +3799,7 @@
     if (b) { $('feil-budsjett').hidden = true; $('feil-bestill').hidden = true; }
     $('budsjett-tips').dataset.tooltip = tips; $('budsjett-tips').setAttribute('aria-label', 'Mer info: ' + tips);
     // What the budget, channels and period can give. The same box shows for a package and for «Sett opp selv».
-    var estimatTekst = r ? estimatSetning(b, r) : (b ? 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
+    var estimatTekst = r ? estimatSetning(b, r) : (b ? !tilstand.kanaler.length ? 'Velg minst én kanal for å se estimatet.' : 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
     $('estimat-tekst').innerHTML = (anbefalingModus === 'anbefalt' || anbefalingModus === 'pakke') && r
       ? '<h3 class="metrics__title">Estimert resultat</h3><div class="metrics">' +
         [[r.visninger, 'visninger'], [r.klikk, 'klikk'], [r.sok, 'trykk på «Søk»']].map(function (item) {
@@ -4007,7 +4104,7 @@
       var data = {
         ref: $('ref').value, lenke: $('lenke').value, tekst: $('beskrivelse').value, stilling: $('stilling').value, steder: steder.verdi(),
         frist: $('frist').value, budsjett: budsjett(), kanalmodus: tilstand.kanalmodus, kanaler: tilstand.kanaler, uker: tilstand.uker, fra: tilstand.fra, til: tilstand.til,
-        designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('notat').value
+        designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('v2-ekstra').value
       };
       try { localStorage.setItem(LAGER, JSON.stringify(data)); } catch (e) {}
       var d = new Date();
