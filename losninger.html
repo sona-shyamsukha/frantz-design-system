@@ -62,7 +62,7 @@
   <div class="ds-section">
     <div class="ds-overline">Funn fra intervjuene</div>
     <h1 class="ds-title" style="font-size: var(--text-xl);">Løsninger i prototypen</h1>
-    <p class="ds-desc" style="max-width: 680px;">Hvert punkt fra listen over funn, med status og en lenke til der det vises. «Skisse» betyr at vi har laget et forslag, men må sjekke det med Frantz. «Teknisk» er arbeid som en prototype ikke kan vise. «MVP» sier om punktet er med i første versjon.</p>
+    <p class="ds-desc" style="max-width: 680px;">Hvert punkt fra listen over funn, med status og en lenke til der det vises. «Skisse» betyr at vi har laget et forslag, men må sjekke det med Frantz. «Teknisk» er arbeid som en prototype ikke kan vise. «Ikke med» er punkter vi har valgt bort. «MVP» sier om punktet er med i første versjon.</p>
     <div class="lo-tall" id="tall"></div>
   </div>
 
@@ -88,7 +88,8 @@
     skisse: ['Skisse · sjekk med Frantz', 'badge--setup'],
     fantes: ['Fantes fra før', 'badge--ordered'],
     delvis: ['Delvis', 'badge--draft'],
-    senere: ['Teknisk', 'badge--ended']
+    senere: ['Teknisk', 'badge--ended'],
+    ikke: ['Ikke med', 'badge--default']
   };
   var NK = 'portal/ny-kampanje.html?connect=777845';
   // [nr, punkt, status, hva vi gjorde, lenke]
@@ -116,21 +117,21 @@
       ['18', 'Vis målgruppen før start, og la brukeren kommentere', 'ny', 'Målgruppen står i «Kampanje under arbeid», med et felt for kommentar til Frantz. Ved bestilling: «Kommentar til Frantz» i steg 4.', 'portal/kampanje-under-arbeid.html']
     ]],
     ['Kampanjeliste og kampanjeside', [
-      ['19', 'Søk når brukeren trykker Enter', 'senere', 'Teknisk. Søket virker mens du skriver.', 'portal/campaigns.html'],
+      ['19', 'Søk når brukeren trykker Enter', 'ikke', 'Trengs ikke. Søket virker mens du skriver.', 'portal/campaigns.html'],
       ['20', 'Aktive filter som brikker, «Nullstill», lukk med Esc', 'ny', 'Filtermeny som lukkes ved klikk utenfor eller Esc.', 'portal/campaigns.html'],
       ['21', '«Mine kampanjer»', 'ny', 'Velg mellom «Mine kampanjer» og «Alle på Nordlys Rekruttering AS». «Mine kampanjer» er standardvisningen.', 'portal/campaigns.html'],
       ['22', 'Status «Avsluttet» av seg selv', 'senere', 'Teknisk: en jobb som kjører etter sluttdato.', ''],
       ['23', 'Delelenker og materiell, «Kopier lenke» og «Last ned»', 'ny', '«Last ned alle» og «Last ned» per annonse. «Kopier rapportlenke» øverst på kampanjesiden.', 'portal/campaign.html'],
       ['24', '«Se annonsen»', 'fantes', '', 'portal/campaign.html'],
       ['25', 'Video i mediebiblioteket', 'fantes', '', 'portal/mediebibliotek.html'],
-      ['26', 'All tekst på norsk', 'fantes', '', '']
+      ['26', 'All tekst på norsk', 'ikke', 'Trengs ikke som eget punkt.', '']
     ]],
     ['Dialog og interessenter', [
       ['27', 'Én e-posttråd per kampanje', 'fantes', 'Tråden for Sykepleier Oslo, fra bestilling til aktiv kampanje.', 'portal/epost-visning.html'],
       ['28', 'Oppdragsnummer i emnet', 'fantes', '«[#129041 · Oppdrag 22 31]». Åpnes fra «Se e-posttråden» på kampanjesiden.', 'portal/epost-visning.html'],
       ['29', 'Send interessenter til leder eller kunde', 'fantes', '«Send listen til» på kampanjesiden.', 'portal/campaign.html'],
       ['30', 'Velg varsler: per interessent, daglig eller ingen', 'delvis', 'Under «Min profil». E-posten med en ny interessent er ikke laget ennå. Den skal vise mobilnummeret først.', 'portal/min-profil.html#varsler'],
-      ['31', 'Rediger kampanjesiden selv, send til godkjenning', 'ny', 'Egen side med forhåndsvisning. Åpnes fra «Rediger kampanjesiden».', 'portal/landingsside.html']
+      ['31', 'Rediger kampanjesiden selv, send til godkjenning', 'ikke', 'Ikke realistisk. Siden med forhåndsvisning finnes i prototypen.', 'portal/landingsside.html']
     ]],
     ['Rapport', [
       ['32', 'Én setning per tall, og sammenligning', 'ny', 'Hvert tall viser bare hvor mye bedre eller dårligere det er enn normalt, for eksempel «13 % flere». «Hva betyr «normalt»?» forklarer sammenligningen.', 'portal/rapport.html'],
@@ -145,14 +146,14 @@
     ['Forretning', [
       ['F1', 'Enklere produkter, skjul produktnavnene', 'fantes', 'Ingen produktnavn i portalen.', NK],
       ['F2', 'Små kampanjer, kundens side som avsender', 'delvis', 'Lave budsjett og «Avsender»-felt. Tilgang til kundens Meta-side er teknisk.', NK],
-      ['F3', 'Forhandlere: pakker, egne navn, egne priser', 'delvis', 'Pakker og egne navn er løst. Egne priser er ikke laget.', 'portal/mine-pakker.html'],
+      ['F3', 'Forhandlere: pakker, egne navn, egne priser', 'ikke', 'Ikke relevant for dette prosjektet. Lagrede pakker er dekket av punkt 5.', 'portal/mine-pakker.html'],
       ['F4', 'Godkjenning som del av salget', 'ny', 'Samme som punkt 8.', 'portal/godkjenning.html'],
       ['F5', 'Sammenligning som salgsargument', 'fantes', '', 'portal/rapport.html'],
       ['F6', 'Enkle ord og en kort guide for nye brukere', 'ny', '«Vis meg rundt» på Hjem. Starter av seg selv første gang. En ny kunde ser «Hva er en kampanje?» på Hjem. Ordet må testes med 2–3 personer som aldri har brukt Frantz.', 'portal/dashboard.html?tur'],
       ['F7', 'Løfte om publiseringstid', 'skisse', 'Samme som punkt 13.', NK],
       ['F8', 'Færre telefoner til rådgiverne', 'fantes', 'Brukeren ser målgruppen før start (punkt 18).', 'portal/kampanje-under-arbeid.html'],
       ['F9', 'Riktig faktura per selskap i konsernet', 'skisse', 'Samme som punkt 12.', NK],
-      ['F10', 'Beslutninger: egen innlogging for sluttkunder, Connect for flere kunder', 'senere', 'Frantz må bestemme. Ikke laget.', '']
+      ['F10', 'Beslutninger: egen innlogging for sluttkunder, Connect for flere kunder', 'ikke', 'Gjelder API-kunder. Det er ikke fokus i dette prosjektet.', '']
     ]],
     ['Teknikk', [
       ['T2', 'Autolagring av kladder', 'fantes', '', NK],
@@ -165,7 +166,7 @@
       ['T14', 'Varselinnstillinger per bruker', 'ny', 'Samme som punkt 30.', 'portal/min-profil.html#varsler'],
       ['T15', 'Delelenker med godkjenning uten innlogging', 'ny', 'Samme som punkt 8.', 'portal/godkjenning.html'],
       ['T1, T4, T8, T16', 'Krasj ved oppdatering, Connect-integrasjon, jobb for «Avsluttet», norske etiketter', 'senere', 'Teknisk arbeid som en prototype ikke kan vise.', ''],
-      ['T3, T11, T12', 'API, video i annonseformater, kundens Meta-side', 'senere', 'Teknisk arbeid som en prototype ikke kan vise.', '']
+      ['T3, T11, T12', 'API, video i annonseformater, kundens Meta-side', 'ikke', 'Gjelder API-kunder. Det er ikke fokus i dette prosjektet.', '']
     ]],
     ['Nytt i prototypen', [
       ['N1', 'To flyter: ny og eksisterende kunde', 'ny', 'Samme sider. «Demo: Ny kunde · Bytt» i menyen bytter flyt.', 'portal/dashboard.html?bruker=ny'],
@@ -269,7 +270,7 @@
         'En ny kunde uten pakker ser ikke valget.'
       ], ['ny', 'pakker'], 'pakker'],
       ['Ny kampanje|Steg 3: Annonsen', 'Som byrå vil jeg laste opp ferdige annonser, slik at kunden får akkurat det som er godkjent.', [
-        'Last opp én eller flere filer, og koble hver fil til kanal og format.',
+        'Last opp ett eller flere bilder og videoer, og koble hver fil til kanal og format.',
         'Annonsen vises uten ekstra tekst eller logo oppå.',
         'Frantz må avgjøre om ferdig video skal med i første versjon.'
       ], ['ny'], 'ferdige'],
@@ -320,34 +321,39 @@
         '«Send listen på e-post» sender den til lederen eller kunden.',
         'Frantz må avgjøre hva vi beholder fra dagens løsning.'
       ], ['kampanje'], 'interessenter'],
+      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg dele rapporten, slik at lederen kan se resultatet.', [
+        '«Last ned rapport (PDF)» og «Kopier rapportlenke».'
+      ], ['kampanje'], 'del-rapport'],
+      ['Etter kampanjelansering|Hjem', 'Som kunde vil jeg se en samlet oversikt med tall på Hjem, slik at jeg ser alle kampanjene under ett.', [
+        'Tre tall øverst, og «Slik gikk kampanjene dine».',
+        'Tallene finnes også i hver kampanje.'
+      ], ['hjem'], 'hjem-tall'],
       ['Styre firmaet|Firmainnstillinger', 'Som administrator i firmaet vil jeg styre brukere og fakturamottakere, slik at de riktige har tilgang og fakturaen går riktig.', [
         'Firmainnstillinger: inviter og slå av brukere, og legg til fakturamottakere.',
         'Min profil: endre kontaktinformasjon og passord.'
       ], ['innstillinger', 'profil'], 'admin'],
+      ['Styre firmaet|Firmainnstillinger', 'Som kunde vil jeg lagre logo og farger én gang, slik at annonsene blir riktige hver gang.', [
+        'Merkevare under Firmainnstillinger.',
+        'Sjekk først hvor profilene finnes i dag.'
+      ], ['innstillinger'], 'merkevare'],
       ['Hele reisen|Kampanjelisten', 'Som byrå vil jeg finne kampanjene mine raskt, slik at jeg kan svare kunden.', [
         'Listen viser navn, status, periode og budsjett.',
         'Søk på navn, sted, bestiller eller ID.',
         '«Mine kampanjer» vises først. «Alle på firmaet» viser resten.',
         'Kladder står også i listen.',
         'Kampanjer fra dagens portal er med.'
-      ], ['liste'], 'finn']
+      ], ['liste'], 'finn'],
+      ['Hele reisen|Kampanjelisten', 'Som byrå vil jeg filtrere kampanjelisten, slik at jeg finner en gruppe kampanjer.', [
+        'Filter med brikker, «Nullstill», og lukk med Esc.'
+      ], ['liste'], 'filter']
     ]],
     ['Senere eller valgfritt', 'S', [
-      ['Ny kampanje|Steg 1: Stillingen', 'Som byrå vil jeg kopiere en tidligere kampanje, slik at jeg slipper å fylle ut alt på nytt.', [
-        '«Bestill på nytt» på en kampanje som er ferdig.',
-        'Kanaler, budsjett og annonser fylles ut. Kunden bytter stillingen.',
-        'Ikke laget i prototypen.',
-        'Kom ikke fra intervjuene. Sjekk med kundene om de trenger det før vi lager det.'
-      ], [], 'kopier'],
       ['Ny kampanje|Steg 2: Kampanjen', 'Som kunde vil jeg se hva budsjettet kan gi i tilbudskalkulatoren, slik at jeg velger riktig beløp.', [
         'Tilbudskalkulatoren, og «Estimert resultat» i Ny kampanje.',
         '«Hva når dere for budsjettet?» på Hjem for en ny kunde.',
         'Dekker noe av det kommunen ba om: pris, rekkevidde og forventet effekt før lederen sier ja.',
         'Krever ekte tall. I dag er tallene antakelser.'
       ], ['kalkulator', 'ny', 'hjemNy'], 'kalkulator'],
-      ['Ny kampanje|Steg 3: Annonsen', 'Som kunde vil jeg ha et nytt mediebibliotek, slik at jeg finner bildene mine raskt.', [
-        'Vi kan bruke det som finnes i dag.'
-      ], ['media'], 'media'],
       ['Ny kampanje|Steg 4: Se over og bestill', 'Som bestiller vil jeg sende planen og annonsene til lederen eller kunden, slik at jeg får et ja før jeg bestiller.', [
         '«Send planen til godkjenning» i siste steg, og «Send annonsene til godkjenning» på kampanjesiden.',
         'Bestilleren skriver navn og e-post. Mottakeren får en lenke.',
@@ -364,17 +370,14 @@
       ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se målgruppen før start og kommentere den, slik at Frantz treffer riktig.', [
         '«Hva Frantz har gjort» viser målgruppen, med et felt for kommentar.'
       ], ['arbeid'], 'malgruppe'],
-      ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se og godkjenne annonsene Frantz har laget, slik at ingenting publiseres uten mitt ja.', [
+      ['Etter bestillingen|Kampanje under arbeid', 'Som kunde som har bestilt design fra Frantz, vil jeg se og godkjenne annonsene, slik at ingenting publiseres uten mitt ja.', [
+        'Gjelder bare når kunden har bestilt design fra Frantz.',
         '«Annonsene er klare for deg» på kampanjen, med «Godkjenn» eller «Be om endring».',
         'Kunden kan si hvilken annonse som må endres.',
         'Den nye versjonen kommer tilbake til godkjenning.',
         'Oppgaven står også under «Venter på deg» på Hjem.',
         'I første versjon skjer dette på e-post, som i dag. En enkel neste versjon: et ja/nei-valg «Vis annonsene før start» i bestillingen.'
       ], ['arbeid', 'hjem'], 'godkjenn-design'],
-      ['Etter kampanjelansering|Hjem', 'Som kunde vil jeg se en samlet oversikt med tall på Hjem, slik at jeg ser alle kampanjene under ett.', [
-        'Tre tall øverst, og «Slik gikk kampanjene dine».',
-        'Tallene finnes også i hver kampanje.'
-      ], ['hjem'], 'hjem-tall'],
       ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg se tallene dag for dag og per nettsted, slik at jeg forstår hvor annonsen virker.', [
         'En linjegraf dag for dag, og en liste over nettsteder og aviser.',
         'Tallene må komme fra annonseplattformene.'
@@ -383,56 +386,23 @@
         'Hvert tall viser hvor mye bedre eller dårligere det er enn normalt.',
         'Krever ekte tall å sammenligne med.'
       ], ['rapport'], 'normalt'],
-      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg dele rapporten, slik at lederen kan se resultatet.', [
-        '«Last ned rapport (PDF)» og «Kopier rapportlenke».'
-      ], ['kampanje'], 'del-rapport'],
       ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg be om en endring på en kampanje som er bestilt eller i gang, slik at jeg kan bytte bilde, budsjett eller sluttdato.', [
-        'I dag sender kunden en e-post eller ringer rådgiveren. Det holder i første versjon.',
+        'I dag gjør kunden dette manuelt, på e-post eller telefon til rådgiveren. Det holder i første versjon.',
         '«Be om endring» på kampanjesiden, med tekst og vedlegg.',
         'Kunden kan også svare på e-posten for kampanjen.',
         'Endringen havner i innboksen til rådgiveren.',
         'Kampanjesiden viser at endringen er sendt, og når den er gjort.'
       ], ['kampanje', 'epost'], 'endre'],
-      ['Etter kampanjelansering|Rediger kampanjesiden', 'Som kunde vil jeg endre kampanjesiden selv, slik at jeg slipper å sende e-post.', [
-        'Egen side med forhåndsvisning.'
-      ], ['landingsside'], 'landingsside'],
-      ['Styre firmaet|Firmainnstillinger', 'Som kunde vil jeg lagre logo og farger én gang, slik at annonsene blir riktige hver gang.', [
-        'Merkevare under Firmainnstillinger.',
-        'Sjekk først hvor profilene finnes i dag.'
-      ], ['innstillinger'], 'merkevare'],
-      ['Styre firmaet|Forhandlere', 'Som forhandler vil jeg ha egne priser og en egen innlogging for sluttkunder, slik at jeg kan selge Frantz videre.', [
-        'Frantz må bestemme først. Nye API-er hører også hit.'
-      ], [], 'forhandler'],
-      ['Frantz leverer|Innboks for rådgivere', 'Som rådgiver i Frantz vil jeg få alt kundene sender, på ett sted, slik at ingen bestilling eller endring blir glemt.', [
-        'Innboksen viser nye bestillinger og endringsønsker.',
-        '«Venter på meg» viser det rådgiveren må gjøre nå.',
-        'Hver sak lenker til kampanjen.',
-        'Rådgiveren sender designutkast til kunden.',
-        'Rådgiveren endrer status fra «Bestilt» til «Under arbeid» og «Aktiv».',
-        'Frantz må avgjøre hva rådgiveren gjør i dagens verktøy. AI-svar i innboksen kan komme senere.'
-      ], ['innboks'], 'radgiver'],
-      ['Hele reisen|Kampanjelisten', 'Som byrå vil jeg filtrere kampanjelisten, slik at jeg finner en gruppe kampanjer.', [
-        'Filter med brikker, «Nullstill», og lukk med Esc.',
-        'Søket holder i starten.'
-      ], ['liste'], 'filter'],
-      ['Hele reisen|Min profil', 'Som bruker vil jeg velge hvilke varsler jeg får, slik at jeg ikke får for mange e-poster.', [
+      ['Hele reisen|Varsler og e-post', 'Som kunde vil jeg få en e-post når noe skjer, og velge hvilke varsler jeg får, slik at jeg slipper å sjekke portalen uten å få for mange e-poster.', [
         'Per interessent, daglig eller ingen, under Min profil.',
-        'Bjellen med varsler i toppfeltet.'
-      ], ['profil'], 'varsler'],
+        'Bjellen med varsler i toppfeltet.',
+        'E-post når kampanjen er bestilt, når annonsene er klare, når den er i gang, og når den er ferdig.',
+        'Én e-posttråd per kampanje, med oppdragsnummeret i emnet. Kunden kan svare rett på e-posten.',
+        'E-postene ligger utenfor designet av portalen og må lages for seg.'
+      ], ['profil', 'epost'], 'varsler'],
       ['Hele reisen|Spør Frantz', 'Som kunde vil jeg spørre Frantz i en chat, slik at jeg får svar raskt.', [
         'Møtet 20. oktober satte chat til senere.'
-      ], ['assistent'], 'chat'],
-      ['Hele reisen|Alle sider', 'Som bruker vil jeg kunne bruke portalen på mobilen og med tastaturet, slik at jeg kommer i mål uansett.', [
-        'Alle sider virker fra 320 piksler brede skjermer.',
-        'Alt kan brukes med tastaturet, med synlig fokus.',
-        'Feilmeldinger sier hva som er feil, og hva kunden gjør nå.'
-      ], [], 'mobil'],
-      ['Hele reisen|E-post', 'Som kunde vil jeg få en e-post når noe skjer, slik at jeg slipper å sjekke portalen.', [
-        'Ligger utenfor designet av portalen. E-postene må lages for seg.',
-        'E-post når kampanjen er bestilt, når annonsene er klare, når den er i gang, og når den er ferdig.',
-        'Én e-posttråd per kampanje, med oppdragsnummeret i emnet.',
-        'Kunden kan svare rett på e-posten.'
-      ], ['epost'], 'epost']
+      ], ['assistent'], 'chat']
     ]]
   ];
 
@@ -453,18 +423,18 @@
     '1': ['start', 'budsjett'], '2': ['start'], '3': ['kladd'], '4': ['budsjett'], '5': ['pakker'], '6': ['budsjett'], '7': ['budsjett'],
     '8': ['send-godkjenning', 'leder'], '9': ['connect', 'start'], '10': ['bekreftelse'], '11': ['start'], '12': ['faktura'], '13': ['budsjett'],
     '14': ['faktura'], '15': ['start', 'design'], '16': ['hjem-ny'], '17': ['budsjett', 'malgruppe'], '18': ['malgruppe'],
-    '20': ['filter'], '21': ['finn'], '23': ['resultat', 'del-rapport'], '24': ['resultat'], '25': ['media'],
-    '27': ['epost'], '28': ['epost'], '29': ['interessenter'], '30': ['varsler'], '31': ['landingsside'],
+    '20': ['filter'], '21': ['finn'], '23': ['resultat', 'del-rapport'], '24': ['resultat'], '25': ['ferdige'],
+    '27': ['varsler'], '28': ['varsler'], '29': ['interessenter'], '30': ['varsler'], '31': [],
     '32': ['normalt'], '33': ['resultat'], '34': ['dag-for-dag'], '35': ['resultat'], '36': ['resultat'], '37': ['dag-for-dag'], '38': ['resultat'], '39': ['resultat', 'del-rapport'],
-    'F1': ['start'], 'F2': ['budsjett', 'faktura'], 'F3': ['pakker', 'forhandler'], 'F4': ['send-godkjenning', 'leder'], 'F5': ['normalt'],
+    'F1': ['start'], 'F2': ['budsjett', 'faktura'], 'F3': [], 'F4': ['send-godkjenning', 'leder'], 'F5': ['normalt'],
     'F6': ['hjem-ny'], 'F7': ['budsjett'], 'F8': ['malgruppe', 'venter'], 'F9': ['faktura'],
-    'T2': ['kladd'], 'T5': ['bekreftelse'], 'T6': ['bekreftelse', 'connect'], 'T7': ['epost'], 'T9': ['budsjett'], 'T10': ['resultat', 'dag-for-dag'],
+    'T2': ['kladd'], 'T5': ['bekreftelse'], 'T6': ['bekreftelse', 'connect'], 'T7': ['varsler'], 'T9': ['budsjett'], 'T10': ['resultat', 'dag-for-dag'],
     'T13': ['admin', 'finn'], 'T14': ['varsler'], 'T15': ['leder'],
     'N1': ['hjem-ny'], 'N2': ['start'], 'N3': ['lag-selv'], 'N4': ['kalkulator'],
-    '22': ['resultat'], 'T1, T4, T8, T16': ['connect', 'resultat'], 'T3, T11, T12': ['forhandler']
+    '22': ['resultat'], 'T1, T4, T8, T16': ['connect', 'resultat'], 'T3, T11, T12': []
   };
   // Findings with no story of their own, or where the story does not tell the whole priority
-  var FUNN_PRIORITET = { '19': 'S', '26': 'M', 'F10': 'S', 'T1, T4, T8, T16': 'M', 'T3, T11, T12': 'S' };
+  var FUNN_PRIORITET = { 'T1, T4, T8, T16': 'M' };
   var HISTORIE_NR = {};
   MVP.forEach(function (t) { t[2].forEach(function (r, i) { HISTORIE_NR[r[4]] = t[1] + (i + 1); }); });
   document.querySelectorAll('[data-funn]').forEach(function (td) {
@@ -474,6 +444,7 @@
   // «Må med» when the finding has its own priority «M», or when one of its stories is a must-have
   document.querySelectorAll('[data-mvp]').forEach(function (td) {
     var nr = td.dataset.mvp, keys = FUNN_TIL_HISTORIE[nr] || [];
+    if (td.closest('tr').dataset.status === 'ikke') { td.innerHTML = '<span class="table__meta">—</span>'; return; }
     var ma = FUNN_PRIORITET[nr] ? FUNN_PRIORITET[nr] === 'M' : keys.some(function (k) { return HISTORIE_NR[k].charAt(0) === 'M'; });
     td.innerHTML = ma ? '<b class="lo-ma">Må med</b>' : '<span class="table__meta">Senere</span>';
   });
