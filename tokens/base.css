@@ -127,6 +127,7 @@
 
   /* ── STRUCTURAL SURFACES ─────────────────────────────────────── */
 
+  --surface-page:     #EEF3F6;               /* tinted page behind white cards and tables */
   --surface-default:  var(--color-white);   /* page (POC: white) */
   --surface-subtle:   var(--color-panel);
   --surface-section:  var(--color-panel-2);

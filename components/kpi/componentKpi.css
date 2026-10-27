@@ -7,9 +7,17 @@
 
 .kpi,
 .fakta {
-  background: var(--surface-subtle);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-12);
   padding: var(--space-16);
+}
+
+/* Inside a white card the tile keeps its tint, so it still reads as a tile. */
+.card .kpi,
+.card .fakta {
+  background: var(--surface-subtle);
+  border-color: transparent;
 }
 
 .kpi__label,
