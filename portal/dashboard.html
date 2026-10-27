@@ -113,10 +113,14 @@
   /* Active campaigns: the same table as on Kampanjer */
   .table-card { padding: 0; overflow-x: auto; }
 
-  @media (max-width: 1180px) {
+  /* Keep the short campaign table in rows while the desktop navigation is visible. */
+  @media (min-width: 861px) {
+    .table-card { container-type: normal; }
+  }
+  /* Move results below the table before the two-column layout squeezes its content. */
+  @media (max-width: 1440px) {
     .wrap .cols { grid-template-columns: 1fr; }
   }
-  /* Stable etter bredden på lista, ikke skjermen: med sidemenyen åpen blir kolonnen smal lenge før 900 px. */
 </style>
 </head>
 <body>

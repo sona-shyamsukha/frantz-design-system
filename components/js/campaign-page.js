@@ -35,18 +35,6 @@
     return;
   }
   if (page === 'production') {
-    var comment = document.querySelector('.kommentar');
-    if (comment) {
-      comment.removeAttribute('onsubmit');
-      comment.addEventListener('submit', function (event) {
-        event.preventDefault();
-        var message = comment.querySelector('textarea').value.trim();
-        if (!message) { comment.querySelector('textarea').focus(); return; }
-        location.href = contactUrl(true, 'Hei,\n\n' + message);
-        comment.querySelector('[data-sendt]').textContent = 'E-postutkastet er åpnet. Send meldingen fra e-posten din.';
-        comment.querySelector('[data-sendt]').hidden = false;
-      });
-    }
     var approve = document.getElementById('approve-campaign-material');
     var actions = approve.closest('[data-campaign-approval-actions]');
     var creativeCard = document.getElementById('creative-heading').closest('.card');

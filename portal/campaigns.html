@@ -8,6 +8,7 @@
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=20261027-submitted">
+<link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -63,30 +64,6 @@
 
   .kladd-varsel { align-items: center; flex-wrap: wrap; margin-top: var(--space-16); }
 
-  /* Filter menu: closes on a click outside it or on Esc */
-  .filtermeny { position: relative; }
-  .filtermeny__knapp { display: inline-flex; align-items: center; gap: var(--space-8); min-height: 46px; padding: 0 var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: inherit; font-size: var(--text-base); font-weight: var(--font-weight-semibold); cursor: pointer; }
-  .filtermeny__knapp:hover, .filtermeny__knapp[aria-expanded="true"] { border-color: var(--color-navy); }
-  .filtermeny__antall { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font-size: var(--text-xs); }
-  .filtermeny__antall[hidden] { display: none; }
-  .filtermeny__panel { position: absolute; top: calc(100% + var(--space-8)); left: 0; z-index: 20; display: grid; gap: var(--space-16); width: 320px; max-width: calc(100vw - 32px); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
-  .filtermeny__panel[hidden] { display: none; }
-  .filtermeny__panel fieldset { margin: 0; padding: 0; border: 0; }
-  .filtermeny__panel fieldset[hidden] { display: none; }
-  .filtermeny__panel fieldset + fieldset { padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
-  /* float keeps the heading inside the section, so the divider line sits above it */
-  .filtermeny__panel legend { float: left; width: 100%; margin-bottom: var(--space-12); padding: 0; }
-  .filtermeny__valg { clear: both; display: grid; gap: var(--space-12); }
-  .filtermeny__valg .form-radio, .filtermeny__valg .form-check { min-height: 24px; }
-  .filtermeny__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
-
-  /* Active filters as chips, with «Nullstill» */
-  .aktive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-muted); font-size: var(--text-base); }
-  .aktive[hidden] { display: none; }
-  .aktiv-filter { display: inline-flex; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-12); border: 1px solid var(--border-navy-soft); border-radius: var(--radius-full); background: var(--bg-navy-soft); color: var(--text-heading); font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); cursor: pointer; }
-  .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
-  .aktiv-filter:hover { border-color: var(--color-navy); }
-  .nullstill { padding: 0; border: 0; background: none; color: var(--text-heading); font-family: var(--font-body); font-size: var(--text-base); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -233,7 +210,7 @@
     return '<tr tabindex="0" data-id="' + esc(k.id) + '" data-href="' + esc(k.side) + '" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '">' +
       '<td data-label="Kampanje"><span class="table__title">' + esc(tittel) + '</span>' +
       (visStilling ? '<span class="table__meta">' + esc(k.tittel) + '</span>' : '') +
-      '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + ' · ' + esc(k.bestiller) + '</span></td>' +
+      '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + '</span></td>' +
       '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler ? FZ_KANALER.html(k.kanaler) : (k.status === 'Kladd' ? '—' : 'Frantz anbefaler')) + '</td>' +
       '<td data-label="Periode">' + periode + '</td>' +
       '<td data-label="Budsjett">' + (k.budsjett ? kr(k.budsjett) : '<span class="table__tom">Ikke valgt</span>') + '</td>' +
@@ -271,7 +248,7 @@
     var ord = sok.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     var vist = 0;
     rader.forEach(function (tr) {
-      var tekst = tr.textContent.toLowerCase();
+      var tekst = (tr.textContent + ' ' + tr.dataset.bestiller).toLowerCase();
       var ok = ord.every(function (o) { return tekst.indexOf(o) !== -1; }) && passer(tr);
       tr.hidden = !ok;
       if (ok) vist++;
