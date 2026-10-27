@@ -160,6 +160,11 @@
   cursor: pointer;
 }
 
+/* Temporarily hide the assistant in portal navigation; overview links remain available. */
+.rail .nav__item[href="assistent.html"] {
+  display: none;
+}
+
 .nav__item:hover {
   background: var(--rail-hover);
   color: var(--color-white);

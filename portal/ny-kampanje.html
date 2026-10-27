@@ -880,10 +880,7 @@
 
   body.v2-ute #ordre-oppsummering, body.v2-ute .steg-nav, body.v2-ute #mobilbestilling { display: none !important; }
   @container (min-width: 800px) {
-    .steg > #del-start, .v2.del { grid-column: 1 / -1; width: 70%; max-width: 960px; }
-  }
-  @container (min-width: 1000px) {
-    .steg > #del-start, .v2.del { width: 70%; max-width: 960px; }
+    .steg > #del-start, .v2.del, .kladd-hode { grid-column: 1 / -1; width: 70%; max-width: 960px; }
   }
   @media (max-width: 640px) {
     .v2-kilde, .v2-rad, .v2-rad--apen, .v2-seksjon__tittel { grid-template-columns: minmax(0, 1fr); padding-inline: var(--space-16); }
@@ -893,7 +890,7 @@
   }
 
   .v2-seksjon__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-12) var(--space-24); background: var(--surface-section); border-top: 1px solid var(--border-subtle); }
-  .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; }
+  .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; background: transparent; }
   .v2-rad { grid-template-columns: 11.5rem minmax(0, 1fr); }
   dialog.v2-dialog { width: min(680px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); overflow: hidden; box-shadow: var(--shadow-subtle); }
   .v2-dialog::backdrop { background: var(--scrim); }
@@ -993,12 +990,25 @@
   .nk-skjema .form-input[aria-invalid="true"]:focus,
   .v2-dialog .form-input[aria-invalid="true"]:focus { box-shadow: var(--focus-ring-danger); }
   @media (max-width: 640px) {
+    .app .nk-skjema > .v2.del { background: var(--surface-raised); border: 1px solid var(--border-default); }
     .v2-rad { grid-template-columns: minmax(0, 1fr); }
     .v2-seksjon__topp { padding-inline: var(--space-16); }
     dialog.v2-dialog { width: calc(100vw - var(--space-16)); max-height: calc(100dvh - var(--space-16)); }
     .v2-dialog__topp, .v2-dialog__innhold { padding: var(--space-16); }
     .v2-dialog__bunn { padding: var(--space-16); }
   }
+  .kladd-hode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-16); }
+  .kladd-slett { min-height: 44px; margin-inline-start: auto; background: var(--surface-raised); border-color: var(--border-strong); color: var(--text-danger-moderate); }
+  .kladd-slett[hidden] { display: none; }
+  dialog.kladd-dialog { position: fixed; inset: 0; margin: auto; width: min(520px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); overflow: auto; padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
+  .kladd-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
+  .kladd-dialog h2 { margin: 0 0 var(--space-16); }
+  .kladd-dialog p { margin: 0 0 var(--space-16); overflow-wrap: anywhere; }
+  .kladd-dialog__navn { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .kladd-dialog .form-label { display: block; }
+  .kladd-dialog .form-hint { margin-top: var(--space-8); }
+  .kladd-dialog .btn-row { justify-content: flex-end; margin-top: var(--space-24); }
+  @media (max-width: 640px) { dialog.kladd-dialog { padding: var(--space-24); } }
 </style>
 </head>
 <body data-assistant="form">
@@ -1047,7 +1057,10 @@
           <!-- One header for the page and the step: the page title, «Lagret», the step name and the progress bar -->
           <header class="steg-hode">
             <div class="steg-vis" id="steg-liste"></div>
-            <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
+            <div class="kladd-hode">
+              <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
+              <button class="btn btn--ghost kladd-slett" type="button" id="kladd-slett" aria-haspopup="dialog" hidden><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span>Slett kladd</button>
+            </div>
         <details class="ordre-meny" id="ordre-oppsummering" hidden>
           <summary class="ordre-linje">
             <span class="ordre-linje__navn"><b>Din bestilling</b><small id="ordre-kort-stilling">Fylles ut underveis</small></span>
@@ -1617,6 +1630,21 @@
 
 <div class="drawer-backdrop nk-ark-bakgrunn" id="ark-bakgrunn" hidden></div>
 
+<dialog class="kladd-dialog" id="kladd-dialog" aria-labelledby="kladd-dialog-tittel" aria-describedby="kladd-dialog-tekst">
+  <form id="kladd-slett-skjema">
+    <h2 class="text-h3" id="kladd-dialog-tittel">Slett kladden?</h2>
+    <p id="kladd-dialog-tekst">Kladden fjernes fra kampanjeoversikten. Skriv kampanjenavnet for å bekrefte.</p>
+    <p class="kladd-dialog__navn" id="kladd-slett-navn"></p>
+    <label class="form-label" for="kladd-bekreft-navn">Kampanjenavn</label>
+    <input class="form-input" id="kladd-bekreft-navn" type="text" autocomplete="off" spellcheck="false" aria-describedby="kladd-slett-hint" autofocus>
+    <p class="form-hint" id="kladd-slett-hint">Skriv navnet nøyaktig slik det står over.</p>
+    <p class="alert alert--error" id="kladd-slett-feil" role="alert" hidden></p>
+    <div class="btn-row btn-row--stack">
+      <button class="btn btn--secondary" type="button" id="kladd-avbryt">Avbryt</button>
+      <button class="btn btn--primary" type="submit" id="kladd-bekreft" disabled>Slett kladd</button>
+    </div>
+  </form>
+</dialog>
 
 <dialog class="v2-dialog" id="v2-dialog" aria-labelledby="v2-dialog-tittel">
   <form id="v2-dialog-form" novalidate>
@@ -1645,12 +1673,19 @@
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=6"></script>
+<script src="data/kampanjer.js?v=20261027-delete-draft"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
 <script>
 (function () {
+  var kladdParametre = new URLSearchParams(location.search);
+  var kladdId = kladdParametre.get('kladd');
+  if (kladdId && (!FZ_KAMPANJER.finn(kladdId) || FZ_KAMPANJER.finn(kladdId).status !== 'Kladd')) {
+    kladdParametre.delete('kladd');
+    location.replace('campaigns.html' + (kladdParametre.size ? '?' + kladdParametre.toString() : ''));
+    return;
+  }
   var R = window.FrantzRekkevidde;
   var $ = function (id) { return document.getElementById(id); };
   var kr = function (n) { return 'kr ' + R.tall(n); };
@@ -4258,6 +4293,7 @@
 })();
 </script>
 
+<script src="../components/js/campaign-draft-delete.js?v=1"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>

@@ -61,6 +61,7 @@
 
   .pagination-wrap { margin-top: var(--space-24); }
 
+  .kladd-varsel { align-items: center; flex-wrap: wrap; margin-top: var(--space-16); }
 
   /* Filter menu: closes on a click outside it or on Esc */
   .filtermeny { position: relative; }
@@ -171,6 +172,13 @@
       <div class="aktive" id="aktive" aria-live="polite" hidden></div>
       </div>
 
+      <div class="alert alert--info kladd-varsel" id="kladd-slettet" role="status" hidden>
+        <span class="icon-lucide icon-lucide--trash-2 alert__icon" aria-hidden="true"></span>
+        <div class="alert__content"><span class="alert__body" id="kladd-slettet-tekst"></span></div>
+        <button class="btn btn--secondary btn--sm" type="button" id="kladd-angre">Angre</button>
+      </div>
+      <p class="alert alert--error kladd-varsel" id="kladd-angre-feil" role="alert" hidden></p>
+
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
@@ -208,7 +216,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=6"></script>
+<script src="data/kampanjer.js?v=20261027-delete-draft"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -216,12 +224,13 @@
   // Rows come from the shared campaign list, so they match Hjem and Stillinger
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
+  function tegnRader() {
   tbody.innerHTML = FZ_KAMPANJER.alle().map(function (k) {
     var periode = k.periode || (k.frist ? 'Søknadsfrist ' + FZ_KAMPANJER.dato(k.frist) : '—');
     var navn = (k.ref || '').trim();
     var tittel = navn || k.tittel;
     var visStilling = navn && navn.toLocaleLowerCase('nb') !== k.tittel.toLocaleLowerCase('nb');
-    return '<tr tabindex="0" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '" onclick="location.href=\'' + k.side + '\'">' +
+    return '<tr tabindex="0" data-id="' + esc(k.id) + '" data-href="' + esc(k.side) + '" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '">' +
       '<td data-label="Kampanje"><span class="table__title">' + esc(tittel) + '</span>' +
       (visStilling ? '<span class="table__meta">' + esc(k.tittel) + '</span>' : '') +
       '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + ' · ' + esc(k.bestiller) + '</span></td>' +
@@ -231,7 +240,10 @@
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + (k.status === 'Avsluttet' ? 'Åpne rapporten' : k.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen') + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
-  var rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  }
+  var rader = [];
+  tegnRader();
   var MEG = 'Kari Hansen'; // the logged-in user in the demo
   var STATUSER = ['Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
   var valgt = { hvem: 'mine', status: [] };
@@ -316,6 +328,32 @@
   $('filter-knapp').addEventListener('click', function () { apne($('filter-panel').hidden); });
   document.addEventListener('click', function (e) { if (!$('filter-panel').hidden && !$('filtermeny').contains(e.target)) apne(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('filter-panel').hidden) { apne(false); $('filter-knapp').focus(); } });
+
+  var sistSlettet = null;
+  try { sistSlettet = JSON.parse(sessionStorage.getItem('fzSlettetKladd') || 'null'); } catch (e) {}
+  if (sistSlettet && !FZ_KAMPANJER.finn(sistSlettet.id)) {
+    $('kladd-slettet-tekst').textContent = 'Kladden «' + sistSlettet.navn + '» er slettet.';
+    $('kladd-slettet').hidden = false;
+  }
+  tbody.addEventListener('click', function (e) {
+    var rad = e.target.closest('tr[data-href]');
+    if (rad) location.href = rad.dataset.href;
+  });
+  $('kladd-angre').addEventListener('click', function () {
+    if (!sistSlettet) return;
+    if (!FZ_KAMPANJER.gjenopprettKladd(sistSlettet.id)) {
+      $('kladd-angre-feil').textContent = 'Kladden kunne ikke gjenopprettes. Prøv igjen.';
+      $('kladd-angre-feil').hidden = false;
+      return;
+    }
+    tegnRader(); sorter(); filtrer();
+    var rad = rader.filter(function (r) { return r.dataset.id === sistSlettet.id; })[0];
+    $('kladd-slettet').hidden = true;
+    $('kladd-angre-feil').hidden = true;
+    sistSlettet = null;
+    try { sessionStorage.removeItem('fzSlettetKladd'); } catch (e) {}
+    if (rad && !rad.hidden) rad.focus(); else sok.focus();
+  });
 
   // The whole row is a link. interactions.js opens it with Enter, like a click.
   sok.addEventListener('input', filtrer);
