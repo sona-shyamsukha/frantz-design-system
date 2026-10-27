@@ -45,6 +45,7 @@ window.FZ_KAMPANJER = (function () {
     var ut = {};
     Object.keys(k).forEach(function (n) { ut[n] = k[n]; });
     ut.tittel = k.stilling + ' ' + k.sted;
+    if (['Aktiv', 'Avsluttet', 'Bestilt'].indexOf(k.status) !== -1 && k.side.indexOf('id=') === -1) ut.side = k.side + (k.side.indexOf('?') === -1 ? '?' : '&') + 'id=' + encodeURIComponent(k.id);
     ut.periode = k.fra ? dato(k.fra).slice(0, 5) + ' – ' + dato(k.til) : '';
     ut.lengde = k.fra ? dager(k.fra, k.til) : 0;
     if (k.status === 'Aktiv') ut.dag = Math.round((idag() - fraIso(k.fra)) / 86400000) + 1;

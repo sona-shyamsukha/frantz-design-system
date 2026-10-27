@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campaign review — responsive verification</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; background: #eee; }
+    .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px; }
+    .previews { display: flex; flex-wrap: wrap; gap: 24px; align-items: start; }
+    figure { margin: 0; max-width: 100%; overflow: auto; }
+    figcaption { margin: 12px 0; }
+    iframe { display: block; height: 844px; border: 1px solid #888; background: white; }
+    output { display: block; padding: 8px; background: white; }
+  </style>
+</head>
+<body>
+  <h1>Campaign review — responsive verification</h1>
+  <div class="controls"><label for="width">Viewport width</label><select id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option></select><button type="button" id="measure">Measure visible pages</button></div>
+  <div class="previews" id="previews"></div>
+  <script>
+    const pages = [
+      ['Ordered', '../portal/kampanje-bestilt.html'],
+      ['Approval', '../portal/kampanje-under-arbeid.html?fase=godkjenning'],
+      ['Active', '../portal/campaign.html?id=129041'],
+      ['Completed', '../portal/rapport.html?id=128984'],
+      ['Shared', '../portal/delt-rapport.html?kampanje=128984&forhandsvis=1'],
+      ['Review hub', '../portal/kampanje-designreview.html']
+    ];
+    const width = document.getElementById('width');
+    const previews = document.getElementById('previews');
+    function measure(frame, output) {
+      const doc = frame.contentDocument;
+      if (!doc || !doc.querySelector('h1')) { output.textContent = 'Still loading'; return; }
+      const viewport = doc.documentElement.clientWidth;
+      const scroll = doc.documentElement.scrollWidth;
+      const duplicateIds = [...doc.querySelectorAll('[id]')].map(node => node.id).filter((id, index, all) => all.indexOf(id) !== index);
+      output.textContent = `${scroll <= viewport ? 'PASS' : 'FAIL'} — viewport ${viewport}px, page ${scroll}px; duplicate IDs: ${duplicateIds.length}`;
+      output.dataset.pass = String(scroll <= viewport && duplicateIds.length === 0);
+    }
+    pages.forEach(([name, url]) => {
+      const figure = document.createElement('figure');
+      const caption = document.createElement('figcaption');
+      caption.textContent = name;
+      const frame = document.createElement('iframe');
+      frame.src = url; frame.title = name; frame.style.width = width.value + 'px';
+      const output = document.createElement('output'); output.textContent = 'Loading';
+      frame.addEventListener('load', () => { measure(frame, output); });
+      figure.append(caption, output, frame); previews.append(figure);
+    });
+    function measureAll() { previews.querySelectorAll('figure').forEach(figure => measure(figure.querySelector('iframe'), figure.querySelector('output'))); }
+    width.addEventListener('change', () => { previews.querySelectorAll('iframe').forEach(frame => { frame.style.width = width.value + 'px'; }); requestAnimationFrame(measureAll); });
+    document.getElementById('measure').addEventListener('click', measureAll);
+  </script>
+</body>
+</html>

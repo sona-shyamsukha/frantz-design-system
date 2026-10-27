@@ -33,6 +33,25 @@ Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-dat
 - [Previous design — backup for user testing](portal/ny-kampanje-alternativ.html): retained as an alternative if testing reveals that the main flow is difficult to understand.
 - Earlier `ny-kampanje-v2.html` links redirect to `ny-kampanje.html`, preserving query parameters and fragments.
 
+## Campaign page design review
+
+The `codex/campaign-page-review` branch contains working visual proposals for ordered,
+in-production, active and completed campaigns, plus a separate read-only report.
+Open [the page-by-page review](portal/kampanje-designreview.html). Each page has a
+specific design question for Sona; none of these proposals constitutes design approval.
+
+Report links, cost visibility, expiry and revocation are a **same-browser local demo**.
+They do not publish a report, send email or grant access on another device. Production
+needs server-side report storage, access enforcement and field filtering. The shared
+page loads aggregate example fixtures only, with no candidate or account scripts.
+Complete report fixtures exist for Oslo and Bodø; other campaigns preserve their own
+identity and explicitly show that report data is unavailable in this prototype.
+
+Run `node --test tests/report-sharing.test.cjs tests/approval-store.test.cjs tests/campaign-material.test.cjs`.
+The [responsive check](tests/campaign-page-responsive.html) verifies the actual pages
+inside phone, tablet and desktop viewports. Details and candidate follow-up remain
+available inside the portal. Design decisions and limits: [review notes](planning/campaign-page-design-review.md).
+
 ## Approval prototype
 
 `Send planen til godkjenning` and `Send annonsene til godkjenning` expand an inline recipient form beside the campaign material. One name and email are required.

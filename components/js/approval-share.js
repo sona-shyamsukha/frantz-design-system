@@ -14,7 +14,7 @@
     (options.host || trigger.parentElement).insertAdjacentElement('afterend', editor);
     editor.insertAdjacentElement('afterend', summary);
     trigger.classList.add('approval-trigger'); trigger.removeAttribute('aria-haspopup'); trigger.setAttribute('aria-expanded', 'false'); trigger.setAttribute('aria-controls', editor.id);
-    trigger.lastChild.textContent = options.round === 'plan' || options.rounds[0] === 'plan' ? ' Send planen til godkjenning' : ' Send annonsene til godkjenning';
+    trigger.lastChild.textContent = trigger.dataset.approvalLabel || (options.round === 'plan' || options.rounds[0] === 'plan' ? ' Send planen til godkjenning' : ' Send annonsene til godkjenning');
     var context = { trigger: trigger, options: options, editor: editor, summary: summary, records: [] }; attachments.push(context);
     async function refresh() {
       try {

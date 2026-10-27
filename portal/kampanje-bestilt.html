@@ -56,8 +56,9 @@
     .material-content:has(#submitted-preview[hidden]) .material-info { grid-column: 1 / -1; }
   }
 </style>
+<link rel="stylesheet" href="../styles/campaign-review.css?v=1">
 </head>
-<body>
+<body class="campaign-review" data-campaign-page="ordered">
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
 
 <header class="mobiltopp">
@@ -95,6 +96,7 @@
     <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
+      <div class="review-context"><a href="kampanje-designreview.html">← Alle designforslag</a><span>Designforslag · eksempeldata</span></div>
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
           <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
@@ -106,16 +108,16 @@
         <h1 class="text-h2" id="k-tittel">Barnehagelærer Drammen</h1>
         <span class="badge badge--ordered">Bestilt</span>
       </div>
-      <div class="alert alert--info status-alert" id="status-alert"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div>Frantz har fått bestillingen. Martin Karlsen starter på den innen 1 arbeidsdag. Du får en e-post når annonsene er klare.</div></div>
+      <div class="alert alert--info status-alert" id="status-alert" hidden><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div>Frantz har fått bestillingen. Martin Karlsen starter på den innen 1 arbeidsdag. Du får en e-post når annonsene er klare.</div></div>
 
-      <div class="cols">
+      <div class="cols campaign-layout">
         <div class="flow">
-          <div class="card card--betjen">
-            <div class="card__head"><div><h3 class="card__title">Hva skjer nå?</h3>
-            <p class="card__hint" id="ordered-next-hint">Du har én ting å gjøre: legg sporingskoden på stillingssiden. Resten gjør Frantz. Svar på e-posten fra Frantz hvis du vil endre noe.</p></div></div>
-            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small id="b-tid">I dag kl. 09.12.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du legger sporingskoden på stillingssiden</b><small><a class="link link--xs" href="#piksel">Se koden</a> i «Om kampanjen». Gjør det før kampanjen starter.</small></div></li><li class="mangler" id="b-radgivning" hidden><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Rådgiveren tar kontakt for strategisk rådgivning</b><small>Martin Karlsen ringer innen 1 arbeidsdag og avtaler en gjennomgang av målgruppe, kanaler og budsjett.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b id="ordered-production-title">Frantz lager annonsene og målrettingen</b><small id="ordered-production-time">Tar vanligvis 2–3 arbeidsdager.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du ser annonsene før de publiseres</b><small>Du godkjenner, eller ber om endringer.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Kampanjen starter</b><small id="b-start">Ønsket start 07.10.2026.</small></div></li></ul>
-          </div>
-          <div class="card card--les">
+          <section class="campaign-next"><div class="campaign-next__heading"><span class="campaign-eyebrow">Neste steg · Frantz</span></div><h2>Vi går gjennom bestillingen din</h2><p id="ordered-next-hint">Frantz sjekker opplysningene og klargjør annonser og målretting. Du får beskjed når noe er klart for deg.</p><div class="campaign-next__footer"><div><span class="campaign-small-label">Neste oppdatering</span><b>Du får en e-post når annonsene er klare</b></div><button type="button" class="btn btn--primary" data-contact-adviser>Kontakt rådgiver</button></div></section><section class="campaign-task" aria-labelledby="tracking-task"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span><div><h2 id="tracking-task">Legg sporingskoden på stillingssiden</h2><p>Dette gjenstår hos dere før kampanjen starter.</p></div><a class="btn btn--secondary btn--sm" href="#tracking-details" data-open-details="tracking-details">Se sporingskoden</a></section><details class="campaign-disclosure"><summary>Se fremdrift og historikk</summary><div class="campaign-disclosure__body"><div class="card card--betjen">
+            <div class="card__head"><div><h3 class="card__title">Fremdrift</h3>
+            <p class="card__hint">Du har én ting å gjøre: legg sporingskoden på stillingssiden. Resten gjør Frantz. Svar på e-posten fra Frantz hvis du vil endre noe.</p></div></div>
+            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small id="b-tid">I dag kl. 09.12.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du legger sporingskoden på stillingssiden</b><small><a class="link link--xs" href="#tracking-details" data-open-details="tracking-details">Se sporingskoden</a>. Gjør det før kampanjen starter.</small></div></li><li class="mangler" id="b-radgivning" hidden><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Rådgiveren tar kontakt for strategisk rådgivning</b><small>Martin Karlsen ringer innen 1 arbeidsdag og avtaler en gjennomgang av målgruppe, kanaler og budsjett.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b id="ordered-production-title">Frantz lager annonsene og målrettingen</b><small id="ordered-production-time">Tar vanligvis 2–3 arbeidsdager.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du ser annonsene før de publiseres</b><small>Du godkjenner, eller ber om endringer.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Kampanjen starter</b><small id="b-start">Ønsket start 07.10.2026.</small></div></li></ul>
+          </div></div></details>
+          <details class="campaign-disclosure"><summary>Bestillingsdetaljer</summary><div class="campaign-disclosure__body"><div class="card card--les">
             <div class="card__head"><h3 class="card__title">Bestillingen</h3></div>
             <dl class="summary-row" id="r-pakke" hidden><dt>Pakke</dt><dd id="d-pakke"></dd></dl>
             <dl class="summary-row"><dt>Stilling</dt><dd id="d-stilling">Barnehagelærer, 100 % fast</dd></dl>
@@ -126,8 +128,8 @@
             <dl class="summary-row"><dt>Materiell</dt><dd id="d-materiell">Frantz lager annonsene</dd></dl>
             <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
             <dl class="summary-row"><dt id="d-kommentar-label">Kommentar</dt><dd id="d-kommentar" style="white-space: pre-line;">Bruk gjerne bilder fra uteområdet.</dd></dl>
-          </div>
-          <section class="card card--betjen material-card" aria-labelledby="material-heading">
+          <dl class="summary-row" id="r-sok"><dt>Forventet «Søk»</dt><dd id="d-sok">5–8</dd></dl><dl class="summary-row"><dt>Bestilt</dt><dd id="d-bestilt">I dag kl. 09.12</dd></dl><dl class="summary-row"><dt>Budsjett</dt><dd id="d-budsjett">kr 32 000</dd></dl><dl class="summary-row" id="r-tilleggsum" hidden><dt>Tillegg</dt><dd id="d-tilleggsum"></dd></dl></div></div></details>
+          <details class="campaign-disclosure"><summary>Innsendt annonse og materiell</summary><div class="campaign-disclosure__body"><section class="card card--betjen material-card" aria-labelledby="material-heading">
             <div class="card__head"><h2 class="card__title" id="material-heading">Annonse og materiell</h2></div>
             <p class="material-empty" id="material-loading" role="status">Laster inn materiellet …</p>
             <p class="material-empty" id="material-empty" hidden>Det er ikke lagret en forhåndsvisning eller originalfiler for denne bestillingen.</p>
@@ -160,7 +162,7 @@
                 </div>
               </div>
             </div>
-          </section>
+          </section></div></details>
 
         </div>
         <aside>
@@ -168,18 +170,16 @@
             <div class="summary-panel__head"><h2>Om kampanjen</h2></div>
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Ønsket periode</dt><dd id="d-periode">07.10 – 04.11.2026 · 29 dager</dd></dl>
-              <dl class="summary-row"><dt>Budsjett</dt><dd id="d-budsjett">kr 32 000</dd></dl>
-              <dl class="summary-row" id="r-tilleggsum" hidden><dt>Tillegg</dt><dd id="d-tilleggsum"></dd></dl>
-              <dl class="summary-row" id="r-sok"><dt>Forventet «Søk»</dt><dd id="d-sok">5–8</dd></dl>
+
+
+
               <dl class="summary-row"><dt>Rådgiver</dt><dd id="ordered-adviser">Martin Karlsen</dd></dl>
-              <dl class="summary-row"><dt>Bestilt</dt><dd id="d-bestilt">I dag kl. 09.12</dd></dl>
+
             </div>
             <div class="summary-panel__total"><span>Totalsum</span><b id="d-total">kr 32 000</b></div>
             <p class="summary-panel__mva">Alle priser er eks. mva.</p>
-            <div class="summary-panel__block piksel" id="piksel" data-piksel="129074" data-status="venter"></div>
-            <div class="summary-panel__cta">
-              <button class="btn btn--primary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
-            </div>
+            <details class="campaign-disclosure" id="tracking-details"><summary>Sporingskode</summary><div class="campaign-disclosure__body"><div class="summary-panel__block piksel" id="piksel" data-piksel="129074" data-status="venter"></div></div></details>
+
           </div>
         </aside>
       </div>
@@ -262,6 +262,12 @@
     $('d-kommentar-label').textContent = 'Tilleggsinformasjon';
     $('r-ref').querySelector('dt').textContent = 'Kampanjenavn/deres referansekode';
   }
+  if (o.avklaringer && o.avklaringer.length) {
+    document.querySelector('.campaign-next h2').textContent = 'Vi trenger noen opplysninger fra deg';
+    $('ordered-next-hint').textContent = 'Dette må avklares før oppstart: ' + o.avklaringer.join(', ') + '. Ta kontakt med rådgiveren om opplysningene.';
+    document.querySelector('.campaign-next .campaign-eyebrow').textContent = 'Neste steg · Deg og Frantz';
+    document.querySelector('.campaign-next [data-contact-adviser]').textContent = 'Send manglende informasjon';
+  }
   $('b-tid').textContent = record ? new Date(record.innsendt).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short' }) : o.tid ? 'I dag kl. ' + String(o.tid).replace(':', '.') + '.' : 'Bestillingen er mottatt.';
   $('b-start').textContent = o.start ? 'Ønsket start ' + o.start + '.' : 'Startdato avklares med Frantz.';
   $('d-stilling').textContent = o.stilling || 'Ikke oppgitt';
@@ -291,5 +297,6 @@
 <script src="../components/js/piksel.js?v=3"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
+<script src="../components/js/campaign-page.js?v=1"></script>
 </body>
 </html>
