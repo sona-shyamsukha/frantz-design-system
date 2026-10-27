@@ -18,7 +18,8 @@
   gap: var(--space-16);
   min-height: var(--space-48);
   padding: var(--space-16) var(--space-panel-padding);
-  border-radius: inherit;
+  /* Keep the hover surface aligned with the outer card. */
+  border-radius: var(--radius-16);
   list-style: none;
   color: var(--text-heading);
   font: var(--type-label);
@@ -33,7 +34,7 @@
   color: var(--text-on-navy);
 }
 .disclosure > summary:active { background: var(--bg-navy-strong-hover); }
-.disclosure > summary:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
+.disclosure > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .disclosure > summary > .icon-lucide { margin-left: auto; color: inherit; }
 .disclosure[open] > summary { border-bottom: 1px solid var(--border-default); border-radius: var(--radius-16) var(--radius-16) 0 0; }
 .summary-panel > .disclosure > summary { border-radius: 0; }
