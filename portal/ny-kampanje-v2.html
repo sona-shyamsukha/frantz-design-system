@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Opprett kampanje — ny flyt — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=100">
+<link rel="stylesheet" href="../frantz-ds.css?v=201">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
@@ -230,6 +230,7 @@
   .status { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
   .status--ok { color: var(--text-success-strong); }
   .feil { margin: var(--space-8) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .felt > .feil, .form-group > .feil { margin: 0; } /* The field already supplies the gap. */
   .feil[hidden], .status[hidden] { display: none; }
   .mangler-liste { margin: 0 0 var(--space-16); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--bg-warning-soft); color: var(--color-amber-ink); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
   .mangler-liste[hidden] { display: none; }
@@ -875,6 +876,40 @@
     .v2-bunn { padding: var(--space-16); }
     .v2-bunn .btn { width: 100%; }
   }
+
+  .v2-seksjon__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-12) var(--space-24); background: var(--surface-section); border-top: 1px solid var(--border-subtle); }
+  .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; }
+  .v2-rad { grid-template-columns: 11.5rem minmax(0, 1fr); }
+  dialog.v2-dialog { width: min(680px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); overflow: auto; box-shadow: var(--shadow-subtle); }
+  .v2-dialog::backdrop { background: var(--scrim); }
+  .v2-dialog__topp { display: flex; justify-content: space-between; align-items: center; gap: var(--space-16); padding: var(--space-24); border-bottom: 1px solid var(--border-subtle); }
+  .v2-dialog__topp h2 { margin: 0; font: var(--type-section); color: var(--text-heading); }
+  .v2-dialog__innhold { display: grid; gap: var(--space-24); padding: var(--space-24); }
+  .v2-dialog__felt { min-width: 0; }
+  .v2-dialog__felt > .felt, .v2-dialog__felt > .blokk { margin: 0; width: 100%; min-width: 0; }
+  .v2-dialog__felt #blokk-periode { border-top: 0; padding-top: 0; }
+  .v2-dialog .form-input, .v2-dialog .picker__felt { max-width: 100%; }
+  .v2-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); position: sticky; bottom: 0; padding: var(--space-16) var(--space-24); background: var(--surface-raised); border-top: 1px solid var(--border-subtle); }
+  .v2-dialog__valg { display: grid; gap: var(--space-12); margin: 0; padding: 0; border: 0; }
+  .v2-dialog__valg legend { margin-bottom: var(--space-12); }
+  .v2-dialog__radio { display: flex; align-items: center; gap: var(--space-8); }
+  .v2-dialog__radio input { accent-color: var(--text-heading); }
+  .v2-dialog #budsjett-kontroll { display: block; }
+  .v2-dialog #anbefaling-prognose, .v2-dialog #anbefaling-forbehold { display: none; }
+  .v2-dialog .picker__liste { position: relative; max-height: 220px; }
+  .v2-dialog .picker__liste[hidden] { display: none; }
+  .v2-dialog__felt > #felt-ref > .form-label { display: block; }
+  .nk-skjema .form-input[aria-invalid="true"],
+  .v2-dialog .form-input[aria-invalid="true"] { border-color: var(--text-danger-moderate); }
+  .nk-skjema .form-input[aria-invalid="true"]:focus,
+  .v2-dialog .form-input[aria-invalid="true"]:focus { box-shadow: var(--focus-ring-danger); }
+  @media (max-width: 640px) {
+    .v2-rad { grid-template-columns: minmax(0, 1fr); }
+    .v2-seksjon__topp { padding-inline: var(--space-16); }
+    dialog.v2-dialog { width: calc(100vw - var(--space-16)); max-height: calc(100dvh - var(--space-16)); }
+    .v2-dialog__topp, .v2-dialog__innhold { padding: var(--space-16); }
+    .v2-dialog__bunn { padding: var(--space-16); }
+  }
 </style>
 </head>
 <body data-assistant="form">
@@ -1015,8 +1050,9 @@
             <div id="lenke-valg">
             <div class="kilder">
               <div class="felt funnet__bred kilde-referanse" id="felt-ref">
-                <label class="form-label" for="ref">Kampanjenavn <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand">
+                <label class="form-label" for="ref">Kampanjenavn <span class="valgfri">(obligatorisk)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" required aria-describedby="ref-feil">
+                <p class="feil" id="ref-feil" role="alert" hidden>Gi kampanjen et navn.</p>
               </div>
               <div class="kilde-felter" role="group" aria-label="Informasjon om stillingen">
               <div class="felt connect-valg" id="connect-valg">
@@ -1179,7 +1215,7 @@
               <div class="felt blokk funnet__bred" id="blokk-budsjett">
             <div class="budsjett-kontroll" id="budsjett-kontroll">
               <div class="budsjett-kontroll__topp">
-                <label class="form-label" for="budsjett">Totalbudsjett <span class="valgfri">(obligatorisk)</span> <button type="button" class="tooltip" id="budsjett-tips" data-tooltip="Velg stilling og sted, så viser vi anbefalt budsjett." aria-label="Mer info: Velg stilling og sted, så viser vi anbefalt budsjett."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <label class="form-label" for="budsjett">Totalbudsjett <button type="button" class="tooltip" id="budsjett-tips" data-tooltip="Velg stilling og sted, så viser vi anbefalt budsjett." aria-label="Mer info: Velg stilling og sted, så viser vi anbefalt budsjett."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
                 <button class="budsjett-kontroll__anbefalt" type="button" hidden>Bruk anbefalt</button>
               </div>
               <div class="budsjett-felt"><span>kr</span><input class="form-input" type="text" inputmode="numeric" id="budsjett" placeholder="F.eks. 10 000"></div>
@@ -1435,7 +1471,12 @@
             <div class="v2-bunn">
               <button class="btn btn--accent" type="button" id="v2-bestill">Bestill kampanjen</button>
             </div>
-            <p class="v2-klar" id="v2-klar" hidden>Skissen er fylt ut. Ingenting er sendt.</p>
+            <section class="v2-klar" id="v2-klar" tabindex="-1" aria-labelledby="v2-klar-tittel" hidden>
+              <h2 id="v2-klar-tittel" class="text-h3">Takk, vi følger opp kampanjen</h2>
+              <p>Frantz går gjennom opplysningene og tar kontakt om det som må avklares.</p>
+              <p id="v2-ikke-oppgitt"></p>
+              <p class="form-hint">Dette er en prototype. Ingen bestilling er sendt.</p>
+            </section>
           </section>
 
           <div class="steg-nav" id="steg-nav">
@@ -1462,6 +1503,21 @@
 </div>
 
 <div class="drawer-backdrop nk-ark-bakgrunn" id="ark-bakgrunn" hidden></div>
+
+
+<dialog class="v2-dialog" id="v2-dialog" aria-labelledby="v2-dialog-tittel">
+  <form id="v2-dialog-form" novalidate>
+    <header class="v2-dialog__topp">
+      <h2 id="v2-dialog-tittel" tabindex="-1" autofocus></h2>
+      <button type="button" class="btn btn--ghost btn--sm" id="v2-dialog-lukk" aria-label="Lukk redigering"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </header>
+    <div class="v2-dialog__innhold" id="v2-dialog-felt"></div>
+    <footer class="v2-dialog__bunn">
+      <button type="button" class="btn btn--secondary" id="v2-dialog-avbryt">Avbryt</button>
+      <button type="submit" class="btn btn--primary">Lagre endringer</button>
+    </footer>
+  </form>
+</dialog>
 
 <script src="../components/js/annonse-studio.js?v=2"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
@@ -1679,17 +1735,19 @@
     return a;
   }
   var V2SEKSJONER = [
-    { tittel: 'Stillingen', felt: [
+    { id: 'stilling', tittel: 'Stillingen', felt: [
       ['stilling', 'Stilling'],
       ['sted', 'Arbeidssted'],
       ['arbeidsgiver', 'Arbeidsgiver'],
       ['frist', 'Søknadsfrist']
     ]},
-    { tittel: 'Kampanjen', felt: [
+    { id: 'kampanje', tittel: 'Kampanjen', felt: [
       ['navn', 'Kampanjenavn'],
       ['budsjett', 'Budsjett'],
       ['kanaler', 'Kanaler'],
-      ['periode', 'Periode'],
+      ['periode', 'Periode']
+    ]},
+    { id: 'materiell', tittel: 'Materiell og filer', felt: [
       ['materiell', 'Materiell'],
       ['fil', 'Opplastet fil']
     ]}
@@ -1718,6 +1776,7 @@
   }
   function v2VisVerdi(id) {
     var ok = tilstand.v2ok || {}, kilde = tilstand.v2kilde || {};
+    if (Object.prototype.hasOwnProperty.call(ok, id)) return ok[id];
     if (id === 'budsjett') return ok.budsjett || (kilde.budsjett ? kr(kilde.budsjett) : '');
     if (id === 'kanaler') return ok.kanaler || (kilde.kanaler ? kilde.kanaler.join(', ') : '');
     if (id === 'materiell') {
@@ -1755,7 +1814,10 @@
     $('del-funnet').hidden = true;
     $('side-tittel').textContent = 'Opprett kampanje';
   }
+  // Summary values stay read-only. Related controls move into one native dialog.
+  var v2DialogSnapshot = null, v2DialogGroup = null;
   function v2Tegn() {
+    if ($('v2-dialog').open) return;
     v2hjemAlle();
     var kilde = [];
     if ($('beskrivelse').value.trim()) kilde.push($('beskrivelse').value.trim());
@@ -1763,79 +1825,40 @@
     if (tilstand.pdf) kilde.push(tilstand.pdf);
     $('v2-kilde-tekst').textContent = kilde.join('\n\n') || 'Fylt ut for hånd';
     var rot = $('v2-rader');
-    rot.innerHTML = '';
+    rot.replaceChildren();
     V2SEKSJONER.forEach(function (seksjon) {
       var blokk = document.createElement('section');
       blokk.className = 'v2-seksjon';
+      var topp = document.createElement('div');
+      topp.className = 'v2-seksjon__topp';
       var tittel = document.createElement('h2');
       tittel.className = 'v2-seksjon__tittel';
       tittel.textContent = seksjon.tittel;
-      blokk.appendChild(tittel);
+      topp.appendChild(tittel);
+      var endre = document.createElement('button');
+      endre.type = 'button';
+      endre.className = 'link';
+      endre.dataset.v2Gruppe = seksjon.id;
+      endre.setAttribute('aria-label', 'Endre ' + seksjon.tittel.toLowerCase());
+      endre.textContent = 'Endre';
+      topp.appendChild(endre);
+      blokk.appendChild(topp);
       seksjon.felt.forEach(function (felt) {
-      var id = felt[0], verdi = v2VisVerdi(id), mangler = !verdi, apen = v2apen === id;
-      var rad = document.createElement('div');
-      rad.className = 'v2-rad' + (mangler ? ' v2-rad--mangler' : '') + (apen ? ' v2-rad--apen' : '');
-      rad.setAttribute('data-v2', id);
-      var navn = document.createElement('span');
-      navn.className = 'v2-rad__navn';
-      navn.textContent = felt[1];
-      rad.appendChild(navn);
-      if (apen) {
-        var skjema = document.createElement('div');
-        skjema.className = 'v2-rad__skjema';
-        if (id === 'materiell') {
-          var valg = document.createElement('div');
-          valg.className = 'valgfaner';
-          valg.setAttribute('role', 'group');
-          valg.setAttribute('aria-label', 'Materiell');
-          [['ferdig', 'Ferdig materiell'], ['bygg', 'Lager annonsen selv'], ['hjelp', 'Frantz lager annonsen']].forEach(function (par) {
-            var knapp = document.createElement('button');
-            knapp.type = 'button';
-            knapp.className = 'valgfaner__valg';
-            knapp.setAttribute('data-v2-mat', par[0]);
-            knapp.setAttribute('aria-pressed', String(v2matValg === par[0]));
-            knapp.textContent = par[1];
-            valg.appendChild(knapp);
-          });
-          skjema.appendChild(valg);
-        } else v2flytt(id, skjema);
-        var knapper = document.createElement('div');
-        knapper.className = 'v2-rad__knapper';
-        var lagre = document.createElement('button');
-        lagre.type = 'button';
-        lagre.className = 'btn btn--primary btn--sm';
-        lagre.setAttribute('data-v2-lagre', id);
-        lagre.textContent = 'Lagre';
-        var avbryt = document.createElement('button');
-        avbryt.type = 'button';
-        avbryt.className = 'btn btn--ghost';
-        avbryt.setAttribute('data-v2-avbryt', id);
-        avbryt.textContent = 'Avbryt';
-        knapper.appendChild(lagre);
-        knapper.appendChild(avbryt);
-        skjema.appendChild(knapper);
-        rad.appendChild(skjema);
-      } else {
+        var verdi = v2VisVerdi(felt[0]);
+        var rad = document.createElement('div');
+        rad.className = 'v2-rad' + (!verdi ? ' v2-rad--mangler' : '');
+        rad.dataset.v2 = felt[0];
+        var navn = document.createElement('span');
+        navn.className = 'v2-rad__navn';
+        navn.textContent = felt[1];
         var tekst = document.createElement('p');
         tekst.className = 'v2-rad__verdi';
-        tekst.textContent = mangler ? (id === 'fil' ? 'Ingen fil er lastet opp. Legg til filen som skal brukes.' : 'Mangler') : verdi;
-        var handling = document.createElement('button');
-        handling.type = 'button';
-        handling.className = mangler ? 'btn btn--secondary btn--sm' : 'link';
-        handling.setAttribute('data-v2-apne', id);
-        handling.textContent = mangler ? (id === 'fil' ? 'Legg til fil' : 'Legg til') : 'Endre';
-        rad.appendChild(tekst);
-        rad.appendChild(handling);
-      }
-      blokk.appendChild(rad);
+        tekst.textContent = verdi || (felt[0] === 'fil' ? 'Ingen fil lagt til' : 'Mangler');
+        rad.append(navn, tekst);
+        blokk.appendChild(rad);
       });
       rot.appendChild(blokk);
     });
-    if (v2fokus && v2apen) {
-      var fokus = document.querySelector('[data-v2="' + v2apen + '"] input, [data-v2="' + v2apen + '"] textarea, [data-v2="' + v2apen + '"] button');
-      if (fokus) fokus.focus();
-      v2fokus = false;
-    }
   }
   function v2Lagre(id) {
     var ok = tilstand.v2ok;
@@ -1845,38 +1868,115 @@
     else if (id === 'arbeidsgiver') ok.arbeidsgiver = $('arbeidsgiver').value.trim();
     else if (id === 'frist') ok.frist = $('frist').value ? kort($('frist').value) : '';
     else if (id === 'budsjett') ok.budsjett = budsjett() ? kr(budsjett()) : '';
-    else if (id === 'kanaler') ok.kanaler = tilstand.kanaler.length ? tilstand.kanaler.join(', ') : '';
+    else if (id === 'kanaler') ok.kanaler = tilstand.kanaler.join(', ');
     else if (id === 'periode') ok.periode = periodeTekst();
     else if (id === 'materiell') ok.materiell = v2matValg === 'hjelp' ? 'Frantz lager annonsen' : v2matValg === 'bygg' ? 'Lager annonsen selv' : v2matValg === 'ferdig' ? 'Ferdig materiell' : '';
     else if (id === 'fil') ok.fil = tilstand.pdf || '';
-    if (!ok[id]) delete ok[id];
-    v2apen = null;
-    $('v2-status').hidden = true;
-    v2Tegn();
   }
   function v2Apne(id) {
-    v2apen = id;
-    v2fokus = true;
-    if (id === 'materiell') {
-      var k = tilstand.v2kilde && tilstand.v2kilde.materiell;
-      v2matValg = k || '';
-    }
+    var seksjon = V2SEKSJONER.find(function (g) { return g.id === id || g.felt.some(function (felt) { return felt[0] === id; }); });
+    if (!seksjon || $('v2-dialog').open) return;
+    v2DialogGroup = seksjon;
+    // Controls have existing listeners. Snapshot their values so every dismissal is reversible.
+    v2DialogSnapshot = {
+      state: structuredClone(tilstand), budget: budsjett(), steder: structuredClone(steder.verdi()),
+      fields: ['ref', 'stilling', 'arbeidsgiver', 'frist'].map(function (key) { return [key, $(key).value]; })
+    };
     var kilde = tilstand.v2kilde || {};
-    if (id === 'budsjett' && !tilstand.v2ok.budsjett && kilde.budsjett) budsjettKontroll.set(kilde.budsjett);
-    if (id === 'kanaler') {
-      var navn = tilstand.v2ok.kanaler ? tilstand.v2ok.kanaler.split(', ') : (kilde.kanaler || null);
-      if (navn && navn.length) { tilstand.kanaler = navn.slice(); tilstand.kanalmodus = 'selv'; }
-      tegnKanaler();
+    if (seksjon.id === 'kampanje') {
+      if (!Object.prototype.hasOwnProperty.call(tilstand.v2ok, 'budsjett')) budsjettKontroll.set(kilde.budsjett || null);
+      tilstand.kanaler = tilstand.v2ok.kanaler !== undefined ? tilstand.v2ok.kanaler.split(', ').filter(Boolean) : (kilde.kanaler || []).slice();
+      tilstand.kanalmodus = 'selv';
+      if (!Object.prototype.hasOwnProperty.call(tilstand.v2ok, 'periode')) {
+        if (kilde.fra) tilstand.fra = kilde.fra;
+        tilstand.til = kilde.til || null;
+        if (kilde.uker) tilstand.uker = kilde.uker;
+      }
+      tegnKanaler(); tegnPeriode(); synkAnbefaling();
     }
-    if (id === 'periode' && !tilstand.v2ok.periode && kilde.periode) {
-      if (kilde.fra) tilstand.fra = kilde.fra;
-      tilstand.til = kilde.til || null;
-      if (kilde.uker) tilstand.uker = kilde.uker;
-      tegnPeriode();
+    if (seksjon.id === 'materiell') {
+      var material = v2VisVerdi('materiell');
+      v2matValg = material === 'Frantz lager annonsen' ? 'hjelp' : material === 'Lager annonsen selv' ? 'bygg' : material === 'Ferdig materiell' ? 'ferdig' : '';
     }
-    if (id === 'budsjett' || id === 'periode') synkAnbefaling();
-    v2Tegn();
+    $('v2-dialog-tittel').textContent = 'Endre ' + seksjon.tittel.toLowerCase();
+    var rot = $('v2-dialog-felt');
+    rot.replaceChildren();
+    seksjon.felt.forEach(function (felt) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'v2-dialog__felt';
+      wrapper.dataset.v2DialogFelt = felt[0];
+      if (felt[0] === 'materiell') {
+        var valg = document.createElement('fieldset');
+        valg.className = 'v2-dialog__valg';
+        var legend = document.createElement('legend');
+        legend.className = 'form-label'; legend.textContent = 'Materiell'; valg.appendChild(legend);
+        [['ferdig', 'Jeg har ferdige annonser'], ['bygg', 'Lag annonsen selv'], ['hjelp', 'Bestill design fra Frantz']].forEach(function (par) {
+          var label = document.createElement('label'); label.className = 'v2-dialog__radio';
+          var input = document.createElement('input'); input.type = 'radio'; input.name = 'v2-material'; input.value = par[0]; input.checked = v2matValg === par[0];
+          input.addEventListener('change', function () { v2matValg = input.value; });
+          label.append(input, document.createTextNode(par[1])); valg.appendChild(label);
+        });
+        wrapper.appendChild(valg);
+      } else v2flytt(felt[0], wrapper);
+      rot.appendChild(wrapper);
+    });
+    $('v2-dialog').showModal();
+    var target = id === seksjon.id ? null : rot.querySelector('[data-v2-dialog-felt="' + id + '"]');
+    $('v2-dialog-tittel').focus();
+    if (target) target.scrollIntoView({ block: 'nearest' });
   }
+  function krevKampanjenavn() {
+    var gyldig = !!$('ref').value.trim();
+    $('ref-feil').hidden = gyldig;
+    $('ref').classList.toggle('form-input--error', !gyldig);
+    if (gyldig) $('ref').removeAttribute('aria-invalid');
+    else { $('ref').setAttribute('aria-invalid', 'true'); $('ref').focus(); }
+    return gyldig;
+  }
+  $('ref').addEventListener('input', function () {
+    if (this.value.trim()) { $('ref-feil').hidden = true; this.removeAttribute('aria-invalid'); this.classList.remove('form-input--error'); }
+  });
+  function v2Lukk(lagre) {
+    if (!$('v2-dialog').open) return;
+    var gruppe = v2DialogGroup;
+    if (lagre && gruppe.id === 'kampanje' && !krevKampanjenavn()) return;
+    if (lagre) gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
+    else {
+      var snapshot = v2DialogSnapshot;
+      tilstand = structuredClone(snapshot.state);
+      snapshot.fields.forEach(function (entry) { $(entry[0]).value = entry[1]; });
+      stilling.set($('stilling').value);
+      steder.set(snapshot.steder);
+      budsjettKontroll.set(snapshot.budget);
+      tilstand = snapshot.state;
+      $('ref-feil').hidden = true;
+      $('ref').removeAttribute('aria-invalid');
+      $('ref').classList.remove('form-input--error');
+      visVedlegg(tilstand.pdf);
+      tegnKanaler(); tegnPeriode();
+    }
+    $('v2-dialog').close();
+    v2hjemAlle();
+    v2DialogSnapshot = null; v2DialogGroup = null;
+    $('v2-status').hidden = true;
+    oppdater(); v2Tegn();
+    if (lagre) {
+      $('v2-klar').hidden = true;
+      $('v2-bestill').hidden = false;
+      lagreUtkast();
+    }
+    var opener = $('v2-rader').querySelector('[data-v2-gruppe="' + gruppe.id + '"]');
+    if (opener) opener.focus();
+  }
+  $('v2-dialog-form').addEventListener('submit', function (e) { e.preventDefault(); v2Lukk(true); });
+  $('v2-dialog-avbryt').addEventListener('click', function () { v2Lukk(false); });
+  $('v2-dialog-lukk').addEventListener('click', function () { v2Lukk(false); });
+  $('v2-dialog').addEventListener('cancel', function (e) { e.preventDefault(); v2Lukk(false); });
+  $('v2-dialog').addEventListener('click', function (e) {
+    if (e.target !== this) return;
+    var bounds = this.getBoundingClientRect();
+    if (e.clientX < bounds.left || e.clientX > bounds.right || e.clientY < bounds.top || e.clientY > bounds.bottom) v2Lukk(false);
+  });
   function v2TilForsiden() {
     v2apen = null;
     v2hjemAlle();
@@ -1898,34 +1998,24 @@
     $('beskrivelse').focus();
   }
   $('v2').addEventListener('click', function (e) {
-    var mat = e.target.closest('[data-v2-mat]');
-    if (mat) {
-      v2matValg = mat.getAttribute('data-v2-mat');
-      Array.prototype.forEach.call(mat.parentNode.querySelectorAll('[data-v2-mat]'), function (knapp) {
-        knapp.setAttribute('aria-pressed', String(knapp === mat));
-      });
-      return;
-    }
-    var apne = e.target.closest('[data-v2-apne]');
-    if (apne) { v2Apne(apne.getAttribute('data-v2-apne')); return; }
-    var lagre = e.target.closest('[data-v2-lagre]');
-    if (lagre) { v2Lagre(lagre.getAttribute('data-v2-lagre')); return; }
-    if (e.target.closest('[data-v2-avbryt]')) { v2apen = null; v2Tegn(); }
+    var gruppe = e.target.closest('[data-v2-gruppe]');
+    if (gruppe) v2Apne(gruppe.dataset.v2Gruppe);
   });
   $('v2-endre').addEventListener('click', v2TilForsiden);
   $('v2-bestill').addEventListener('click', function () {
-    var mangler = v2AlleFelt().filter(function (felt) { return !v2VisVerdi(felt[0]); });
-    if (!mangler.length) {
-      $('v2-status').hidden = true;
-      $('v2-bestill').hidden = true;
-      $('v2-klar').hidden = false;
+    if (!$('ref').value.trim()) {
+      v2Apne('navn');
+      krevKampanjenavn();
       return;
     }
-    $('v2-status').hidden = false;
-    $('v2-status').textContent = mangler[0][1] + ' mangler.';
-    v2Apne(mangler[0][0]);
-    var rad = document.querySelector('[data-v2="' + mangler[0][0] + '"]');
-    if (rad) rad.scrollIntoView({ block: 'center' });
+    var mangler = v2AlleFelt().filter(function (felt) { return !v2VisVerdi(felt[0]); }).map(function (felt) { return felt[1].toLowerCase(); });
+    $('v2-ikke-oppgitt').textContent = mangler.length ? 'Ikke oppgitt: ' + mangler.join(', ') + '.' : '';
+    $('v2-ikke-oppgitt').hidden = !mangler.length;
+    $('v2-status').hidden = true;
+    $('v2-bestill').hidden = true;
+    $('v2-klar').hidden = false;
+    $('v2-klar').focus();
+    $('v2-klar').scrollIntoView({ block: 'nearest' });
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && v2apen) { v2apen = null; v2Tegn(); }
@@ -2271,6 +2361,7 @@
     $('connect-valg').remove();
   }
   $('fortsett').addEventListener('click', function () {
+    if (!krevKampanjenavn()) return;
     if (tilstand.pdfFil && !tilstand.pdfLest) {
       var leser = new FileReader();
       leser.onload = function () { tilstand.pdfTekst = pdfTilTekst(leser.result); tilstand.pdfLest = true; $('fortsett').click(); };
@@ -2353,7 +2444,10 @@
     visVedlegg(f.name);
     tegnKilder();
     var leser = new FileReader();
-    leser.onload = function () { tilstand.pdfTekst = pdfTilTekst(leser.result); tilstand.pdfLest = true; };
+    leser.onload = function () {
+      if (tilstand.pdfFil !== f) return; // Ignore a draft file discarded with the modal.
+      tilstand.pdfTekst = pdfTilTekst(leser.result); tilstand.pdfLest = true;
+    };
     leser.readAsArrayBuffer(f);
   }
   $('velg-pdf').addEventListener('click', function () { $('pdf').click(); });
