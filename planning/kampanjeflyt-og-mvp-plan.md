@@ -6,10 +6,34 @@ Arbeidsutkast for Sona · 27. oktober 2026
 
 - Første fokus er å ferdigstille den forenklede v2-flyten. Bare hovedflyten og v2 inngår i sammenligningen.
 - Sona har valgt redigering per seksjon i modal. Stillingen, Kampanjen og Materiell og filer har hver sin «Endre»-handling. Kampanjenavn står sammen med budsjett, kanaler og periode. Modalene åpner med nedtrekkslistene lukket.
-- Kampanjenavn er obligatorisk på første side og merkes «(obligatorisk)». Tomt navn gir «Gi kampanjen et navn.» De eksisterende kildevalgene krever fortsatt minst ett grunnlag.
-- Kampanjen kan sendes inn med ufullstendige detaljer. Den lokale prototypen viser bekreftelse med opplysninger som ikke er gitt; ingen faktisk bestilling sendes. Tomt kampanjenavn blokkerer fortsatt.
-- Lokal nettleserkontroll er gjort av seksjonsmodaler, lagring av flere felt, avbryt, lukkede nedtrekkslister, navnekravet og bekreftelse med manglende detaljer. Full annonsebygger, lagring på tvers av enheter og faktisk innsending gjenstår.
+- Sona har flyttet kampanjenavn inn i tekstmalen på første side. Det separate feltet vises bare i redigering av Kampanjen i oversikten. Navnet hentes fra «Kampanjenavn:» i teksten; ved import kan stillingstittelen brukes som forslag. Et navn må være på plass ved innsending.
+- «Informasjon om stillingen» står først som større overskrift. En rød varselboks med lys rød bakgrunn viser når grunnlaget mangler. Brukeren kan skrive fritt, lime inn tekst eller sette inn en utfyllingsmal; tomme stikkord teller ikke som opplysninger. Kravet om minst én kilde er samlet ved kildevalgene.
+- Kampanjen kan sendes inn med ufullstendige detaljer. Den lokale bestillingen lagres og åpner kampanjesiden med status og neste steg. Ukjent budsjett og periode vises som «Avklares med Frantz». Ingen faktisk bestilling sendes. Tomt kampanjenavn blokkerer fortsatt.
+- Tilleggsinformasjon har en egen seksjon og en modal med fritekst. Opplysningene følger bestillingen videre. Geografi i et eksplisitt målrettingsønske skal ikke bli et ekstra arbeidssted. Kampanjemodalen viser ikke kanalfeil bare fordi den åpnes med tomme valg.
+- Annonsebyggeren er koblet til «Lag annonsen selv» i materiellmodalen: bilde, tekst, utforming, utsnitt, logo, farger, knapp og forhåndsvisning. Ferdige annonser og designbrief bruker de eksisterende kontrollene fra hovedflyten.
+- Første kort og oversikten er gjort litt bredere. Tekstfeltet heter «Skriv øvrig informasjon om stillingen eller kampanjen». Vedlegg støtter flere filer, flere opplastinger og fjerning av enkeltfiler, med maks 10 MB per fil.
+- Lokal nettleserkontroll er gjort av seksjonsmodaler, lagring av flere felt, avbryt, lukkede nedtrekkslister, navnekravet og bekreftelse med manglende detaljer. Annonseutkast og flere vedlegg er kontrollert på kampanjesiden etter oppdatering. Lagring på tvers av enheter og faktisk innsending gjenstår.
 - Claude har oppdatert den delte sidebakgrunnen til lys gråblå med hvite kort. Endringen er bevart.
+- Sona har avgrenset annonsebyggeren til ett bilde per annonse i MVP. Flere egenbygde annonser utsettes. Ferdige annonser beholdes som levert; brukeren laster opp riktige størrelser. Generelle vedlegg i materiellmodalen vises bare ved «Bestill design fra Frantz».
+
+## Sammenligning av tilgjengelige funksjoner i A og B
+
+Kontrollert mot gjeldende lokale prototyper 27. oktober. En kontroll som finnes i skjult kode, men ikke kan nås i B, regnes ikke som tilgjengelig. Dette er en sammenligning av prototypene, ikke en vurdering av produksjonsklarhet.
+
+| Funksjon i hovedflyten A | Hva som mangler i forenklet B | Anbefalt plassering eller prioritet |
+| --- | --- | --- |
+| Tilleggsprodukter, med aktivt valg av strategisk rådgivning og «Meld interesse» | Ingen tilgjengelig velger. Bestillingen lagrer en tom tilleggsliste. | Egen seksjon «Tilleggsprodukter» etter materiell, før fritekst. Vis pris eller «Inkludert» og oppdater totalsummen. Ikke bestill betalte tillegg automatisk fra teksten. |
+| Velge fakturamottaker | B bruker verdien fra et skjult felt uten at brukeren kan kontrollere eller endre den. | Synlig ved bestilling. Høy prioritet, særlig for byråer. |
+| Se og endre annonseavsender | Kan endres i byggerens avanserte innstillinger, men mangler som synlig opplysning for alle materialruter. | Vis under «Materiell og filer», også for ferdige annonser og Frantz-design. |
+| Samlet pris før bestilling | B viser budsjett og designets prisgrunnlag i modal, men ingen samlet prisoversikt før bestilling. Total settes foreløpig lik budsjettet. | Bestillingsområde med budsjett, valgte tillegg, avklaring av designkostnad og total eks. mva. |
+| Sende planen til kunde eller kollega for godkjenning før bestilling | Delingsknappen og håndteringen av ventende/endret godkjenning er ikke koblet til B sin bestillingsknapp. | Valgfri handling ved bestilling. Godkjenning av annonsemateriell etter bestilling er allerede på den felles kampanjesiden. |
+| Bruke lagrede pakker | Pakkevelgeren er skjult i B. | I kampanjemodalen hvis pakker skal være med i MVP. |
+| Estimert resultat | Visninger, klikk og forventet «Søk» vises i A, men er skjult i B. | Kan utsettes. Tall og modell må bekreftes før de brukes som beslutningsgrunnlag. |
+| Veiledning om tidligste oppstart og advarsel når perioden går forbi søknadsfristen i bestillingsoversikten | B mangler denne synlige veiledningen i oversikten. Datokontrollen finnes fortsatt. | Vis relevante avklaringer ved periode/bestilling. Ikke overfør prototypens faste leveringstid som et bekreftet løfte. |
+
+Bevisste forskjeller er ikke funksjonsgap: B tillater bestilling med manglende detaljer, bruker seksjonsmodaler og har kampanjenavn/referansekode i tekstmalen. De tre materialrutene og videreføring til kampanjesiden finnes i begge. Gjenopptak av utkast med alle filer må verifiseres separat i begge; en lagreindikator er ikke tilstrekkelig dokumentasjon.
+
+Forslag til seksjonsrekkefølge i B: Stillingen → Kampanjen → Materiell og filer → **Tilleggsprodukter** → **Tilleggsinformasjon** → bestillingsområde med fakturamottaker, pris og eventuell godkjenning. «Tilleggsinformasjon» forblir fritekst. Dette er et forslag, ikke en utført endring i grensesnittet.
 
 Anbefalingen er å lage to sammenlignbare designversjoner med samme innhold og regler: én veiledet flyt og én samlet oversikt. Begge må fungere for direktekunder og byråer, slik Sona har avklart. Test begge før vi anbefaler hvilken som skal lanseres. To designversjoner betyr ikke at begge må utvikles til lansering.
 

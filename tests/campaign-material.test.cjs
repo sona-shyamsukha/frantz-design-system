@@ -66,6 +66,19 @@ test('keeps the file supplied on the job-information step', () => {
   assert.equal(s.snapshot().materiell.kilder[0].kilde, 'stillingsgrunnlag');
 });
 
+test('keeps every source attachment with its original file', () => {
+  const s = setup();
+  const first = new File(['job'], 'stilling.pdf', { type: 'application/pdf' });
+  const second = new File(['brief'], 'brief.docx');
+  s.options.sourceFiles = [first, second];
+  const sources = s.snapshot().materiell.kilder;
+  assert.equal(sources.length, 2);
+  assert.equal(sources[0].fil, first);
+  assert.equal(sources[1].fil, second);
+  s.options.sourceFiles = [];
+  assert.equal(s.snapshot().materiell.kilder.length, 0);
+});
+
 test('retains the selected ad template with the submitted material', () => {
   const s = setup();
   s.ad.template = 'frame';
