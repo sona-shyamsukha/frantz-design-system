@@ -230,7 +230,7 @@
   </div>
 </div>
 
-<script src="data/kampanjer.js?v=4"></script>
+<script src="data/kampanjer.js?v=5"></script>
 <script src="data/connect.js?v=4"></script>
 <script>
 (function () {
@@ -261,7 +261,7 @@
   if (ny) {
     kort.innerHTML = '<h2 class="card__title" id="kampanje-tittel">Trenger du en ConnectID?</h2>' +
       '<p class="kampanje__tekst">Du trenger ikke lage en ConnectID for å bestille en kampanje. Frantz lager den for deg når kampanjen er bestilt.</p>' +
-      '<a class="btn btn--secondary" href="ny-kampanje.html">Opprett kampanje i stedet</a>';
+      '<a class="btn btn--secondary" href="ny-kampanje-v2.html">Opprett kampanje i stedet</a>';
   } else if (!c.kampanje) {
     kort.innerHTML = '<div class="kampanje__topp"><h2 class="card__title" id="kampanje-tittel">Kampanje</h2><span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span></div>' +
       '<p class="kampanje__tekst">Det er ingen kampanje for stillingen ennå. Opprett en, så starter målingen når kampanjen starter. Du bestiller først på siste steg. Det du har fylt ut under, blir med.</p>' +
@@ -355,14 +355,14 @@
     setTimeout(function () { $('lagret').hidden = true; }, 3000);
   });
   // Save first, so Ny kampanje gets what the user just typed
-  function bestill() { var id = lagre(); if (id) location.href = 'ny-kampanje.html?connect=' + id; }
+  function bestill() { var id = lagre(); if (id) location.href = 'ny-kampanje-v2.html?connect=' + id; }
   $('bestill-bunn').addEventListener('click', bestill);
   if ($('bestill-topp')) $('bestill-topp').addEventListener('click', bestill);
 })();
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/konto.js?v=17"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

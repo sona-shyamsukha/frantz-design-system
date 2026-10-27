@@ -7,16 +7,23 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Barnehagelærer Drammen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=100">
+<link rel="stylesheet" href="../frantz-ds.css?v=201">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=3">
 <style>
   body { margin: 0; }
   .summary-row[hidden] { display: none; }
+  .summary-panel__total[data-pending="true"] { display: grid; gap: var(--space-8); }
+  .summary-panel__total[data-pending="true"] b { font: var(--type-label); }
   /* The order card: same row layout as the panels, a little air between rows */
+  .card--les { container-type: inline-size; }
   .card--les .card__head { margin-bottom: var(--space-8); }
-  .card--les .summary-row { padding: var(--space-6) 0; font-size: var(--text-base); }
+  .card--les .summary-row { grid-template-columns: minmax(0, 1fr); align-items: start; row-gap: var(--space-4); padding: var(--space-6) 0; font-size: var(--text-base); }
+  .card--les .summary-row dt, .card--les .summary-row dd { min-width: 0; overflow-wrap: anywhere; }
+  @container (min-width: 480px) {
+    .card--les .summary-row { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); column-gap: var(--space-24); }
+  }
   .card--les #d-kommentar { font-weight: var(--font-weight-normal); color: var(--text-body); }
   .material-card { container-type: inline-size; }
   .material-card [hidden] { display: none; }
@@ -105,8 +112,8 @@
         <div class="flow">
           <div class="card card--betjen">
             <div class="card__head"><div><h3 class="card__title">Hva skjer nå?</h3>
-            <p class="card__hint">Du har én ting å gjøre: legg sporingskoden på stillingssiden. Resten gjør Frantz. Svar på e-posten fra Frantz hvis du vil endre noe.</p></div></div>
-            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small id="b-tid">I dag kl. 09.12.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du legger sporingskoden på stillingssiden</b><small><a class="link link--xs" href="#piksel">Se koden</a> i «Om kampanjen». Gjør det før kampanjen starter.</small></div></li><li class="mangler" id="b-radgivning" hidden><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Rådgiveren tar kontakt for strategisk rådgivning</b><small>Martin Karlsen ringer innen 1 arbeidsdag og avtaler en gjennomgang av målgruppe, kanaler og budsjett.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Frantz lager annonsene og målrettingen</b><small>Tar vanligvis 2–3 arbeidsdager.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du ser annonsene før de publiseres</b><small>Du godkjenner, eller ber om endringer.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Kampanjen starter</b><small id="b-start">Ønsket start 07.10.2026.</small></div></li></ul>
+            <p class="card__hint" id="ordered-next-hint">Du har én ting å gjøre: legg sporingskoden på stillingssiden. Resten gjør Frantz. Svar på e-posten fra Frantz hvis du vil endre noe.</p></div></div>
+            <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small id="b-tid">I dag kl. 09.12.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du legger sporingskoden på stillingssiden</b><small><a class="link link--xs" href="#piksel">Se koden</a> i «Om kampanjen». Gjør det før kampanjen starter.</small></div></li><li class="mangler" id="b-radgivning" hidden><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Rådgiveren tar kontakt for strategisk rådgivning</b><small>Martin Karlsen ringer innen 1 arbeidsdag og avtaler en gjennomgang av målgruppe, kanaler og budsjett.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b id="ordered-production-title">Frantz lager annonsene og målrettingen</b><small id="ordered-production-time">Tar vanligvis 2–3 arbeidsdager.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du ser annonsene før de publiseres</b><small>Du godkjenner, eller ber om endringer.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Kampanjen starter</b><small id="b-start">Ønsket start 07.10.2026.</small></div></li></ul>
           </div>
           <div class="card card--les">
             <div class="card__head"><h3 class="card__title">Bestillingen</h3></div>
@@ -118,7 +125,7 @@
             <dl class="summary-row"><dt>Faktura til</dt><dd id="d-faktura">Nordlys Rekruttering AS</dd></dl>
             <dl class="summary-row"><dt>Materiell</dt><dd id="d-materiell">Frantz lager annonsene</dd></dl>
             <dl class="summary-row" id="r-tillegg" hidden><dt>Tillegg</dt><dd id="d-tillegg"></dd></dl>
-            <dl class="summary-row"><dt>Kommentar</dt><dd id="d-kommentar">Bruk gjerne bilder fra uteområdet.</dd></dl>
+            <dl class="summary-row"><dt id="d-kommentar-label">Kommentar</dt><dd id="d-kommentar" style="white-space: pre-line;">Bruk gjerne bilder fra uteområdet.</dd></dl>
           </div>
           <section class="card card--betjen material-card" aria-labelledby="material-heading">
             <div class="card__head"><h2 class="card__title" id="material-heading">Annonse og materiell</h2></div>
@@ -164,7 +171,7 @@
               <dl class="summary-row"><dt>Budsjett</dt><dd id="d-budsjett">kr 32 000</dd></dl>
               <dl class="summary-row" id="r-tilleggsum" hidden><dt>Tillegg</dt><dd id="d-tilleggsum"></dd></dl>
               <dl class="summary-row" id="r-sok"><dt>Forventet «Søk»</dt><dd id="d-sok">5–8</dd></dl>
-              <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
+              <dl class="summary-row"><dt>Rådgiver</dt><dd id="ordered-adviser">Martin Karlsen</dd></dl>
               <dl class="summary-row"><dt>Bestilt</dt><dd id="d-bestilt">I dag kl. 09.12</dd></dl>
             </div>
             <div class="summary-panel__total"><span>Totalsum</span><b id="d-total">kr 32 000</b></div>
@@ -182,8 +189,8 @@
 
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=16"></script>
-<script src="data/kampanjer.js?v=4"></script>
+<script src="../components/js/konto.js?v=17"></script>
+<script src="data/kampanjer.js?v=5"></script>
 <script src="../components/js/campaign-material.js?v=5"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
@@ -210,7 +217,9 @@
     periodeTekst: campaign.periode, start: campaign.fra ? FZ_KAMPANJER.dato(campaign.fra) : '',
     materiell: '', notat: '', tilleggSum: 0
   };
-  FrantzCampaignMaterialView.render(record);
+  var storedMaterial = record && record.materiell;
+  var hasSubmittedMaterial = storedMaterial && (storedMaterial.modus === 'hjelp' || storedMaterial.bilde || storedMaterial.logo || storedMaterial.designbrief || storedMaterial.filer.length || storedMaterial.kilder.length);
+  FrantzCampaignMaterialView.render(o && o.flyt === 'forenklet' && !hasSubmittedMaterial ? null : record);
   if (record && o) {
     var shareActions = document.getElementById('ordered-approval-actions');
     shareActions.hidden = record.materiell.modus === 'hjelp' || !record.materiell.bilde;
@@ -236,19 +245,38 @@
   var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
   document.title = o.tittel + ' — Frantz kampanjeportal';
   $('b-tittel').textContent = o.tittel; $('k-tittel').textContent = o.tittel;
+  var simplified = o.flyt === 'forenklet';
+  if (simplified) {
+    $('status-alert').textContent = o.avklaringer && o.avklaringer.length
+      ? 'Bestillingen er mottatt. Frantz går gjennom opplysningene og tar kontakt for å avklare ' + o.avklaringer.join(', ') + ' før oppstart.'
+      : 'Bestillingen er mottatt. Frantz går gjennom opplysningene før kampanjen klargjøres.';
+    var prototypeNote = document.createElement('p');
+    prototypeNote.className = 'form-hint';
+    prototypeNote.textContent = 'Prototype · Ingen bestilling er sendt til Frantz.';
+    $('status-alert').after(prototypeNote);
+    $('ordered-next-hint').textContent = 'Frantz går gjennom bestillingen og tar kontakt om det som må avklares. Annonsene skal være klare og godkjent før kampanjen starter.';
+    $('ordered-production-title').textContent = 'Frantz klargjør materiell og målretting';
+    $('ordered-production-time').textContent = 'Videre fremdrift avklares etter gjennomgangen.';
+    $('ordered-adviser').textContent = 'Tildeles av Frantz';
+    $('b-radgivning').querySelector('small').textContent = 'Frantz tar kontakt for å avtale en gjennomgang av målgruppe, kanaler og budsjett.';
+    $('d-kommentar-label').textContent = 'Tilleggsinformasjon';
+    $('r-ref').querySelector('dt').textContent = 'Kampanjenavn/deres referansekode';
+  }
   $('b-tid').textContent = record ? new Date(record.innsendt).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short' }) : o.tid ? 'I dag kl. ' + String(o.tid).replace(':', '.') + '.' : 'Bestillingen er mottatt.';
-  $('b-start').textContent = 'Ønsket start ' + o.start + '.';
+  $('b-start').textContent = o.start ? 'Ønsket start ' + o.start + '.' : 'Startdato avklares med Frantz.';
   $('d-stilling').textContent = o.stilling || 'Ikke oppgitt';
   $('d-sted').textContent = o.sted || 'Ikke oppgitt';
   FZ_KANALER.tegn($('d-kanaler'), o.kanaler);
+  if (simplified && (!o.kanaler || !o.kanaler.length)) $('d-kanaler').textContent = 'Avklares med Frantz';
   if (o.faktura) $('d-faktura').textContent = o.faktura;
   $('d-materiell').textContent = o.materiell || 'Ikke oppgitt';
-  $('d-kommentar').textContent = o.notat || 'Ingen kommentar';
-  $('d-periode').textContent = o.periodeTekst || String(o.periode).split(' · ')[0];
+  $('d-kommentar').textContent = o.notat || (simplified ? 'Ingen tilleggsinformasjon' : 'Ingen kommentar');
+  $('d-periode').textContent = o.periodeTekst || (o.periode ? String(o.periode).split(' · ')[0] : 'Avklares med Frantz');
   // Budget and add-ons apart, then the total, like in the order box
-  $('d-budsjett').textContent = kr(o.budsjett);
+  $('d-budsjett').textContent = simplified && o.budsjett == null ? 'Avklares med Frantz' : kr(o.budsjett);
   $('r-tilleggsum').hidden = !o.tilleggSum; $('d-tilleggsum').textContent = '+ ' + kr(o.tilleggSum || 0);
-  $('d-total').textContent = kr(o.budsjett + (o.tilleggSum || 0));
+  $('d-total').textContent = simplified && o.budsjett == null ? 'Avklares med Frantz' : kr(o.budsjett + (o.tilleggSum || 0));
+  $('d-total').parentElement.dataset.pending = String(simplified && o.budsjett == null);
   $('r-sok').hidden = !o.sok; $('d-sok').textContent = o.sok || '';
   $('b-radgivning').hidden = !o.radgivning;
   $('d-bestilt').textContent = record ? new Date(record.innsendt).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short' }) : o.tid ? 'I dag kl. ' + String(o.tid).replace(':', '.') : 'Ikke oppgitt';

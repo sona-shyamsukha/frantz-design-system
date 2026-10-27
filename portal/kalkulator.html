@@ -227,7 +227,7 @@
       <p class="kilde">Anslag basert på Frantz-data fra de siste 90 dagene og tidligere kampanjer. Tall fra SSB for arbeidsmarkedet.</p>
 
       <div class="neste btn-row btn-row--stack">
-        <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Opprett kampanje</a>
+        <a class="btn btn--primary" id="bestill" href="ny-kampanje-v2.html">Opprett kampanje</a>
         <a class="btn btn--secondary" href="mailto:post@frantz.no?subject=Tilbud%20p%C3%A5%20kampanje" id="tilbud">Få dette som tilbud</a>
       </div>
     </div>
@@ -393,7 +393,7 @@
       : hele ? 'Kampanjen vises i hele Norge, mest der målgruppen bor.'
       : 'Kampanjen når folk som bor eller jobber i og rundt ' + navnListe(steder) + '.';
 
-    $('bestill').href = 'ny-kampanje.html?tittel=' + encodeURIComponent($('stilling').value.trim()) +
+    $('bestill').href = 'ny-kampanje-v2.html?tittel=' + encodeURIComponent($('stilling').value.trim()) +
       '&steder=' + encodeURIComponent(steder.join('|')) + '&budsjett=' + r.budsjett;
 
     tegnKart(r.dybde);
@@ -508,6 +508,6 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/konto.js?v=17"></script>
 </body>
 </html>

@@ -162,7 +162,7 @@
               <h2 class="banner__tittel" id="c-tittel">Klar for den første kampanjen?</h2>
               <p class="banner__tekst">Det tar rundt fem minutter. Det dere fyller ut, lagres underveis.</p>
             </div>
-            <a class="btn btn--accent btn--lg" href="ny-kampanje.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Lag første kampanje</a>
+            <a class="btn btn--accent btn--lg" href="ny-kampanje-v2.html"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Lag første kampanje</a>
           </section>
           <div class="cols">
             <section class="card card--betjen" aria-labelledby="c-liste">
@@ -173,7 +173,7 @@
               <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
               <ul class="checklist">
                 <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Nordlys Rekruttering AS er satt opp i Frantz.</div></li>
-                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke til stillingen, og velg en pakke. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke til stillingen, og velg en pakke. <a class="link" href="ny-kampanje-v2.html">Start nå</a></div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Godkjenn annonsene</b>Frantz lager annonsene. Dere ser dem før noe publiseres.</div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Følg resultatene</b>Se hvor mange som trykker «Søk», og hvem som melder interesse.</div></li>
               </ul>
@@ -256,7 +256,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=4"></script>
+<script src="data/kampanjer.js?v=5"></script>
 <script>
 // Hjem has two parts: the campaigns running or on the way, and what Frantz needs from you.
 // Both read the shared campaign list, so a new order shows here as «Bestilt».
@@ -273,7 +273,7 @@
       '<td data-label="Periode">' + esc(k.periode) + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
-  }).join('') || '<tr><td colspan="4">Ingen kampanjer akkurat nå. <a class="link" href="ny-kampanje.html">Lag en ny kampanje</a>.</td></tr>';
+  }).join('') || '<tr><td colspan="4">Ingen kampanjer akkurat nå. <a class="link" href="ny-kampanje-v2.html">Lag en ny kampanje</a>.</td></tr>';
 
   // What waits for you: ads to approve, and drafts to finish
   var venter = [];
@@ -308,7 +308,7 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=16"></script>
+<script src="../components/js/konto.js?v=17"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="../components/js/tour.js"></script>
