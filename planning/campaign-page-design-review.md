@@ -10,6 +10,12 @@ working local proposals, not approved designs or a production sharing service.
 The current Frantz tokens, fonts, navigation and existing example figures are reused.
 No animation, publication, external messages or Second Brain edits were added.
 
+Sona's correction: reuse the existing components, including tabs and control sizes.
+The initial custom tab, metric, table, card, progress and disclosure appearances have
+been replaced. Existing component mappings, new compositions and functional gaps are
+recorded in [the component inventory](campaign-component-inventory.md). The revised
+content structure remains a proposal; the initial screenshots are superseded.
+
 ## Page-by-page decisions
 
 1. **Bestilt:** one next step with ownership and next update; tracking as a specific task.

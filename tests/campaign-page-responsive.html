@@ -4,19 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Campaign review — responsive verification</title>
+  <link rel="stylesheet" href="../frantz-ds.css?v=202">
   <style>
-    body { font-family: system-ui, sans-serif; margin: 24px; background: #eee; }
-    .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px; }
-    .previews { display: flex; flex-wrap: wrap; gap: 24px; align-items: start; }
+    body { padding: var(--space-24); }
+    .controls { display: flex; flex-wrap: wrap; gap: var(--space-16); align-items: center; margin-block: var(--space-16); }
+    .controls select { width: auto; }
+    .previews { display: flex; flex-wrap: wrap; gap: var(--space-24); align-items: start; }
     figure { margin: 0; max-width: 100%; overflow: auto; }
-    figcaption { margin: 12px 0; }
-    iframe { display: block; height: 844px; border: 1px solid #888; background: white; }
-    output { display: block; padding: 8px; background: white; }
+    figcaption { margin: var(--space-12) 0; }
+    /* Device viewport dimensions are test inputs, not product design values. */
+    iframe { display: block; box-sizing: content-box; height: 844px; border: 1px solid var(--border-default); background: var(--surface-default); }
+    output { display: block; padding: var(--space-8); background: var(--surface-default); }
   </style>
 </head>
 <body>
-  <h1>Campaign review — responsive verification</h1>
-  <div class="controls"><label for="width">Viewport width</label><select id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option></select><button type="button" id="measure">Measure visible pages</button></div>
+  <h1 class="text-h2">Campaign review — responsive verification</h1>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option></select><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
   <div class="previews" id="previews"></div>
   <script>
     const pages = [

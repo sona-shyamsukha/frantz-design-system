@@ -53,7 +53,7 @@
     <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
-      <div class="review-context"><a href="kampanje-designreview.html">← Alle designforslag</a><span>Designforslag · eksempeldata</span></div>
+      <div class="review-context"><a class="link" href="kampanje-designreview.html">← Alle designforslag</a><span>Designforslag · eksempeldata</span></div>
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
           <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
@@ -65,7 +65,7 @@
         <h1 class="text-h2">Helsefagarbeider Tromsø</h1>
         <span class="badge badge--setup" id="campaign-stage">Venter på din godkjenning</span>
       </div>
-      <section class="campaign-next" id="production-status" aria-labelledby="production-title"><div class="campaign-next__heading"><span class="campaign-eyebrow">Neste steg · Deg</span></div><h2 id="production-title">Se gjennom annonsene</h2><p id="production-description">Godkjenn de tre utkastene innen 02.10, slik at Frantz kan gjøre klart til planlagt start 05.10.</p><p class="campaign-meta">Planlagt start 05.10.2026 · Rådgiver Martin Karlsen</p></section>
+      <section class="card card--betjen campaign-next" id="production-status" aria-labelledby="production-title"><div class="campaign-next__heading"><span class="campaign-eyebrow">Neste steg · Deg</span></div><h2 class="card__title" id="production-title">Se gjennom annonsene</h2><p id="production-description">Godkjenn de tre utkastene innen 02.10, slik at Frantz kan gjøre klart til planlagt start 05.10.</p><p class="form-hint campaign-meta">Planlagt start 05.10.2026 · Rådgiver Martin Karlsen</p></section>
 
       <div class="cols campaign-layout">
         <div class="flow">
@@ -112,7 +112,7 @@
               data-frist="02.10.2026" data-side="frantz.no/k/129072" data-fra="Kari Hansen" data-firma="Nordlys Rekruttering AS"></div>
             <p class="form-hint">Godkjenningen gjelder annonsene. Frantz følger opp publisering etterpå.</p>
           </div>
-          <details class="campaign-disclosure"><summary>Se historikk og målgruppe</summary><div class="campaign-disclosure__body"><div class="card card--les">
+          <details class="approval-message campaign-disclosure"><summary>Se historikk og målgruppe</summary><div class="card card--les campaign-disclosure__body"><div class="card__body">
             <div class="card__head"><h3 class="card__title">Hva Frantz har gjort</h3></div>
             <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small>26.09.2026.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Målrettingen er satt opp</b><small>Helsefagarbeidere i Troms, 25–55 år.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Annonsene er laget</b><small>3 utkast på Meta og på Nettsteder og aviser.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du godkjenner annonsene</b><small>Frist 02.10.</small></div></li></ul>
             <form class="kommentar" onsubmit="event.preventDefault(); var t=this.querySelector('textarea'); if(!t.value.trim()){t.focus();return;} this.querySelector('[data-sendt]').hidden=false; t.value='';" style="margin-top: var(--space-16)">
@@ -124,14 +124,14 @@
         </div>
         <aside>
           <div class="summary-panel">
-            <div class="summary-panel__head"><h2>Om kampanjen</h2></div>
+            <div class="summary-panel__head"><h2 class="card__title">Om kampanjen</h2></div>
             <div class="summary-panel__block">
               <dl class="summary-row"><dt>Planlagt periode</dt><dd>05.10 – 02.11.2026</dd></dl>
               <dl class="summary-row"><dt>Budsjett</dt><dd>kr 28 000</dd></dl>
               <dl class="summary-row"><dt>Kanaler</dt><dd data-vis-kanaler>Meta, Nettsteder og aviser</dd></dl>
               <dl class="summary-row"><dt>Rådgiver</dt><dd>Martin Karlsen</dd></dl>
             </div>
-            <details class="campaign-disclosure"><summary>Sporingskode</summary><div class="campaign-disclosure__body"><div class="summary-panel__block piksel" id="piksel" data-piksel="129072" data-connect="777860" data-status="venter"></div></div></details>
+            <details class="approval-message campaign-disclosure"><summary>Sporingskode</summary><div class="card card--les campaign-disclosure__body"><div class="summary-panel__block piksel" id="piksel" data-piksel="129072" data-connect="777860" data-status="venter"></div></div></details>
           </div>
         </aside>
       </div>

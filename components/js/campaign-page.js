@@ -91,7 +91,7 @@
     history.replaceState(null, '', '#' + name);
   }
   tabs.forEach(function (tab) { tab.addEventListener('click', function () { showTab(tab.dataset.fane); }); });
-  document.querySelector('.campaign-tabs').addEventListener('keydown', function (event) {
+  document.querySelector('.sidefaner').addEventListener('keydown', function (event) {
     var current = tabs.indexOf(event.target), index;
     if (current < 0) return;
     if (event.key === 'ArrowRight') index = (current + 1) % tabs.length;
