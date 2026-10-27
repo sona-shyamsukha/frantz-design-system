@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Campaign review — responsive verification</title>
+  <title>Campaign pages — developer verification</title>
   <link rel="stylesheet" href="../frantz-ds.css?v=203">
   <style>
     body { padding: var(--space-24); }
@@ -18,8 +18,8 @@
   </style>
 </head>
 <body>
-  <h1 class="text-h2">Campaign review — responsive verification</h1>
-  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option></select><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
+  <h1 class="text-h2">Campaign pages — developer verification</h1>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
   <div class="previews" id="previews"></div>
   <script>
     const pages = [
@@ -28,7 +28,7 @@
       ['Active', '../portal/campaign.html?id=129041'],
       ['Completed', '../portal/rapport.html?id=128984'],
       ['Shared', '../portal/delt-rapport.html?kampanje=128984&forhandsvis=1'],
-      ['Review hub', '../portal/kampanje-designreview.html']
+      ['Completed with totals only', '../portal/rapport.html?id=129068']
     ];
     const width = document.getElementById('width');
     const previews = document.getElementById('previews');
@@ -53,6 +53,7 @@
     });
     function measureAll() { previews.querySelectorAll('figure').forEach(figure => measure(figure.querySelector('iframe'), figure.querySelector('output'))); }
     width.addEventListener('change', () => { previews.querySelectorAll('iframe').forEach(frame => { frame.style.width = width.value + 'px'; }); requestAnimationFrame(measureAll); });
+    document.getElementById('expand').addEventListener('click', () => { previews.querySelectorAll('iframe').forEach(frame => frame.contentDocument.querySelectorAll('details').forEach(details => { details.open = true; })); requestAnimationFrame(measureAll); });
     document.getElementById('measure').addEventListener('click', measureAll);
   </script>
 </body>

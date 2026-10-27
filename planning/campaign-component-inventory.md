@@ -4,6 +4,26 @@ User requirement, 27 October 2026: use existing tokens and components. Any gap t
 requires something new must be recorded explicitly. Reusing colours alone does not
 make a separately styled control an existing component.
 
+## Client walkthrough cleanup — 27 October 2026
+
+The four campaign states are now presented directly in the portal. The earlier
+review hub, review prompts and responsive harness are internal, not user journeys.
+
+| Area | Existing component / tokens | Change or gap |
+| --- | --- | --- |
+| Accordions | `.disclosure`, `--surface-raised`, `--border-default`, `--radius-16`, shared spacing and focus ring | Updated the existing shared component to a white, bordered surface. Embedded summary rows keep one outer card. No new variant or token. |
+| Headings and actions | Existing title typography, badges, `.btn`, `.btn-row` | One header composition for all four states. Completed campaigns also have an Open report action. No new button sizes or tab styles. |
+| Reports | `.card`, `.metric`, `.metrics`, `.quote`, `.meter`, shared tabs | The existing four metric tiles wrap by available report-card width, including beside a sidebar. Optional data renders only when recorded. All completed campaign IDs have their own aggregates; unknown breakdowns and contacts are omitted. |
+| Tracking | Existing `.piksel` in `.disclosure__content` | One title and consistent inset, without a second card inside the accordion. |
+| Contact | Existing buttons, standard `mailto` action | Opens the user's email to the existing `post@frantz.no` address with campaign name/number. No invented personal advisor email. Correct personal routing remains an integration question. |
+| Styles | `styles/campaign.css` | Page composition extracted from the review stylesheet. No new UI primitive. |
+| Sharing | Existing report-sharing panel and public report | Development essays removed. A short note preserves the real limitation: cross-device links still require server integration. No claim of production access control. |
+
+Verification: the six product views (including one total-only report) fit 320,
+390, 768, 1024 and 1280 px with all disclosures expanded, with no horizontal page
+overflow or duplicate IDs. Approval handoff, active report tabs and the shared
+report are checked in the browser. Report/data/approval/material tests pass.
+
 ## Current expand/collapse standard
 
 One ordinary disclosure component is now maintained in

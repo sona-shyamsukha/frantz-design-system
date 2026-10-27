@@ -7,15 +7,15 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Helsefagarbeider Tromsø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=203">
-<script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../frantz-ds.css?v=20261027-client">
+<script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=4">
 <style>
   body { margin: 0; }
 </style>
-<link rel="stylesheet" href="../styles/campaign-review.css?v=1">
+<link rel="stylesheet" href="../styles/campaign.css?v=20261027-client2">
 </head>
-<body class="campaign-review" data-campaign-page="production">
+<body class="campaign-page" data-campaign-page="production">
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
 
 <header class="mobiltopp">
@@ -53,7 +53,6 @@
     <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
-      <div class="review-context"><a class="link" href="kampanje-designreview.html">← Alle designforslag</a><span>Designforslag · eksempeldata</span></div>
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
           <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
@@ -61,10 +60,7 @@
         </ol>
       </nav>
 
-      <div class="detalj__topp">
-        <h1 class="text-h2">Helsefagarbeider Tromsø</h1>
-        <span class="badge badge--setup" id="campaign-stage">Venter på din godkjenning</span>
-      </div>
+      <header class="campaign-header"><div><p class="campaign-eyebrow">Nord-Norge Helse</p><div class="campaign-title"><h1 class="text-h2">Helsefagarbeider Tromsø</h1><span class="badge badge--setup" id="campaign-stage">Under arbeid</span></div><p class="form-hint campaign-meta">Planlagt periode 05.10 – 02.11.2026</p></div></header>
       <section class="card card--betjen campaign-next" id="production-status" aria-labelledby="production-title"><div class="campaign-next__heading"><span class="campaign-eyebrow">Neste steg · Deg</span></div><h2 class="card__title" id="production-title">Se gjennom annonsene</h2><p id="production-description">Godkjenn de tre utkastene innen 02.10, slik at Frantz kan gjøre klart til planlagt start 05.10.</p><p class="form-hint campaign-meta">Planlagt start 05.10.2026 · Rådgiver Martin Karlsen</p></section>
 
       <div class="cols campaign-layout">
@@ -100,7 +96,7 @@
             </div>
             <div class="handlinger btn-row btn-row--stack">
               <button class="btn btn--primary" type="button" id="approve-campaign-material" >Godkjenn annonsene</button>
-              <button class="btn btn--secondary" type="button" onclick="window.FrantzAssist && FrantzAssist.open()">Be om endring</button>
+              <button class="btn btn--secondary" type="button" data-contact-adviser data-kind="endring">Be om endring</button>
               <button class="btn btn--ghost" type="button" data-del-godkjenning="del-panel" data-approval-label="Send videre til godkjenning" aria-expanded="false"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Send videre til godkjenning</button>
             </div>
             <p id="material-customer-status" class="form-hint" role="status" hidden>Materiellet er godkjent. Frantz følger opp publisering i et eget steg.</p>
@@ -112,13 +108,13 @@
               data-frist="02.10.2026" data-side="frantz.no/k/129072" data-fra="Kari Hansen" data-firma="Nordlys Rekruttering AS"></div>
             <p class="form-hint">Godkjenningen gjelder annonsene. Frantz følger opp publisering etterpå.</p>
           </div>
-          <details class="disclosure approval-message campaign-disclosure"><summary>Se historikk og målgruppe<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><div class="card__body">
+          <details class="disclosure approval-message campaign-disclosure"><summary>Historikk og målgruppe<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><div class="card__body">
             <div class="card__head"><h3 class="card__title">Hva Frantz har gjort</h3></div>
             <ul class="checklist"><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Bestillingen er mottatt</b><small>26.09.2026.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Målrettingen er satt opp</b><small>Helsefagarbeidere i Troms, 25–55 år.</small></div></li><li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Annonsene er laget</b><small>3 utkast på Meta og på Nettsteder og aviser.</small></div></li><li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><span class="sr-only">Gjenstår: </span><b>Du godkjenner annonsene</b><small>Frist 02.10.</small></div></li></ul>
             <form class="kommentar" onsubmit="event.preventDefault(); var t=this.querySelector('textarea'); if(!t.value.trim()){t.focus();return;} this.querySelector('[data-sendt]').hidden=false; t.value='';" style="margin-top: var(--space-16)">
               <label class="form-label" for="kommentar-malgruppe">Noe Frantz bør vite om målgruppen?</label>
               <textarea class="form-input" id="kommentar-malgruppe" rows="3" placeholder="F.eks. Ta med Finnmark også."></textarea>
-              <div style="display:flex;align-items:center;gap: var(--space-12);margin-top: var(--space-8)"><button class="btn btn--secondary btn--sm" type="submit">Send til Martin</button><span data-sendt role="status" hidden style="font-size: var(--text-sm);color: var(--text-success-strong)">Sendt. Martin Karlsen svarer innen 1 arbeidsdag.</span></div>
+              <div style="display:flex;align-items:center;gap: var(--space-12);margin-top: var(--space-8)"><button class="btn btn--secondary btn--sm" type="submit">Skriv e-post til Frantz</button><span data-sendt role="status" hidden style="font-size: var(--text-sm);color: var(--text-success-strong)">E-postutkastet er åpnet.</span></div>
             </form>
           </div></div></details>
         </div>
@@ -142,11 +138,11 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/approval-store.js?v=3"></script>
 <script src="../components/js/approval-share.js?v=4"></script>
-<script src="../components/js/piksel.js?v=2"></script>
+<script src="../components/js/piksel.js?v=20261027-client"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
-<script src="../components/js/campaign-page.js?v=1"></script>
+<script src="../components/js/campaign-page.js?v=20261027-client"></script>
 </body>
 </html>

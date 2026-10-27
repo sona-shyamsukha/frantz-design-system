@@ -362,4 +362,65 @@ window.FZ_REPORTS = Object.freeze({
       }
     ]
   }
+,
+  "129068": {
+    "id": "129068",
+    "title": "Anestesisykepleier Stavanger",
+    "employer": "Vestlandet Helse",
+    "period": "10.09 – 27.09.2026",
+    "active": false,
+    "updated": null,
+    "budget": 22000,
+    "spend": null,
+    "applications": 11,
+    "channelNames": [
+      "Meta",
+      "LinkedIn"
+    ]
+  },
+  "129062": {
+    "id": "129062",
+    "title": "Sykepleier Trondheim",
+    "employer": "Trøndelag Helse",
+    "period": "28.08 – 22.09.2026",
+    "active": false,
+    "updated": null,
+    "budget": 35000,
+    "spend": null,
+    "applications": 19,
+    "channelNames": [
+      "Meta",
+      "Nettsteder og aviser"
+    ]
+  },
+  "129055": {
+    "id": "129055",
+    "title": "Intensivsykepleier Bergen",
+    "employer": "Vestlandet Helse",
+    "period": "14.08 – 04.09.2026",
+    "active": false,
+    "updated": null,
+    "budget": 26000,
+    "spend": null,
+    "applications": 16,
+    "channelNames": [
+      "Meta",
+      "LinkedIn",
+      "Nettsteder og aviser"
+    ]
+  },
+  "128951": {
+    "id": "128951",
+    "title": "Jordmor Ålesund",
+    "employer": "Vestlandet Helse",
+    "period": "08.06 – 22.06.2026",
+    "active": false,
+    "updated": null,
+    "budget": 15000,
+    "spend": null,
+    "applications": 6,
+    "channelNames": [
+      "Meta"
+    ]
+  }
 });

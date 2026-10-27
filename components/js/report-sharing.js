@@ -44,7 +44,7 @@
       '<div class="report-sharing__options"><label class="form-check"><input class="form-check__input" type="checkbox" id="share-costs"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Vis budsjett og kostnader</span></label><div class="form-group"><label class="form-label" for="share-expiry">Lenken utløper</label><select class="form-select" id="share-expiry"><option value="7">Om 7 dager</option><option value="30" selected>Om 30 dager</option><option value="never">Ingen utløpsdato</option><option value="custom">Velg dato</option></select></div><div class="form-group" id="share-custom-group" hidden><label class="form-label" for="share-custom-date">Utløpsdato</label><input type="date" class="form-input" id="share-custom-date"></div></div>' +
       '<div class="report-sharing__link" id="share-link-row" hidden><label class="sr-only" for="share-url">Rapportlenke</label><input class="form-input" id="share-url" type="url" readonly><button type="button" class="btn btn--secondary" id="share-copy">Kopier lenke</button></div>' +
       '<div class="btn-row report-sharing__actions"><button type="button" class="btn btn--primary" id="share-save">Opprett rapportlenke</button><a class="link" id="share-preview" target="_blank" rel="noopener">Forhåndsvis rapport <span class="sr-only">(ny fane)</span></a><button type="button" class="btn btn--ghost" id="share-revoke" hidden>Slå av deling</button></div><p class="report-sharing__status" id="share-status" role="status"></p>' +
-      '<details class="disclosure approval-test report-sharing__prototype"><summary>Om denne prototypen<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Lenker, utløpsdato og deaktivering kan testes i samme nettleser på samme adresse. Lenken virker ikke på en annen enhet. Ingen rapport er publisert eller sendt. En ferdig løsning trenger lagring og tilgangskontroll på serveren.</p></div></details>';
+      '<p class="form-hint mt-4">Lenken kan foreløpig bare åpnes i denne nettleseren. Deling til andre enheter er ikke koblet til ennå.</p>';
     var costs = panel.querySelector('#share-costs');
     var expiry = panel.querySelector('#share-expiry');
     var customDate = panel.querySelector('#share-custom-date');
@@ -67,7 +67,7 @@
         costs.checked = !!record.costs;
         expiry.value = record.expiryChoice || '30';
         if (record.expires && expiry.value === 'custom') customDate.value = record.expires.slice(0, 10);
-        message.textContent = record.expires ? 'Deling er på. Utløper ' + new Date(record.expires).toLocaleDateString('nb-NO') + '. Kun i denne nettleseren i prototypen.' : 'Deling er på uten utløpsdato. Kun i denne nettleseren i prototypen.';
+        message.textContent = record.expires ? 'Deling er på. Utløper ' + new Date(record.expires).toLocaleDateString('nb-NO') + '. Lenken virker foreløpig bare i denne nettleseren.' : 'Deling er på uten utløpsdato. Lenken virker foreløpig bare i denne nettleseren.';
       } else message.textContent = record ? 'Deling er av eller lenken har utløpt.' : 'Ingen rapportlenke er opprettet.';
       panel.querySelector('#share-custom-group').hidden = expiry.value !== 'custom';
       updatePreview();
@@ -92,11 +92,11 @@
       } catch (error) { message.textContent = 'Kunne ikke lagre rapportlenken i nettleseren. Prøv igjen.'; }
     });
     panel.querySelector('#share-copy').addEventListener('click', async function () {
-      try { await navigator.clipboard.writeText(urlField.value); message.textContent = 'Rapportlenken er kopiert. I prototypen virker den bare i denne nettleseren.'; }
+      try { await navigator.clipboard.writeText(urlField.value); message.textContent = 'Rapportlenken er kopiert. Den virker foreløpig bare i denne nettleseren.'; }
       catch (error) { message.textContent = 'Kunne ikke kopiere automatisk. Marker og kopier lenken i feltet.'; urlField.focus(); urlField.select(); }
     });
     revoke.addEventListener('click', function () {
-      try { var records = read(); if (records[report.id]) records[report.id].revoked = true; save(records); refresh(); message.textContent = 'Deling er slått av. Den gamle lenken kan ikke brukes i prototypen.'; saveButton.focus(); }
+      try { var records = read(); if (records[report.id]) records[report.id].revoked = true; save(records); refresh(); message.textContent = 'Deling er slått av. Den gamle lenken er deaktivert.'; saveButton.focus(); }
       catch (error) { message.textContent = 'Kunne ikke slå av deling. Prøv igjen.'; }
     });
     root.addEventListener('storage', function (event) { if (event.key === KEY && !panel.hidden) refresh(); });

@@ -33,7 +33,7 @@
     '.flytbytte b { color: var(--text-heading); }';
   document.head.appendChild(css);
 
-  function lenke(til) { return location.pathname.split('/').pop() + '?bruker=' + til; }
+  function lenke(til) { var url = new URL(location.href); url.searchParams.set('bruker', til); url.searchParams.set('demo', '1'); return url.pathname.split('/').pop() + url.search + url.hash; }
 
   window.FZ_BRUKER = { ny: ny, harConnect: !ny, verdi: verdi, lenke: lenke };
 
@@ -46,7 +46,7 @@
   // A small demo switch in the top bar, so you can flip between the two flows on any page
   document.addEventListener('DOMContentLoaded', function () {
     var topbar = document.querySelector('.topbar');
-    if (!topbar) return;
+    if (!topbar || new URLSearchParams(location.search).get('demo') !== '1') return;
     var a = document.createElement('a');
     a.className = 'flytbytte';
     a.href = lenke(ny ? 'eksisterende' : 'ny');

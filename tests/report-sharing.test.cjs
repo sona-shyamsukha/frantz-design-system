@@ -24,14 +24,14 @@ test('a report can omit every monetary value without omitting campaign results',
 
 test('public report fixtures contain aggregates and no candidate or account records', () => {
   const window = load('portal/data/rapporter.js');
-  const allowed = new Set(['id', 'title', 'employer', 'period', 'active', 'updated', 'budget', 'spend', 'cost', 'visits', 'applications', 'interest', 'impressions', 'goal', 'day', 'totalDays', 'start', 'read', 'readTime', 'assessment', 'channels', 'daily', 'ads', 'placements', 'geography']);
+  const allowed = new Set(['id', 'title', 'employer', 'period', 'active', 'updated', 'budget', 'spend', 'cost', 'visits', 'applications', 'interest', 'impressions', 'goal', 'day', 'totalDays', 'start', 'read', 'readTime', 'assessment', 'channels', 'daily', 'ads', 'placements', 'geography', 'channelNames']);
   for (const report of Object.values(window.FZ_REPORTS)) {
     for (const key of Object.keys(report)) assert.ok(allowed.has(key), `Unexpected public field: ${key}`);
     assert.doesNotMatch(JSON.stringify(report), /@|"email"|"phone"|"contact"|"candidates"|"account"|"requests"/i);
-    assert.equal(report.channels.reduce((sum, channel) => sum + channel.applications, 0), report.applications);
-    assert.equal(report.ads.reduce((sum, ad) => sum + ad.applications, 0), report.applications);
-    assert.equal(report.placements.reduce((sum, site) => sum + site.impressions, 0), report.impressions - (report.active ? 117000 : 31000));
-    assert.equal(report.daily[0].length, report.daily[1].length);
+    if (report.channels) assert.equal(report.channels.reduce((sum, channel) => sum + channel.applications, 0), report.applications);
+    if (report.ads) assert.equal(report.ads.reduce((sum, ad) => sum + ad.applications, 0), report.applications);
+    if (report.placements) assert.equal(report.placements.reduce((sum, site) => sum + site.impressions, 0), report.impressions - (report.active ? 117000 : 31000));
+    if (report.daily) assert.equal(report.daily[0].length, report.daily[1].length);
   }
   const page = fs.readFileSync(path.join(root, 'portal/delt-rapport.html'), 'utf8');
   assert.doesNotMatch(page, /src="[^"]*(?:interessenter|konto|approval|kampanjer)\.js/);
@@ -61,4 +61,24 @@ test('each campaign list destination carries its own identity', () => {
     routes.push(url.href);
   }
   assert.equal(new Set(routes).size, routes.length);
+});
+
+// List totals are the only recorded results for these campaigns. Missing figures must
+// not become zero or be borrowed from the completed Bodø fixture.
+test('every ended campaign retains its own aggregates without invented breakdowns', () => {
+  const window = load('portal/data/kampanjer.js');
+  load('portal/data/rapporter.js', window);
+  load('components/js/report-view.js', window);
+  for (const campaign of window.FZ_KAMPANJER.alle().filter(c => c.status === 'Avsluttet')) {
+    const report = window.FZ_REPORTS[campaign.id];
+    assert.ok(report, `Missing report for ${campaign.id}`);
+    assert.equal(report.title, campaign.tittel);
+    assert.equal(report.budget, campaign.budsjett);
+    assert.equal(report.applications, campaign.sok);
+    if (campaign.id === '128984') continue;
+    for (const field of ['visits', 'cost', 'interest', 'goal', 'daily', 'ads', 'assessment', 'channels']) assert.equal(report[field], undefined);
+    const html = window.FrantzReportView.overview(report, { costs: true });
+    assert.doesNotMatch(html, /NaN|undefined|kr 0|Besøk på|Meldte interesse|planlagte klikk/);
+    assert.match(html, /Detaljert fordeling per kanal er ikke tilgjengelig/);
+  }
 });

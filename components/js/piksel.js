@@ -27,7 +27,7 @@
       '&body=' + encodeURIComponent('Hei!\n\nKan du legge denne koden på stillingssiden for ' + tittel + '?\n\n' + kode + '\n\nDen måler hvem som trykker «Søk» fra kampanjen til Frantz.');
     el.classList.add('piksel--' + status);
     el.innerHTML =
-      '<span class="summary-panel__label">Sporingskode (piksel)</span>' +
+      (el.closest('details') ? '' : '<span class="summary-panel__label">Sporingskode</span>') +
       '<p class="piksel__status"><span class="piksel__prikk" aria-hidden="true"></span>' + esc(STATUS[status](el.dataset.tid || '')) + '</p>' +
       '<code class="piksel__kode">' + esc(kode) + '</code>' +
       '<div class="piksel__knapper">' +
