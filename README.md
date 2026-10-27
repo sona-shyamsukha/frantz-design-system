@@ -29,8 +29,9 @@ Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-dat
 
 `main` combines the selected campaign design and the latest MVP/solutions work. Use the local preview on port 8080 from this checkout. Shared page styles use the same stylesheet version across portal and documentation pages.
 
-- [Main campaign flow](portal/ny-kampanje-v2.html): selected default for the portal’s campaign buttons and entry points.
-- [Previous design — backup for user testing](portal/ny-kampanje.html): retained as an alternative if testing reveals that the main flow is difficult to understand.
+- [Main campaign flow](portal/ny-kampanje.html): selected default for the portal’s campaign buttons and entry points.
+- [Previous design — backup for user testing](portal/ny-kampanje-alternativ.html): retained as an alternative if testing reveals that the main flow is difficult to understand.
+- Earlier `ny-kampanje-v2.html` links redirect to `ny-kampanje.html`, preserving query parameters and fragments.
 
 ## Approval prototype
 

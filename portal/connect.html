@@ -232,7 +232,7 @@
   </div>
 </div>
 
-<script src="data/kampanjer.js?v=5"></script>
+<script src="data/kampanjer.js?v=6"></script>
 <script src="data/connect.js?v=4"></script>
 <script>
 (function () {
@@ -243,7 +243,7 @@
     var k = c.kampanje;
     // A stilling with a campaign opens that campaign, or the report when it has ended.
     // One without a campaign opens the order form, already filled from the ConnectID.
-    var maal = k ? k.side : 'ny-kampanje-v2.html?connect=' + c.id;
+    var maal = k ? k.side : 'ny-kampanje.html?connect=' + c.id;
     var pil = !k ? 'Opprett kampanje' : c.status === 'Avsluttet' ? 'Åpne rapporten' : c.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen';
     return '<tr tabindex="0" data-href="' + maal + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-start="' + c.start + '">' +
       '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span><span class="table__meta">ConnectID <span class="table__id">' + c.id + '</span></span></span></td>' +
@@ -251,7 +251,7 @@
       '<td data-label="Kampanjenavn">' + (c.prosjekt ? esc(c.prosjekt) : mangler('Ikke satt')) + '</td>' +
       '<td data-label="Periode">' + (k && k.fra ? k.fra + ' – ' + k.til : mangler('—')) + '</td>' +
       // No campaign yet: the next step is the button, not a status pill
-      '<td data-label="Status">' + (k ? '<span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje-v2.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
+      '<td data-label="Status">' + (k ? '<span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + pil + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
   // A click on the row opens the campaign, the report, or the prefilled order. Links and buttons in the row keep their own target.
@@ -303,7 +303,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=17"></script>
+<script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

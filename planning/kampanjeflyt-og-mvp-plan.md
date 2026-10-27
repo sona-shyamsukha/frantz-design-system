@@ -4,9 +4,11 @@ Arbeidsutkast for Sona · 27. oktober 2026
 
 ## Avklaringer og lokal fremdrift
 
+- Hovedflyten har nå adressen `portal/ny-kampanje.html`. Backupen ligger i `portal/ny-kampanje-alternativ.html`. Gamle V2-lenker videresendes med eventuelle Connect-, kalkulator- og kladdparametere bevart.
+
 - Kampanjeflyten og de nyeste MVP-prioriteringene er samlet i `main`. Den delte sidebakgrunnen er fortsatt `--surface-page` (`#EEF3F6`), med hvite kort og tabeller. Alle portalsidene bruker nå samme oppdaterte stilarkversjon slik at eldre mellomlagrede stilark ikke gir hvit sidebakgrunn.
 
-- Sona har valgt V2 som hovedflyt. «Ny kampanje» og de vanlige inngangene fra Hjem, Kampanjer, Stillinger, kalkulatoren og kladder åpner `portal/ny-kampanje-v2.html`. Den tidligere stegflyten i `portal/ny-kampanje.html` beholdes som backup og alternativ til brukertest dersom V2 er vanskelig å forstå. Valget er en designbeslutning, ikke dokumentasjon på gjennomført brukertest.
+- Sona har valgt V2 som hovedflyt. «Ny kampanje» og de vanlige inngangene fra Hjem, Kampanjer, Stillinger, kalkulatoren og kladder åpner `portal/ny-kampanje.html`. Den tidligere stegflyten i `portal/ny-kampanje-alternativ.html` beholdes som backup og alternativ til brukertest dersom V2 er vanskelig å forstå. Valget er en designbeslutning, ikke dokumentasjon på gjennomført brukertest.
 
 - Første fokus er å ferdigstille den forenklede v2-flyten. Bare hovedflyten og v2 inngår i sammenligningen.
 - Sona har valgt redigering per seksjon i modal. Stillingen, Kampanjen og Materiell og filer har hver sin «Endre»-handling. Kampanjenavn står sammen med budsjett, kanaler og periode. Modalene åpner med nedtrekkslistene lukket.
@@ -49,8 +51,8 @@ MVP-en bør gjøre det mulig å starte med det man har, styre budsjettet, få p�
 
 | Versjon | Lokal forhåndsvisning | Hva den skal hjelpe brukeren med |
 | --- | --- | --- |
-| A Veiledet flyt · backup | [Alternativ til brukertest](http://127.0.0.1:8080/portal/ny-kampanje.html) | Stillingen → Kampanjen → Annonsen → Se over og bestill. Beholdes for sammenligning hvis hovedflyten er vanskelig å forstå. |
-| B Forenklet flyt · valgt hovedflyt | [Ny kampanje](http://127.0.0.1:8080/portal/ny-kampanje-v2.html) | Samme startside → oppsummering av det som er hentet ut → rediger seksjoner og legg til opplysninger. Skjuler de opprinnelige stegene etter innlesing. |
+| A Veiledet flyt · backup | [Alternativ til brukertest](http://127.0.0.1:8080/portal/ny-kampanje-alternativ.html) | Stillingen → Kampanjen → Annonsen → Se over og bestill. Beholdes for sammenligning hvis hovedflyten er vanskelig å forstå. |
+| B Forenklet flyt · valgt hovedflyt | [Ny kampanje](http://127.0.0.1:8080/portal/ny-kampanje.html) | Samme startside → oppsummering av det som er hentet ut → rediger seksjoner og legg til opplysninger. Skjuler de opprinnelige stegene etter innlesing. |
 
 Ved første kartlegging sto arbeidsmappen på `campaign-flow-v2`, commit `8e5e0c3`. Begge aktive arbeidsbranchene er nå samlet i `main`. V2 er valgt som hovedflyt, mens den tidligere stegflyten beholdes som alternativ til brukertest.
 

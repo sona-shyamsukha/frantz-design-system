@@ -230,6 +230,7 @@
   .status { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
   .status--ok { color: var(--text-success-strong); }
   .feil { margin: var(--space-8) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .felt > .feil, .form-group > .feil { margin: 0; } /* The field already supplies the gap. */
   .feil[hidden], .status[hidden] { display: none; }
   .mangler-liste { margin: 0 0 var(--space-16); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--bg-warning-soft); color: var(--color-amber-ink); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
   .mangler-liste[hidden] { display: none; }
@@ -345,6 +346,19 @@
   .valgfaner__valg[hidden], .valgpanel[hidden], .annonse__lerret[hidden], .an-bilde[hidden], #an-mer[hidden] { display: none; }
   .valgpanel { min-width: 0; }
   .kilde-felter { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--space-24); }
+  .kildegruppe { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .kildegruppe > legend { padding: 0; margin-bottom: var(--space-8); }
+  .kildegruppe > .form-hint { margin: 0; }
+  .kildegruppe > .feil { margin: var(--space-8) 0 0; }
+  .kildegruppe > .kilde-felter { margin-top: var(--space-24); }
+  .kildegruppe > legend:focus { outline: none; }
+  .v2-ekstra { margin: 0; padding: var(--space-24); white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text-body); }
+  .intake-heading { margin: 0 0 var(--space-8); color: var(--text-heading); font: var(--type-section); }
+  .intake-heading:focus { outline: none; }
+  .kildegruppe > .alert { margin: var(--space-16) 0 0; }
+  .brief-topp { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+  .brief-topp .link { flex-shrink: 0; font: var(--type-support); }
+  #felt-tekst > .form-hint { margin: 0; }
   .kilde-felter .felt + .felt { margin-top: 0; }
   .kilde-felter #felt-lenke { grid-column: auto; }
   .kilde-felter:not(:has(#connect-valg)) #felt-lenke, .kilde-bred { grid-column: 1 / -1; }
@@ -822,6 +836,170 @@
     #anbefaling-valg .valgfaner__valg { flex: 1 1 auto; white-space: normal; }
   }
   #kanal-min { margin-top: var(--space-12); font: var(--type-support); color: var(--text-warning-strong); }
+  #steg-liste { display: none !important; }
+  .v2[hidden] { display: none !important; }
+  .v2.del { display: flex; flex-direction: column; gap: 0; align-self: flex-start; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; padding: 0; overflow: visible; }
+  .v2-kilde { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-16); align-items: start; padding: var(--space-24); }
+  .v2-kilde p { margin: 0; max-width: 68ch; color: var(--text-muted); font: var(--type-body); white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .v2-seksjon__tittel { margin: 0; padding: var(--space-16) var(--space-24); border-top: 1px solid var(--border-subtle); background: var(--surface-section); color: var(--text-heading); font: var(--type-label); }
+  .v2-seksjon:first-child .v2-seksjon__tittel { border-top: 0; }
+  .v2-rad { display: grid; grid-template-columns: 11.5rem minmax(0, 1fr) auto; gap: var(--space-12) var(--space-16); align-items: center; padding: var(--space-16) var(--space-24); border-top: 1px solid var(--border-subtle); }
+  .v2-rad__navn { color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); }
+  .v2-rad__verdi { margin: 0; color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .v2-rad__navn, .v2-rad__verdi { min-width: 0; overflow-wrap: anywhere; }
+  .v2-rad--mangler .v2-rad__verdi { color: var(--color-amber-ink); }
+  .v2-rad--obligatorisk .v2-rad__verdi { display: flex; align-items: center; gap: var(--space-8); }
+  .v2-rad--obligatorisk .icon-lucide { flex: none; }
+  .v2-rad--apen { align-items: start; grid-template-columns: 11.5rem minmax(0, 1fr); }
+  .v2-rad--apen .v2-rad__navn { padding-top: var(--space-12); }
+  .v2-rad__skjema { display: grid; gap: var(--space-12); min-width: 0; max-width: 100%; }
+  .v2-rad__skjema > .felt,
+  .v2-rad__skjema > .blokk { margin: 0; min-width: 0; max-width: 100%; }
+  .v2-rad__skjema > #blokk-budsjett,
+  .v2-rad__skjema > #blokk-kanal,
+  .v2-rad__skjema > #blokk-periode { grid-column: auto; grid-row: auto; width: 100%; margin: 0; }
+  .v2-rad__skjema #blokk-periode { border-top: 0; padding-top: 0; }
+  .v2-rad__skjema #q-periode-valg,
+  .v2-rad__skjema .periode__snarveier,
+  .v2-rad__skjema #anbefaling-prognose,
+  .v2-rad__skjema .metrics { max-width: 100%; min-width: 0; }
+  .v2-rad__skjema .form-input,
+  .v2-rad__skjema .picker__felt,
+  .v2-rad__skjema .budsjett-felt { width: 100%; max-width: 100%; background: var(--surface-raised); }
+  .v2-rad__skjema > #felt-stilling > .form-label,
+  .v2-rad__skjema > #felt-sted > .form-label,
+  .v2-rad__skjema > #felt-arbeidsgiver > .form-label,
+  .v2-rad__skjema > #felt-frist > .form-label,
+  .v2-rad__skjema > #felt-ref > .form-label,
+  .v2-rad__skjema > #blokk-kanal > #b-kanal-lbl { display: none; }
+  .v2-rad__knapper { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+  .v2 .valgfaner__valg[aria-pressed="true"] { border-color: var(--border-default); background: var(--surface-raised); color: var(--text-heading); box-shadow: var(--shadow-subtle); }
+  .v2-bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); padding: var(--space-24); border-top: 1px solid var(--border-subtle); }
+  .v2-status { margin: 0; padding: 0 var(--space-24) var(--space-16); }
+  .v2-status { color: var(--color-amber-ink); font-weight: var(--font-weight-semibold); }
+  .v2-status[hidden], .v2-bunn .btn[hidden] { display: none; }
+
+  body.v2-ute #ordre-oppsummering, body.v2-ute .steg-nav, body.v2-ute #mobilbestilling { display: none !important; }
+  @container (min-width: 800px) {
+    .steg > #del-start, .v2.del { grid-column: 1 / -1; width: 70%; max-width: 960px; }
+  }
+  @container (min-width: 1000px) {
+    .steg > #del-start, .v2.del { width: 70%; max-width: 960px; }
+  }
+  @media (max-width: 640px) {
+    .v2-kilde, .v2-rad, .v2-rad--apen, .v2-seksjon__tittel { grid-template-columns: minmax(0, 1fr); padding-inline: var(--space-16); }
+    .v2-rad--apen .v2-rad__navn { padding-top: 0; }
+    .v2-bunn { padding: var(--space-16); }
+    .v2-bunn .btn { width: 100%; }
+  }
+
+  .v2-seksjon__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-12) var(--space-24); background: var(--surface-section); border-top: 1px solid var(--border-subtle); }
+  .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; }
+  .v2-rad { grid-template-columns: 11.5rem minmax(0, 1fr); }
+  dialog.v2-dialog { width: min(680px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); overflow: hidden; box-shadow: var(--shadow-subtle); }
+  .v2-dialog::backdrop { background: var(--scrim); }
+  #v2-dialog-form { display: flex; flex-direction: column; min-height: 0; max-height: calc(100dvh - var(--space-32)); }
+  .v2-dialog__topp, .v2-dialog__bunn, .v2-dialog__feil { flex: none; }
+  .v2-dialog__innhold { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+  .v2-dialog__innhold::-webkit-scrollbar { width: 8px; }
+  .v2-dialog__innhold::-webkit-scrollbar-thumb { background: var(--border-strong); border: 2px solid var(--surface-raised); border-radius: var(--radius-full); }
+  .v2-dialog__innhold--kampanje { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-32); align-items: start; }
+  .v2-dialog__innhold--kampanje > .v2-pakkevalg { margin: 0; min-width: 0; }
+  .v2-dialog__innhold--kampanje [data-v2-dialog-felt="periode"] { grid-column: 1 / -1; }
+  .v2-dialog__innhold--kampanje #estimat { margin-top: var(--space-24); }
+  /* Keep the reading order row by row, with the period as the final pair. */
+  .v2-dialog__innhold--kampanje #blokk-periode { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8) var(--space-24); align-items: start; }
+  .v2-dialog__innhold--kampanje #q-periode-valg,
+  .v2-dialog__innhold--kampanje .periode { display: contents; }
+  .v2-dialog__innhold--kampanje #q-periode-lbl { grid-column: 1; grid-row: 1; margin: 0; }
+  .v2-dialog__innhold--kampanje #startdato { grid-column: 1; grid-row: 2; width: 100%; }
+  .v2-dialog__innhold--kampanje .periode__uker-lbl { grid-column: 2; grid-row: 1; margin: 0; }
+  .v2-dialog__innhold--kampanje .periode__snarveier { grid-column: 2; grid-row: 2; margin: 0; }
+  .v2-dialog__innhold--kampanje .periode__fast,
+  .v2-dialog__innhold--kampanje #frist-advarsel { grid-column: 1 / -1; }
+  .v2-dialog__scrollhint { display: flex; align-items: center; gap: var(--space-8); margin-right: auto; color: var(--text-muted); font: var(--type-support); }
+  .v2-dialog__scrollhint[hidden] { display: none; }
+  @media (max-width: 899px) {
+    .v2-dialog__innhold--kampanje { grid-template-columns: minmax(0, 1fr); }
+    .v2-dialog__innhold--kampanje #blokk-periode { grid-template-columns: minmax(0, 1fr); }
+    .v2-dialog__innhold--kampanje .periode__uker-lbl { grid-column: 1; grid-row: 3; margin-top: var(--space-16); }
+    .v2-dialog__innhold--kampanje .periode__snarveier { grid-column: 1; grid-row: 4; }
+  }
+  @media (max-width: 640px) { #v2-dialog-form { max-height: calc(100dvh - var(--space-16)); } .v2-dialog__scrollhint { flex-basis: 100%; } }
+  .v2-dialog__topp { display: flex; justify-content: space-between; align-items: center; gap: var(--space-16); padding: var(--space-24); border-bottom: 1px solid var(--border-subtle); }
+  .v2-dialog__topp h2 { margin: 0; font: var(--type-section); color: var(--text-heading); }
+  .v2-dialog__innhold { display: grid; gap: var(--space-24); padding: var(--space-24); }
+  .v2-dialog__felt { min-width: 0; }
+  .v2-dialog__felt > .felt, .v2-dialog__felt > .blokk { margin: 0; width: 100%; min-width: 0; }
+  .v2-dialog__felt > .form-hint { margin: var(--space-8) 0 0; }
+  .v2-dialog__felt #blokk-periode { border-top: 0; padding-top: 0; }
+  .v2-dialog .form-input, .v2-dialog .picker__felt { max-width: 100%; }
+  .v2-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); position: sticky; bottom: 0; padding: var(--space-16) var(--space-24); background: var(--surface-raised); border-top: 1px solid var(--border-subtle); }
+  .v2-dialog__valg { display: grid; gap: var(--space-12); margin: 0; padding: 0; border: 0; }
+  .v2-dialog__valg legend { margin-bottom: var(--space-12); }
+  .v2-dialog__radio { display: flex; align-items: center; gap: var(--space-8); }
+  .v2-dialog__radio input { accent-color: var(--text-heading); }
+  .v2-studio #an-meta .form-group:has(#an-avsender) { display: none; }
+  .v2-studio #an-meta .annonse__to { grid-template-columns: minmax(0, 1fr); }
+  .v2-dialog #blokk-tillegg, .v2-dialog #felt-faktura { margin: 0; }
+  .v2-dialog #felt-avsender { display: grid; margin: 0; }
+  .v2-produkter, .v2-faktura, .v2-ekstra-inline { padding: var(--space-24); }
+  .v2-ekstra-inline #felt-ekstra { margin: 0; }
+  .v2-produkter #blokk-tillegg { margin: 0; padding: 0; border: 0; }
+  .v2-faktura #felt-faktura { margin: 0; padding: 0; border: 0; }
+  .v2-produkter #b-til-lbl { display: none; }
+  .v2-bestill-hint { margin: 0; padding: 0 var(--space-24) var(--space-16); color: var(--text-muted); font: var(--type-support); }
+  .v2-bestill-hint[hidden] { display: none; }
+  #v2-pakke { width: 100%; min-width: 0; text-overflow: ellipsis; }
+  #v2-pakke-detaljer { overflow-wrap: anywhere; }
+  @media (max-width: 640px) { .v2-produkter, .v2-faktura, .v2-ekstra-inline { padding: var(--space-16); } .v2-bestill-hint { padding-inline: var(--space-16); } }
+  .v2-dialog__feil { margin: var(--space-24) var(--space-24) 0; }
+  .v2-pris { display: grid; gap: var(--space-12); padding: var(--space-24); border-top: 1px solid var(--border-subtle); }
+  .v2-pris .summary-row { grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-12); }
+  .v2-pris .summary-row dt, .v2-pris .summary-row dd { min-width: 0; overflow-wrap: anywhere; }
+  .v2-pris__total { padding-top: var(--space-12); border-top: 1px solid var(--border-default); font-weight: var(--font-weight-semibold); }
+  .v2-pris p { margin: 0; color: var(--text-muted); font: var(--type-support); }
+  #v2-godkjenning { padding: 0 var(--space-24); }
+  #v2-status { margin: 0 var(--space-24) var(--space-16); padding: var(--space-16); }
+  @media (max-width: 640px) { .v2-bunn .btn { width: 100%; } .v2-pris { padding: var(--space-16); } }
+  dialog.v2-dialog--studio, dialog.v2-dialog--kampanje { width: min(1120px, calc(100vw - var(--space-32))); }
+  .v2-studio { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-24); padding-top: var(--space-24); }
+  .v2-studio[hidden] { display: none; }
+  .v2-studio #del-materiell { width: 100%; max-width: none; padding: 0; margin: 0; border: 0; box-shadow: none; }
+  .v2-studio #t-materiell, .v2-studio .materiell-start, .v2-studio .mat-filer { display: none; }
+  .v2-studio #blokk-annonse { margin: 0; }
+  .v2-studio .annonse__arbeid { display: block; }
+  .v2-studio #annonse-forhandsvisning { grid-column: auto; grid-row: auto; position: static; margin: 0; min-width: 0; }
+  /* One spacing rhythm also covers wrapped channel descriptions and placement tabs. */
+  .v2-studio #annonse-forhandsvisning:not([hidden]) { display: flex; flex-direction: column; gap: var(--space-16); }
+  .v2-studio #annonse-forhandsvisning > * { margin-block: 0; }
+  .v2-studio .annonse__scene { padding: var(--space-16); }
+  .v2-studio .ad-preview { width: 100%; max-width: 360px; margin-inline: auto; }
+  .v2-studio .ad-preview__tittel { font-size: var(--text-xl); }
+  .v2-dialog__bunn { z-index: 2; }
+  .v2-vedlegg { display: grid; gap: var(--space-8); margin: var(--space-12) 0 0; padding: 0; list-style: none; }
+  .v2-vedlegg[hidden] { display: none; }
+  .v2-vedlegg li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-8) var(--space-12); background: var(--surface-section); border-radius: var(--radius-8); }
+  .v2-vedlegg__navn { min-width: 0; overflow-wrap: anywhere; font: var(--type-support); }
+  @media (min-width: 900px) {
+    .v2-studio:has(#annonse-forhandsvisning:not([hidden])) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  }
+  .v2-dialog #budsjett-kontroll { display: block; }
+  .v2-dialog #anbefaling-prognose, .v2-dialog #anbefaling-forbehold { display: none; }
+  .v2-dialog .picker__liste { position: relative; max-height: 220px; }
+  .v2-dialog .picker__liste[hidden] { display: none; }
+  .v2-dialog__felt > #felt-ref > .form-label { display: block; }
+  .nk-skjema .form-input[aria-invalid="true"],
+  .v2-dialog .form-input[aria-invalid="true"] { border-color: var(--text-danger-moderate); }
+  .nk-skjema .form-input[aria-invalid="true"]:focus,
+  .v2-dialog .form-input[aria-invalid="true"]:focus { box-shadow: var(--focus-ring-danger); }
+  @media (max-width: 640px) {
+    .v2-rad { grid-template-columns: minmax(0, 1fr); }
+    .v2-seksjon__topp { padding-inline: var(--space-16); }
+    dialog.v2-dialog { width: calc(100vw - var(--space-16)); max-height: calc(100dvh - var(--space-16)); }
+    .v2-dialog__topp, .v2-dialog__innhold { padding: var(--space-16); }
+    .v2-dialog__bunn { padding: var(--space-16); }
+  }
 </style>
 </head>
 <body data-assistant="form">
@@ -895,7 +1073,7 @@
             <div class="ordre-detaljer" id="ordre-detaljer" tabindex="0" role="region" aria-label="Detaljer i bestillingen">
             <div class="summary-panel__block" id="sum-stilling" hidden>
               <div class="sum-stilling__topp"><span class="summary-panel__label">Stillingen</span><button class="link link--xs" type="button" data-til-steg="1">Endre</button></div>
-              <dl class="summary-row" id="sum-navn-rad" hidden><dt>Kampanjenavn</dt><dd id="sum-navn"></dd></dl>
+              <dl class="summary-row" id="sum-navn-rad" hidden><dt>Kampanjenavn/deres referansekode</dt><dd id="sum-navn"></dd></dl>
               <dl class="summary-row"><dt>Stilling</dt><dd id="sum-stilling-tittel">—</dd></dl>
               <dl class="summary-row"><dt>Arbeidssted</dt><dd id="sum-sted">—</dd></dl>
               <dl class="summary-row" id="sum-arbeidsgiver-rad" hidden><dt>Arbeidsgiver</dt><dd id="sum-arbeidsgiver"></dd></dl>
@@ -949,7 +1127,7 @@
 
           <div class="steg" data-steg="1">
           <!-- 1. Give us what you have -->
-          <section class="del" id="del-start" aria-labelledby="t-start">
+          <section class="del" id="del-start" aria-labelledby="kilde-tittel">
             <div class="start-topp">
               <div>
                 <h2 class="del__tittel" id="t-start">Fortell oss om stillingen</h2>
@@ -960,15 +1138,28 @@
             </div>
             <div id="start-innhold">
             <div id="lenke-valg">
+            <h2 class="intake-heading" id="kilde-tittel" tabindex="-1">Informasjon om stillingen</h2>
             <div class="kilder">
-              <div class="felt funnet__bred kilde-referanse" id="felt-ref">
-                <label class="form-label" for="ref">Kampanjenavn <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand">
+              <div id="v2-ekstra-lager" hidden>
+                <div class="felt" id="felt-ekstra">
+                  <label class="form-label" for="v2-ekstra">Tilleggsinformasjon <span class="valgfri">(valgfritt)</span></label>
+                  <textarea class="form-textarea" id="v2-ekstra" rows="3" placeholder="F.eks. målgruppe, geografisk område eller andre ønsker."></textarea>
+                </div>
               </div>
-              <div class="kilde-felter" role="group" aria-label="Informasjon om stillingen">
+              <div id="v2-ref-lager" hidden>
+              <div class="felt funnet__bred kilde-referanse" id="felt-ref">
+                <label class="form-label" for="ref">Kampanjenavn/deres referansekode <span class="valgfri">(obligatorisk)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" required aria-describedby="ref-feil">
+                <p class="feil" id="ref-feil" role="alert" hidden>Gi kampanjen et navn eller oppgi deres referansekode.</p>
+              </div>
+              </div>
+              <fieldset class="kildegruppe" id="kildegruppe" aria-labelledby="kilde-tittel" aria-describedby="kilde-veiledning">
+                <p class="form-hint" id="kilde-veiledning">Legg til minst én: stilling, lenke, tekst eller vedlegg.</p>
+                <p class="alert alert--error" id="feil-start" role="alert" hidden></p>
+              <div class="kilde-felter">
               <div class="felt connect-valg" id="connect-valg">
                 <div class="felt-topp">
-                  <label class="form-label" id="connect-lbl" for="connect-sok">Hent fra Stillinger <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Stillinger dere har importert fra Connect. Velg en, så fyller vi ut skjemaet. Finner dere den ikke, lim inn en lenke eller skriv under." aria-label="Mer info: Stillinger dere har importert fra Connect. Velg en, så fyller vi ut skjemaet. Finner dere den ikke, lim inn en lenke eller skriv under."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                  <label class="form-label" id="connect-lbl" for="connect-sok">Hent fra Stillinger <button type="button" class="tooltip" data-tooltip="Stillinger dere har importert fra Connect. Velg en, så fyller vi ut skjemaet. Finner dere den ikke, lim inn en lenke eller skriv under." aria-label="Mer info: Stillinger dere har importert fra Connect. Velg en, så fyller vi ut skjemaet. Finner dere den ikke, lim inn en lenke eller skriv under."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
                 </div>
                 <div class="picker" id="connect-picker">
                   <div class="picker__felt"><span class="icon-lucide icon-lucide--search" aria-hidden="true"></span><input class="picker__input" id="connect-sok" type="text" placeholder="Søk på stilling, arbeidsgiver, referanse eller ID" autocomplete="off"><button class="connect-sok__apne" type="button" data-picker-toggle aria-label="Vis eller skjul stillinger fra Connect"><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></button></div>
@@ -976,23 +1167,30 @@
                 </div>
               </div>
               <div class="felt funnet__bred" id="felt-lenke">
-                <label class="form-label" for="lenke">Lenke til eksisterende stillingsannonse <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="For eksempel på Finn eller nettsiden deres. Vi henter stilling, sted og frist fra annonsen, så dere skriver mindre." aria-label="Mer info: For eksempel på Finn eller nettsiden deres. Vi henter stilling, sted og frist fra annonsen, så dere skriver mindre."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <label class="form-label" for="lenke">Lenke til eksisterende stillingsannonse <button type="button" class="tooltip" data-tooltip="For eksempel på Finn eller nettsiden deres. Vi henter stilling, sted og frist fra annonsen, så dere skriver mindre." aria-label="Mer info: For eksempel på Finn eller nettsiden deres. Vi henter stilling, sted og frist fra annonsen, så dere skriver mindre."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
                 <input class="form-input" type="url" id="lenke" placeholder="https://…">
               </div>
               <div class="felt kilde-bred" id="felt-tekst">
-                <label class="form-label" for="beskrivelse">Lim inn stillingsannonsen eller beskriv behovet <span class="valgfri">(valgfritt)</span></label>
-                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="4" placeholder="Skriv det dere vet, for eksempel budsjett, periode eller kanaler. Vi bruker det til å fylle ut resten av skjemaet."></textarea>
+                <div class="brief-topp">
+                  <label class="form-label" for="beskrivelse">Skriv øvrig informasjon om stillingen eller kampanjen</label>
+                  <button class="link" type="button" id="bruk-behovsmal">Bruk utfyllingsmal</button>
+                </div>
+                <p class="form-hint" id="behov-hint">Fyll ut det dere vet. Resten kan avklares med Frantz.</p>
+                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="11" aria-describedby="behov-hint" placeholder="Kampanjenavn/deres referansekode:&#10;Stilling:&#10;Arbeidsgiver:&#10;Arbeidssted:&#10;Søknadsfrist:&#10;Budsjett:&#10;Kanaler:&#10;Periode:&#10;Materiell:&#10;Tilleggsinformasjon:"></textarea>
               </div>
               <div class="felt kilde-bred" id="felt-fil">
-                <span class="form-label" id="pdf-lbl">Vedlegg <span class="valgfri">(valgfritt)</span></span>
-                <!-- One line: drag or pick a file, and the formats. With a file: its name and «bytt fil». -->
+                <span class="form-label" id="pdf-lbl">Vedlegg</span>
+                <!-- Files remain individual so people can add another batch or remove just one. -->
                 <div class="pdf-rad" id="slipp" aria-labelledby="pdf-lbl">
                   <span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span>
-                  <span class="pdf-rad__tekst"><span id="slipp-fil">Dra en fil hit, eller</span> <button class="link" type="button" id="velg-pdf">velg fil</button><span id="slipp-format">. PDF, Word eller bilde, maks 10 MB.</span></span>
-                  <input type="file" id="pdf" aria-label="Velg vedlegg" hidden accept=".pdf,.docx,.doc,.jpg,.jpeg,.png">
+                  <span class="pdf-rad__tekst"><span id="slipp-fil">Dra filer hit, eller</span> <button class="link" type="button" id="velg-pdf">velg filer</button><span id="slipp-format">. PDF, Word eller bilde, maks 10 MB per fil.</span></span>
+                  <input type="file" id="pdf" aria-label="Velg vedlegg" hidden multiple accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.webp">
                 </div>
+                <ul class="v2-vedlegg" id="vedlegg-liste" aria-label="Vedlagte filer" hidden></ul>
+                <p class="feil" id="vedlegg-feil" role="alert" hidden></p>
               </div>
               </div>
+              </fieldset>
               <p class="kilde-status" id="kilde-status" role="status" aria-live="polite" hidden></p>
               <div class="kilde-oppdatering" id="kilde-oppdatering" hidden>
                 <p class="form-hint">Dere har endret grunnlaget. Oppdater informasjonen for å bruke endringene i kampanjen.</p>
@@ -1010,7 +1208,6 @@
               <span class="icon-lucide icon-lucide--sparkles alert__icon" aria-hidden="true"></span>
               <div class="alert__content"><b id="start-alert-tittel"></b><span class="alert__body" id="start-alert-tekst"></span></div>
             </div>
-            <p class="feil" id="feil-start" hidden></p>
             </div>
             </div>
           </section>
@@ -1032,7 +1229,7 @@
                 <span id="rad-sted"><b>Sted</b> <span id="k-sted"></span></span>
                 <span id="rad-frist"><b>Søknadsfrist</b> <span id="k-frist"></span></span>
                 <span id="rad-arbeidsgiver" hidden><b>Arbeidsgiver</b> <span id="k-arbeidsgiver"></span></span>
-                <span id="rad-ref" hidden><b>Kampanjenavn</b> <span id="k-ref"></span></span>
+                <span id="rad-ref" hidden><b>Kampanjenavn/deres referansekode</b> <span id="k-ref"></span></span>
                 <span id="rad-budsjett" hidden><b>Budsjett</b> <span id="k-budsjett"></span></span>
                 <span id="rad-kanaler" hidden><b>Kanaler</b> <span id="k-kanaler"></span></span>
                 <span id="rad-periode" hidden><b>Periode</b> <span id="k-periode"></span></span>
@@ -1075,7 +1272,7 @@
                 <input class="form-input" type="text" id="arbeidsgiver" autocomplete="off">
               </div>
               <div class="felt funnet__bred" id="felt-avsender">
-                <label class="form-label" for="avsender">Avsender <span class="valgfri">(hvilken Facebook-side annonsen vises fra)</span></label>
+                <label class="form-label" for="avsender">Avsender <span class="valgfri">(hvem annonsen vises fra)</span></label>
                 <input class="form-input" type="text" id="avsender" value="Nordlys Rekruttering AS">
               </div>
             </div>
@@ -1129,7 +1326,7 @@
                 <label class="form-label" for="budsjett">Totalbudsjett <span class="valgfri">(obligatorisk)</span> <button type="button" class="tooltip" id="budsjett-tips" data-tooltip="Velg stilling og sted, så viser vi anbefalt budsjett." aria-label="Mer info: Velg stilling og sted, så viser vi anbefalt budsjett."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
                 <button class="budsjett-kontroll__anbefalt" type="button" hidden>Bruk anbefalt</button>
               </div>
-              <div class="budsjett-felt"><span>kr</span><input class="form-input" type="text" inputmode="numeric" id="budsjett" placeholder="F.eks. 10 000"></div>
+              <div class="budsjett-felt"><span>kr</span><input class="form-input" type="text" inputmode="numeric" id="budsjett" placeholder="F.eks. 10 000" required aria-required="true"></div>
             </div>
               <div class="alert alert--warning kanal-min" id="kanal-min" role="status" aria-live="polite" hidden></div>
             <p class="feil" id="feil-budsjett" role="alert" hidden>Skriv et budsjett for å gå videre.</p>
@@ -1313,6 +1510,7 @@
           <aside id="ad-side" aria-label="Oppsummering og annonsevisning">
                 <div class="annonse__lerret" id="annonse-forhandsvisning" hidden>
                   <div class="preview-heading-row"><div class="preview-heading-copy"><h2 class="preview-heading">Slik blir annonsen</h2></div></div>
+                  <p class="form-hint" id="v2-preview-kanaler"></p>
                   <div class="annonse__kanaler" id="annonse-kanaler" role="group" aria-label="Se annonsen i"></div>
                   <div class="studio__scene annonse__scene">
                   <article class="ad-preview" id="pv" data-plattform="facebook" aria-label="Forhåndsvisning på Facebook">
@@ -1372,6 +1570,29 @@
           </section>
           </div>
 
+          <section class="del v2" id="v2" hidden aria-label="Det vi leste ut av teksten">
+            <div class="v2-kilde">
+              <p id="v2-kilde-tekst"></p>
+              <button class="link" type="button" id="v2-endre">Endre teksten</button>
+            </div>
+            <div id="v2-rader"></div>
+            <section class="v2-pris" aria-labelledby="v2-pris-tittel">
+              <h2 class="text-h4" id="v2-pris-tittel">Prisoversikt</h2>
+              <dl class="summary-row"><dt>Kampanjebudsjett</dt><dd id="v2-pris-budsjett">Ikke oppgitt</dd></dl>
+              <dl class="summary-row"><dt>Tilleggsprodukter</dt><dd id="v2-pris-tillegg">kr 0</dd></dl>
+              <dl class="summary-row v2-pris__total"><dt id="v2-total-label">Totalt eks. mva.</dt><dd id="v2-total">Ikke beregnet</dd></dl>
+              <p id="v2-designkostnad" hidden></p>
+              <p>Oppstart avklares med Frantz. Materiell kan ettersendes og må være klart og godkjent før publisering.</p>
+            </section>
+            <div id="v2-godkjenning"></div>
+            <p class="alert alert--error v2-status" id="v2-status" role="alert" hidden></p>
+            <p class="v2-bestill-hint" id="v2-bestill-hint" role="status" aria-live="polite" hidden></p>
+            <div class="v2-bunn">
+              <button class="btn btn--secondary" type="button" id="v2-del" aria-describedby="v2-bestill-hint">Send planen til godkjenning</button>
+              <button class="btn btn--accent" type="button" id="v2-bestill" aria-describedby="v2-bestill-hint">Bestill kampanjen</button>
+            </div>
+          </section>
+
           <div class="steg-nav" id="steg-nav">
             <button class="btn btn--secondary" type="button" id="steg-tilbake"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span> Tilbake</button>
             <button class="btn btn--primary" type="button" id="steg-neste">Neste <span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></button>
@@ -1397,17 +1618,34 @@
 
 <div class="drawer-backdrop nk-ark-bakgrunn" id="ark-bakgrunn" hidden></div>
 
+
+<dialog class="v2-dialog" id="v2-dialog" aria-labelledby="v2-dialog-tittel">
+  <form id="v2-dialog-form" novalidate>
+    <header class="v2-dialog__topp">
+      <h2 id="v2-dialog-tittel" tabindex="-1" autofocus></h2>
+      <button type="button" class="btn btn--ghost btn--sm" id="v2-dialog-lukk" aria-label="Lukk redigering"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </header>
+    <p class="alert alert--error v2-dialog__feil" id="v2-dialog-feil" role="alert" hidden></p>
+    <div class="v2-dialog__innhold" id="v2-dialog-felt"></div>
+    <footer class="v2-dialog__bunn">
+      <span class="v2-dialog__scrollhint" id="v2-dialog-scrollhint" hidden><span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span>Flere valg nedenfor</span>
+      <button type="button" class="btn btn--secondary" id="v2-dialog-avbryt">Avbryt</button>
+      <button type="submit" class="btn btn--primary">Lagre endringer</button>
+    </footer>
+  </form>
+</dialog>
+
 <script src="../components/js/annonse-studio.js?v=2"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=19"></script>
-<script src="../components/js/campaign-material.js?v=6"></script>
+<script src="../components/js/campaign-material.js?v=7"></script>
 <script src="../components/js/approval-store.js?v=3"></script>
 <script src="../components/js/approval-share.js?v=3"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=5"></script>
+<script src="data/kampanjer.js?v=6"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
@@ -1440,15 +1678,40 @@
     var i = knapper.indexOf(b), neste = e.key === 'Home' ? 0 : e.key === 'End' ? knapper.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + knapper.length) % knapper.length;
     e.preventDefault(); knapper[neste].click(); knapper[neste].focus();
   });
+  var BEHOV_TEMAER = ['Kampanjenavn/deres referansekode', 'Stilling', 'Arbeidsgiver', 'Arbeidssted', 'Søknadsfrist', 'Budsjett', 'Kanaler', 'Periode', 'Materiell', 'Tilleggsinformasjon'];
+  function rensBehovTekst(tekst) {
+    // Empty template headings are guidance, never supplied job information.
+    return tekst.split(/\r?\n/).filter(function (linje) {
+      return !BEHOV_TEMAER.concat(['Kampanjenavn', 'Deres referansekode', 'Referansekode']).some(function (tema) { return linje.trim().toLocaleLowerCase('nb') === (tema + ':').toLocaleLowerCase('nb'); });
+    }).join('\n').trim();
+  }
+  $('bruk-behovsmal').addEventListener('click', function () {
+    var felt = $('beskrivelse'), tekst = felt.value.trim();
+    var linjer = tekst.split(/\r?\n/).map(function (linje) { return linje.replace(/^(?:kampanjenavn|deres referansekode|referansekode)[ \t]*:/i, 'Kampanjenavn/deres referansekode:'); });
+    var mangler = BEHOV_TEMAER.filter(function (tema) {
+      return !linjer.some(function (linje) { return linje.trim().toLocaleLowerCase('nb').startsWith((tema + ':').toLocaleLowerCase('nb')); });
+    });
+    var tillegg = mangler.map(function (tema) { return tema + ': '; }).join('\n');
+    felt.value = [tekst, tillegg].filter(Boolean).join('\n\n');
+    felt.dispatchEvent(new Event('input', { bubbles: true }));
+    felt.focus();
+    var start = felt.value.indexOf(':') + 2;
+    felt.setSelectionRange(start, start);
+  });
   function kildeSignatur() {
     return JSON.stringify([$('lenke').value.trim(), $('beskrivelse').value.trim(), tilstand.pdf, tilstand.pdfVersjon || 0, tilstand.valgtConnect && tilstand.valgtConnect.id]);
   }
   function tegnKilder() {
     var lagtTil = [];
     if ($('lenke').value.trim()) lagtTil.push('lenke');
-    if ($('beskrivelse').value.trim()) lagtTil.push('tekst');
+    if (rensBehovTekst($('beskrivelse').value)) lagtTil.push('tekst');
     if (tilstand.pdf) lagtTil.push('fil: ' + tilstand.pdf);
     if (tilstand.valgtConnect) lagtTil.push('stilling fra Stillinger');
+    if (lagtTil.length) {
+      $('feil-start').hidden = true;
+      $('kildegruppe').removeAttribute('aria-invalid');
+      $('kildegruppe').setAttribute('aria-describedby', 'kilde-veiledning');
+    }
     $('kilde-status').textContent = lagtTil.length ? 'Lagt til: ' + lagtTil.join(' + ') + '. Alt blir lest inn sammen.' : '';
     tilstand.kilderEndret = !!tilstand.lest && kildeSignatur() !== tilstand.lestKilde;
     $('kilde-oppdatering').hidden = !tilstand.kilderEndret;
@@ -1533,13 +1796,28 @@
     stilling.set('');
     return '';
   }
+  function lesTilleggsinformasjon(tekst) {
+    var kjente = BEHOV_TEMAER.filter(function (tema) { return tema !== 'Tilleggsinformasjon'; }).concat(['Kampanjenavn', 'Deres referansekode', 'Referansekode']);
+    return rensBehovTekst(tekst).split(/\r?\n/).filter(function (linje) {
+      return !kjente.some(function (tema) { return linje.trim().toLocaleLowerCase('nb').startsWith((tema + ':').toLocaleLowerCase('nb')); });
+    }).map(function (linje) { return linje.replace(/^tilleggsinformasjon:[ \t]*/i, ''); }).join('\n').trim();
+  }
   function lesTekst(t) {
-    var a = {}, lav = t.toLowerCase();
-    var ord = t.replace(/[.,;:!?()]/g, ' ').split(/\s+/).filter(Boolean);
+    t = rensBehovTekst(t);
+    var ekstra = lesTilleggsinformasjon(t);
+    var tittelFeltFinnes = /^stilling:[ \t]*.+$/im.test(t);
+    // An explicit job address is not expanded by places mentioned in extra targeting instructions.
+    var jobbTekst = tittelFeltFinnes ? t.split(/\r?\n/).filter(function (linje) {
+      return !/^(?:tilleggsinformasjon|målretting|målgruppe|geografi|andre ønsker|instrukser):/i.test(linje.trim());
+    }).join('\n') : t;
+    var a = { ekstra: ekstra }, lav = t.toLowerCase();
+    var ord = jobbTekst.replace(/[.,;:!?()]/g, ' ').split(/\s+/).filter(Boolean);
     var tittel = finnTittel(ord.map(function (o) { return o.toLowerCase(); }));
     if (tittel) a.tittel = tittel.charAt(0).toUpperCase() + tittel.slice(1);
     var steder = [];
-    ord.forEach(function (o) { var f = FrantzPicker.finnSted(o); if (f && steder.indexOf(f) === -1 && steder.length < 3) steder.push(f); });
+    var arbeidsstedFelt = /^arbeidssted:[ \t]*(.+)$/im.exec(t);
+    var stedsord = arbeidsstedFelt ? arbeidsstedFelt[1].split(/[\s,;|]+/) : ord;
+    stedsord.forEach(function (o) { var f = FrantzPicker.finnSted(o); if (f && steder.indexOf(f) === -1 && steder.length < 3) steder.push(f); });
     if (steder.length) a.steder = steder;
     var MD = '(januar|februar|mars|april|mai|juni|juli|august|september|oktober|november|desember)';
     function tilDato(dag, mnd) { var d = new Date(I_DAG.getFullYear(), MND.indexOf(mnd), +dag); if (d < I_DAG) d.setFullYear(d.getFullYear() + 1); return d; }
@@ -1549,11 +1827,20 @@
     if (um && !pm) a.uker = Number(um[1]);
     var m = /(\d{1,2})\.\s?(januar|februar|mars|april|mai|juni|juli|august|september|oktober|november|desember)(?:\s(\d{4}))?/.exec(lav) || null;
     if (m) { var d = new Date(+(m[3] || I_DAG.getFullYear()), MND.indexOf(m[2]), +m[1]); if (d < I_DAG && !m[3]) d.setFullYear(d.getFullYear() + 1); a.fristDato = iso(d); }
-    var bm = /(?:kr\.?\s?|budsjett(?:et)?(?:\s(?:på|er))?\s?)(\d[\d\s]{2,7}\d)|(\d[\d\s]{2,7}\d)\s?(?:kr|kroner)/.exec(lav);
+    var bm = /(?:kr\.?\s?|budsjett(?:et)?(?:\s(?:på|er))?\s*:?\s*)(\d[\d\s]{2,7}\d)|(\d[\d\s]{2,7}\d)\s?(?:kr|kroner)/.exec(lav);
     if (bm) { var n = Number((bm[1] || bm[2]).replace(/\s/g, '')); if (n >= 1000) a.budsjett = n; }
+    var tittelFelt = /^stilling:[ \t]*(.+)$/im.exec(t);
+    if (tittelFelt) a.tittel = tittelFelt[1].trim();
+    var navnFelt = /^(?:kampanjenavn(?:[ \t]*\/[ \t]*deres referansekode)?|deres referansekode|referansekode):[ \t]*(.+)$/im.exec(t);
+    if (navnFelt) a.kampanjenavn = navnFelt[1].trim();
+    var arbeidsgiverFelt = /^arbeidsgiver:[ \t]*(.+)$/im.exec(t);
+    if (arbeidsgiverFelt) a.arbeidsgiver = arbeidsgiverFelt[1].trim();
+    var fristFelt = /^søknadsfrist:[ \t]*(\d{1,2})[./](\d{1,2})[./](\d{4})[ \t]*$/im.exec(t);
+    if (fristFelt) a.fristDato = fristFelt[3] + '-' + fristFelt[2].padStart(2, '0') + '-' + fristFelt[1].padStart(2, '0');
     var rm = /(?:oppdrag(?:snummer)?|referanse|ref\.?)\s*:?\s*([a-z0-9æøå\-]+(?:\s\d+)*)/i.exec(t);
     if (rm) a.ref = rm[1].trim();
     if (/ferdig(?:e)? materiell|har (?:allerede )?(?:ferdig(?:e)? )?(?:materiell|bilder|annonser|logo)/.test(lav)) a.materiell = 'ferdig';
+    if (/lag(?:e|er)? (?:annonsen|annonse|materiell)(?: selv)?|lager? (?:den |det )?selv/.test(lav)) a.materiell = 'bygg';
     if (/hjelp med (?:annonse|materiell)|lager annonsen|vil ha hjelp|trenger hjelp/.test(lav)) a.materiell = 'hjelp';
     var til = [];
     // A paid extra is never ticked from free text. It shows as a suggestion in «Annonsen».
@@ -1600,7 +1887,7 @@
     return ut;
   }
   function kilde() {
-    var url = $('lenke').value.trim(), tekst = $('beskrivelse').value.trim();
+    var url = $('lenke').value.trim(), tekst = rensBehovTekst($('beskrivelse').value);
     if (!url && !tilstand.pdf && !tekst) return null;
     var a = {};
     function flett(x) { if (x) Object.keys(x).forEach(function (k) { if (x[k] !== undefined && x[k] !== null && x[k] !== '') a[k] = x[k]; }); }
@@ -1612,6 +1899,512 @@
     a.fraTekst = !!tekst;
     return a;
   }
+  var V2SEKSJONER = [
+    { id: 'stilling', tittel: 'Stillingen', felt: [
+      ['stilling', 'Stilling'],
+      ['sted', 'Arbeidssted'],
+      ['arbeidsgiver', 'Arbeidsgiver'],
+      ['frist', 'Søknadsfrist']
+    ]},
+    { id: 'kampanje', tittel: 'Kampanjen', felt: [
+      ['navn', 'Kampanjenavn/deres referansekode'],
+      ['pakke', 'Lagret pakke'],
+      ['budsjett', 'Budsjett'],
+      ['kanaler', 'Kanaler'],
+      ['periode', 'Periode']
+    ]},
+    { id: 'materiell', tittel: 'Materiell og filer', felt: [
+      ['materiell', 'Materiell'],
+      ['avsender', 'Avsender'],
+      ['fil', 'Filer']
+    ]},
+    { id: 'produkter', tittel: 'Tilleggsprodukter', felt: [['produkter', 'Valgte produkter']] },
+    { id: 'ekstra', tittel: 'Tilleggsinformasjon', felt: [['ekstra', 'Tilleggsinformasjon']] },
+    { id: 'bestilling', tittel: 'Bestilling', felt: [['faktura', 'Fakturamottaker']] }
+  ];
+  var V2OBLIGATORISK = ['navn', 'stilling', 'sted', 'budsjett', 'kanaler'];
+  function v2AlleFelt() {
+    return V2SEKSJONER.reduce(function (liste, seksjon) { return liste.concat(seksjon.felt); }, []);
+  }
+  var V2NODE = {
+    navn: 'felt-ref', stilling: 'felt-stilling', sted: 'felt-sted', arbeidsgiver: 'felt-arbeidsgiver',
+    frist: 'felt-frist', budsjett: 'blokk-budsjett', kanaler: 'blokk-kanal', periode: 'blokk-periode', fil: 'felt-fil', ekstra: 'felt-ekstra', avsender: 'felt-avsender', produkter: 'blokk-tillegg', faktura: 'felt-faktura', studio: 'del-materiell', preview: 'annonse-forhandsvisning', bibliotek: 'bibliotek'
+  };
+  var v2apen = null, v2matValg = '', v2hjem = {}, v2fokus = false, v2Bestiller = false;
+  function v2StedTekst(kilde) {
+    if (kilde.steder && kilde.steder.length) return navnListe(kilde.steder);
+    if (kilde.sted) {
+      var funnet = FrantzPicker.finnSted(kilde.sted);
+      return funnet ? navnListe([funnet]) : kilde.sted;
+    }
+    return '';
+  }
+  function v2PeriodeTekst(kilde) {
+    if (kilde.fra && kilde.til) return kort(kilde.fra) + ' – ' + kort(kilde.til);
+    if (kilde.uker) return kilde.uker + (kilde.uker === 1 ? ' uke' : ' uker');
+    if (kilde.fra) return 'Fra ' + kort(kilde.fra);
+    return '';
+  }
+  function v2Filnavn() {
+    var navn = vedleggFiler().map(function (f) { return f.name; });
+    if (tilstand.materiell === 'bygg' && tilstand.annonse.egetBilde) navn.push(tilstand.annonse.filnavn || 'Bilde fra mediebiblioteket');
+    if (tilstand.materiell === 'ferdig') (tilstand.ferdige || []).forEach(function (f) { navn.push(f.navn); });
+    return navn;
+  }
+  function v2VisVerdi(id) {
+    var ok = tilstand.v2ok || {}, kilde = tilstand.v2kilde || {};
+    if (id === 'budsjett') return budsjett() ? kr(budsjett()) : '';
+    if (id === 'kanaler') return tilstand.kanaler.join(', ');
+    if (id === 'periode') return periodeTekst();
+    if (id === 'pakke') return pakkeTekst();
+    if (id === 'produkter') return tilleggListe().join(', ') || 'Ingen tilleggsprodukter valgt';
+    if (id === 'faktura') return $('faktura').value;
+    if (id === 'ekstra') return $('v2-ekstra').value.trim();
+    if (id === 'avsender') return $('avsender').value.trim();
+    if (id === 'fil') return v2Filnavn().join(', ');
+    if (Object.prototype.hasOwnProperty.call(ok, id)) return ok[id];
+    if (id === 'materiell') {
+      if (ok.materiell) return ok.materiell;
+      if (kilde.materiell === 'hjelp') return 'Frantz lager annonsen';
+      if (kilde.materiell === 'bygg') return 'Lager annonsen selv';
+      if (kilde.materiell === 'ferdig') return 'Ferdig materiell';
+      return '';
+    }
+    if (id === 'frist') return ok.frist || (kilde.frist ? kort(kilde.frist) : '');
+    return ok[id] || kilde[id] || '';
+  }
+  function v2hjemAlle() {
+    Object.keys(V2NODE).forEach(function (id) {
+      var el = $(V2NODE[id]), hjem = v2hjem[id];
+      if (!el || !hjem || !hjem.parent) return;
+      if (hjem.next && hjem.next.parentNode === hjem.parent) hjem.parent.insertBefore(el, hjem.next);
+      else hjem.parent.appendChild(el);
+    });
+  }
+  function v2flytt(id, maal) {
+    var el = $(V2NODE[id]);
+    if (!el) return;
+    if (!v2hjem[id]) v2hjem[id] = { parent: el.parentNode, next: el.nextSibling };
+    el.hidden = false;
+    maal.appendChild(el);
+  }
+  function v2SkjulSkjema() {
+    document.body.classList.add('v2-ute');
+    Array.prototype.forEach.call(document.querySelectorAll('.steg'), function (el) { el.hidden = true; });
+    $('steg-nav').hidden = true;
+    $('mobilbestilling').hidden = true;
+    $('ordre-oppsummering').hidden = true;
+    $('steg-liste').innerHTML = '';
+    $('del-funnet').hidden = true;
+    $('side-tittel').textContent = 'Opprett kampanje';
+  }
+  // Summary values stay read-only. Related controls move into one native dialog.
+  var v2DialogSnapshot = null, v2DialogGroup = null;
+  function v2Tegn() {
+    if ($('v2-dialog').open) return;
+    v2hjemAlle();
+    var kilde = [];
+    if ($('beskrivelse').value.trim()) kilde.push($('beskrivelse').value.trim());
+    if ($('lenke').value.trim()) kilde.push($('lenke').value.trim());
+    if (vedleggFiler().length) kilde.push(vedleggFiler().map(function (f) { return f.name; }).join(', '));
+    $('v2-kilde-tekst').textContent = kilde.join('\n\n') || 'Fylt ut for hånd';
+    var rot = $('v2-rader');
+    rot.replaceChildren();
+    V2SEKSJONER.forEach(function (seksjon) {
+      var blokk = document.createElement('section');
+      blokk.className = 'v2-seksjon';
+      var topp = document.createElement('div');
+      topp.className = 'v2-seksjon__topp';
+      var tittel = document.createElement('h2');
+      tittel.className = 'v2-seksjon__tittel';
+      tittel.textContent = seksjon.tittel;
+      topp.appendChild(tittel);
+      var endre = document.createElement('button');
+      endre.type = 'button';
+      endre.className = 'link';
+      endre.dataset.v2Gruppe = seksjon.id;
+      endre.setAttribute('aria-label', 'Endre ' + seksjon.tittel.toLowerCase());
+      endre.textContent = 'Endre';
+      if (seksjon.id === 'produkter' || seksjon.id === 'ekstra') {
+        var valgfritt = document.createElement('span'); valgfritt.className = 'form-hint'; valgfritt.textContent = 'Valgfritt'; topp.appendChild(valgfritt);
+      } else if (seksjon.id !== 'bestilling') topp.appendChild(endre);
+      blokk.appendChild(topp);
+      if (seksjon.id === 'produkter') {
+        var valg = document.createElement('div'); valg.className = 'v2-produkter';
+        v2flytt('produkter', valg); blokk.appendChild(valg); rot.appendChild(blokk);
+        return;
+      }
+      if (seksjon.id === 'bestilling') {
+        var faktura = document.createElement('div'); faktura.className = 'v2-faktura';
+        v2flytt('faktura', faktura); blokk.appendChild(faktura); rot.appendChild(blokk);
+        return;
+      }
+      if (seksjon.id === 'ekstra') {
+        var ekstra = document.createElement('div'); ekstra.className = 'v2-ekstra-inline';
+        v2flytt('ekstra', ekstra);
+        ekstra.querySelector('label').classList.add('sr-only');
+        blokk.appendChild(ekstra); rot.appendChild(blokk);
+        return;
+      }
+      seksjon.felt.forEach(function (felt) {
+        if (felt[0] === 'pakke' && !tilstand.pakke) return;
+        var verdi = v2VisVerdi(felt[0]);
+        var rad = document.createElement('div');
+        var mangler = V2OBLIGATORISK.indexOf(felt[0]) !== -1 && !verdi;
+        rad.className = 'v2-rad' + (mangler ? ' v2-rad--mangler' : '');
+        rad.dataset.v2 = felt[0];
+        var navn = document.createElement('span');
+        navn.className = 'v2-rad__navn';
+        navn.textContent = felt[1];
+        var tekst = document.createElement('p');
+        tekst.className = 'v2-rad__verdi';
+        tekst.textContent = verdi || (felt[0] === 'fil' ? 'Ingen fil lagt til' : mangler ? 'Mangler' : 'Ikke oppgitt');
+        if (mangler) {
+          rad.classList.add('v2-rad--obligatorisk');
+          var ikon = document.createElement('span');
+          ikon.className = 'icon-lucide icon-lucide--circle-alert';
+          ikon.setAttribute('aria-hidden', 'true');
+          var forklaring = document.createElement('span');
+          forklaring.className = 'sr-only'; forklaring.textContent = 'Obligatorisk opplysning: ';
+          tekst.prepend(ikon, forklaring);
+        }
+        rad.append(navn, tekst);
+        blokk.appendChild(rad);
+      });
+      rot.appendChild(blokk);
+    });
+    if ($('del-panel').parentNode !== $('v2-godkjenning')) $('v2-godkjenning').appendChild($('del-panel'));
+    v2Pris();
+  }
+  function v2Lagre(id) {
+    var ok = tilstand.v2ok;
+    if (id === 'navn') ok.navn = $('ref').value.trim();
+    else if (id === 'stilling') ok.stilling = $('stilling').value.trim();
+    else if (id === 'sted') ok.sted = navnListe(steder.verdi());
+    else if (id === 'arbeidsgiver') ok.arbeidsgiver = $('arbeidsgiver').value.trim();
+    else if (id === 'frist') ok.frist = $('frist').value ? kort($('frist').value) : '';
+    else if (id === 'budsjett') ok.budsjett = budsjett() ? kr(budsjett()) : '';
+    else if (id === 'kanaler') ok.kanaler = tilstand.kanaler.join(', ');
+    else if (id === 'periode') ok.periode = periodeTekst();
+    else if (id === 'materiell') ok.materiell = v2matValg === 'hjelp' ? 'Frantz lager annonsen' : v2matValg === 'bygg' ? 'Lager annonsen selv' : v2matValg === 'ferdig' ? 'Ferdig materiell' : '';
+    else if (id === 'fil') ok.fil = v2Filnavn().join(', ');
+    else if (id === 'ekstra') ok.ekstra = $('v2-ekstra').value.trim();
+  }
+  function v2Apne(id) {
+    var seksjon = V2SEKSJONER.find(function (g) { return g.id === id || g.felt.some(function (felt) { return felt[0] === id; }); });
+    if (!seksjon || $('v2-dialog').open) return;
+    v2DialogGroup = seksjon;
+    // Controls have existing listeners. Snapshot their values so every dismissal is reversible.
+    v2DialogSnapshot = {
+      state: structuredClone(tilstand), budget: budsjett(), steder: structuredClone(steder.verdi()),
+      fields: ['ref', 'stilling', 'arbeidsgiver', 'frist', 'v2-ekstra', 'an-tittel', 'an-tekst', 'an-knapp', 'an-designbrief', 'an-avsender', 'avsender', 'faktura'].map(function (key) { return [key, $(key).value]; })
+    };
+    var kilde = tilstand.v2kilde || {};
+    if (seksjon.id === 'ekstra') $('v2-ekstra').value = v2VisVerdi('ekstra');
+    if (seksjon.id === 'kampanje') { tegnKanaler(); tegnPeriode(); synkAnbefaling(); }
+    if (seksjon.id === 'materiell') {
+      tilstand.kanaler = v2VisVerdi('kanaler').split(', ').filter(Boolean);
+      tilstand.kanalmodus = 'selv';
+      var material = v2VisVerdi('materiell');
+      v2matValg = material === 'Frantz lager annonsen' ? 'hjelp' : material === 'Lager annonsen selv' ? 'bygg' : material === 'Ferdig materiell' ? 'ferdig' : '';
+    }
+    $('v2-dialog-feil').hidden = true;
+    $('v2-dialog-tittel').textContent = 'Endre ' + seksjon.tittel.toLowerCase();
+    var rot = $('v2-dialog-felt');
+    rot.replaceChildren();
+    var kampanje = seksjon.id === 'kampanje';
+    rot.classList.toggle('v2-dialog__innhold--kampanje', kampanje);
+    if (seksjon.id === 'produkter') tegnMateriellOgTillegg();
+    var feltListe = kampanje ? ['navn', 'budsjett', 'kanaler', 'periode'].map(function (id) { return seksjon.felt.find(function (felt) { return felt[0] === id; }); }) : seksjon.felt;
+    feltListe.forEach(function (felt) {
+      if (felt[0] === 'pakke') return;
+      var wrapper = document.createElement('div');
+      wrapper.className = 'v2-dialog__felt';
+      wrapper.dataset.v2DialogFelt = felt[0];
+      if (felt[0] === 'materiell') {
+        var valg = document.createElement('fieldset');
+        valg.className = 'v2-dialog__valg';
+        var legend = document.createElement('legend');
+        legend.className = 'form-label'; legend.textContent = 'Materiell'; valg.appendChild(legend);
+        [['ferdig', 'Jeg har ferdige annonser'], ['bygg', 'Lag annonsen selv'], ['hjelp', 'Bestill design fra Frantz']].forEach(function (par) {
+          var label = document.createElement('label'); label.className = 'v2-dialog__radio';
+          var input = document.createElement('input'); input.type = 'radio'; input.name = 'v2-material'; input.value = par[0]; input.checked = v2matValg === par[0];
+          input.addEventListener('change', function () { v2matValg = input.value; v2StudioValg(); });
+          label.append(input, document.createTextNode(par[1])); valg.appendChild(label);
+        });
+        wrapper.appendChild(valg);
+        var studio = document.createElement('div'); studio.id = 'v2-studio'; studio.className = 'v2-studio';
+        v2flytt('studio', studio); v2flytt('preview', studio);
+        wrapper.appendChild(studio);
+      } else v2flytt(felt[0], wrapper);
+      rot.appendChild(wrapper);
+      if (kampanje && felt[0] === 'navn') v2Pakkevelger(rot);
+    });
+    if (seksjon.id === 'kampanje') {
+      var estimatHint = document.createElement('p'); estimatHint.className = 'form-hint';
+      estimatHint.textContent = 'Estimat for kampanjeperioden, ikke garanterte resultater.';
+      rot.querySelector('[data-v2-dialog-felt="budsjett"]').appendChild(estimatHint);
+    }
+    $('v2-dialog').classList.toggle('v2-dialog--studio', seksjon.id === 'materiell');
+    $('v2-dialog').classList.toggle('v2-dialog--kampanje', kampanje);
+    if (seksjon.id === 'materiell') { v2flytt('bibliotek', $('v2-dialog-form')); v2StudioValg(); visVedlegg(tilstand.pdf); }
+    $('v2-dialog').showModal();
+    rot.scrollTop = 0;
+    requestAnimationFrame(v2DialogScroll);
+    var target = id === seksjon.id ? null : rot.querySelector('[data-v2-dialog-felt="' + id + '"]');
+    $('v2-dialog-tittel').focus();
+    if (target) target.scrollIntoView({ block: 'nearest' });
+  }
+  function v2DialogScroll() {
+    var innhold = $('v2-dialog-felt');
+    $('v2-dialog-scrollhint').hidden = !$('v2-dialog').open || innhold.scrollHeight - innhold.clientHeight - innhold.scrollTop < 8;
+  }
+  $('v2-dialog-felt').addEventListener('scroll', v2DialogScroll, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(v2DialogScroll).observe($('v2-dialog-felt'));
+  new MutationObserver(function () { requestAnimationFrame(v2DialogScroll); }).observe($('v2-dialog-felt'), { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['hidden', 'open'] });
+  function v2StudioValg() {
+    var studio = $('v2-studio');
+    if (!studio) return;
+    var vedlegg = $('v2-dialog-felt').querySelector('[data-v2-dialog-felt="fil"]');
+    if (vedlegg) vedlegg.hidden = v2matValg !== 'hjelp';
+    studio.hidden = !v2matValg;
+    if (!v2matValg) return;
+    velgMateriell(v2matValg);
+    tilstand.valgtMateriell = true;
+    tegnFarger(); tegnAnnonse();
+  }
+  // Recreate original previews on Cancel: a replaced image may already have revoked its old URL.
+  function v2GjenopprettMedia(snapshot) {
+    var current = tilstand.annonse;
+    [current.bildeUrl, current.logoUrl].forEach(function (url) { if (url) URL.revokeObjectURL(url); });
+    (tilstand.ferdige || []).forEach(function (f) { if (f.kilde === 'fil') URL.revokeObjectURL(f.url); });
+    var original = snapshot.state.annonse;
+    if (original.fil && original.bildeUrl) original.bildeUrl = URL.createObjectURL(original.fil);
+    if (original.logoFil) original.logoUrl = URL.createObjectURL(original.logoFil);
+    (snapshot.state.ferdige || []).forEach(function (f) { if (f.kilde === 'fil' && f.fil) f.url = URL.createObjectURL(f.fil); });
+  }
+  function v2TilleggSum() {
+    return TILLEGG.reduce(function (sum, item) { return sum + (tilstand.tillegg.indexOf(item.navn) !== -1 ? item.pris : 0); }, 0);
+  }
+  function v2Pris() {
+    var b = budsjett(), design = v2VisVerdi('materiell') === 'Frantz lager annonsen';
+    $('v2-pris-budsjett').textContent = b ? kr(b) : 'Ikke oppgitt';
+    $('v2-pris-tillegg').textContent = kr(v2TilleggSum());
+    $('v2-total').textContent = b ? kr(b + v2TilleggSum()) : 'Ikke beregnet';
+    $('v2-total-label').textContent = design ? 'Sum eks. mva., uten design' : 'Totalt eks. mva.';
+    $('v2-designkostnad').hidden = !design;
+    $('v2-designkostnad').textContent = 'Design: ' + $('materiell-designpris').textContent.trim() + ' Dette er ikke inkludert i summen over.';
+    var feil = v2FeilBestilling();
+    $('v2-bestill').disabled = !!feil || !!approvalBlocked || v2Bestiller;
+    $('v2-del').disabled = !!feil || v2Bestiller;
+    var grunn = feil ? feil.tekst : '';
+    if (!grunn && approvalBlocked) {
+      var request = planShare && planShare.latest('plan');
+      grunn = request && FrantzApprovals.status(request) === 'pending' ? 'Vent på godkjenningen, eller trekk forespørselen tilbake før du bestiller.' : 'Planen må godkjennes på nytt før du kan bestille.';
+    }
+    $('v2-bestill-hint').textContent = grunn;
+    $('v2-bestill-hint').hidden = !grunn;
+    $('v2-del').hidden = !!(planShare && planShare.latest('plan'));
+  }
+  function v2Pakkevelger(rot) {
+    var felt = document.createElement('div'); felt.className = 'felt v2-pakkevalg';
+    var label = document.createElement('label'); label.className = 'form-label'; label.htmlFor = 'v2-pakke'; label.textContent = 'Bruk lagret pakke (valgfritt)';
+    var wrap = document.createElement('span'); wrap.className = 'form-select-wrap';
+    var select = document.createElement('select'); select.id = 'v2-pakke'; select.className = 'form-select';
+    var standard = document.createElement('option'); standard.value = ''; standard.textContent = 'Eget budsjett og kanaler'; select.appendChild(standard);
+    PAKKER.forEach(function (p, index) {
+      var option = document.createElement('option'); option.value = String(index); option.textContent = p.navn + ' · ' + kr(p.budsjett) + ' · ' + (p.kanaler || []).join(', ');
+      option.selected = p.navn === tilstand.pakke; select.appendChild(option);
+    });
+    var detaljer = document.createElement('p'); detaljer.className = 'form-hint'; detaljer.id = 'v2-pakke-detaljer'; detaljer.setAttribute('aria-live', 'polite');
+    select.setAttribute('aria-describedby', detaljer.id);
+    function visPakkedetaljer() {
+      var pakke = select.value === '' ? null : PAKKER[Number(select.value)];
+      detaljer.textContent = pakke ? kr(pakke.budsjett) + ' · ' + (pakke.kanaler || []).join(', ') + '. Perioden velger du separat.' : 'En pakke fyller ut budsjett og kanaler. Perioden velger du separat.';
+    }
+    select.addEventListener('change', function () {
+      visPakkedetaljer();
+      if (select.value === '') { tilstand.pakke = null; return; }
+      var period = { fra: tilstand.fra, til: tilstand.til, uker: tilstand.uker, venter: tilstand.venter };
+      brukPakke(PAKKER[Number(select.value)]);
+      Object.assign(tilstand, period);
+      anbefalingModus = 'selv'; tilstand.oppsett = 'selv'; tilstand.kanalmodus = 'selv';
+      ['blokk-budsjett', 'blokk-kanal', 'blokk-periode'].forEach(function (id) { $(id).hidden = false; });
+      oppdater();
+    });
+    visPakkedetaljer();
+    wrap.appendChild(select); felt.append(label, wrap, detaljer); rot.appendChild(felt);
+  }
+  function v2FeilBestilling() {
+    var mangler = V2OBLIGATORISK.filter(function (id) { return !v2VisVerdi(id); });
+    if (mangler.length) return { felt: mangler[0], tekst: 'Fyll inn ' + ogListe(mangler.map(function (id) { return v2AlleFelt().find(function (f) { return f[0] === id; })[1].toLowerCase(); })) + ' før du fortsetter.' };
+    if (forLiteBudsjett()) return { felt: 'budsjett', tekst: 'Budsjettet må være minst ' + kr(FZ_PAKKER.rad(tilstand.kanaler).min) + ' for kanalene du har valgt. Øk budsjettet, eller fjern en kanal.' };
+    var pd = periodeDatoer();
+    if (tilstand.venter || !Number.isFinite(pd.start.getTime()) || !Number.isFinite(pd.slutt.getTime()) || pd.slutt < pd.start) return { felt: 'periode', tekst: 'Velg en gyldig kampanjeperiode.' };
+    return null;
+  }
+  function v2KrevBestilling() {
+    var feil = v2FeilBestilling();
+    if (!feil) return true;
+    v2Apne(feil.felt);
+    $('v2-dialog-feil').textContent = feil.tekst; $('v2-dialog-feil').hidden = false;
+    return false;
+  }
+  $('v2-del').addEventListener('click', function () {
+    if (!v2KrevBestilling()) return;
+    $('del-knapp').disabled = false; $('del-knapp').click();
+  });
+  function krevKampanjenavn() {
+    var gyldig = !!$('ref').value.trim();
+    $('ref-feil').hidden = gyldig;
+    $('ref').classList.toggle('form-input--error', !gyldig);
+    if (gyldig) $('ref').removeAttribute('aria-invalid');
+    else { $('ref').setAttribute('aria-invalid', 'true'); $('ref').focus(); }
+    return gyldig;
+  }
+  $('ref').addEventListener('input', function () {
+    if (this.value.trim()) { $('ref-feil').hidden = true; this.removeAttribute('aria-invalid'); this.classList.remove('form-input--error'); }
+  });
+  function v2Lukk(lagre) {
+    if (!$('v2-dialog').open) return;
+    var gruppe = v2DialogGroup;
+    // Saving a section updates the draft. Required fields are checked when ordering or sharing.
+    ++logoRequest;
+    setCropEditing(false);
+    if (lagre) gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
+    else {
+      var snapshot = v2DialogSnapshot;
+      if (gruppe.id === 'materiell') v2GjenopprettMedia(snapshot);
+      tilstand = structuredClone(snapshot.state);
+      snapshot.fields.forEach(function (entry) { $(entry[0]).value = entry[1]; });
+      stilling.set($('stilling').value);
+      steder.set(snapshot.steder);
+      budsjettKontroll.set(snapshot.budget);
+      tilstand = snapshot.state;
+      $('ref-feil').hidden = true;
+      $('ref').removeAttribute('aria-invalid');
+      $('ref').classList.remove('form-input--error');
+      visVedlegg(tilstand.pdf);
+      $('an-logo').checked = tilstand.annonse.utseende.logo;
+      $('an-mer').open = false;
+      tegnKanaler(); tegnPeriode(); tegnFarger(); tegnMateriellOgTillegg();
+    }
+    $('pv-video').pause();
+    $('v2-dialog').close();
+    v2hjemAlle();
+    v2DialogSnapshot = null; v2DialogGroup = null;
+    $('v2-status').hidden = true;
+    oppdater(); v2Tegn();
+    if (lagre) {
+      $('v2-bestill').hidden = false;
+      lagreUtkast();
+      checkApprovalVersion();
+      if (planShare) planShare.refresh();
+    }
+    var opener = $('v2-rader').querySelector('[data-v2-gruppe="' + gruppe.id + '"]');
+    if (opener) opener.focus();
+  }
+  $('v2-dialog-form').addEventListener('submit', function (e) { e.preventDefault(); v2Lukk(true); });
+  $('v2-dialog-avbryt').addEventListener('click', function () { v2Lukk(false); });
+  $('v2-dialog-lukk').addEventListener('click', function () { v2Lukk(false); });
+  $('v2-dialog').addEventListener('cancel', function (e) { e.preventDefault(); v2Lukk(false); });
+  $('v2-dialog').addEventListener('click', function (e) {
+    if (e.target !== this) return;
+    var bounds = this.getBoundingClientRect();
+    if (e.clientX < bounds.left || e.clientX > bounds.right || e.clientY < bounds.top || e.clientY > bounds.bottom) v2Lukk(false);
+  });
+  function v2TilForsiden() {
+    v2apen = null;
+    v2hjemAlle();
+    document.body.classList.remove('v2-ute');
+    $('v2').hidden = true;
+    $('v2-status').hidden = true;
+    $('v2-bestill').hidden = false;
+    $('del-funnet').hidden = true;
+    $('del-start').hidden = false;
+    $('del-start').classList.remove('start--lukket');
+    $('start-sammendrag').hidden = true;
+    $('start-endre').hidden = true;
+    $('start-alert').hidden = true;
+    $('kilde-oppdatert').hidden = true;
+    tilstand.lest = false;
+    oppdater();
+    visSteg(1, false);
+    $('beskrivelse').focus();
+  }
+  $('v2').addEventListener('click', function (e) {
+    var gruppe = e.target.closest('[data-v2-gruppe]');
+    if (gruppe) v2Apne(gruppe.dataset.v2Gruppe);
+  });
+  $('v2-endre').addEventListener('click', v2TilForsiden);
+  $('v2-bestill').addEventListener('click', async function () {
+    if (!v2KrevBestilling()) return;
+    var knapp = $('v2-bestill');
+    if (knapp.disabled) return;
+    var original = knapp.textContent;
+    v2Bestiller = true; knapp.disabled = true; knapp.textContent = 'Lagrer bestillingen …';
+    $('v2-status').hidden = true;
+    try {
+      var latest = planShare.latest('plan');
+      if (latest && FrantzApprovals.status(latest) === 'approved' && latest.fingerprint !== FrantzApprovals.fingerprint(approvalContent())) {
+        await planShare.invalidate(approvalContent());
+        throw new Error('approval-changed');
+      }
+      if (approvalBlocked) throw new Error('approval-pending');
+      var budgetText = v2VisVerdi('budsjett');
+      var budget = budgetText ? Number(budgetText.replace(/[^0-9]/g, '')) : null;
+      var channels = v2VisVerdi('kanaler').split(', ').filter(Boolean);
+      var source = tilstand.v2kilde || {};
+      var dates = periodeDatoer();
+      var start = dates ? iso(dates.start) : source.fra || '';
+      var end = dates ? iso(dates.slutt) : source.til || '';
+      var missing = ['materiell'].filter(function (id) { return !v2VisVerdi(id); }).map(function (id) {
+        return v2AlleFelt().find(function (felt) { return felt[0] === id; })[1].toLowerCase();
+      });
+      var mode = v2VisVerdi('materiell') === 'Frantz lager annonsen' ? 'hjelp' : v2VisVerdi('materiell') === 'Ferdig materiell' ? 'ferdig' : v2VisVerdi('materiell') ? 'bygg' : '';
+      var now = new Date();
+      var order = {
+        flyt: 'forenklet', tittel: $('ref').value.trim(), ref: $('ref').value.trim(),
+        stilling: v2VisVerdi('stilling'), sted: v2VisVerdi('sted'), arbeidsgiver: v2VisVerdi('arbeidsgiver'), frist: v2VisVerdi('frist'),
+        kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
+        budsjett: budget, total: budget + v2TilleggSum(), tilleggSum: v2TilleggSum(), tillegg: tilleggListe(), kanaler: channels,
+        radgivning: tilstand.tillegg.indexOf('Strategisk rådgivning') !== -1, approvalKey: approvalKey, pakke: pakkeTekst(),
+        periode: v2VisVerdi('periode'), periodeTekst: v2VisVerdi('periode'), start: start ? kort(start) : '',
+        materiell: v2VisVerdi('materiell'), notat: v2VisVerdi('ekstra'), avklaringer: missing,
+        faktura: $('faktura').value, avsender: $('avsender').value.trim(), connect: tilstand.connectId || '',
+        tid: String(now.getHours()).padStart(2, '0') + '.' + String(now.getMinutes()).padStart(2, '0')
+      };
+      if (mode) tilstand.materiell = mode;
+      var mf = materiellFor();
+      var material = FrantzCampaignMaterial.snapshot(order, {
+        ad: mode === 'hjelp' || !mode ? {} : mf.ad, mainFile: mf.mainFile,
+        files: mf.files, extraFiles: mf.extraFiles || [], mode: mode,
+        sourceFiles: vedleggFiler(), channels: channels, sender: order.avsender,
+        brief: mode === 'hjelp' ? $('an-designbrief').value.trim() : '',
+        position: $('pv-bilde').style.getPropertyValue('--pv-pos')
+      });
+      await FrantzCampaignMaterial.save(material);
+      order.materiellId = material.id;
+      order.id = FZ_KAMPANJER.bestill({
+        stilling: order.stilling || order.ref, sted: order.sted, arbeidsgiver: order.arbeidsgiver, ref: order.ref,
+        connect: order.connect, kanaler: channels, fra: start && end ? start : '', til: start && end ? end : '', budsjett: budget,
+        materiellId: material.id, tilleggsinformasjon: order.notat
+      });
+      sessionStorage.setItem('fzOrdre', JSON.stringify(order));
+      clearTimeout(lagreTimer);
+      try { localStorage.removeItem(LAGER); localStorage.removeItem(approvalKeyStorage); } catch (e) {}
+      location.href = 'kampanje-bestilt.html?ny=1&id=' + encodeURIComponent(order.id);
+    } catch (error) {
+      v2Bestiller = false; knapp.disabled = !!approvalBlocked; knapp.textContent = original;
+      $('v2-status').textContent = error.message === 'approval-changed' ? 'Planen er endret etter godkjenningen. Send en ny forespørsel før du bestiller.' : error.message === 'approval-pending' ? 'Vent på godkjenningen, eller trekk forespørselen tilbake før du bestiller.' : 'Kunne ikke lagre bestillingen. Prøv igjen. Ingen bestilling er sendt til Frantz.';
+      $('v2-status').hidden = false;
+      $('v2-status').scrollIntoView({ block: 'nearest' });
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && v2apen) { v2apen = null; v2Tegn(); }
+  });
+
   function vis(a) {
     $('del-funnet').hidden = false;
     tilstand.lest = true;
@@ -1635,7 +2428,8 @@
     if (stederNy.length) { steder.set(stederNy); fylt.push('arbeidssted'); }
     var frist = a.fristDato || (a.frist && dato(a.frist));
     if (frist) { $('frist').value = frist; fylt.push('søknadsfrist'); }
-    if (a.ref && !$('ref').value.trim()) { $('ref').value = a.ref; fylt.push('referanse'); }
+    if (a.kampanjenavn) { $('ref').value = a.kampanjenavn; fylt.push('kampanjenavn'); }
+    else if (!$('ref').value.trim()) { $('ref').value = a.ref || a.tittel || ''; }
     if (a.budsjett) fylt.push('budsjett');
     if (a.kanaler) { tilstand.kanalmodus = 'selv'; tilstand.kanaler = a.kanaler.slice(); tegnKanaler(); fylt.push('kanaler'); }
     if (tilstand.funnet.periode) fylt.push('periode');
@@ -1661,26 +2455,40 @@
     // Let the user review the filled job fields before continuing to the campaign.
     tilstand.lestKilde = kildeSignatur();
     tegnKilder();
-    if (tilstand.oppdatererKilder) {
-      tilstand.oppdatererKilder = false;
-      visSteg(1, false);
-      $('del-start').classList.remove('start--lukket');
-      $('start-sammendrag').hidden = true;
-      $('start-endre').hidden = true;
-      $('kilde-oppdatert').hidden = false;
-      $('del-funnet').scrollIntoView({ block: 'start' });
-    }
-    else if (!stegFeil(1)) {
-      visSteg(1, false);
-      $('del-funnet').scrollIntoView({ block: 'start' });
-      $('del-funnet').focus({ preventScroll: true });
-    }
-    else {
-      visSteg(1, false);
-      $('steg-feil').textContent = 'Vi fant ikke stilling og arbeidssted. Fyll dem inn under «Stillingen».';
-      $('steg-feil').hidden = false;
-      $('del-funnet').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    tilstand.oppdatererKilder = false;
+    tilstand.v2kilde = {
+      navn: $('ref').value.trim(),
+      stilling: a.tittel || '',
+      sted: v2StedTekst(a),
+      arbeidsgiver: a.arbeidsgiver || '',
+      frist: (a.fristDato || a.frist) ? $('frist').value : '',
+      budsjett: a.budsjett || null,
+      kanaler: (a.kanaler && a.kanaler.length) ? a.kanaler.slice() : null,
+      periode: v2PeriodeTekst(a),
+      uker: a.uker || null,
+      fra: a.fra || null,
+      til: a.til || null,
+      materiell: a.materiell || '',
+      fil: tilstand.pdf || '', ekstra: a.ekstra || ''
+    };
+    tilstand.v2ok = {};
+    $('v2-ekstra').value = a.ekstra || '';
+    anbefalingModus = 'selv'; tilstand.oppsett = 'selv'; tilstand.kanalmodus = 'selv';
+    tilstand.kanaler = (a.kanaler || []).slice(); tilstand.pakke = null;
+    tilstand.meld = !!a.meld; tilstand.tillegg = [];
+    tilstand.uker = a.uker || 3; tilstand.venter = false;
+    tilstand.fra = a.fra && a.fra >= iso(tidligstDato()) ? a.fra : null;
+    tilstand.til = a.til || null;
+    tilstand.materiell = a.materiell || '';
+    budsjettKontroll.set(a.budsjett || null);
+    tegnKanaler(); tegnPeriode();
+    v2apen = null;
+    $('v2-bestill').hidden = false;
+    $('v2-status').hidden = true;
+    v2SkjulSkjema();
+    v2Tegn();
+    $('v2').hidden = false;
+    $('v2').scrollIntoView({ block: 'start' });
   }
 
   // Prototype rule agreed with Sona: same channels, nearest budget within 10%.
@@ -1726,7 +2534,7 @@
     }
     $('oppsett-egendefinert').setAttribute('aria-labelledby', recommended ? 'anbefaling-reset' : 'oppsett-selv');
     $('oppsett-egendefinert').hidden = anbefalingModus === 'pakke';
-    $('b-kanal-lbl').textContent = 'Kanaler';
+    $('b-kanal-lbl').textContent = document.body.classList.contains('v2-ute') ? 'Kanaler (obligatorisk)' : 'Kanaler';
     $('anbefaling-pakkekilde').hidden = true;
     $('anbefaling-pakkekilde').textContent = anbefalingOriginal.pakke ? 'Forslaget tar utgangspunkt i pakken «' + anbefalingOriginal.pakke.navn + '».' : '';
     if (recommended) {
@@ -1738,7 +2546,7 @@
       $('anbefaling-prognose').appendChild($('estimat'));
       $('pakker').appendChild($('anbefaling-prognose'));
       $('pakker').appendChild($('anbefaling-forbehold'));
-    } else $('blokk-periode').appendChild($('estimat'));
+    } else (v2DialogGroup && v2DialogGroup.id === 'kampanje' ? $('blokk-budsjett') : $('blokk-periode')).appendChild($('estimat'));
     $('anbefaling-hint').textContent = recommended ? 'Budsjett og kanaler er foreslått for stillingen din. Du kan gå rett videre.' : anbefalingModus === 'selv' ? 'Juster budsjett, kanaler og periode. Vi tar vare på endringene når du bytter oppsett.' : PAKKER.length ? 'Velg en lagret pakke. Budsjett og kanaler hentes fra pakken.' : 'Du har ingen lagrede pakker ennå. Bruk anbefalingen eller velg oppsett selv.';
     [['anbefaling-reset', 'anbefalt'], ['anbefaling-pakker', 'pakke']].forEach(function (entry) {
       $(entry[0]).setAttribute('aria-pressed', String(anbefalingModus === entry[1]));
@@ -1945,6 +2753,7 @@
   // Connect is only for some customers. Without it, the field is not there at all.
   if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) {
     $('connect-valg').remove();
+    $('kilde-veiledning').textContent = 'Legg til minst én: lenke, tekst eller vedlegg.';
   }
   $('fortsett').addEventListener('click', function () {
     if (tilstand.pdfFil && !tilstand.pdfLest) {
@@ -1957,7 +2766,15 @@
     var a = kilde();
     var feil = $('feil-start');
     feil.hidden = true;
-    if (!a && !c) { $('lenke').focus(); feil.hidden = false; setTimeout(function () { feil.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 0); feil.textContent = $('connect-valg') ? 'Velg en stilling, eller gi oss en lenke, en fil eller noen ord.' : 'Gi oss en lenke, en fil eller noen ord.'; return; }
+    if (!a && !c) {
+      feil.textContent = 'Legg til informasjon om stillingen før du fortsetter.';
+      feil.hidden = false;
+      $('kildegruppe').setAttribute('aria-invalid', 'true');
+      $('kildegruppe').setAttribute('aria-describedby', 'kilde-veiledning feil-start');
+      $('kilde-tittel').focus();
+      $('kilde-tittel').scrollIntoView({ block: 'center' });
+      return;
+    }
     // A job from Connect is the base. What the user typed or uploaded wins over it.
     if (c) {
       var fraConnect = { tittel: c.stilling, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), fristDato: c.frist, arbeidsgiver: c.arbeidsgiver, meld: !!c.interessenter };
@@ -1969,7 +2786,7 @@
     if (c) tilstand.kilder.push('ConnectID ' + c.id);
     if ($('lenke').value.trim()) tilstand.kilder.push('stillingsannonsen');
     if (tilstand.pdf) tilstand.kilder.push('PDF-en');
-    if ($('beskrivelse').value.trim()) tilstand.kilder.push('det dere skrev');
+    if (rensBehovTekst($('beskrivelse').value)) tilstand.kilder.push('det dere skrev');
     // The alert says what Frantz is doing, one step at a time
     var steg = tilstand.kilder.map(function (k) { return { t: (k.indexOf('ConnectID') === 0 ? 'Henter ' : 'Leser ') + k, b: k === 'det dere skrev' ? 'Vi leter etter sted, frist, budsjett, kanaler og periode.' : 'Vi leter etter stilling, sted, frist og arbeidsgiver.' }; });
     steg.push({ t: 'Fyller ut skjemaet', b: 'Du får se hva vi fant, og kan rette det som ikke stemmer.' });
@@ -2013,30 +2830,61 @@
   });
 
   /* File drop */
-  function visVedlegg(navn) {
-    $('slipp').classList.toggle('pdf-rad--fil', !!navn);
-    $('slipp-fil').textContent = navn ? navn + ' ·' : 'Dra en fil hit, eller';
-    $('velg-pdf').textContent = navn ? 'bytt fil' : 'velg fil';
-    $('slipp-format').hidden = !!navn;
+  function vedleggFiler() {
+    return tilstand.vedlegg || (tilstand.pdfFil ? [tilstand.pdfFil] : []);
   }
-  function settPdf(f) {
-    if (!f) return;
-    tilstand.pdf = f.name;
+  function visVedlegg() {
+    var filer = vedleggFiler(), liste = $('vedlegg-liste');
+    $('slipp').classList.toggle('pdf-rad--fil', !!filer.length);
+    $('slipp-fil').textContent = 'Dra filer hit, eller';
+    $('velg-pdf').textContent = filer.length ? 'legg til flere filer' : 'velg filer';
+    $('slipp-format').hidden = false;
+    liste.hidden = !filer.length;
+    liste.replaceChildren();
+    filer.forEach(function (fil, index) {
+      var rad = document.createElement('li'), navn = document.createElement('span'), fjern = document.createElement('button');
+      navn.className = 'v2-vedlegg__navn'; navn.textContent = fil.name;
+      fjern.type = 'button'; fjern.className = 'link'; fjern.dataset.fjernVedlegg = index;
+      fjern.textContent = 'Fjern'; fjern.setAttribute('aria-label', 'Fjern ' + fil.name);
+      rad.append(navn, fjern); liste.appendChild(rad);
+    });
+  }
+  function synkVedlegg() {
+    var filer = vedleggFiler(), f = filer[0] || null;
+    tilstand.pdf = f ? f.name : '';
     tilstand.pdfFil = f;
-    tilstand.pdfTekst = '';
-    tilstand.pdfLest = false;
+    tilstand.pdfTekst = ''; tilstand.pdfLest = !f;
     tilstand.pdfVersjon = (tilstand.pdfVersjon || 0) + 1;
-    visVedlegg(f.name);
-    tegnKilder();
+    visVedlegg(); tegnKilder();
+    if (!f) return;
     var leser = new FileReader();
-    leser.onload = function () { tilstand.pdfTekst = pdfTilTekst(leser.result); tilstand.pdfLest = true; };
+    leser.onload = function () {
+      if (tilstand.pdfFil !== f) return;
+      tilstand.pdfTekst = pdfTilTekst(leser.result); tilstand.pdfLest = true;
+    };
     leser.readAsArrayBuffer(f);
   }
+  function leggTilVedlegg(nyeFiler) {
+    var filer = vedleggFiler().slice(), avvist = [];
+    Array.prototype.forEach.call(nyeFiler, function (f) {
+      if (!/\.(pdf|docx?|jpe?g|png|webp)$/i.test(f.name) || f.size > 10 * 1024 * 1024) { avvist.push(f.name); return; }
+      if (!filer.some(function (g) { return g.name === f.name && g.size === f.size && g.lastModified === f.lastModified; })) filer.push(f);
+    });
+    tilstand.vedlegg = filer;
+    $('vedlegg-feil').hidden = !avvist.length;
+    $('vedlegg-feil').textContent = avvist.join(', ') + ' ble ikke lagt til. Velg PDF, Word eller bilde på maks 10 MB per fil.';
+    synkVedlegg();
+  }
   $('velg-pdf').addEventListener('click', function () { $('pdf').click(); });
-  $('pdf').addEventListener('change', function () { settPdf(this.files[0]); this.value = ''; });
+  $('pdf').addEventListener('change', function () { leggTilVedlegg(this.files); this.value = ''; });
+  $('vedlegg-liste').addEventListener('click', function (e) {
+    var knapp = e.target.closest('[data-fjern-vedlegg]'); if (!knapp) return;
+    tilstand.vedlegg = vedleggFiler().slice(); tilstand.vedlegg.splice(Number(knapp.dataset.fjernVedlegg), 1);
+    $('vedlegg-feil').hidden = true; synkVedlegg(); $('velg-pdf').focus();
+  });
   $('slipp').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('dra-over'); });
   $('slipp').addEventListener('dragleave', function () { this.classList.remove('dra-over'); });
-  $('slipp').addEventListener('drop', function (e) { e.preventDefault(); this.classList.remove('dra-over'); settPdf(e.dataTransfer.files[0]); });
+  $('slipp').addEventListener('drop', function (e) { e.preventDefault(); this.classList.remove('dra-over'); leggTilVedlegg(e.dataTransfer.files); });
 
   /* ---------- Budget ---------- */
   function budsjett() { return budsjettKontroll ? budsjettKontroll.verdi() : null; }
@@ -2072,7 +2920,8 @@
       }).join('');
     }
     Array.prototype.forEach.call(document.querySelectorAll('[data-kanal]'), function (x) { x.checked = tilstand.kanaler.indexOf(x.dataset.kanal) !== -1; });
-    $('feil-kanal').hidden = tilstand.kanaler.length > 0;
+    // Missing required values use overview markers; the submission action opens a grouped error.
+    $('feil-kanal').hidden = document.body.classList.contains('v2-ute') || tilstand.kanaler.length > 0;
   }
   // «Med kr 30 000 over 4 uker på Meta, LinkedIn og Nettsteder og aviser kan dere vente …»
   function estimatSetning(b, r) {
@@ -2298,6 +3147,7 @@
     $('an-bg-hint').textContent = a.logoUrl ? 'Tekstfargen tilpasses automatisk. Logoen beholder originalfargene.' : 'Tekstfargen tilpasses automatisk.';
     $('an-mer').hidden = !harBilde;
     // The preview
+    $('v2-preview-kanaler').textContent = tilstand.kanaler.length ? 'Valgte kanaler: ' + tilstand.kanaler.join(', ') + (tilstand.kanaler.indexOf('Meta') !== -1 ? '. Meta omfatter Facebook og Instagram' + (modus === 'ferdig' ? ', inkludert Stories' : '') + '.' : '.') : 'Eksempelvisning. Velg kanaler under Kampanjen for å se riktige plasseringer.';
     var vis = kanalVisninger();
     if (!vis.some(function (v) { return v[0] === a.kanal; })) a.kanal = vis[0][0];
     var kanalNavn = vis.filter(function (v) { return v[0] === a.kanal; })[0][1];
@@ -2434,7 +3284,14 @@
     });
   }
   async function leggTilFerdige(liste) {
-    for (var i = 0; i < liste.length; i++) { liste[i].format = await malFil(liste[i].url, liste[i].video); tilstand.ferdige.push(liste[i]); }
+    var state = tilstand;
+    liste.forEach(function (fil) { fil.format = null; state.ferdige.push(fil); });
+    tegnAnnonse();
+    for (var i = 0; i < liste.length; i++) {
+      var format = await malFil(liste[i].url, liste[i].video);
+      if (tilstand !== state) return;
+      liste[i].format = format;
+    }
     if (liste.length) { $('an-materiell-feil').hidden = true; $('steg-feil').hidden = true; visFerdig(liste[0]); }
     tegnAnnonse(); oppdater();
   }
@@ -2772,11 +3629,12 @@
     return d;
   }
   function tidligstUte() { var d = tidligstDato(); return UKEDAG[d.getDay()] + ' ' + kort(iso(d)).slice(0, 5); }
+  $('avsender').addEventListener('input', function () { tegnAnnonse(); });
   $('faktura').addEventListener('change', oppdater);
   $('notat').addEventListener('input', oppdater);
 
   /* ---------- Approval of a frozen plan, before the separate order action ---------- */
-  var approvalKey, approvalKeyStorage = 'fzApprovalDraftKey' + (new URLSearchParams(location.search).get('kladd') ? ':' + new URLSearchParams(location.search).get('kladd') : '');
+  var approvalKey, approvalKeyStorage = 'fzApprovalDraftKeyV2' + (new URLSearchParams(location.search).get('kladd') ? ':' + new URLSearchParams(location.search).get('kladd') : '');
   try { approvalKey = localStorage.getItem(approvalKeyStorage); } catch (e) {}
   if (!approvalKey) { approvalKey = crypto.randomUUID(); try { localStorage.setItem(approvalKeyStorage, approvalKey); } catch (e) {} }
   var approvalChangedTimer, approvalBlocked = false;
@@ -2785,12 +3643,13 @@
     var extras = TILLEGG.reduce(function (sum, item) { return sum + (tilstand.tillegg.indexOf(item.navn) !== -1 ? item.pris : 0); }, 0);
     var mf = materiellFor();
     var material = FrantzCampaignMaterial.snapshot({}, {
-      ad: mf.ad, mainFile: mf.mainFile, extraFiles: mf.extraFiles, mode: tilstand.materiell, files: mf.files,
+      ad: tilstand.materiell === 'bygg' || tilstand.materiell === 'ferdig' ? mf.ad : {}, mainFile: mf.mainFile, extraFiles: mf.extraFiles, mode: tilstand.materiell, files: mf.files,
       brief: $('an-designbrief').value.trim(), sender: $('avsender').value.trim(),
-      channels: tilstand.kanaler, position: $('pv-bilde').style.getPropertyValue('--pv-pos')
+      channels: tilstand.kanaler, sourceFiles: vedleggFiler(), position: $('pv-bilde').style.getPropertyValue('--pv-pos')
     }).materiell;
     return { title: $('stilling').value.trim(), employer: $('arbeidsgiver').value.trim(), location: navnListe(st),
-      period: periodeTekst(), budget: budsjett(), extras: extras, channels: tilstand.kanaler.slice(), material: material };
+      period: periodeTekst(), budget: budsjett(), extras: extras, channels: tilstand.kanaler.slice(), material: material,
+      reference: $('ref').value.trim(), invoice: $('faktura').value, notes: v2VisVerdi('ekstra'), products: tilleggListe() };
   }
   var planShare = FrantzApprovalShare.attach($('del-knapp'), {
     campaign: approvalKey, rounds: ['plan'], host: $('del-panel'), readContent: approvalContent,
@@ -2799,8 +3658,11 @@
       approvalBlocked = !!latest && !['approved', 'revoked'].includes(FrantzApprovals.status(latest));
       $('bestill').disabled = $('bestill').dataset.ready !== 'true' || approvalBlocked;
       if (tilstand.steg === 4) $('mobil-oppsummering').disabled = approvalBlocked;
+      if (!$('v2').hidden) v2Pris();
     }
   });
+  var planSummary = $('blokk-del').querySelector('.approval-summary');
+  $('v2-godkjenning').appendChild(planSummary);
   var editor = $('blokk-del').querySelector('.approval-inline'), dialog = document.createElement('dialog');
   dialog.className = 'plan-dialog'; document.body.appendChild(dialog); dialog.appendChild(editor);
   function avbryt() { var b = editor.querySelector('.approval-inline__head button'); if (b) b.click(); }
@@ -2820,8 +3682,9 @@
 
   function checkApprovalVersion() {
     clearTimeout(approvalChangedTimer);
+    if ($('v2-dialog').open) return;
     approvalChangedTimer = setTimeout(async function () {
-      if (!planShare.latest('plan')) return;
+      if ($('v2-dialog').open || !planShare.latest('plan')) return;
       try { await planShare.invalidate(approvalContent()); }
       catch (e) {
         // If the original upload was removed, the old plan cannot remain approved.
@@ -2922,12 +3785,12 @@
 
   function oppdater() {
     synkAnbefaling();
-    if (planShare) checkApprovalVersion();
+    if (planShare && !$('v2-dialog').open) checkApprovalVersion();
     if (!steder || !stilling || !budsjettKontroll) return;
     var stederListe = steder.verdi();
     var klar = tilstand.rolle && stederListe.length;
     var b = budsjett();
-    var r = klar && b ? prognose(stederListe, b) : null;
+    var r = klar && b && tilstand.kanaler.length ? prognose(stederListe, b) : null;
     var forslag = klar ? R.beregn({ rolle: tilstand.rolle, steder: stederListe }) : null;
     var anb = anbefalingModus === 'anbefalt' && anbefalingOriginal ? anbefalingOriginal.budsjett : forslag ? forslagBudsjett() : null;
     budsjettKontroll.anbefalt(anb || undefined);
@@ -2936,7 +3799,7 @@
     if (b) { $('feil-budsjett').hidden = true; $('feil-bestill').hidden = true; }
     $('budsjett-tips').dataset.tooltip = tips; $('budsjett-tips').setAttribute('aria-label', 'Mer info: ' + tips);
     // What the budget, channels and period can give. The same box shows for a package and for «Sett opp selv».
-    var estimatTekst = r ? estimatSetning(b, r) : (b ? 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
+    var estimatTekst = r ? estimatSetning(b, r) : (b ? !tilstand.kanaler.length ? 'Velg minst én kanal for å se estimatet.' : 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
     $('estimat-tekst').innerHTML = (anbefalingModus === 'anbefalt' || anbefalingModus === 'pakke') && r
       ? '<h3 class="metrics__title">Estimert resultat</h3><div class="metrics">' +
         [[r.visninger, 'visninger'], [r.klikk, 'klikk'], [r.sok, 'trykk på «Søk»']].map(function (item) {
@@ -3021,6 +3884,7 @@
     tegnPakker();
     visMangler();
     if (tilstand.steg) { tegnOversikt(); tegnStegListe(); tegnStegNav(); }
+    if (!$('v2').hidden) v2Pris();
   }
 
   /* ---------- Steps ----------
@@ -3093,6 +3957,11 @@
   }
   function kanGaTil(n) { for (var i = 1; i < n; i++) if (stegFeil(i)) return false; return true; }
   function tegnStegListe() {
+    if (document.body.classList.contains('v2-ute')) {
+      $('side-tittel').textContent = 'Opprett kampanje';
+      $('steg-liste').innerHTML = '';
+      return;
+    }
     // One step count and one title provide orientation without a second visual progress layer.
     var n0 = tilstand.steg;
     $('side-tittel').textContent = 'Opprett kampanje';
@@ -3103,6 +3972,12 @@
     if (forste) forste.classList.add('del--forst');
   }
   function tegnStegNav() {
+    if (document.body.classList.contains('v2-ute')) {
+      $('steg-nav').hidden = true;
+      $('mobilbestilling').hidden = true;
+      $('ordre-oppsummering').hidden = true;
+      return;
+    }
     var n = tilstand.steg;
     var kort = n === 1 ? (tilstand.lest ? $('del-funnet') : $('del-start')) : n === 2 ? $('del-mangler') : n === 3 ? $('del-materiell') : $('del-oversikt');
     kort.appendChild($('mobilbestilling'));
@@ -3132,6 +4007,7 @@
     $('bestilling-venter').hidden = $('bestilling-venter').hidden || !sist;
   }
   function visSteg(n, flytt) {
+    if (document.body.classList.contains('v2-ute')) return;
     if (document.body.classList.contains('nk-ark-apen')) visArk(false);
     if (tilstand.steg && n !== tilstand.steg && tilstand.lest && tilstand.sideVist) tilstand.sideLest = true;
     if (tilstand.side) tilstand.sideVist = true;
@@ -3194,7 +4070,7 @@
     $('sum-designbrief').textContent = $('an-designbrief').value.trim();
     $('oversikt').innerHTML =
       gruppe('Stillingen', 1,
-        rad('Kampanjenavn', esc($('ref').value.trim())) +
+        rad('Kampanjenavn/deres referansekode', esc($('ref').value.trim())) +
         rad('Stilling', esc($('stilling').value.trim())) + rad('Arbeidssted', esc(navnListe(st))) +
         rad('Søknadsfrist', $('frist').value ? kort($('frist').value) : '') + rad('Arbeidsgiver', esc($('arbeidsgiver').value.trim()))) +
       gruppe('Kampanjen', 2,
@@ -3219,7 +4095,7 @@
   });
 
   /* ---------- Save by itself ---------- */
-  var LAGER = 'fzNyKampanjeEnkel', lagreTimer = null;
+  var LAGER = 'fzNyKampanjeV2', lagreTimer = null;
   function lagreUtkast() {
     $('lagret').classList.add('lagret--lagrer');
     $('lagret-tekst').textContent = 'Lagrer …';
@@ -3228,7 +4104,7 @@
       var data = {
         ref: $('ref').value, lenke: $('lenke').value, tekst: $('beskrivelse').value, stilling: $('stilling').value, steder: steder.verdi(),
         frist: $('frist').value, budsjett: budsjett(), kanalmodus: tilstand.kanalmodus, kanaler: tilstand.kanaler, uker: tilstand.uker, fra: tilstand.fra, til: tilstand.til,
-        designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('notat').value
+        designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('v2-ekstra').value
       };
       try { localStorage.setItem(LAGER, JSON.stringify(data)); } catch (e) {}
       var d = new Date();
@@ -3310,7 +4186,7 @@
     tilstand.valgtConnect = null; if ($('connect-sok')) $('connect-sok').value = '';
     $('del-start').classList.remove('start--lukket');
     velgStart('lenke');
-    tilstand.pdf = ''; tilstand.pdfFil = null; tilstand.pdfTekst = ''; visVedlegg('');
+    tilstand.pdf = ''; tilstand.pdfFil = null; tilstand.vedlegg = []; tilstand.pdfTekst = ''; visVedlegg();
     // The demo only fills in the fields. The user presses «Fyll ut skjemaet» themselves.
     $('feil-start').hidden = true;
     tegnKilder();
@@ -3373,7 +4249,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=17"></script>
+<script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

@@ -124,7 +124,7 @@
   {
     var ny = document.createElement('a');
     ny.className = 'btn btn--accent topbar__ny'; // yellow: the main action, the same on desktop and phone
-    ny.href = 'ny-kampanje-v2.html';
+    ny.href = 'ny-kampanje.html';
     ny.innerHTML = '<span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Ny kampanje';
     topbar.insertBefore(ny, bjelle);
     var mobil = document.querySelector('.mobiltopp');

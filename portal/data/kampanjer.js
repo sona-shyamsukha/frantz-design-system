@@ -13,7 +13,7 @@ window.FZ_KAMPANJER = (function () {
     { id: '129041', connect: '777689', stilling: 'Sykepleier', sted: 'Oslo', arbeidsgiver: 'Oslo Sykehusdrift', ref: 'Oppdrag 22 31',
       kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-09-03', til: '2026-10-03', budsjett: 48200, status: 'Aktiv', bestiller: 'Kari Hansen', side: 'campaign.html' },
     { id: '129070', connect: '777845', stilling: 'Helsesykepleier', sted: 'Kristiansand', arbeidsgiver: 'Sørlandet Helse', ref: 'Oppdrag 22 52',
-      kanaler: null, fra: '', til: '', frist: '2026-11-08', budsjett: 0, status: 'Kladd', bestiller: 'Kari Hansen', side: 'ny-kampanje-v2.html?kladd=129070',
+      kanaler: null, fra: '', til: '', frist: '2026-11-08', budsjett: 0, status: 'Kladd', bestiller: 'Kari Hansen', side: 'ny-kampanje.html?kladd=129070',
       endret: 'i går kl. 14.12' },
     { id: '129068', connect: '777731', stilling: 'Anestesisykepleier', sted: 'Stavanger', arbeidsgiver: 'Vestlandet Helse', ref: 'Rekruttering Stavanger',
       kanaler: ['Meta', 'LinkedIn'], fra: '2026-09-10', til: '2026-09-27', budsjett: 22000, sok: 11, status: 'Avsluttet', bestiller: 'Kari Hansen', side: 'rapport.html' },
