@@ -26,9 +26,15 @@
 }
 .disclosure > summary::-webkit-details-marker { display: none; }
 .disclosure > summary::marker { content: ''; }
-.disclosure > summary:hover { background: var(--surface-subtle); }
+.disclosure > summary:hover,
+.disclosure[open] > summary,
+.disclosure > summary:active {
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
+}
+.disclosure > summary:active { background: var(--bg-navy-strong-hover); }
 .disclosure > summary:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
-.disclosure > summary > .icon-lucide { margin-left: auto; color: var(--text-muted); }
+.disclosure > summary > .icon-lucide { margin-left: auto; color: inherit; }
 .disclosure[open] > summary { border-bottom: 1px solid var(--border-default); border-radius: var(--radius-16) var(--radius-16) 0 0; }
 .summary-panel > .disclosure > summary { border-radius: 0; }
 .disclosure[open] > summary > .icon-lucide { transform: rotate(180deg); }

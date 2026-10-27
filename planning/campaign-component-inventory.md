@@ -4,6 +4,13 @@ User requirement, 27 October 2026: use existing tokens and components. Any gap t
 requires something new must be recorded explicitly. Reusing colours alone does not
 make a separately styled control an existing component.
 
+## Ordered page browser feedback — 27 October 2026
+
+- Removed the company eyebrow on Bestilt. The period uses the existing `--space-8` gap below the title.
+- Replaced the next-step card with the existing `.alert--info`, `.alert__title` and `.alert__body`. Adviser contact uses the existing `.summary-panel__cta` and small secondary button in the sidebar.
+- Updated shared disclosure hover/open/pressed states using existing `--bg-navy-strong`, `--bg-navy-strong-hover` and `--text-on-navy` tokens. No new component or colour token.
+- Fixed the existing summary-row label wrapping and stacked label/value rows on phones. Shortened the reference label to “Kampanjenavn / referanse”.
+
 ## Client walkthrough cleanup — 27 October 2026
 
 The four campaign states are now presented directly in the portal. The earlier

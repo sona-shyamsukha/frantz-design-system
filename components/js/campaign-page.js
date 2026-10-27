@@ -15,9 +15,12 @@
     document.querySelectorAll('[data-contact-adviser], a[href="epost-visning.html"]').forEach(function (button) {
       var link = document.createElement('a');
       link.className = button.className;
+      if (button.id) link.id = button.id;
       link.dataset.contactAdviser = '';
       link.dataset.kind = button.dataset.kind || '';
-      link.addEventListener('click', function () { link.href = contactUrl(link.dataset.kind === 'endring'); });
+      function refreshContact() { link.href = contactUrl(link.dataset.kind === 'endring'); }
+      link.addEventListener('click', refreshContact);
+      document.addEventListener('frantz:campaign-loaded', refreshContact);
       link.innerHTML = button.innerHTML;
       link.href = contactUrl(button.dataset.kind === 'endring');
       link.title = 'Åpner e-posten din til Frantz';

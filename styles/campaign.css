@@ -7,6 +7,7 @@
 /* Result tiles respond to the card width, including beside the campaign sidebar. */
 @container (max-width: 640px) { .report-summary .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (max-width: 360px) { .report-summary .metrics--fire { grid-template-columns: minmax(0, 1fr); } }
+.campaign-header .campaign-meta { margin-top: var(--space-8); }
 .campaign-meta > span { margin-inline: var(--space-6); }
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }

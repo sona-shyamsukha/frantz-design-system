@@ -19,11 +19,13 @@
 </head>
 <body>
   <h1 class="text-h2">Campaign pages — developer verification</h1>
-  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option><option>1672</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
   <div class="previews" id="previews"></div>
   <script>
+    const order = new URLSearchParams(location.search).get('order');
+    const orderedUrl = '../portal/kampanje-bestilt.html' + (order ? '?id=' + encodeURIComponent(order) : '');
     const pages = [
-      ['Ordered', '../portal/kampanje-bestilt.html'],
+      ['Ordered', orderedUrl],
       ['Approval', '../portal/kampanje-under-arbeid.html?fase=godkjenning'],
       ['Active', '../portal/campaign.html?id=129041'],
       ['Completed', '../portal/rapport.html?id=128984'],
@@ -38,8 +40,16 @@
       const viewport = doc.documentElement.clientWidth;
       const scroll = doc.documentElement.scrollWidth;
       const duplicateIds = [...doc.querySelectorAll('[id]')].map(node => node.id).filter((id, index, all) => all.indexOf(id) !== index);
-      output.textContent = `${scroll <= viewport ? 'PASS' : 'FAIL'} — viewport ${viewport}px, page ${scroll}px; duplicate IDs: ${duplicateIds.length}`;
-      output.dataset.pass = String(scroll <= viewport && duplicateIds.length === 0);
+      const overlappingRows = [...doc.querySelectorAll('.summary-row')].filter(row => {
+        if (!row.getClientRects().length) return false;
+        const label = row.querySelector('dt');
+        const value = row.querySelector('dd');
+        if (!label || !value) return false;
+        const a = label.getBoundingClientRect(), b = value.getBoundingClientRect();
+        return a.width > 0 && (label.scrollWidth > label.clientWidth + 1 || (a.right > b.left + 1 && a.bottom > b.top + 1 && b.bottom > a.top + 1));
+      }).length;
+      output.textContent = `${scroll <= viewport ? 'PASS' : 'FAIL'} — viewport ${viewport}px, page ${scroll}px; duplicate IDs: ${duplicateIds.length}; overlapping rows: ${overlappingRows}`;
+      output.dataset.pass = String(scroll <= viewport && duplicateIds.length === 0 && overlappingRows === 0);
     }
     pages.forEach(([name, url]) => {
       const figure = document.createElement('figure');
