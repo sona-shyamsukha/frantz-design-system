@@ -1,8 +1,10 @@
 /* Existing submitted-material component, shared by every campaign phase. */
   .material-card { container-type: inline-size; }
+  .material-card > .card__head { margin-bottom: var(--space-12); }
   .material-card [hidden] { display: none; }
   .material-card__status { color: var(--text-muted); font: var(--type-support); }
-  .material-card__explanation { margin: var(--space-8) 0 var(--space-24); color: var(--text-muted); font: var(--type-support); }
+  .material-card__explanation { margin: var(--space-8) 0 var(--space-16); color: var(--text-muted); font: var(--type-support); }
+  .material-card #ordered-approval-actions { margin-bottom: var(--space-24); }
   .material-content { display: grid; gap: var(--space-24); align-items: start; }
   .submitted-preview { padding: var(--space-24); background: var(--surface-section); border-radius: var(--radius-12); min-width: 0; }
   .submitted-platforms { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-16); }

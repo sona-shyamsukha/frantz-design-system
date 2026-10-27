@@ -216,7 +216,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=20261027-delete-draft"></script>
+<script src="data/kampanjer.js?v=20261027-complete-reports"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -225,7 +225,7 @@
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
   function tegnRader() {
-  tbody.innerHTML = FZ_KAMPANJER.alle().map(function (k) {
+  tbody.innerHTML = FZ_KAMPANJER.synlige().map(function (k) {
     var periode = k.periode || (k.frist ? 'Søknadsfrist ' + FZ_KAMPANJER.dato(k.frist) : '—');
     var navn = (k.ref || '').trim();
     var tittel = navn || k.tittel;

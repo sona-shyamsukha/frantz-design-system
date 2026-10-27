@@ -48,7 +48,7 @@
       });
     }
     var approve = document.getElementById('approve-campaign-material');
-    var actions = approve.closest('.handlinger');
+    var actions = approve.closest('[data-campaign-approval-actions]');
     var creativeCard = document.getElementById('creative-heading').closest('.card');
     var stage = params.get('fase') || 'godkjenning';
     var statuses = {
@@ -119,18 +119,13 @@
     document.querySelector('.campaign-header').innerHTML = '<h1 class="text-h2">Fant ikke kampanjen</h1>';
     document.querySelector('.campaign-layout').innerHTML = View.empty('Kampanjen er ikke tilgjengelig', 'Gå tilbake til kampanjene og velg en kampanje.', 2) + '<a class="link" href="campaigns.html">Tilbake til kampanjene</a>';
     document.querySelector('.breadcrumb__item:last-child').textContent = 'Fant ikke kampanjen';
-    document.querySelector('#report-sharing').remove();
     return;
   }
   // An ID from a different report type must never display the current template's figures.
   var expected = report.active ? 'campaign.html' : 'rapport.html';
   if (location.pathname.split('/').pop() !== expected) { location.replace(expected + '?id=' + encodeURIComponent(id)); return; }
-  var share = document.querySelector('[data-report-share]');
   var header = document.querySelector('.campaign-header');
-  if (hasReport) { try { root.FrantzReportSharing.ensure(report.id); } catch (error) {} }
-  var reportActions = hasReport ? share.outerHTML : '';
-  if (hasReport && !report.active) reportActions = '<div class="btn-row"><a class="btn btn--secondary" href="' + View.escape((root.FrantzReportSharing.linkFor(report.id) || root.FrantzReportSharing.previewUrl(report.id, true))) + '" target="_blank" rel="noopener">Åpne rapport <span class="sr-only">(ny fane)</span></a>' + reportActions + '</div>';
-  header.innerHTML = View.header(report, reportActions);
+  header.innerHTML = View.header(report);
   header.querySelector('.campaign-eyebrow').remove();
   header.querySelector('.campaign-meta').remove();
   document.title = report.title + ' — Frantz kampanjeportal';
@@ -147,7 +142,6 @@
     document.getElementById('fane-interessenter').textContent = 'Interessenter';
   }
   document.getElementById('campaign-overview').innerHTML = hasReport ? View.overview(report, { internal: true, costs: true }) : View.empty('Innsikt er ikke tilgjengelig ennå', 'De lagrede stillingsopplysningene, bestillingen og kampanjeforløpet er tilgjengelige i de andre fanene.', 2);
-  if (hasReport) root.FrantzReportSharing.attach(document.querySelector('[data-report-share]'), report);
   sections = root.FrantzCampaignSections.init({ defaultTab: 'innsikt' });
   root.FrantzCampaignDetails.init({ id: id, report: report });
   // Follow-up state is scoped to a campaign and kept across page reloads in this local demo.

@@ -88,6 +88,26 @@ test('each campaign list destination carries its own identity', () => {
   assert.equal(new Set(routes).size, routes.length);
 });
 
+test('portal lists only complete ended reports while retaining original campaign records', () => {
+  const window = load('portal/data/kampanjer.js');
+  load('portal/data/rapporter.js', window);
+  const campaigns = window.FZ_KAMPANJER;
+  const visible = campaigns.synlige();
+  const ended = visible.filter(campaign => campaign.status === 'Avsluttet');
+  assert.deepEqual(Array.from(ended, campaign => campaign.id), ['128984']);
+  for (const campaign of ended) {
+    const report = window.FZ_REPORTS[campaign.id];
+    for (const field of ['daily', 'ads', 'channels', 'placements', 'geography']) {
+      assert.ok(Array.isArray(report[field]) && report[field].length, `Missing full insight: ${field}`);
+    }
+  }
+  for (const id of ['129068', '129062', '129055', '128951']) {
+    assert.ok(campaigns.finn(id));
+    assert.ok(!visible.some(campaign => campaign.id === id));
+  }
+  assert.deepEqual(Array.from(visible.filter(campaign => campaign.status !== 'Avsluttet'), campaign => campaign.id), Array.from(campaigns.alle().filter(campaign => campaign.status !== 'Avsluttet'), campaign => campaign.id));
+});
+
 // List totals are the only recorded results for these campaigns. Missing figures must
 // not become zero or be borrowed from the completed Bodø fixture.
 test('every ended campaign retains its own aggregates without invented breakdowns', () => {

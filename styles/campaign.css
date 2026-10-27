@@ -1,5 +1,7 @@
 /* Campaign-specific composition only. Controls and surfaces use the existing components. */
 .campaign-page [hidden] { display: none !important; }
+.campaign-layout .flow { gap: var(--space-24); }
+.campaign-page .card > .disclosure:not(:first-child) { margin-top: var(--space-16); }
 .campaign-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-24); margin-top: var(--space-24); }
 .campaign-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
 .campaign-eyebrow { margin: 0 0 var(--space-8); color: var(--text-muted); font: var(--type-support); }
@@ -16,18 +18,12 @@
 .campaign-rail > .btn { justify-self: start; }
 .campaign-disclosure .piksel { padding: 0; }
 .campaign-private .icon-lucide { flex: none; }
+.campaign-page [data-samtykke] .card__head { flex-wrap: wrap; row-gap: var(--space-12); }
+.campaign-page [data-samtykke] .card__head > div { flex: 1 1 auto; min-width: 0; }
 .campaign-task { flex-wrap: wrap; align-items: center; }
 .campaign-task > div { flex: 1 1 auto; min-width: 0; }
+.campaign-task > .alert__content { flex-basis: 60%; }
 .campaign-task p { margin-top: var(--space-4); }
-.report-sharing { margin-top: var(--space-24); }
-.report-sharing__heading { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-16); }
-.report-sharing__heading p { margin-top: var(--space-8); }
-.report-sharing__options { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-24); margin-top: var(--space-24); }
-.report-sharing__options .form-group { min-width: 0; margin: 0; }
-.report-sharing__link { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-24); }
-.report-sharing__link input { flex: 1 1 auto; min-width: 0; }
-.report-sharing__actions { margin-top: var(--space-20); }
-.report-sharing__status { min-height: var(--space-24); margin-top: var(--space-12); font: var(--type-support); }
 .shared-report { margin: 0; }
 .shared-report__wrap { max-width: var(--container-lg); padding: var(--space-32); margin-inline: auto; }
 .shared-report__brand { display: flex; justify-content: space-between; align-items: center; gap: var(--space-24); padding-bottom: var(--space-24); border-bottom: 1px solid var(--border-default); }

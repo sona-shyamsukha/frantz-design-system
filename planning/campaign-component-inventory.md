@@ -22,10 +22,21 @@ belong to Kampanje; material, creative versions and approvals belong to Annonser
   Kampanje render the immutable submission, original text/link and original file
   attachments. Later campaign metadata does not overwrite the submitted values.
   Older fixtures only show the original data that exists; missing fields are not invented.
-- **Kampanjeoversikt** is the only sticky area. It reuses the existing disclosure, form-hint, strong text and spacing utilities for current status, period, channels, budget, orderer and known application deadline. Period no longer appears beneath the campaign title. The whole sidebar
+  Kampanjen som bestilt uses the existing disclosure component, collapsed initially and placed immediately after Kampanjeforløp in every phase. Grunnlag for bestillingen uses the same collapsed disclosure in Stilling, with source text, links and files inside one expansion.
+- **Kampanjeoversikt** is the only sticky area. It reuses the existing disclosure, form-hint, strong text and spacing utilities for the current period, orderer and assigned Frantz adviser. Adviser names come from campaign metadata (with the original order as fallback); unassigned campaigns show “Tildeles av Frantz”. Status stays beside the title; the application deadline stays in Stilling, and channels/budget stay in Kampanje. Period no longer appears beneath the campaign title. The whole sidebar
   sticks as one unit, bounded by the viewport. On smaller screens it becomes a
   normal, collapsed disclosure above the tabs. Campaign number, portal URL,
   published campaign URL, source job URL and automatically generated report URL use the same copy row. New links have no expiry date, retain the same token, and omit costs by default. Existing sharing choices and deliberate revocation remain respected. Before launch, the public report destination explains that results will arrive when the campaign is active.
+- The sidebar no longer has a Delingsvalg button. Published social-ad URLs use
+  campaign metadata `annonselenker: [{ kanal, navn, url }]` and the existing copy row.
+  Unsafe or duplicate URLs are omitted. Missing URLs show an honest availability
+  message; no platform homepages or fabricated ad destinations are substituted.
+  The report is opened and copied from Kampanjeoversikt only. The header actions
+  and advanced report-sharing controls have been removed.
+- Kontakt rådgiver sits inside the blue campaign-status alert in every phase,
+  using the existing small secondary button and campaign-task layout. Text takes
+  a flexible share of the row and the action wraps below on narrow screens; no
+  new control, visual variant or token was introduced.
 - **CopyField** is the existing tracking copy-row composition extracted into a shared
   component, using existing ghost buttons, icons, spacing, colours and focus tokens.
   No new visual variant or token. The existing submitted-material appearance is
@@ -33,12 +44,39 @@ belong to Kampanje; material, creative versions and approvals belong to Annonser
 - Original submission loading, private detail rendering and append-only campaign
   activity are shared modules. Approval events and existing advisor developments
   stay in Kampanje. Public reports never load the private submission/detail modules.
-- Report links still use the existing same-browser demonstration store. The sharing
-  panel explains that cross-device access requires server-side integration.
+- Report links still use the existing same-browser demonstration store;
+  production cross-device access requires server-side integration.
 
 Current iteration: 29 data, approval, material, report and disclosure checks pass, including automatic token creation and preservation of existing sharing choices. No new component or token was added.
 
+## Completed examples shown in the portal
+
+Avsluttet and the home-page results list use the shared `synlige()` collection.
+Only completed campaigns marked `rapportKomplett` are listed. Bodø is currently
+the complete example; the four totals-only fixtures remain stored and directly
+addressable but are not offered in the campaign lists. Other campaign statuses
+and local orders remain visible.
+
 ## Shared campaign structure — 27 October 2026
+
+Latest consistency check: Stilling has submitted fields followed by the source
+disclosure; Kampanje has the status/contact alert, visible campaign history,
+collapsed original order, then tracking. Annonser adds creatives/approval and
+submitted material when present. The sidebar, tab order and tokens are shared.
+The production checklist is visible inside Kampanjeforløp. Its recorded progress
+suppresses the misleading “Ingen endringer” message. Approval controls reuse
+card__footer, grid gap-4 and btn-row--stack, with standard-size primary/secondary
+buttons. No new button size, surface or token was created.
+Campaign section gaps use the existing 24 px spacing token (previously 32 px).
+The material heading/status gap is 12 px, lead/action gap 16 px, and approval
+action/preview gap 24 px. The original-order disclosure omits its repeated order
+date; the dated event remains in Kampanjeforløp. Empty provenance notes are hidden. Help disclosures placed inside campaign cards
+use the existing 16 px spacing token above the row, including Annonser and
+Interessenter, so they never touch the preceding content.
+Interest-card headings share content-sized layout rules across active and completed
+campaigns. The old 260 px flex basis has been removed because it became a forced
+heading height when the card switched to a column on mobile.
+
 
 Campaign information panels use normal document flow on all four campaign pages;
 stickiness is disabled in this page composition so expanded sections cannot pass

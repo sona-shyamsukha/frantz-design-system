@@ -42,7 +42,7 @@ Use the portal itself for a client walkthrough: [campaign list](portal/campaigns
 [Avsluttet](portal/rapport.html?id=128984).
 Tabs follow Stilling, Kampanje, Annonser, Innsikt and Interessenter. Empty destinations stay hidden.
 Bestilt opens Kampanje; ready-for-approval opens Annonser; active/completed opens Innsikt.
-Original submitted details and later developments are kept separately. Kampanjeoversikt shows the current period, status, channels, budget and copyable links using existing components. Report links are generated automatically; the local prototype still requires a backend for cross-device sharing.
+Original submitted details and later developments are kept separately. Kampanjeoversikt shows the current period, orderer and copyable links using existing components. Report links are generated automatically; the local prototype still requires a backend for cross-device sharing.
 The pages reuse the shared tokens, buttons, tabs, cards and disclosure component.
 Development review labels and review-navigation links are removed from these pages.
 The earlier review hub and responsive harness remain internal tools.
@@ -51,11 +51,12 @@ Oslo and Bodø have complete aggregate report fixtures. The remaining completed
 campaigns show their own recorded totals, period, budget and channels. Missing
 breakdowns and candidate records are never substituted from Bodø.
 
-Report links, cost visibility, expiry and revocation remain a **same-browser local
-demonstration**. Cross-device sharing needs server storage and access enforcement.
-The sharing panel states this limitation. The public report contains aggregate
-fixtures only, without candidate or account scripts. The public report provides a browser print/PDF action. Campaign contact actions open an email draft to the
-existing Frantz contact address; they do not send a message from the portal.
+Reports are opened and copied from Kampanjeoversikt. There are no report actions
+in the header or advanced sharing settings. Automatic links remain a same-browser
+local demonstration; production cross-device access needs server integration.
+The public report contains aggregate example data only, with no candidate details.
+It provides a browser print/PDF action. Campaign contact actions open an email
+draft to the existing Frantz contact address; they do not send from the portal.
 
 Run `node --test tests/campaign-submission.test.cjs tests/campaign-activity.test.cjs tests/report-sharing.test.cjs tests/disclosure-consistency.test.cjs tests/approval-store.test.cjs tests/campaign-material.test.cjs`.
 Component changes and remaining integration gaps are tracked in the

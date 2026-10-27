@@ -40,7 +40,7 @@
       linkHost.appendChild(link);
     }
     var text = source.querySelector('[data-source-text]'); text.textContent = model.source.text;
-    text.closest('details').hidden = !model.source.text;
+    text.closest('[data-source-text-block]').hidden = !model.source.text;
   }
   function campaignUrl(model) {
     var side = model.campaign.side || location.pathname.split('/').pop() + '?id=' + model.id;
@@ -54,26 +54,17 @@
       row.append(element('span', 'form-hint', label), element('strong', '', value)); host.appendChild(row);
     }
     function field(id) { var value = model.fields.find(function (item) { return item.id === id; }); return value && value.value; }
-    fact('Status', model.status);
     fact(model.status === 'Bestilt' || model.status === 'Under arbeid' ? 'Planlagt periode' : 'Periode', model.campaign.periode || field('periode') || 'Avklares med Frantz');
-    fact('Kanaler', model.campaign.kanaler && model.campaign.kanaler.join(', ') || field('kanaler') || 'Avklares med Frantz');
-    fact('Budsjett', model.campaign.budsjett != null ? root.FrantzCampaignSubmission.money(model.campaign.budsjett) : field('budsjett'));
     fact('Bestilt av', model.campaign.bestiller);
-    fact('Søknadsfrist', field('frist'));
+    fact('Frantz-rådgiver', model.campaign.radgiver || model.order.radgiver || 'Tildeles av Frantz');
   }
   function renderLinks() {
     if (!current) return;
     var model = current, host = document.querySelector('[data-campaign-links]'); host.replaceChildren();
-    function row(label, value, url, pending, shareAction) {
+    function row(label, value, url, pending) {
       var group = element('div', 'grid gap-2'); group.appendChild(element('span', 'form-hint', label));
       if (value) group.appendChild(root.FrantzCopyField.create(value, { label: label, url: url }));
       else group.appendChild(element('p', 'form-hint', pending));
-      if (shareAction) {
-        var action = element('button', 'link', 'Delingsvalg');
-        action.type = 'button';
-        action.addEventListener('click', function () { document.querySelector('[data-report-share]').click(); });
-        group.appendChild(action);
-      }
       host.appendChild(group);
     }
     row('Kampanjenummer', '#' + model.id);
@@ -82,7 +73,22 @@
     row('Kampanjeside', landing, landing, 'Lenken kommer når kampanjesiden er klar.');
     var source = safeUrl(model.source.url); if (source) row('Stillingsannonse', source, source);
     var reportUrl = root.FrantzReportSharing.linkFor(model.id);
-    row('Rapport uten innlogging', reportUrl, reportUrl, 'Rapportdeling er ikke tilgjengelig.', !!document.querySelector('[data-report-share]'));
+    row('Rapport uten innlogging', reportUrl, reportUrl, 'Rapportdeling er ikke tilgjengelig.');
+    var social = element('div', 'grid gap-2');
+    social.appendChild(element('span', 'form-hint', 'Annonser i sosiale medier'));
+    var links = Array.isArray(model.campaign.annonselenker) ? model.campaign.annonselenker : [];
+    var seen = new Set();
+    links.forEach(function (ad) {
+      var url = ad && safeUrl(ad.url);
+      if (!url || seen.has(url)) return;
+      seen.add(url);
+      var label = [ad.kanal, ad.navn].filter(Boolean).join(' · ') || 'Publisert annonse';
+      var group = element('div', 'grid gap-2');
+      group.append(element('span', 'form-hint', label), root.FrantzCopyField.create(url, { label: label, url: url }));
+      social.appendChild(group);
+    });
+    if (!seen.size) social.appendChild(element('p', 'form-hint', model.status === 'Bestilt' || model.status === 'Under arbeid' ? 'Lenkene kommer når annonsene er publisert.' : 'Lenker til publiserte annonser er ikke tilgjengelige ennå.'));
+    host.appendChild(social);
   }
   function activityRow(event) {
     var li = element('li', 'journey__step'); li.dataset.localActivity = '';
@@ -99,7 +105,7 @@
     var revision = ++activityRevision;
     var model = current, host = document.querySelector('[data-campaign-history]');
     var list = host.querySelector('ol.journey');
-    if (!list) { list = element('ol', 'journey'); host.appendChild(list); }
+    if (!list) { list = element('ol', host.querySelector('.checklist') ? 'journey card__footer' : 'journey'); host.appendChild(list); }
 
     var events = root.FrantzCampaignActivity.read(model.id);
     if (model.submittedAt) events.push({ at: model.submittedAt, title: 'Bestillingen er mottatt', body: 'Opplysningene og materiellet fra bestillingen er lagret på kampanjen.' });
@@ -119,7 +125,8 @@
     events.sort(function (a, b) { return Date.parse(a.at) - Date.parse(b.at); }).forEach(function (event) { list.appendChild(activityRow(event)); });
     var empty = host.querySelector('[data-history-empty]');
     if (!empty) { empty = element('p', 'form-hint', 'Ingen endringer er registrert ennå.'); empty.dataset.historyEmpty = ''; host.appendChild(empty); }
-    empty.hidden = !!list.children.length;
+    list.hidden = !list.children.length;
+    empty.hidden = !!list.children.length || !!host.querySelector('.checklist li');
   }
   function updateHeader(model) {
     var title = document.querySelector('h1'); title.textContent = model.title;
@@ -145,7 +152,7 @@
     try { root.FrantzReportSharing.ensure(model.id); } catch (error) { /* Show an unavailable link rather than an unsaved URL. */ }
     renderFields(model, 'stilling'); renderFields(model, 'kampanje'); renderSource(model);
     document.querySelectorAll('[data-submitted-date]').forEach(function (node) { node.textContent = model.submittedAt ? 'Bestilt ' + displayDate(model.submittedAt) : ''; });
-    document.querySelectorAll('[data-submitted-note]').forEach(function (node) { node.textContent = model.hasSubmission ? '' : 'Viser opplysningene som er lagret for kampanjen. Originalbestillingen er ikke tilgjengelig.'; });
+    document.querySelectorAll('[data-submitted-note]').forEach(function (node) { node.hidden = model.hasSubmission; node.textContent = model.hasSubmission ? '' : 'Viser opplysningene som er lagret for kampanjen. Originalbestillingen er ikke tilgjengelig.'; });
     var materialCard = document.querySelector('[data-submitted-material]');
     materialCard.hidden = !model.material;
     root.FrantzCampaignMaterialView.render(model.record);
