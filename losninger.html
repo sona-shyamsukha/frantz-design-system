@@ -18,9 +18,19 @@
   .lo-rute span { color: var(--text-muted); }
 
   .lo-filter { display: flex; flex-wrap: wrap; gap: var(--space-8); margin: var(--space-16) 0 var(--space-8); }
-  .lo-gruppe { margin-top: var(--space-32); }
+  .lo-gruppe, .lo-mvp { margin-top: var(--space-32); }
   .lo-gruppe[hidden] { display: none; }
-  .lo-gruppe h3 { margin: 0 0 var(--space-12); color: var(--text-heading); font-size: var(--text-lg); }
+  .lo-gruppe h3, .lo-mvp h3 { margin: 0 0 var(--space-12); color: var(--text-heading); font-size: var(--text-lg); }
+  .lo-mvp th, .lo-side { white-space: nowrap; }
+  .lo-mvp .lo-tabell td { vertical-align: top; }
+  .lo-mvp .lo-tabell td:nth-child(3) { white-space: normal; }
+  .lo-historie { min-width: 24ch; max-width: 40ch; color: var(--text-heading); font-weight: var(--font-weight-semibold); font-size: var(--text-sm); }
+  .lo-losning { display: grid; gap: var(--space-4); min-width: 32ch; max-width: 60ch; margin: 0; padding-left: var(--space-16); color: var(--text-body); font-size: var(--text-sm); }
+  .lo-losning li { list-style: disc outside; }
+  .lo-losning li::marker { color: var(--text-muted); }
+  .lo-lenker { display: flex; flex-direction: column; gap: var(--space-4); }
+  .lo-side { color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .lo-mvp .lo-tabell a { color: var(--text-heading); font-weight: var(--font-weight-semibold); font-size: var(--text-sm); }
   .lo-tabell { width: 100%; max-width: 1100px; }
   .lo-tabell td:first-child { width: 48px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
   .lo-tabell td:nth-child(3) { white-space: nowrap; }
@@ -54,6 +64,13 @@
     <h1 class="ds-title" style="font-size: var(--text-xl);">Løsninger i prototypen</h1>
     <p class="ds-desc" style="max-width: 680px;">Hvert punkt fra listen over funn, med status og en lenke til der det vises. «Skisse» betyr at vi har laget et forslag, men må sjekke det med Frantz. «Senere» er teknisk arbeid som en prototype ikke kan vise.</p>
     <div class="lo-tall" id="tall"></div>
+  </div>
+
+  <div class="ds-section">
+    <div class="ds-overline">MVP · forslag</div>
+    <h2 class="ds-title">Hva første versjon må ha</h2>
+    <p class="ds-desc" style="max-width: 680px;">Forslag fra Vokser. Frantz bestemmer det endelige omfanget.</p>
+    <div id="mvp"></div>
   </div>
 
   <div class="ds-section">
@@ -186,6 +203,202 @@
         return '<tr data-status="' + p[2] + '"><td data-label="Nr.">' + esc(p[0]) + '</td><td data-label="Punkt"><span class="table__title">' + esc(p[1]) + '</span>' + (p[3] ? '<span class="table__meta">' + esc(p[3]) + '</span>' : '') + '</td>' +
           '<td data-label="Status"><span class="badge ' + STATUS[p[2]][1] + '">' + STATUS[p[2]][0] + '</span></td>' +
           '<td data-label="Se det">' + (p[4] ? '<a href="' + esc(p[4]) + '">Åpne</a>' : '<span class="table__meta">—</span>') + '</td></tr>';
+      }).join('') + '</tbody></table></div></section>';
+  }).join('');
+
+  var SIDER = {
+    login: ['Logg inn', 'portal/login.html'],
+    hjem: ['Hjem', 'portal/dashboard.html?bruker=eksisterende'],
+    hjemNy: ['Hjem, ny kunde', 'portal/dashboard.html?bruker=ny'],
+    tur: ['Omvisningen', 'portal/dashboard.html?tur'],
+    stillinger: ['Stillinger', 'portal/connect.html'],
+    ny: ['Ny kampanje', NK],
+    v2: ['Ny flyt (v2)', 'portal/ny-kampanje-v2.html'],
+    godkjenning: ['Godkjenning', 'portal/godkjenning.html'],
+    bestilt: ['Kampanjen er bestilt', 'portal/kampanje-bestilt.html'],
+    arbeid: ['Kampanje under arbeid', 'portal/kampanje-under-arbeid.html'],
+    liste: ['Kampanjer', 'portal/campaigns.html?bruker=eksisterende'],
+    kampanje: ['Aktiv kampanje', 'portal/campaign.html'],
+    epost: ['E-posttråden', 'portal/epost-visning.html'],
+    landingsside: ['Kampanjesiden', 'portal/landingsside.html'],
+    rapport: ['Rapport', 'portal/rapport.html'],
+    innstillinger: ['Firmainnstillinger', 'portal/innstillinger.html'],
+    profil: ['Min profil', 'portal/min-profil.html'],
+    pakker: ['Lagrede pakker', 'portal/mine-pakker.html'],
+    innboks: ['Innboks for rådgivere', 'portal/admin-innboks.html'],
+    kalkulator: ['Tilbudskalkulator', 'portal/kalkulator.html'],
+    assistent: ['Assistent', 'portal/assistent.html'],
+    media: ['Mediebibliotek', 'portal/mediebibliotek.html']
+  };
+  // [tabell, nr-prefiks, rader]. Rad: [jobb, brukerhistorie, [løsning, setning for setning], [sider]]
+  var MVP = [
+    ['Må med', 'M', [
+      ['Komme i gang', 'Som ny kunde vil jeg se hva jeg skal gjøre først, slik at jeg kommer raskt i gang.', [
+        'Hjem viser ett banner med «Lag første kampanje». Ingen tomme tabeller eller tall.',
+        '«Ny kampanje» står øverst til høyre på alle sider.',
+        'Menyen har bare Hjem, Kampanjer og Firmainnstillinger. Frantz må avgjøre om «Stillinger» skal med for kunder med Connect.'
+      ], ['login', 'hjemNy']],
+      ['Bestille', 'Som kunde vil jeg starte kampanjen med det jeg har, slik at jeg slipper å skrive alt på nytt.', [
+        'Lim inn en lenke, skriv tekst, last opp en PDF, eller velg en stilling fra Connect.',
+        'Frantz leser ut tittel, sted, arbeidsgiver og søknadsfrist.',
+        'Kunden ser det som er lest ut, og retter det.',
+        'Hvis lesingen feiler, fyller kunden ut feltene selv.'
+      ], ['ny', 'v2', 'stillinger']],
+      ['Bestille', 'Som kunde vil jeg ta en pause og fortsette senere, slik at jeg ikke mister arbeidet.', [
+        'Alt lagres av seg selv, og siden viser «Lagret kl. 14.02».',
+        'Kladden står i kampanjelisten og under «Venter på deg» på Hjem.',
+        'Filer blir med, også når kunden fortsetter på en annen enhet.'
+      ], ['ny', 'liste', 'hjem']],
+      ['Bestille', 'Som kunde vil jeg velge budsjett, kanaler og periode og se totalprisen, slik at jeg holder meg innenfor rammen.', [
+        'Et budsjett under minstebeløpet gir en advarsel, men stopper ikke kunden.',
+        'Frantz foreslår kanaler ut fra stillingen. Kunden slår dem av og på.',
+        '«Din bestilling» viser totalsummen hele tiden.',
+        'Betalte tillegg velges aktivt, aldri automatisk.',
+        'Frantz må bekrefte minstebudsjett og priser.'
+      ], ['ny']],
+      ['Bestille', 'Som byrå vil jeg laste opp ferdige annonser, slik at kunden får akkurat det som er godkjent.', [
+        'Last opp én eller flere filer, og koble hver fil til kanal og format.',
+        'Annonsen vises uten ekstra tekst eller logo oppå.',
+        'Frantz må avgjøre om ferdig video skal med i første versjon.'
+      ], ['ny']],
+      ['Bestille', 'Som direktekunde vil jeg lage en enkel annonse selv, slik at jeg kan starte uten en designer.', [
+        'Frantz foreslår annonsetekst fra stillingsannonsen.',
+        'Kunden velger bilde, logo og farger, og justerer utsnittet.',
+        'Kunden ser annonsen slik den blir i Facebook, Instagram og på nettsteder.',
+        'Få, gode maler. Ingen fri layout.'
+      ], ['ny']],
+      ['Bestille', 'Som kunde uten materiell vil jeg bestille design fra Frantz, slik at noen andre lager annonsen.', [
+        'Kunden skriver en kort brief og legger ved filer hvis hen har dem.',
+        'Prisen for design vises før kunden bestiller.',
+        'Frantz sender utkastet tilbake. Kunden godkjenner eller ber om endring.'
+      ], ['ny', 'arbeid']],
+      ['Bestille', 'Som byrå vil jeg velge riktig avsender og fakturamottaker, slik at riktig firma vises og får regningen.', [
+        'Siste steg viser hvem kampanjen gjelder, hvem som er avsender, og hvem som betaler.',
+        'Fakturamottakeren velges fra en liste som kommer fra Firmainnstillinger.'
+      ], ['ny', 'innstillinger']],
+      ['Bestille', 'Som kunde vil jeg vite hva «Bestill kampanjen» forplikter meg til, slik at jeg ikke kjøper noe ved en feil.', [
+        'Frantz må avgjøre om knappen sender en bestilling eller en forespørsel.',
+        'Teksten ved knappen sier hva som skjer, hva det koster, og hva som mangler.'
+      ], ['ny', 'bestilt']],
+      ['Godkjenne', 'Som bestiller vil jeg sende planen og annonsene til lederen eller kunden, slik at jeg får et ja før start.', [
+        '«Send planen til godkjenning» i siste steg, og «Send annonsene til godkjenning» på kampanjesiden.',
+        'Bestilleren skriver navn og e-post. Mottakeren får en lenke.',
+        'Svaret vises på kampanjen. En ny versjon må godkjennes på nytt.'
+      ], ['ny', 'arbeid']],
+      ['Godkjenne', 'Som leder vil jeg godkjenne uten å logge inn, slik at jeg kan svare raskt, også på mobilen.', [
+        'Lenken viser planen, annonsene og prisen.',
+        'Lederen trykker «Godkjenn», eller «Be om endring» med en kommentar.',
+        'Dette krever ekte e-post og lagring på server. I prototypen virker det bare i samme nettleser.'
+      ], ['godkjenning']],
+      ['Følge med', 'Som kunde vil jeg få en bekreftelse og sporingskoden med en gang, slik at jeg kan legge koden inn på nettsiden vår.', [
+        'Rett etter bestillingen ser kunden «Hva skjer nå?» og en oppsummering.',
+        'Sporingskoden står i «Om kampanjen», med «Kopier».',
+        'Koden bruker ConnectID-en når kampanjen kom fra Connect.'
+      ], ['bestilt']],
+      ['Følge med', 'Som kunde vil jeg se hva Frantz trenger fra meg, slik at kampanjen ikke stopper opp.', [
+        '«Venter på deg» på Hjem viser annonser å godkjenne og kladder å fortsette, med én knapp hver.',
+        '«Kampanjene dine nå» viser kampanjene som er aktive, under arbeid eller bestilt.'
+      ], ['hjem', 'arbeid']],
+      ['Følge med', 'Som byrå vil jeg finne kampanjene mine raskt, slik at jeg kan svare kunden.', [
+        'Listen viser navn, status, periode og budsjett.',
+        'Søk på navn, sted, bestiller eller ID.',
+        '«Mine kampanjer» vises først. «Alle på firmaet» viser resten.',
+        'Kladder står også i listen.'
+      ], ['liste']],
+      ['Følge med', 'Som kunde vil jeg se hvordan kampanjen går, slik at jeg vet om den virker.', [
+        'Visninger, klikk og «Søk» står øverst, med tidspunktet tallene sist ble oppdatert.',
+        'Kunden ser annonsene og kan laste dem ned.',
+        'E-posttråden for kampanjen åpnes herfra.',
+        'De daglige tallene kundene har i dag, blir med.'
+      ], ['kampanje', 'epost']],
+      ['Følge med', 'Som kunde vil jeg få listen over interessenter, slik at jeg kan kontakte dem.', [
+        'Listen står på kampanjesiden, med navn og kontaktinformasjon.',
+        '«Send listen på e-post» sender den til lederen eller kunden.',
+        'Frantz må avgjøre hva vi beholder fra dagens løsning.'
+      ], ['kampanje']],
+      ['Styre firmaet', 'Som administrator i firmaet vil jeg styre brukere og fakturamottakere, slik at de riktige har tilgang og fakturaen går riktig.', [
+        'Firmainnstillinger: inviter og slå av brukere, og legg til fakturamottakere.',
+        'Min profil: endre kontaktinformasjon og passord.'
+      ], ['innstillinger', 'profil']],
+      ['Levere', 'Som rådgiver i Frantz vil jeg få nye bestillinger og meldinger på ett sted, slik at ingen blir glemt.', [
+        'Innboksen viser nye bestillinger, endringsønsker og svar fra godkjenning.',
+        '«Venter på meg» viser det rådgiveren må gjøre nå.',
+        'Hver sak lenker til kampanjen.',
+        'AI-svar i innboksen kan komme senere.'
+      ], ['innboks']],
+      ['Alle jobber', 'Som bruker vil jeg kunne bruke portalen på mobilen og med tastaturet, slik at jeg kommer i mål uansett.', [
+        'Alle sider virker fra 320 piksler brede skjermer.',
+        'Alt kan brukes med tastaturet, med synlig fokus.',
+        'Feilmeldinger sier hva som er feil, og hva kunden gjør nå.'
+      ], []]
+    ]],
+    ['Senere eller valgfritt', 'S', [
+      ['Komme i gang', 'Som ny kunde vil jeg få en kort omvisning og en forklaring, slik at jeg forstår ordene.', [
+        '«Vis meg rundt» på Hjem, og «Hva er en kampanje?».',
+        'En «Kom i gang»-liste med fire steg.'
+      ], ['tur', 'hjemNy']],
+      ['Bestille', 'Som byrå vil jeg lagre egne pakker, slik at jeg bestiller raskere neste gang.', [
+        'Brukeren lager, endrer og velger egne pakker.',
+        'Valget av pakke i Ny kampanje kan komme før siden for å lage dem.'
+      ], ['pakker', 'ny']],
+      ['Bestille', 'Som kunde vil jeg se hva budsjettet kan gi, slik at jeg velger riktig beløp.', [
+        '«Estimert resultat» i Ny kampanje, og tilbudskalkulatoren.',
+        'Krever ekte tall. I dag er tallene antakelser.'
+      ], ['ny', 'kalkulator']],
+      ['Bestille', 'Som kunde vil jeg lagre logo og farger én gang, slik at annonsene blir riktige hver gang.', [
+        'Merkevare under Firmainnstillinger.',
+        'Sjekk først hvor profilene finnes i dag.'
+      ], ['innstillinger']],
+      ['Godkjenne', 'Som kunde vil jeg se målgruppen før start og kommentere den, slik at Frantz treffer riktig.', [
+        '«Hva Frantz har gjort» viser målgruppen, med et felt for kommentar.'
+      ], ['arbeid']],
+      ['Følge med', 'Som kunde vil jeg se en samlet oversikt med tall på Hjem, slik at jeg ser alle kampanjene under ett.', [
+        'Tre tall øverst, og «Slik gikk kampanjene dine».',
+        'Tallene finnes også i hver kampanje.'
+      ], ['hjem']],
+      ['Følge med', 'Som kunde vil jeg se tallene dag for dag og per nettsted, slik at jeg forstår hvor annonsen virker.', [
+        'En linjegraf dag for dag, og en liste over nettsteder og aviser.',
+        'Tallene må komme fra annonseplattformene.'
+      ], ['kampanje']],
+      ['Følge med', 'Som kunde vil jeg sammenligne med det som er normalt, slik at jeg vet om resultatet er bra.', [
+        'Hvert tall viser hvor mye bedre eller dårligere det er enn normalt.',
+        'Krever ekte tall å sammenligne med.'
+      ], ['rapport']],
+      ['Følge med', 'Som kunde vil jeg dele rapporten, slik at lederen kan se resultatet.', [
+        '«Last ned rapport (PDF)» og «Kopier rapportlenke».'
+      ], ['kampanje']],
+      ['Følge med', 'Som byrå vil jeg filtrere kampanjelisten, slik at jeg finner en gruppe kampanjer.', [
+        'Filter med brikker, «Nullstill», og lukk med Esc.',
+        'Søket holder i starten.'
+      ], ['liste']],
+      ['Følge med', 'Som kunde vil jeg endre kampanjesiden selv, slik at jeg slipper å sende e-post.', [
+        'Egen side med forhåndsvisning, som sendes til godkjenning.'
+      ], ['landingsside']],
+      ['Følge med', 'Som bruker vil jeg velge hvilke varsler jeg får, slik at jeg ikke får for mange e-poster.', [
+        'Per interessent, daglig eller ingen, under Min profil.',
+        'Bjellen med varsler i toppfeltet.'
+      ], ['profil']],
+      ['Følge med', 'Som kunde vil jeg spørre Frantz i en chat, slik at jeg får svar raskt.', [
+        'Møtet 20. oktober satte chat til senere.'
+      ], ['assistent']],
+      ['Bestille', 'Som kunde vil jeg ha et nytt mediebibliotek, slik at jeg finner bildene mine raskt.', [
+        'Vi kan bruke det som finnes i dag.'
+      ], ['media']],
+      ['Styre firmaet', 'Som forhandler vil jeg ha egne priser og en egen innlogging for sluttkunder, slik at jeg kan selge Frantz videre.', [
+        'Frantz må bestemme først. Nye API-er hører også hit.'
+      ], []]
+    ]]
+  ];
+
+  document.getElementById('mvp').innerHTML = MVP.map(function (t) {
+    return '<section class="lo-mvp"><h3>' + t[0] + ' (' + t[2].length + ')</h3>' +
+      '<div class="card card--betjen" style="padding: 0;overflow-x:auto"><table class="table lo-tabell"><thead><tr><th>Nr.</th><th>Jobb</th><th>Brukerhistorie</th><th>Løsning</th><th>Se det</th></tr></thead><tbody>' +
+      t[2].map(function (r, i) {
+        var lenker = r[3].length ? '<span class="lo-lenker">' + r[3].map(function (k) { return '<a href="' + esc(SIDER[k][1]) + '">' + esc(SIDER[k][0]) + '</a>'; }).join('') + '</span>' : '<span class="table__meta">—</span>';
+        return '<tr><td data-label="Nr.">' + t[1] + (i + 1) + '</td><td data-label="Jobb" class="lo-side">' + esc(r[0]) + '</td>' +
+          '<td data-label="Brukerhistorie" class="lo-historie">' + esc(r[1]) + '</td>' +
+          '<td data-label="Løsning"><ul class="lo-losning">' + r[2].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></td>' +
+          '<td data-label="Se det">' + lenker + '</td></tr>';
       }).join('') + '</tbody></table></div></section>';
   }).join('');
 
