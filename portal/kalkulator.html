@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=202">
+<link rel="stylesheet" href="../frantz-ds.css?v=203">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -37,27 +37,27 @@
   .resultat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-24); margin-top: var(--space-24); }
   .res-kort { padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
   .res-overskrift { margin: 0; color: var(--text-muted); font: var(--type-label); }
-  .res-stort { margin: var(--space-4) 0 0; color: var(--text-heading); font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--font-weight-bold); line-height: var(--leading-display); }
-  .res-tekst { margin: var(--space-8) 0 0; color: var(--text-body); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .res-stort { margin: var(--space-4) 0 0; color: var(--text-heading); font: var(--type-stat); }
+  .res-tekst { margin: var(--space-8) 0 0; color: var(--text-body); font: var(--type-body); }
   .res-tekst b { color: var(--text-heading); }
 
   .dybde { margin-top: var(--space-24); }
-  .dybde__topp { display: flex; justify-content: space-between; gap: var(--space-12); color: var(--text-muted); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .dybde__topp { display: flex; justify-content: space-between; gap: var(--space-12); color: var(--text-muted); font: var(--type-support-strong); }
   .dybde__topp b { color: var(--text-heading); }
   .dybde__spor { position: relative; height: 14px; margin-top: var(--space-8); overflow: hidden; border-radius: var(--radius-full); background: var(--surface-section); }
   .dybde__fyll { height: 100%; border-radius: var(--radius-full); background: var(--color-navy); transition: width var(--duration-base) var(--ease-out); }
 
-  .tips { display: flex; gap: var(--space-12); margin-top: var(--space-24); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--bg-amber-soft); color: var(--text-body); font-size: var(--text-base); }
+  .tips { display: flex; gap: var(--space-12); margin-top: var(--space-24); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--bg-amber-soft); color: var(--text-body); font: var(--type-body); }
   .tips .icon-lucide { flex: none; margin-top: var(--space-4); color: var(--color-amber-ink); }
   .tips[hidden] { display: none; }
 
   .res-kort .results__steps { margin-top: var(--space-16); grid-template-columns: 1fr 1fr; }
   .res-kort .results__step:nth-child(3)::before { display: none; }
-  .res-kort .results__value { font-size: var(--text-xl); }
+  .res-kort .results__value { font: var(--type-section); }
 
   .kanaler { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
-  .kanal { display: inline-flex; align-items: center; gap: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
-  .kanal--av { background: none; border: 1px dashed var(--border-default); color: var(--text-faint); font-weight: var(--font-weight-medium); }
+  .kanal { display: inline-flex; align-items: center; gap: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: var(--type-support-strong); }
+  .kanal--av { background: none; border: 1px dashed var(--border-default); color: var(--text-faint); font-weight: var(--font-weight-normal); }
   .kanal--av .kanal-prikk { opacity: 0.35; }
 
   .kart-kort { display: flex; flex-direction: column; padding: 0; overflow: hidden; }

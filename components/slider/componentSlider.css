@@ -42,8 +42,7 @@
   top: 0;
   transform: translateX(-50%);
   color: var(--color-navy);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-bold);
+  font: var(--type-support-strong);
   white-space: nowrap;
 }
 
@@ -84,13 +83,12 @@
 
 .tick__txt {
   color: var(--text-muted);
-  font-size: var(--text-xs);
-  line-height: var(--leading-section);
+  font: var(--type-support);
 }
 
 .tick--naa .tick__txt {
   color: var(--text-heading);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Budget control: an amount you can type, and a slider that follows it.
@@ -112,9 +110,7 @@
   border: 0;
   background: none;
   color: var(--text-heading);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-support-strong);
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
@@ -132,8 +128,7 @@
   height: 48px;
   padding-block: 0;
   padding-left: var(--space-44);
-  font-size: var(--text-lg);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-section);
 }
 
 .budsjett-felt > span {
@@ -158,5 +153,5 @@
   justify-content: space-between;
   margin-top: var(--space-8);
   color: var(--text-faint);
-  font-size: var(--text-xs);
+  font: var(--type-support);
 }

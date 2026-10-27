@@ -10,7 +10,7 @@
 .del-panel__deler .form-check__label b { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
 .del-panel__deler .form-check__label small { color: var(--text-muted); font: var(--type-support); }
 .del-panel__to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-field-gap); }
-.del-panel__feil { margin: 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+.del-panel__feil { margin: 0; color: var(--text-danger-moderate); font: var(--type-support-strong); }
 .del-panel__lag { justify-self: start; }
 .del-panel__resultat { display: grid; gap: var(--space-8); }
 .del-panel__lenke { display: block; padding: var(--space-8) var(--space-12); border-radius: var(--radius-8); background: var(--surface-raised); color: var(--text-body); overflow-wrap: anywhere; font: var(--type-support); }

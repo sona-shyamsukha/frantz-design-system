@@ -43,8 +43,7 @@
 }
 
 .form-check__label {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  font: var(--type-body);
   /* Centres the first line on the 20px box; longer labels wrap below it */
   padding-top: calc((var(--space-20) - 1lh) / 2);
   color: var(--text-body);
@@ -92,4 +91,4 @@
 .kanal-piller .form-check:has(.form-check__input:checked) { border-color: var(--color-navy); background: var(--surface-selected); }
 .kanal-piller .form-check:has(.form-check__input:focus-visible) { box-shadow: var(--focus-ring); }
 .kanal-piller .form-check__label,
-.kanal-piller .flere__tekst { display: inline-flex; flex-direction: row; align-items: center; gap: var(--space-8); padding: 0; color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+.kanal-piller .flere__tekst { display: inline-flex; flex-direction: row; align-items: center; gap: var(--space-8); padding: 0; color: var(--text-heading); font: var(--type-support-strong); white-space: nowrap; }

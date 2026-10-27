@@ -70,6 +70,37 @@ for path in paths:
     for match in re.finditer(r'type="color"[^>]*\bvalue="([^"]+)"', source):
         failures.append(f'{path.relative_to(ROOT)}: colour-input default must reference data-color-token')
 
+# Portal text uses only the --type-* roles in tokens/base.css. A bare font-size, or a weight
+# other than normal/semibold emphasis, makes a new text style. Brand previews (ads, the
+# landing page, e-mails) copy other designs, so their files or lines say `type-exempt`.
+ROLE_SOURCES = sorted(set((ROOT / 'portal').glob('*.html')) | set((ROOT / 'components').rglob('*.css')) |
+                      {ROOT / 'styles/layout.css', ROOT / 'styles/portal-mobile.css', ROOT / 'styles/reset.css',
+                       ROOT / 'styles/portal-login.css'})
+EMPHASIS = {'var(--font-weight-normal)', 'var(--font-weight-semibold)', 'var(--font-weight-emphasis)', 'inherit', 'normal'}
+role_failures = []
+for path in ROLE_SOURCES:
+    raw = path.read_text()
+    if 'type-exempt: file' in raw:
+        continue
+    blocks = [(raw, 0)] if path.suffix == '.css' else [
+        (m[1], raw[:m.start(1)].count('\n')) for m in re.finditer(r'<style\b[^>]*>([\s\S]*?)</style>', raw)]
+    for source, offset in blocks:
+        lines = source.split('\n')
+        clean = re.sub(r'/\*[\s\S]*?\*/', lambda m: re.sub(r'[^\n]', ' ', m[0]), source)
+        for match in re.finditer(r'(?<![\w-])(font-size|font-weight|font)\s*:\s*([^;{}]+)', clean):
+            prop, value = match[1], match[2].strip()
+            row = clean[:match.start()].count('\n')
+            if 'type-exempt' in lines[row]:
+                continue
+            if prop == 'font' and (re.fullmatch(r'var\(--type-[\w-]+\)', value) or value == 'inherit'):
+                continue
+            if prop == 'font-size' and value == 'inherit':
+                continue
+            if prop == 'font-weight' and value in EMPHASIS:
+                continue
+            role_failures.append(f'{path.relative_to(ROOT)}:{offset + row + 1}: not a type role: {prop}: {value}')
+failures += role_failures
+
 # Catch broken references inside the central token graph as well.
 base = TOKENS.read_text()
 names = set(re.findall(r'(--[\w-]+)\s*:', base))

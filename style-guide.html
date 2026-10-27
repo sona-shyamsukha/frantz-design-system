@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Stilguide</title>
-<link rel="stylesheet" href="frantz-ds.css?v=202">
+<link rel="stylesheet" href="frantz-ds.css?v=203">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 </head>
 <body class="ds-docs">
@@ -361,13 +361,16 @@
   <div class="ds-title">Typeskala</div>
   <div class="ds-desc">Fonter, størrelser, vekter, linjeavstand, bokstavavstand og farger hentes fra variablene i tokens/base.css. Bruk typografirollene for tekst med samme formål. Egendefinerte kundefarger og opplastede skrifter brukes bare i forhåndsvisningen.</div>
   <div class="ds-desc">1rem er 16px. Brødtekst er 16px (--text-base). Sekundærtekst er 14px. 13px og 12px er for kompakte statusmerker og tellere.</div>
-  <div class="ds-desc">Portalhierarki: sidetittel 26px / 700; kort- og seksjonstittel 20px / 600; brødtekst og beskrivelser 16px / 400; feltetiketter 16px / 600; datoer, referanser og korte hjelpetekster 14px / 400. Bruk samme rolle på alle sider, også på mobil. Pris og nøkkeltall kan være større.</div>
+  <div class="ds-desc">Portalhierarki: sidetittel 26px / 700; kort- og seksjonstittel 20px / 600; brødtekst og beskrivelser 16px / 400; feltetiketter 16px / 600; datoer, referanser og korte hjelpetekster 14px / 400; faner, chips, tabelloverskrifter og tekstlenker 14px / 600. Store nøkkeltall og priser 32px / 700. Merker, tellere og avatarer 13px / 600. Bruk bare disse rollene, på alle sider og på mobil. Sett aldri font-size alene; scripts/check-design-tokens.py stopper det.</div>
   <div class="token-list">
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-page</span><span style="font:var(--type-page)">Sidetittel</span></div>
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-section</span><span style="font:var(--type-section)">Kort- og seksjonstittel</span></div>
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-body</span><span style="font:var(--type-body)">Brødtekst, ingress og beskrivelser</span></div>
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-label</span><span style="font:var(--type-label)">Feltetiketter og valg</span></div>
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-support</span><span style="font:var(--type-support)">Datoer, referanser og korte hjelpetekster</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-support-strong</span><span style="font:var(--type-support-strong)">Faner, chips, tabelloverskrifter og tekstlenker</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-stat</span><span style="font:var(--type-stat)">27 041</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-badge</span><span style="font:var(--type-badge)">Merker, tellere og avatarer</span></div>
   </div>
   <div class="col-head col-head--type"><span>Token</span><span>rem</span><span>px</span></div>
   <div class="type-row"><span class="type-row__token">--text-4xl</span><span class="type-row__rem">3.5rem</span><span class="type-row__px">56</span><span style="font-family: var(--font-heading);font-size: var(--text-4xl);font-weight: var(--font-weight-bold);letter-spacing: var(--tracking-display);color: var(--text-heading);line-height: var(--leading-none)">Kampanje</span></div>
