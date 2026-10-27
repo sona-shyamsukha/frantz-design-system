@@ -244,6 +244,13 @@
         'Kunden ser det som er lest ut, og retter det.',
         'Hvis lesingen feiler, fyller kunden ut feltene selv.'
       ], ['ny', 'stillinger'], 'start'],
+      ['Ny kampanje|Steg 1: Stillingen', 'Som kunde med Connect vil jeg se stillingene fra vårt eget system og lage en kampanje fra dem, slik at jeg slipper å skrive dem inn på nytt.', [
+        '«Stillinger» i menyen viser stillingene som Connect henter.',
+        '«Opprett kampanje» på en stilling fyller ut Ny kampanje.',
+        'Hver stilling har en ConnectID med sporingskode, annonselenker og interessenter.',
+        'Kunder uten Connect ser ikke «Stillinger». Frantz lager ConnectID-en når kampanjen er bestilt.',
+        'Kenneth må si hva vi kan gjenbruke fra dagens Connect.'
+      ], ['stillinger', 'connectId'], 'connect'],
       ['Ny kampanje|Steg 2: Kampanjen', 'Som kunde vil jeg velge budsjett, kanaler og periode og se totalprisen, slik at jeg holder meg innenfor rammen.', [
         'Kunden velger startdato. «Tidligst ute» viser første dag kampanjen kan starte. Frantz må bekrefte hvor raskt det går.',
         'Et budsjett under minstebeløpet gir en advarsel, men stopper ikke kunden.',
@@ -316,32 +323,6 @@
         'Kampanjer fra dagens portal er med.'
       ], ['liste'], 'finn']
     ]],
-    ['Må avklares', 'A', [
-      ['Ny kampanje|Steg 1: Stillingen', 'Som kunde med Connect vil jeg se stillingene fra vårt eget system og lage en kampanje fra dem, slik at jeg slipper å skrive dem inn på nytt.', [
-        '«Stillinger» i menyen viser stillingene som Connect henter.',
-        '«Opprett kampanje» på en stilling fyller ut Ny kampanje.',
-        'Hver stilling har en ConnectID med sporingskode, annonselenker og interessenter.',
-        'Kunder uten Connect ser ikke «Stillinger». Frantz lager ConnectID-en når kampanjen er bestilt.',
-        'Kenneth må si hva vi kan gjenbruke fra dagens Connect.'
-      ], ['stillinger', 'connectId'], 'connect'],
-      ['Ny kampanje|Steg 4: Se over og bestill', 'Som bestiller vil jeg sende planen og annonsene til lederen eller kunden, slik at jeg får et ja før jeg bestiller.', [
-        '«Send planen til godkjenning» i siste steg, og «Send annonsene til godkjenning» på kampanjesiden.',
-        'Bestilleren skriver navn og e-post. Mottakeren får en lenke.',
-        'Svaret vises på kampanjen. En ny versjon må godkjennes på nytt.'
-      ], ['ny', 'arbeid'], 'send-godkjenning'],
-      ['Godkjenning|Siden lederen får', 'Som leder vil jeg godkjenne uten å logge inn, slik at jeg kan svare raskt, også på mobilen.', [
-        'Lenken viser planen, annonsene og prisen.',
-        'Lederen trykker «Godkjenn», eller «Be om endring» med en kommentar.',
-        'Bestilleren får en e-post når lederen har svart.',
-        'Dette krever ekte e-post og lagring på server. I prototypen virker det bare i samme nettleser.'
-      ], ['godkjenning'], 'leder'],
-      ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se og godkjenne annonsene Frantz har laget, slik at ingenting publiseres uten mitt ja.', [
-        '«Annonsene er klare for deg» på kampanjen, med «Godkjenn» eller «Be om endring».',
-        'Kunden kan si hvilken annonse som må endres.',
-        'Den nye versjonen kommer tilbake til godkjenning.',
-        'Oppgaven står også under «Venter på deg» på Hjem.'
-      ], ['arbeid', 'hjem'], 'godkjenn-design']
-    ]],
     ['Senere eller valgfritt', 'S', [
       ['Ny kampanje|Steg 1: Stillingen', 'Som byrå vil jeg kopiere en tidligere kampanje, slik at jeg slipper å fylle ut alt på nytt.', [
         '«Bestill på nytt» på en kampanje som er ferdig.',
@@ -360,9 +341,26 @@
       ['Ny kampanje|Steg 3: Annonsen', 'Som kunde vil jeg ha et nytt mediebibliotek, slik at jeg finner bildene mine raskt.', [
         'Vi kan bruke det som finnes i dag.'
       ], ['media'], 'media'],
+      ['Ny kampanje|Steg 4: Se over og bestill', 'Som bestiller vil jeg sende planen og annonsene til lederen eller kunden, slik at jeg får et ja før jeg bestiller.', [
+        '«Send planen til godkjenning» i siste steg, og «Send annonsene til godkjenning» på kampanjesiden.',
+        'Bestilleren skriver navn og e-post. Mottakeren får en lenke.',
+        'Svaret vises på kampanjen. En ny versjon må godkjennes på nytt.'
+      ], ['ny', 'arbeid'], 'send-godkjenning'],
+      ['Godkjenning|Siden lederen får', 'Som leder vil jeg godkjenne uten å logge inn, slik at jeg kan svare raskt, også på mobilen.', [
+        'Lenken viser planen, annonsene og prisen.',
+        'Lederen trykker «Godkjenn», eller «Be om endring» med en kommentar.',
+        'Bestilleren får en e-post når lederen har svart.',
+        'Dette krever ekte e-post og lagring på server. I prototypen virker det bare i samme nettleser.'
+      ], ['godkjenning'], 'leder'],
       ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se målgruppen før start og kommentere den, slik at Frantz treffer riktig.', [
         '«Hva Frantz har gjort» viser målgruppen, med et felt for kommentar.'
       ], ['arbeid'], 'malgruppe'],
+      ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se og godkjenne annonsene Frantz har laget, slik at ingenting publiseres uten mitt ja.', [
+        '«Annonsene er klare for deg» på kampanjen, med «Godkjenn» eller «Be om endring».',
+        'Kunden kan si hvilken annonse som må endres.',
+        'Den nye versjonen kommer tilbake til godkjenning.',
+        'Oppgaven står også under «Venter på deg» på Hjem.'
+      ], ['arbeid', 'hjem'], 'godkjenn-design'],
       ['Etter kampanjelansering|Hjem', 'Som kunde vil jeg se en samlet oversikt med tall på Hjem, slik at jeg ser alle kampanjene under ett.', [
         'Tre tall øverst, og «Slik gikk kampanjene dine».',
         'Tallene finnes også i hver kampanje.'
