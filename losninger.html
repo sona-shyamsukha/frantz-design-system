@@ -28,6 +28,7 @@
   .lo-mvp tr { scroll-margin-top: calc(var(--docs-topbar-height) + var(--space-16)); }
   .lo-mvp tr:target td { background: var(--surface-selected); }
   .lo-side { color: var(--text-heading); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .lo-steg { display: block; color: var(--text-muted); font-weight: var(--font-weight-normal); }
   .lo-mvp .lo-tabell a { color: var(--text-heading); font-weight: var(--font-weight-semibold); font-size: var(--text-sm); }
   .lo-tabell { width: 100%; max-width: 1100px; }
   .lo-tabell td:first-child { width: 48px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
@@ -223,32 +224,27 @@
   // Radene følger reisen: komme i gang, bestille, godkjenne, sende bestillingen, etter bestillingen, følge med, endre, styre firmaet, levere.
   var MVP = [
     ['Må med', 'M', [
-      ['Komme i gang', 'Som ny kunde vil jeg se hva jeg skal gjøre først, slik at jeg kommer raskt i gang.', [
+      ['Komme i gang|Hjem', 'Som ny kunde vil jeg se hva jeg skal gjøre først, slik at jeg kommer raskt i gang.', [
         'Hjem viser ett banner med «Lag første kampanje». Ingen tomme tabeller eller tall.',
         '«Ny kampanje» står øverst til høyre på alle sider.',
         '«Kom i gang»-liste med fire steg, fra konto til søkere.',
         '«Hva er en kampanje?» forklarer ordet med én setning.',
         '«Vis meg rundt» viser menyen, varsler og «Ny kampanje». Omvisningen starter av seg selv første gang.'
       ], ['login', 'hjemNy', 'tur'], 'hjem-ny'],
-      ['Komme i gang', 'Som ny bruker vil jeg komme inn i portalen på en enkel måte, slik at jeg kan bestille uten å ringe Frantz.', [
+      ['Komme i gang|Logg inn', 'Som ny bruker vil jeg komme inn i portalen på en enkel måte, slik at jeg kan bestille uten å ringe Frantz.', [
         '«Glemt passord?» på innloggingen: brukeren skriver e-posten sin og får en lenke.',
         'Lenken åpner en side der brukeren lager et nytt passord. Er lenken brukt eller for gammel, ber siden om en ny.',
         'Invitasjonen fra Firmainnstillinger sender en e-post. Lenken åpner den samme siden, der brukeren lager sitt første passord.',
         'Frantz må avgjøre om nye kunder kan lage en konto selv.'
       ], ['login', 'glemtPassord', 'nyttPassord', 'invitasjon'], 'tilgang'],
-      ['Bestille', 'Som kunde vil jeg starte kampanjen med det jeg har, slik at jeg slipper å skrive alt på nytt.', [
+      ['Ny kampanje|Steg 1: Stillingen', 'Som kunde vil jeg starte kampanjen med det jeg har, slik at jeg slipper å skrive alt på nytt.', [
         'Lim inn en lenke, skriv tekst, last opp en PDF, eller velg en stilling fra Connect.',
         'Frantz leser ut tittel, sted, arbeidsgiver og søknadsfrist.',
         'Flere arbeidssteder, «Hele Norge» eller «Hjemmekontor».',
         'Kunden ser det som er lest ut, og retter det.',
         'Hvis lesingen feiler, fyller kunden ut feltene selv.'
       ], ['ny', 'stillinger'], 'start'],
-      ['Bestille', 'Som kunde vil jeg ta en pause og fortsette senere, slik at jeg ikke mister arbeidet.', [
-        'Alt lagres av seg selv, og siden viser «Lagret kl. 14.02».',
-        'Kladden står i kampanjelisten og under «Venter på deg» på Hjem.',
-        'Filer blir med, også når kunden fortsetter på en annen enhet.'
-      ], ['ny', 'liste', 'hjem'], 'kladd'],
-      ['Bestille', 'Som kunde vil jeg velge budsjett, kanaler og periode og se totalprisen, slik at jeg holder meg innenfor rammen.', [
+      ['Ny kampanje|Steg 2: Kampanjen', 'Som kunde vil jeg velge budsjett, kanaler og periode og se totalprisen, slik at jeg holder meg innenfor rammen.', [
         'Kunden velger startdato. «Tidligst ute» viser første dag kampanjen kan starte. Frantz må bekrefte hvor raskt det går.',
         'Et budsjett under minstebeløpet gir en advarsel, men stopper ikke kunden.',
         'Frantz foreslår kanaler ut fra stillingen. Kunden slår dem av og på.',
@@ -256,58 +252,63 @@
         'Betalte tillegg velges aktivt, aldri automatisk.',
         'Frantz må bekrefte minstebudsjett og priser.'
       ], ['ny'], 'budsjett'],
-      ['Bestille', 'Som byrå vil jeg laste opp ferdige annonser, slik at kunden får akkurat det som er godkjent.', [
+      ['Ny kampanje|Steg 3: Annonsen', 'Som byrå vil jeg laste opp ferdige annonser, slik at kunden får akkurat det som er godkjent.', [
         'Last opp én eller flere filer, og koble hver fil til kanal og format.',
         'Annonsen vises uten ekstra tekst eller logo oppå.',
         'Frantz må avgjøre om ferdig video skal med i første versjon.'
       ], ['ny'], 'ferdige'],
-      ['Bestille', 'Som direktekunde vil jeg lage en enkel annonse selv, slik at jeg kan starte uten en designer.', [
+      ['Ny kampanje|Steg 3: Annonsen', 'Som direktekunde vil jeg lage en enkel annonse selv, slik at jeg kan starte uten en designer.', [
         'Frantz foreslår annonsetekst fra stillingsannonsen.',
         'Kunden velger bilde, logo og farger, og justerer utsnittet.',
         'Kunden ser annonsen slik den blir i Facebook, Instagram og på nettsteder.',
         'Få, gode maler. Ingen fri layout.'
       ], ['ny'], 'lag-selv'],
-      ['Bestille', 'Som kunde uten materiell vil jeg bestille design fra Frantz, slik at noen andre lager annonsen.', [
+      ['Ny kampanje|Steg 3: Annonsen', 'Som kunde uten materiell vil jeg bestille design fra Frantz, slik at noen andre lager annonsen.', [
         'Kunden skriver en kort brief og legger ved filer hvis hen har dem.',
         'Prisen for design vises før kunden bestiller.',
         'Kunden ser når Frantz sender det første utkastet.'
       ], ['ny'], 'design'],
-      ['Bestille', 'Som byrå vil jeg velge riktig avsender og fakturamottaker, slik at riktig firma vises og får regningen.', [
+      ['Ny kampanje|Steg 4: Se over og bestill', 'Som byrå vil jeg velge riktig avsender og fakturamottaker, slik at riktig firma vises og får regningen.', [
         'Siste steg viser hvem kampanjen gjelder, hvem som er avsender, og hvem som betaler.',
         'Fakturamottakeren velges fra en liste som kommer fra Firmainnstillinger.',
         '«Kampanjenavn (valgfritt)» kan være kundens egen referanse eller oppdragsnummer.'
       ], ['ny', 'innstillinger'], 'faktura'],
-      ['Bestille', 'Som kunde vil jeg vite hva «Bestill kampanjen» forplikter meg til, slik at jeg ikke kjøper noe ved en feil.', [
+      ['Ny kampanje|Steg 4: Se over og bestill', 'Som kunde vil jeg vite hva «Bestill kampanjen» forplikter meg til, slik at jeg ikke kjøper noe ved en feil.', [
         'En kort tekst ved knappen sier hva som skjer: Frantz starter arbeidet, og rådgiveren tar kontakt.',
         'Teksten sier også hva kunden betaler, og når.',
         'Frantz må bekrefte om bestillingen er bindende, og om kunden kan avbestille før start.'
       ], ['ny', 'bestilt'], 'bestill'],
-      ['Etter bestillingen', 'Som kunde vil jeg få en bekreftelse og sporingskoden med en gang, slik at jeg kan legge koden inn på nettsiden vår.', [
+      ['Ny kampanje|Alle steg', 'Som kunde vil jeg ta en pause og fortsette senere, slik at jeg ikke mister arbeidet.', [
+        'Alt lagres av seg selv, og siden viser «Lagret kl. 14.02».',
+        'Kladden står i kampanjelisten og under «Venter på deg» på Hjem.',
+        'Filer blir med, også når kunden fortsetter på en annen enhet.'
+      ], ['ny', 'liste', 'hjem'], 'kladd'],
+      ['Etter bestillingen|Kampanjen er bestilt', 'Som kunde vil jeg få en bekreftelse og sporingskoden med en gang, slik at jeg kan legge koden inn på nettsiden vår.', [
         'Rett etter bestillingen ser kunden «Hva skjer nå?» og en oppsummering.',
         'Sporingskoden står i «Om kampanjen», med «Kopier».',
         'Koden bruker ConnectID-en når kampanjen kom fra Connect.'
       ], ['bestilt'], 'bekreftelse'],
-      ['Etter bestillingen', 'Som kunde vil jeg se hva Frantz trenger fra meg, slik at kampanjen ikke stopper opp.', [
+      ['Etter bestillingen|Hjem', 'Som kunde vil jeg se hva Frantz trenger fra meg, slik at kampanjen ikke stopper opp.', [
         '«Venter på deg» på Hjem viser det Frantz trenger fra kunden, og kladder å fortsette, med én knapp hver.',
         '«Kampanjene dine nå» viser kampanjene som er aktive, under arbeid eller bestilt.'
       ], ['hjem', 'arbeid'], 'venter'],
-      ['Etter kampanjelansering', 'Som kunde vil jeg se hvordan kampanjen går, slik at jeg vet om den virker.', [
+      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg se hvordan kampanjen går, slik at jeg vet om den virker.', [
         'Visninger, klikk og «Søk» står øverst, med tidspunktet tallene sist ble oppdatert.',
         'De daglige tallene kundene har i dag, blir med.',
         'Kunden ser annonsene og kan laste dem ned. «Se annonsen» viser annonsen slik andre ser den.',
         '«Kontakt» viser navnet og telefonnummeret til rådgiveren.',
         'Når kampanjen er ferdig, får den status «Avsluttet» av seg selv. Tallene blir stående.'
       ], ['kampanje', 'annonse'], 'resultat'],
-      ['Etter kampanjelansering', 'Som kunde vil jeg få listen over interessenter, slik at jeg kan kontakte dem.', [
+      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg få listen over interessenter, slik at jeg kan kontakte dem.', [
         'Listen står på kampanjesiden, med navn og kontaktinformasjon.',
         '«Send listen på e-post» sender den til lederen eller kunden.',
         'Frantz må avgjøre hva vi beholder fra dagens løsning.'
       ], ['kampanje'], 'interessenter'],
-      ['Styre firmaet', 'Som administrator i firmaet vil jeg styre brukere og fakturamottakere, slik at de riktige har tilgang og fakturaen går riktig.', [
+      ['Styre firmaet|Firmainnstillinger', 'Som administrator i firmaet vil jeg styre brukere og fakturamottakere, slik at de riktige har tilgang og fakturaen går riktig.', [
         'Firmainnstillinger: inviter og slå av brukere, og legg til fakturamottakere.',
         'Min profil: endre kontaktinformasjon og passord.'
       ], ['innstillinger', 'profil'], 'admin'],
-      ['Hele reisen', 'Som byrå vil jeg finne kampanjene mine raskt, slik at jeg kan svare kunden.', [
+      ['Hele reisen|Kampanjelisten', 'Som byrå vil jeg finne kampanjene mine raskt, slik at jeg kan svare kunden.', [
         'Listen viser navn, status, periode og budsjett.',
         'Søk på navn, sted, bestiller eller ID.',
         '«Mine kampanjer» vises først. «Alle på firmaet» viser resten.',
@@ -316,25 +317,25 @@
       ], ['liste'], 'finn']
     ]],
     ['Må avklares', 'A', [
-      ['Bestille', 'Som kunde med Connect vil jeg se stillingene fra vårt eget system og lage en kampanje fra dem, slik at jeg slipper å skrive dem inn på nytt.', [
+      ['Ny kampanje|Steg 1: Stillingen', 'Som kunde med Connect vil jeg se stillingene fra vårt eget system og lage en kampanje fra dem, slik at jeg slipper å skrive dem inn på nytt.', [
         '«Stillinger» i menyen viser stillingene som Connect henter.',
         '«Opprett kampanje» på en stilling fyller ut Ny kampanje.',
         'Hver stilling har en ConnectID med sporingskode, annonselenker og interessenter.',
         'Kunder uten Connect ser ikke «Stillinger». Frantz lager ConnectID-en når kampanjen er bestilt.',
         'Kenneth må si hva vi kan gjenbruke fra dagens Connect.'
       ], ['stillinger', 'connectId'], 'connect'],
-      ['Godkjenne', 'Som bestiller vil jeg sende planen og annonsene til lederen eller kunden, slik at jeg får et ja før jeg bestiller.', [
+      ['Ny kampanje|Steg 4: Se over og bestill', 'Som bestiller vil jeg sende planen og annonsene til lederen eller kunden, slik at jeg får et ja før jeg bestiller.', [
         '«Send planen til godkjenning» i siste steg, og «Send annonsene til godkjenning» på kampanjesiden.',
         'Bestilleren skriver navn og e-post. Mottakeren får en lenke.',
         'Svaret vises på kampanjen. En ny versjon må godkjennes på nytt.'
       ], ['ny', 'arbeid'], 'send-godkjenning'],
-      ['Godkjenne', 'Som leder vil jeg godkjenne uten å logge inn, slik at jeg kan svare raskt, også på mobilen.', [
+      ['Godkjenning|Siden lederen får', 'Som leder vil jeg godkjenne uten å logge inn, slik at jeg kan svare raskt, også på mobilen.', [
         'Lenken viser planen, annonsene og prisen.',
         'Lederen trykker «Godkjenn», eller «Be om endring» med en kommentar.',
         'Bestilleren får en e-post når lederen har svart.',
         'Dette krever ekte e-post og lagring på server. I prototypen virker det bare i samme nettleser.'
       ], ['godkjenning'], 'leder'],
-      ['Godkjenne', 'Som kunde vil jeg se og godkjenne annonsene Frantz har laget, slik at ingenting publiseres uten mitt ja.', [
+      ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se og godkjenne annonsene Frantz har laget, slik at ingenting publiseres uten mitt ja.', [
         '«Annonsene er klare for deg» på kampanjen, med «Godkjenn» eller «Be om endring».',
         'Kunden kan si hvilken annonse som må endres.',
         'Den nye versjonen kommer tilbake til godkjenning.',
@@ -342,59 +343,59 @@
       ], ['arbeid', 'hjem'], 'godkjenn-design']
     ]],
     ['Senere eller valgfritt', 'S', [
-      ['Bestille', 'Som byrå vil jeg lagre egne pakker, slik at jeg bestiller raskere neste gang.', [
-        'Brukeren lager, endrer og velger egne pakker.',
-        'Valget av pakke i Ny kampanje kan komme før siden for å lage dem.'
-      ], ['pakker', 'ny'], 'pakker'],
-      ['Bestille', 'Som byrå vil jeg kopiere en tidligere kampanje, slik at jeg slipper å fylle ut alt på nytt.', [
+      ['Ny kampanje|Steg 1: Stillingen', 'Som byrå vil jeg kopiere en tidligere kampanje, slik at jeg slipper å fylle ut alt på nytt.', [
         '«Bestill på nytt» på en kampanje som er ferdig.',
         'Kanaler, budsjett og annonser fylles ut. Kunden bytter stillingen.',
         'Ikke laget i prototypen.'
       ], [], 'kopier'],
-      ['Bestille', 'Som kunde vil jeg lagre logo og farger én gang, slik at annonsene blir riktige hver gang.', [
-        'Merkevare under Firmainnstillinger.',
-        'Sjekk først hvor profilene finnes i dag.'
-      ], ['innstillinger'], 'merkevare'],
-      ['Bestille', 'Som kunde vil jeg ha et nytt mediebibliotek, slik at jeg finner bildene mine raskt.', [
-        'Vi kan bruke det som finnes i dag.'
-      ], ['media'], 'media'],
-      ['Bestille', 'Som kunde vil jeg se hva budsjettet kan gi i tilbudskalkulatoren, slik at jeg velger riktig beløp.', [
+      ['Ny kampanje|Steg 2: Kampanjen', 'Som byrå vil jeg lagre egne pakker, slik at jeg bestiller raskere neste gang.', [
+        'Brukeren lager, endrer og velger egne pakker.',
+        'Valget av pakke i Ny kampanje kan komme før siden for å lage dem.'
+      ], ['pakker', 'ny'], 'pakker'],
+      ['Ny kampanje|Steg 2: Kampanjen', 'Som kunde vil jeg se hva budsjettet kan gi i tilbudskalkulatoren, slik at jeg velger riktig beløp.', [
         'Tilbudskalkulatoren, og «Estimert resultat» i Ny kampanje.',
         '«Hva når dere for budsjettet?» på Hjem for en ny kunde.',
         'Krever ekte tall. I dag er tallene antakelser.'
       ], ['kalkulator', 'ny', 'hjemNy'], 'kalkulator'],
-      ['Etter bestillingen', 'Som kunde vil jeg se målgruppen før start og kommentere den, slik at Frantz treffer riktig.', [
+      ['Ny kampanje|Steg 3: Annonsen', 'Som kunde vil jeg ha et nytt mediebibliotek, slik at jeg finner bildene mine raskt.', [
+        'Vi kan bruke det som finnes i dag.'
+      ], ['media'], 'media'],
+      ['Etter bestillingen|Kampanje under arbeid', 'Som kunde vil jeg se målgruppen før start og kommentere den, slik at Frantz treffer riktig.', [
         '«Hva Frantz har gjort» viser målgruppen, med et felt for kommentar.'
       ], ['arbeid'], 'malgruppe'],
-      ['Etter kampanjelansering', 'Som kunde vil jeg se en samlet oversikt med tall på Hjem, slik at jeg ser alle kampanjene under ett.', [
+      ['Etter kampanjelansering|Hjem', 'Som kunde vil jeg se en samlet oversikt med tall på Hjem, slik at jeg ser alle kampanjene under ett.', [
         'Tre tall øverst, og «Slik gikk kampanjene dine».',
         'Tallene finnes også i hver kampanje.'
       ], ['hjem'], 'hjem-tall'],
-      ['Etter kampanjelansering', 'Som kunde vil jeg se tallene dag for dag og per nettsted, slik at jeg forstår hvor annonsen virker.', [
+      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg se tallene dag for dag og per nettsted, slik at jeg forstår hvor annonsen virker.', [
         'En linjegraf dag for dag, og en liste over nettsteder og aviser.',
         'Tallene må komme fra annonseplattformene.'
       ], ['kampanje'], 'dag-for-dag'],
-      ['Etter kampanjelansering', 'Som kunde vil jeg sammenligne med det som er normalt, slik at jeg vet om resultatet er bra.', [
+      ['Etter kampanjelansering|Rapport', 'Som kunde vil jeg sammenligne med det som er normalt, slik at jeg vet om resultatet er bra.', [
         'Hvert tall viser hvor mye bedre eller dårligere det er enn normalt.',
         'Krever ekte tall å sammenligne med.'
       ], ['rapport'], 'normalt'],
-      ['Etter kampanjelansering', 'Som kunde vil jeg dele rapporten, slik at lederen kan se resultatet.', [
+      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg dele rapporten, slik at lederen kan se resultatet.', [
         '«Last ned rapport (PDF)» og «Kopier rapportlenke».'
       ], ['kampanje'], 'del-rapport'],
-      ['Endre', 'Som kunde vil jeg be om en endring på en kampanje som er bestilt eller i gang, slik at jeg kan bytte bilde, budsjett eller sluttdato.', [
+      ['Etter kampanjelansering|Kampanjesiden', 'Som kunde vil jeg be om en endring på en kampanje som er bestilt eller i gang, slik at jeg kan bytte bilde, budsjett eller sluttdato.', [
         'I dag sender kunden en e-post eller ringer rådgiveren. Det holder i første versjon.',
         '«Be om endring» på kampanjesiden, med tekst og vedlegg.',
         'Kunden kan også svare på e-posten for kampanjen.',
         'Endringen havner i innboksen til rådgiveren.',
         'Kampanjesiden viser at endringen er sendt, og når den er gjort.'
       ], ['kampanje', 'epost'], 'endre'],
-      ['Endre', 'Som kunde vil jeg endre kampanjesiden selv, slik at jeg slipper å sende e-post.', [
+      ['Etter kampanjelansering|Rediger kampanjesiden', 'Som kunde vil jeg endre kampanjesiden selv, slik at jeg slipper å sende e-post.', [
         'Egen side med forhåndsvisning.'
       ], ['landingsside'], 'landingsside'],
-      ['Styre firmaet', 'Som forhandler vil jeg ha egne priser og en egen innlogging for sluttkunder, slik at jeg kan selge Frantz videre.', [
+      ['Styre firmaet|Firmainnstillinger', 'Som kunde vil jeg lagre logo og farger én gang, slik at annonsene blir riktige hver gang.', [
+        'Merkevare under Firmainnstillinger.',
+        'Sjekk først hvor profilene finnes i dag.'
+      ], ['innstillinger'], 'merkevare'],
+      ['Styre firmaet|Forhandlere', 'Som forhandler vil jeg ha egne priser og en egen innlogging for sluttkunder, slik at jeg kan selge Frantz videre.', [
         'Frantz må bestemme først. Nye API-er hører også hit.'
       ], [], 'forhandler'],
-      ['Levere', 'Som rådgiver i Frantz vil jeg få alt kundene sender, på ett sted, slik at ingen bestilling eller endring blir glemt.', [
+      ['Frantz leverer|Innboks for rådgivere', 'Som rådgiver i Frantz vil jeg få alt kundene sender, på ett sted, slik at ingen bestilling eller endring blir glemt.', [
         'Innboksen viser nye bestillinger og endringsønsker.',
         '«Venter på meg» viser det rådgiveren må gjøre nå.',
         'Hver sak lenker til kampanjen.',
@@ -402,23 +403,23 @@
         'Rådgiveren endrer status fra «Bestilt» til «Under arbeid» og «Aktiv».',
         'Frantz må avgjøre hva rådgiveren gjør i dagens verktøy. AI-svar i innboksen kan komme senere.'
       ], ['innboks'], 'radgiver'],
-      ['Hele reisen', 'Som byrå vil jeg filtrere kampanjelisten, slik at jeg finner en gruppe kampanjer.', [
+      ['Hele reisen|Kampanjelisten', 'Som byrå vil jeg filtrere kampanjelisten, slik at jeg finner en gruppe kampanjer.', [
         'Filter med brikker, «Nullstill», og lukk med Esc.',
         'Søket holder i starten.'
       ], ['liste'], 'filter'],
-      ['Hele reisen', 'Som bruker vil jeg velge hvilke varsler jeg får, slik at jeg ikke får for mange e-poster.', [
+      ['Hele reisen|Min profil', 'Som bruker vil jeg velge hvilke varsler jeg får, slik at jeg ikke får for mange e-poster.', [
         'Per interessent, daglig eller ingen, under Min profil.',
         'Bjellen med varsler i toppfeltet.'
       ], ['profil'], 'varsler'],
-      ['Hele reisen', 'Som kunde vil jeg spørre Frantz i en chat, slik at jeg får svar raskt.', [
+      ['Hele reisen|Spør Frantz', 'Som kunde vil jeg spørre Frantz i en chat, slik at jeg får svar raskt.', [
         'Møtet 20. oktober satte chat til senere.'
       ], ['assistent'], 'chat'],
-      ['Hele reisen', 'Som bruker vil jeg kunne bruke portalen på mobilen og med tastaturet, slik at jeg kommer i mål uansett.', [
+      ['Hele reisen|Alle sider', 'Som bruker vil jeg kunne bruke portalen på mobilen og med tastaturet, slik at jeg kommer i mål uansett.', [
         'Alle sider virker fra 320 piksler brede skjermer.',
         'Alt kan brukes med tastaturet, med synlig fokus.',
         'Feilmeldinger sier hva som er feil, og hva kunden gjør nå.'
       ], [], 'mobil'],
-      ['Hele reisen', 'Som kunde vil jeg få en e-post når noe skjer, slik at jeg slipper å sjekke portalen.', [
+      ['Hele reisen|E-post', 'Som kunde vil jeg få en e-post når noe skjer, slik at jeg slipper å sjekke portalen.', [
         'Ligger utenfor designet av portalen. E-postene må lages for seg.',
         'E-post når kampanjen er bestilt, når annonsene er klare, når den er i gang, og når den er ferdig.',
         'Én e-posttråd per kampanje, med oppdragsnummeret i emnet.',
@@ -432,7 +433,7 @@
       '<div class="card card--betjen" style="padding: 0;overflow-x:auto"><table class="table lo-tabell"><thead><tr><th>Nr.</th><th>Fase</th><th>Brukerhistorie</th><th>Løsning</th><th>Se det</th></tr></thead><tbody>' +
       t[2].map(function (r, i) {
         var lenker = r[3].length ? '<span class="lo-lenker">' + r[3].map(function (k) { return '<a href="' + esc(SIDER[k][1]) + '">' + esc(SIDER[k][0]) + '</a>'; }).join('') + '</span>' : '<span class="table__meta">—</span>';
-        return '<tr id="mvp-' + r[4] + '"><td data-label="Nr.">' + t[1] + (i + 1) + '</td><td data-label="Fase" class="lo-side">' + esc(r[0]) + '</td>' +
+        return '<tr id="mvp-' + r[4] + '"><td data-label="Nr.">' + t[1] + (i + 1) + '</td><td data-label="Fase" class="lo-side">' + esc(r[0].split('|')[0]) + '<span class="lo-steg">' + esc(r[0].split('|')[1]) + '</span></td>' +
           '<td data-label="Brukerhistorie" class="lo-historie">' + esc(r[1]) + '</td>' +
           '<td data-label="Løsning"><ul class="lo-losning">' + r[2].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></td>' +
           '<td data-label="Se det">' + lenker + '</td></tr>';
