@@ -11,6 +11,8 @@
 .campaign-meta > span { margin-inline: var(--space-6); }
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
+/* Campaign information stays in the page flow as its sections grow. */
+.campaign-rail .summary-panel { position: static; top: auto; }
 .campaign-rail > .btn { justify-self: start; }
 .campaign-disclosure .piksel { padding: 0; }
 .campaign-private .icon-lucide { flex: none; }

@@ -6,6 +6,10 @@ make a separately styled control an existing component.
 
 ## Shared campaign structure — 27 October 2026
 
+Campaign information panels use normal document flow on all four campaign pages;
+stickiness is disabled in this page composition so expanded sections cannot pass
+behind a pinned card. The ordering-flow summary keeps its separate behaviour.
+
 All four statuses now reuse the same header composition, filter-tab component,
 sidebar order, overview alert and disclosure component. Core tabs keep their positions;
 sections are added when the campaign has the corresponding content.
