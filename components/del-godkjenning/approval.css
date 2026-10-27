@@ -32,7 +32,7 @@
 .approval-preview .ad-preview__logo, .approval-preview .ad-preview__tittel { color: var(--pv-tekst, var(--text-heading)); }
 .approval-preview .ad-preview__tittel { overflow-wrap: anywhere; }
 .approval-preview .ad-preview__bilde { cursor: default; touch-action: auto; }
-.approval-preview .ad-composition[data-template] .ad-preview__tittel { margin: 0; font: var(--type-section); font-size: clamp(var(--text-lg), 7cqw, var(--text-3xl)); }
+.approval-preview .ad-composition[data-template] .ad-preview__tittel { margin: 0; font: var(--type-section); font-size: clamp(var(--text-lg), 7cqw, var(--text-3xl)); } /* type-exempt: channel preview */
 .approval-file { width: 100%; height: 100%; object-fit: contain; display: block; }
 .approval-creative--file { padding: 0 !important; }
 .approval-ad[data-plattform="nettsteder"] .ad-preview__topp, .approval-ad[data-plattform="nettsteder"] .ad-preview__tekst { display: none; }

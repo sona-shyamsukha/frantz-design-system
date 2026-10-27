@@ -16,8 +16,7 @@
   align-items: center;
   min-width: 0;
   color: var(--text-muted);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
+  font: var(--type-support);
 }
 
 .breadcrumb__item + .breadcrumb__item::before {

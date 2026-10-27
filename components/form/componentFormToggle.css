@@ -50,7 +50,7 @@
 }
 
 .form-toggle__label {
-  font-size: var(--text-sm);
+  font: var(--type-body);
   color: var(--text-body);
 }
 

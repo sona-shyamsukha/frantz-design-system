@@ -15,8 +15,8 @@
   margin: 0;
   padding: var(--space-4) var(--space-8);
   color: var(--text-body);
+  font: var(--type-support);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
   white-space: pre;
   overflow-x: auto;
   scrollbar-width: thin;

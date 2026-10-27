@@ -7,18 +7,15 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rapport — Sykepleier Bodø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=20261027-spacing">
+<link rel="stylesheet" href="../frantz-ds.css?v=206">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-body); font: var(--type-support); }
-  .oppdatert { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
+  .oppdatert { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font: var(--type-support); }
   .nettsted-tabell .meter { max-width: 220px; margin-top: var(--space-6); }
 
-
-
-
-  .prospekt small { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
+  .prospekt small { display: block; margin-top: var(--space-2); color: var(--text-muted); font: var(--type-support); }
   .prospekt td { vertical-align: top; overflow-wrap: anywhere; }
   .prospekt td[data-label="Registrert"], .prospekt td[data-label="Ønsker"], .prospekt td[data-label="Håndtert"] { overflow-wrap: normal; white-space: nowrap; }
   .prospekt tr.er-handtert td { color: var(--text-faint); }
@@ -29,10 +26,12 @@
   .epost { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: end; margin-bottom: var(--space-16); }
   .epost .form-group { flex: 1 1 240px; margin: 0; }
   .samtykke[hidden], .epost[hidden] { display: none; }
-  .epost__svar { flex-basis: 100%; margin: 0; font-size: var(--text-sm); color: var(--text-success-strong); }
+  [data-samtykke] .card__head { flex-wrap: wrap; row-gap: var(--space-12); }
+  [data-samtykke] .card__head > div { flex: 1 1 260px; }
+  .epost__svar { flex-basis: 100%; margin: 0; font: var(--type-support); color: var(--text-success-strong); }
 </style>
-<link rel="stylesheet" href="../styles/campaign.css?v=20261027-interest-mobile">
-<link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
+<link rel="stylesheet" href="../styles/campaign.css?v=20261027-report-sections">
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 </head>
 <body class="campaign-page" data-campaign-page="results">
 <a class="hopp" href="#innhold">Hopp til innholdet</a>

@@ -21,7 +21,7 @@
 .geo__rad {
   padding: var(--space-12) 0;
   border-bottom: 1px solid var(--border-subtle);
-  font-size: var(--text-sm);
+  font: var(--type-support);
 }
 
 .geo__rad:first-child { padding-top: 0; }
@@ -35,7 +35,7 @@
 
 .geo__navn {
   color: var(--text-heading);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
 }
 
 .geo__andel {
@@ -45,7 +45,7 @@
 
 .geo__tall {
   margin-top: var(--space-4);
-  font-size: var(--text-xs);
+  font: var(--type-support);
   color: var(--text-muted);
 }
 
@@ -78,8 +78,7 @@
 }
 
 .kart__sted text {
-  font-size: var(--text-2xs);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-badge);
   fill: var(--text-heading);
   paint-order: stroke;
   stroke: var(--surface-default);
