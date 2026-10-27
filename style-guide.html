@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Stilguide</title>
-<link rel="stylesheet" href="frantz-ds.css?v=203">
+<link rel="stylesheet" href="frantz-ds.css?v=204">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 </head>
 <body class="ds-docs">
@@ -372,6 +372,16 @@
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-stat</span><span style="font:var(--type-stat)">27 041</span></div>
     <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">--type-badge</span><span style="font:var(--type-badge)">Merker, tellere og avatarer</span></div>
   </div>
+  <div class="ds-desc"><b>Hvilken rolle hvor.</b> Velg rollen etter nivået teksten står på, ikke etter hvor stor den bør se ut.</div>
+  <div class="token-list">
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">1. Siden</span><span>--type-page. Én sidetittel per side. Ingressen under bruker --type-body i dempet farge.</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">2. Kort og seksjoner</span><span>--type-section. Hvert kort har én tittel. Har en side eller fane flere grupper, får hver gruppe sitt eget kort med tittel. Beskrivelsen under tittelen bruker --type-body i dempet farge (.card__hint).</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">3. Inne i et kort</span><span>--type-label. Undertitler, feltetiketter, spørsmål (legend) og navn i lister. Bruk aldri --type-section inne i et kort som allerede har en tittel.</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">Tekst</span><span>--type-body for svar, verdier og valgtekst. --type-support for hjelpetekst under felt, datoer og ID-er.</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">Kontroller</span><span>--type-support-strong for faner, chips, tabelloverskrifter og tekstlenker. Ikke bruk den som tittel.</span></div>
+    <div class="token-row" style="grid-template-columns:220px 1fr"><span class="token-row__name">Tall og merker</span><span>--type-stat for store nøkkeltall og priser. --type-badge for status, tellere og avatarer.</span></div>
+  </div>
+  <div class="ds-desc">Eksempel: Min profil. Fanen Profil har kortene Kontaktinformasjon, Språk og Passord. Fanen Varsler har kortene Nye interessenter og Andre varsler. Alle korttitlene bruker --type-section, og alt inne i kortene bruker --type-label eller mindre.</div>
   <div class="col-head col-head--type"><span>Token</span><span>rem</span><span>px</span></div>
   <div class="type-row"><span class="type-row__token">--text-4xl</span><span class="type-row__rem">3.5rem</span><span class="type-row__px">56</span><span style="font-family: var(--font-heading);font-size: var(--text-4xl);font-weight: var(--font-weight-bold);letter-spacing: var(--tracking-display);color: var(--text-heading);line-height: var(--leading-none)">Kampanje</span></div>
   <div class="type-row"><span class="type-row__token">--text-3xl</span><span class="type-row__rem">2.25rem</span><span class="type-row__px">36</span><span style="font-family: var(--font-heading);font-size: var(--text-3xl);font-weight: var(--font-weight-bold);letter-spacing: var(--tracking-display);color: var(--text-heading)">Overskrift 1</span></div>

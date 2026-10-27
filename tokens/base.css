@@ -233,6 +233,8 @@
   --leading-normal: 1.5;
 
   /* Portal text roles. Every portal text uses one of these, inside and outside cards.
+     Pick the role by level: page title → page; each card or group title → section;
+     anything titled inside a card → label. See "Hvilken rolle hvor" in style-guide.html.
      Do not set font-size on its own; scripts/check-design-tokens.py enforces it. */
   --type-page: var(--font-weight-bold) var(--text-2xl)/var(--leading-tight) var(--font-heading);
   --type-section: var(--font-weight-semibold) var(--text-xl)/var(--leading-section) var(--font-heading);

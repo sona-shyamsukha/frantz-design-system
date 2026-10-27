@@ -227,7 +227,7 @@
   gap: var(--space-8);
   margin: 0 0 var(--space-12);
   color: var(--text-heading);
-  font: var(--type-support-strong);
+  font: var(--type-label);
   letter-spacing: var(--tracking-none);
 }
 
@@ -288,11 +288,10 @@
   gap: var(--space-16);
 }
 
+/* A group title inside the case, at the same level as the panel titles. */
 .case__label {
-  color: var(--text-faint);
-  font: var(--type-support-strong);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
+  color: var(--text-heading);
+  font: var(--type-label);
 }
 
 .reply {
@@ -312,8 +311,8 @@
   gap: var(--space-8);
   padding: var(--space-8) var(--space-16);
   border-bottom: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-  font: var(--type-support-strong);
+  color: var(--text-heading);
+  font: var(--type-label);
 }
 
 .reply__input {
