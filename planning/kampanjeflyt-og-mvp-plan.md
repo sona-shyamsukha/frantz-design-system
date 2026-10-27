@@ -4,6 +4,8 @@ Arbeidsutkast for Sona · 27. oktober 2026
 
 ## Avklaringer og lokal fremdrift
 
+- Sona har valgt V2 som hovedflyt. «Ny kampanje» og de vanlige inngangene fra Hjem, Kampanjer, Stillinger, kalkulatoren og kladder åpner `portal/ny-kampanje-v2.html`. Den tidligere stegflyten i `portal/ny-kampanje.html` beholdes som backup og alternativ til brukertest dersom V2 er vanskelig å forstå. Valget er en designbeslutning, ikke dokumentasjon på gjennomført brukertest.
+
 - Første fokus er å ferdigstille den forenklede v2-flyten. Bare hovedflyten og v2 inngår i sammenligningen.
 - Sona har valgt redigering per seksjon i modal. Stillingen, Kampanjen og Materiell og filer har hver sin «Endre»-handling. Kampanjenavn står sammen med budsjett, kanaler og periode. Modalene åpner med nedtrekkslistene lukket.
 - Sona har flyttet kampanjenavn inn i tekstmalen på første side. Det separate feltet vises bare i redigering av Kampanjen i oversikten. Navnet hentes fra «Kampanjenavn:» i teksten; ved import kan stillingstittelen brukes som forslag. Et navn må være på plass ved innsending.
@@ -37,7 +39,7 @@ Bevisste forskjeller er ikke funksjonsgap: B tillater bestilling uten ferdig mat
 
 Forslag til seksjonsrekkefølge i B: Stillingen → Kampanjen → Materiell og filer → **Tilleggsprodukter** → **Tilleggsinformasjon** → bestillingsområde med fakturamottaker, pris og eventuell godkjenning. «Tilleggsinformasjon» forblir fritekst. Denne seksjonsdelingen er nå lagt inn i den lokale V2-prototypen.
 
-Anbefalingen er å lage to sammenlignbare designversjoner med samme innhold og regler: én veiledet flyt og én samlet oversikt. Begge må fungere for direktekunder og byråer, slik Sona har avklart. Test begge før vi anbefaler hvilken som skal lanseres. To designversjoner betyr ikke at begge må utvikles til lansering.
+V2 er valgt som hovedflyt, og den veiledede stegflyten beholdes som backup for brukertest. Test om direktekunder og byråer forstår V2 før videre beslutning om lansering. To bevarte designversjoner betyr ikke at begge skal utvikles til lansering.
 
 MVP-en bør gjøre det mulig å starte med det man har, styre budsjettet, få på plass annonsene, innhente nødvendig godkjenning og følge bestillingen videre. Leveringsdato, utviklingsbudsjett og kapasitet er [GAP]. Prioriteringen under er et forslag til klientbeslutning, ikke et avtalt leveranseomfang.
 
@@ -45,8 +47,8 @@ MVP-en bør gjøre det mulig å starte med det man har, styre budsjettet, få p�
 
 | Versjon | Lokal forhåndsvisning | Hva den skal hjelpe brukeren med |
 | --- | --- | --- |
-| A Veiledet flyt | [Hovedflyten](http://127.0.0.1:8080/portal/ny-kampanje.html) | Stillingen → Kampanjen → Annonsen → Se over og bestill. Beholde veiledning og oversikt underveis. |
-| B Ny forenklet flyt | [Revisjonen på campaign-flow-v2](http://127.0.0.1:8080/portal/ny-kampanje-v2.html) | Samme startside → oppsummering av det som er hentet ut → rett og legg til i radene. Skjuler de opprinnelige stegene etter innlesing. |
+| A Veiledet flyt · backup | [Alternativ til brukertest](http://127.0.0.1:8080/portal/ny-kampanje.html) | Stillingen → Kampanjen → Annonsen → Se over og bestill. Beholdes for sammenligning hvis hovedflyten er vanskelig å forstå. |
+| B Forenklet flyt · valgt hovedflyt | [Ny kampanje](http://127.0.0.1:8080/portal/ny-kampanje-v2.html) | Samme startside → oppsummering av det som er hentet ut → rediger seksjoner og legg til opplysninger. Skjuler de opprinnelige stegene etter innlesing. |
 
 Arbeidsmappen står på `campaign-flow-v2`, commit `8e5e0c3`. Branchens tillegg sammenlignet med lokal `main` er `ny-kampanje-v2.html`. Sona har avgrenset sammenligningen til hovedflyten og den forenklede v2-flyten.
 

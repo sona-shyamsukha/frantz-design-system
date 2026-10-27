@@ -27,8 +27,8 @@ Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-dat
 
 ## Campaign flow
 
-- [Current campaign flow](portal/ny-kampanje.html).
-- [Combined campaign draft](portal/ny-kampanje-samlet.html): work in progress, retained for further design work and review.
+- [Main campaign flow](portal/ny-kampanje-v2.html): selected default for the portal’s campaign buttons and entry points.
+- [Previous design — backup for user testing](portal/ny-kampanje.html): retained as an alternative if testing reveals that the main flow is difficult to understand.
 
 ## Approval prototype
 
