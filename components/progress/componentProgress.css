@@ -26,7 +26,7 @@
 .meter__value {
   flex: none;
   color: var(--text-muted);
-  font-size: var(--text-xs);
+  font: var(--type-support);
   white-space: nowrap;
 }
 

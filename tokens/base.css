@@ -232,13 +232,18 @@
   --leading-snug:   1.35;
   --leading-normal: 1.5;
 
-  /* Reusable portal roles. Use the same role inside and outside cards.
-     Prices and chart values may use the larger numeric scale above. */
+  /* Portal text roles. Every portal text uses one of these, inside and outside cards.
+     Pick the role by level: page title → page; each card or group title → section;
+     anything titled inside a card → label. See "Hvilken rolle hvor" in style-guide.html.
+     Do not set font-size on its own; scripts/check-design-tokens.py enforces it. */
   --type-page: var(--font-weight-bold) var(--text-2xl)/var(--leading-tight) var(--font-heading);
   --type-section: var(--font-weight-semibold) var(--text-xl)/var(--leading-section) var(--font-heading);
   --type-body: var(--font-weight-normal) var(--text-base)/var(--leading-normal) var(--font-body);
   --type-label: var(--font-weight-semibold) var(--text-base)/var(--leading-normal) var(--font-body);
   --type-support: var(--font-weight-normal) var(--text-sm)/var(--leading-normal) var(--font-body);
+  --type-support-strong: var(--font-weight-semibold) var(--text-sm)/var(--leading-normal) var(--font-body); /* tabs, chips, table headers, text links */
+  --type-stat: var(--font-weight-bold) var(--text-stat)/var(--leading-stat) var(--font-heading); /* report values and prices */
+  --type-badge: var(--font-weight-semibold) var(--text-xs)/var(--leading-tight) var(--font-body); /* badges, tags, counters, avatars */
 
   /* Tracking */
   --tracking-none: 0;

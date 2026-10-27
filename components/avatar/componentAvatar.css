@@ -9,21 +9,20 @@
   border-radius: var(--radius-full);
   background: var(--bg-navy-strong);
   color: var(--text-on-navy);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-label);
   line-height: var(--leading-none);
 }
 
 .avatar--md {
   width: 36px;
   height: 36px;
-  font-size: var(--text-xs);
+  font: var(--type-badge);
 }
 
 .avatar--sm {
   width: 24px;
   height: 24px;
-  font-size: var(--text-2xs);
+  font: var(--type-badge);
 }
 
 .avatar--data {

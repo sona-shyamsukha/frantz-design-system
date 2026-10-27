@@ -19,9 +19,7 @@
   background: var(--bg-navy-strong);
   box-shadow: var(--shadow-dialog);
   color: var(--text-on-navy);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-label);
   cursor: pointer;
   transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
 }
@@ -180,13 +178,13 @@ body:has(.assist-fab:not([hidden])) .wrap {
   flex: 1;
   min-width: 0;
   color: var(--text-body);
-  font-size: var(--text-sm);
+  font: var(--type-support);
 }
 
 .assist-banner__text b {
   display: block;
   color: var(--text-heading);
-  font-size: var(--text-base);
+  font: var(--type-label);
 }
 
 .assist-banner .btn {

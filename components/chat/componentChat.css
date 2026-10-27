@@ -144,7 +144,7 @@ h1.chat__title { font: var(--type-page); }
   border-radius: var(--radius-full);
   background: var(--surface-subtle);
   color: var(--text-muted);
-  font-size: var(--text-xs);
+  font: var(--type-support);
 }
 
 .msg__body > .quick-reply {
@@ -217,9 +217,7 @@ h1.chat__title { font: var(--type-page); }
   border-radius: var(--radius-full);
   background: var(--surface-raised);
   color: var(--text-navy-strong);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-support-strong);
   line-height: var(--leading-tight);
   text-align: left;
   cursor: pointer;
@@ -297,8 +295,7 @@ h1.chat__title { font: var(--type-page); }
   border: 0;
   border-radius: var(--radius-8);
   background: transparent;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  font: var(--type-support);
   resize: none;
 }
 
@@ -335,7 +332,7 @@ h1.chat__title { font: var(--type-page); }
 .composer__hint {
   margin-top: var(--space-8);
   color: var(--text-faint);
-  font-size: var(--text-xs);
+  font: var(--type-support);
 }
 
 .file-chip {
@@ -347,8 +344,7 @@ h1.chat__title { font: var(--type-page); }
   border-radius: var(--radius-full);
   background: var(--surface-subtle);
   color: var(--text-body);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-medium);
+  font: var(--type-support-strong);
 }
 
 .msg--user .file-chip {
@@ -395,15 +391,13 @@ h1.chat__title { font: var(--type-page); }
 
 .draft__title {
   color: var(--text-heading);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-bold);
+  font: var(--type-support-strong);
 }
 
 .draft__sub {
   display: block;
   color: var(--text-muted);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-normal);
+  font: var(--type-support);
 }
 
 .draft__rows {
@@ -417,7 +411,7 @@ h1.chat__title { font: var(--type-page); }
   align-items: baseline;
   gap: var(--space-12);
   padding: var(--space-8) 0;
-  font-size: var(--text-sm);
+  font: var(--type-support);
 }
 
 .draft__row + .draft__row {
@@ -431,7 +425,7 @@ h1.chat__title { font: var(--type-page); }
 .draft__value {
   margin: 0;
   color: var(--text-heading);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   overflow-wrap: anywhere;
 }
 
@@ -460,12 +454,12 @@ h1.chat__title { font: var(--type-page); }
 
 .draft__note {
   color: var(--text-muted);
-  font-size: var(--text-xs);
+  font: var(--type-support);
 }
 
 .draft__text {
   padding: var(--space-12) var(--space-16);
-  font-size: var(--text-sm);
+  font: var(--type-support);
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -482,21 +476,19 @@ h1.chat__title { font: var(--type-page); }
 
 .draft__fact dt {
   color: var(--text-muted);
-  font-size: var(--text-xs);
+  font: var(--type-support);
 }
 
 .draft__fact dd {
   margin: 0;
   color: var(--text-heading);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-bold);
+  font: var(--type-label);
 }
 
 .draft__fact small {
   display: block;
   color: var(--text-muted);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-normal);
+  font: var(--type-support);
 }
 
 .draft__history {
@@ -504,7 +496,7 @@ h1.chat__title { font: var(--type-page); }
   margin: 0;
   padding: var(--space-8) var(--space-16) var(--space-12);
   border-top: 1px solid var(--border-subtle);
-  font-size: var(--text-xs);
+  font: var(--type-support);
 }
 
 .draft__history li {
@@ -541,8 +533,7 @@ h1.chat__title { font: var(--type-page); }
   align-items: center;
   padding: var(--space-2) var(--space-8);
   border-radius: var(--radius-full);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-bold);
+  font: var(--type-badge);
   white-space: nowrap;
 }
 
@@ -577,7 +568,7 @@ h1.chat__title { font: var(--type-page); }
   border: 1px solid var(--border-default);
   border-radius: var(--radius-8);
   background: var(--surface-subtle);
-  font-size: var(--text-sm);
+  font: var(--type-support);
 }
 
 .linkbox__url {
@@ -602,7 +593,7 @@ h1.chat__title { font: var(--type-page); }
   border-radius: var(--radius-12);
   background: var(--bg-amber-soft);
   color: var(--text-warning-strong);
-  font-size: var(--text-sm);
+  font: var(--type-support);
 }
 
 .handoff__icon {
@@ -619,7 +610,7 @@ h1.chat__title { font: var(--type-page); }
 .handoff b {
   display: block;
   color: var(--text-heading);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
 }
 
 .handoff a {

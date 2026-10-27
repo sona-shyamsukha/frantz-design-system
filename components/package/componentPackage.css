@@ -21,11 +21,11 @@
   padding: var(--space-panel-padding);
 }
 .pakke-kort__hode { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-12); }
-.pakke-kort__navn { color: var(--text-heading); font: var(--type-label); font-weight: var(--font-weight-medium); }
+.pakke-kort__navn { color: var(--text-heading); font: var(--type-label); }
 .pakke-kort__markor { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border: 1px solid var(--border-strong); border-radius: 50%; color: var(--color-white); }
 .pakke-kort__markor .icon-lucide { visibility: hidden; width: 14px; height: 14px; }
 .pakke-kort__pris { display: flex; flex-direction: column; gap: var(--space-4); margin-top: auto; }
-.pakke-kort__pris b { color: var(--text-heading); font-size: var(--text-2xl); line-height: var(--leading-tight); font-weight: var(--font-weight-bold); font-variant-numeric: tabular-nums; }
+.pakke-kort__pris b { color: var(--text-heading); font: var(--type-page); font-variant-numeric: tabular-nums; }
 .pakke-kort__periode { color: var(--text-muted); font: var(--type-support); }
 .pakke-kort__kanaler { display: flex; flex-direction: column; gap: var(--space-8); padding-top: var(--space-16); border-top: 1px solid var(--border-default); }
 .pakke-kort__etikett { color: var(--text-muted); font: var(--type-support); }

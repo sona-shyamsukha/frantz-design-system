@@ -42,8 +42,7 @@
 }
 
 .form-radio__label {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  font: var(--type-body);
   color: var(--text-body);
 }
 

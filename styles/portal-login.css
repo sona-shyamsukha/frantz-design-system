@@ -55,8 +55,7 @@ body {
   align-items: center;
   min-height: 24px;
   color: var(--color-navy);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
+  font: var(--type-support-strong);
   text-decoration: none;
 }
 .login__row a:hover {

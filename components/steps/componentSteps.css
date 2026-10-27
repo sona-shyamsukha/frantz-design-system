@@ -30,8 +30,7 @@
   border-radius: 50%;
   background: var(--surface-section);
   color: var(--text-faint);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-bold);
+  font: var(--type-badge);
 }
 
 /* Fullført — klikkbart, går tilbake */

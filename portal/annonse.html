@@ -4,26 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Se annonsen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=202">
+<link rel="stylesheet" href="../frantz-ds.css?v=204">
 <style>
   body { margin: 0; background: var(--surface-subtle); }
   .visning { max-width: 440px; margin: 0 auto; padding: var(--space-32) var(--page-padding-mobile); }
   .visning__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); }
   .visning__topp img { height: 22px; }
   .visning h1 { margin: var(--space-24) 0 var(--space-4); font: var(--type-page); }
-  .visning__sub { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .visning__sub { margin: 0; color: var(--text-muted); font: var(--type-support); }
   .utkast { margin-top: var(--space-16); }
   .post { margin-top: var(--space-24); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-card); overflow: hidden; }
   .post__hode { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); }
-  .post__logo { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--color-navy); color: var(--color-white); font-size: var(--text-xs); font-weight: var(--font-weight-bold); }
-  .post__hode b { display: block; color: var(--text-heading); font-size: var(--text-sm); }
-  .post__hode small { color: var(--text-muted); font-size: var(--text-xs); }
-  .post__tekst { margin: 0; padding: 0 var(--space-16) var(--space-12); font-size: var(--text-sm); color: var(--text-body); line-height: var(--leading-normal); }
+  .post__logo { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--color-navy); color: var(--color-white); font-size: var(--text-xs); font-weight: var(--font-weight-bold); /* type-exempt: mock social-media ad post */ }
+  .post__hode b { display: block; color: var(--text-heading); font-size: var(--text-sm); /* type-exempt: mock social-media ad post */ }
+  .post__hode small { color: var(--text-muted); font-size: var(--text-xs); /* type-exempt: mock social-media ad post */ }
+  .post__tekst { margin: 0; padding: 0 var(--space-16) var(--space-12); font-size: var(--text-sm); color: var(--text-body); line-height: var(--leading-normal); /* type-exempt: mock social-media ad post */ }
   .post__bilde { aspect-ratio: 1 / 1; display: grid; place-items: center; background: linear-gradient(160deg, var(--color-navy-mid), var(--color-navy)); color: var(--color-white); text-align: center; padding: var(--space-24); }
   .post__bilde--video { aspect-ratio: 4 / 5; }
-  .post__bilde strong { display: block; margin-top: var(--space-12); font-size: var(--text-2xl); line-height: var(--leading-tight); }
-  .post__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); background: var(--surface-subtle); font-size: var(--text-xs); color: var(--text-muted); }
-  .post__bunn b { display: block; color: var(--text-heading); font-size: var(--text-sm); }
+  .post__bilde strong { display: block; margin-top: var(--space-12); font-size: var(--text-2xl); line-height: var(--leading-tight); /* type-exempt: mock social-media ad post */ }
+  .post__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); background: var(--surface-subtle); font-size: var(--text-xs); color: var(--text-muted); /* type-exempt: mock social-media ad post */ }
+  .post__bunn b { display: block; color: var(--text-heading); font-size: var(--text-sm); /* type-exempt: mock social-media ad post */ }
   .visning__handling { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-24); }
 </style>
 </head>

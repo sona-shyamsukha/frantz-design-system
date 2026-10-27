@@ -50,10 +50,8 @@
 
 .metric__value {
   margin-top: var(--space-12);
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-section);
   color: var(--text-heading);
-  line-height: var(--leading-tight);
 }
 
 .metric__label {

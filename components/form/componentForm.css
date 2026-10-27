@@ -7,9 +7,7 @@
 
 .form-label,
 .felt label {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-label);
   color: var(--text-body);
 }
 
@@ -23,8 +21,7 @@
   border-radius: var(--radius-8);
   background: var(--surface-raised);
   color: var(--text-body);
-  font-family: var(--font-body);
-  font-size: var(--text-input);
+  font: var(--type-body);
   appearance: none;
 }
 
@@ -65,7 +62,7 @@
 
 .form-hint,
 .felt .hjelp {
-  font-size: var(--text-sm);
+  font: var(--type-support);
   color: var(--text-muted);
 }
 
@@ -75,7 +72,7 @@
 }
 
 .form-error {
-  font-size: var(--text-sm);
+  font: var(--type-support);
   color: var(--text-danger-moderate);
 }
 
@@ -140,9 +137,7 @@
   padding: var(--space-8) var(--space-16);
   background: var(--surface-raised);
   color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-support-strong);
   cursor: pointer;
 }
 

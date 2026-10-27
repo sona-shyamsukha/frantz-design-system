@@ -40,9 +40,7 @@ button.tooltip:focus-visible {
   border-radius: var(--radius-8);
   background: var(--color-navy);
   color: var(--color-white);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-medium);
+  font: var(--type-support);
   line-height: var(--leading-snug);
   text-align: left;
   white-space: normal;
