@@ -127,10 +127,12 @@
   if (location.pathname.split('/').pop() !== expected) { location.replace(expected + '?id=' + encodeURIComponent(id)); return; }
   var share = document.querySelector('[data-report-share]');
   var header = document.querySelector('.campaign-header');
+  if (hasReport) { try { root.FrantzReportSharing.ensure(report.id); } catch (error) {} }
   var reportActions = hasReport ? share.outerHTML : '';
-  if (hasReport && !report.active) reportActions = '<div class="btn-row"><a class="btn btn--secondary" href="' + View.escape(root.FrantzReportSharing.previewUrl(report.id, true)) + '" target="_blank" rel="noopener">Åpne rapport <span class="sr-only">(ny fane)</span></a>' + reportActions + '</div>';
+  if (hasReport && !report.active) reportActions = '<div class="btn-row"><a class="btn btn--secondary" href="' + View.escape((root.FrantzReportSharing.linkFor(report.id) || root.FrantzReportSharing.previewUrl(report.id, true))) + '" target="_blank" rel="noopener">Åpne rapport <span class="sr-only">(ny fane)</span></a>' + reportActions + '</div>';
   header.innerHTML = View.header(report, reportActions);
   header.querySelector('.campaign-eyebrow').remove();
+  header.querySelector('.campaign-meta').remove();
   document.title = report.title + ' — Frantz kampanjeportal';
   document.querySelector('.breadcrumb__item:last-child').innerHTML = '<span aria-current="page">' + View.escape(report.title) + '</span>';
   var campaign = root.FZ_KAMPANJER.finn(id);

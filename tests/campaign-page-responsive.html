@@ -19,7 +19,7 @@
 </head>
 <body>
   <h1 class="text-h2">Campaign pages — developer verification</h1>
-  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1116</option><option>1280</option><option>1672</option></select><label class="form-label" for="section">Campaign section</label><select class="form-select" id="section"><option value="auto">Phase default</option><option value="innsikt">Innsikt</option><option value="stilling">Stilling</option><option value="kampanje">Kampanje</option><option value="annonser">Annonser</option><option value="interessenter">Interessenter</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1116</option><option>1280</option><option>1672</option></select><label class="form-label" for="section">Campaign section</label><select class="form-select" id="section"><option value="auto">Phase default</option><option value="stilling">Stilling</option><option value="kampanje">Kampanje</option><option value="annonser">Annonser</option><option value="innsikt">Innsikt</option><option value="interessenter">Interessenter</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
   <div class="previews" id="previews"></div>
   <script>
     const order = new URLSearchParams(location.search).get('order');
@@ -75,7 +75,7 @@
         const doc = frame.contentDocument;
         const name = event.target.value === 'auto' ? frame.dataset.initialTab : event.target.value;
         const tab = doc.querySelector('.sidefaner [data-fane="' + name + '"]');
-        if (tab) tab.click();
+        if (tab && !tab.hidden) tab.click();
       });
       requestAnimationFrame(measureAll);
     });

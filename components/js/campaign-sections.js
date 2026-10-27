@@ -8,11 +8,16 @@
     var list = document.querySelector('[data-campaign-sections] [role="tablist"]');
     if (!list) return null;
     var tabs = Array.from(list.querySelectorAll('[data-fane]'));
+    function availableTabs() { return tabs.filter(function (tab) { return !tab.hidden; }); }
+    function fallback() { return availableTabs().find(function (tab) { return tab.dataset.fane === defaultTab; }) || availableTabs()[0]; }
     var aliases = { oversikt: defaultTab, resultater: 'innsikt', detaljer: 'innsikt', rapport: 'innsikt' };
     function select(name, options) {
       options = options || {};
       name = aliases[name] || name || defaultTab;
-      if (!tabs.some(function (tab) { return tab.dataset.fane === name; })) name = defaultTab;
+      if (!availableTabs().some(function (tab) { return tab.dataset.fane === name; })) {
+        name = fallback() && fallback().dataset.fane;
+        options.updateHash = true;
+      }
       tabs.forEach(function (tab) {
         var chosen = tab.dataset.fane === name;
         tab.setAttribute('aria-selected', String(chosen));
@@ -37,15 +42,16 @@
     }
     tabs.forEach(function (tab) { tab.addEventListener('click', function () { select(tab.dataset.fane); }); });
     list.addEventListener('keydown', function (event) {
-      var current = tabs.indexOf(event.target), next;
+      var visible = availableTabs();
+      var current = visible.indexOf(event.target), next;
       if (current < 0) return;
-      if (event.key === 'ArrowRight') next = (current + 1) % tabs.length;
-      if (event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+      if (event.key === 'ArrowRight') next = (current + 1) % visible.length;
+      if (event.key === 'ArrowLeft') next = (current - 1 + visible.length) % visible.length;
       if (event.key === 'Home') next = 0;
-      if (event.key === 'End') next = tabs.length - 1;
+      if (event.key === 'End') next = visible.length - 1;
       if (next == null) return;
       event.preventDefault();
-      select(tabs[next].dataset.fane, { focus: true });
+      select(visible[next].dataset.fane, { focus: true });
     });
     document.addEventListener('click', function (event) {
       var trigger = event.target.closest('[data-open-tab]');
@@ -54,7 +60,11 @@
       select(trigger.dataset.openTab, { focus: true });
     });
     root.addEventListener('hashchange', followHash);
-    navigation = Object.freeze({ select: select });
+    function setAvailable(content) {
+      tabs.forEach(function (tab) { tab.hidden = content[tab.dataset.fane] === false; });
+      followHash();
+    }
+    navigation = Object.freeze({ select: select, setAvailable: setAvailable });
     followHash();
     return navigation;
   }

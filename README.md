@@ -40,9 +40,9 @@ Use the portal itself for a client walkthrough: [campaign list](portal/campaigns
 [Under arbeid](portal/kampanje-under-arbeid.html),
 [Aktiv](portal/campaign.html?id=129041) and
 [Avsluttet](portal/rapport.html?id=128984).
-Every state has Innsikt, Stilling, Kampanje, Annonser and Interessenter in the same positions.
+Tabs follow Stilling, Kampanje, Annonser, Innsikt and Interessenter. Empty destinations stay hidden.
 Bestilt opens Kampanje; ready-for-approval opens Annonser; active/completed opens Innsikt.
-Original submitted details and later developments are kept separately. The compact links card reuses the shared copy-field and disclosure components.
+Original submitted details and later developments are kept separately. Kampanjeoversikt shows the current period, status, channels, budget and copyable links using existing components. Report links are generated automatically; the local prototype still requires a backend for cross-device sharing.
 The pages reuse the shared tokens, buttons, tabs, cards and disclosure component.
 Development review labels and review-navigation links are removed from these pages.
 The earlier review hub and responsive harness remain internal tools.

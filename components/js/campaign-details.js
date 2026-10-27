@@ -46,6 +46,21 @@
     var side = model.campaign.side || location.pathname.split('/').pop() + '?id=' + model.id;
     var url = new URL(side, location.href); url.hash = ''; return url.href;
   }
+  function renderOverview(model) {
+    var host = document.querySelector('[data-campaign-facts]'); host.replaceChildren();
+    function fact(label, value) {
+      if (!value) return;
+      var row = element('div', 'grid gap-2');
+      row.append(element('span', 'form-hint', label), element('strong', '', value)); host.appendChild(row);
+    }
+    function field(id) { var value = model.fields.find(function (item) { return item.id === id; }); return value && value.value; }
+    fact('Status', model.status);
+    fact(model.status === 'Bestilt' || model.status === 'Under arbeid' ? 'Planlagt periode' : 'Periode', model.campaign.periode || field('periode') || 'Avklares med Frantz');
+    fact('Kanaler', model.campaign.kanaler && model.campaign.kanaler.join(', ') || field('kanaler') || 'Avklares med Frantz');
+    fact('Budsjett', model.campaign.budsjett != null ? root.FrantzCampaignSubmission.money(model.campaign.budsjett) : field('budsjett'));
+    fact('Bestilt av', model.campaign.bestiller);
+    fact('Søknadsfrist', field('frist'));
+  }
   function renderLinks() {
     if (!current) return;
     var model = current, host = document.querySelector('[data-campaign-links]'); host.replaceChildren();
@@ -54,7 +69,7 @@
       if (value) group.appendChild(root.FrantzCopyField.create(value, { label: label, url: url }));
       else group.appendChild(element('p', 'form-hint', pending));
       if (shareAction) {
-        var action = element('button', 'link', value ? 'Endre deling' : 'Opprett rapportlenke');
+        var action = element('button', 'link', 'Delingsvalg');
         action.type = 'button';
         action.addEventListener('click', function () { document.querySelector('[data-report-share]').click(); });
         group.appendChild(action);
@@ -66,9 +81,8 @@
     var landing = safeUrl(model.campaign.kampanjelenke || (model.status !== 'Bestilt' ? 'https://frantz.no/k/' + model.id : ''));
     row('Kampanjeside', landing, landing, 'Lenken kommer når kampanjesiden er klar.');
     var source = safeUrl(model.source.url); if (source) row('Stillingsannonse', source, source);
-    var reportExists = root.FZ_REPORTS && root.FZ_REPORTS[model.id];
-    var reportUrl = reportExists && root.FrantzReportSharing.linkFor(model.id);
-    row('Rapport uten innlogging', reportUrl, reportUrl, reportExists ? 'Rapportlenke er ikke opprettet.' : (model.status === 'Bestilt' || model.status === 'Under arbeid' ? 'Rapporten kommer når kampanjen er aktiv.' : 'Rapporten er ikke tilgjengelig ennå.'), !!reportExists);
+    var reportUrl = root.FrantzReportSharing.linkFor(model.id);
+    row('Rapport uten innlogging', reportUrl, reportUrl, 'Rapportdeling er ikke tilgjengelig.', !!document.querySelector('[data-report-share]'));
   }
   function activityRow(event) {
     var li = element('li', 'journey__step'); li.dataset.localActivity = '';
@@ -112,7 +126,6 @@
     document.title = model.title + ' — Frantz kampanjeportal';
     document.querySelector('.breadcrumb__item:last-child span').textContent = model.title;
     document.body.dataset.campaignId = model.id;
-    if (document.querySelector('#ordered-period')) document.querySelector('#ordered-period').textContent = 'Planlagt periode ' + (model.order.periodeTekst || model.order.periode || model.campaign.periode || 'avklares med Frantz');
   }
   async function init(options) {
     var id = options.id, campaign = root.FZ_KAMPANJER.finn(id);
@@ -128,12 +141,13 @@
       if (error) { error.hidden = false; error.textContent = 'Vi finner ikke denne kampanjen. Gå tilbake til Kampanjer og velg en kampanje.'; }
       return;
     }
-    current = model; updateHeader(model);
+    current = model; updateHeader(model); renderOverview(model);
+    try { root.FrantzReportSharing.ensure(model.id); } catch (error) { /* Show an unavailable link rather than an unsaved URL. */ }
     renderFields(model, 'stilling'); renderFields(model, 'kampanje'); renderSource(model);
     document.querySelectorAll('[data-submitted-date]').forEach(function (node) { node.textContent = model.submittedAt ? 'Bestilt ' + displayDate(model.submittedAt) : ''; });
     document.querySelectorAll('[data-submitted-note]').forEach(function (node) { node.textContent = model.hasSubmission ? '' : 'Viser opplysningene som er lagret for kampanjen. Originalbestillingen er ikke tilgjengelig.'; });
     var materialCard = document.querySelector('[data-submitted-material]');
-    materialCard.hidden = !model.record && model.status !== 'Bestilt';
+    materialCard.hidden = !model.material;
     root.FrantzCampaignMaterialView.render(model.record);
     if (model.record && model.material) {
       var actions = document.getElementById('ordered-approval-actions');
@@ -153,6 +167,15 @@
       hint.textContent = 'Dette må avklares før oppstart: ' + model.order.avklaringer.join(', ') + '. Ta kontakt med Frantz.';
     }
     renderLinks(); await renderActivity();
+    var report = root.FZ_REPORTS && root.FZ_REPORTS[model.id];
+    var material = model.material;
+    var submittedAds = !!(material && (material.bilde || material.logo || (material.filer || []).length || material.designbrief || material.tekst || material.tittel));
+    var creative = document.getElementById('creative-heading');
+    var currentAds = !!(report && report.ads && report.ads.length) || !!(creative && !creative.closest('.card').hidden);
+    root.FrantzCampaignSections.init().setAvailable({
+      stilling: model.fields.some(function (field) { return field.group === 'stilling' && field.value; }) || !!model.source.text || !!model.source.url || !!(material && (material.kilder || []).length),
+      kampanje: true, annonser: submittedAds || currentAds, innsikt: !!report, interessenter: !!(report && report.interest > 0)
+    });
     document.body.dataset.submissionReady = 'true';
     root.addEventListener('focus', renderLinks);
     root.addEventListener('frantz:report-sharing-change', renderLinks);

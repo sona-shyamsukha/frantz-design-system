@@ -6,11 +6,11 @@ make a separately styled control an existing component.
 
 ## Submission and phase navigation — 27 October 2026
 
-Verified: 27 data, approval, material, report and disclosure tests pass. A fresh
+Verified before this iteration: 27 data, approval, material, report and disclosure tests pass. A fresh
 order was placed and reopened on the isolated localhost origin. All five tabs pass
 layout checks at seven widths (320–1672 px), including copy-button containment.
 
-The five fixed tabs are **Innsikt, Stilling, Kampanje, Annonser, Interessenter**.
+The tab order is **Stilling, Kampanje, Annonser, Innsikt, Interessenter**. Only destinations with content are shown. Innsikt appears when results exist, Interessenter when people have registered, and Annonser when submitted material or creatives exist. Hidden tabs are skipped by keyboard navigation; unavailable deep links fall back to the phase default.
 Kampanje and Annonser remain separate: submitted configuration and developments
 belong to Kampanje; material, creative versions and approvals belong to Annonser.
 
@@ -22,10 +22,10 @@ belong to Kampanje; material, creative versions and approvals belong to Annonser
   Kampanje render the immutable submission, original text/link and original file
   attachments. Later campaign metadata does not overwrite the submitted values.
   Older fixtures only show the original data that exists; missing fields are not invented.
-- A compact **Lenker og kopiering** card is the only sticky area. The whole sidebar
+- **Kampanjeoversikt** is the only sticky area. It reuses the existing disclosure, form-hint, strong text and spacing utilities for current status, period, channels, budget, orderer and known application deadline. Period no longer appears beneath the campaign title. The whole sidebar
   sticks as one unit, bounded by the viewport. On smaller screens it becomes a
   normal, collapsed disclosure above the tabs. Campaign number, portal URL,
-  published campaign URL, source job URL and created report URL use the same copy row.
+  published campaign URL, source job URL and automatically generated report URL use the same copy row. New links have no expiry date, retain the same token, and omit costs by default. Existing sharing choices and deliberate revocation remain respected. Before launch, the public report destination explains that results will arrive when the campaign is active.
 - **CopyField** is the existing tracking copy-row composition extracted into a shared
   component, using existing ghost buttons, icons, spacing, colours and focus tokens.
   No new visual variant or token. The existing submitted-material appearance is
@@ -35,6 +35,8 @@ belong to Kampanje; material, creative versions and approvals belong to Annonser
   stay in Kampanje. Public reports never load the private submission/detail modules.
 - Report links still use the existing same-browser demonstration store. The sharing
   panel explains that cross-device access requires server-side integration.
+
+Current iteration: 29 data, approval, material, report and disclosure checks pass, including automatic token creation and preservation of existing sharing choices. No new component or token was added.
 
 ## Shared campaign structure — 27 October 2026
 

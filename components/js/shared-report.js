@@ -17,6 +17,11 @@
     var nextSignature = JSON.stringify([status, report && report.id, costs]);
     if (nextSignature === signature) return;
     signature = nextSignature;
+    if (!preview && status === 'active' && !report) {
+      container.innerHTML = View.empty('Rapporten kommer når kampanjen er aktiv', 'Denne lenken viser resultatene når annonseringen har startet.');
+      document.title = 'Kampanjerapport — Frantz';
+      return;
+    }
     if ((!preview && status !== 'active') || !report) {
       var expired = link && status === 'expired';
       container.innerHTML = View.empty(expired ? 'Rapportlenken har utløpt' : 'Rapporten er ikke tilgjengelig', 'Be den som delte rapporten om en ny lenke.');

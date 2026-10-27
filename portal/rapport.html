@@ -33,7 +33,7 @@
   [data-samtykke] .card__head > div { flex: 1 1 260px; }
   .epost__svar { flex-basis: 100%; margin: 0; font-size: var(--text-sm); color: var(--text-success-strong); }
 </style>
-<link rel="stylesheet" href="../styles/campaign.css?v=20261027-delivery">
+<link rel="stylesheet" href="../styles/campaign.css?v=20261027-overview2">
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
 </head>
 <body class="campaign-page" data-campaign-page="results">
@@ -81,10 +81,10 @@
         </ol>
       </nav>
 
-      <header class="campaign-header"><div><p class="campaign-eyebrow">Nordland Sykehjem</p><div class="campaign-title"><h1 class="text-h2">Sykepleier Bodø</h1><span class="badge badge--ended">Avsluttet</span></div><p class="form-hint campaign-meta">02.07 – 30.07.2026 <span aria-hidden="true">·</span> Kampanjen er ferdig</p></div><button type="button" class="btn btn--primary" data-report-share aria-expanded="false" aria-controls="report-sharing"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del rapport</button></header><section id="report-sharing" class="card card--betjen report-sharing" aria-labelledby="sharing-heading" hidden></section>
+      <header class="campaign-header"><div><p class="campaign-eyebrow">Nordland Sykehjem</p><div class="campaign-title"><h1 class="text-h2">Sykepleier Bodø</h1><span class="badge badge--ended">Avsluttet</span></div></div><button type="button" class="btn btn--primary" data-report-share aria-expanded="false" aria-controls="report-sharing"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del rapport</button></header><section id="report-sharing" class="card card--betjen report-sharing" aria-labelledby="sharing-heading" hidden></section>
 
 
-      <div class="cols campaign-layout"><div class="flow-wrap" data-campaign-sections><div class="funnel__tabs sidefaner" role="tablist" aria-label="Kampanjevisning"><button type="button" class="filter" role="tab" id="fane-innsikt" aria-controls="panel-innsikt" aria-selected="true" tabindex="0" data-fane="innsikt">Innsikt</button><button type="button" class="filter" role="tab" id="fane-stilling" aria-controls="panel-stilling" aria-selected="false" tabindex="-1" data-fane="stilling">Stilling</button><button type="button" class="filter" role="tab" id="fane-kampanje" aria-controls="panel-kampanje" aria-selected="false" tabindex="-1" data-fane="kampanje">Kampanje</button><button type="button" class="filter" role="tab" id="fane-annonser" aria-controls="panel-annonser" aria-selected="false" tabindex="-1" data-fane="annonser">Annonser</button><button type="button" class="filter" role="tab" id="fane-interessenter" aria-controls="panel-interessenter" aria-selected="false" tabindex="-1" data-fane="interessenter">Interessenter · 18</button></div><section class="flow" role="tabpanel" id="panel-innsikt" aria-labelledby="fane-innsikt"><div id="campaign-overview" class="flow"></div>
+      <div class="cols campaign-layout"><div class="flow-wrap" data-campaign-sections><div class="funnel__tabs sidefaner" role="tablist" aria-label="Kampanjevisning"><button type="button" class="filter" role="tab" id="fane-stilling" aria-controls="panel-stilling" aria-selected="false" tabindex="-1" data-fane="stilling">Stilling</button><button type="button" class="filter" role="tab" id="fane-kampanje" aria-controls="panel-kampanje" aria-selected="false" tabindex="-1" data-fane="kampanje">Kampanje</button><button type="button" class="filter" role="tab" id="fane-annonser" aria-controls="panel-annonser" aria-selected="false" tabindex="-1" data-fane="annonser">Annonser</button><button type="button" class="filter" role="tab" id="fane-innsikt" aria-controls="panel-innsikt" aria-selected="true" tabindex="0" data-fane="innsikt">Innsikt</button><button type="button" class="filter" role="tab" id="fane-interessenter" aria-controls="panel-interessenter" aria-selected="false" tabindex="-1" data-fane="interessenter">Interessenter · 18</button></div><section class="flow" role="tabpanel" id="panel-innsikt" aria-labelledby="fane-innsikt"><div id="campaign-overview" class="flow"></div>
           <div class="card card--les">
             <div class="card__head">
               <div><h3 class="card__title">Resultater</h3>
@@ -294,7 +294,7 @@
             </div>
             <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></div></details>
           </div></section>
-</div><aside class="campaign-rail"><details class="disclosure campaign-links" open><summary>Lenker og kopiering<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="grid gap-4" data-campaign-links><p class="form-hint">Laster lenkene …</p></div></div></details></aside></div>
+</div><aside class="campaign-rail"><details class="disclosure campaign-links" open><summary>Kampanjeoversikt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="grid gap-4 campaign-overview-facts" data-campaign-facts></div><div class="grid gap-4" data-campaign-links><p class="form-hint">Laster lenkene …</p></div></div></details></aside></div>
     </div>
   </div>
 </div>
@@ -442,12 +442,12 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="data/rapporter.js?v=20261027-client"></script>
 <script src="data/kampanjer.js?v=6"></script>
-<script src="../components/js/report-view.js?v=20261027-sections2"></script>
-<script src="../components/js/report-sharing.js?v=20261027-submitted"></script>
-<script src="../components/js/campaign-sections.js?v=20261027-submitted"></script>
+<script src="../components/js/report-view.js?v=20261027-overview2"></script>
+<script src="../components/js/report-sharing.js?v=20261027-overview2"></script>
+<script src="../components/js/campaign-sections.js?v=20261027-overview2"></script>
 <script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
 <script src="../components/js/campaign-activity.js?v=20261027-submitted"></script>
-<script src="../components/js/campaign-details.js?v=20261027-complete"></script>
-<script src="../components/js/campaign-page.js?v=20261027-complete" data-default-campaign="128984"></script>
+<script src="../components/js/campaign-details.js?v=20261027-overview2"></script>
+<script src="../components/js/campaign-page.js?v=20261027-overview2" data-default-campaign="128984"></script>
 </body>
 </html>

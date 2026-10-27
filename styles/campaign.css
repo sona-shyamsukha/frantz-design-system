@@ -55,6 +55,7 @@
 .campaign-fields .summary-row dd { white-space: pre-line; }
 .campaign-source-text { white-space: pre-wrap; overflow-wrap: anywhere; }
 .campaign-links .copy-field { min-width: 0; }
+.campaign-overview-facts { padding-bottom: var(--space-20); margin-bottom: var(--space-20); border-bottom: 1px solid var(--border-default); }
 @media (min-width: 641px) {
   .campaign-fields .summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
 }

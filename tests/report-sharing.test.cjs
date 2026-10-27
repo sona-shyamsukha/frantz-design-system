@@ -6,7 +6,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 
 function load(relative, window = {}) {
-  vm.runInNewContext(fs.readFileSync(path.join(root, relative), 'utf8'), { window, localStorage: window.localStorage, Date, URL, URLSearchParams });
+  vm.runInNewContext(fs.readFileSync(path.join(root, relative), 'utf8'), { window, localStorage: window.localStorage, Date, URL, URLSearchParams, crypto: require('node:crypto').webcrypto, Event, location: { href: 'http://localhost:8087/portal/rapport.html' } });
   return window;
 }
 
@@ -49,6 +49,31 @@ test('revoked, expired and unknown report links cannot resolve to an active repo
   assert.equal(sharing.state(sharing.resolve('revoked-token')), 'revoked');
   assert.equal(sharing.state(sharing.resolve('expired-token')), 'expired');
   assert.equal(sharing.state(sharing.resolve('unknown-token')), 'revoked');
+});
+
+test('automatically creates a stable report link without an expiry date or private data', () => {
+  let stored = '{}';
+  const window = load('components/js/report-sharing.js', { dispatchEvent() {}, localStorage: { getItem: () => stored, setItem: (_, value) => { stored = value; } } });
+  const sharing = window.FrantzReportSharing;
+  const first = sharing.ensure('129074');
+  assert.equal(sharing.ensure('129074').token, first.token);
+  assert.notEqual(sharing.ensure('128984').token, first.token);
+  assert.equal(first.expires, null);
+  assert.equal(first.costs, false);
+  assert.equal(sharing.state(sharing.resolve(first.token)), 'active');
+  assert.match(sharing.linkFor('129074'), /delt-rapport\.html\?lenke=/);
+  assert.deepEqual(Object.keys(first).sort(), ['campaign', 'costs', 'expires', 'expiryChoice', 'revoked', 'token']);
+});
+
+test('automatic link provisioning preserves explicit revocation and existing expiry choices', () => {
+  let stored = JSON.stringify({ '42': { campaign: '42', token: 'old', costs: true, revoked: true, expires: '2999-01-01T00:00:00Z' } });
+  const window = load('components/js/report-sharing.js', { dispatchEvent() {}, localStorage: { getItem: () => stored, setItem: (_, value) => { stored = value; } } });
+  const record = window.FrantzReportSharing.ensure('42');
+  assert.equal(record.token, 'old');
+  assert.equal(record.revoked, true);
+  assert.equal(record.costs, true);
+  assert.equal(record.expires, '2999-01-01T00:00:00Z');
+  assert.equal(window.FrantzReportSharing.linkFor('42'), null);
 });
 
 test('each campaign list destination carries its own identity', () => {
