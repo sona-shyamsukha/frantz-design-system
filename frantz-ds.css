@@ -1,5 +1,5 @@
-@import './tokens/base.css?v=200';
-@import './styles/reset.css?v=200';
+@import './tokens/base.css?v=202';
+@import './styles/reset.css?v=202';
 @import './styles/typography.css?v=76';
 @import './styles/layout.css?v=76';
 
@@ -14,13 +14,13 @@
 @import './components/tooltip/componentTooltip.css?v=76';
 @import './components/breadcrumb/componentBreadcrumb.css?v=76';
 @import './components/pagination/componentPagination.css?v=76';
-@import './components/card/componentCard.css?v=200';
+@import './components/card/componentCard.css?v=202';
 @import './components/badge/componentBadge.css?v=76';
 @import './components/tag/componentTag.css?v=76';
 @import './components/avatar/componentAvatar.css?v=76';
 @import './components/alert/componentAlert.css?v=76';
-@import './components/kpi/componentKpi.css?v=200';
-@import './components/nav/componentNav.css?v=200';
+@import './components/kpi/componentKpi.css?v=202';
+@import './components/nav/componentNav.css?v=202';
 @import './components/table/componentTable.css?v=76';
 @import './components/progress/componentProgress.css?v=76';
 @import './components/metric/componentMetric.css?v=76';
@@ -30,7 +30,7 @@
 @import './components/checklist/componentChecklist.css?v=77';
 @import './components/geo/componentGeo.css?v=76';
 @import './components/timeline/componentTimeline.css?v=76';
-@import './components/summary/componentSummary.css?v=200';
+@import './components/summary/componentSummary.css?v=202';
 @import './components/tour/componentTour.css?v=76';
 @import './components/piksel/componentPiksel.css?v=76';
 @import './components/steps/componentSteps.css?v=76';
