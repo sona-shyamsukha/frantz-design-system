@@ -15,15 +15,14 @@
   .verktoy .sok { position: relative; flex: 1 1 260px; max-width: 360px; }
   .verktoy .sok .icon-lucide { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-faint); }
   .verktoy .sok .form-input { padding-left: var(--control-icon-padding); }
-  .medie-lay { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-24); align-items: start; margin-top: var(--space-24); }
-  .medie-lay--uten { grid-template-columns: minmax(0, 1fr); }
+  .medie-lay { margin-top: var(--space-24); }
   .rutenett { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-16); }
   .opplast { display: grid; place-items: center; align-content: center; gap: var(--space-8); min-height: 220px; padding: var(--space-16); border: 2px dashed var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); color: var(--text-muted); text-align: center; cursor: pointer; font: var(--type-body); }
   .opplast:hover, .opplast.er-over { border-color: var(--color-navy); color: var(--text-heading); }
   .opplast b { color: var(--text-heading); }
   .medie { display: flex; flex-direction: column; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-12); background: var(--surface-raised); overflow: hidden; text-align: left; font: inherit; cursor: pointer; }
   .medie:hover { border-color: var(--border-strong); }
-  .medie[aria-pressed="true"] { border-color: var(--color-navy); box-shadow: 0 0 0 2px var(--color-navy); }
+  .medie[aria-expanded="true"] { border-color: var(--color-navy); box-shadow: 0 0 0 2px var(--color-navy); }
   .medie:focus-visible { outline: none; box-shadow: var(--focus-ring-soft); }
   .medie__bilde { position: relative; display: grid; place-items: center; aspect-ratio: 1; color: var(--color-white); }
   .medie__body { padding: var(--space-8) var(--space-12) var(--space-12); }
@@ -31,21 +30,39 @@
   .medie__meta { margin-top: var(--space-2); color: var(--text-muted); font: var(--type-support); }
   .kanalikoner { display: flex; gap: var(--space-6); margin-top: var(--space-8); }
   .kanalikoner img { width: 18px; height: 18px; }
-  .detalj { position: sticky; top: var(--space-24); }
-  .detalj[hidden] { display: none; }
+  dialog.medie-dialog { width: min(1120px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-subtle); overflow: hidden; }
+  .medie-dialog[open] { display: flex; flex-direction: column; }
+  .medie-dialog::backdrop { background: var(--scrim); }
+  body:has(.medie-dialog[open]) { overflow: hidden; }
+  .medie-dialog__topp { display: flex; flex: none; align-items: flex-start; justify-content: space-between; gap: var(--space-16); padding: var(--space-24); border-bottom: 1px solid var(--border-subtle); }
+  .medie-dialog__topp h2 { min-width: 0; margin: 0; overflow-wrap: anywhere; font: var(--type-section); color: var(--text-heading); }
+  .medie-dialog__lukk { flex: none; }
+  .medie-dialog__innhold { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr); grid-auto-rows: max-content; align-content: start; align-items: start; gap: var(--space-24); min-height: 0; padding: var(--space-24); overflow-y: auto; overscroll-behavior: contain; }
+  .medie-dialog__info { min-width: 0; }
+  .medie-dialog .summary-row { gap: var(--space-16); }
+  .medie-dialog .summary-row dd { min-width: 0; overflow-wrap: anywhere; }
   .medie__bilde[data-lys], .detalj__bilde[data-lys] { color: var(--text-heading); }
   .medie__spill { display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--radius-full); background: rgba(0, 0, 0, 0.45); color: var(--color-white); }
-  .detalj__bilde { display: grid; place-items: center; aspect-ratio: 1; border-radius: var(--radius-8); color: var(--color-white); }
-  .detalj__navn { margin: var(--space-16) 0 0; color: var(--text-heading); font: var(--type-section); }
-  .detalj dl { margin: var(--space-12) 0 0; }
+  .detalj__bilde { display: grid; place-items: center; position: sticky; top: 0; min-height: min(320px, 45dvh); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-section); color: var(--color-white); }
+  .detalj__bilde img, .detalj__bilde video { display: block; width: 100%; max-height: min(640px, 65dvh); object-fit: contain; }
+  .detalj__bilde .medie__spill { position: absolute; }
+  .medie-dialog__metadata { display: grid; gap: var(--space-12); }
   .passer { display: flex; flex-direction: column; gap: var(--space-6); }
   .passer span { display: inline-flex; align-items: center; gap: var(--space-8); font-size: var(--text-sm); }
   .passer img { width: 18px; height: 18px; }
   .brukt a { display: block; font-size: var(--text-sm); color: var(--text-heading); }
   .tagger { display: flex; flex-wrap: wrap; gap: var(--space-6); }
-  .detalj__knapper { display: flex; gap: var(--space-8); margin-top: var(--space-16); }
+  .detalj__knapper { display: flex; flex-wrap: wrap; gap: var(--space-12); margin-top: var(--space-24); }
   .tom { padding: var(--space-32); text-align: center; color: var(--text-muted); }
-  @media (max-width: 1180px) { .medie-lay { grid-template-columns: 1fr; } .detalj { position: static; } }
+  @media (max-width: 899px) {
+    .medie-dialog__innhold { grid-template-columns: minmax(0, 1fr); }
+    .detalj__bilde { position: static; }
+    .detalj__bilde img, .detalj__bilde video { max-height: 45dvh; }
+  }
+  @media (max-width: 640px) {
+    dialog.medie-dialog { width: calc(100vw - var(--space-16)); max-height: calc(100dvh - var(--space-16)); }
+    .medie-dialog__topp, .medie-dialog__innhold { padding: var(--space-16); }
+  }
 </style>
 </head>
 <body>
@@ -107,12 +124,13 @@
           <div class="rutenett" id="rutenett"></div>
           <p class="tom" id="tom" hidden>Ingen treff. Prøv et annet søk.</p>
         </div>
-        <aside class="card card--betjen detalj" id="detalj" tabindex="-1" aria-live="polite"></aside>
       </div>
       <input type="file" aria-label="Velg filer" id="fil" accept="image/*,video/*" multiple hidden>
     </div>
   </div>
 </div>
+
+<dialog class="medie-dialog" id="detalj" aria-labelledby="detalj-navn"></dialog>
 
 <script>
 var K = { meta: ['Meta', 'meta.svg'], linkedin: ['LinkedIn', 'linkedin.svg'], nettsteder: ['Nettsteder og aviser', 'nettsteder.svg'], tiktok: ['TikTok', 'tiktok.svg'], snapchat: ['Snapchat', 'snapchat.svg'] };
@@ -129,6 +147,8 @@ var medier = [
   { id: 8, navn: 'Nordlys logo, lys', type: 'Logo', format: 'SVG', dato: '02.03.2026', lys: true, farge: 'var(--color-navy-pale)', brukt: [], tagger: ['logo'] }
 ];
 var filter = 'alle', sok = '', valgt = null;
+var detalj = document.getElementById('detalj');
+var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
 var bakgrunn = function (m) { return m.bilde ? m.farge + ' url(' + m.bilde + ') center / cover no-repeat' : m.farge; };
 // A photo needs no icon. A video keeps the play button on top of its still image.
 var merke = function (m) {
@@ -145,9 +165,9 @@ function tegnRutenett() {
   });
   var html = '<button type="button" class="opplast" id="opplast"><span class="icon-lucide icon-lucide--upload icon-lucide--lg" aria-hidden="true"></span><b>Last opp filer</b><span>Dra filer hit, eller klikk for å velge</span></button>';
   html += liste.map(function (m) {
-    return '<button type="button" class="medie" data-id="' + m.id + '" aria-pressed="' + (valgt === m.id) + '">' +
+    return '<button type="button" class="medie" data-id="' + m.id + '" aria-haspopup="dialog" aria-controls="detalj" aria-expanded="' + (valgt === m.id && detalj.open) + '">' +
       '<span class="medie__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + bakgrunn(m) + '"><span class="tag tag--overlay">' + m.type + '</span>' + merke(m) + '</span>' +
-      '<span class="medie__body"><span class="medie__navn">' + m.navn + '</span><span class="medie__meta" style="display:block">' + m.format + '</span>' +
+      '<span class="medie__body"><span class="medie__navn">' + esc(m.navn) + '</span><span class="medie__meta" style="display:block">' + esc(m.format) + '</span>' +
       '<span class="kanalikoner">' + kanalIkoner(m) + '</span></span></button>';
   }).join('');
   document.getElementById('rutenett').innerHTML = html;
@@ -155,21 +175,23 @@ function tegnRutenett() {
 }
 
 function tegnDetalj() {
-  var d = document.getElementById('detalj'), lay = document.getElementById('medie-lay');
+  var d = detalj, innhold = d.querySelector('.medie-dialog__innhold');
+  var scrollTop = innhold ? innhold.scrollTop : 0;
   var m = medier.filter(function (x) { return x.id === valgt; })[0];
-  if (!m) { d.hidden = true; lay.classList.add('medie-lay--uten'); return; }
-  d.hidden = false; lay.classList.remove('medie-lay--uten');
+  if (!m) return;
   var p = passer[m.format] || [];
+  var preview = m.videoUrl ? '<video src="' + esc(m.videoUrl) + '" controls playsinline aria-label="' + esc(m.navn) + '"></video>' :
+    m.bilde ? '<img src="' + esc(m.bilde) + '" alt="' + esc(m.navn) + '">' + (m.type === 'Video' ? merke(m) : '') : merke(m);
+  var filUrl = m.videoUrl || m.bilde;
   d.innerHTML =
-    '<div style="display:flex;justify-content:flex-end;margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-8)"><button type="button" class="btn btn--ghost" data-lukk-detalj aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>' +
-    '<div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + ' style="background: ' + bakgrunn(m) + '">' + merke(m) + '</div>' +
-    '<h2 class="detalj__navn">' + m.navn + '</h2>' +
-    '<dl>' +
+    '<header class="medie-dialog__topp"><h2 id="detalj-navn" tabindex="-1">' + esc(m.navn) + '</h2><button type="button" class="btn btn--secondary btn--sm medie-dialog__lukk" data-lukk-detalj aria-label="Lukk forhåndsvisningen"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></header>' +
+    '<div class="medie-dialog__innhold"><div class="detalj__bilde"' + (m.lys ? ' data-lys' : '') + (m.bilde || m.videoUrl ? '' : ' style="background: ' + m.farge + '"') + '>' + preview + '</div>' +
+    '<div class="medie-dialog__info"><div class="medie-dialog__metadata">' +
       '<dl class="summary-row"><dt>Type</dt><dd>' + m.type + '</dd></dl>' +
-      '<dl class="summary-row"><dt>Format</dt><dd>' + m.format + (m.format === 'SVG' ? '' : ' px') + '</dd></dl>' +
+      '<dl class="summary-row"><dt>Format</dt><dd>' + esc(m.format) + (/^\d+ × \d+$/.test(m.format) ? ' px' : '') + '</dd></dl>' +
       '<dl class="summary-row"><dt>Lastet opp</dt><dd>' + m.dato + '</dd></dl>' +
-      (m.kreditt ? '<dl class="summary-row"><dt>Foto</dt><dd>' + m.kreditt + ' / Unsplash</dd></dl>' : '') +
-    '</dl>' +
+      (m.kreditt ? '<dl class="summary-row"><dt>Foto</dt><dd>' + esc(m.kreditt) + ' / Unsplash</dd></dl>' : '') +
+    '</div>' +
     '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><span class="summary-panel__label">Passer for</span><div class="passer" style="margin-top: var(--space-8)">' +
       (p.length ? p.map(function (k) { return '<span><img src="../assets/kanaler/' + K[k][1] + '" alt="">' + K[k][0] + '</span>'; }).join('') : '<span style="color: var(--text-muted)">Brukes på kampanjesider og bannere</span>') +
     '</div></div>' +
@@ -177,35 +199,57 @@ function tegnDetalj() {
       (m.brukt.length ? m.brukt.map(function (b) { return '<a href="' + b[1] + '">' + b[0] + '</a>'; }).join('') : '<span style="font-size: var(--text-sm);color: var(--text-muted)">Ikke brukt ennå</span>') +
     '</div></div>' +
     '<div class="drawer__section" style="margin-top: var(--space-16);padding-top: var(--space-16)"><label class="summary-panel__label" for="ny-tagg">Tagger</label>' +
-      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + t + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + t + '"><span class="icon-lucide icon-lucide--x icon-lucide--sm" aria-hidden="true"></span></button></span>'; }).join('') + '</div>' +
+      '<div class="tagger" style="margin-top: var(--space-8)">' + m.tagger.map(function (t, i) { return '<span class="tag tag--removable">' + esc(t) + '<button type="button" data-fjern="' + i + '" aria-label="Fjern taggen ' + esc(t) + '"><span class="icon-lucide icon-lucide--x icon-lucide--sm" aria-hidden="true"></span></button></span>'; }).join('') + '</div>' +
       '<input class="form-input" id="ny-tagg" placeholder="Legg til tagg og trykk Enter" style="margin-top: var(--space-8)"></div>' +
-    '<div class="detalj__knapper"><button class="btn btn--secondary" type="button"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned</button>' +
-    '<button class="btn btn--ghost" type="button" data-slett style="color: var(--text-danger-strong)"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span> Slett</button></div>';
+    '<div class="detalj__knapper">' + (filUrl ? '<a class="btn btn--secondary" href="' + esc(filUrl) + '" download="' + esc(m.filnavn || m.navn) + '"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned</a>' : '') +
+    '<button class="btn btn--ghost" type="button" data-slett style="color: var(--text-danger-strong)"><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span> Slett</button></div></div></div>';
+  d.querySelector('.medie-dialog__innhold').scrollTop = scrollTop;
 }
 
+function synkApentMedie() {
+  document.querySelectorAll('.medie').forEach(function (kort) { kort.setAttribute('aria-expanded', String(detalj.open && +kort.dataset.id === valgt)); });
+}
+// Keep Tab within the preview, including browsers that otherwise pass through their toolbar.
+detalj.addEventListener('keydown', function (e) {
+  if (e.key !== 'Tab') return;
+  var felt = Array.from(detalj.querySelectorAll('button:not([disabled]), a[href], input:not([disabled]), video[controls]')).filter(function (el) { return el.getClientRects().length; });
+  var index = felt.indexOf(document.activeElement);
+  if (index === -1 || (e.shiftKey && index === 0) || (!e.shiftKey && index === felt.length - 1)) {
+    e.preventDefault(); felt[e.shiftKey ? felt.length - 1 : 0].focus();
+  }
+});
+// Escape uses the native dialog dismissal. Restore the grid focus on every close.
+detalj.addEventListener('close', function () {
+  var forrige = valgt;
+  var video = detalj.querySelector('video'); if (video) video.pause();
+  valgt = null; tegnRutenett();
+  var tilbake = document.querySelector('.medie[data-id="' + forrige + '"]') || document.querySelector('.medie') || document.getElementById('last-opp-knapp');
+  tilbake.focus({ preventScroll: true });
+});
+detalj.addEventListener('click', function (e) {
+  var r = detalj.getBoundingClientRect();
+  if (e.target === detalj && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) detalj.close();
+});
 document.addEventListener('click', function (e) {
   var kort = e.target.closest('.medie');
   if (kort) {
-    valgt = +kort.dataset.id; tegnRutenett(); tegnDetalj();
-    if (window.matchMedia('(max-width:1180px)').matches) {
-      var panel = document.getElementById('detalj');
-      panel.scrollIntoView({ block: 'start', behavior: 'instant' }); panel.focus({ preventScroll: true });
-    }
+    valgt = +kort.dataset.id; tegnDetalj();
+    detalj.showModal(); synkApentMedie();
+    document.getElementById('detalj-navn').focus({ preventScroll: true });
     return;
   }
   if (e.target.closest('#opplast') || e.target.closest('#last-opp-knapp')) { document.getElementById('fil').click(); return; }
   if (e.target.closest('[data-lukk-detalj]')) {
-    var forrige = valgt; valgt = null; tegnRutenett(); tegnDetalj();
-    var tilbake = document.querySelector('.medie[data-id="' + forrige + '"]');
-    if (tilbake) tilbake.focus();
+    detalj.close();
     return;
   }
   var f = e.target.closest('[data-fjern]');
-  if (f) { var m = medier.filter(function (x) { return x.id === valgt; })[0]; m.tagger.splice(+f.dataset.fjern, 1); tegnDetalj(); return; }
+  if (f) { var m = medier.filter(function (x) { return x.id === valgt; })[0]; m.tagger.splice(+f.dataset.fjern, 1); tegnDetalj(); document.getElementById('ny-tagg').focus(); return; }
   if (e.target.closest('[data-slett]')) {
     var mm = medier.filter(function (x) { return x.id === valgt; })[0];
     if (mm.brukt.length && !confirm('«' + mm.navn + '» er brukt i ' + mm.brukt.length + (mm.brukt.length === 1 ? ' kampanje' : ' kampanjer') + '. Vil du slette den likevel?')) return;
-    medier = medier.filter(function (x) { return x.id !== valgt; }); valgt = null; tegnRutenett(); tegnDetalj(); return;
+    if (mm.filUrl) URL.revokeObjectURL(mm.filUrl);
+    medier = medier.filter(function (x) { return x.id !== valgt; }); tegnRutenett(); detalj.close(); return;
   }
   var t = e.target.closest('[data-type]');
   if (t) { filter = t.dataset.type; document.querySelectorAll('[data-type]').forEach(function (b) { b.setAttribute('aria-pressed', b === t); }); tegnRutenett(); }
@@ -217,10 +261,31 @@ document.addEventListener('keydown', function (e) {
   }
 });
 document.getElementById('medie-sok').addEventListener('input', function (e) { sok = e.target.value.trim().toLowerCase(); tegnRutenett(); });
-document.getElementById('fil').addEventListener('change', function (e) {
-  Array.prototype.forEach.call(e.target.files, function (f, i) {
-    medier.unshift({ id: Date.now() + i, navn: f.name.replace(/\.[^.]+$/, ''), type: f.type.indexOf('video') === 0 ? 'Video' : 'Bilde', format: '1080 × 1080', dato: 'I dag', farge: 'var(--color-navy-soft)', brukt: [], tagger: [] });
+function lesFilformat(url, video) {
+  return new Promise(function (resolve) {
+    var media = document.createElement(video ? 'video' : 'img');
+    media.addEventListener(video ? 'loadedmetadata' : 'load', function () {
+      var bredde = video ? media.videoWidth : media.naturalWidth;
+      var hoyde = video ? media.videoHeight : media.naturalHeight;
+      resolve(bredde && hoyde ? bredde + ' × ' + hoyde : 'Ukjent format');
+      if (video) { media.removeAttribute('src'); media.load(); }
+    }, { once: true });
+    media.addEventListener('error', function () { resolve('Ukjent format'); }, { once: true });
+    if (video) media.preload = 'metadata';
+    media.src = url;
   });
+}
+document.getElementById('fil').addEventListener('change', async function (e) {
+  var filer = Array.from(e.target.files);
+  e.target.value = '';
+  var startId = Date.now();
+  var nye = await Promise.all(filer.map(async function (f, i) {
+    var video = f.type.indexOf('video/') === 0;
+    if (!video && f.type.indexOf('image/') !== 0) return null;
+    var url = URL.createObjectURL(f);
+    return { id: startId + i, navn: f.name.replace(/\.[^.]+$/, ''), filnavn: f.name, type: video ? 'Video' : 'Bilde', format: await lesFilformat(url, video), dato: 'I dag', farge: 'var(--color-navy-soft)', bilde: video ? null : url, videoUrl: video ? url : null, filUrl: url, brukt: [], tagger: [] };
+  }));
+  medier = nye.filter(Boolean).concat(medier);
   tegnRutenett();
 });
 ['dragover', 'dragleave', 'drop'].forEach(function (ev) {
@@ -230,7 +295,7 @@ document.getElementById('fil').addEventListener('change', function (e) {
     if (ev === 'drop' && e.dataTransfer.files.length) { var inp = document.getElementById('fil'); inp.files = e.dataTransfer.files; inp.dispatchEvent(new Event('change')); }
   });
 });
-tegnRutenett(); tegnDetalj();
+tegnRutenett();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=18"></script>
