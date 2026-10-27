@@ -8,7 +8,7 @@
 <title>Godkjenning — Frantz</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=203">
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
-<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=4">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=5">
 </head>
 <body>
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
@@ -17,10 +17,10 @@
   <p id="approval-loading" role="status">Laster forespørselen …</p>
   <section id="approval-unavailable" hidden><h1 id="unavailable-title">Lenken er ikke tilgjengelig</h1><p id="unavailable-text"></p></section>
   <section class="approval-mail" id="approval-email" hidden aria-labelledby="email-title">
-    <p class="approval-page__meta" id="email-to"></p><p class="approval-page__meta">Fra: Frantz</p>
-    <h1 id="email-title"></h1><p id="email-greeting"></p><p id="email-copy"></p><blockquote class="approval-comment" id="email-message" hidden></blockquote>
-    <a class="btn btn--primary" id="email-open" href="#">Se og godkjenn</a>
-    <p class="form-hint">Du trenger ikke logge inn. Å åpne lenken godkjenner ingenting.</p>
+    <div class="approval-mail__meta"><p class="approval-page__meta" id="email-to"></p><p class="approval-page__meta">Fra: Frantz</p></div>
+    <h1 id="email-title"></h1><div class="approval-mail__body"><p id="email-greeting"></p><p id="email-copy"></p><blockquote class="approval-comment" id="email-message" hidden></blockquote></div>
+    <div class="approval-mail__action"><a class="btn btn--primary" id="email-open" href="#">Se og godkjenn</a>
+    <p class="form-hint">Du trenger ikke logge inn. Å åpne lenken godkjenner ingenting.</p></div>
     <p class="approval-prototype">Forhåndsvisning av e-post i prototypen. Ingen e-post er sendt.</p>
   </section>
   <div id="approval-review" hidden>
@@ -28,6 +28,12 @@
     <h1 id="request-title"></h1><p class="approval-page__intro" id="request-intro"></p>
     <p class="approval-page__meta" id="request-recipient"></p><p class="approval-page__meta" id="request-expiry"></p>
     <blockquote class="approval-comment" id="request-message" hidden></blockquote>
+    <section class="approval-page__section approval-response" id="request-response-top" data-approval-response aria-labelledby="response-title-top" hidden>
+      <h2 id="response-title-top">Ditt svar</h2><p data-response-effect></p>
+      <div class="btn-row"><button class="btn btn--accent" type="button" data-approve-request>Godkjenn</button><button class="btn btn--secondary" type="button" data-request-change aria-expanded="false" aria-controls="change-form-top">Be om endring</button></div>
+      <form class="approval-changes" id="change-form-top" data-change-form hidden><label class="form-label" for="change-comment-top">Hva må endres?</label><textarea class="form-textarea" id="change-comment-top" data-change-comment rows="4" required aria-describedby="response-error-top"></textarea><button class="btn btn--primary" type="submit">Send endringsønske</button></form>
+      <p class="approval-response-error" id="response-error-top" data-response-error role="alert" hidden></p>
+    </section>
     <section class="approval-page__section" id="request-plan" aria-labelledby="plan-title" hidden>
       <div class="summary-panel"><div class="summary-panel__head"><h2 id="plan-title">Kampanjeplanen</h2></div><div class="summary-panel__block">
         <dl class="summary-row"><dt>Stilling</dt><dd id="plan-job"></dd></dl><dl class="summary-row"><dt>Arbeidsgiver</dt><dd id="plan-employer"></dd></dl>
@@ -37,17 +43,17 @@
       </div><div class="summary-panel__total"><span>Totalsum</span><b id="plan-total"></b></div><p class="summary-panel__mva">Alle priser er eks. mva.</p></div>
     </section>
     <section class="approval-page__section" id="request-ads" aria-labelledby="ads-title">
-      <h2 id="ads-title">Annonseforhåndsvisning</h2><span class="badge badge--setup" id="ads-status"></span><p class="form-hint" id="ads-hint"></p>
+      <div class="approval-preview__intro"><div class="approval-preview__head"><h2 id="ads-title">Annonseforhåndsvisning</h2><span class="badge badge--setup" id="ads-status"></span></div><p class="form-hint" id="ads-hint"></p></div>
       <div class="approval-preview" id="request-preview"></div>
     </section>
     <section class="approval-page__section" id="request-landing" hidden aria-labelledby="landing-title">
       <h2 id="landing-title">Kampanjesiden</h2><details class="disclosure approval-landing"><summary>Se kampanjesiden som skal godkjennes<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p class="form-hint" id="landing-employer"></p><h3 id="landing-heading"></h3><p id="landing-body"></p><span class="tag">Søk nå</span></div></details>
     </section>
-    <section class="approval-page__section approval-response" id="request-response" aria-labelledby="response-title">
-      <h2 id="response-title">Ditt svar</h2><p id="response-effect"></p>
-      <div class="btn-row"><button class="btn btn--accent" type="button" id="approve-request">Godkjenn</button><button class="btn btn--secondary" type="button" id="request-change" aria-expanded="false" aria-controls="change-form">Be om endring</button></div>
-      <form class="approval-changes" id="change-form" hidden><label class="form-label" for="change-comment">Hva må endres?</label><textarea class="form-textarea" id="change-comment" rows="4" required aria-describedby="response-error"></textarea><button class="btn btn--primary" type="submit">Send endringsønske</button></form>
-      <p class="approval-response-error" id="response-error" role="alert" hidden></p>
+    <section class="approval-page__section approval-response" id="request-response" data-approval-response aria-labelledby="response-title" hidden>
+      <h2 id="response-title">Ditt svar</h2><p id="response-effect" data-response-effect></p>
+      <div class="btn-row"><button class="btn btn--accent" type="button" id="approve-request" data-approve-request>Godkjenn</button><button class="btn btn--secondary" type="button" id="request-change" data-request-change aria-expanded="false" aria-controls="change-form">Be om endring</button></div>
+      <form class="approval-changes" id="change-form" data-change-form hidden><label class="form-label" for="change-comment">Hva må endres?</label><textarea class="form-textarea" id="change-comment" data-change-comment rows="4" required aria-describedby="response-error"></textarea><button class="btn btn--primary" type="submit">Send endringsønske</button></form>
+      <p class="approval-response-error" id="response-error" data-response-error role="alert" hidden></p>
     </section>
     <section class="approval-page__section approval-response" id="request-receipt" role="status" hidden><h2 id="receipt-title" tabindex="-1"></h2><p id="receipt-body"></p><p class="approval-page__meta" id="receipt-time"></p><blockquote class="approval-comment" id="receipt-comment" hidden></blockquote></section>
     <p class="approval-prototype">Prototype: Svaret lagres i denne nettleseren. E-postvarsler og publisering simuleres.</p>
@@ -59,6 +65,6 @@
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
 <script src="../components/js/approval-preview.js?v=3"></script>
-<script src="../components/js/approval-review.js?v=3"></script>
+<script src="../components/js/approval-review.js?v=4"></script>
 </body>
 </html>

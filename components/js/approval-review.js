@@ -3,6 +3,8 @@
   'use strict';
   var Store = window.FrantzApprovals, params = new URLSearchParams(location.search), requestId = params.get('request'), current, renderedId, expiryTimer;
   var $ = function (id) { return document.getElementById(id); };
+  var responseSections = Array.from(document.querySelectorAll('[data-approval-response]'));
+  var submitting = false;
   var money = function (n) { return Math.round(Number(n) || 0).toLocaleString('nb-NO') + ' kr'; };
   var date = function (value) { return new Date(value).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Oslo' }); };
   function unavailable(state) {
@@ -50,15 +52,18 @@
     $('ads-hint').textContent = plan ? 'Du godkjenner kampanjeplanen nå. Ferdige annonser godkjennes i en egen runde før publisering.' : 'Godkjenningen gjelder alt materiellet i denne forespørselen, på tvers av kanaler og formater.';
     if (content.ads && content.ads.length) {
       $('ads-hint').textContent = 'Alle ' + content.ads.length + ' annonser nedenfor inngår i forespørselen. Hvis noe må endres, skriv hvilken annonse det gjelder i tilbakemeldingen.';
-      $('change-comment').placeholder = 'F.eks. I «' + content.ads[Math.min(1, content.ads.length - 1)].name + '» vil vi endre …';
+      responseSections.forEach(function (section) { section.querySelector('[data-change-comment]').placeholder = 'F.eks. I «' + content.ads[Math.min(1, content.ads.length - 1)].name + '» vil vi endre …'; });
     }
     if (content.example) $('ads-hint').textContent += ' Dette er eksempelinnhold i prototypen.';
     if (renderedId !== request.id) { window.FrantzApprovalPreview.mount($('request-preview'), content); renderedId = request.id; }
     $('request-landing').hidden = plan || !content.landing;
     if (content.landing) { $('landing-employer').textContent = content.landing.employer || content.employer; $('landing-heading').textContent = content.landing.title; $('landing-body').textContent = content.landing.body; }
-    $('request-response').hidden = state !== 'pending'; $('request-receipt').hidden = state === 'pending';
-    $('response-effect').textContent = plan ? 'Du godkjenner planen som vises her. Godkjenningen sender ikke bestillingen. ' + request.sender + ' bestiller i et eget steg.' : 'Du godkjenner materiellet som vises her. Frantz følger opp publisering etterpå.';
-    $('approve-request').textContent = 'Godkjenn ' + what;
+    responseSections.forEach(function (section) {
+      section.hidden = state !== 'pending';
+      section.querySelector('[data-response-effect]').textContent = plan ? 'Du godkjenner planen som vises her. Godkjenningen sender ikke bestillingen. ' + request.sender + ' bestiller i et eget steg.' : 'Du godkjenner materiellet som vises her. Frantz følger opp publisering etterpå.';
+      section.querySelector('[data-approve-request]').textContent = 'Godkjenn ' + what;
+    });
+    $('request-receipt').hidden = state === 'pending';
     if (state === 'approved' || state === 'changes') {
       $('receipt-title').textContent = state === 'approved' ? 'Takk! Du har godkjent ' + what + '.' : 'Endringsønsket er registrert';
       $('receipt-body').textContent = state === 'approved' ? 'Godkjenningen gjelder versjon ' + request.version + '. Avsenderen kan se svaret i portalen.' : 'Avsenderen kan se kommentaren din i portalen. Du får en ny forespørsel når innholdet er endret.';
@@ -72,20 +77,26 @@
     catch (e) { unavailable('storage'); }
     finally { $('approval-loading').hidden = true; }
   }
-  async function respond(state) {
-    $('response-error').hidden = true;
-    var comment = $('change-comment').value.trim();
-    if (state === 'changes' && !comment) { $('response-error').hidden = false; $('response-error').textContent = 'Skriv hva som må endres.'; $('change-comment').focus(); return; }
-    var buttons = $('request-response').querySelectorAll('button'); buttons.forEach(function (button) { button.disabled = true; });
+  async function respond(state, section) {
+    if (submitting) return;
+    var error = section.querySelector('[data-response-error]'), field = section.querySelector('[data-change-comment]');
+    error.hidden = true;
+    var comment = field.value.trim();
+    if (state === 'changes' && !comment) { error.hidden = false; error.textContent = 'Skriv hva som må endres.'; field.focus(); return; }
+    submitting = true;
+    var buttons = document.querySelectorAll('[data-approval-response] button'); buttons.forEach(function (button) { button.disabled = true; });
     try { var saved = await Store.respond(requestId, state, comment); render(saved); $('receipt-title').focus(); }
     catch (e) {
       if (e.message === 'closed') await load();
-      else { $('response-error').hidden = false; $('response-error').textContent = 'Kunne ikke lagre svaret. Prøv igjen. Svaret er ikke registrert.'; }
-    } finally { buttons.forEach(function (button) { button.disabled = false; }); }
+      else { error.hidden = false; error.textContent = 'Kunne ikke lagre svaret. Prøv igjen. Svaret er ikke registrert.'; }
+    } finally { submitting = false; buttons.forEach(function (button) { button.disabled = false; }); }
   }
-  $('approve-request').addEventListener('click', function () { respond('approved'); });
-  $('request-change').addEventListener('click', function () { var open = $('change-form').hidden; $('change-form').hidden = !open; $('request-change').setAttribute('aria-expanded', String(open)); if (open) $('change-comment').focus(); });
-  $('change-form').addEventListener('submit', function (event) { event.preventDefault(); respond('changes'); });
+  responseSections.forEach(function (section) {
+    var change = section.querySelector('[data-request-change]'), form = section.querySelector('[data-change-form]');
+    section.querySelector('[data-approve-request]').addEventListener('click', function () { respond('approved', section); });
+    change.addEventListener('click', function () { var open = form.hidden; form.hidden = !open; change.setAttribute('aria-expanded', String(open)); if (open) section.querySelector('[data-change-comment]').focus(); });
+    form.addEventListener('submit', function (event) { event.preventDefault(); respond('changes', section); });
+  });
   window.addEventListener('storage', function (event) { if (event.key === 'fzApprovalChanged') load(); });
   window.addEventListener('focus', load);
   window.addEventListener('pagehide', function () { clearTimeout(expiryTimer); });

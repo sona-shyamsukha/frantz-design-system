@@ -10,6 +10,49 @@ function load(relative, window = {}) {
   return window;
 }
 
+function renderPublicReport(id, costs = false) {
+  const window = load('portal/data/rapporter.js', { addEventListener() {}, tegnUkegraf() {} });
+  load('components/js/report-view.js', window);
+  let printAction;
+  let printed = 0;
+  window.print = () => { printed++; };
+  window.FrantzReportSharing = {
+    resolve: () => ({ campaign: id, costs }), state: () => 'active'
+  };
+  const container = { innerHTML: '', querySelector: () => ({
+    addEventListener: (event, callback) => { printAction = callback; }
+  }) };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'components/js/shared-report.js'), 'utf8'), {
+    window, document: { getElementById: () => container },
+    location: { search: '?lenke=example-link' }, URLSearchParams,
+    setInterval() { return 1; }, clearInterval() {}
+  });
+  return { html: container.innerHTML, report: window.FZ_REPORTS[id], print: () => { printAction(); return printed; } };
+}
+
+test('public reports expose every available breakdown and daily row without expandable sections', () => {
+  for (const id of ['128984', '129041']) {
+    const { html, report } = renderPublicReport(id);
+    assert.doesNotMatch(html, /<(?:details|summary)\b|aria-expanded=/);
+    for (const title of ['Dag for dag', 'Daglige tall', 'Visninger og lesing', 'Annonsene', 'Nettsteder og aviser', 'Hvor ble annonsene vist?']) {
+      assert.ok(html.includes(title), `Missing section: ${title}`);
+    }
+    assert.equal([...html.matchAll(/<td data-label="Dato">/g)].length, report.daily[0].length);
+    for (const item of [...report.ads, ...report.placements, ...report.geography]) {
+      assert.ok(html.includes(item.name), `Missing breakdown row: ${item.name}`);
+    }
+  }
+});
+
+test('always-visible public reports still respect cost visibility and support printing', () => {
+  const hiddenCosts = renderPublicReport('128984');
+  assert.doesNotMatch(hiddenCosts.html, /Kostnad per|kr\s|Avtalt budsjett|Faktisk forbruk/);
+  const includedCosts = renderPublicReport('128984', true);
+  assert.match(includedCosts.html, /Avtalt budsjett/);
+  assert.match(includedCosts.html, /Faktisk forbruk/);
+  assert.equal(includedCosts.print(), 1);
+});
+
 test('a report can omit every monetary value without omitting campaign results', () => {
   const window = load('portal/data/rapporter.js');
   load('components/js/report-view.js', window);
