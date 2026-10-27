@@ -4,6 +4,38 @@ User requirement, 27 October 2026: use existing tokens and components. Any gap t
 requires something new must be recorded explicitly. Reusing colours alone does not
 make a separately styled control an existing component.
 
+## Submission and phase navigation — 27 October 2026
+
+Verified: 27 data, approval, material, report and disclosure tests pass. A fresh
+order was placed and reopened on the isolated localhost origin. All five tabs pass
+layout checks at seven widths (320–1672 px), including copy-button containment.
+
+The five fixed tabs are **Innsikt, Stilling, Kampanje, Annonser, Interessenter**.
+Kampanje and Annonser remain separate: submitted configuration and developments
+belong to Kampanje; material, creative versions and approvals belong to Annonser.
+
+- Bestilt defaults to Kampanje. Production defaults to Kampanje while Frantz is
+  preparing or publishing, and Annonser when ready for approval. Active/completed
+  campaigns default to Innsikt. Explicit tab links are respected; old tab hashes
+  map to the new sections.
+- The full reviewed field registry is captured with every new order. Stilling and
+  Kampanje render the immutable submission, original text/link and original file
+  attachments. Later campaign metadata does not overwrite the submitted values.
+  Older fixtures only show the original data that exists; missing fields are not invented.
+- A compact **Lenker og kopiering** card is the only sticky area. The whole sidebar
+  sticks as one unit, bounded by the viewport. On smaller screens it becomes a
+  normal, collapsed disclosure above the tabs. Campaign number, portal URL,
+  published campaign URL, source job URL and created report URL use the same copy row.
+- **CopyField** is the existing tracking copy-row composition extracted into a shared
+  component, using existing ghost buttons, icons, spacing, colours and focus tokens.
+  No new visual variant or token. The existing submitted-material appearance is
+  extracted into shared CSS and reused in every campaign phase.
+- Original submission loading, private detail rendering and append-only campaign
+  activity are shared modules. Approval events and existing advisor developments
+  stay in Kampanje. Public reports never load the private submission/detail modules.
+- Report links still use the existing same-browser demonstration store. The sharing
+  panel explains that cross-device access requires server-side integration.
+
 ## Shared campaign structure — 27 October 2026
 
 Campaign information panels use normal document flow on all four campaign pages;
@@ -38,8 +70,8 @@ page overflow, overlapping fact rows or clipped copy buttons. Keyboard tab
 navigation, legacy report links, sparse reports, inline copying and approval
 returning to Oversikt are checked in the browser.
 
-The shared sidebar is the stated default while Sona's optional placement preference
-is pending. No separate review page is part of the client journey.
+This earlier sidebar arrangement is superseded by the five-tab, links-only
+sidebar described above. No separate review page is part of the client journey.
 
 ## Ordered page browser feedback — 27 October 2026
 

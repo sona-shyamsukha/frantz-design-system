@@ -40,7 +40,9 @@ Use the portal itself for a client walkthrough: [campaign list](portal/campaigns
 [Under arbeid](portal/kampanje-under-arbeid.html),
 [Aktiv](portal/campaign.html?id=129041) and
 [Avsluttet](portal/rapport.html?id=128984).
-Every state has Oversikt and Annonser in the same positions, plus the same Om kampanjen sidebar. Resultater and Interessenter are added when available.
+Every state has Innsikt, Stilling, Kampanje, Annonser and Interessenter in the same positions.
+Bestilt opens Kampanje; ready-for-approval opens Annonser; active/completed opens Innsikt.
+Original submitted details and later developments are kept separately. The compact links card reuses the shared copy-field and disclosure components.
 The pages reuse the shared tokens, buttons, tabs, cards and disclosure component.
 Development review labels and review-navigation links are removed from these pages.
 The earlier review hub and responsive harness remain internal tools.
@@ -55,7 +57,7 @@ The sharing panel states this limitation. The public report contains aggregate
 fixtures only, without candidate or account scripts. The public report provides a browser print/PDF action. Campaign contact actions open an email draft to the
 existing Frantz contact address; they do not send a message from the portal.
 
-Run `node --test tests/report-sharing.test.cjs tests/disclosure-consistency.test.cjs tests/approval-store.test.cjs tests/campaign-material.test.cjs`.
+Run `node --test tests/campaign-submission.test.cjs tests/campaign-activity.test.cjs tests/report-sharing.test.cjs tests/disclosure-consistency.test.cjs tests/approval-store.test.cjs tests/campaign-material.test.cjs`.
 Component changes and remaining integration gaps are tracked in the
 [component inventory](planning/campaign-component-inventory.md).
 

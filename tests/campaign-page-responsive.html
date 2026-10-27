@@ -19,7 +19,7 @@
 </head>
 <body>
   <h1 class="text-h2">Campaign pages — developer verification</h1>
-  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1116</option><option>1280</option><option>1672</option></select><label class="form-label" for="section">Campaign section</label><select class="form-select" id="section"><option value="oversikt">Oversikt</option><option value="annonser">Annonser</option><option value="resultater">Resultater</option><option value="interessenter">Interessenter</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1116</option><option>1280</option><option>1672</option></select><label class="form-label" for="section">Campaign section</label><select class="form-select" id="section"><option value="auto">Phase default</option><option value="innsikt">Innsikt</option><option value="stilling">Stilling</option><option value="kampanje">Kampanje</option><option value="annonser">Annonser</option><option value="interessenter">Interessenter</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
   <div class="previews" id="previews"></div>
   <script>
     const order = new URLSearchParams(location.search).get('order');
@@ -36,7 +36,7 @@
     const previews = document.getElementById('previews');
     function measure(frame, output) {
       const doc = frame.contentDocument;
-      if (!doc || !doc.querySelector('h1')) { output.textContent = 'Still loading'; return; }
+      if (!doc || !doc.querySelector('h1') || (doc.body.dataset.campaignPage && !doc.body.dataset.submissionReady)) { output.textContent = 'Still loading'; return; }
       const viewport = doc.documentElement.clientWidth;
       const scroll = doc.documentElement.scrollWidth;
       const duplicateIds = [...doc.querySelectorAll('[id]')].map(node => node.id).filter((id, index, all) => all.indexOf(id) !== index);
@@ -48,9 +48,9 @@
         const a = label.getBoundingClientRect(), b = value.getBoundingClientRect();
         return a.width > 0 && (label.scrollWidth > label.clientWidth + 1 || (a.right > b.left + 1 && a.bottom > b.top + 1 && b.bottom > a.top + 1));
       }).length;
-      const clippedCopyButtons = [...doc.querySelectorAll('.piksel__code-row button')].filter(button => {
+      const clippedCopyButtons = [...doc.querySelectorAll('.copy-field button')].filter(button => {
         if (!button.getClientRects().length) return false;
-        const panel = button.closest('.summary-panel');
+        const panel = button.closest('.campaign-links, .summary-panel, .card, .disclosure');
         if (!panel) return false;
         const a = button.getBoundingClientRect(), b = panel.getBoundingClientRect();
         return a.width > 0 && (a.right > b.right + 1 || a.left < b.left - 1);
@@ -65,7 +65,7 @@
       const frame = document.createElement('iframe');
       frame.src = url; frame.title = name; frame.style.width = width.value + 'px';
       const output = document.createElement('output'); output.textContent = 'Loading';
-      frame.addEventListener('load', () => { measure(frame, output); });
+      frame.addEventListener('load', () => { frame.dataset.initialTab = frame.contentDocument.querySelector('.sidefaner [aria-selected="true"]')?.dataset.fane || ''; measure(frame, output); });
       figure.append(caption, output, frame); previews.append(figure);
     });
     function measureAll() { previews.querySelectorAll('figure').forEach(figure => measure(figure.querySelector('iframe'), figure.querySelector('output'))); }
@@ -73,7 +73,8 @@
     document.getElementById('section').addEventListener('change', event => {
       previews.querySelectorAll('iframe').forEach(frame => {
         const doc = frame.contentDocument;
-        const tab = doc.querySelector('.sidefaner [data-fane="' + event.target.value + '"]') || doc.querySelector('.sidefaner [data-fane="oversikt"]');
+        const name = event.target.value === 'auto' ? frame.dataset.initialTab : event.target.value;
+        const tab = doc.querySelector('.sidefaner [data-fane="' + name + '"]');
         if (tab) tab.click();
       });
       requestAnimationFrame(measureAll);

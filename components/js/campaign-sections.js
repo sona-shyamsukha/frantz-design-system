@@ -2,22 +2,28 @@
 (function (root) {
   'use strict';
   var navigation;
-  function init() {
+  function init(options) {
     if (navigation) return navigation;
+    var defaultTab = options && options.defaultTab || 'innsikt';
     var list = document.querySelector('[data-campaign-sections] [role="tablist"]');
     if (!list) return null;
     var tabs = Array.from(list.querySelectorAll('[data-fane]'));
-    var aliases = { detaljer: 'resultater', rapport: 'resultater' };
+    var aliases = { oversikt: defaultTab, resultater: 'innsikt', detaljer: 'innsikt', rapport: 'innsikt' };
     function select(name, options) {
       options = options || {};
-      name = aliases[name] || name;
-      if (!tabs.some(function (tab) { return tab.dataset.fane === name; })) name = 'oversikt';
+      name = aliases[name] || name || defaultTab;
+      if (!tabs.some(function (tab) { return tab.dataset.fane === name; })) name = defaultTab;
       tabs.forEach(function (tab) {
         var chosen = tab.dataset.fane === name;
         tab.setAttribute('aria-selected', String(chosen));
         tab.tabIndex = chosen ? 0 : -1;
         document.getElementById(tab.getAttribute('aria-controls')).hidden = !chosen;
         if (chosen && options.focus) tab.focus();
+        if (chosen && list.scrollWidth > list.clientWidth) {
+          var a = tab.getBoundingClientRect(), b = list.getBoundingClientRect();
+          if (a.left < b.left) list.scrollLeft += a.left - b.left;
+          if (a.right > b.right) list.scrollLeft += a.right - b.right;
+        }
       });
       if (options.updateHash !== false) history.replaceState(null, '', '#' + name);
       document.dispatchEvent(new CustomEvent('frantz:campaign-tab', { detail: { name: name } }));

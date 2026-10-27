@@ -29,6 +29,7 @@
     target.searchParams.set('lenke', record.token);
     return target.href;
   }
+  function linkFor(id) { var record = read()[id]; return state(record) === 'active' ? url(record) : null; }
   function previewUrl(id, costs) {
     var target = new URL('delt-rapport.html', location.href);
     target.searchParams.set('kampanje', id);
@@ -102,5 +103,5 @@
     root.addEventListener('storage', function (event) { if (event.key === KEY && !panel.hidden) refresh(); });
     refresh();
   }
-  root.FrantzReportSharing = Object.freeze({ attach: attach, state: state, resolve: resolve, previewUrl: previewUrl, key: KEY });
+  root.FrantzReportSharing = Object.freeze({ attach: attach, state: state, resolve: resolve, previewUrl: previewUrl, linkFor: linkFor, key: KEY });
 })(window);

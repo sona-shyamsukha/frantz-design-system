@@ -11,7 +11,7 @@
 .campaign-meta > span { margin-inline: var(--space-6); }
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
-/* Campaign information stays in the page flow as its sections grow. */
+/* Only the compact links card can stick; long campaign details stay in tabs. */
 .campaign-rail .summary-panel { position: static; top: auto; }
 .campaign-rail > .btn { justify-self: start; }
 .campaign-disclosure .piksel { padding: 0; }
@@ -51,3 +51,19 @@
   .shared-report .campaign-disclosure { break-inside: auto; }
   .shared-report .campaign-disclosure__body { display: block; }
 }
+
+.campaign-fields .summary-row dd { white-space: pre-line; }
+.campaign-source-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.campaign-links .copy-field { min-width: 0; }
+@media (min-width: 641px) {
+  .campaign-fields .summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+}
+@media (min-width: 1181px) {
+  .campaign-rail { position: sticky; top: var(--space-24); align-self: start; }
+  .campaign-links { max-height: calc(100dvh - var(--space-24) - var(--space-24)); overflow-y: auto; }
+}
+@media (max-width: 1180px) {
+  .campaign-rail { order: -1; position: static; }
+}
+
+.campaign-source-link { display: block; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }

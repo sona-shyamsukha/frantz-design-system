@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Opprett kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=203">
+<link rel="stylesheet" href="../frantz-ds.css?v=20261027-submitted">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=15">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=4">
@@ -1639,6 +1639,7 @@
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=19"></script>
 <script src="../components/js/campaign-material.js?v=7"></script>
+<script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
 <script src="../components/js/approval-store.js?v=3"></script>
 <script src="../components/js/approval-share.js?v=4"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
@@ -2374,6 +2375,7 @@
         tid: String(now.getHours()).padStart(2, '0') + '.' + String(now.getMinutes()).padStart(2, '0')
       };
       if (mode) tilstand.materiell = mode;
+      order.innsendteFelt = FrantzCampaignSubmission.capture(V2SEKSJONER, function (id) { return id === 'navn' ? order.ref : v2VisVerdi(id); });
       var mf = materiellFor();
       var material = FrantzCampaignMaterial.snapshot(order, {
         ad: mode === 'hjelp' || !mode ? {} : mf.ad, mainFile: mf.mainFile,
@@ -4130,6 +4132,8 @@
     var d = new Date();
     var ordre = {
       approvalKey: approvalKey,
+      arbeidsgiver: $('arbeidsgiver').value.trim(), frist: $('frist').value,
+      kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
       tittel: [$('stilling').value.trim(), stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' ') || 'Ny kampanje',
       stilling: $('stilling').value.trim(), sted: stederListe.length ? navnListe(stederListe) : '', ref: $('ref').value.trim(),
       budsjett: budsjett(), tilleggSum: tilleggSum, tillegg: tilleggListe(),
@@ -4146,6 +4150,13 @@
     var materiale;
     try {
       var mf = materiellFor();
+      var submittedValues = {
+        stilling: ordre.stilling, sted: ordre.sted, arbeidsgiver: ordre.arbeidsgiver, frist: FrantzCampaignSubmission.date(ordre.frist),
+        navn: ordre.ref, pakke: ordre.pakke, budsjett: kr(ordre.budsjett), kanaler: ordre.kanaler, periode: ordre.periodeTekst,
+        materiell: ordre.materiell, avsender: ordre.avsender, fil: v2Filnavn().join(', '), produkter: ordre.tillegg,
+        ekstra: ordre.notat, faktura: ordre.faktura
+      };
+      ordre.innsendteFelt = FrantzCampaignSubmission.capture(V2SEKSJONER, function (id) { return submittedValues[id]; });
       materiale = FrantzCampaignMaterial.snapshot(ordre, {
         ad: mf.ad, mainFile: mf.mainFile, extraFiles: mf.extraFiles, mode: tilstand.materiell, files: mf.files,
         brief: $('an-designbrief').value.trim(), sender: $('avsender').value.trim(),
