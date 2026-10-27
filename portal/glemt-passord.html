@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Glemt passord — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
+<link rel="stylesheet" href="../styles/portal-login.css?v=1">
+</head>
+<body>
+
+<main class="login">
+  <div class="card card--betjen login__card">
+    <img class="login__logo" src="../assets/logo-frantz.png" alt="Frantz">
+
+    <!-- Step 1: the user types the e-mail address -->
+    <div id="skjema-del">
+      <h1>Glemt passordet?</h1>
+      <p class="login__lede">Skriv e-posten du logger inn med. Vi sender deg en lenke, så du kan lage et nytt passord.</p>
+
+      <form id="skjema" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="epost">E-post</label>
+          <input class="form-input" type="email" id="epost" name="epost" placeholder="navn@firma.no" autocomplete="username" aria-describedby="epost-feil" required>
+          <p class="form-error" id="epost-feil" hidden></p>
+        </div>
+        <button class="btn btn--primary" type="submit">Send lenken</button>
+      </form>
+    </div>
+
+    <!-- Step 2: the link is sent. The page does not say if the address has an account. -->
+    <div id="sendt-del" hidden>
+      <span class="login__ikon" aria-hidden="true"><span class="icon-lucide icon-lucide--mail"></span></span>
+      <h1 tabindex="-1" id="sendt-tittel">Sjekk e-posten din</h1>
+      <p class="login__lede">Hvis <b id="sendt-epost"></b> har en konto hos Frantz, får du en lenke om noen minutter. Fikk du ingen e-post? Se i søppelposten.</p>
+      <div class="login__handlinger">
+        <!-- Demo only: opens the page the link in the e-mail goes to -->
+        <a class="btn btn--primary" href="nytt-passord.html">Se e-posten</a>
+        <button class="btn btn--secondary" type="button" id="send-igjen">Send lenken på nytt</button>
+      </div>
+      <p class="form-hint" id="sendt-igjen" role="status" hidden style="margin-top: var(--space-12); text-align: center;">Vi har sendt en ny lenke.</p>
+    </div>
+
+    <div class="login__tilbake"><a class="link" href="login.html">Tilbake til innloggingen</a></div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var felt = $('epost'), feil = $('epost-feil');
+
+  function visFeil(tekst) {
+    feil.textContent = tekst;
+    feil.hidden = !tekst;
+    felt.classList.toggle('form-input--error', !!tekst);
+    felt.setAttribute('aria-invalid', tekst ? 'true' : 'false');
+  }
+
+  $('skjema').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var verdi = felt.value.trim();
+    if (!verdi) { visFeil('Skriv e-posten din.'); felt.focus(); return; }
+    if (!felt.checkValidity()) { visFeil('Sjekk e-posten. Den ser ikke riktig ut.'); felt.focus(); return; }
+    visFeil('');
+    $('sendt-epost').textContent = verdi;
+    $('skjema-del').hidden = true;
+    $('sendt-del').hidden = false;
+    $('sendt-tittel').focus();
+  });
+
+  felt.addEventListener('input', function () { if (!feil.hidden) visFeil(''); });
+
+  $('send-igjen').addEventListener('click', function () { $('sendt-igjen').hidden = false; });
+})();
+</script>
+</body>
+</html>
