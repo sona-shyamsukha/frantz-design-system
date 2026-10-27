@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ny kampanje · Oversikt — Frantz</title><link rel="icon" href="../assets/logo-frantz.png"><link rel="stylesheet" href="../frantz-ds.css?v=202"><script src="../components/js/brukerflyt.js?v=2"></script><style>body { margin: 0; }
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ny kampanje · Oversikt — Frantz</title><link rel="icon" href="../assets/logo-frantz.png"><link rel="stylesheet" href="../frantz-ds.css?v=204"><script src="../components/js/brukerflyt.js?v=2"></script><style>body { margin: 0; }
 [hidden] { display: none !important; }
 .onepage { max-width: 1440px; }
 .flytbytte { display: none !important; }
@@ -76,7 +76,7 @@
 .tillegg-liste { display: grid; gap: var(--space-12); }
 .flere__valg .form-check__box { margin-top: calc((1lh - var(--space-20)) / 2); }
 .flere__tekst { flex: 1; min-width: 0; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
-.flere__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+.flere__tekst b { color: var(--text-heading); font: var(--type-label); }
 .flere__pris { color: var(--text-muted); font: var(--type-support); white-space: nowrap; }
 .kanal-valg__navn { display: flex; align-items: center; gap: var(--space-8); }
 .kanal-liste .form-check.flere__valg { display: grid; grid-template-columns: var(--space-20) minmax(0,1fr) auto; align-items: center; }
@@ -121,7 +121,7 @@
 .receipt .btn-group { flex-wrap: wrap; }
 body:has(dialog[open]) { overflow: hidden; }
 @media(max-width:1100px) { .overview-grid { grid-template-columns: minmax(0,1fr); } .compact-panel + .compact-panel { border-top: 1px solid var(--border-subtle); padding-top: var(--space-20); } }
-@media(max-width:640px) { .del,.overview-grid { padding: var(--space-20); } .compact-panel { padding: 0; } .overview-heading h1 { font-size: var(--text-2xl); } .order-bar { flex-direction: column; align-items: stretch; padding: var(--space-20); } .order-bar .btn { width: 100%; } .period-fields { grid-template-columns: minmax(0,1fr); } .pdf-rad { align-items: flex-start; } .btn { white-space: normal; } .inn__fortsett .btn { width: 100%; } .compact-panel .summary-row { grid-template-columns: minmax(0,1fr); row-gap: var(--space-2); } }
+@media(max-width:640px) { .del,.overview-grid { padding: var(--space-20); } .compact-panel { padding: 0; } .order-bar { flex-direction: column; align-items: stretch; padding: var(--space-20); } .order-bar .btn { width: 100%; } .period-fields { grid-template-columns: minmax(0,1fr); } .pdf-rad { align-items: flex-start; } .btn { white-space: normal; } .inn__fortsett .btn { width: 100%; } .compact-panel .summary-row { grid-template-columns: minmax(0,1fr); row-gap: var(--space-2); } }
 /* Keep this design review free of inherited motion. */
 html { scroll-behavior: auto !important; }
 *,*::before,*::after { animation: none !important; transition: none !important; }
@@ -137,49 +137,48 @@ h1[tabindex="-1"]:focus { outline:none; }
 .overview-grid { padding:28px 32px; gap:32px; }
 .compact-panel:nth-child(n+3) { border:0; padding:0; }
 .section-head h2,.section-head h3 { margin:0; font:var(--type-label); color:var(--text-heading); }
-.section-head h2 { font-size:18px; }
+.section-head h2 { font:var(--type-section); }
 .section-head .link { min-height:32px; }
 .overview-heading p { display:block; margin-top:8px; font:var(--type-support); }
-#overview-heading { font-size:30px; }
 .order-data { gap:10px; }
-.order-data .summary-row { grid-template-columns:118px minmax(0,1fr); font-size:14px; line-height:1.55; align-items:baseline; }
+.order-data .summary-row { grid-template-columns:118px minmax(0,1fr); font:var(--type-support); align-items:baseline; }
 .order-data .summary-row dt { color:var(--text-muted); }
 .order-data .summary-row dd { color:var(--text-heading); text-align:left; margin:0; }
-.role-title { margin:0 0 18px; font-size:20px; line-height:1.4; font-weight:600; color:var(--text-heading); overflow-wrap:anywhere; }
+.role-title { margin:0 0 18px; font:var(--type-section); color:var(--text-heading); overflow-wrap:anywhere; }
 .period-summary { border-top:1px solid var(--border-subtle); margin-top:20px; padding-top:16px; }
 .period-summary .section-head { margin-bottom:10px; }
 .forecast-strip { padding:20px 32px; display:flex; gap:24px; align-items:center; background:var(--surface-section); border-block:1px solid var(--border-subtle); }
 .forecast-caption { flex:1; }
 .forecast-caption h2 { margin:0; font:var(--type-label); }
-.forecast-caption p,.forecast-note { font-size:12px; color:var(--text-muted); margin:4px 0 0; }
+.forecast-caption p,.forecast-note { font:var(--type-support); color:var(--text-muted); margin:4px 0 0; }
 .forecast-numbers { display:flex; flex-wrap:wrap; gap:18px 32px; }
-.forecast-numbers div { display:grid; gap:3px; font-size:12px; color:var(--text-muted); }
-.forecast-numbers strong { font-size:18px; color:var(--text-heading); font-weight:600; }
+.forecast-numbers div { display:grid; gap:3px; font:var(--type-support); color:var(--text-muted); }
+.forecast-numbers strong { font:var(--type-section); color:var(--text-heading); }
 .materials-section { padding:24px 32px; }
 .material-note { margin:0 0 16px; font:var(--type-support); color:var(--text-muted); }
 .attachment-list { grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
 .attachment-item { display:flex; gap:12px; align-items:center; border:1px solid var(--border-subtle); border-radius:8px; padding:10px; min-width:0; }
 .attachment-item img,.file-symbol { width:44px; height:44px; object-fit:cover; border-radius:4px; flex:none; background:var(--surface-section); }
 .file-symbol { display:grid; place-items:center; }
-.attachment-item a { font-size:13px; overflow-wrap:anywhere; }
-.attachment-item small { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; }
+.attachment-item a { overflow-wrap:anywhere; }
+.attachment-item small { display:block; font:var(--type-support); color:var(--text-muted); margin-top:3px; }
 .empty-material { display:flex; flex-wrap:wrap; gap:12px; align-items:center; font:var(--type-support); color:var(--text-muted); }
 .extras-section { margin-top:32px; }
-.optional { font-size:13px; font-weight:400; color:var(--text-muted); margin-left:8px; }
+.optional { font:var(--type-support); color:var(--text-muted); margin-left:8px; }
 #extras-content .tillegg-liste { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 #extras-content .form-check { background:var(--surface-raised); margin:0; }
 .flere__valg { align-items:start; }
-.flere__tekst span { font-size:13px; line-height:1.5; }
-.flere__tekst b { font-size:14px; }
+.flere__tekst span { font:var(--type-support); }
+.flere__tekst b { font:var(--type-support-strong); }
 .closing-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:28px; }
 .cost-summary .summary-row { display:flex; justify-content:space-between; gap:16px; margin:0 0 8px; font:var(--type-support); }
 .cost-summary dd { margin:0; text-align:right; }
-.cost-summary .total-row { padding-top:12px; border-top:1px solid var(--border-default); font-weight:600; color:var(--text-heading); }
-.cost-summary .billing-label { margin:12px 0 0; font-size:12px; color:var(--text-muted); }
+.cost-summary .total-row { padding-top:12px; border-top:1px solid var(--border-default); font:var(--type-support-strong); color:var(--text-heading); }
+.cost-summary .billing-label { margin:12px 0 0; font:var(--type-support); color:var(--text-muted); }
 .order-bar { border:0; border-top:1px solid var(--border-default); border-radius:0; background:transparent; padding:24px 0 0; margin-top:24px; }
-.recommendation-label { display:inline-block; font-size:11px; padding:2px 6px; border-radius:4px; background:var(--surface-selected); margin-left:6px; }
-.budget-recommendation p { font-size:12px; color:var(--text-muted); margin:5px 0; }
-.budget-recommendation .link { font-size:13px; min-height:32px; }
+.recommendation-label { display:inline-block; font:var(--type-badge); padding:2px 6px; border-radius:4px; background:var(--surface-selected); margin-left:6px; }
+.budget-recommendation p { font:var(--type-support); color:var(--text-muted); margin:5px 0; }
+.budget-recommendation .link { min-height:32px; }
 .budsjett-felt { display:flex; align-items:center; gap:12px; }
 .package-select { margin-bottom:20px; }
 .calculator-dialog { box-sizing:border-box; width:min(640px,calc(100vw - 32px)); }
@@ -189,7 +188,7 @@ h1[tabindex="-1"]:focus { outline:none; }
 @media(min-width:1101px) { .compact-panel + .compact-panel { border-left:1px solid var(--border-subtle); padding-left:32px; } }
 @media(max-width:1100px) { .overview-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; } .compact-panel + .compact-panel { border:0; padding-top:0; } .forecast-strip { align-items:flex-start; flex-direction:column; } }
 @media(max-width:760px) { .overview-grid,.closing-grid { grid-template-columns:1fr; } .compact-panel + .compact-panel { border-top:1px solid var(--border-subtle); padding-top:24px; } #extras-content .tillegg-liste { grid-template-columns:1fr; } .attachment-list { grid-template-columns:1fr 1fr; } }
-@media(max-width:640px) { .overview-grid,.materials-section,.forecast-strip { padding:20px; } .attachment-list { grid-template-columns:1fr; } .order-data .summary-row { grid-template-columns:100px minmax(0,1fr); gap:10px; } #overview-heading { font-size:25px; } .calculator-dialog { width:100%; max-width:none; height:100dvh; max-height:100dvh; margin:0; border:0; border-radius:0; padding:20px; } .calculator-dialog__bunn { bottom:-20px; padding-bottom:8px; } .calculator-dialog__bunn .btn { flex:1; } .forecast-numbers { gap:16px; } .prototype-strip { font-size:12px; } .flere__pris { white-space:normal; } }
+@media(max-width:640px) { .overview-grid,.materials-section,.forecast-strip { padding:20px; } .attachment-list { grid-template-columns:1fr; } .order-data .summary-row { grid-template-columns:100px minmax(0,1fr); gap:10px; } .calculator-dialog { width:100%; max-width:none; height:100dvh; max-height:100dvh; margin:0; border:0; border-radius:0; padding:20px; } .calculator-dialog__bunn { bottom:-20px; padding-bottom:8px; } .calculator-dialog__bunn .btn { flex:1; } .forecast-numbers { gap:16px; } .flere__pris { white-space:normal; } }
 
 </style></head><body><a class="hopp" href="#innhold">Hopp til innholdet</a><header class="mobiltopp">
   <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>

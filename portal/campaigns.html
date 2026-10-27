@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=20261027-submitted">
+<link rel="stylesheet" href="../frantz-ds.css?v=205">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -53,7 +53,7 @@
   .verktoy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
   .verktoy .search-wrap { flex: 1 1 280px; width: auto; min-width: 0; }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
-  .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font-size: var(--text-base); }
+  .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font: var(--type-body); }
   .table tr[hidden], .table__empty[hidden] { display: none; }
   @media (max-width: 640px) { .verktoy .form-select-wrap { flex: 1 1 100%; } }
 
@@ -65,9 +65,9 @@
 
   /* Filter menu: closes on a click outside it or on Esc */
   .filtermeny { position: relative; }
-  .filtermeny__knapp { display: inline-flex; align-items: center; gap: var(--space-8); min-height: 46px; padding: 0 var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: inherit; font-size: var(--text-base); font-weight: var(--font-weight-semibold); cursor: pointer; }
+  .filtermeny__knapp { display: inline-flex; align-items: center; gap: var(--space-8); min-height: 46px; padding: 0 var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: var(--type-label); cursor: pointer; }
   .filtermeny__knapp:hover, .filtermeny__knapp[aria-expanded="true"] { border-color: var(--color-navy); }
-  .filtermeny__antall { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font-size: var(--text-xs); }
+  .filtermeny__antall { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font: var(--type-badge); }
   .filtermeny__antall[hidden] { display: none; }
   .filtermeny__panel { position: absolute; top: calc(100% + var(--space-8)); left: 0; z-index: 20; display: grid; gap: var(--space-16); width: 320px; max-width: calc(100vw - 32px); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
   .filtermeny__panel[hidden] { display: none; }
@@ -81,12 +81,12 @@
   .filtermeny__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
 
   /* Active filters as chips, with «Nullstill» */
-  .aktive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-muted); font-size: var(--text-base); }
+  .aktive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-muted); font: var(--type-body); }
   .aktive[hidden] { display: none; }
-  .aktiv-filter { display: inline-flex; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-12); border: 1px solid var(--border-navy-soft); border-radius: var(--radius-full); background: var(--bg-navy-soft); color: var(--text-heading); font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); cursor: pointer; }
+  .aktiv-filter { display: inline-flex; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-12); border: 1px solid var(--border-navy-soft); border-radius: var(--radius-full); background: var(--bg-navy-soft); color: var(--text-heading); font: var(--type-support-strong); cursor: pointer; }
   .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
   .aktiv-filter:hover { border-color: var(--color-navy); }
-  .nullstill { padding: 0; border: 0; background: none; color: var(--text-heading); font-family: var(--font-body); font-size: var(--text-base); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .nullstill { padding: 0; border: 0; background: none; color: var(--text-heading); font: var(--type-label); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 </style>
 </head>
 <body>

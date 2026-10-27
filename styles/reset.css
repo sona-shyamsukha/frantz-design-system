@@ -9,16 +9,13 @@
 }
 
 html {
-  font-size: var(--font-root);
+  font-size: var(--font-root); /* type-exempt: root size */
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-normal);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
+  font: var(--type-body);
   color: var(--text-body);
   background: var(--surface-page);
   -webkit-font-smoothing: antialiased;
@@ -45,9 +42,7 @@ ul, ol {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: var(--font-weight-heading);
-  line-height: var(--leading-tight);
+  font: var(--type-section);
   letter-spacing: var(--tracking-heading);
   color: var(--text-heading);
   font-style: normal;

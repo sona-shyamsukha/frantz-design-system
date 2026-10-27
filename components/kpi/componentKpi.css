@@ -22,8 +22,7 @@
 
 .kpi__label,
 .fakta dt {
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-support-strong);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-muted);
@@ -33,15 +32,12 @@
 .fakta dd {
   margin: var(--space-8) 0 0;
   color: var(--color-navy);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--font-weight-semibold);
+  font: var(--type-section);
 }
 
 .kpi__meta,
 .fakta dd span {
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
+  font: var(--type-support);
   color: var(--text-muted);
 }
 

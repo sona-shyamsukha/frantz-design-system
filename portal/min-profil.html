@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Min profil — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=202">
+<link rel="stylesheet" href="../frantz-ds.css?v=204">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -26,13 +26,13 @@
   .valgliste--bred { grid-template-columns: 1fr; }
   .valgliste legend { padding: 0; margin-bottom: var(--space-6); }
   .valgliste .form-check--kort { align-items: center; }
-  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font: var(--type-label); }
   .valg__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
-  .valg__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); line-height: var(--leading-normal); }
+  .valg__tekst b { color: var(--text-heading); font: var(--type-label); }
   .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
   .valgliste--bred .form-check__box { margin-top: var(--space-2); }
   .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
-  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font: var(--type-support-strong); }
   .feil[hidden] { display: none; }
   .sidefaner { align-items: center; }
   .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
@@ -44,9 +44,8 @@
   .profil-kontakt .form-group + .form-group, .profil-to + .form-group { margin-top: var(--space-12); }
   .profil-to { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
   .profil-tekst { margin: var(--space-8) 0 var(--space-12); color: var(--text-muted); font: var(--type-body); }
-  .profil-varsler { max-width: 640px; }
-  .profil-felt { display: grid; gap: var(--space-12); margin: 0 0 var(--space-24); padding: 0; border: 0; }
-  .profil-felt legend { margin-bottom: var(--space-8); }
+  .profil-felt { display: grid; gap: var(--space-12); margin: var(--space-12) 0 0; padding: 0; border: 0; }
+  #varselvalg .lagre-linje { margin-top: 0; }
   .profil-felt .form-radio__label b { display: block; color: var(--text-heading); }
   .profil-felt .form-hint { margin: 0; }
   @media (max-width: 640px) { .profil-to { grid-template-columns: 1fr; } }
@@ -138,20 +137,25 @@
 
       <section class="panel" id="panel-varsler" role="tabpanel" aria-labelledby="fane-varsler" hidden>
         <div class="panelhode"><p>Hvilke e-poster du får fra Frantz. Det gjelder bare deg.</p></div>
-        <form class="card card--betjen profil-varsler" id="varselvalg">
-          <fieldset class="profil-felt">
-            <legend class="form-label">Nye interessenter</legend>
-            <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="hver"><span class="form-radio__dot"></span><span class="form-radio__label"><b>Én e-post for hver interessent</b>Raskest. Ring mens de er interesserte.</span></label>
-            <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="dag" checked><span class="form-radio__dot"></span><span class="form-radio__label"><b>Én oppsummering hver dag</b>Kl. 08.00, med alle fra siste døgn.</span></label>
-            <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="ingen"><span class="form-radio__dot"></span><span class="form-radio__label"><b>Ingen e-post</b>Du ser dem på kampanjesiden i portalen.</span></label>
-            <p class="form-hint">Mobilnummeret står først i e-posten, så du kan ringe med en gang.</p>
-          </fieldset>
-          <fieldset class="profil-felt">
-            <legend class="form-label">Andre varsler</legend>
-            <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Annonser som venter på godkjenning</span></label>
-            <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Ny status fra rådgiveren</span></label>
-            <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Rapporten er klar</span></label>
-          </fieldset>
+        <!-- One card per group, with a section title, the same as the Profil tab -->
+        <form class="profil-grid" id="varselvalg">
+          <section class="card card--betjen">
+            <h2 class="card__title" id="varsel-interessent">Nye interessenter</h2>
+            <fieldset class="profil-felt" aria-labelledby="varsel-interessent">
+              <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="hver"><span class="form-radio__dot"></span><span class="form-radio__label"><b>Én e-post for hver interessent</b>Raskest. Ring mens de er interesserte.</span></label>
+              <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="dag" checked><span class="form-radio__dot"></span><span class="form-radio__label"><b>Én oppsummering hver dag</b>Kl. 08.00, med alle fra siste døgn.</span></label>
+              <label class="form-radio"><input class="form-radio__input" type="radio" name="varsel-interessent" value="ingen"><span class="form-radio__dot"></span><span class="form-radio__label"><b>Ingen e-post</b>Du ser dem på kampanjesiden i portalen.</span></label>
+              <p class="form-hint">Mobilnummeret står først i e-posten, så du kan ringe med en gang.</p>
+            </fieldset>
+          </section>
+          <section class="card card--betjen">
+            <h2 class="card__title" id="varsel-andre">Andre varsler</h2>
+            <fieldset class="profil-felt" aria-labelledby="varsel-andre">
+              <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Annonser som venter på godkjenning</span></label>
+              <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Ny status fra rådgiveren</span></label>
+              <label class="form-check"><input class="form-check__input" type="checkbox" checked><span class="form-check__box"></span><span class="form-check__label">Rapporten er klar</span></label>
+            </fieldset>
+          </section>
           <div class="lagre-linje"><button class="btn btn--primary" type="submit">Lagre varsler</button><span class="status status--ok" data-lagret role="status" hidden>Lagret</span></div>
         </form>
       </section>

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger for firmaet — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=202">
+<link rel="stylesheet" href="../frantz-ds.css?v=204">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -20,7 +20,7 @@
   .rad-hoyre { display: flex; align-items: center; gap: var(--space-16); flex-wrap: wrap; }
   .table-card { padding: 0; overflow-x: auto; }
   .bruker { display: flex; align-items: center; gap: var(--space-12); }
-  .bruker small { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
+  .bruker small { display: block; margin-top: var(--space-2); color: var(--text-muted); font: var(--type-support); }
   tr.er-inaktiv td { color: var(--text-faint); }
   tr.er-inaktiv .avatar { background: var(--color-ink-400); }
   .skjema { margin-bottom: var(--space-16); }
@@ -30,7 +30,7 @@
   .faktura-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-16); }
   .faktura { display: flex; flex-direction: column; gap: var(--space-2); font: var(--type-body); }
   .faktura__topp { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-8); margin-bottom: var(--space-8); }
-  .faktura__topp b { font-size: var(--text-base); color: var(--text-heading); }
+  .faktura__topp b { font: var(--type-label); color: var(--text-heading); }
   .faktura span { color: var(--text-muted); }
   /* Long e-mails and names have no spaces to break at. Let them break anywhere so they stay inside the card. */
   .faktura { min-width: 0; }
@@ -46,21 +46,21 @@
   .logoopp__bilde { display: grid; place-items: center; flex: none; width: 220px; height: 110px; padding: var(--space-12); border: 1px dashed var(--border-strong); border-radius: var(--radius-12); background: var(--surface-subtle) center / contain no-repeat; background-origin: content-box; }
   .logoopp__bilde--rund { width: 110px; border-radius: 50%; }
   .logoopp__bilde.har-bilde .logoopp__tekst { display: none; }
-  .logoopp__tekst { font-size: var(--text-2xl); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-heading); color: var(--text-heading); }
-  .logoopp__bilde--rund .logoopp__tekst { font-size: var(--text-3xl); }
+  .logoopp__tekst { font-size: var(--text-2xl); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-heading); color: var(--text-heading); /* type-exempt: mock brand logo placeholder */ }
+  .logoopp__bilde--rund .logoopp__tekst { font-size: var(--text-3xl); /* type-exempt: mock brand logo placeholder */ }
   .logoopp__knapper { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); }
   .logoopp__knapper .form-hint { flex-basis: 100%; margin: 0; }
   .logo-par { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-24); }
   .logo-par .logoopp__rad { flex-direction: column; align-items: flex-start; }
   .farger { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-24); margin-top: var(--space-6); }
-  .farge { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-8) 0; font-size: var(--text-sm); color: var(--text-body); border-bottom: 1px solid var(--border-subtle); }
+  .farge { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-8) 0; font: var(--type-support); color: var(--text-body); border-bottom: 1px solid var(--border-subtle); }
   .farge input[type=color] { flex: none; width: 36px; height: 28px; padding: 0; border: 1px solid var(--border-default); border-radius: var(--radius-6); background: none; cursor: pointer; }
   .skrift { margin-top: var(--space-12); }
   .skrift__rad { display: flex; gap: var(--space-8); margin-top: var(--space-6); }
   .skrift__rad { align-items: center; }
   .skrift__rad [hidden] { display: none; }
-  .skrift__prove { margin: var(--space-6) 0 0; padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: var(--color-white); color: var(--text-heading); font-size: var(--text-base); line-height: var(--leading-snug); }
-  .skrift__prove--stor { font-size: var(--text-2xl); font-weight: var(--font-weight-bold); line-height: var(--leading-tight); }
+  .skrift__prove { margin: var(--space-6) 0 0; padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: var(--color-white); color: var(--text-heading); font-size: var(--text-base); line-height: var(--leading-snug); /* type-exempt: brand font sample preview */ }
+  .skrift__prove--stor { font-size: var(--text-2xl); font-weight: var(--font-weight-bold); line-height: var(--leading-tight); /* type-exempt: brand font sample preview */ }
   .banner {
     --bn-tittel: var(--color-white);
     --bn-kort: var(--color-navy);
@@ -72,16 +72,16 @@
   }
   .banner { position: relative; aspect-ratio: 1; border-radius: var(--radius-12); overflow: hidden; background: linear-gradient(135deg, var(--color-data-500), var(--color-navy-lift)); color: var(--bn-tittel); font-family: var(--bn-font); }
   .banner::after { content: ""; position: absolute; inset: 0; background: var(--bn-filter); }
-  .banner__logo { position: absolute; top: var(--space-16); left: var(--space-16); z-index: 1; height: 28px; min-width: 60px; color: var(--color-white); font-weight: var(--font-weight-bold); font-size: var(--text-lg); background: center left / contain no-repeat; }
+  .banner__logo { position: absolute; top: var(--space-16); left: var(--space-16); z-index: 1; height: 28px; min-width: 60px; color: var(--color-white); font-weight: var(--font-weight-bold); font-size: var(--text-lg); /* type-exempt: mock social-media banner preview */ background: center left / contain no-repeat; }
   .banner__logo.har-bilde { color: transparent; }
   .banner__innhold { position: absolute; left: var(--space-16); right: var(--space-16); bottom: var(--space-16); z-index: 1; }
-  .banner__tittel { color: var(--bn-tittel); margin: 0; font-size: var(--text-2xl); line-height: var(--leading-display); font-family: var(--bn-font-tittel); }
-  .banner__kort { display: inline-block; margin-top: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-6); background: var(--bn-boks); color: var(--bn-kort); font-size: var(--text-sm); }
-  .banner__les { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-8); color: var(--bn-les); font-size: var(--text-sm); font-weight: var(--font-weight-bold); }
-  .banner-meta { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-12); font-size: var(--text-sm); }
+  .banner__tittel { color: var(--bn-tittel); margin: 0; font-size: var(--text-2xl); line-height: var(--leading-display); font-family: var(--bn-font-tittel); /* type-exempt: mock social-media banner preview */ }
+  .banner__kort { display: inline-block; margin-top: var(--space-8); padding: var(--space-6) var(--space-12); border-radius: var(--radius-6); background: var(--bn-boks); color: var(--bn-kort); font-size: var(--text-sm); /* type-exempt: mock social-media banner preview */ }
+  .banner__les { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-8); color: var(--bn-les); font-size: var(--text-sm); font-weight: var(--font-weight-bold); /* type-exempt: mock social-media banner preview */ }
+  .banner-meta { display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-12); font-size: var(--text-sm); /* type-exempt: mock social-media banner preview */ }
   .banner-meta b { display: block; color: var(--text-heading); }
   .banner-meta small { color: var(--text-muted); font: var(--type-support); }
-  .banner-meta__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-navy) center / cover; color: var(--color-white); font-weight: var(--font-weight-bold); }
+  .banner-meta__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-navy) center / cover; color: var(--color-white); font-weight: var(--font-weight-bold); /* type-exempt: mock social-media banner preview */ }
   .banner-meta__ikon.har-bilde { color: transparent; }
   @media (max-width: 1180px) { .merke-arbeid { grid-template-columns: 1fr; } .merke-arbeid__vis { position: static; max-width: 360px; } }
   @media (max-width: 640px) { .farger, .logo-par { grid-template-columns: 1fr; } .logoopp__rad { flex-direction: column; align-items: flex-start; } .skrift__rad { flex-direction: column; } }
@@ -89,7 +89,7 @@
   .merkefil { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: var(--space-12); align-items: center; padding: var(--space-8) 0; border-bottom: 1px solid var(--border-subtle); }
   .merkefil__ikon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-heading); }
   .merkefil__navn b { display: block; color: var(--text-heading); font: var(--type-label); }
-  .merkefil__navn small { font-size: var(--text-sm); color: var(--text-muted); }
+  .merkefil__navn small { font: var(--type-support); color: var(--text-muted); }
   .lagre-linje { display: flex; align-items: center; gap: var(--space-12); margin-top: var(--space-16); }
   @media (max-width: 1180px) { .merke { grid-template-columns: 1fr; } .forhand { position: static; } }
   /* Same option cards as Ny kampanje: room to breathe, and a logo, a description or a price */
@@ -97,13 +97,13 @@
   .valgliste--bred { grid-template-columns: 1fr; }
   .valgliste legend { padding: 0; margin-bottom: var(--space-6); }
   .valgliste .form-check--kort { align-items: center; }
-  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); }
+  .valgliste .form-check__label { flex: 1; display: flex; align-items: center; gap: var(--space-8); padding-top: 0; color: var(--text-heading); font: var(--type-label); }
   .valg__tekst { flex: 1; display: grid; gap: var(--space-2); color: var(--text-muted); font: var(--type-body); }
-  .valg__tekst b { color: var(--text-heading); font-size: var(--text-base); font-weight: var(--font-weight-semibold); line-height: var(--leading-normal); }
+  .valg__tekst b { color: var(--text-heading); font: var(--type-label); }
   .valgliste--bred .form-check--kort, .valgliste--bred .form-check__label { align-items: flex-start; }
   .valgliste--bred .form-check__box { margin-top: var(--space-2); }
   .valg__pris { color: var(--text-heading); font-weight: var(--font-weight-semibold); white-space: nowrap; }
-  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
+  .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font: var(--type-support-strong); }
   .feil[hidden] { display: none; }
   @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
 </style>

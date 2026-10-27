@@ -24,8 +24,7 @@
 
 .timeline__date,
 .loggdato {
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-normal);
+  font: var(--type-support);
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
