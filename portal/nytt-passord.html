@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Nytt passord — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=98">
+<link rel="stylesheet" href="../styles/portal-login.css?v=1">
+</head>
+<body>
+
+<!--
+  The page the link in the e-mail opens. One page for two cases:
+  nytt-passord.html               forgotten password
+  nytt-passord.html?invitasjon    a new user, invited from Firmainnstillinger
+  nytt-passord.html?utlopt        the link is used or too old
+-->
+<main class="login">
+  <div class="card card--betjen login__card">
+    <img class="login__logo" src="../assets/logo-frantz.png" alt="Frantz">
+
+    <div id="skjema-del">
+      <h1 id="tittel">Lag et nytt passord</h1>
+      <p class="login__lede" id="lede">For <b>kari.hansen@nordlysrekruttering.no</b>.</p>
+
+      <form id="skjema" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="passord" id="passord-etikett">Nytt passord</label>
+          <input class="form-input" type="password" id="passord" name="passord" autocomplete="new-password" aria-describedby="passord-hint passord-feil" required>
+          <!-- [GAP] The password rule must come from Frantz. «Minst 8 tegn» is a placeholder. -->
+          <p class="form-hint" id="passord-hint">Minst 8 tegn.</p>
+          <p class="form-error" id="passord-feil" hidden></p>
+        </div>
+        <label class="form-check">
+          <input class="form-check__input" type="checkbox" id="vis">
+          <span class="form-check__box"></span>
+          <span class="form-check__label">Vis passordet</span>
+        </label>
+        <button class="btn btn--primary" type="submit" id="lagre">Lagre og logg inn</button>
+      </form>
+    </div>
+
+    <div id="utlopt-del" hidden>
+      <span class="login__ikon" aria-hidden="true"><span class="icon-lucide icon-lucide--clock"></span></span>
+      <h1>Lenken virker ikke lenger</h1>
+      <p class="login__lede">Lenken er brukt, eller den er for gammel. Be om en ny lenke.</p>
+      <a class="btn btn--primary" href="glemt-passord.html">Send meg en ny lenke</a>
+    </div>
+
+    <div class="login__tilbake"><a class="link" href="login.html">Tilbake til innloggingen</a></div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var q = new URLSearchParams(location.search);
+  var felt = $('passord'), feil = $('passord-feil');
+
+  if (q.has('utlopt')) {
+    document.title = 'Lenken virker ikke lenger — Frantz kampanjeportal';
+    $('skjema-del').hidden = true;
+    $('utlopt-del').hidden = false;
+    return;
+  }
+
+  if (q.has('invitasjon')) {
+    document.title = 'Velkommen — Frantz kampanjeportal';
+    $('tittel').textContent = 'Velkommen til Frantz';
+    $('lede').innerHTML = 'Kari Hansen har gitt deg tilgang til Nordlys Rekruttering AS. Lag et passord for <b>ingrid.moe@nordlysrekruttering.no</b>.';
+    $('passord-etikett').textContent = 'Passord';
+  }
+
+  function visFeil(tekst) {
+    feil.textContent = tekst;
+    feil.hidden = !tekst;
+    $('passord-hint').hidden = !!tekst; // the error already says the rule
+    felt.classList.toggle('form-input--error', !!tekst);
+    felt.setAttribute('aria-invalid', tekst ? 'true' : 'false');
+  }
+
+  $('vis').addEventListener('change', function () { felt.type = this.checked ? 'text' : 'password'; });
+  felt.addEventListener('input', function () { if (!feil.hidden) visFeil(''); });
+
+  $('skjema').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!felt.value) { visFeil('Skriv et passord.'); felt.focus(); return; }
+    if (felt.value.length < 8) { visFeil('Passordet er for kort. Det må ha minst 8 tegn.'); felt.focus(); return; }
+    location.href = 'dashboard.html';
+  });
+})();
+</script>
+</body>
+</html>
