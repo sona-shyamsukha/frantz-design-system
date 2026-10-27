@@ -24,7 +24,7 @@ function render(campaigns) {
     return elements.get(id);
   } };
   vm.runInNewContext(controller, { document, FZ_KAMPANJER: {
-    alle: () => campaigns, dato: value => value, badge: () => 'badge'
+    synlige: () => campaigns, dato: value => value, badge: () => 'badge'
   } });
   return id => document.getElementById(id);
 }
