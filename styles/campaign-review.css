@@ -8,7 +8,6 @@
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
 .campaign-rail > .btn { justify-self: start; }
-.campaign-disclosure__body { margin-top: var(--space-16); }
 .campaign-disclosure .piksel { padding: 0; }
 .campaign-private .icon-lucide { flex: none; }
 .campaign-next { margin-top: var(--space-24); scroll-margin-top: var(--space-24); }

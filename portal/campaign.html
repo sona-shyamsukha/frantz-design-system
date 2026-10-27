@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=202">
+<link rel="stylesheet" href="../frantz-ds.css?v=203">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=4">
 <style>
@@ -18,10 +18,10 @@
   .ad-card__knapper .btn--ghost { flex: none; padding-inline: var(--space-12); border: 1px solid var(--border-default); }
   .oppdatert { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font-size: var(--text-sm); }
   .nettsted-tabell .meter { max-width: 220px; margin-top: var(--space-6); }
-  .forklar { margin-top: var(--space-4); color: var(--text-muted); font: var(--type-support); }
-  .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-faint); list-style: none; }
-  .forklar summary::-webkit-details-marker { display: none; }
-  .forklar p { margin: var(--space-4) 0 0; max-width: 46ch; }
+
+
+
+
   .prospekt small { display: block; margin-top: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); }
   .prospekt td { vertical-align: top; overflow-wrap: anywhere; }
   .prospekt td[data-label="Registrert"], .prospekt td[data-label="Ønsker"], .prospekt td[data-label="Håndtert"] { overflow-wrap: normal; white-space: nowrap; }
@@ -162,7 +162,7 @@
                 </div>
               </div>
             </div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></details>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></div></details>
           </div>
           <div class="card card--betjen" id="nettsteder">
             <div class="card__head"><div>
@@ -173,7 +173,7 @@
               <thead><tr><th>Nettsted</th><th>Visninger</th><th>Klikk</th></tr></thead>
               <tbody><tr><td data-label="Nettsted"><span class="table__title">VG.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:26%"></div></div></div></td><td data-label="Visninger">10 600</td><td data-label="Klikk">97</td></tr><tr><td data-label="Nettsted"><span class="table__title">Aftenposten.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">7 700</td><td data-label="Klikk">68</td></tr><tr><td data-label="Nettsted"><span class="table__title">Dagbladet.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:12%"></div></div></div></td><td data-label="Visninger">5 000</td><td data-label="Klikk">43</td></tr><tr><td data-label="Nettsted"><span class="table__title">Nettavisen.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:10%"></div></div></div></td><td data-label="Visninger">4 300</td><td data-label="Klikk">40</td></tr><tr><td data-label="Nettsted"><span class="table__title">TV2.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:9%"></div></div></div></td><td data-label="Visninger">3 700</td><td data-label="Klikk">34</td></tr><tr><td data-label="Nettsted"><span class="table__title">Finn.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:8%"></div></div></div></td><td data-label="Visninger">3 300</td><td data-label="Klikk">37</td></tr><tr><td data-label="Nettsted"><span class="table__title">Andre (41 nettsteder)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:16%"></div></div></div></td><td data-label="Visninger">6 400</td><td data-label="Klikk">51</td></tr></tbody>
             </table></div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></details>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></div></details>
           </div>
           <div class="card card--betjen" id="geo">
             <div class="card__head"><div>
@@ -189,7 +189,7 @@
               <div id="kart" class="kart" role="img" aria-label="Kart over Østlandet med visninger per fylke."></div>
               <ol class="geo__liste" id="geo-liste"></ol>
             </div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Viser hvor personene var da de så annonsen. Meta og Nettsteder og aviser rapporterer begge per fylke. Vi viser bare kanalene kampanjen brukte.</p></details>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Viser hvor personene var da de så annonsen. Meta og Nettsteder og aviser rapporterer begge per fylke. Vi viser bare kanalene kampanjen brukte.</p></div></details>
           </div>
           <div class="card card--betjen">
             <div class="card__head"><div>
@@ -248,7 +248,7 @@
             </ol>
             <p class="journey__by"><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Skrevet av Martin Karlsen, rådgiver i Frantz</p>
           </div>
-          <details class="approval-message campaign-disclosure"><summary>Endringer og ny godkjenning<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="card card--les campaign-disclosure__body"><p>Bruk dette hvis kampanjen skal få nytt annonsemateriell.</p><button type="button" class="btn btn--secondary" data-del-godkjenning="del-panel" data-approval-label="Send nye annonser til godkjenning" aria-expanded="false">Send nye annonser til godkjenning</button><div class="del-panel del-panel--topp" id="del-panel" hidden
+          <details class="disclosure approval-message campaign-disclosure"><summary>Endringer og ny godkjenning<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><p>Bruk dette hvis kampanjen skal få nytt annonsemateriell.</p><button type="button" class="btn btn--secondary" data-del-godkjenning="del-panel" data-approval-label="Send nye annonser til godkjenning" aria-expanded="false">Send nye annonser til godkjenning</button><div class="del-panel del-panel--topp" id="del-panel" hidden
         data-deler="plan annonser side" data-valgt="annonser" data-status="aktiv" data-id="129041"
         data-tittel="Sykepleier" data-sted="Oslo" data-arbeidsgiver="Oslo Sykehusdrift" data-periode="03.09 – 03.10.2026" data-budsjett="48200"
         data-kanaler="Meta, Nettsteder og aviser" data-side="frantz.no/k/129041" data-fra="Kari Hansen" data-firma="Nordlys Rekruttering AS"></div></div></details></div><section id="panel-interessenter" class="flow" role="tabpanel" aria-labelledby="fane-interessenter" hidden><p class="form-hint flex gap-3 campaign-private"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Kontaktopplysninger er kun tilgjengelige inne i portalen. De følger aldri med i den delte rapporten.</p><div class="card card--betjen" data-samtykke="129041">
@@ -286,15 +286,15 @@
             </div>
             <button class="btn btn--ghost btn--sm" type="button" data-flere-rader='[["12.09", "Marte Solberg", "marte.solberg@example.com", "915 22 304", "kontakt"], ["09.09", "Erik Nilsen", "erik.nilsen@example.com", "938 41 207", "varsel"], ["07.09", "Silje Haugen", "silje.haugen@example.com", "472 60 118", "kontakt"], ["05.09", "Ahmed Yusuf", "ahmed.yusuf@example.com", "986 03 451", "varsel"]]'>Se alle 9</button>
             </div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></details>
-          </div></section></div><aside class="campaign-rail"><section class="summary-panel campaign-brief"><div class="summary-panel__head"><h2>Rammer for kampanjen</h2></div><div class="summary-panel__block"><dl class="summary-row"><dt>Periode</dt><dd>03.09 – 03.10.2026</dd></dl><dl class="summary-row"><dt>Mål</dt><dd>60 klikk på «Søk»</dd></dl></div></section><details class="approval-message campaign-disclosure"><summary>Budsjett og kostnader<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="card card--les campaign-disclosure__body"><dl class="summary-row"><dt>Avtalt budsjett</dt><dd>kr 48 200</dd></dl><dl class="summary-row"><dt>Faktisk forbruk</dt><dd>Ikke tilgjengelig i eksempeldata</dd></dl><p class="form-hint">Kostnad per «Søk» er et eksisterende eksempeltall. Beregningsgrunnlaget må avklares før lansering.</p></div></details><details class="approval-message campaign-disclosure"><summary>Kampanjeside og sporing<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="card card--les campaign-disclosure__body"><a class="link" href="https://frantz.no/k/129041" target="_blank" rel="noopener">Åpne kampanjesiden <span class="sr-only">(ny fane)</span></a><div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-connect="777689" data-status="aktiv" data-tid="i dag kl. 09.14"></div></div></details><a class="btn btn--ghost" href="epost-visning.html">Kontakt rådgiver</a></aside></div>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></div></details>
+          </div></section></div><aside class="campaign-rail"><section class="summary-panel campaign-brief"><div class="summary-panel__head"><h2>Rammer for kampanjen</h2></div><div class="summary-panel__block"><dl class="summary-row"><dt>Periode</dt><dd>03.09 – 03.10.2026</dd></dl><dl class="summary-row"><dt>Mål</dt><dd>60 klikk på «Søk»</dd></dl></div></section><details class="disclosure approval-message campaign-disclosure"><summary>Budsjett og kostnader<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><dl class="summary-row"><dt>Avtalt budsjett</dt><dd>kr 48 200</dd></dl><dl class="summary-row"><dt>Faktisk forbruk</dt><dd>Ikke tilgjengelig i eksempeldata</dd></dl><p class="form-hint">Kostnad per «Søk» er et eksisterende eksempeltall. Beregningsgrunnlaget må avklares før lansering.</p></div></details><details class="disclosure approval-message campaign-disclosure"><summary>Kampanjeside og sporing<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><a class="link" href="https://frantz.no/k/129041" target="_blank" rel="noopener">Åpne kampanjesiden <span class="sr-only">(ny fane)</span></a><div class="summary-panel__block piksel" id="piksel" data-piksel="129041" data-connect="777689" data-status="aktiv" data-tid="i dag kl. 09.14"></div></div></details><a class="btn btn--ghost" href="epost-visning.html">Kontakt rådgiver</a></aside></div>
     </div>
   </div>
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/approval-store.js?v=3"></script>
-<script src="../components/js/approval-share.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=4"></script>
 <script>
 /* Copy and download buttons on this page. The demo only says that it worked. */
 (function () {
@@ -449,7 +449,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="data/rapporter.js?v=1"></script>
 <script src="data/kampanjer.js?v=6"></script>
 <script src="../components/js/report-view.js?v=1"></script>
-<script src="../components/js/report-sharing.js?v=1"></script>
+<script src="../components/js/report-sharing.js?v=2"></script>
 <script src="../components/js/campaign-page.js?v=1" data-default-campaign="129041"></script>
 </body>
 </html>

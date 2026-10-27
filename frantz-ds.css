@@ -31,6 +31,7 @@
 @import './components/geo/componentGeo.css?v=76';
 @import './components/timeline/componentTimeline.css?v=76';
 @import './components/summary/componentSummary.css?v=202';
+@import './components/disclosure/componentDisclosure.css?v=1';
 @import './components/tour/componentTour.css?v=76';
 @import './components/piksel/componentPiksel.css?v=76';
 @import './components/steps/componentSteps.css?v=76';

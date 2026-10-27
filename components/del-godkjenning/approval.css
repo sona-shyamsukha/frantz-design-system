@@ -5,29 +5,7 @@
 .approval-inline__head h3 { margin: 0; font: var(--type-section); }
 .approval-inline__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
 .approval-inline .form-group { margin: 0; }
-/* Shared expandable row. Native details owns the state and keyboard behaviour. */
-.approval-message > summary, .approval-test > summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-16);
-  min-height: var(--space-44);
-  padding: var(--space-12) var(--space-panel-padding);
-  list-style: none;
-  color: var(--text-heading);
-  font: var(--type-label);
-  cursor: pointer;
-}
-.approval-message > summary { border-bottom: 1px solid var(--border-default); }
-.approval-test > summary { color: var(--text-muted); font: var(--type-support); }
-.approval-message > summary::-webkit-details-marker, .approval-test > summary::-webkit-details-marker { display: none; }
-.approval-message > summary::marker, .approval-test > summary::marker { content: ''; }
-.approval-message > summary:hover, .approval-test > summary:hover { background: var(--surface-subtle); }
-.approval-message > summary:focus-visible, .approval-test > summary:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
-.approval-message > summary > .icon-lucide, .approval-test > summary > .icon-lucide { margin-left: auto; color: var(--text-muted); }
-.approval-message[open] > summary > .icon-lucide, .approval-test[open] > summary > .icon-lucide { transform: rotate(180deg); }
-/* Inside a summary panel, use its normal content section, without a second card. */
-.summary-panel > .approval-message > .summary-panel__block { margin-top: 0; }
+/* Expand/collapse appearance is owned by componentDisclosure.css. */
 .approval-message .form-group { margin-top: var(--space-8); }
 .approval-test { margin-top: var(--space-12); }
 .approval-test .del-panel__knapper { padding-bottom: var(--space-8); }
@@ -71,10 +49,9 @@
 .approval-response .btn-row { margin-top: var(--space-20); }
 .approval-changes { display: grid; gap: var(--space-12); margin-top: var(--space-20); }
 .approval-response-error { color: var(--text-danger-moderate); font: var(--type-support); }
-.approval-landing { padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-section); }
 .approval-landing h3 { margin-top: var(--space-24); font: var(--type-section); }
 .approval-landing p { white-space: pre-wrap; }
-.approval-landing details > summary { min-height: 44px; }
+
 .approval-mail { padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
 .approval-ad-item + .approval-ad-item { margin-top: var(--space-44); padding-top: var(--space-24); border-top: 1px solid var(--border-default); }
 .approval-ad-name { margin: 0 0 var(--space-8); font: var(--type-section); }

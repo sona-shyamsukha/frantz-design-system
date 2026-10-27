@@ -51,7 +51,7 @@ Run `node --test tests/report-sharing.test.cjs tests/approval-store.test.cjs tes
 The [responsive check](tests/campaign-page-responsive.html) verifies the actual pages
 inside phone, tablet and desktop viewports. Details and candidate follow-up remain
 available inside the portal. Design decisions and limits: [review notes](planning/campaign-page-design-review.md).
-Component reuse and any gaps are tracked in the [component inventory](planning/campaign-component-inventory.md).
+Component reuse and any gaps are tracked in the [component inventory](planning/campaign-component-inventory.md). Ordinary expandable content uses one shared `.disclosure` component, documented at `component-library.html#disclosure`.
 
 ## Approval prototype
 

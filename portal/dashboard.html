@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=202">
+<link rel="stylesheet" href="../frantz-ds.css?v=203">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -62,7 +62,7 @@
     .resultat { grid-template-columns: minmax(0, 1fr); }
     .resultat__tall { justify-items: start; text-align: left; }
   }
-  .resultat-kort .forklar { margin-top: var(--space-16); }
+  .resultat-kort .disclosure { margin-top: var(--space-16); }
   .kladd__topp { display: flex; gap: var(--space-12); align-items: flex-start; }
   .kladd__topp .row-alert__title, .kladd__topp .row-alert__desc { display: block; }
   .kladd__steg { display: flex; flex-direction: column; gap: var(--space-6); margin: 0; padding: 0; list-style: none; font-size: var(--text-sm); color: var(--text-muted); }
@@ -94,9 +94,9 @@
   .seksjonstittel h2 { margin: 0; color: var(--text-heading); font: var(--type-section); }
 
   /* Live campaigns: one slim row each, the whole row opens the campaign */
-  .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-muted); font-size: var(--text-sm); list-style: none; }
-  .forklar summary::-webkit-details-marker { display: none; }
-  .forklar p { margin: var(--space-4) 0 0; max-width: 60ch; }
+
+
+
   /* Page stats: one full-width row of filled cards, between the top and the columns */
   .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--space-24); }
   .hjem-tall .fakta dd { font-size: var(--text-xl); }
@@ -244,7 +244,7 @@
               <p class="card__hint" id="resultat-hint"></p>
             </div></div>
             <ul class="resultat-liste" id="resultat-liste"></ul>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr «Søk»?</summary><p>Antall som trykket «Søk» i annonsen og gikk videre til søknadsskjemaet deres. Pris per «Søk» er budsjettet delt på antall «Søk».</p></details>
+            <details class="disclosure"><summary>Hva betyr «Søk»?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Antall som trykket «Søk» i annonsen og gikk videre til søknadsskjemaet deres. Pris per «Søk» er budsjettet delt på antall «Søk».</p></div></details>
           </section>
         </aside>
       </div>

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=202">
+<link rel="stylesheet" href="frantz-ds.css?v=203">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=76">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 <link rel="stylesheet" href="components/del-godkjenning/approval.css?v=4">
@@ -69,7 +69,7 @@
   <button class="cl-tab" type="button" data-tab="avatar" data-sok="avatar .avatar" onclick="showTab('avatar', this)">Avatar</button>
 
   <div class="cl-tab-group">Innhold</div>
-  <button class="cl-tab" type="button" data-tab="disclosure" data-sok="details summary utvidbart innhold trekkspill accordion approval-message approval-test" onclick="showTab('disclosure', this)">Utvidbart innhold</button>
+  <button class="cl-tab" type="button" data-tab="disclosure" data-sok="details summary utvidbart innhold trekkspill accordion disclosure" onclick="showTab('disclosure', this)">Utvidbart innhold</button>
   <button class="cl-tab" type="button" data-tab="card" data-sok="card .card" onclick="showTab('card', this)">Kort</button>
   <button class="cl-tab" type="button" data-tab="pakke" data-sok="pakke pakkekort package pakke-kort .pakke-kort .pakke-grid" onclick="showTab('pakke', this)">Pakkekort</button>
   <button class="cl-tab" type="button" data-tab="summary" data-sok="summary summary-panel .summary-panel" onclick="showTab('summary', this)">Oppsummeringspanel</button>
@@ -2152,19 +2152,19 @@
 
 <div class="cl-panel" id="panel-disclosure">
   <div class="cl-component">
-    <div class="cl-component-header"><h2 class="cl-component-name">Utvidbart innhold</h2><span class="cl-component-class">.approval-message / .approval-test</span></div>
+    <div class="cl-component-header"><h2 class="cl-component-name">Utvidbart innhold</h2><span class="cl-component-class">.disclosure</span></div>
     <p class="cl-intro">En tydelig rad som åpner mer informasjon. Hele raden kan trykkes på. Pilen peker ned når innholdet er lukket, og opp når det er åpent.</p>
     <div class="cl-demo">
       <span class="cl-variant">Lukket og åpen</span>
-      <div class="cl-stack"><details class="approval-message"><summary>Bestillingsdetaljer<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="card card--les mt-4"><p>Her viser du opplysninger som bare trengs når brukeren vil se mer.</p></div></details><details class="approval-message" open><summary>Kampanjeside og sporing<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="card card--les mt-4"><p>Her viser du opplysninger som bare trengs når brukeren vil se mer.</p></div></details></div>
+      <div class="cl-stack"><details class="disclosure"><summary>Bestillingsdetaljer<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Her viser du opplysninger som bare trengs når brukeren vil se mer.</p></div></details><details class="disclosure" open><summary>Kampanjeside og sporing<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Her viser du opplysninger som bare trengs når brukeren vil se mer.</p></div></details></div>
       <div class="cl-sep"></div>
-      <span class="cl-variant">Sekundær informasjon</span>
-      <details class="approval-test"><summary>Om prototypen<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><p class="form-hint">Bruk den roligere varianten til valgfri hjelp og prototypeinformasjon.</p></details>
+      <span class="cl-variant">Samme komponent for hjelpetekst</span>
+      <details class="disclosure"><summary>Om prototypen<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Hjelpetekst og kampanjeinformasjon bruker samme komponent, størrelse og luft.</p></div></details>
     </div>
     <h3 class="cl-install__title">Bruk og tilgjengelighet</h3>
     <p class="cl-note cl-note--wide">Bruk native details og summary. Enter og mellomrom åpner og lukker raden, og nettleseren formidler tilstanden. Pilen er dekorativ og skal ha aria-hidden. Lange etiketter brytes over flere linjer; pilen beholder plassen sin. Flere seksjoner kan være åpne samtidig. Ingen animasjon.</p>
-    <p class="cl-note cl-note--wide">Eksisterende tokens styrer tekst, luft, skillelinje og fokusring. Ikonet er eksisterende Lucide chevron-down. CSS: components/del-godkjenning/approval.css. Ingen JavaScript er nødvendig.</p>
-    <div class="cl-snippet"><div class="cl-snippet__bar"><span class="cl-snippet__label">Kode</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div><pre><code>&lt;details class=&quot;approval-message&quot;&gt;&lt;summary&gt;Bestillingsdetaljer&lt;span class=&quot;icon-lucide icon-lucide--chevron-down icon-lucide--md&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;/summary&gt;&lt;div class=&quot;card card--les mt-4&quot;&gt;&lt;p&gt;Her viser du opplysninger som bare trengs når brukeren vil se mer.&lt;/p&gt;&lt;/div&gt;&lt;/details&gt;</code></pre></div>
+    <p class="cl-note cl-note--wide">Eksisterende tokens styrer tekst, luft, skillelinje og fokusring. Ikonet er eksisterende Lucide chevron-down. CSS: components/disclosure/componentDisclosure.css. Ingen JavaScript er nødvendig.</p>
+    <div class="cl-snippet"><div class="cl-snippet__bar"><span class="cl-snippet__label">Kode</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div><pre><code>&lt;details class=&quot;disclosure&quot;&gt;&lt;summary&gt;Bestillingsdetaljer&lt;span class=&quot;icon-lucide icon-lucide--chevron-down icon-lucide--md&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;/summary&gt;&lt;div class=&quot;disclosure__content&quot;&gt;&lt;p&gt;Her viser du opplysninger som bare trengs når brukeren vil se mer.&lt;/p&gt;&lt;/div&gt;&lt;/details&gt;</code></pre></div>
   </div>
 </div>
 

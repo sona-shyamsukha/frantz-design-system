@@ -1,0 +1,23 @@
+/* One shared disclosure row for expandable content. Native details owns its state. */
+.disclosure { min-width: 0; }
+.disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  min-height: var(--space-44);
+  padding: var(--space-12) var(--space-panel-padding);
+  border-bottom: 1px solid var(--border-default);
+  list-style: none;
+  color: var(--text-heading);
+  font: var(--type-label);
+  cursor: pointer;
+}
+.disclosure > summary::-webkit-details-marker { display: none; }
+.disclosure > summary::marker { content: ''; }
+.disclosure > summary:hover { background: var(--surface-subtle); }
+.disclosure > summary:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
+.disclosure > summary > .icon-lucide { margin-left: auto; color: var(--text-muted); }
+.disclosure[open] > summary > .icon-lucide { transform: rotate(180deg); }
+.disclosure > .disclosure__content { padding: var(--space-16) var(--space-panel-padding); }
+.disclosure > .disclosure__content > p + p { margin-top: var(--space-12); }
