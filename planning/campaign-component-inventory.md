@@ -4,6 +4,39 @@ User requirement, 27 October 2026: use existing tokens and components. Any gap t
 requires something new must be recorded explicitly. Reusing colours alone does not
 make a separately styled control an existing component.
 
+## Shared campaign structure — 27 October 2026
+
+All four statuses now reuse the same header composition, filter-tab component,
+sidebar order, overview alert and disclosure component. Core tabs keep their positions;
+sections are added when the campaign has the corresponding content.
+
+| State | Core tabs | Added tabs | Same sidebar |
+| --- | --- | --- | --- |
+| Bestilt | Oversikt, Annonser (submitted material) | — | Campaign number, period, channels, adviser, total, VAT, order details, tracking, contact |
+| Under arbeid | Oversikt, Annonser (drafts and approval) | — | Same sequence; budget and available order facts |
+| Aktiv | Oversikt, Annonser (published) | Resultater, Interessenter when available | Same sequence; current tracking state |
+| Avsluttet | Oversikt, Annonser (published) | Resultater, Interessenter when available | Same sequence; stopped tracking state |
+
+New code is shared **page behaviour**, `campaign-sections.js`, not a new visual tab
+component. It owns selected state, keyboard navigation, deep links and legacy
+`#detaljer` links. Approval returns to Oversikt. Existing chart, material, consent,
+sharing and candidate-follow-up IDs and behaviour remain attached to their content.
+
+The existing tracking component gains a code-row composition with the existing
+small ghost button and Lucide copy/check icons, with a keyboard-scrollable code line. Copy is next to the code and reports
+success only after the clipboard accepts it. No new button size, colour, token or
+UI primitive was added. Summary totals use existing navy/on-navy tokens, and VAT
+notes use existing spacing tokens above the next disclosure.
+
+Verification: 21 report/material/approval/disclosure tests pass. All available tabs
+fit 320, 390, 768, 1024, 1116, 1280 and 1672 px with disclosures expanded and no
+page overflow, overlapping fact rows or clipped copy buttons. Keyboard tab
+navigation, legacy report links, sparse reports, inline copying and approval
+returning to Oversikt are checked in the browser.
+
+The shared sidebar is the stated default while Sona's optional placement preference
+is pending. No separate review page is part of the client journey.
+
 ## Ordered page browser feedback — 27 October 2026
 
 - Removed the company eyebrow on Bestilt. The period uses the existing `--space-8` gap below the title.

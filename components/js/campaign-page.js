@@ -28,6 +28,7 @@
     });
   }
   bindContacts();
+  var sections = page === 'results' ? null : root.FrantzCampaignSections.init();
   if (page === 'ordered') {
     // An order that cannot be found must remain an error, with no conflicting next step.
     var cols = document.querySelector('.cols');
@@ -65,7 +66,8 @@
       document.getElementById('campaign-stage').textContent = 'Under arbeid';
       document.getElementById('production-title').textContent = state.title;
       document.getElementById('production-description').textContent = state.description;
-      document.querySelector('.campaign-next .campaign-eyebrow').textContent = 'Neste steg · ' + state.owner;
+      document.getElementById('production-empty').hidden = stage !== 'produksjon';
+      document.getElementById('production-ad-link').hidden = stage === 'produksjon';
       actions.hidden = stage !== 'godkjenning';
       creativeCard.hidden = stage === 'produksjon';
       document.getElementById('material-customer-status').hidden = stage !== 'publisering';
@@ -83,6 +85,7 @@
       approve.disabled = true;
       try { sessionStorage.setItem('fzCampaignMaterialApproved129072', 'yes'); } catch (error) { /* The visible handoff still works without browser storage. */ }
       renderStage('publisering');
+      sections.select('oversikt');
       var title = document.getElementById('production-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
       document.getElementById('production-status').scrollIntoView({ block: 'start' });
     });
@@ -110,53 +113,41 @@
   var reportActions = share.outerHTML;
   if (!report.active) reportActions = '<div class="btn-row"><a class="btn btn--secondary" href="' + View.escape(root.FrantzReportSharing.previewUrl(report.id, true)) + '" target="_blank" rel="noopener">Åpne rapport <span class="sr-only">(ny fane)</span></a>' + reportActions + '</div>';
   header.innerHTML = View.header(report, reportActions);
+  header.querySelector('.campaign-eyebrow').remove();
   document.title = report.title + ' — Frantz kampanjeportal';
   document.querySelector('.breadcrumb__item:last-child').innerHTML = '<span aria-current="page">' + View.escape(report.title) + '</span>';
   var campaign = root.FZ_KAMPANJER.finn(id);
   var facts = View.fact('Kampanjenummer', '#' + id) + View.fact('Periode', report.period);
-  if (campaign && campaign.kanaler) facts += View.fact('Kanaler', campaign.kanaler.join(', '));
-  if (report.goal) facts += View.fact('Mål', View.number(report.goal) + ' klikk på «Søk»');
+  if (campaign && campaign.kanaler) facts += '<dl class="summary-row"><dt>Kanaler</dt><dd>' + root.FZ_KANALER.html(campaign.kanaler) + '</dd></dl>';
   facts += View.fact('Rådgiver', 'Martin Karlsen');
-  var budget = View.fact('Avtalt budsjett', View.money(report.budget)) + View.fact('Faktisk forbruk', report.spend == null ? 'Ikke oppgitt' : View.money(report.spend));
-  var tracking = campaign && campaign.connect ? '<div class="summary-panel__block piksel" data-piksel="' + View.escape(id) + '" data-connect="' + View.escape(campaign.connect) + '" data-status="' + (report.active ? 'aktiv' : 'avsluttet') + '" data-tid="' + View.escape(report.active ? report.updated : (campaign && campaign.til ? root.FZ_KAMPANJER.dato(campaign.til) : report.period.split(' – ').pop())) + '"></div>' : '';
-  document.querySelector('.campaign-rail').innerHTML = '<section class="summary-panel campaign-brief"><div class="summary-panel__head"><h2>Om kampanjen</h2></div><div class="summary-panel__block">' + facts + '</div></section>' + View.disclosure('Budsjett og kostnader', budget) + View.disclosure('Kampanjeside og sporing', '<a class="link" href="https://frantz.no/k/' + encodeURIComponent(id) + '" target="_blank" rel="noopener">Åpne kampanjesiden <span class="sr-only">(ny fane)</span></a>' + tracking) + '<a class="btn btn--secondary" href="' + View.escape(contactUrl(false)) + '">Kontakt rådgiver</a><p class="form-hint">Martin Karlsen · Frantz<br>post@frantz.no<br>Åpner e-posten din. Du kan legge ved filer i e-posten.</p>';
+  var orderFacts = View.fact('Kampanjenavn', campaign && campaign.ref || report.title);
+  if (campaign) orderFacts += View.fact('Stilling', campaign.stilling) + View.fact('Arbeidssted', campaign.sted);
+  orderFacts += View.fact('Arbeidsgiver', report.employer);
+  if (report.spend != null) orderFacts += View.fact('Faktisk forbruk', View.money(report.spend));
+  var tracking = campaign && campaign.connect ? '<div class="summary-panel__block piksel" id="piksel" data-piksel="' + View.escape(id) + '" data-connect="' + View.escape(campaign.connect) + '" data-status="' + (report.active ? 'aktiv' : 'avsluttet') + '" data-tid="' + View.escape(report.active ? report.updated : root.FZ_KAMPANJER.dato(campaign.til)) + '"></div>' : '';
+  var landingLink = '<a class="link" href="https://frantz.no/k/' + encodeURIComponent(id) + '" target="_blank" rel="noopener">Åpne kampanjesiden <span class="sr-only">(ny fane)</span></a>';
+  document.querySelector('.campaign-rail').innerHTML =
+    '<section class="summary-panel"><div class="summary-panel__head"><h2>Om kampanjen</h2></div>' +
+    '<div class="summary-panel__block">' + facts + '</div>' +
+    '<div class="summary-panel__total"><span>Budsjett</span><b>' + View.money(report.budget) + '</b></div>' +
+    '<p class="summary-panel__mva">Alle priser er eks. mva.</p>' +
+    View.disclosure('Bestillingsdetaljer', '<div class="grid gap-3">' + orderFacts + '</div>') +
+    View.disclosure('Sporingskode', landingLink + tracking, 'tracking-details') +
+    '<div class="summary-panel__cta"><a class="btn btn--secondary btn--sm" href="' + View.escape(contactUrl(false)) + '">Kontakt rådgiver</a></div></section>';
   if (root.FrantzPiksel) root.FrantzPiksel.render();
-  if (!report.active) document.querySelector('[data-fane="oversikt"]').textContent = 'Rapport';
   if (!report.daily) {
-    // Never inherit Bodø's breakdown or personal contacts for another campaign.
-    ['detaljer', 'interessenter'].forEach(function (name) {
-      document.getElementById('panel-' + name).innerHTML = '';
-      document.querySelector('[data-fane="' + name + '"]').remove();
-    });
-    document.querySelector('.sidefaner').hidden = true;
+    // A sparse report keeps its own identity and never inherits another campaign's content.
+    document.getElementById('panel-resultater').innerHTML = '<div id="campaign-overview" class="flow"></div>';
+    document.getElementById('panel-annonser').innerHTML = View.empty('Annonser', 'Annonsemateriell er ikke tilgjengelig for denne kampanjen.', 2);
+    document.querySelector('#panel-oversikt details').remove();
+  }
+  if (!report.interest) {
+    document.getElementById('panel-interessenter').remove();
+    document.querySelector('[data-fane="interessenter"]').remove();
   }
   document.getElementById('campaign-overview').innerHTML = View.overview(report, { internal: true, costs: true });
   root.FrantzReportSharing.attach(document.querySelector('[data-report-share]'), report);
-  var tabs = Array.from(document.querySelectorAll('[data-fane]'));
-  function showTab(name, focus) {
-    if (!tabs.some(function (tab) { return tab.dataset.fane === name; })) name = 'oversikt';
-    tabs.forEach(function (tab) {
-      var selected = tab.dataset.fane === name;
-      tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1;
-      document.getElementById(tab.getAttribute('aria-controls')).hidden = !selected;
-      if (selected && focus) tab.focus();
-    });
-    history.replaceState(null, '', '#' + name);
-  }
-  tabs.forEach(function (tab) { tab.addEventListener('click', function () { showTab(tab.dataset.fane); }); });
-  document.querySelector('.sidefaner').addEventListener('keydown', function (event) {
-    var current = tabs.indexOf(event.target), index;
-    if (current < 0) return;
-    if (event.key === 'ArrowRight') index = (current + 1) % tabs.length;
-    if (event.key === 'ArrowLeft') index = (current - 1 + tabs.length) % tabs.length;
-    if (event.key === 'Home') index = 0;
-    if (event.key === 'End') index = tabs.length - 1;
-    if (index == null) return;
-    event.preventDefault(); tabs[index].click(); tabs[index].focus();
-  });
-  document.querySelectorAll('[data-open-tab]').forEach(function (button) { button.addEventListener('click', function () { showTab(button.dataset.openTab, true); }); });
-  root.addEventListener('hashchange', function () { showTab(location.hash.slice(1)); });
-  showTab(location.hash.slice(1) || 'oversikt');
+  sections = root.FrantzCampaignSections.init();
   // Follow-up state is scoped to a campaign and kept across page reloads in this local demo.
   var key = 'fzCampaignInterestReview-' + id;
   var table = document.querySelector('.prospekt');

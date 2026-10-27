@@ -8,23 +8,12 @@
 @container (max-width: 640px) { .report-summary .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (max-width: 360px) { .report-summary .metrics--fire { grid-template-columns: minmax(0, 1fr); } }
 .campaign-header .campaign-meta { margin-top: var(--space-8); }
-/* Long order labels need room to wrap at words, alongside the detail value. */
-@media (min-width: 641px) {
-  .campaign-page[data-campaign-page="ordered"] .flow .summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
-}
 .campaign-meta > span { margin-inline: var(--space-6); }
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
 .campaign-rail > .btn { justify-self: start; }
 .campaign-disclosure .piksel { padding: 0; }
 .campaign-private .icon-lucide { flex: none; }
-.campaign-next { margin-top: var(--space-24); scroll-margin-top: var(--space-24); }
-.flow > .campaign-next { margin-top: 0; }
-.campaign-next__heading { margin-bottom: var(--space-16); }
-.campaign-next > p { max-width: var(--container-sm); margin-top: var(--space-16); }
-.campaign-next__footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-24); margin-top: var(--space-24); }
-.campaign-next__footer b { display: block; }
-.campaign-small-label { display: block; margin-bottom: var(--space-4); font: var(--type-support); }
 .campaign-task { flex-wrap: wrap; align-items: center; }
 .campaign-task > div { flex: 1 1 auto; min-width: 0; }
 .campaign-task p { margin-top: var(--space-4); }
@@ -44,10 +33,6 @@
 .shared-report__facts { display: grid; gap: var(--space-16); margin-top: var(--space-24); }
 .shared-report__details { display: grid; gap: var(--space-section-gap); }
 .shared-report__footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-16); padding-top: var(--space-24); border-top: 1px solid var(--border-default); font: var(--type-support); color: var(--text-muted); }
-@media (max-width: 1180px) {
-  .campaign-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .campaign-rail > .campaign-brief { grid-row: span 2; }
-}
 @media (max-width: 640px) {
   .campaign-header { align-items: flex-start; }
   .campaign-rail { grid-template-columns: minmax(0, 1fr); }

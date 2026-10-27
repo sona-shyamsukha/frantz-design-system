@@ -19,7 +19,7 @@
 </head>
 <body>
   <h1 class="text-h2">Campaign pages — developer verification</h1>
-  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1280</option><option>1672</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1116</option><option>1280</option><option>1672</option></select><label class="form-label" for="section">Campaign section</label><select class="form-select" id="section"><option value="oversikt">Oversikt</option><option value="annonser">Annonser</option><option value="resultater">Resultater</option><option value="interessenter">Interessenter</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
   <div class="previews" id="previews"></div>
   <script>
     const order = new URLSearchParams(location.search).get('order');
@@ -48,8 +48,15 @@
         const a = label.getBoundingClientRect(), b = value.getBoundingClientRect();
         return a.width > 0 && (label.scrollWidth > label.clientWidth + 1 || (a.right > b.left + 1 && a.bottom > b.top + 1 && b.bottom > a.top + 1));
       }).length;
-      output.textContent = `${scroll <= viewport ? 'PASS' : 'FAIL'} — viewport ${viewport}px, page ${scroll}px; duplicate IDs: ${duplicateIds.length}; overlapping rows: ${overlappingRows}`;
-      output.dataset.pass = String(scroll <= viewport && duplicateIds.length === 0 && overlappingRows === 0);
+      const clippedCopyButtons = [...doc.querySelectorAll('.piksel__code-row button')].filter(button => {
+        if (!button.getClientRects().length) return false;
+        const panel = button.closest('.summary-panel');
+        if (!panel) return false;
+        const a = button.getBoundingClientRect(), b = panel.getBoundingClientRect();
+        return a.width > 0 && (a.right > b.right + 1 || a.left < b.left - 1);
+      }).length;
+      output.textContent = `${scroll <= viewport ? 'PASS' : 'FAIL'} — viewport ${viewport}px, page ${scroll}px; duplicate IDs: ${duplicateIds.length}; overlapping rows: ${overlappingRows}; clipped copy buttons: ${clippedCopyButtons}`;
+      output.dataset.pass = String(scroll <= viewport && duplicateIds.length === 0 && overlappingRows === 0 && clippedCopyButtons === 0);
     }
     pages.forEach(([name, url]) => {
       const figure = document.createElement('figure');
@@ -63,6 +70,14 @@
     });
     function measureAll() { previews.querySelectorAll('figure').forEach(figure => measure(figure.querySelector('iframe'), figure.querySelector('output'))); }
     width.addEventListener('change', () => { previews.querySelectorAll('iframe').forEach(frame => { frame.style.width = width.value + 'px'; }); requestAnimationFrame(measureAll); });
+    document.getElementById('section').addEventListener('change', event => {
+      previews.querySelectorAll('iframe').forEach(frame => {
+        const doc = frame.contentDocument;
+        const tab = doc.querySelector('.sidefaner [data-fane="' + event.target.value + '"]') || doc.querySelector('.sidefaner [data-fane="oversikt"]');
+        if (tab) tab.click();
+      });
+      requestAnimationFrame(measureAll);
+    });
     document.getElementById('expand').addEventListener('click', () => { previews.querySelectorAll('iframe').forEach(frame => frame.contentDocument.querySelectorAll('details').forEach(details => { details.open = true; })); requestAnimationFrame(measureAll); });
     document.getElementById('measure').addEventListener('click', measureAll);
   </script>

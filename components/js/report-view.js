@@ -9,7 +9,7 @@
       '<div class="metric__value">' + escape(value) + '</div><div class="metric__label">' + escape(label) + '</div></div>';
   }
   function fact(label, value) { return '<dl class="summary-row"><dt>' + escape(label) + '</dt><dd>' + escape(value) + '</dd></dl>'; }
-  function disclosure(title, html) { return '<details class="disclosure campaign-disclosure"><summary>' + escape(title) + '<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body">' + html + '</div></details>'; }
+  function disclosure(title, html, id) { return '<details class="disclosure campaign-disclosure"' + (id ? ' id="' + escape(id) + '"' : '') + '><summary>' + escape(title) + '<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body">' + html + '</div></details>'; }
   function header(report, action) {
     return '<div><p class="campaign-eyebrow">' + escape(report.employer) + '</p><div class="campaign-title"><h1 class="text-h2">' + escape(report.title) + '</h1><span class="badge ' + (report.active ? 'badge--active' : 'badge--ended') + '">' + (report.active ? 'Aktiv' : 'Avsluttet') + '</span></div><p class="form-hint campaign-meta">' + escape(report.period) + ' <span aria-hidden="true">·</span> ' + (report.active ? 'Dag ' + number(report.day) + ' av ' + number(report.totalDays) : 'Kampanjen er ferdig') + '</p></div>' + (action || '');
   }

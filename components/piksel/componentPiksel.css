@@ -20,18 +20,31 @@
 .piksel--aktiv .piksel__prikk { background: var(--color-green); }
 .piksel--avsluttet .piksel__prikk { background: var(--text-faint); }
 
+.piksel__code-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8);
+  border-radius: var(--radius-8);
+  background: var(--surface-subtle);
+}
+
 .piksel__kode {
   display: block;
   margin: 0;
-  padding: var(--space-12) var(--space-16);
-  border-radius: var(--radius-8);
-  background: var(--surface-subtle);
+  min-width: 0;
+  padding: var(--space-4) var(--space-8);
   color: var(--text-body);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  white-space: pre;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
+
+.piksel__kode:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
 
 .piksel__knapper {
   display: flex;
