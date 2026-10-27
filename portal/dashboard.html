@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
-<script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
 
@@ -62,7 +62,7 @@
     .resultat { grid-template-columns: minmax(0, 1fr); }
     .resultat__tall { justify-items: start; text-align: left; }
   }
-  .resultat-kort .forklar { margin-top: var(--space-16); }
+  .resultat-kort .disclosure { margin-top: var(--space-16); }
   .kladd__topp { display: flex; gap: var(--space-12); align-items: flex-start; }
   .kladd__topp .row-alert__title, .kladd__topp .row-alert__desc { display: block; }
   .kladd__steg { display: flex; flex-direction: column; gap: var(--space-6); margin: 0; padding: 0; list-style: none; font: var(--type-support); color: var(--text-muted); }
@@ -94,12 +94,12 @@
   .seksjonstittel h2 { margin: 0; color: var(--text-heading); font: var(--type-section); }
 
   /* Live campaigns: one slim row each, the whole row opens the campaign */
-  .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-muted); font: var(--type-support); list-style: none; }
-  .forklar summary::-webkit-details-marker { display: none; }
-  .forklar p { margin: var(--space-4) 0 0; max-width: 60ch; }
   /* Page stats: one full-width row of filled cards, between the top and the columns */
   .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--space-24); }
-  /* Phone: keep the three numbers side by side */
+  .hjem-tall .fakta { background: var(--gradient-hero); border-color: var(--border-navy-strong); }
+  .hjem-tall .fakta dt, .hjem-tall .fakta dd span { color: var(--text-on-dark-muted); }
+  .hjem-tall .fakta dd { color: var(--text-on-navy); }
+  /* Phone: keep the three numbers side by side, smaller */
   @media (max-width: 640px) {
     .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
     .hjem-tall .fakta { padding: var(--space-12) var(--space-8); }
@@ -109,10 +109,14 @@
   /* Active campaigns: the same table as on Kampanjer */
   .table-card { padding: 0; overflow-x: auto; }
 
-  @media (max-width: 1180px) {
+  /* Keep the short campaign table in rows while the desktop navigation is visible. */
+  @media (min-width: 861px) {
+    .table-card { container-type: normal; }
+  }
+  /* Move results below the table before the two-column layout squeezes its content. */
+  @media (max-width: 1440px) {
     .wrap .cols { grid-template-columns: 1fr; }
   }
-  /* Stable etter bredden på lista, ikke skjermen: med sidemenyen åpen blir kolonnen smal lenge før 900 px. */
 </style>
 </head>
 <body>
@@ -242,7 +246,7 @@
               <p class="card__hint" id="resultat-hint"></p>
             </div></div>
             <ul class="resultat-liste" id="resultat-liste"></ul>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr «Søk»?</summary><p>Antall som trykket «Søk» i annonsen og gikk videre til søknadsskjemaet deres. Pris per «Søk» er budsjettet delt på antall «Søk».</p></details>
+            <details class="disclosure"><summary>Hva betyr «Søk»?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Antall som trykket «Søk» i annonsen og gikk videre til søknadsskjemaet deres. Pris per «Søk» er budsjettet delt på antall «Søk».</p></div></details>
           </section>
         </aside>
       </div>
@@ -253,12 +257,12 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=6"></script>
+<script src="data/kampanjer.js?v=20261027-complete-reports"></script>
 <script>
 // Hjem has two parts: the campaigns running or on the way, and what Frantz needs from you.
 // Both read the shared campaign list, so a new order shows here as «Bestilt».
 (function () {
-  var alle = FZ_KAMPANJER.alle();
+  var alle = FZ_KAMPANJER.synlige();
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var REKKE = { 'Aktiv': 0, 'Under arbeid': 1, 'Bestilt': 2 };
   var na = alle.filter(function (k) { return k.status in REKKE && k.bestiller === 'Kari Hansen'; })

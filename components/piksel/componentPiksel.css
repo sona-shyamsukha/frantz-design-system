@@ -20,19 +20,6 @@
 .piksel--aktiv .piksel__prikk { background: var(--color-green); }
 .piksel--avsluttet .piksel__prikk { background: var(--text-faint); }
 
-.piksel__kode {
-  display: block;
-  margin: 0;
-  padding: var(--space-12) var(--space-16);
-  border-radius: var(--radius-8);
-  background: var(--surface-subtle);
-  color: var(--text-body);
-  font: var(--type-support);
-  font-family: var(--font-mono);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
 .piksel__knapper {
   display: flex;
   flex-wrap: wrap;

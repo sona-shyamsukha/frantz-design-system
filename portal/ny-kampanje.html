@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Opprett kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
-<script src="../components/js/brukerflyt.js?v=2"></script>
-<link rel="stylesheet" href="../components/studio/ad-templates.css?v=204">
-<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=204">
+<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<script src="../components/js/brukerflyt.js?v=20261027-client"></script>
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
 <style>
   body { margin: 0; }
 
@@ -73,10 +73,10 @@
   .an-bilde__knapper { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-4); }
   .an-farger[hidden] { display: none; }
   .an-mer { padding-top: var(--space-16); }
-  .an-mer__knapp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-8); background: var(--surface-section); color: var(--text-heading); font: var(--type-label); cursor: pointer; list-style: none; }
-  .an-mer__knapp::-webkit-details-marker { display: none; }
-  .an-mer[open] .an-mer__knapp .icon-lucide { transform: rotate(180deg); }
-  .an-mer__knapp:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+
+
+
   .an-mer__hva { color: var(--text-muted); font: var(--type-support); }
   .an-mer__innhold, .an-farger { display: grid; gap: var(--space-16); }
   .an-mer__innhold { margin-top: var(--space-16); }
@@ -470,13 +470,13 @@
   .mat-filer[hidden] { display: none; }
   .mat-filer .btn { justify-self: start; }
   .tillegg-liste { display: grid; gap: var(--space-12); }
-  .flere { border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); }
-  .flere > summary { display: grid; grid-template-columns: 36px minmax(0, 1fr) 16px; gap: var(--space-12); align-items: center; padding: var(--space-16); cursor: pointer; list-style: none; }
-  .flere > summary::-webkit-details-marker { display: none; }
-  .flere > summary b { color: var(--text-heading); }
-  .flere > summary small { display: block; margin-top: var(--space-2); color: var(--text-muted); font: var(--type-support); }
-  .flere__pil { color: var(--text-muted); transition: transform .15s; }
-  .flere[open] .flere__pil { transform: rotate(180deg); }
+
+
+
+
+
+
+
   .flere__innhold { display: grid; gap: var(--space-12); padding: var(--space-16); border-top: 1px solid var(--border-subtle); }
   /* Option rows use the checkbox card variant. The box sits on the first line of the bold title. */
   .flere__valg .form-check__box { margin-top: calc((1lh - var(--space-20)) / 2); }
@@ -879,10 +879,7 @@
 
   body.v2-ute #ordre-oppsummering, body.v2-ute .steg-nav, body.v2-ute #mobilbestilling { display: none !important; }
   @container (min-width: 800px) {
-    .steg > #del-start, .v2.del { grid-column: 1 / -1; width: 70%; max-width: 960px; }
-  }
-  @container (min-width: 1000px) {
-    .steg > #del-start, .v2.del { width: 70%; max-width: 960px; }
+    .steg > #del-start, .v2.del, .kladd-hode { grid-column: 1 / -1; width: 70%; max-width: 960px; }
   }
   @media (max-width: 640px) {
     .v2-kilde, .v2-rad, .v2-rad--apen, .v2-seksjon__tittel { grid-template-columns: minmax(0, 1fr); padding-inline: var(--space-16); }
@@ -892,7 +889,7 @@
   }
 
   .v2-seksjon__topp { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); padding: var(--space-12) var(--space-24); background: var(--surface-section); border-top: 1px solid var(--border-subtle); }
-  .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; }
+  .v2-seksjon__topp .v2-seksjon__tittel { padding: 0; border: 0; background: transparent; }
   .v2-rad { grid-template-columns: 11.5rem minmax(0, 1fr); }
   dialog.v2-dialog { width: min(680px, calc(100vw - var(--space-32))); max-width: none; max-height: calc(100dvh - var(--space-32)); margin: auto; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); overflow: hidden; box-shadow: var(--shadow-subtle); }
   .v2-dialog::backdrop { background: var(--scrim); }
@@ -992,12 +989,25 @@
   .nk-skjema .form-input[aria-invalid="true"]:focus,
   .v2-dialog .form-input[aria-invalid="true"]:focus { box-shadow: var(--focus-ring-danger); }
   @media (max-width: 640px) {
+    .app .nk-skjema > .v2.del { background: var(--surface-raised); border: 1px solid var(--border-default); }
     .v2-rad { grid-template-columns: minmax(0, 1fr); }
     .v2-seksjon__topp { padding-inline: var(--space-16); }
     dialog.v2-dialog { width: calc(100vw - var(--space-16)); max-height: calc(100dvh - var(--space-16)); }
     .v2-dialog__topp, .v2-dialog__innhold { padding: var(--space-16); }
     .v2-dialog__bunn { padding: var(--space-16); }
   }
+  .kladd-hode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-16); }
+  .kladd-slett { min-height: 44px; margin-inline-start: auto; background: var(--surface-raised); border-color: var(--border-strong); color: var(--text-danger-moderate); }
+  .kladd-slett[hidden] { display: none; }
+  dialog.kladd-dialog { position: fixed; inset: 0; margin: auto; width: min(520px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); overflow: auto; padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
+  .kladd-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
+  .kladd-dialog h2 { margin: 0 0 var(--space-16); }
+  .kladd-dialog p { margin: 0 0 var(--space-16); overflow-wrap: anywhere; }
+  .kladd-dialog__navn { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .kladd-dialog .form-label { display: block; }
+  .kladd-dialog .form-hint { margin-top: var(--space-8); }
+  .kladd-dialog .btn-row { justify-content: flex-end; margin-top: var(--space-24); }
+  @media (max-width: 640px) { dialog.kladd-dialog { padding: var(--space-24); } }
 </style>
 </head>
 <body data-assistant="form">
@@ -1046,7 +1056,10 @@
           <!-- One header for the page and the step: the page title, «Lagret», the step name and the progress bar -->
           <header class="steg-hode">
             <div class="steg-vis" id="steg-liste"></div>
-            <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
+            <div class="kladd-hode">
+              <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
+              <button class="btn btn--ghost kladd-slett" type="button" id="kladd-slett" aria-haspopup="dialog" hidden><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span>Slett kladd</button>
+            </div>
         <details class="ordre-meny" id="ordre-oppsummering" hidden>
           <summary class="ordre-linje">
             <span class="ordre-linje__navn"><b>Din bestilling</b><small id="ordre-kort-stilling">Fylles ut underveis</small></span>
@@ -1406,9 +1419,9 @@
                   </section>
 
                   <!-- Everything with a good default sits behind one link -->
-                  <details class="an-mer" id="an-mer" hidden>
-                    <summary class="an-mer__knapp">Tilpass utforming, bilde, logo, farger og knapp <span class="icon-lucide icon-lucide--chevron-down" aria-hidden="true"></span></summary>
-                    <div class="an-mer__innhold customisation">
+                  <details id="an-mer" hidden class="disclosure an-mer">
+                    <summary class="an-mer__knapp">Tilpass utforming, bilde, logo, farger og knapp <span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary>
+                    <div class="disclosure__content an-mer__innhold customisation">
                       <fieldset class="an-templates" id="an-templates" hidden>
                         <legend>Utforming</legend>
                         <div class="an-templates__choices">
@@ -1616,6 +1629,21 @@
 
 <div class="drawer-backdrop nk-ark-bakgrunn" id="ark-bakgrunn" hidden></div>
 
+<dialog class="kladd-dialog" id="kladd-dialog" aria-labelledby="kladd-dialog-tittel" aria-describedby="kladd-dialog-tekst">
+  <form id="kladd-slett-skjema">
+    <h2 class="text-h3" id="kladd-dialog-tittel">Slett kladden?</h2>
+    <p id="kladd-dialog-tekst">Kladden fjernes fra kampanjeoversikten. Skriv kampanjenavnet for å bekrefte.</p>
+    <p class="kladd-dialog__navn" id="kladd-slett-navn"></p>
+    <label class="form-label" for="kladd-bekreft-navn">Kampanjenavn</label>
+    <input class="form-input" id="kladd-bekreft-navn" type="text" autocomplete="off" spellcheck="false" aria-describedby="kladd-slett-hint" autofocus>
+    <p class="form-hint" id="kladd-slett-hint">Skriv navnet nøyaktig slik det står over.</p>
+    <p class="alert alert--error" id="kladd-slett-feil" role="alert" hidden></p>
+    <div class="btn-row btn-row--stack">
+      <button class="btn btn--secondary" type="button" id="kladd-avbryt">Avbryt</button>
+      <button class="btn btn--primary" type="submit" id="kladd-bekreft" disabled>Slett kladd</button>
+    </div>
+  </form>
+</dialog>
 
 <dialog class="v2-dialog" id="v2-dialog" aria-labelledby="v2-dialog-tittel">
   <form id="v2-dialog-form" novalidate>
@@ -1638,17 +1666,25 @@
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=19"></script>
 <script src="../components/js/campaign-material.js?v=7"></script>
+<script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
 <script src="../components/js/approval-store.js?v=3"></script>
-<script src="../components/js/approval-share.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=5"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=6"></script>
+<script src="data/kampanjer.js?v=20261027-delete-draft"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
 <script>
 (function () {
+  var kladdParametre = new URLSearchParams(location.search);
+  var kladdId = kladdParametre.get('kladd');
+  if (kladdId && (!FZ_KAMPANJER.finn(kladdId) || FZ_KAMPANJER.finn(kladdId).status !== 'Kladd')) {
+    kladdParametre.delete('kladd');
+    location.replace('campaigns.html' + (kladdParametre.size ? '?' + kladdParametre.toString() : ''));
+    return;
+  }
   var R = window.FrantzRekkevidde;
   var $ = function (id) { return document.getElementById(id); };
   var kr = function (n) { return 'kr ' + R.tall(n); };
@@ -2373,6 +2409,7 @@
         tid: String(now.getHours()).padStart(2, '0') + '.' + String(now.getMinutes()).padStart(2, '0')
       };
       if (mode) tilstand.materiell = mode;
+      order.innsendteFelt = FrantzCampaignSubmission.capture(V2SEKSJONER, function (id) { return id === 'navn' ? order.ref : v2VisVerdi(id); });
       var mf = materiellFor();
       var material = FrantzCampaignMaterial.snapshot(order, {
         ad: mode === 'hjelp' || !mode ? {} : mf.ad, mainFile: mf.mainFile,
@@ -4129,6 +4166,8 @@
     var d = new Date();
     var ordre = {
       approvalKey: approvalKey,
+      arbeidsgiver: $('arbeidsgiver').value.trim(), frist: $('frist').value,
+      kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
       tittel: [$('stilling').value.trim(), stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' ') || 'Ny kampanje',
       stilling: $('stilling').value.trim(), sted: stederListe.length ? navnListe(stederListe) : '', ref: $('ref').value.trim(),
       budsjett: budsjett(), tilleggSum: tilleggSum, tillegg: tilleggListe(),
@@ -4145,6 +4184,13 @@
     var materiale;
     try {
       var mf = materiellFor();
+      var submittedValues = {
+        stilling: ordre.stilling, sted: ordre.sted, arbeidsgiver: ordre.arbeidsgiver, frist: FrantzCampaignSubmission.date(ordre.frist),
+        navn: ordre.ref, pakke: ordre.pakke, budsjett: kr(ordre.budsjett), kanaler: ordre.kanaler, periode: ordre.periodeTekst,
+        materiell: ordre.materiell, avsender: ordre.avsender, fil: v2Filnavn().join(', '), produkter: ordre.tillegg,
+        ekstra: ordre.notat, faktura: ordre.faktura
+      };
+      ordre.innsendteFelt = FrantzCampaignSubmission.capture(V2SEKSJONER, function (id) { return submittedValues[id]; });
       materiale = FrantzCampaignMaterial.snapshot(ordre, {
         ad: mf.ad, mainFile: mf.mainFile, extraFiles: mf.extraFiles, mode: tilstand.materiell, files: mf.files,
         brief: $('an-designbrief').value.trim(), sender: $('avsender').value.trim(),
@@ -4246,6 +4292,7 @@
 })();
 </script>
 
+<script src="../components/js/campaign-draft-delete.js?v=1"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>

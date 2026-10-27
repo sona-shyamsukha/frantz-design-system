@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>ConnectID — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
-<script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../frantz-ds.css?v=205">
+<script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
 
@@ -61,14 +61,14 @@
   .kopi-rad .form-input { flex: 1; }
 
   .vis-liste { display: grid; }
-  .vis-liste details { border-top: 1px solid var(--border-default); }
-  .vis-liste summary {
+
+
     padding: var(--space-16) 0;
     color: var(--color-navy);
     cursor: pointer;
    font: var(--type-label);
 }
-  .vis-liste .vis-innhold { padding-bottom: var(--space-16); color: var(--text-muted); font: var(--type-body); }
+
 
   .skjema-bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-24); }
   .skjema-bunn [hidden] { display: none; }
@@ -87,7 +87,7 @@
   .verifisering[hidden] { display: none; }
   .verifisering legend { margin-bottom: var(--space-8); padding: 0; }
   .verifisering__valg { display: flex; flex-wrap: wrap; gap: var(--space-12) var(--space-24); }
-  .vis-liste details[hidden] { display: none; }
+
   .feil { margin: var(--space-16) 0 0; color: var(--text-danger-moderate); font-weight: var(--font-weight-semibold); }
   .status { margin: var(--space-16) 0 0; }
   .status--ok { color: var(--text-success-strong); }
@@ -199,20 +199,20 @@
           </div>
 
           <div class="vis-liste" id="vis-liste">
-            <details>
-              <summary>Vis sporingskode</summary>
-              <div class="vis-innhold">
+            <details class="disclosure">
+              <summary>Vis sporingskode<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary>
+              <div class="disclosure__content vis-innhold">
                 <p>Legg denne koden på stillingsannonsen:</p>
                 <div class="sporing__kode" id="kode"></div>
               </div>
             </details>
-            <details id="vis-annonselenker">
-              <summary>Vis annonselenker</summary>
-              <div class="vis-innhold" id="annonselenker"></div>
+            <details id="vis-annonselenker" class="disclosure">
+              <summary>Vis annonselenker<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary>
+              <div id="annonselenker" class="disclosure__content vis-innhold"></div>
             </details>
-            <details id="vis-interessenter">
-              <summary>Vis interessenter</summary>
-              <div class="vis-innhold" id="interesserte"></div>
+            <details id="vis-interessenter" class="disclosure">
+              <summary>Vis interessenter<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary>
+              <div id="interesserte" class="disclosure__content vis-innhold"></div>
             </details>
           </div>
 

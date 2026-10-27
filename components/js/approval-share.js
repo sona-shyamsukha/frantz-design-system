@@ -4,6 +4,10 @@
   var Store = root.FrantzApprovals, attachments = [];
   var TITLES = { plan: 'kampanjeplanen', material: 'annonsene' };
   function el(tag, className, text) { var node = document.createElement(tag); if (className) node.className = className; if (text) node.textContent = text; return node; }
+  function disclosureLabel(text) {
+    var label = el('summary', '', text), icon = el('span', 'icon-lucide icon-lucide--chevron-down icon-lucide--md');
+    icon.setAttribute('aria-hidden', 'true'); label.append(icon); return label;
+  }
   function button(text, className) { var node = el('button', className || 'btn btn--secondary btn--sm', text); node.type = 'button'; return node; }
   function date(value) { return new Date(value).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Oslo' }); }
   function url(request, email) { var link = new URL('godkjenning.html', location.href); link.searchParams.set('request', request.id); if (email) link.searchParams.set('email', '1'); return link.href; }
@@ -14,7 +18,7 @@
     (options.host || trigger.parentElement).insertAdjacentElement('afterend', editor);
     editor.insertAdjacentElement('afterend', summary);
     trigger.classList.add('approval-trigger'); trigger.removeAttribute('aria-haspopup'); trigger.setAttribute('aria-expanded', 'false'); trigger.setAttribute('aria-controls', editor.id);
-    trigger.lastChild.textContent = options.round === 'plan' || options.rounds[0] === 'plan' ? ' Send planen til godkjenning' : ' Send annonsene til godkjenning';
+    trigger.lastChild.textContent = trigger.dataset.approvalLabel || (options.round === 'plan' || options.rounds[0] === 'plan' ? ' Send planen til godkjenning' : ' Send annonsene til godkjenning');
     var context = { trigger: trigger, options: options, editor: editor, summary: summary, records: [] }; attachments.push(context);
     async function refresh() {
       try {
@@ -31,13 +35,15 @@
         latest.forEach(function (request) {
           var state = Store.status(request), row = el('div', 'approval-summary__row'), head = el('div', 'approval-summary__head');
           head.append(el('b', '', request.round === 'plan' ? 'Kampanjeplan' : 'Annonsemateriell'), el('span', 'badge ' + (state === 'approved' ? 'badge--active' : 'badge--setup'), Store.labels[state]));
-          row.append(head, el('p', 'form-hint', request.name + ' · ' + request.email + ' · versjon ' + request.version));
+          var recipient = el('div', 'approval-summary__recipient');
+          recipient.append(el('span', 'form-hint', 'Sendt til'), el('b', '', request.name), el('span', 'form-hint', request.email));
+          row.append(head, recipient, el('p', 'form-hint approval-summary__version', 'Versjon ' + request.version));
           if (request.answered) row.append(el('p', 'form-hint', 'Svar registrert ' + date(request.answered) + '.'));
           if (request.comment) row.append(el('blockquote', 'approval-comment', request.comment));
           if (state === 'approved') row.append(el('p', 'form-hint', request.round === 'plan' ? (options.ordered ? 'Kampanjeplanen ble godkjent før bestilling.' : 'Planen er godkjent. Bestill kampanjen når dere er klare.') : 'Materiellet er godkjent. Frantz kan følge opp publisering.'));
           if (state === 'superseded') row.append(el('p', 'form-hint', 'Innholdet er endret. Send en ny forespørsel.'));
-          var actions = el('div', 'del-panel__knapper'), open = el('a', 'link', 'Se forespørselen'); open.href = url(request); open.target = '_blank'; open.rel = 'noopener'; actions.append(open);
-          var prototype = el('details', 'approval-test'), testLabel = el('summary', '', 'Test i prototypen'), testLinks = el('div', 'del-panel__knapper'), testEmail = el('a', 'link', 'Se e-posten');
+          var actions = el('div', 'del-panel__knapper approval-summary__actions'), open = el('a', 'btn btn--primary btn--sm', 'Se forespørselen'); open.href = url(request); open.target = '_blank'; open.rel = 'noopener'; actions.append(open);
+          var prototype = el('details', 'disclosure approval-test'), testLabel = disclosureLabel('Test i prototypen'), testLinks = el('div', 'disclosure__content del-panel__knapper'), testEmail = el('a', 'link', 'Se e-posten');
           testEmail.href = url(request, true); testEmail.target = '_blank'; testEmail.rel = 'noopener'; testLinks.append(testEmail); prototype.append(testLabel, testLinks);
           if (state === 'pending') { var revoke = button('Trekk tilbake', 'btn btn--ghost btn--sm'); revoke.addEventListener('click', async function () { revoke.disabled = true; try { await Store.revoke(request.id); } catch (e) { revoke.disabled = false; } await refresh(); }); actions.append(revoke); }
           if (['approved', 'changes', 'expired', 'superseded', 'revoked'].includes(state)) { var again = button('Send ny forespørsel'); again.addEventListener('click', function () { openInline(context, request.round); }); actions.append(again); }
@@ -80,12 +86,12 @@
     fields.append(name.group, email.group); form.append(fields);
     var previous = context.records.find(function (item) { return item.round === round; });
     if (previous) { name.field.value = previous.name; email.field.value = previous.email; }
-    var message = input('Melding (valgfritt)', '-message', 'textarea', true), messageDetails = el('details', 'approval-message');
-    messageDetails.append(el('summary', '', 'Legg til en melding'), message.group); form.append(messageDetails);
+    var message = input('Melding (valgfritt)', '-message', 'textarea', true), messageDetails = el('details', 'disclosure approval-message');
+    var messageContent = el('div', 'disclosure__content'); messageContent.append(message.group); messageDetails.append(disclosureLabel('Legg til en melding'), messageContent); form.append(messageDetails);
     var error = el('p', 'del-panel__feil'); error.hidden = true; error.setAttribute('role', 'alert'); form.append(error);
     var actions = el('div', 'approval-inline__actions'), send = button('Send forespørsel', 'btn btn--primary');
     actions.append(send, el('span', 'form-hint', 'Ingen innlogging for mottakeren.')); form.append(actions); editor.append(form);
-    var prototype = el('details', 'approval-test'); prototype.append(el('summary', '', 'Om prototypen'), el('p', 'form-hint', 'E-postsending simuleres. Lenken og materiellet kan testes i samme nettleser.')); editor.append(prototype);
+    var prototype = el('details', 'disclosure approval-test'); var prototypeContent = el('div', 'disclosure__content'); prototypeContent.append(el('p', 'form-hint', 'E-postsending simuleres. Lenken og materiellet kan testes i samme nettleser.')); prototype.append(disclosureLabel('Om prototypen'), prototypeContent); editor.append(prototype);
     async function submit() {
       error.hidden = true;
       if (!name.field.value.trim()) name.field.setCustomValidity('Skriv navnet på den som skal godkjenne.');

@@ -7,17 +7,14 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rapport — Sykepleier Bodø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
-<script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
   .lenkeboks { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-body); font: var(--type-support); }
   .oppdatert { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font: var(--type-support); }
   .nettsted-tabell .meter { max-width: 220px; margin-top: var(--space-6); }
-  .forklar { margin-top: var(--space-4); color: var(--text-muted); font: var(--type-support); }
-  .forklar summary { cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-4); color: var(--text-faint); list-style: none; }
-  .forklar summary::-webkit-details-marker { display: none; }
-  .forklar p { margin: var(--space-4) 0 0; max-width: 46ch; }
+
   .prospekt small { display: block; margin-top: var(--space-2); color: var(--text-muted); font: var(--type-support); }
   .prospekt td { vertical-align: top; overflow-wrap: anywhere; }
   .prospekt td[data-label="Registrert"], .prospekt td[data-label="Ønsker"], .prospekt td[data-label="Håndtert"] { overflow-wrap: normal; white-space: nowrap; }
@@ -33,8 +30,10 @@
   [data-samtykke] .card__head > div { flex: 1 1 260px; }
   .epost__svar { flex-basis: 100%; margin: 0; font: var(--type-support); color: var(--text-success-strong); }
 </style>
+<link rel="stylesheet" href="../styles/campaign.css?v=20261027-report-sections">
+<link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 </head>
-<body>
+<body class="campaign-page" data-campaign-page="results">
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
 
 <header class="mobiltopp">
@@ -75,89 +74,14 @@
       <nav class="breadcrumb" aria-label="Sti">
         <ol class="breadcrumb__list">
           <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
-          <li class="breadcrumb__item"><a href="rapport.html">Sykepleier Bodø</a></li>
-          <li class="breadcrumb__item"><span aria-current="page">Rapport</span></li>
+          <li class="breadcrumb__item"><span aria-current="page">Sykepleier Bodø</span></li>
         </ol>
       </nav>
 
-      <div class="detalj__topp">
-        <h1 class="text-h2">Sykepleier Bodø</h1>
-        <span class="badge badge--ended">Avsluttet</span>
-        <span class="oppdatert"><span class="icon-lucide icon-lucide--clock icon-lucide--sm" aria-hidden="true"></span>Endelige tall · oppdatert 31.07.2026</span>
-        <button class="btn btn--secondary" type="button" style="margin-left: auto" data-til-fane="detaljer" data-til="annonser"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span> Se annonsene</button>
-        <button class="btn btn--secondary" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href);this.lastChild.textContent=' Lenke kopiert'"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span> Kopier rapportlenke</button>
-      </div>
+      <header class="campaign-header"><div><p class="campaign-eyebrow">Nordland Sykehjem</p><div class="campaign-title"><h1 class="text-h2">Sykepleier Bodø</h1><span class="badge badge--ended">Avsluttet</span></div></div></header>
 
 
-      <div class="cols">
-        <div class="flow-wrap">
-          <div class="funnel__tabs sidefaner" role="tablist" aria-label="Rapportvisning">
-            <button type="button" class="filter" role="tab" id="fane-oversikt" aria-controls="panel-oversikt" aria-selected="true" tabindex="0" data-fane="oversikt">Oversikt</button>
-            <button type="button" class="filter" role="tab" id="fane-detaljer" aria-controls="panel-detaljer" aria-selected="false" tabindex="-1" data-fane="detaljer">Detaljer</button>
-          </div>
-          <div class="flow" role="tabpanel" id="panel-oversikt" aria-labelledby="fane-oversikt">
-          <div class="card card--betjen">
-            <div class="card__head"><div>
-              <h3 class="card__title">Hvordan gikk det?</h3>
-              
-            </div></div>
-            <blockquote class="quote">
-              <p>«Kampanjen leverte svært sterkt sammenlignet med lignende kampanjer. Mange leste hele stillingsteksten, og Nettsteder og aviser ga billige «Søk». Vi anbefaler samme oppsett neste gang.»</p>
-              <footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen, rådgiver i Frantz · Sluttevaluering <time datetime="2026-07-30">30.07.2026</time></footer>
-            </blockquote>
-            <div class="metrics metrics--fire">
-              <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--eye" aria-hidden="true"></span></span><div class="metric__value">50 200</div><div class="metric__label">visninger</div><div class="metric__foot"><span class="tag tag--raised tag--good">14 % flere</span></div></div>
-              <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--wallet" aria-hidden="true"></span></span><div class="metric__value">kr 1 730</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span class="tag tag--raised tag--good">21 % lavere</span></div></div>
-              <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span></span><div class="metric__value">18</div><div class="metric__label">trykket «Søk»</div><div class="metric__foot"><span class="tag tag--raised tag--good">29 % flere</span></div></div>
-              <div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span></span><div class="metric__value">18</div><div class="metric__label">meldte interesse</div><div class="metric__foot"><span class="tag tag--raised tag--good">29 % flere</span></div></div>
-            </div>
-            <h4 class="metrics__title">Hva ga hver kanal?</h4>
-            <div class="metrics metrics--channel">
-              <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--meta" aria-hidden="true"></span>Meta</div><div class="metric__value">kr 2 400</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span class="metric__benchmark">8 «Søk»</span></div></div>
-              <div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--nettsteder" aria-hidden="true"></span>Nettsteder og aviser</div><div class="metric__value">kr 1 200</div><div class="metric__label">per «Søk»</div><div class="metric__foot"><span class="metric__benchmark">10 «Søk»</span><span class="tag tag--raised tag--good">Billigst</span></div></div>
-            </div>
-            <details class="forklar" style="margin-top: var(--space-16)"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr «normalt»?</summary><p>Normalt er snittet for 142 lignende kampanjer for sykepleiere i Nord-Norge siste 12 måneder.</p></details>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva skjer etter «Søk»?</summary><p>Når noen trykker «Søk», går de videre til deres eget søknadsskjema. Der kan ikke Frantz måle. Vi vet derfor ikke hvor mange som sendte en søknad. Det ser dere i deres eget rekrutteringssystem.</p></details>
-          </div>
-          <div class="card card--betjen" data-samtykke="128984">
-            <div class="card__head"><div>
-              <h3 class="card__title">Meldte interesse</h3>
-              <p class="card__hint">18 personer har meldt interesse på kampanjesiden. Huk av når dere har fulgt dem opp.</p>
-            </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-128984" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
-            <div class="samtykke" data-samtykke-boks>
-              <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
-              <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
-              <button class="btn btn--primary" type="button" data-vis-liste disabled>Vis listen</button>
-            </div>
-            <div data-samtykke-liste hidden>
-            <form class="epost" id="epost-128984" data-epost hidden novalidate>
-              <div class="form-group"><label class="form-label" for="epost-felt-128984">Send listen til</label><input class="form-input" type="email" id="epost-felt-128984" placeholder="navn@virksomhet.no" required autocomplete="email"></div>
-              <button class="btn btn--primary" type="submit">Send</button>
-              <p class="epost__svar" data-epost-svar role="status"></p>
-            </form>
-            <div class="prospekt-teller">
-              <span class="tag tag--info">11 vil bli kontaktet</span>
-              <span class="tag tag--muted">7 vil ha varsel før søknadsfrist</span>
-              <span class="tag">2 av 18 håndtert</span>
-            </div>
-            <div class="results__scroll">
-              <table class="table table--inset prospekt" tabindex="-1" aria-label="Meldte interesse">
-                <thead><tr><th>Registrert</th><th>Navn</th><th>Kontakt</th><th>Ønsker</th><th>Håndtert</th></tr></thead>
-                <tbody>
-                  <tr><td data-label="Registrert">29.07</td><td data-label="Navn">Ingrid Moe</td><td data-label="Kontakt">ingrid.moe@example.com<small>912 34 567</small></td><td data-label="Ønsker"><span class="tag tag--info">Vil bli kontaktet</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Ingrid Moe" onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
-                  <tr><td data-label="Registrert">26.07</td><td data-label="Navn">Thomas Hansen</td><td data-label="Kontakt">thomas.h@example.com<small>934 56 781</small></td><td data-label="Ønsker"><span class="tag tag--info">Vil bli kontaktet</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Thomas Hansen" onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
-                  <tr><td data-label="Registrert">21.07</td><td data-label="Navn">Amina Khan</td><td data-label="Kontakt">amina.khan@example.com<small>945 67 812</small></td><td data-label="Ønsker"><span class="tag tag--muted">Varsel før frist</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Amina Khan" onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
-                  <tr class="er-handtert"><td data-label="Registrert">15.07</td><td data-label="Navn">Ole Johansen</td><td data-label="Kontakt">ole.johansen@example.com<small>467 89 123</small></td><td data-label="Ønsker"><span class="tag tag--info">Vil bli kontaktet</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Ole Johansen" checked onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
-                  <tr class="er-handtert"><td data-label="Registrert">09.07</td><td data-label="Navn">Sara Larsen</td><td data-label="Kontakt">sara.larsen@example.com<small>481 23 456</small></td><td data-label="Ønsker"><span class="tag tag--muted">Varsel før frist</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Sara Larsen" checked onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <button class="btn btn--ghost btn--sm" type="button" data-flere-rader='[["08.07", "Kristin Aas", "kristin.aas@example.com", "913 40 226", "kontakt"], ["08.07", "Mohammed Ali", "mohammed.ali@example.com", "925 17 830", "kontakt"], ["07.07", "Line Berntsen", "line.berntsen@example.com", "472 88 019", "varsel"], ["06.07", "Petter Holm", "petter.holm@example.com", "941 30 572", "kontakt"], ["06.07", "Hanne Lund", "hanne.lund@example.com", "958 64 203", "kontakt"], ["05.07", "Jakob Eide", "jakob.eide@example.com", "487 12 655", "varsel"], ["05.07", "Maria Pedersen", "maria.pedersen@example.com", "916 77 340", "kontakt"], ["04.07", "Tor Andersen", "tor.andersen@example.com", "934 02 918", "varsel"], ["04.07", "Emma Kristiansen", "emma.k@example.com", "462 51 087", "kontakt"], ["03.07", "Sondre Lie", "sondre.lie@example.com", "977 26 413", "kontakt"], ["03.07", "Leila Rahimi", "leila.rahimi@example.com", "920 83 164", "varsel"], ["02.07", "Anders Moen", "anders.moen@example.com", "945 39 702", "kontakt"], ["02.07", "Vilde Hagen", "vilde.hagen@example.com", "481 57 236", "varsel"]]'>Se alle 18</button>
-            </div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></details>
-          </div>
-          </div>
-          <div class="flow" role="tabpanel" id="panel-detaljer" aria-labelledby="fane-detaljer" hidden>
+      <div class="cols campaign-layout"><div class="flow-wrap" data-campaign-sections><div class="funnel__tabs sidefaner" role="tablist" aria-label="Kampanjevisning"><button type="button" class="filter" role="tab" id="fane-stilling" aria-controls="panel-stilling" aria-selected="false" tabindex="-1" data-fane="stilling">Stilling</button><button type="button" class="filter" role="tab" id="fane-kampanje" aria-controls="panel-kampanje" aria-selected="false" tabindex="-1" data-fane="kampanje">Kampanje</button><button type="button" class="filter" role="tab" id="fane-annonser" aria-controls="panel-annonser" aria-selected="false" tabindex="-1" data-fane="annonser">Annonser</button><button type="button" class="filter" role="tab" id="fane-innsikt" aria-controls="panel-innsikt" aria-selected="true" tabindex="0" data-fane="innsikt">Innsikt</button><button type="button" class="filter" role="tab" id="fane-interessenter" aria-controls="panel-interessenter" aria-selected="false" tabindex="-1" data-fane="interessenter">Interessenter · 18</button></div><section class="flow" role="tabpanel" id="panel-innsikt" aria-labelledby="fane-innsikt"><div id="campaign-overview" class="flow"></div>
           <div class="card card--les">
             <div class="card__head">
               <div><h3 class="card__title">Resultater</h3>
@@ -173,55 +97,17 @@
             <div id="dagsgraf"></div>
           </div>
 
-          <div class="card card--betjen">
-            <div class="card__head"><div>
-              <h3 class="card__title" id="annonser">Annonser</h3>
-              <p class="card__hint">Video ga 3 ganger så mange «Søk» som bilde på Meta.</p>
-            </div></div>
-            <div class="ad-grid">
-              <div class="ad-card ad-card--best">
-                <div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
-                <div class="ad-card__body">
-                  <div class="ad-card__name">«En dag på akutten»</div>
-                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
-                  <div class="ad-card__stats"><span>Klikk</span><b>310</b><span>Klikkrate</span><b>1,6 %</b><span>Trykket «Søk»</span><b>6</b></div>
-                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=En+dag+p%C3%A5+akutten&kanal=Meta&type=Video&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «En dag på akutten» (åpnes i ny fane)</span></a>
-                  <span class="tag tag--outline tag--good">Beste annonse</span>
-                </div>
-              </div>
-              <div class="ad-card">
-                <div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
-                <div class="ad-card__body">
-                  <div class="ad-card__name">«Bli med i teamet i Bodø»</div>
-                  <div class="ad-card__channel" data-vis-kanaler>Nettsteder og aviser</div>
-                  <div class="ad-card__stats"><span>Klikk</span><b>330</b><span>Klikkrate</span><b>1,7 %</b><span>Trykket «Søk»</span><b>10</b></div>
-                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Bli+med+i+teamet+i+Bod%C3%B8&kanal=Nettsteder+og+aviser&type=Bilde&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «Bli med i teamet i Bodø» (åpnes i ny fane)</span></a>
-                  
-                </div>
-              </div>
-              <div class="ad-card">
-                <div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
-                <div class="ad-card__body">
-                  <div class="ad-card__name">«Nordlys og fast stilling»</div>
-                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
-                  <div class="ad-card__stats"><span>Klikk</span><b>120</b><span>Klikkrate</span><b>1,0 %</b><span>Trykket «Søk»</span><b>2</b></div>
-                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Nordlys+og+fast+stilling&kanal=Meta&type=Bilde&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «Nordlys og fast stilling» (åpnes i ny fane)</span></a>
-                  
-                </div>
-              </div>
-            </div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></details>
-          </div>
+
           <div class="card card--betjen" id="nettsteder">
             <div class="card__head"><div>
               <h3 class="card__title">Hvilke nettsteder og aviser viste annonsen?</h3>
               <p class="card__hint">Annonsene under «Nettsteder og aviser» vises på mange sider samtidig. 19 200 visninger totalt.</p>
             </div></div>
-            <table class="table nettsted-tabell">
+            <div class="results__scroll" role="region" aria-label="Nettsteder og aviser" tabindex="0"><table class="table nettsted-tabell">
               <thead><tr><th>Nettsted</th><th>Visninger</th><th>Klikk</th></tr></thead>
               <tbody><tr><td data-label="Nettsted"><span class="table__title">An.no (Avisa Nordland)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:23%"></div></div></div></td><td data-label="Visninger">4 400</td><td data-label="Klikk">86</td></tr><tr><td data-label="Nettsted"><span class="table__title">VG.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">3 700</td><td data-label="Klikk">57</td></tr><tr><td data-label="Nettsted"><span class="table__title">Nordlys.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:15%"></div></div></div></td><td data-label="Visninger">2 800</td><td data-label="Klikk">49</td></tr><tr><td data-label="Nettsted"><span class="table__title">Helgelendingen.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:10%"></div></div></div></td><td data-label="Visninger">1 900</td><td data-label="Klikk">34</td></tr><tr><td data-label="Nettsted"><span class="table__title">iTromso.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:8%"></div></div></div></td><td data-label="Visninger">1 500</td><td data-label="Klikk">25</td></tr><tr><td data-label="Nettsted"><span class="table__title">Aftenposten.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:7%"></div></div></div></td><td data-label="Visninger">1 300</td><td data-label="Klikk">19</td></tr><tr><td data-label="Nettsted"><span class="table__title">Andre (37 nettsteder)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">3 600</td><td data-label="Klikk">60</td></tr></tbody>
-            </table>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></details>
+            </table></div>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></div></details>
           </div>
           <div class="card card--betjen" id="geo">
             <div class="card__head"><div>
@@ -237,13 +123,13 @@
               <div id="kart" class="kart" role="img" aria-label="Kart over Nord-Norge og Trøndelag med visninger per fylke."></div>
               <ol class="geo__liste" id="geo-liste"></ol>
             </div>
-            <details class="forklar"><summary><span class="icon-lucide icon-lucide--info icon-lucide--sm" aria-hidden="true"></span>Hva betyr dette?</summary><p>Viser hvor personene var da de så annonsen. Meta og Nettsteder og aviser rapporterer begge per fylke. Vi viser bare kanalene kampanjen brukte.</p></details>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Viser hvor personene var da de så annonsen. Meta og Nettsteder og aviser rapporterer begge per fylke. Vi viser bare kanalene kampanjen brukte.</p></div></details>
           </div>
-          <div class="card card--betjen">
-            <div class="card__head"><div>
-              <h3 class="card__title">Kampanjeforløp</h3>
-              <p class="card__hint">Status, endringer og vurderinger fra rådgiveren i Frantz.</p>
-            </div></div>
+
+          </section>
+<section class="flow" role="tabpanel" id="panel-stilling" aria-labelledby="fane-stilling" hidden><section class="card card--les"><div class="card__head"><div><h2 class="card__title">Stillingen som ble sendt inn</h2><p class="form-hint" data-submitted-date></p><p class="form-hint" data-submitted-note></p></div></div><div class="grid gap-4 campaign-fields" data-submitted-stilling><p class="form-hint">Laster opplysningene …</p></div></section><details id="order-source" class="disclosure campaign-disclosure" data-submitted-source hidden><summary>Grunnlag for bestillingen<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><div class="grid gap-4"><div data-source-url></div><div data-source-text-block><p class="form-hint">Innsendt tekst</p><p class="campaign-source-text" data-source-text></p></div><div id="material-sources-block" hidden><h4>Stillingsgrunnlag</h4><ul class="material-files" id="material-source-files"></ul></div></div></div></details></section>
+<section class="flow" role="tabpanel" id="panel-kampanje" aria-labelledby="fane-kampanje" hidden><section class="alert alert--info campaign-task" data-campaign-status><span class="icon-lucide icon-lucide--circle-check alert__icon" aria-hidden="true"></span><div class="alert__content"><b class="alert__title">Kampanjen er avsluttet</b><p class="alert__body">Resultatene for hele kampanjeperioden ligger under Innsikt. Du kan åpne eller dele rapporten fra toppen av siden.</p><a class="link mt-4" href="#innsikt" data-open-tab="innsikt">Se innsikt</a></div><a class="btn btn--secondary btn--sm" data-campaign-contact href="mailto:post@frantz.no">Kontakt rådgiver</a></section><section class="card card--betjen" data-campaign-history><div class="card__head"><h2 class="card__title">Kampanjeforløp</h2></div>
+
             <ol class="journey">
               <li class="journey__step">
                 <span class="journey__dot" aria-hidden="true"></span>
@@ -295,45 +181,117 @@
               </li>
             </ol>
             <p class="journey__by"><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Skrevet av Martin Karlsen, rådgiver i Frantz</p>
-          </div>
-          </div>
-        </div>
+          </section><details id="original-order" class="disclosure campaign-disclosure"><summary>Kampanjen som bestilt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><div class="grid gap-4"><p class="form-hint" data-submitted-note hidden></p><div class="grid gap-4 campaign-fields" data-submitted-kampanje><p class="form-hint">Laster opplysningene …</p></div></div></div></details><details class="disclosure campaign-disclosure" id="tracking-details"><summary>Sporingskode<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="piksel" id="piksel" data-piksel="128984" data-connect="777301" data-status="avsluttet"></div></div></details></section>
+<section class="flow" role="tabpanel" id="panel-annonser" aria-labelledby="fane-annonser" hidden><div class="flow" data-current-ads><div class="card card--betjen">
+            <div class="card__head"><div>
+              <h3 class="card__title" id="annonser">Annonser</h3>
+              <p class="card__hint">Video ga 3 ganger så mange «Søk» som bilde på Meta.</p>
+            </div></div>
+            <div class="ad-grid">
+              <div class="ad-card ad-card--best">
+                <div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
+                <div class="ad-card__body">
+                  <div class="ad-card__name">«En dag på akutten»</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
+                  <div class="ad-card__stats"><span>Klikk</span><b>310</b><span>Klikkrate</span><b>1,6 %</b><span>Trykket «Søk»</span><b>6</b></div>
+                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=En+dag+p%C3%A5+akutten&kanal=Meta&type=Video&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «En dag på akutten» (åpnes i ny fane)</span></a>
+                  <span class="tag tag--outline tag--good">Beste annonse</span>
+                </div>
+              </div>
+              <div class="ad-card">
+                <div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
+                <div class="ad-card__body">
+                  <div class="ad-card__name">«Bli med i teamet i Bodø»</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Nettsteder og aviser</div>
+                  <div class="ad-card__stats"><span>Klikk</span><b>330</b><span>Klikkrate</span><b>1,7 %</b><span>Trykket «Søk»</span><b>10</b></div>
+                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Bli+med+i+teamet+i+Bod%C3%B8&kanal=Nettsteder+og+aviser&type=Bilde&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «Bli med i teamet i Bodø» (åpnes i ny fane)</span></a>
 
-        <aside>
-          <div class="summary-panel">
-            <div class="summary-panel__head">
-              <h2>Om kampanjen</h2>
-              <p>Sykepleier Bodø · #128984</p>
-            </div>
-            <div class="summary-panel__block">
-              <dl class="summary-row"><dt>Periode</dt><dd>02.07 – 30.07.2026</dd></dl>
-              <dl class="summary-row"><dt>Varighet</dt><dd>29 dager</dd></dl>
-              <dl class="summary-row"><dt>Budsjett</dt><dd>kr 31 200</dd></dl>
-              <dl class="summary-row"><dt>Mål for «Søk»</dt><dd>15 (nådd: 18)</dd></dl>
-            </div>
-            <div class="summary-panel__block">
-              <span class="summary-panel__label">Kampanjeside</span>
-              <div class="lenkeboks">
-                <span>frantz.no/k/128984</span>
-                <button class="btn btn--ghost" type="button">Kopier</button>
+                </div>
+              </div>
+              <div class="ad-card">
+                <div class="ad-card__media"><span class="tag tag--overlay">Bilde</span><span class="icon-lucide icon-lucide--image icon-lucide--lg" aria-hidden="true"></span></div>
+                <div class="ad-card__body">
+                  <div class="ad-card__name">«Nordlys og fast stilling»</div>
+                  <div class="ad-card__channel" data-vis-kanaler>Meta</div>
+                  <div class="ad-card__stats"><span>Klikk</span><b>120</b><span>Klikkrate</span><b>1,0 %</b><span>Trykket «Søk»</span><b>2</b></div>
+                  <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Nordlys+og+fast+stilling&kanal=Meta&type=Bilde&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «Nordlys og fast stilling» (åpnes i ny fane)</span></a>
+
+                </div>
               </div>
             </div>
-            <div class="summary-panel__block piksel" id="piksel" data-piksel="128984" data-connect="777301" data-status="avsluttet" data-tid="30.07.2026"></div>
-            <div class="summary-panel__block">
-              <span class="summary-panel__label">Siden totalt</span>
-              <dl class="summary-row"><dt>Besøk på siden</dt><dd>640</dd></dl>
-              <dl class="summary-row"><dt>Leste hele annonsen</dt><dd>370</dd></dl>
-              <dl class="summary-row"><dt>Snitt lesetid</dt><dd>1 min 58 s</dd></dl>
-              <dl class="summary-row"><dt>Meldt interesse</dt><dd>18</dd></dl>
-              <dl class="summary-row"><dt>Trykket «Søk»</dt><dd>18</dd></dl>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></div></details>
+          </div></div><section class="card card--betjen material-card" data-submitted-material aria-labelledby="material-heading">
+            <div class="card__head"><h2 class="card__title" id="material-heading">Annonser og materiell</h2></div>
+            <p class="material-empty" id="material-loading" role="status">Laster inn materiellet …</p>
+            <p class="material-empty" id="material-empty" hidden>Her vises innsendt materiell og annonseutkast når de er tilgjengelige.</p>
+            <div id="submitted-material" hidden>
+              <p class="material-card__status" id="material-status"></p>
+              <p class="material-card__explanation" id="material-explanation"></p>
+              <div id="ordered-approval-actions" hidden><button class="btn btn--secondary" type="button" id="ordered-share" aria-expanded="false">Send annonsene til godkjenning</button></div>
+              <div class="material-content">
+                <div class="submitted-preview" id="submitted-preview" hidden>
+                  <div class="submitted-platforms" id="submitted-platforms" role="group" aria-label="Se innsendt annonse i"></div>
+                  <article class="ad-preview" id="submitted-ad">
+                    <header class="ad-preview__topp"><span class="ad-preview__avatar" id="submitted-avatar" aria-hidden="true"></span><div><b id="submitted-sender"></b><small>Sponset</small></div><span class="ad-preview__mer" aria-hidden="true">···</span></header>
+                    <p class="ad-preview__tekst" id="submitted-over-text"></p>
+                    <div class="ad-preview__kreativ" id="submitted-creative">
+                      <div class="ad-preview__logo" id="submitted-logo"></div>
+                      <h3 class="ad-preview__tittel" id="submitted-title"></h3>
+                      <div class="ad-preview__bilde" id="submitted-image" role="img" aria-label="Innsendt bilde"></div>
+                      <img class="submitted-file" id="submitted-file-image" alt="" hidden>
+                      <video class="submitted-file" id="submitted-video" controls playsinline preload="metadata" aria-label="Innsendt video" hidden></video>
+                    </div>
+                    <footer class="ad-preview__bunn"><div><small id="submitted-link"></small><b id="submitted-job"></b></div><span class="ad-preview__cta" id="submitted-cta"></span></footer>
+                  </article>
+                </div>
+                <div class="material-info">
+                  <div hidden><h4>Ønsker til designet</h4><p id="material-brief"></p></div>
+                  <div hidden><h4>Budskap i annonsen</h4><p id="material-image-text"></p></div>
+                  <div hidden><h4>Tekst over annonsen</h4><p id="material-ad-text"></p></div>
+
+                  <div id="material-files-block" hidden><h4>Innsendte filer</h4><ul class="material-files" id="material-files"></ul></div>
+                </div>
+              </div>
             </div>
-            <div class="summary-panel__cta">
-              <button class="btn btn--primary" type="button" onclick="window.print()">Last ned rapport (PDF)</button>
-              <button class="btn btn--secondary" onclick="location.href='campaigns.html'">Se alle kampanjer</button>
+          </section></section>
+<section class="flow" role="tabpanel" id="panel-interessenter" aria-labelledby="fane-interessenter" hidden><p class="form-hint flex gap-3 campaign-private"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Kontaktopplysninger er kun tilgjengelige inne i portalen. De følger aldri med i den delte rapporten.</p><div class="card card--betjen" data-samtykke="128984">
+            <div class="card__head"><div>
+              <h3 class="card__title">Meldte interesse</h3>
+              <p class="card__hint">18 personer har meldt interesse på kampanjesiden. Huk av når dere har fulgt dem opp.</p>
+            </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-128984" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
+            <div class="samtykke" data-samtykke-boks>
+              <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
+              <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
+              <button class="btn btn--primary" type="button" data-vis-liste disabled>Vis listen</button>
             </div>
-          </div>
-        </aside>
-      </div>
+            <div data-samtykke-liste hidden>
+            <form class="epost" id="epost-128984" data-epost hidden novalidate>
+              <div class="form-group"><label class="form-label" for="epost-felt-128984">Send listen til</label><input class="form-input" type="email" id="epost-felt-128984" placeholder="navn@virksomhet.no" required autocomplete="email"></div>
+              <button class="btn btn--primary" type="submit">Send</button>
+              <p class="epost__svar" data-epost-svar role="status"></p>
+            </form>
+            <div class="prospekt-teller">
+              <span class="tag tag--info">11 vil bli kontaktet</span>
+              <span class="tag tag--muted">7 vil ha varsel før søknadsfrist</span>
+              <span class="tag">2 av 18 håndtert</span>
+            </div>
+            <div class="results__scroll">
+              <table class="table table--inset prospekt" tabindex="-1" aria-label="Meldte interesse">
+                <thead><tr><th>Registrert</th><th>Navn</th><th>Kontakt</th><th>Ønsker</th><th>Håndtert</th></tr></thead>
+                <tbody>
+                  <tr><td data-label="Registrert">29.07</td><td data-label="Navn">Ingrid Moe</td><td data-label="Kontakt">ingrid.moe@example.com<small>912 34 567</small></td><td data-label="Ønsker"><span class="tag tag--info">Vil bli kontaktet</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Ingrid Moe" onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
+                  <tr><td data-label="Registrert">26.07</td><td data-label="Navn">Thomas Hansen</td><td data-label="Kontakt">thomas.h@example.com<small>934 56 781</small></td><td data-label="Ønsker"><span class="tag tag--info">Vil bli kontaktet</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Thomas Hansen" onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
+                  <tr><td data-label="Registrert">21.07</td><td data-label="Navn">Amina Khan</td><td data-label="Kontakt">amina.khan@example.com<small>945 67 812</small></td><td data-label="Ønsker"><span class="tag tag--muted">Varsel før frist</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Amina Khan" onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
+                  <tr class="er-handtert"><td data-label="Registrert">15.07</td><td data-label="Navn">Ole Johansen</td><td data-label="Kontakt">ole.johansen@example.com<small>467 89 123</small></td><td data-label="Ønsker"><span class="tag tag--info">Vil bli kontaktet</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Ole Johansen" checked onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
+                  <tr class="er-handtert"><td data-label="Registrert">09.07</td><td data-label="Navn">Sara Larsen</td><td data-label="Kontakt">sara.larsen@example.com<small>481 23 456</small></td><td data-label="Ønsker"><span class="tag tag--muted">Varsel før frist</span></td><td data-label="Håndtert"><label class="form-toggle form-toggle--liten"><input class="form-toggle__input" type="checkbox" role="switch" aria-label="Håndtert: Sara Larsen" checked onchange="this.closest('tr').classList.toggle('er-handtert',this.checked)"><span class="form-toggle__track" aria-hidden="true"></span></label></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn--ghost btn--sm" type="button" data-flere-rader='[["08.07", "Kristin Aas", "kristin.aas@example.com", "913 40 226", "kontakt"], ["08.07", "Mohammed Ali", "mohammed.ali@example.com", "925 17 830", "kontakt"], ["07.07", "Line Berntsen", "line.berntsen@example.com", "472 88 019", "varsel"], ["06.07", "Petter Holm", "petter.holm@example.com", "941 30 572", "kontakt"], ["06.07", "Hanne Lund", "hanne.lund@example.com", "958 64 203", "kontakt"], ["05.07", "Jakob Eide", "jakob.eide@example.com", "487 12 655", "varsel"], ["05.07", "Maria Pedersen", "maria.pedersen@example.com", "916 77 340", "kontakt"], ["04.07", "Tor Andersen", "tor.andersen@example.com", "934 02 918", "varsel"], ["04.07", "Emma Kristiansen", "emma.k@example.com", "462 51 087", "kontakt"], ["03.07", "Sondre Lie", "sondre.lie@example.com", "977 26 413", "kontakt"], ["03.07", "Leila Rahimi", "leila.rahimi@example.com", "920 83 164", "varsel"], ["02.07", "Anders Moen", "anders.moen@example.com", "945 39 702", "kontakt"], ["02.07", "Vilde Hagen", "vilde.hagen@example.com", "481 57 236", "varsel"]]'>Se alle 18</button>
+            </div>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></div></details>
+          </div></section>
+</div><aside class="campaign-rail"><details class="disclosure campaign-links" open><summary>Kampanjeoversikt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="grid gap-4 campaign-overview-facts" data-campaign-facts></div><div class="grid gap-4" data-campaign-links><p class="form-hint">Laster lenkene …</p></div></div></details></aside></div>
     </div>
   </div>
 </div>
@@ -379,30 +337,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
   totalNavn: 'Fra visning til «Søk»'
 });
 </script>
-<script>
-(function () {
-  var knapper = document.querySelectorAll('[data-fane]');
-  function vis(navn) {
-    knapper.forEach(function (b) { var valgt = b.dataset.fane === navn; b.setAttribute('aria-selected', valgt); b.tabIndex = valgt ? 0 : -1; });
-    document.getElementById('panel-oversikt').hidden = navn !== 'oversikt';
-    document.getElementById('panel-detaljer').hidden = navn !== 'detaljer';
-  }
-  knapper.forEach(function (b) { b.addEventListener('click', function () { vis(b.dataset.fane); }); });
-  // Piltaster flytter mellom fanene, som i trakten (funnel.js)
-  document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
-    var liste = Array.prototype.slice.call(this.querySelectorAll('[role="tab"]'));
-    var i = liste.indexOf(e.target);
-    if (i === -1) return;
-    var ny = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: liste.length - 1 }[e.key];
-    if (ny === undefined) return;
-    e.preventDefault();
-    var fane = liste[(ny + liste.length) % liste.length];
-    fane.click();
-    fane.focus();
-  });
-  document.querySelectorAll('[data-til-fane]').forEach(function (b) { b.addEventListener('click', function () { vis(b.dataset.tilFane); (document.getElementById(b.dataset.til || '') || document.querySelector('.sidefaner')).scrollIntoView({ behavior: 'smooth' }); }); });
-})();
-</script>
+
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-array@3/dist/d3-array.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-geo@3/dist/d3-geo.min.js"></script>
@@ -481,18 +416,35 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
       vis();
     });
   });
-  document.querySelectorAll('[data-fane="detaljer"], [data-til-fane="detaljer"]').forEach(function (btn) {
-    btn.addEventListener('click', function () { setTimeout(tegn, 0); });
+  document.addEventListener('frantz:campaign-tab', function (event) {
+    if (event.detail.name === 'innsikt') setTimeout(tegn, 0);
   });
   rader();
   tegn();
 })();
 </script>
 <script src="../components/js/interessenter.js?v=1"></script>
-<script src="../components/js/piksel.js?v=2"></script>
+<script src="../components/js/campaign-material.js?v=5"></script>
+<script src="../components/js/ad-logo.js?v=1"></script>
+<script src="../components/js/ad-colors.js?v=1"></script>
+<script src="../components/js/ad-crop.js?v=3"></script>
+<script src="../components/js/campaign-material-view.js?v=6"></script>
+<script src="../components/js/approval-store.js?v=3"></script>
+<script src="../components/js/approval-share.js?v=4"></script>
+<script src="../components/js/copy-field.js?v=20261027-submitted"></script>
+<script src="../components/js/piksel.js?v=20261027-submitted"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
+<script src="data/rapporter.js?v=20261027-client"></script>
+<script src="data/kampanjer.js?v=20261027-adviser"></script>
+<script src="../components/js/report-view.js?v=20261027-overview2"></script>
+<script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
+<script src="../components/js/campaign-sections.js?v=20261027-overview2"></script>
+<script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
+<script src="../components/js/campaign-activity.js?v=20261027-submitted"></script>
+<script src="../components/js/campaign-details.js?v=20261027-spacing"></script>
+<script src="../components/js/campaign-page.js?v=20261027-simple-report" data-default-campaign="128984"></script>
 </body>
 </html>

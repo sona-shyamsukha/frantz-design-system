@@ -33,6 +33,35 @@ Portal screens live in `portal/`. Shared mock data is in `portal/data/frantz-dat
 - [Previous design — backup for user testing](portal/ny-kampanje-alternativ.html): retained as an alternative if testing reveals that the main flow is difficult to understand.
 - Earlier `ny-kampanje-v2.html` links redirect to `ny-kampanje.html`, preserving query parameters and fragments.
 
+## Campaign pages
+
+Use the portal itself for a client walkthrough: [campaign list](portal/campaigns.html),
+[Bestilt](portal/kampanje-bestilt.html?id=129074),
+[Under arbeid](portal/kampanje-under-arbeid.html),
+[Aktiv](portal/campaign.html?id=129041) and
+[Avsluttet](portal/rapport.html?id=128984).
+Tabs follow Stilling, Kampanje, Annonser, Innsikt and Interessenter. Empty destinations stay hidden.
+Bestilt opens Kampanje; ready-for-approval opens Annonser; active/completed opens Innsikt.
+Original submitted details and later developments are kept separately. Kampanjeoversikt shows the current period, orderer and copyable links using existing components. Report links are generated automatically; the local prototype still requires a backend for cross-device sharing.
+The pages reuse the shared tokens, buttons, tabs, cards and disclosure component.
+Development review labels and review-navigation links are removed from these pages.
+The earlier review hub and responsive harness remain internal tools.
+
+Oslo and Bodø have complete aggregate report fixtures. The remaining completed
+campaigns show their own recorded totals, period, budget and channels. Missing
+breakdowns and candidate records are never substituted from Bodø.
+
+Reports are opened and copied from Kampanjeoversikt. There are no report actions
+in the header or advanced sharing settings. Automatic links remain a same-browser
+local demonstration; production cross-device access needs server integration.
+The public report contains aggregate example data only, with no candidate details.
+It provides a browser print/PDF action. Campaign contact actions open an email
+draft to the existing Frantz contact address; they do not send from the portal.
+
+Run `node --test tests/campaign-submission.test.cjs tests/campaign-activity.test.cjs tests/report-sharing.test.cjs tests/disclosure-consistency.test.cjs tests/approval-store.test.cjs tests/campaign-material.test.cjs`.
+Component changes and remaining integration gaps are tracked in the
+[component inventory](planning/campaign-component-inventory.md).
+
 ## Approval prototype
 
 `Send planen til godkjenning` and `Send annonsene til godkjenning` expand an inline recipient form beside the campaign material. One name and email are required.

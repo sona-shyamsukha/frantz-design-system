@@ -7,8 +7,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
-<script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
+<script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
 
@@ -61,31 +62,8 @@
 
   .pagination-wrap { margin-top: var(--space-24); }
 
+  .kladd-varsel { align-items: center; flex-wrap: wrap; margin-top: var(--space-16); }
 
-  /* Filter menu: closes on a click outside it or on Esc */
-  .filtermeny { position: relative; }
-  .filtermeny__knapp { display: inline-flex; align-items: center; gap: var(--space-8); min-height: 46px; padding: 0 var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: var(--type-label); cursor: pointer; }
-  .filtermeny__knapp:hover, .filtermeny__knapp[aria-expanded="true"] { border-color: var(--color-navy); }
-  .filtermeny__antall { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font: var(--type-badge); }
-  .filtermeny__antall[hidden] { display: none; }
-  .filtermeny__panel { position: absolute; top: calc(100% + var(--space-8)); left: 0; z-index: 20; display: grid; gap: var(--space-16); width: 320px; max-width: calc(100vw - 32px); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
-  .filtermeny__panel[hidden] { display: none; }
-  .filtermeny__panel fieldset { margin: 0; padding: 0; border: 0; }
-  .filtermeny__panel fieldset[hidden] { display: none; }
-  .filtermeny__panel fieldset + fieldset { padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
-  /* float keeps the heading inside the section, so the divider line sits above it */
-  .filtermeny__panel legend { float: left; width: 100%; margin-bottom: var(--space-12); padding: 0; }
-  .filtermeny__valg { clear: both; display: grid; gap: var(--space-12); }
-  .filtermeny__valg .form-radio, .filtermeny__valg .form-check { min-height: 24px; }
-  .filtermeny__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
-
-  /* Active filters as chips, with «Nullstill» */
-  .aktive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-muted); font: var(--type-body); }
-  .aktive[hidden] { display: none; }
-  .aktiv-filter { display: inline-flex; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-12); border: 1px solid var(--border-navy-soft); border-radius: var(--radius-full); background: var(--bg-navy-soft); color: var(--text-heading); font: var(--type-support-strong); cursor: pointer; }
-  .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
-  .aktiv-filter:hover { border-color: var(--color-navy); }
-  .nullstill { padding: 0; border: 0; background: none; color: var(--text-heading); font: var(--type-label); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -171,6 +149,13 @@
       <div class="aktive" id="aktive" aria-live="polite" hidden></div>
       </div>
 
+      <div class="alert alert--info kladd-varsel" id="kladd-slettet" role="status" hidden>
+        <span class="icon-lucide icon-lucide--trash-2 alert__icon" aria-hidden="true"></span>
+        <div class="alert__content"><span class="alert__body" id="kladd-slettet-tekst"></span></div>
+        <button class="btn btn--secondary btn--sm" type="button" id="kladd-angre">Angre</button>
+      </div>
+      <p class="alert alert--error kladd-varsel" id="kladd-angre-feil" role="alert" hidden></p>
+
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
@@ -208,7 +193,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=6"></script>
+<script src="data/kampanjer.js?v=20261027-complete-reports"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -216,22 +201,26 @@
   // Rows come from the shared campaign list, so they match Hjem and Stillinger
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
-  tbody.innerHTML = FZ_KAMPANJER.alle().map(function (k) {
+  function tegnRader() {
+  tbody.innerHTML = FZ_KAMPANJER.synlige().map(function (k) {
     var periode = k.periode || (k.frist ? 'Søknadsfrist ' + FZ_KAMPANJER.dato(k.frist) : '—');
     var navn = (k.ref || '').trim();
     var tittel = navn || k.tittel;
     var visStilling = navn && navn.toLocaleLowerCase('nb') !== k.tittel.toLocaleLowerCase('nb');
-    return '<tr tabindex="0" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '" onclick="location.href=\'' + k.side + '\'">' +
+    return '<tr tabindex="0" data-id="' + esc(k.id) + '" data-href="' + esc(k.side) + '" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '">' +
       '<td data-label="Kampanje"><span class="table__title">' + esc(tittel) + '</span>' +
       (visStilling ? '<span class="table__meta">' + esc(k.tittel) + '</span>' : '') +
-      '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + ' · ' + esc(k.bestiller) + '</span></td>' +
+      '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + '</span></td>' +
       '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler ? FZ_KANALER.html(k.kanaler) : (k.status === 'Kladd' ? '—' : 'Frantz anbefaler')) + '</td>' +
       '<td data-label="Periode">' + periode + '</td>' +
       '<td data-label="Budsjett">' + (k.budsjett ? kr(k.budsjett) : '<span class="table__tom">Ikke valgt</span>') + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + (k.status === 'Avsluttet' ? 'Åpne rapporten' : k.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen') + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
-  var rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  }
+  var rader = [];
+  tegnRader();
   var MEG = 'Kari Hansen'; // the logged-in user in the demo
   var STATUSER = ['Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
   var valgt = { hvem: 'mine', status: [] };
@@ -259,7 +248,7 @@
     var ord = sok.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     var vist = 0;
     rader.forEach(function (tr) {
-      var tekst = tr.textContent.toLowerCase();
+      var tekst = (tr.textContent + ' ' + tr.dataset.bestiller).toLowerCase();
       var ok = ord.every(function (o) { return tekst.indexOf(o) !== -1; }) && passer(tr);
       tr.hidden = !ok;
       if (ok) vist++;
@@ -316,6 +305,32 @@
   $('filter-knapp').addEventListener('click', function () { apne($('filter-panel').hidden); });
   document.addEventListener('click', function (e) { if (!$('filter-panel').hidden && !$('filtermeny').contains(e.target)) apne(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('filter-panel').hidden) { apne(false); $('filter-knapp').focus(); } });
+
+  var sistSlettet = null;
+  try { sistSlettet = JSON.parse(sessionStorage.getItem('fzSlettetKladd') || 'null'); } catch (e) {}
+  if (sistSlettet && !FZ_KAMPANJER.finn(sistSlettet.id)) {
+    $('kladd-slettet-tekst').textContent = 'Kladden «' + sistSlettet.navn + '» er slettet.';
+    $('kladd-slettet').hidden = false;
+  }
+  tbody.addEventListener('click', function (e) {
+    var rad = e.target.closest('tr[data-href]');
+    if (rad) location.href = rad.dataset.href;
+  });
+  $('kladd-angre').addEventListener('click', function () {
+    if (!sistSlettet) return;
+    if (!FZ_KAMPANJER.gjenopprettKladd(sistSlettet.id)) {
+      $('kladd-angre-feil').textContent = 'Kladden kunne ikke gjenopprettes. Prøv igjen.';
+      $('kladd-angre-feil').hidden = false;
+      return;
+    }
+    tegnRader(); sorter(); filtrer();
+    var rad = rader.filter(function (r) { return r.dataset.id === sistSlettet.id; })[0];
+    $('kladd-slettet').hidden = true;
+    $('kladd-angre-feil').hidden = true;
+    sistSlettet = null;
+    try { sessionStorage.removeItem('fzSlettetKladd'); } catch (e) {}
+    if (rad && !rad.hidden) rad.focus(); else sok.focus();
+  });
 
   // The whole row is a link. interactions.js opens it with Enter, like a click.
   sok.addEventListener('input', filtrer);

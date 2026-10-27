@@ -1,0 +1,25 @@
+/* Shared campaign and job-list filter menu and active chips. */
+  /* Filter menu: closes on a click outside it or on Esc */
+  .filtermeny { position: relative; }
+  .filtermeny__knapp { display: inline-flex; align-items: center; gap: var(--space-8); min-height: 46px; padding: 0 var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); color: var(--text-heading); font: var(--type-label); cursor: pointer; }
+  .filtermeny__knapp:hover, .filtermeny__knapp[aria-expanded="true"] { border-color: var(--color-navy); }
+  .filtermeny__antall { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-full); background: var(--color-navy); color: var(--color-white); font: var(--type-support); font-weight: var(--font-weight-semibold); }
+  .filtermeny__antall[hidden] { display: none; }
+  .filtermeny__panel { position: absolute; top: calc(100% + var(--space-8)); left: 0; z-index: 20; display: grid; gap: var(--space-16); width: 320px; max-width: calc(100vw - 32px); padding: var(--space-16); border: 1px solid var(--border-default); border-radius: var(--radius-12); background: var(--surface-raised); box-shadow: var(--shadow-dialog); }
+  .filtermeny__panel[hidden] { display: none; }
+  .filtermeny__panel fieldset { margin: 0; padding: 0; border: 0; }
+  .filtermeny__panel fieldset[hidden] { display: none; }
+  .filtermeny__panel fieldset + fieldset { padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
+  /* float keeps the heading inside the section, so the divider line sits above it */
+  .filtermeny__panel legend { float: left; width: 100%; margin-bottom: var(--space-12); padding: 0; }
+  .filtermeny__valg { clear: both; display: grid; gap: var(--space-12); }
+  .filtermeny__valg .form-radio, .filtermeny__valg .form-check { min-height: 24px; }
+  .filtermeny__bunn { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); padding-top: var(--space-16); border-top: 1px solid var(--border-subtle); }
+
+  /* Active filters as chips, with «Nullstill» */
+  .aktive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); color: var(--text-muted); font: var(--type-body); }
+  .aktive[hidden] { display: none; }
+  .aktiv-filter { display: inline-flex; align-items: center; gap: var(--space-6); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-12); border: 1px solid var(--border-navy-soft); border-radius: var(--radius-full); background: var(--bg-navy-soft); color: var(--text-heading); font: var(--type-support); font-weight: var(--font-weight-semibold); cursor: pointer; }
+  .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
+  .aktiv-filter:hover { border-color: var(--color-navy); }
+  .nullstill { padding: 0; border: 0; background: none; color: var(--text-heading); font: var(--type-label); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }

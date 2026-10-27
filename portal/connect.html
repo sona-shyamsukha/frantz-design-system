@@ -7,7 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Stillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
+<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -42,31 +43,6 @@
   .sortering { display: flex; align-items: center; gap: var(--space-8); color: var(--text-muted); font: var(--type-body); white-space: nowrap; }
   .sortering .form-select-wrap { min-width: 200px; }
 
-  .aktive {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-8);
-    margin-top: var(--space-12);
-    color: var(--text-muted);
-    font: var(--type-body);
-  }
-  .aktive[hidden] { display: none; }
-  .aktiv-filter {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-6);
-    padding: var(--space-6) var(--space-6) var(--space-6) var(--space-12);
-    border: 1px solid var(--border-navy-soft);
-    border-radius: var(--radius-full);
-    background: var(--bg-navy-soft);
-    color: var(--text-heading);
-    font: var(--type-support-strong);
-    cursor: pointer;
-  }
-  .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
-  .aktiv-filter:hover { border-color: var(--color-navy); }
-
   .verktoy {
     display: flex;
     flex-wrap: wrap;
@@ -83,17 +59,6 @@
   }
   .search-wrap .form-input { padding-left: var(--control-icon-padding); border-radius: var(--radius-full); }
   .verktoy .form-select-wrap { flex: 0 1 220px; }
-  .nullstill {
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--text-heading);
-    font: var(--type-label);
-    white-space: nowrap;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer;
-  }
   .table tr[hidden], .table__empty[hidden] { display: none; }
   @media (max-width: 640px) {
     .verktoy .form-select-wrap { flex: 1 1 100%; }
@@ -114,7 +79,8 @@
   .table__meta .table__id { display: inline; }
   .celle { display: block; min-width: 0; }
 
-  @media (min-width: 861px) {
+  /* Extra column padding belongs only to the full table, not stacked cards. */
+  @container (min-width: 721px) {
     .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
   }
@@ -177,19 +143,16 @@
           <label class="chat__sr" for="sok">Søk</label>
           <input class="form-input" type="search" id="sok" placeholder="Søk på stilling, arbeidsgiver, kampanjenavn eller ID" autocomplete="off">
         </div>
-        <label class="sortering"><span class="chat__sr">Status</span>
-          <span class="form-select-wrap">
-            <select class="form-select form-select--pill" id="f-status">
-              <option value="">Alle statuser</option>
-              <option value="Uten kampanje">Uten kampanje</option>
-              <option value="Kladd">Kladd</option>
-              <option value="Bestilt">Bestilt</option>
-              <option value="Under arbeid">Under arbeid</option>
-              <option value="Aktiv">Aktiv</option>
-              <option value="Avsluttet">Avsluttet</option>
-            </select>
-          </span>
-        </label>
+        <div class="filtermeny" id="filtermeny">
+          <button type="button" class="filtermeny__knapp" id="filter-knapp" aria-expanded="false" aria-controls="filter-panel"><span class="icon-lucide icon-lucide--filter" aria-hidden="true"></span>Filter <span class="filtermeny__antall" id="filter-antall" hidden></span></button>
+          <div class="filtermeny__panel" id="filter-panel" role="group" aria-label="Filter" hidden>
+            <fieldset><legend class="form-label">Status</legend><div class="filtermeny__valg" id="valg-status"></div></fieldset>
+            <div class="filtermeny__bunn">
+              <button type="button" class="nullstill" id="panel-nullstill">Nullstill</button>
+              <button type="button" class="btn btn--primary btn--sm" id="panel-ferdig">Ferdig</button>
+            </div>
+          </div>
+        </div>
         <label class="sortering"><span class="chat__sr">Sorter etter</span>
           <span class="form-select-wrap">
             <select class="form-select form-select--pill" id="sortering">
@@ -201,6 +164,8 @@
           </span>
         </label>
       </div>
+
+      <div class="aktive" id="aktive" aria-live="polite" hidden></div>
 
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
@@ -259,7 +224,7 @@
 
   var sok = document.getElementById('sok');
   var sortering = document.getElementById('sortering');
-  var status = document.getElementById('f-status');
+  var valgteStatuser = [];
   var tbody = document.getElementById('rader');
   var rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
 
@@ -280,15 +245,65 @@
     rader.forEach(function (tr) {
       var tekst = tr.textContent.toLowerCase();
       var ok = ord.every(function (o) { return tekst.indexOf(o) !== -1; });
-      ok = ok && (!status.value || tr.dataset.status === status.value);
+      ok = ok && (!valgteStatuser.length || valgteStatuser.indexOf(tr.dataset.status) !== -1);
       tr.hidden = !ok;
       if (ok) vist++;
     });
     document.getElementById('ingen-treff').hidden = vist > 0;
     document.getElementById('side-meta').innerHTML = 'Viser <b>' + vist + '</b> av ' + rader.length + ' stillinger';
+    tegnAktive();
   }
 
-  status.addEventListener('change', filtrer);
+  var $ = function (id) { return document.getElementById(id); };
+  var statuser = ['Uten kampanje', 'Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
+  $('valg-status').innerHTML = statuser.map(function (verdi) {
+    return '<label class="form-check"><input class="form-check__input" type="checkbox" data-status="' + verdi + '"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + verdi + '</span></label>';
+  }).join('');
+
+  function tegnAktive() {
+    var chips = valgteStatuser.map(function (verdi) {
+      return '<button type="button" class="aktiv-filter" data-fjern-status="' + verdi + '" aria-label="Fjern status: ' + verdi + '">Status: ' + verdi + '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>';
+    });
+    var soek = sok.value.trim();
+    if (soek) chips.unshift('<button type="button" class="aktiv-filter" data-fjern-sok aria-label="Fjern søket">«' + esc(soek) + '»<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>');
+    $('filter-antall').textContent = valgteStatuser.length;
+    $('filter-antall').hidden = !valgteStatuser.length;
+    $('aktive').hidden = !chips.length;
+    $('aktive').innerHTML = chips.length ? '<span>Viser:</span>' + chips.join('') + (chips.length > 1 ? '<button type="button" class="nullstill" data-nullstill>Nullstill</button>' : '') : '';
+    $('valg-status').querySelectorAll('input').forEach(function (input) { input.checked = valgteStatuser.indexOf(input.dataset.status) !== -1; });
+  }
+  function nullstill() { valgteStatuser = []; sok.value = ''; filtrer(); }
+  function apne(pa) {
+    $('filter-panel').hidden = !pa;
+    $('filter-knapp').setAttribute('aria-expanded', String(pa));
+    if (pa) $('valg-status').querySelector('input').focus();
+  }
+  $('filter-knapp').addEventListener('click', function () { apne($('filter-panel').hidden); });
+  $('valg-status').addEventListener('change', function (event) {
+    var input = event.target;
+    if (!input.matches('input[data-status]')) return;
+    if (input.checked) { if (valgteStatuser.indexOf(input.dataset.status) === -1) valgteStatuser.push(input.dataset.status); }
+    else valgteStatuser = valgteStatuser.filter(function (status) { return status !== input.dataset.status; });
+    filtrer();
+  });
+  $('panel-nullstill').addEventListener('click', nullstill);
+  $('panel-ferdig').addEventListener('click', function () { apne(false); $('filter-knapp').focus(); });
+  $('aktive').addEventListener('click', function (event) {
+    var button = event.target.closest('button');
+    if (!button) return;
+    if (button.hasAttribute('data-nullstill')) nullstill();
+    else {
+      if (button.hasAttribute('data-fjern-sok')) sok.value = '';
+      else valgteStatuser = valgteStatuser.filter(function (status) { return status !== button.dataset.fjernStatus; });
+      filtrer();
+    }
+    ($('aktive').querySelector('button') || $('filter-knapp')).focus();
+  });
+  document.addEventListener('click', function (event) { if (!$('filtermeny').contains(event.target)) apne(false); });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !$('filter-panel').hidden) { apne(false); $('filter-knapp').focus(); }
+  });
+
   sok.addEventListener('input', filtrer);
   sok.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
   sortering.addEventListener('change', sorter);

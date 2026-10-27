@@ -1,0 +1,43 @@
+/* One shared disclosure row for expandable content. Native details owns its state. */
+.disclosure {
+  min-width: 0;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-16);
+}
+.summary-panel > .disclosure {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  border-radius: 0;
+}
+.summary-panel > .summary-panel__block:has(+ .disclosure) { border-bottom: 0; }
+.disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  min-height: var(--space-48);
+  padding: var(--space-16) var(--space-panel-padding);
+  /* Keep the hover surface aligned with the outer card. */
+  border-radius: var(--radius-16);
+  list-style: none;
+  color: var(--text-heading);
+  font: var(--type-label);
+  cursor: pointer;
+}
+.disclosure > summary::-webkit-details-marker { display: none; }
+.disclosure > summary::marker { content: ''; }
+.disclosure > summary:hover,
+.disclosure[open] > summary,
+.disclosure > summary:active {
+  background: var(--bg-navy-strong);
+  color: var(--text-on-navy);
+}
+.disclosure > summary:active { background: var(--bg-navy-strong-hover); }
+.disclosure > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.disclosure > summary > .icon-lucide { margin-left: auto; color: inherit; }
+.disclosure[open] > summary { border-bottom: 1px solid var(--border-default); border-radius: var(--radius-16) var(--radius-16) 0 0; }
+.summary-panel > .disclosure > summary { border-radius: 0; }
+.disclosure[open] > summary > .icon-lucide { transform: rotate(180deg); }
+.disclosure > .disclosure__content { padding: var(--space-16) var(--space-panel-padding); }
+.disclosure > .disclosure__content > p + p { margin-top: var(--space-12); }

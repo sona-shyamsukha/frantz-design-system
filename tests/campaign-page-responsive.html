@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campaign pages — developer verification</title>
+  <link rel="stylesheet" href="../frantz-ds.css?v=203">
+  <style>
+    body { padding: var(--space-24); }
+    .controls { display: flex; flex-wrap: wrap; gap: var(--space-16); align-items: center; margin-block: var(--space-16); }
+    .controls select { width: auto; }
+    .previews { display: flex; flex-wrap: wrap; gap: var(--space-24); align-items: start; }
+    figure { margin: 0; max-width: 100%; overflow: auto; }
+    figcaption { margin: var(--space-12) 0; }
+    /* Device viewport dimensions are test inputs, not product design values. */
+    iframe { display: block; box-sizing: content-box; height: 844px; border: 1px solid var(--border-default); background: var(--surface-default); }
+    output { display: block; padding: var(--space-8); background: var(--surface-default); }
+  </style>
+</head>
+<body>
+  <h1 class="text-h2">Campaign pages — developer verification</h1>
+  <div class="controls"><label class="form-label" for="width">Viewport width</label><select class="form-select" id="width"><option>320</option><option selected>390</option><option>768</option><option>1024</option><option>1116</option><option>1280</option><option>1672</option></select><label class="form-label" for="section">Campaign section</label><select class="form-select" id="section"><option value="auto">Phase default</option><option value="stilling">Stilling</option><option value="kampanje">Kampanje</option><option value="annonser">Annonser</option><option value="innsikt">Innsikt</option><option value="interessenter">Interessenter</option></select><button class="btn btn--secondary" type="button" id="expand">Expand all sections</button><button class="btn btn--secondary" type="button" id="measure">Measure visible pages</button></div>
+  <div class="previews" id="previews"></div>
+  <script>
+    const order = new URLSearchParams(location.search).get('order');
+    const orderedUrl = '../portal/kampanje-bestilt.html' + (order ? '?id=' + encodeURIComponent(order) : '');
+    const pages = [
+      ['Ordered', orderedUrl],
+      ['Approval', '../portal/kampanje-under-arbeid.html?fase=godkjenning'],
+      ['Active', '../portal/campaign.html?id=129041'],
+      ['Completed', '../portal/rapport.html?id=128984'],
+      ['Shared', '../portal/delt-rapport.html?kampanje=128984&forhandsvis=1'],
+      ['Completed with totals only', '../portal/rapport.html?id=129068']
+    ];
+    const width = document.getElementById('width');
+    const previews = document.getElementById('previews');
+    function measure(frame, output) {
+      const doc = frame.contentDocument;
+      if (!doc || !doc.querySelector('h1') || (doc.body.dataset.campaignPage && !doc.body.dataset.submissionReady)) { output.textContent = 'Still loading'; return; }
+      const viewport = doc.documentElement.clientWidth;
+      const scroll = doc.documentElement.scrollWidth;
+      const duplicateIds = [...doc.querySelectorAll('[id]')].map(node => node.id).filter((id, index, all) => all.indexOf(id) !== index);
+      const overlappingRows = [...doc.querySelectorAll('.summary-row')].filter(row => {
+        if (!row.getClientRects().length) return false;
+        const label = row.querySelector('dt');
+        const value = row.querySelector('dd');
+        if (!label || !value) return false;
+        const a = label.getBoundingClientRect(), b = value.getBoundingClientRect();
+        return a.width > 0 && (label.scrollWidth > label.clientWidth + 1 || (a.right > b.left + 1 && a.bottom > b.top + 1 && b.bottom > a.top + 1));
+      }).length;
+      const clippedCopyButtons = [...doc.querySelectorAll('.copy-field button')].filter(button => {
+        if (!button.getClientRects().length) return false;
+        const panel = button.closest('.campaign-links, .summary-panel, .card, .disclosure');
+        if (!panel) return false;
+        const a = button.getBoundingClientRect(), b = panel.getBoundingClientRect();
+        return a.width > 0 && (a.right > b.right + 1 || a.left < b.left - 1);
+      }).length;
+      output.textContent = `${scroll <= viewport ? 'PASS' : 'FAIL'} — viewport ${viewport}px, page ${scroll}px; duplicate IDs: ${duplicateIds.length}; overlapping rows: ${overlappingRows}; clipped copy buttons: ${clippedCopyButtons}`;
+      output.dataset.pass = String(scroll <= viewport && duplicateIds.length === 0 && overlappingRows === 0 && clippedCopyButtons === 0);
+    }
+    pages.forEach(([name, url]) => {
+      const figure = document.createElement('figure');
+      const caption = document.createElement('figcaption');
+      caption.textContent = name;
+      const frame = document.createElement('iframe');
+      frame.src = url; frame.title = name; frame.style.width = width.value + 'px';
+      const output = document.createElement('output'); output.textContent = 'Loading';
+      frame.addEventListener('load', () => { frame.dataset.initialTab = frame.contentDocument.querySelector('.sidefaner [aria-selected="true"]')?.dataset.fane || ''; measure(frame, output); });
+      figure.append(caption, output, frame); previews.append(figure);
+    });
+    function measureAll() { previews.querySelectorAll('figure').forEach(figure => measure(figure.querySelector('iframe'), figure.querySelector('output'))); }
+    width.addEventListener('change', () => { previews.querySelectorAll('iframe').forEach(frame => { frame.style.width = width.value + 'px'; }); requestAnimationFrame(measureAll); });
+    document.getElementById('section').addEventListener('change', event => {
+      previews.querySelectorAll('iframe').forEach(frame => {
+        const doc = frame.contentDocument;
+        const name = event.target.value === 'auto' ? frame.dataset.initialTab : event.target.value;
+        const tab = doc.querySelector('.sidefaner [data-fane="' + name + '"]');
+        if (tab && !tab.hidden) tab.click();
+      });
+      requestAnimationFrame(measureAll);
+    });
+    document.getElementById('expand').addEventListener('click', () => { previews.querySelectorAll('iframe').forEach(frame => frame.contentDocument.querySelectorAll('details').forEach(details => { details.open = true; })); requestAnimationFrame(measureAll); });
+    document.getElementById('measure').addEventListener('click', measureAll);
+  </script>
+</body>
+</html>

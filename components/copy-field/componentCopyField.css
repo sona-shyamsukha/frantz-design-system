@@ -1,0 +1,27 @@
+/* Shared code/link copy row, extracted from the existing tracking component. */
+.copy-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8);
+  border-radius: var(--radius-8);
+  background: var(--surface-subtle);
+}
+.copy-field__value {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-4) var(--space-8);
+  color: var(--text-body);
+  font: var(--type-support);
+  font-family: var(--font-mono);
+  white-space: pre;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.copy-field__value[href] { color: var(--text-link); }
+.copy-field__value[href]:hover { text-decoration: underline; }
+.copy-field__value:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
+.copy-field__status { grid-column: 1 / -1; }
