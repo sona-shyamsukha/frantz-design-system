@@ -7,7 +7,9 @@
     var row = document.createElement('div'); row.className = 'copy-field';
     var label = options.label || 'verdi';
     var content = document.createElement(options.url ? 'a' : 'code');
-    content.className = 'copy-field__value'; content.textContent = value;
+    content.className = 'copy-field__value'; content.textContent = options.text || value;
+    // options.text: a short label when the value is too long to show, e.g. in a table. The button still copies the full value.
+    if (options.text) content.title = value;
     if (options.url) { content.href = options.url; content.target = '_blank'; content.rel = 'noopener'; }
     else content.tabIndex = 0;
     var button = document.createElement('button');
