@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frantz baseline review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C3F59;
+    --navy-ink: #082C3F;
+    --amber: #F6A321;
+    --page: #F4F7F9;
+    --surface: #FFFFFF;
+    --line: #D9E2E8;
+    --text: #13232D;
+    --muted: #4E6170;
+    --p0: #B3261E;
+    --p1: #8A4B00;
+    --p1-bg: #FDF0DC;
+    --p2: #4E6170;
+    --p2-bg: #EAF0F3;
+    --good: #1E6B45;
+    --good-bg: #E3F2EA;
+    --radius: 12px;
+    --gutter: clamp(16px, 4vw, 40px);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 400 16px/1.55 Montserrat, system-ui, sans-serif;
+    color: var(--text);
+    background: var(--page);
+  }
+  a { color: var(--navy); }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  header.hero { background: var(--navy-ink); color: #fff; padding: 48px 0 40px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: 13px; font-weight: 600; color: #B9CCD7; margin: 0 0 8px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; margin: 0 0 12px; }
+  .lead { max-width: 62ch; color: #DCE7ED; margin: 0; }
+  .counts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; padding: 0; list-style: none; }
+  .counts li { background: rgba(255,255,255,.08); border-radius: var(--radius); padding: 12px 16px; min-width: 120px; }
+  .counts strong { display: block; font-size: 32px; line-height: 1.1; }
+  .counts span { font-size: 14px; color: #DCE7ED; }
+
+  main section { padding: 40px 0 8px; }
+  h2 { font-size: clamp(22px, 3.2vw, 28px); margin: 0 0 6px; color: var(--navy); }
+  .section-intro { color: var(--muted); max-width: 66ch; margin: 0 0 20px; }
+
+  .themes { counter-reset: t; display: grid; gap: 12px; padding: 0; list-style: none; }
+  .themes li { counter-increment: t; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px 16px 60px; position: relative; }
+  .themes li::before { content: counter(t); position: absolute; left: 18px; top: 14px; font-size: 24px; font-weight: 700; color: var(--navy); }
+  .themes h3 { margin: 0 0 4px; font-size: 17px; }
+  .themes p { margin: 0; color: var(--muted); }
+
+  .lens { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .lens article { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .lens h3 { margin: 0 0 8px; }
+  .lens ul { margin: 0; padding-left: 20px; }
+  .lens li + li { margin-top: 6px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; border: 0; padding: 0; }
+  .filters legend { font-weight: 600; margin-bottom: 8px; width: 100%; }
+  .filters button { font: inherit; font-size: 14px; font-weight: 600; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--navy); cursor: pointer; }
+  .filters button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  .flow { margin-bottom: 36px; }
+  .flow > h3 { font-size: 20px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+  .finding { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--p2); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px; display: grid; gap: 16px; grid-template-columns: 1fr; }
+  .finding[data-sev="P0"] { border-left-color: var(--p0); }
+  .finding[data-sev="P1"] { border-left-color: var(--amber); }
+  @media (min-width: 820px) { .finding.has-img { grid-template-columns: 1fr 300px; } }
+  .finding h4 { margin: 0 0 6px; font-size: 17px; line-height: 1.35; }
+  .finding p { margin: 6px 0 0; }
+  .finding .fix { color: var(--good); }
+  .finding .fix strong, .finding .why strong { color: var(--text); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .tag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--p2-bg); color: var(--p2); }
+  .tag.sev-P0 { background: #FBE4E2; color: var(--p0); }
+  .tag.sev-P1 { background: var(--p1-bg); color: var(--p1); }
+  .finding figure { margin: 0; }
+  .finding img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; display: block; }
+  .finding figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .finding a.shot { display: block; }
+
+  .good { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); padding: 0; list-style: none; }
+  .good li { background: var(--good-bg); border-radius: var(--radius); padding: 16px; }
+  .good strong { display: block; color: var(--good); margin-bottom: 4px; }
+
+  .gaps { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 20px 20px 40px; }
+  .gaps li + li { margin-top: 8px; }
+  footer { color: var(--muted); font-size: 14px; padding: 40px 0 56px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Atelier · Baseline review · 28.10.2026</p>
+    <h1>Frantz portal: how it works for new and existing customers</h1>
+    <p class="lead">This is the state of the prototype before any fixes. I walked the main flows as five personas, did a 5-second clarity test and stress-tested the pages. I compared everything with the interviews in Jamie. Nothing has been changed in the prototype.</p>
+    <ul class="counts" id="counts" aria-label="Number of findings"></ul>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section aria-labelledby="h-themes">
+    <h2 id="h-themes">The six things that matter most</h2>
+    <p class="section-intro">The details below fall into these themes. Fixing them would solve most of the P0 and P1 findings.</p>
+    <ol class="themes">
+      <li><h3>"Paste, upload, done" is not safe yet</h3><p>Existing customers paste their whole agreed strategy. The prototype quietly replaces the period, the pause and the channel split with a default. Finished ads hide behind the third «Endre». This is the only P0.</p></li>
+      <li><h3>"Let Frantz choose" stops halfway</h3><p>Hjem promises «så fyller Frantz ut resten». With only a link, budget and channels show «Mangler», and «Bruk anbefalt» fills the budget but no channels. A new customer must choose alone.</p></li>
+      <li><h3>The moment of ordering is unclear</h3><p>Next to «Bestill kampanjen», nothing says that Frantz checks the order, when it is binding or what the money buys. The good explanation appears only after ordering.</p></li>
+      <li><h3>Dialogue still leaves the portal</h3><p>«Be om endring», «Kontakt rådgiver» and the assistant are three routes, and two open an email. Users told us that two routes already confuse them.</p></li>
+      <li><h3>The manager approves without seeing an ad</h3><p>The approval loop works well. But when there is no ad material, the manager sees only price and channels, not a preview.</p></li>
+      <li><h3>Numbers have no context</h3><p>The report is clear in its words. But no benchmark says whether 1,5 % or kr 1 730 per «Søk» is good. No forecast is shown before ordering.</p></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="h-lens">
+    <h2 id="h-lens">Two groups, two different problems</h2>
+    <p class="section-intro">Every person we interviewed already uses business.frantz.no. So the new-customer view is based on inference, not interviews.</p>
+    <div class="lens">
+      <article>
+        <h3>New customers</h3>
+        <ul>
+          <li>Hjem explains Frantz well: «Kom i gang» and «Hva er en kampanje?» use no product names.</li>
+          <li>The tour opens on top of «Lag første kampanje» and hides the main button.</li>
+          <li>They are asked for budget and channels they cannot judge.</li>
+          <li>Nothing at the order button explains review, binding or invoice.</li>
+          <li>«Sporingskode» and «Bruk lagret pakke» show up with no explanation.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Existing customers moving from today's portal</h3>
+        <ul>
+          <li>Search by their own reference works. This was a top request.</li>
+          <li>Pasted strategies lose period and channel split without a warning.</li>
+          <li>Uploading finished ads takes 4 extra steps in a modal.</li>
+          <li>They get the same «Start en kampanje» tour as a new customer. Nothing says what has changed or where things moved.</li>
+          <li>Dialogue still goes to email, with three entry points.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-findings">
+    <h2 id="h-findings">All findings by flow</h2>
+    <p class="section-intro">P0 blocks the task. P1 causes real friction. P2 is polish. Select an image to open it full size.</p>
+    <fieldset class="filters" id="filters">
+      <legend>Show findings for</legend>
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="Ny" aria-pressed="false">New customers</button>
+      <button type="button" data-filter="Eksisterende" aria-pressed="false">Existing customers</button>
+      <button type="button" data-filter="Begge" aria-pressed="false">Both</button>
+      <button type="button" data-filter="Tilgang" aria-pressed="false">Accessibility and technical</button>
+    </fieldset>
+    <p class="visually-hidden" id="filter-status" aria-live="polite"></p>
+    <div id="flows"></div>
+  </section>
+
+  <section aria-labelledby="h-good">
+    <h2 id="h-good">What already works</h2>
+    <ul class="good">
+      <li><strong>Find by own reference</strong>A search for «WN-4471» found the campaign at once. The reference leads the title in the list and on the page.</li>
+      <li><strong>The approval loop</strong>No login, one click to approve, «Å åpne lenken godkjenner ingenting», and the sender sees «Godkjent» with the next step.</li>
+      <li><strong>No product names</strong>«Autopublish», «Tailored» and «Frantz AI» never appear for a new customer.</li>
+      <li><strong>Plain report words</strong>«Trykket «Søk»» instead of CTR, and the adviser note explains what Frantz did.</li>
+      <li><strong>The 19.10 fixes hold</strong>Paid extras are suggested, not ticked. «Totalt eks. mva.» shows before ordering.</li>
+      <li><strong>Solid on phones</strong>No page scrolls sideways at 320–1920 px. 200% zoom holds. Ola copied the report link in 4 taps.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-gaps">
+    <h2 id="h-gaps">Gaps in what we know</h2>
+    <ol class="gaps">
+      <li>No interview tested this prototype. The 23.10 interviews were about today's portal.</li>
+      <li>No first-time customer was interviewed. The new-customer findings are inferred.</li>
+      <li>No end client or manager who approves was interviewed.</li>
+      <li>Benchmarks, cancel rules and invoice timing must come from Frantz.</li>
+      <li>8 external users, several of them partners or part-owners of Frantz.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Sources: atelier/05-checks/clarity.md, personas.md, stress.md and atelier/01-inputs/research/jamie-insights.md. Screenshots: atelier/05-checks/screenshots/.</p>
+</footer>
+
+<script>
+// Who: Ny = new customers, Eksisterende = existing customers, Begge = both, Tilgang = accessibility and technical.
+const FLOWS = [
+  { title: 'Hjem and first visit', items: [
+    { sev: 'P1', who: 'Ny', title: 'The tour hides the main button for new customers',
+      what: 'The tour opens by itself on top of «Lag første kampanje». Desktop says «1 AV 4», mobile says «1 AV 3», and the mobile text repeats a sentence. It never says that Frantz checks ads before publishing.',
+      fix: 'Do not auto-open the tour for new customers. «Kom i gang» already teaches the steps. Keep «Vis meg rundt». If the tour stays, point step 1 at the banner and add a review step.',
+      img: 'hjem-ny-desktop-fold.png' },
+    { sev: 'P1', who: 'Eksisterende', title: 'Existing customers get a tour for beginners, not a "what changed" guide',
+      what: 'Kari, who has campaigns, sees «1 AV 5 · Start en kampanje», the same tour a new customer gets. Nothing tells a user from business.frantz.no where Kundedialog, the filter or their links have moved.',
+      fix: 'Show existing customers a short "Nytt i portalen" tour once: search by own reference, one place for dialogue, links on the campaign page. Skip "how to start a campaign".',
+      img: 'hjem-eksisterende-desktop-fold.png' },
+    { sev: 'P1', who: 'Tilgang', title: 'Campaign rows on Hjem are focusable table rows, not links',
+      what: 'The rows are <tr tabindex="0" onclick>. A screen reader reads the row text but does not say it is a link.',
+      fix: 'Make the campaign title a real link and stretch its click area over the row with CSS.',
+      img: 'persona-sigrid-focusable-row.png' },
+    { sev: 'P2', who: 'Tilgang', title: 'Focus is lost after closing the tour',
+      what: 'Esc closes the tour, but focus goes to the page body. Keyboard users start again from the top.',
+      fix: 'Return focus to «Vis meg rundt», or to the page heading on first load.' },
+  ]},
+  { title: 'Ny kampanje', items: [
+    { sev: 'P0', who: 'Eksisterende', title: 'The pasted strategy’s period, pause and channel split are silently lost',
+      what: 'Mari pasted «Periode: 02.11–15.11, pause 08.11–09.11» and «Meta 60 %, LinkedIn 40 %». The summary showed «05.10.2026 – 25.10.2026 · 3 uker». The raw paste is not stored with the order, so Frantz never sees what she agreed with her client.',
+      fix: 'Always store the full paste with the order and show it as «Innlimt tekst». When something cannot be read, write «Se innlimt tekst», not a default. Mark guessed values: «Foreslått periode – sjekk».',
+      research: 'Coordinator 23.10: «det vil alltid være avvik fra de pakkene».',
+      img: 'persona-mari-parsed-summary.png' },
+    { sev: 'P1', who: 'Eksisterende', title: 'Uploading finished ads is hidden behind the third «Endre»',
+      what: 'The paste said «Ferdige annonser fra byrå», but the summary showed «Materiell: Ikke oppgitt». Uploading took 4 more steps in a modal. Files dropped in «Vedlegg» on the first step do not count as ads.',
+      fix: 'Accept ad files in the first drop zone and sort them: images and video become ads, PDF and Word become attachments.',
+      research: 'Designer 23.10 does not want another tool to build ads in.',
+      img: 'persona-mari-upload-in-modal.png' },
+    { sev: 'P1', who: 'Ny', title: 'With only a link, the new customer must pick budget and channels alone',
+      what: 'Hjem promises «så fyller Frantz ut resten». With only a link, budget and channels show «Mangler» and «Bestill kampanjen» is blocked. «Bruk anbefalt» is hidden in the editor.',
+      fix: 'Prefill Frantz’s suggestion in the summary: «Frantz foreslår: kr 12 000, Meta og Nettsteder og aviser, 3 uker. Endre hvis dere vil.»',
+      img: 'ny-kampanje-desktop-fold.png' },
+    { sev: 'P1', who: 'Ny', title: '«Bruk anbefalt» sets the budget but ticks no channels',
+      what: '«Bruk anbefalt» filled kr 17 000. All channels stayed unticked, and the estimate said «Velg minst én kanal for å se estimatet.»',
+      fix: 'Fill budget and recommended channels together, and say which channels were chosen.',
+      img: 'persona-hanne-anbefalt-no-channels.png' },
+    { sev: 'P1', who: 'Begge', title: 'Reading a link or short text gives wrong values',
+      what: 'A Finn link became «Stilling: Ad html». The text said søknadsfrist 20.11.2026, but the field said 28.10.2026. «Arbeidsgiver» was empty although the text said «Lillehammer kommune». The junk reached the manager’s email.',
+      fix: 'Never use a URL part as a job title. Leave a field empty and mark it «Mangler» instead of guessing. A date in the text wins over the default.',
+      img: 'persona-hanne-link-parse-and-approval.png' },
+    { sev: 'P1', who: 'Ny', title: 'Nothing at the order button says what happens next',
+      what: 'Near «Bestill kampanjen» there is only «Oppstart avklares med Frantz…». It does not say that a person at Frantz checks the order, when it is binding, or when the invoice comes. The good explanation shows only after ordering.',
+      fix: 'Put three short steps above the button: «1 En rådgiver i Frantz går gjennom · 2 Dere godkjenner annonsene · 3 Kampanjen starter». Confirm cancel and invoice rules with Frantz.' },
+    { sev: 'P1', who: 'Ny', title: 'No forecast of what the budget buys',
+      what: 'The price is clear, but the summary shows no estimate. Hjem sends users to a separate calculator.',
+      fix: 'Add one line under the total: «Forventet: ca. 15–25 trykk på «Søk» på 4 uker (anslag).»' },
+    { sev: 'P1', who: 'Tilgang', title: 'An invalid link and absurd budgets are accepted without a message',
+      what: '«frantz punkt no» passed as a link. Budgets of kr 5 and kr 999 999 999 999 were saved. «-500» became 500 without a word.',
+      fix: 'Validate the link with an inline error. Set a minimum and a soft maximum on the budget, and show what was understood.',
+      img: 'stress-ny-ugyldig-lenke-390.png' },
+    { sev: 'P1', who: 'Tilgang', title: 'Long words break the form on phones',
+      what: 'Section headings and the pasted-text preview do not wrap long Norwegian compounds. They run out of the card.',
+      fix: 'Add overflow-wrap: anywhere to these headings and to the text preview.',
+      img: 'stress-lang-nyk-390.png' },
+    { sev: 'P2', who: 'Ny', title: 'The auto-made name «Oppdrag 22 45» looks like an internal ID',
+      what: 'The customer never typed it, and in the list it sits above «#129070». That is two IDs and no job title.',
+      fix: 'Name the campaign from the job, such as «Sykepleier Kristiansand», when the customer gives no reference.' },
+    { sev: 'P2', who: 'Ny', title: '«Bruk lagret pakke» shows to a customer with no saved packages',
+      what: 'A new customer sees a choice they cannot use. The same confusion came up on 19.10.',
+      fix: 'Hide it until the customer has saved a package.' },
+    { sev: 'P2', who: 'Ny', title: 'Two order buttons with no explanation',
+      what: '«Send planen til godkjenning» sits next to «Bestill kampanjen». It is unclear whether one must come first.',
+      fix: 'Add one line: «Sender en lenke til sjefen eller kunden. Dere bestiller etter at de har godkjent.»' },
+    { sev: 'P2', who: 'Eksisterende', title: 'Finished ads get warnings that suggest rework',
+      what: 'A 1200×628 file got «brukes ikke i kanalene dere har valgt», although Meta supports that size.',
+      fix: 'Say «Frantz tilpasser formatene ved behov», and warn only about sizes that cannot be used.' },
+    { sev: 'P2', who: 'Begge', title: 'A new order’s dates are already in the past',
+      what: 'The default period is 05.10–25.10, but the order is stamped 28.10. In the 3.11 demo this looks like a bug.',
+      fix: 'Use one demo clock, and set the start to order date plus 3 working days.' },
+  ]},
+  { title: 'Approval', items: [
+    { sev: 'P1', who: 'Begge', title: 'The manager approves without seeing an ad',
+      what: 'With no material, the approval page says «Det er ikke lagt ved noe annonsemateriell til denne forespørselen.» Hanne wanted to show price, channels and a preview.',
+      fix: 'Show an example preview built from the job, labelled «Eksempel – Frantz lager de endelige annonsene».',
+      research: 'Municipal HR 28.09: wants channels, live price and preview.',
+      img: 'persona-hanne-manager-no-preview.png' },
+    { sev: 'P2', who: 'Ny', title: 'The approval note on Under arbeid does not say what approving does',
+      what: '«Godkjenningen gjelder annonsene. Frantz følger opp publisering etterpå.» It does not say when the ads go live.',
+      fix: '«Når dere godkjenner, publiserer Frantz annonsene fra 05.10.»',
+      img: 'under-arbeid-desktop-fold.png' },
+  ]},
+  { title: 'Campaign pages', items: [
+    { sev: 'P1', who: 'Eksisterende', title: 'Three ways to talk to Frantz, and two of them open an email',
+      what: '«Be om endring» and «Kontakt rådgiver» both open a mailto: draft with the Frantz ID in the subject. The assistant is a third route. Nothing is logged in «Kampanjeforløp».',
+      fix: 'One «Skriv til Frantz» action per campaign that logs in Kampanjeforløp. If email stays for now, put the customer’s own reference first in the subject.',
+      research: 'Coordinator 23.10: «hvorfor er det to…».',
+      img: 'persona-mari-be-om-endring-mailto.png' },
+    { sev: 'P1', who: 'Ny', title: '«Sporingskode» is the loudest thing on Bestilt, with no explanation',
+      what: 'The amber box asks for a tracking code right after ordering. It does not say what it does or who should add it.',
+      fix: '«Be den som drifter nettsiden deres legge inn en kort kode. Da kan vi telle hvor mange som søker.» Add «Send til nettansvarlig».',
+      img: 'bestilt-desktop-fold.png' },
+    { sev: 'P1', who: 'Begge', title: '«Materiell kan ettersendes» turns into "email us" after ordering',
+      what: 'After Hanne ordered without ads, the page said «Dette må avklares før oppstart: materiell. Ta kontakt med Frantz.» The only action was an email link.',
+      fix: 'Put «Last opp annonser» and «La Frantz lage annonsene» in the banner itself.' },
+    { sev: 'P1', who: 'Tilgang', title: 'On a phone, the report link is hidden and copied with a 32 px icon',
+      what: '«Kampanjeoversikt» is closed by default. The copy icon is 32×32 px, right next to a link that leaves the page.',
+      fix: 'Make copy buttons 44×44 px. Open «Kampanjeoversikt» on active and ended campaigns.',
+      img: 'persona-ola-copy-icon.png' },
+    { sev: 'P1', who: 'Tilgang', title: 'Campaign and report pages jump while loading',
+      what: 'On a slow connection the layout shift score was 0.91 on mobile and 0.41 on desktop. Good is under 0.1. All tab panels show first, then scripts hide them.',
+      fix: 'Hide inactive tab panels in the HTML, and load scripts with defer.',
+      img: 'stress-treg-aktiv-tidlig-390.png' },
+    { sev: 'P2', who: 'Ny', title: 'Bestilt has two highlighted boxes and an empty history card',
+      what: 'A blue box and an amber box compete. A report link shows before the campaign has started. «Kampanjeforløp» is empty but large.',
+      fix: 'One status card with next steps. Hide the report link until the campaign is live. Hide the empty history.',
+      img: 'bestilt-desktop-fold.png' },
+    { sev: 'P2', who: 'Tilgang', title: 'On a phone, the tab strip opens scrolled with the first tab cut off',
+      what: 'The first tab shows as «ing», with no sign that there is more to the left.',
+      fix: 'Add an edge fade or scroll padding.',
+      img: 'persona-ola-overview-collapsed.png' },
+    { sev: 'P2', who: 'Tilgang', title: 'The email error on the interest list does not look like an error',
+      what: '«Skriv en gyldig e-postadresse.» shows in body colour below the button, not linked to the field.',
+      fix: 'Use the error style, put it under the field, and link it with aria-describedby.',
+      img: 'stress-epost-feil-390.png' },
+  ]},
+  { title: 'Report', items: [
+    { sev: 'P1', who: 'Begge', title: 'The numbers have no benchmark',
+      what: 'The funnel shows «1,5 % av forrige steg» and kr 1 730 per «Søk». A non-marketer cannot tell if that is good. The first step’s big curve makes the later steps look like nothing.',
+      fix: 'Add a benchmark line, such as «Typisk for sykepleier-stillinger: 1,0–1,8 %», and «Hva betyr dette?» under the funnel. Frantz must supply the data.',
+      research: 'Whydentify 24.09 and recruitment specialist 28.09: numbers need context.',
+      img: 'avsluttet-rapport-desktop-fold.png' },
+    { sev: 'P2', who: 'Ny', title: 'Terms only a marketer knows',
+      what: '«Kampanjeside» is never explained, and «Meldte interesse» is defined only as «telles separat».',
+      fix: 'Explain each term once, at first use.' },
+    { sev: 'P2', who: 'Tilgang', title: 'Help text lines are too long on wide screens',
+      what: 'At 1920 px, help text runs about 120 characters per line.',
+      fix: 'Set max-width: 65ch on help text.',
+      img: 'stress-1920-aktiv.png' },
+  ]},
+  { title: 'Whole portal', items: [
+    { sev: 'P1', who: 'Tilgang', title: 'The account button’s name does not match its visible text',
+      what: 'axe reports a serious issue on all 8 pages. The button shows «KH Kari Hansen», but is named «Konto: Kari Hansen». Voice-control users say what they see.',
+      fix: 'Hide «KH» from screen readers, and use the name «Kari Hansen, konto».' },
+    { sev: 'P1', who: 'Tilgang', title: 'Long names and button labels push the page sideways',
+      what: 'A long user name in the top bar gives every page 23 px of sideways scroll. Buttons never wrap, so a long label widens the page on phones.',
+      fix: 'Shorten the top-bar name with an ellipsis. Let the shared button wrap.',
+      img: 'stress-lang-dash-1440.png' },
+    { sev: 'P2', who: 'Begge', title: '«du» and «dere» are mixed on the same screen',
+      what: '«Kampanjene du har bestilt» sits above «Opprett deres første kampanje». This came up on 19.10 too.',
+      fix: 'Use «dere» everywhere in the customer portal.' },
+    { sev: 'P2', who: 'Tilgang', title: 'Smooth scrolling ignores reduced motion',
+      what: 'About 20 scripted scrolls animate even when the user has asked for reduced motion.',
+      fix: 'Use one helper that checks prefers-reduced-motion.' },
+    { sev: 'P2', who: 'Tilgang', title: 'Small search and draft issues',
+      what: 'The result count is silent for screen readers, one hit reads «1 kampanjer», and an empty first step still saves a draft.',
+      fix: 'Add aria-live to the count, fix the grammar, and skip autosave until something is filled in.',
+      img: 'stress-tomt-sok-390.png' },
+  ]},
+];
+
+const WHO = { Ny: 'New customers', Eksisterende: 'Existing customers', Begge: 'Both groups', Tilgang: 'Accessibility / technical' };
+const SEV = { P0: 'P0 · blocks the task', P1: 'P1 · real friction', P2: 'P2 · polish' };
+// "New" and "Existing" also show findings that affect both groups.
+const matches = (f, filter) => filter === 'all' || f.who === filter ||
+  (f.who === 'Begge' && (filter === 'Ny' || filter === 'Eksisterende'));
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function render(filter) {
+  const html = FLOWS.map(flow => {
+    const items = flow.items
+      .filter(f => matches(f, filter))
+      .sort((a, b) => a.sev.localeCompare(b.sev));
+    if (!items.length) return '';
+    return `<div class="flow"><h3>${esc(flow.title)}</h3>${items.map(f => `
+      <article class="finding${f.img ? ' has-img' : ''}" data-sev="${f.sev}">
+        <div>
+          <div class="tags"><span class="tag sev-${f.sev}">${SEV[f.sev]}</span><span class="tag">${WHO[f.who]}</span></div>
+          <h4>${esc(f.title)}</h4>
+          <p>${esc(f.what)}</p>
+          ${f.research ? `<p class="why"><strong>Research:</strong> ${esc(f.research)}</p>` : ''}
+          <p class="fix"><strong>Fix:</strong> ${esc(f.fix)}</p>
+        </div>
+        ${f.img ? `<figure><a class="shot" href="screenshots/${f.img}"><img src="screenshots/${f.img}" alt="Screenshot: ${esc(f.title)}" loading="lazy"></a><figcaption>${f.img}</figcaption></figure>` : ''}
+      </article>`).join('')}</div>`;
+  }).join('');
+  document.getElementById('flows').innerHTML = html;
+  const n = FLOWS.flatMap(f => f.items).filter(f => matches(f, filter)).length;
+  document.getElementById('filter-status').textContent = `Showing ${n} findings.`;
+}
+
+const all = FLOWS.flatMap(f => f.items);
+document.getElementById('counts').innerHTML = ['P0', 'P1', 'P2'].map(s =>
+  `<li><strong>${all.filter(f => f.sev === s).length}</strong><span>${SEV[s]}</span></li>`).join('') +
+  `<li><strong>${all.filter(f => f.who === 'Ny' || f.who === 'Begge').length} / ${all.filter(f => f.who === 'Eksisterende' || f.who === 'Begge').length}</strong><span>affect new / existing customers</span></li>`;
+
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-filter]');
+  if (!btn) return;
+  document.querySelectorAll('#filters button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+  render(btn.dataset.filter);
+});
+
+render('all');
+</script>
+</body>
+</html>

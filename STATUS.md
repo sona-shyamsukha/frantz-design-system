@@ -3,13 +3,7 @@
 Updated 28.10.2026.
 
 ## In progress
-- Branch `tabell-tekst` (pushed, no PR yet):
-  - Every table cell uses one text size. Second lines, notes and codes stay muted, not smaller.
-  - Codes in tables use the body type role.
-  - Only status badges and tags are smaller.
-
-## Waiting on Sona
-1. Open a PR for `tabell-tekst` and merge it into `main`? yes / changes
+- Branch `atelier/review`: holistic baseline review (new and existing customers). Insights from Jamie, brief, personas and screenshots are ready in `atelier/`. The three checks stopped at the spend limit. They continue after 10:50.
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?
@@ -21,6 +15,7 @@ Updated 28.10.2026.
 
 ## Decisions
 - 28.10: `sporingskode-guide` and `tabell-justering` are merged into `main` (PR 19, PR 20).
+- 28.10: `tabell-tekst` is merged into `main` (PR 21). One text size in every table cell.
 - 28.10: Change 2 («Kontakt rådgiver» to a named advisor) is not important. Dropped.
 - 28.10: Change 6 (language choice) is fixed in the real product, not in the prototype.
 - 28.10: Connect detail page removed. Audience category and ISCO belong in the admin version only.
