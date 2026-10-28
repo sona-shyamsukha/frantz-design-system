@@ -1,4 +1,4 @@
-/* Trakt — tre visninger av samme fire tall.
+/* Trakt — tre visninger av de samme tallene. Antall steg følger dataene.
    Tallene står i kolonneoverskriftene, grafikken i midten,
    frafallet under. Fanen bytter bare den midterste delen.
    Fargen ender i amber på det ene tallet som er et resultat. */
@@ -22,7 +22,9 @@
   function tegnGraf(visning, v, farger, lag, gradId, W, H, kol, ekte, utenMerker) {
     ekte = ekte || v;
     var maks = v[0];
-    var skiller = [1, 2, 3].map(function (i) {
+    var n = v.length, siste = n - 1;
+    var skiller = v.slice(1).map(function (_, k) {
+      var i = k + 1;
       return '<line x1="' + (i * kol) + '" y1="0" x2="' + (i * kol) + '" y2="' + H + '" stroke="var(--chart-divider)" stroke-width="2"></line>';
     }).join('');
 
@@ -36,7 +38,7 @@
         var andel = i === 0 ? 1 : verdi / v[i - 1];
         var fh = Math.max(H * andel, 5);
         var x = i * kol + (kol - b) / 2;
-        var farge = i === 3 ? tok('--color-amber') : tok('--color-data-700');
+        var farge = i === siste ? tok('--color-amber') : tok('--color-data-700');
         return (i > 0 ? '<rect x="' + x + '" y="0" width="' + b + '" height="' + H + '" rx="8" fill="' + tok('--color-data-100') + '"></rect>' : '') +
           '<rect x="' + x + '" y="' + (H - fh) + '" width="' + b + '" height="' + fh + '" rx="' + Math.min(8, fh / 2) + '" fill="' + farge + '"></rect>';
       }).join('');
@@ -63,14 +65,14 @@
         }, []);
       };
       var sti = function (serie) {
-        var halv = function (i) { return Math.max(serie[Math.min(i, 3)] * f / 2, 1.5); };
+        var halv = function (i) { return Math.max(serie[Math.min(i, siste)] * f / 2, 1.5); };
         var d = 'M 0 ' + (cy - halv(0));
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < n; i++) {
           var x0 = i * kol, x1 = (i + 1) * kol, m = (x0 + x1) / 2;
           d += ' C ' + m + ' ' + (cy - halv(i)) + ', ' + m + ' ' + (cy - halv(i + 1)) + ', ' + x1 + ' ' + (cy - halv(i + 1));
         }
-        d += ' L ' + W + ' ' + (cy + halv(4));
-        for (var j = 3; j >= 0; j--) {
+        d += ' L ' + W + ' ' + (cy + halv(n));
+        for (var j = siste; j >= 0; j--) {
           var a = j * kol, b = (j + 1) * kol, mm = (a + b) / 2;
           d += ' C ' + mm + ' ' + (cy + halv(j + 1)) + ', ' + mm + ' ' + (cy + halv(j)) + ', ' + a + ' ' + (cy + halv(j));
         }
@@ -88,11 +90,11 @@
     }
 
     /* Trakt: én sammenhengende flate som smalner av mot høyre */
-    var y = function (i) { return H - Math.max((v[Math.min(i, 3)] / maks) * H, 5); };
+    var y = function (i) { return H - Math.max((v[Math.min(i, siste)] / maks) * H, 5); };
     var kant = 'M 0 ' + y(0);
-    for (var n = 0; n < 4; n++) {
-      var p0 = n * kol, p1 = (n + 1) * kol, mid = (p0 + p1) / 2;
-      kant += ' C ' + mid + ' ' + y(n) + ', ' + mid + ' ' + y(n + 1) + ', ' + p1 + ' ' + y(n + 1);
+    for (var s = 0; s < n; s++) {
+      var p0 = s * kol, p1 = (s + 1) * kol, mid = (p0 + p1) / 2;
+      kant += ' C ' + mid + ' ' + y(s) + ', ' + mid + ' ' + y(s + 1) + ', ' + p1 + ' ' + y(s + 1);
     }
     return '<path d="' + kant + ' L ' + W + ' ' + H + ' L 0 ' + H + ' Z" fill="url(#' + gradId + ')"></path>' + skiller;
   }
@@ -115,19 +117,27 @@
       graf.lag = lag ? lag.map(function (l) { return { navn: l.navn, o: l.o, farge: l.farge, v: l.v.map(function (x, i) { return x * f[i]; }) }; }) : null;
     }
     var visning = el.dataset.visning || 'trakt';
-    var W = 1000, H = 230, kol = W / 4;
+    var n = v.length, siste = n - 1;
+    var W = 1000, H = 230, kol = W / n;
+    // The CSS grids under and over the chart use the same number of columns
+    el.style.setProperty('--funnel-steg', n);
 
     if (!el.dataset.gradId) {
       el.dataset.gradId = 'traktfarge-' + (++teller);
     }
     var gradId = el.dataset.gradId;
 
-    var farger = [tok('--color-data-300'), tok('--color-data-500'), tok('--color-data-700'), tok('--color-amber')];
-    if (visning === 'steg') farger = [tok('--color-data-700'), tok('--color-data-700'), tok('--color-data-700'), tok('--color-amber')];
+    // Blue steps get darker towards the result. The last step, the result, is amber.
+    var bla = ['--color-data-300', '--color-data-500', '--color-data-700'];
+    var farger = v.map(function (_, i) {
+      if (i === siste) return tok('--color-amber');
+      if (visning === 'steg') return tok('--color-data-700');
+      return tok(bla[siste > 1 ? Math.round(i * (bla.length - 1) / (siste - 1)) : 0]);
+    });
 
     var gradient = '<linearGradient id="' + gradId + '" x1="0" y1="0" x2="1" y2="0">' +
       farger.map(function (f, i) {
-        return '<stop offset="' + (i / 4) + '" stop-color="' + f + '"></stop><stop offset="' + ((i + 1) / 4) + '" stop-color="' + f + '"></stop>';
+        return '<stop offset="' + (i / n) + '" stop-color="' + f + '"></stop><stop offset="' + ((i + 1) / n) + '" stop-color="' + f + '"></stop>';
       }).join('') + '</linearGradient>';
 
     var celler = v.map(function (verdi, i) {
@@ -141,12 +151,12 @@
     }).join('');
 
     var fot = v.map(function (verdi, i) {
-      if (i === 3) {
+      if (i === siste) {
         return '<div class="funnel__foot-cell">' +
           '<span class="funnel__badge funnel__badge--ok">' + HAKE + '</span>' +
           '<div class="funnel__foot-label">' + (d.totalNavn || 'Konvertering') + '</div>' +
-          '<div class="funnel__foot-pct funnel__foot-pct--ok">' + pst(v[3] / v[0]) + '</div>' +
-          '<div class="funnel__foot-sub">' + tall(v[3]) + ' av ' + tall(v[0]) + '</div>' +
+          '<div class="funnel__foot-pct funnel__foot-pct--ok">' + pst(v[siste] / v[0]) + '</div>' +
+          '<div class="funnel__foot-sub">' + tall(v[siste]) + ' av ' + tall(v[0]) + '</div>' +
           '</div>';
       }
       var tap = verdi - v[i + 1];
@@ -191,12 +201,12 @@
           '<span class="funnel__akse-rate">' + (i === 0 ? '&nbsp;' : pst(verdi / v[i - 1]) + ' av forrige steg') + '</span></div>';
       }).join('');
       var soner = v.map(function (verdi, i) {
-        return '<button type="button" class="funnel__sone" data-sone="' + i + '" style="left:' + (i * 25) + '%" aria-label="' + navn[i] + ': ' + tall(verdi) + '"></button>';
+        return '<button type="button" class="funnel__sone" data-sone="' + i + '" style="left:' + (i * 100 / n) + '%" aria-label="' + navn[i] + ': ' + tall(verdi) + '"></button>';
       }).join('');
       el.innerHTML = faner +
         '<p class="funnel__hint"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span>Trykk på et steg i grafen for å se detaljer.</p>' +
         '<div class="funnel__box funnel__box--rolig"' + fanePanel + '>' +
-        '<div class="funnel__graph funnel__graph--hover"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' som trykket «Søk»" style="height:260px">' +
+        '<div class="funnel__graph funnel__graph--hover"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[siste]) + ' som trykket «Søk»" style="height:260px">' +
         '<defs>' + gradient + '</defs>' + tegnGraf(visning, graf.v, farger, graf.lag, gradId, W, H, kol, v, true) +
         '</svg>' + soner +
         '<div class="funnel__kort" role="status" hidden></div></div>' +
@@ -215,16 +225,17 @@
           linjer.push(['Kom fra forrige steg', pst(v[i] / v[i - 1])]);
           linjer.push(['Falt fra', tall(v[i - 1] - v[i]) + ' personer']);
         }
-        if (i === 3) linjer.push(['Av alle som så annonsen', pst(v[3] / v[0])]);
+        if (i === siste) linjer.push(['Av alle som så annonsen', pst(v[siste] / v[0])]);
         (lag || []).forEach(function (l) { linjer.push(['<i style="background:' + (l.farge || 'var(--color-data-700)') + '"></i>' + l.navn, tall(l.v[i])]); });
         kort.innerHTML = '<span class="funnel__kort-navn">' + navn[i] + '</span>' +
           '<span class="funnel__kort-tall">' + tall(v[i]) + '</span>' +
           (d.hjelp && d.hjelp[i] ? '<span class="funnel__kort-hjelp">' + d.hjelp[i] + '</span>' : '') +
           (linjer.length ? '<dl>' + linjer.map(function (x) { return '<div><dt>' + x[0] + '</dt><dd>' + x[1] + '</dd></div>'; }).join('') + '</dl>' : '');
         kort.hidden = false;
-        // Beside the step: to the right for the first two, to the left for the last two
-        kort.style.left = (i >= 2 ? i * 25 : (i + 1) * 25) + '%';
-        kort.classList.toggle('funnel__kort--venstre', i >= 2);
+        // Beside the step: to the right in the first half, to the left in the second half
+        var venstre = i >= n / 2;
+        kort.style.left = ((venstre ? i : i + 1) * 100 / n) + '%';
+        kort.classList.toggle('funnel__kort--venstre', venstre);
         Array.prototype.forEach.call(el.querySelectorAll('.funnel__sone'), function (b, k) { b.classList.toggle('funnel__sone--aktiv', k === i); });
         Array.prototype.forEach.call(el.querySelectorAll('.funnel__akse-steg'), function (c, k) { c.classList.toggle('funnel__akse-steg--aktiv', k === i); });
       };
@@ -260,10 +271,10 @@
       '<div class="funnel__scroll"' + fanePanel + '><div class="funnel__box">' +
       '<div class="funnel__top">' +
       '<div><span class="funnel__top-label">' + navn[0] + '</span><span class="funnel__top-value">' + tall(v[0]) + '</span></div>' +
-      '<div><span class="funnel__top-label">' + (d.rateNavn || 'Konverteringsrate') + '</span><span class="funnel__top-value">' + pst(v[3] / v[0]) + '</span></div>' +
+      '<div><span class="funnel__top-label">' + (d.rateNavn || 'Konverteringsrate') + '</span><span class="funnel__top-value">' + pst(v[siste] / v[0]) + '</span></div>' +
       '</div>' +
       '<div class="funnel__cells">' + celler + '</div>' +
-      '<div class="funnel__graph"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[3]) + ' som trykket «Søk»" style="height:230px">' +
+      '<div class="funnel__graph"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[siste]) + ' som trykket «Søk»" style="height:230px">' +
       '<defs>' + gradient + '</defs>' + tegnGraf(visning, graf.v, farger, graf.lag, gradId, W, H, kol, v) +
       '</svg></div>' +
       forklaring +

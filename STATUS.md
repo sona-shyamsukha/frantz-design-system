@@ -7,8 +7,7 @@ Updated 28.10.2026.
 - Branch `atelier/fixes` (committed, not pushed): the changes Sona approved on 28.10. Tour opens only from «Vis meg rundt». Ny kampanje fills in Frantz's suggestion, sorts finished ads, shows «Slik går det videre». Bestilt has one status card and a missing-ads banner. The report compares with the customer's last campaign. «dere» everywhere. All 50 tests pass.
 
 ## Waiting on Sona
-1. The report funnel has 6 steps but is drawn for 4. Redraw it? yes / no
-2. Push both branches and deploy a Vercel preview? yes / no
+1. Push both branches and deploy a Vercel preview? yes / no
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?
@@ -19,6 +18,7 @@ Updated 28.10.2026.
 - Presentation for the client on Tuesday 3.11.
 
 ## Decisions
+- 28.10: The report funnel now draws all 6 steps (Sona said yes). The approval hint in Ny kampanje sits under both order buttons.
 - 28.10: Suggested budget in Ny kampanje capped at kr 15 000, never below the channel minimum (Sona said yes).
 - 28.10: `sporingskode-guide` and `tabell-justering` are merged into `main` (PR 19, PR 20).
 - 28.10: `tabell-tekst` is merged into `main` (PR 21). One text size in every table cell.
