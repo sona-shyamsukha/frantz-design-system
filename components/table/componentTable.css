@@ -50,15 +50,20 @@
   display: block;
   margin-top: var(--space-2);
   color: var(--text-muted);
-  font: var(--type-support);
+  font: var(--type-body);
 }
 
-/* Text sizes. The same kind of text has the same size in every table and every column.
-   Value (name, date, number, text, empty value): --text-base.
-   Second line under a value (place, e-mail, phone, «brukt»): --text-sm.
-   Status and tags: --text-xs. */
+/* Text sizes. All text in a cell has one size, in every table and every column: --text-base.
+   The title is semibold. A second line under a value (place, e-mail, phone, «brukt») is muted, not smaller.
+   Codes in a copy field keep the code font, at the same size.
+   Only status and tags are smaller: --text-xs. */
 .table td small {
-  font: var(--type-support);
+  color: var(--text-muted);
+  font: var(--type-body);
+}
+
+.table .copy-field__value {
+  font-size: var(--text-base);
 }
 
 .table .meter__value {
