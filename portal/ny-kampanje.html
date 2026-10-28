@@ -956,13 +956,14 @@
   .v2-pris__total { padding-top: var(--space-12); border-top: 1px solid var(--border-default); font-weight: var(--font-weight-semibold); }
   .v2-pris p { margin: 0; color: var(--text-muted); font: var(--type-support); }
   /* What happens after the order: a quiet numbered list above the buttons */
-  .v2-videre__tittel { margin: var(--space-8) 0 0; color: var(--text-heading); font: var(--type-support-strong); }
-  .v2-videre { display: grid; gap: var(--space-4); margin: 0; padding-left: var(--space-20); list-style: decimal; color: var(--text-muted); font: var(--type-support); }
+  /* Tinted box so the next steps stand out from the price lines */
+  .v2-videre-boks { display: grid; gap: var(--space-8); margin-top: var(--space-8); padding: var(--space-16); background: var(--bg-navy-soft); border: 1px solid var(--border-navy-soft); border-radius: var(--radius-12); }
+  .v2-videre__tittel { margin: 0; color: var(--text-heading); font: var(--type-support-strong); }
+  .v2-videre { display: grid; gap: var(--space-4); margin: 0; padding-left: var(--space-20); list-style: decimal; color: var(--text-body); font: var(--type-support); }
   .v2-videre li::marker { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
-  /* Both order buttons sit level in one row. The approval hint is one line under the row. */
-  .v2-bunn { flex-direction: column; align-items: flex-end; gap: var(--space-8); }
+  /* Both order buttons sit level in one row. The approval hint lives in Prisoversikt, above them. */
   .v2-knapper { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); }
-  .v2-del-hint { margin: 0; max-width: 34rem; color: var(--text-muted); font: var(--type-support); text-align: right; }
+  .v2-del-hint { margin: var(--space-8) 0 0; color: var(--text-muted); font: var(--type-support); }
   .v2-del-hint[hidden] { display: none; }
   /* Values Frantz filled in for the customer */
   .v2-forslag { margin-left: var(--space-4); vertical-align: middle; }
@@ -975,7 +976,7 @@
   .anbefalt-status:empty { display: none; }
   #v2-godkjenning { padding: 0 var(--space-24); }
   #v2-status { margin: 0 var(--space-24) var(--space-16); padding: var(--space-16); }
-  @media (max-width: 640px) { .v2-bunn .btn { width: 100%; } .v2-pris { padding: var(--space-16); } .v2-bunn { align-items: stretch; } .v2-knapper { flex-direction: column-reverse; } .v2-del-hint { max-width: none; text-align: left; } .v2-forslag-hint { padding-inline: var(--space-16); } .v2-ferdige { grid-column: 1; } }
+  @media (max-width: 640px) { .v2-bunn .btn { width: 100%; } .v2-pris { padding: var(--space-16); } .v2-knapper { flex-direction: column-reverse; width: 100%; } .v2-forslag-hint { padding-inline: var(--space-16); } .v2-ferdige { grid-column: 1; } }
   dialog.v2-dialog--studio, dialog.v2-dialog--kampanje { width: min(1120px, calc(100vw - var(--space-32))); }
   .v2-studio { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-24); padding-top: var(--space-24); }
   .v2-studio[hidden] { display: none; }
@@ -1616,12 +1617,15 @@
               <dl class="summary-row v2-pris__total"><dt id="v2-total-label">Totalt eks. mva.</dt><dd id="v2-total">Ikke beregnet</dd></dl>
               <p id="v2-designkostnad" hidden></p>
               <p>Oppstart avklares med Frantz. Materiell kan ettersendes og må være klart og godkjent før publisering.</p>
-              <h3 class="v2-videre__tittel" id="v2-videre-tittel">Slik går det videre</h3>
-              <ol class="v2-videre" aria-labelledby="v2-videre-tittel">
-                <li>Frantz går gjennom bestillingen</li>
-                <li>Dere godkjenner annonsene før noe publiseres</li>
-                <li>Kampanjen starter</li>
-              </ol>
+              <div class="v2-videre-boks">
+                <h3 class="v2-videre__tittel" id="v2-videre-tittel">Slik går det videre</h3>
+                <ol class="v2-videre" aria-labelledby="v2-videre-tittel">
+                  <li>Frantz går gjennom bestillingen</li>
+                  <li>Dere godkjenner annonsene før noe publiseres</li>
+                  <li>Kampanjen starter</li>
+                </ol>
+              </div>
+              <p class="v2-del-hint" id="v2-del-hint">Skal sjefen eller kunden se planen først? Trykk «Send planen til godkjenning». Dere bestiller etter at de har godkjent.</p>
             </section>
             <div id="v2-godkjenning"></div>
             <p class="alert alert--error v2-status" id="v2-status" role="alert" hidden></p>
@@ -1631,7 +1635,6 @@
                 <button class="btn btn--secondary" type="button" id="v2-del" aria-describedby="v2-del-hint v2-bestill-hint">Send planen til godkjenning</button>
                 <button class="btn btn--accent" type="button" id="v2-bestill" aria-describedby="v2-bestill-hint">Bestill kampanjen</button>
               </div>
-              <p class="v2-del-hint" id="v2-del-hint">Skal sjefen eller kunden se planen først? Send den til godkjenning. Dere bestiller etter at de har godkjent.</p>
             </div>
           </section>
 
