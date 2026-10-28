@@ -6,3 +6,4 @@
 - 28.10.2026 (Sona): Research source is the Jamie transcripts.
 - 28.10.2026 (Sona): Baseline report only. No fixes before she decides.
 - 28.10.2026 (Sona): Personas OK: four research roles plus a screen-reader user and a phone user.
+- 28.10.2026 (Sona): The prototype is a design simulation, not the real app. Code-only findings moved to "Notes for developers". The P0 became a P1 about showing read vs. guessed values.

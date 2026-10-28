@@ -3,7 +3,7 @@
 Updated 28.10.2026.
 
 ## In progress
-- Branch `atelier/review` (committed, not pushed): baseline review of the main flows for new and existing customers. Report: `atelier/05-checks/report.html`. 1 P0, 20 P1, 15 P2. Nothing in the prototype is changed.
+- Branch `atelier/review` (committed, not pushed): baseline review of the main flows for new and existing customers. Report: `atelier/05-checks/report.html` (one file, images inside). 15 P1 and 11 P2 design findings, plus 10 notes for developers. Nothing in the prototype is changed.
 
 ## Waiting on Sona
 1. Push the branch and deploy a Vercel preview of the report? yes / no
