@@ -59,6 +59,10 @@
   @media (max-width: 640px) { .verktoy .form-select-wrap { flex: 1 1 100%; } }
 
   .table-card { padding: 0; overflow-x: auto; }
+  /* Same as Stillinger: cells have one to three lines, so every cell starts at the top of the row. */
+  @container (min-width: 721px) {
+    .table td { vertical-align: top; }
+  }
 
   .pagination-wrap { margin-top: var(--space-24); }
 
@@ -160,7 +164,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Kanaler</th><th>Periode</th><th>Budsjett</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Kampanje</th><th>Kanaler</th><th>Kampanje&shy;periode</th><th>Budsjett</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader" data-vis="eksisterende"></tbody>
           <tbody data-vis="ny">
@@ -213,7 +217,7 @@
       (visStilling ? '<span class="table__meta">' + esc(k.tittel) + '</span>' : '') +
       '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + '</span></td>' +
       '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler ? FZ_KANALER.html(k.kanaler) : (k.status === 'Kladd' ? '—' : 'Frantz anbefaler')) + '</td>' +
-      '<td data-label="Periode">' + periode + '</td>' +
+      '<td data-label="Kampanje&shy;periode">' + periode + '</td>' +
       '<td data-label="Budsjett">' + (k.budsjett ? kr(k.budsjett) : '<span class="table__tom">Ikke valgt</span>') + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + (k.status === 'Avsluttet' ? 'Åpne rapporten' : k.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen') + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';

@@ -117,6 +117,8 @@
   @media (max-width: 1440px) {
     .wrap .cols { grid-template-columns: 1fr; }
   }
+  /* Same as Kampanjer and Stillinger: every cell starts at the top of the row. */
+  .table td { vertical-align: top; }
 </style>
 </head>
 <body>
@@ -225,7 +227,7 @@
           <div class="card card--betjen table-card">
             <table class="table">
               <thead>
-                <tr><th>Kampanje</th><th>Periode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+                <tr><th>Kampanje</th><th>Kampanje&shy;periode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
               </thead>
               <tbody id="na-rader"></tbody>
             </table>
@@ -272,7 +274,7 @@
     var naar = k.status === 'Aktiv' ? 'Dag ' + k.dag + ' av ' + k.lengde : 'Starter ' + FZ_KAMPANJER.dato(k.fra).slice(0, 5);
     return '<tr tabindex="0" onclick="location.href=\'' + k.side + '\'">' +
       '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span><span class="table__meta">' + esc(k.arbeidsgiver) + ' · ' + naar + '</span></td>' +
-      '<td data-label="Periode">' + esc(k.periode) + '</td>' +
+      '<td data-label="Kampanje&shy;periode">' + esc(k.periode) + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('') || '<tr><td colspan="4">Ingen kampanjer akkurat nå. <a class="link" href="ny-kampanje.html">Lag en ny kampanje</a>.</td></tr>';

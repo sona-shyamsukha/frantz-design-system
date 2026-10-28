@@ -183,7 +183,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Periode</th><th>Sporingskode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanje&shy;periode</th><th>Sporingskode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader"></tbody>
         </table>
@@ -225,7 +225,7 @@
       // The campaign name sits under the job title, only when there is one
       '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span>' + (c.prosjekt ? '<span class="table__meta">' + esc(c.prosjekt) + '</span>' : '') + '</span></td>' +
       '<td data-label="Arbeidsgiver">' + esc(c.arbeidsgiver) + '</td>' +
-      '<td data-label="Periode">' + (k && k.fra ? '<span class="periode">' + k.fra + ' – ' + k.til + '</span>' : mangler('—')) + '</td>' +
+      '<td data-label="Kampanje&shy;periode">' + (k && k.fra ? '<span class="periode">' + k.fra + ' – ' + k.til + '</span>' : mangler('—')) + '</td>' +
       '<td data-label="Sporingskode" data-kode="' + c.id + '"></td>' +
       // No campaign yet: the next step is the button, not a status pill
       '<td data-label="Status">' + (k ? '<span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
