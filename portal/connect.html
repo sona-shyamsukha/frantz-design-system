@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Stillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<link rel="stylesheet" href="../frantz-ds.css?v=207">
 <link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
@@ -74,15 +74,24 @@
   .pagination-wrap { margin-top: var(--space-24); }
   .connect__ekstra { margin: var(--space-24) 0 0; color: var(--text-muted); font: var(--type-body); }
   .mangler { color: var(--text-faint); }
-  .table__id { font-family: var(--font-mono); color: var(--text-muted); }
   .table td[data-label="Status"] { white-space: nowrap; }
-  .table__meta .table__id { display: inline; }
   .celle { display: block; min-width: 0; }
 
   /* Extra column padding belongs only to the full table, not stacked cards. */
   @container (min-width: 721px) {
+    /* Cells have one to three lines, so every cell starts at the top of the row. */
+    .table td { vertical-align: top; }
     .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
+  }
+  /* Laptop width with the menu open: tighter columns so the table does not scroll sideways. */
+  @container (min-width: 721px) and (max-width: 900px) {
+    .table th, .table td { padding-left: var(--space-8); padding-right: var(--space-8); }
+    .table th:first-child, .table td:first-child { padding-left: var(--space-16); }
+    .table th { white-space: normal; letter-spacing: var(--tracking-none); }
+    .table .periode { white-space: normal; }
+    /* The whole row is clickable, so the arrow column can go when space is short. */
+    .table th:last-child, .table .table__pil { display: none; }
   }
   .pagination-wrap .pagination__meta { color: var(--text-body); font: var(--type-body); }
   .pagination-wrap .pagination__meta b { color: var(--text-heading); }
@@ -90,6 +99,9 @@
   .table__lenke { position: relative; z-index: 1; display: inline-flex; align-items: center; min-height: 24px; color: var(--text-heading); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
   .table__lenke:hover { color: var(--color-navy-lift); }
   .table .btn--sm { white-space: nowrap; }
+
+  .periode { white-space: nowrap; }
+
 </style>
 </head>
 <body>
@@ -118,6 +130,7 @@
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
       <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="sporingskode.html"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span>Sporingskode</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -133,7 +146,7 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Stillinger</h1>
-          <p class="lede">Stillingene hentes automatisk fra deres eget rekrutteringssystem via Connect. Finn stillingen og opprett en kampanje. Dere bestiller først på siste steg.</p>
+          <p class="lede">Stillingene hentes automatisk fra deres eget rekrutteringssystem via Connect. Finn stillingen og opprett en kampanje. Dere bestiller først på siste steg. Kopier sporingskoden til stillingssiden her. <a class="link" href="sporingskode.html">Slik legger dere inn koden</a>.</p>
         </div>
       </div>
 
@@ -170,7 +183,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Kampanjenavn</th><th>Kampanjeperiode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Stilling</th><th>Arbeidsgiver</th><th>Periode</th><th>Sporingskode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader"></tbody>
         </table>
@@ -187,14 +200,16 @@
           </div>
         </nav>
       </div>
-      <!-- Rare case: the tracking code is needed before there is a campaign. Ordering makes a ConnectID by itself. -->
-      <p class="connect__ekstra">Trenger dere sporingskoden før kampanjen er bestilt? <a class="link" href="connect-detalj.html?ny">Lag en ConnectID uten kampanje</a></p>
+      <!-- A job that is not in the list gets its code when the campaign is ordered. -->
+      <p class="connect__ekstra">Finner dere ikke stillingen? <a class="link" href="ny-kampanje.html">Opprett en kampanje</a>. Sporingskoden står på kampanjesiden når kampanjen er bestilt.</p>
     </div>
   </div>
 </div>
 
 <script src="data/kampanjer.js?v=6"></script>
 <script src="data/connect.js?v=4"></script>
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
+<script src="../components/js/piksel.js?v=20261028-copy"></script>
 <script>
 (function () {
   // Rows come from the shared ConnectID list, so they match the ConnectID page and Ny kampanje
@@ -207,17 +222,22 @@
     var maal = k ? k.side : 'ny-kampanje.html?connect=' + c.id;
     var pil = !k ? 'Opprett kampanje' : c.status === 'Avsluttet' ? 'Åpne rapporten' : c.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen';
     return '<tr tabindex="0" data-href="' + maal + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-start="' + c.start + '">' +
-      '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span><span class="table__meta">ConnectID <span class="table__id">' + c.id + '</span></span></span></td>' +
+      // The campaign name sits under the job title, only when there is one
+      '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span>' + (c.prosjekt ? '<span class="table__meta">' + esc(c.prosjekt) + '</span>' : '') + '</span></td>' +
       '<td data-label="Arbeidsgiver">' + esc(c.arbeidsgiver) + '</td>' +
-      '<td data-label="Kampanjenavn">' + (c.prosjekt ? esc(c.prosjekt) : mangler('Ikke satt')) + '</td>' +
-      '<td data-label="Periode">' + (k && k.fra ? k.fra + ' – ' + k.til : mangler('—')) + '</td>' +
+      '<td data-label="Periode">' + (k && k.fra ? '<span class="periode">' + k.fra + ' – ' + k.til + '</span>' : mangler('—')) + '</td>' +
+      '<td data-label="Sporingskode" data-kode="' + c.id + '"></td>' +
       // No campaign yet: the next step is the button, not a status pill
       '<td data-label="Status">' + (k ? '<span class="badge ' + FZ_CONNECT.badge(c.status) + '">' + c.status + '</span>' : '<a class="btn btn--primary btn--sm" href="ny-kampanje.html?connect=' + c.id + '">Opprett kampanje</a>') + '</td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + pil + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
+  // The code is long, so the cell shows a short label with the ID. The button copies all of it.
+  document.querySelectorAll('[data-kode]').forEach(function (el) {
+    el.appendChild(FrantzCopyField.create(FrantzPiksel.kode(el.dataset.kode), { label: 'sporingskoden for ' + el.closest('tr').dataset.tittel, text: el.dataset.kode, compact: true }));
+  });
   // A click on the row opens the campaign, the report, or the prefilled order. Links and buttons in the row keep their own target.
   document.getElementById('rader').addEventListener('click', function (e) {
-    if (e.target.closest('a, button')) return;
+    if (e.target.closest('a, button, .copy-field')) return;
     var tr = e.target.closest('tr[data-href]'); if (tr) location.href = tr.dataset.href;
   });
   // interactions.js opens the row with Enter, like a click.

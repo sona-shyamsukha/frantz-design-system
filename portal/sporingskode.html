@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Sporingskode — Frantz kampanjeportal</title>
+<link rel="stylesheet" href="../frantz-ds.css?v=207">
+<script src="../components/js/brukerflyt.js?v=2"></script>
+<style>
+  body { margin: 0; }
+  .guide { display: grid; gap: var(--space-24); max-width: 880px; }
+  .guide h1 { margin: 0; }
+  .guide .lede { margin: var(--space-8) 0 0; max-width: 680px; }
+
+  /* Each step: a number, a heading and the text. The number keeps the order clear on a phone too. */
+  .steg { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-16); }
+  .steg__n { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--color-navy); color: var(--text-on-dark); font: var(--type-label); }
+  .steg__innhold { min-width: 0; }
+  .steg__innhold .card__title { margin: var(--space-4) 0 var(--space-8); }
+  .steg__innhold > p { margin: 0 0 var(--space-12); color: var(--text-body); font: var(--type-body); max-width: 640px; }
+  .steg__innhold > p:last-child { margin-bottom: 0; }
+
+  .kodeblokk { margin: 0 0 var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-body); font: var(--type-support); font-family: var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .kodeblokk b { color: var(--text-heading); }
+
+  .merker { margin-top: var(--space-4); }
+  @container (min-width: 721px) { .merker td[data-label="Merke"] { width: 1%; } }
+  .merker td[data-label="Når"] { color: var(--text-muted); }
+  .merker .table__title { font-weight: var(--font-weight-semibold); color: var(--text-heading); }
+
+  .hjelp { display: flex; flex-wrap: wrap; gap: var(--space-12); align-items: center; }
+  @media (max-width: 640px) { .steg { grid-template-columns: 1fr; gap: var(--space-8); } }
+  /* Stacked rows are narrow: the name gets the full row, and wraps only if it must. */
+  @container (max-width: 720px) {
+    .merker td[data-label="Merke"] > .copy-field { grid-column: 1 / -1; width: 100%; }
+    .merker .copy-field__value { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; }
+  }
+</style>
+</head>
+<body>
+<a class="hopp" href="#innhold">Hopp til innholdet</a>
+
+<header class="mobiltopp">
+  <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+  <button type="button" class="burger" id="burger" aria-label="Åpne meny" aria-expanded="false" aria-controls="rail">
+    <span class="icon-lucide icon-lucide--menu" aria-hidden="true"></span>
+  </button>
+</header>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="app">
+  <aside class="rail" id="rail">
+    <div class="railtopp">
+      <a href="dashboard.html"><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"></a>
+      <button type="button" class="raillukk" id="menylukk" aria-label="Lukk meny"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>
+    </div>
+    <nav class="nav" aria-label="Hovedmeny">
+      <a class="nav__item" href="dashboard.html"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span>Hjem</a>
+      <a class="nav__item" href="connect.html"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Stillinger</a>
+      <a class="nav__item" href="campaigns.html"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span>Kampanjer</a>
+      <a class="nav__item" href="kalkulator.html"><span class="icon-lucide icon-lucide--bar-chart-3" aria-hidden="true"></span>Tilbudskalkulator</a>
+      <a class="nav__item" href="assistent.html"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span>Assistent</a>
+      <div class="nav__group">Ressurser</div>
+      <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
+      <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
+      <a class="nav__item" href="sporingskode.html" aria-current="page"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span>Sporingskode</a>
+      <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
+    </nav>
+    <div class="konto">
+      <b>Nordlys Rekruttering AS</b><small>kari.hansen@nordlysrekruttering.no</small>
+      <button class="kontoknapp" type="button" onclick="location.href='login.html'"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true"></span> Logg ut</button>
+    </div>
+  </aside>
+
+  <div class="main" id="innhold" tabindex="-1">
+    <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
+
+    <div class="wrap">
+      <div class="guide">
+        <div>
+          <h1 class="text-h2">Slik legger dere inn sporingskoden</h1>
+          <p class="lede">Sporingskoden måler hvem som besøker stillingssiden deres og trykker «Søk». Uten koden får rapporten ingen tall fra stillingssiden. Hver stilling har sin egen kode.</p>
+        </div>
+
+        <section class="card card--les steg" aria-labelledby="steg-1">
+          <span class="steg__n" aria-hidden="true">1</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-1">Kopier koden for stillingen</h2>
+            <p>Finn stillingen i <a class="link" href="connect.html">Stillinger</a> og trykk på kopier-knappen ved sporingskoden. Koden ligger også på kampanjesiden.</p>
+            <p>Koden ser slik ut. Tallet er ID-en til stillingen:</p>
+            <pre class="kodeblokk" id="eksempel"></pre>
+          </div>
+        </section>
+
+        <section class="card card--les steg" aria-labelledby="steg-2">
+          <span class="steg__n" aria-hidden="true">2</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-2">Lim inn koden på stillingssiden</h2>
+            <p>Lim inn koden i <code>&lt;head&gt;</code> på stillingssiden. Gjør det før kampanjen starter. Er dere usikre, send oppskriften til den som lager nettsiden.</p>
+          </div>
+        </section>
+
+        <section class="card card--les steg" aria-labelledby="steg-3">
+          <span class="steg__n" aria-hidden="true">3</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-3">Merk knappene på siden</h2>
+            <p>Koden alene måler besøk. For å måle hvem som leser og trykker «Søk», legger utvikleren et merke på noen knapper. Søknadsknappen trenger alltid et merke. De andre trengs bare hvis siden har dem. Kopier-knappen kopierer hele merket, for eksempel <code>data-frnav-context="applyposition"</code>.</p>
+            <div class="card table-card merker">
+              <table class="table">
+                <thead><tr><th>Hvor</th><th>Når</th><th>Merke</th></tr></thead>
+                <tbody id="merker"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--les steg" aria-labelledby="steg-4">
+          <span class="steg__n" aria-hidden="true">4</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-4">Sjekk at det virker</h2>
+            <p>Frantz finner koden av seg selv. På kampanjesiden står det «Aktiv · sist målt …» når koden virker. Står det «Ikke funnet på stillingssiden ennå», er koden ikke på plass.</p>
+            <p>Har dere et eget rekrutteringssystem? Be utvikleren lage et felt for stillingens ID. Da legges koden inn av seg selv for hver ny stilling.</p>
+          </div>
+        </section>
+
+        <div class="hjelp">
+          <a class="btn btn--secondary" id="send-utvikler" href="#"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span>Send oppskriften til den som lager nettsiden</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
+<script src="../components/js/piksel.js?v=20261028-copy"></script>
+<script>
+(function () {
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  // Example only: the real code, with its own ID, is copied from Stillinger or the campaign.
+  document.getElementById('eksempel').innerHTML = esc(FrantzPiksel.kode('123456')).replace(/123456/g, '<b>123456</b>');
+  document.getElementById('merker').innerHTML = FrantzPiksel.merker.map(function (m) {
+    return '<tr><td data-label="Hvor"><span class="table__title">' + esc(m.hvor) + '</span></td>' +
+      '<td data-label="Når">' + esc(m.nar) + '</td><td data-label="Merke" data-merke="' + m.attr + '"></td></tr>';
+  }).join('');
+  document.querySelectorAll('[data-merke]').forEach(function (td) {
+    td.appendChild(FrantzCopyField.create('data-frnav-context="' + td.dataset.merke + '"', { label: 'merket ' + td.dataset.merke, text: td.dataset.merke, compact: true }));
+  });
+  // The email holds the same steps. The ID is left for the developer to fill in.
+  document.getElementById('send-utvikler').href = FrantzPiksel.epost('[ID-en til stillingen]', 'stillingene våre');
+})();
+</script>
+
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="../components/js/konto.js?v=18"></script>
+<script src="../components/js/assistant-widget.js?v=5"></script>
+<script src="../components/js/assistant.js?v=9"></script>
+</body>
+</html>

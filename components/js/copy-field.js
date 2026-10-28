@@ -1,17 +1,20 @@
-/* One accessible copy control for tracking code, campaign numbers and links. */
+/* One accessible copy control for tracking code, campaign numbers and links.
+   options: label (for the button name), url (show the value as a link), text (a short label when the value is long),
+   compact (in a table or list: only as wide as the value). */
 (function (root) {
   'use strict';
   if (root.FrantzCopyField) return;
   function create(value, options) {
     options = options || {};
-    var row = document.createElement('div'); row.className = 'copy-field';
+    var row = document.createElement('div'); row.className = 'copy-field' + (options.compact ? ' copy-field--compact' : '');
     var label = options.label || 'verdi';
     var content = document.createElement(options.url ? 'a' : 'code');
-    content.className = 'copy-field__value'; content.textContent = value;
+    content.className = 'copy-field__value'; content.textContent = options.text || value;
+    if (options.text) content.title = value;
     if (options.url) { content.href = options.url; content.target = '_blank'; content.rel = 'noopener'; }
     else content.tabIndex = 0;
     var button = document.createElement('button');
-    button.type = 'button'; button.className = 'btn btn--ghost btn--sm'; button.dataset.copyValue = value;
+    button.type = 'button'; button.className = 'copy-field__btn'; button.dataset.copyValue = value;
     button.setAttribute('aria-label', 'Kopier ' + label.toLocaleLowerCase('nb-NO'));
     button.title = button.getAttribute('aria-label');
     button.innerHTML = '<span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>';
