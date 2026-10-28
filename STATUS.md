@@ -3,7 +3,12 @@
 Updated 28.10.2026.
 
 ## In progress
-- Branch `atelier/review`: holistic baseline review (new and existing customers). Insights from Jamie, brief, personas and screenshots are ready in `atelier/`. The three checks stopped at the spend limit. They continue after 10:50.
+- Branch `atelier/review` (committed, not pushed): baseline review of the main flows for new and existing customers. Report: `atelier/05-checks/report.html`. 1 P0, 20 P1, 15 P2. Nothing in the prototype is changed.
+
+## Waiting on Sona
+1. Push the branch and deploy a Vercel preview of the report? yes / no
+2. What to fix before 3.11: A) the order flow (themes 1–3)  B) all P0 and P1  C) nothing yet
+3. Add to the Frantz questions: benchmarks for the report, and cancel and invoice rules? yes / no
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?
