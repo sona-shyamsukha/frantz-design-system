@@ -63,7 +63,8 @@
 }
 
 .table .copy-field__value {
-  font-size: var(--text-base);
+  font: var(--type-body);
+  font-family: var(--font-mono);
 }
 
 .table .meter__value {
