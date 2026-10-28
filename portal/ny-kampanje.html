@@ -4101,10 +4101,13 @@
     budsjettKontroll.set(Number(b.dataset.brukMin)); tilstand.valgtBudsjett = true; oppdater(); $('budsjett').focus();
   });
   // Frantz's suggestion for «Sett opp selv»: the recommended budget, at least what the channels need
+  // Customers said 8–12k is a normal campaign and 19–22k feels too high (interviews, 01.10 synthesis).
+  // So the suggestion is capped, but never below Frantz's minimum spend for the picked channels.
+  var FORSLAG_TAK = 15000;
   function forslagBudsjett() {
     var stederListe = steder.verdi();
     if (!tilstand.rolle || !stederListe.length) return null;
-    var anb = R.beregn({ rolle: tilstand.rolle, steder: stederListe }).anbefalt;
+    var anb = Math.min(R.beregn({ rolle: tilstand.rolle, steder: stederListe }).anbefalt, FORSLAG_TAK);
     return Math.ceil(Math.max(anb, FZ_PAKKER.rad(tilstand.kanaler).min) / 1000) * 1000;
   }
   function forLiteBudsjett() {
