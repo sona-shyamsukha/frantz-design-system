@@ -81,6 +81,8 @@
   @container (min-width: 721px) {
     /* Cells have one to three lines, so every cell starts at the top of the row. */
     .table td { vertical-align: top; }
+    /* The copy button is taller than a line of text. Pull it up so the code lines up with the other cells. */
+    .table td[data-label="Sporingskode"] .copy-field { margin-block: calc(-1 * var(--space-6)); }
     .table th, .table td { padding-left: var(--space-12); padding-right: var(--space-12); }
     .table th:first-child, .table td:first-child { padding-left: var(--space-24); }
   }
@@ -102,9 +104,11 @@
 
   .periode { white-space: nowrap; }
 
-  /* Tracking code: a short label with its copy button. The full code is copied. */
-  .table td[data-label="Sporingskode"] .copy-field { width: max-content; max-width: 100%; padding: 0 0 0 var(--space-4); gap: var(--space-4); }
-  .table td[data-label="Sporingskode"] .copy-field__value { padding: 0 var(--space-4); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* Tracking code: plain, muted text with a quiet copy icon. The full code is copied. */
+  .table td[data-label="Sporingskode"] .copy-field { width: max-content; max-width: 100%; padding: 0; gap: var(--space-2); background: transparent; }
+  .table td[data-label="Sporingskode"] .copy-field__value { padding: 0; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .table td[data-label="Sporingskode"] .copy-field .btn { min-width: 32px; min-height: 32px; padding: var(--space-4); border-color: transparent; color: var(--text-muted); }
+  .table td[data-label="Sporingskode"] .copy-field .btn:hover { border-color: transparent; background: var(--surface-subtle); color: var(--text-heading); }
 </style>
 </head>
 <body>
