@@ -1,19 +1,23 @@
-/* Shared code/link copy row, extracted from the existing tracking component. */
+/* One copy control for the whole portal: tracking code, links and markers.
+   The value and its copy button sit in one bordered box. The button sits inside
+   the box, so its radius is the box radius minus the inner padding. */
 .copy-field {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-8);
-  padding: var(--space-8);
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-12);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-8);
   background: var(--surface-subtle);
 }
 .copy-field__value {
   display: block;
+  flex: 1 1 0;
   min-width: 0;
   margin: 0;
-  padding: var(--space-4) var(--space-8);
+  padding: 0;
   color: var(--text-body);
   font: var(--type-support);
   font-family: var(--font-mono);
@@ -21,7 +25,30 @@
   overflow-x: auto;
   scrollbar-width: thin;
 }
-.copy-field__value[href] { color: var(--text-link); }
+/* A link opens in full, so a long one is cut with … instead of scrolling. */
+.copy-field__value[href] { color: var(--text-link); overflow: hidden; text-overflow: ellipsis; }
 .copy-field__value[href]:hover { text-decoration: underline; }
 .copy-field__value:focus-visible { outline: none; border-radius: var(--radius-4); box-shadow: var(--focus-ring); }
-.copy-field__status { grid-column: 1 / -1; }
+
+.copy-field__btn {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-4);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.copy-field__btn:hover { background: var(--surface-raised); color: var(--text-heading); }
+.copy-field__btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.copy-field__btn:disabled { cursor: default; }
+.copy-field__status { flex-basis: 100%; }
+
+/* Compact: in a table or a list. Only as wide as the value, which is cut with … if space runs out. */
+.copy-field--compact { width: max-content; max-width: 100%; padding-left: var(--space-8); }
+.copy-field--compact .copy-field__value { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.copy-field--compact .copy-field__btn { width: 28px; height: 28px; }

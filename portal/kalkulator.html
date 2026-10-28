@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=204">
+<link rel="stylesheet" href="../frantz-ds.css?v=207">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -266,9 +266,8 @@
   <dialog class="calculator-dialog" id="del-sok-dialog" aria-labelledby="del-sok-tittel">
     <div class="calculator-dialog__hode"><h2 id="del-sok-tittel">Del søk</h2><button class="btn btn--ghost calculator-dialog__lukk" type="button" data-lukk-dialog="del-sok-dialog" aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>
     <p class="calculator-dialog__kriterier" id="del-sok-kriterier"></p>
-    <div class="form-group"><label class="form-label" for="sok-lenke">Lenke til søket</label><input class="form-input" id="sok-lenke" type="url" readonly><p class="form-hint">Lenken åpner kalkulatoren med samme stilling, arbeidssted og budsjett.</p></div>
-    <p class="sok-status" id="kopier-status" role="status" aria-live="polite"></p>
-    <div class="calculator-dialog__bunn"><button class="btn btn--primary" id="kopier-sok-lenke" type="button"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier lenke</button></div>
+    <div class="form-group"><span class="form-label">Lenke til søket</span><div id="sok-lenke"></div><p class="form-hint">Lenken åpner kalkulatoren med samme stilling, arbeidssted og budsjett.</p></div>
+    <div class="calculator-dialog__bunn"><button class="btn btn--secondary" type="button" data-lukk-dialog="del-sok-dialog">Lukk</button></div>
   </dialog>
 </main>
     </div>
@@ -281,6 +280,7 @@
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
 <script src="../components/js/calculator-searches.js?v=1"></script>
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -454,9 +454,8 @@
     }).join('');
   }
   function delSok(sok) {
-    $('sok-lenke').value = S.toUrl(location.href, sok);
+    $('sok-lenke').replaceChildren(FrantzCopyField.create(S.toUrl(location.href, sok), { label: 'lenken til søket' }));
     $('del-sok-kriterier').textContent = beskriv(sok);
-    $('kopier-status').textContent = '';
     $('del-sok-dialog').showModal();
   }
   $('lagre-sok').addEventListener('click', function () {
@@ -482,10 +481,6 @@
   $('sok-navn').addEventListener('input', function () { this.setCustomValidity(''); });
   $('del-sok').addEventListener('click', function () { var state = gjeldendeSok(); if (state) delSok(state); });
   document.querySelectorAll('[data-lukk-dialog]').forEach(function (button) { button.addEventListener('click', function () { $(button.dataset.lukkDialog).close(); }); });
-  $('kopier-sok-lenke').addEventListener('click', async function () {
-    try { await navigator.clipboard.writeText($('sok-lenke').value); $('kopier-status').textContent = 'Lenken er kopiert.'; }
-    catch (err) { $('sok-lenke').focus(); $('sok-lenke').select(); $('kopier-status').textContent = 'Marker og kopier lenken fra feltet.'; }
-  });
   $('lagrede-sok-rader').addEventListener('click', function (e) {
     var button = e.target.closest('[data-apne-sok], [data-del-sok]'); if (!button) return;
     var id = button.dataset.apneSok || button.dataset.delSok;

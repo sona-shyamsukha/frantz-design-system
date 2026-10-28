@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>ConnectID — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=205">
+<link rel="stylesheet" href="../frantz-ds.css?v=207">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -57,8 +57,6 @@
 
 
 
-  .kopi-rad { display: flex; gap: var(--space-8); }
-  .kopi-rad .form-input { flex: 1; }
 
   .vis-liste { display: grid; }
 
@@ -233,7 +231,7 @@
 
 <script src="data/kampanjer.js?v=6"></script>
 <script src="data/connect.js?v=4"></script>
-<script src="../components/js/copy-field.js?v=20261028-guide"></script>
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
 <script src="../components/js/piksel.js?v=20261028-guide"></script>
 <script>
 (function () {
@@ -283,17 +281,10 @@
       '<p class="kampanje__tekst">' + FZ_CONNECT.statusTekst(c) + '</p>' +
       '<dl class="summary-row"><dt>Periode</dt><dd>' + k.fra + ' – ' + k.til + '</dd></dl>' +
       '<dl class="summary-row"><dt>Besøk</dt><dd>' + tall(c.besok || 0) + ' <span class="kampanje__siste">· siste ' + esc(c.sisteBesok) + '</span></dd></dl>' +
-      '<div class="form-group kampanje__rapport"><label class="form-label" for="c-rapport">Rapportlenke</label><div class="kopi-rad">' +
-      '<input class="form-input" type="text" id="c-rapport" value="business.frantz.no/Insights/' + c.id + '" readonly>' +
-      '<button class="btn btn--secondary" type="button" id="kopier"><span class="icon-lucide icon-lucide--copy" aria-hidden="true"></span>Kopier</button></div></div>' +
+      '<div class="form-group kampanje__rapport"><span class="form-label">Rapportlenke</span><div id="c-rapport"></div></div>' +
       '<a class="btn btn--primary" href="' + k.side + '">' + knapp + '</a>';
     }
-    var kp = $('kopier');
-    if (kp) kp.addEventListener('click', function () {
-      try { navigator.clipboard.writeText($('c-rapport').value); } catch (e) {}
-      kp.lastChild.textContent = 'Kopiert';
-      setTimeout(function () { kp.lastChild.textContent = 'Kopier'; }, 2000);
-    });
+    if ($('c-rapport')) $('c-rapport').appendChild(FrantzCopyField.create('business.frantz.no/Insights/' + c.id, { label: 'rapportlenken' }));
   }
 
   // Fill the form

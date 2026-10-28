@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sporingskode — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<link rel="stylesheet" href="../frantz-ds.css?v=207">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -27,9 +27,7 @@
   .kodeblokk b { color: var(--text-heading); }
 
   .merker { margin-top: var(--space-4); }
-  .merker .copy-field { width: max-content; max-width: 100%; padding: var(--space-4); }
   @container (min-width: 721px) { .merker td[data-label="Merke"] { width: 1%; } }
-  .merker .copy-field__value { white-space: nowrap; }
   .merker td[data-label="Når"] { color: var(--text-muted); }
   .merker .table__title { font-weight: var(--font-weight-semibold); color: var(--text-heading); }
 
@@ -38,7 +36,7 @@
   /* Stacked rows are narrow: the name gets the full row, and wraps only if it must. */
   @container (max-width: 720px) {
     .merker td[data-label="Merke"] > .copy-field { grid-column: 1 / -1; width: 100%; }
-    .merker .copy-field__value { white-space: normal; overflow-wrap: anywhere; }
+    .merker .copy-field__value { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; }
   }
 </style>
 </head>
@@ -136,7 +134,7 @@
   </div>
 </div>
 
-<script src="../components/js/copy-field.js?v=20261028-guide"></script>
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
 <script src="../components/js/piksel.js?v=20261028-guide"></script>
 <script>
 (function () {
@@ -148,7 +146,7 @@
       '<td data-label="Når">' + esc(m.nar) + '</td><td data-label="Merke" data-merke="' + m.attr + '"></td></tr>';
   }).join('');
   document.querySelectorAll('[data-merke]').forEach(function (td) {
-    td.appendChild(FrantzCopyField.create('data-frnav-context="' + td.dataset.merke + '"', { label: 'merket ' + td.dataset.merke, text: td.dataset.merke }));
+    td.appendChild(FrantzCopyField.create('data-frnav-context="' + td.dataset.merke + '"', { label: 'merket ' + td.dataset.merke, text: td.dataset.merke, compact: true }));
   });
   // The email holds the same steps. The ID is left for the developer to fill in.
   document.getElementById('send-utvikler').href = FrantzPiksel.epost('[ID-en til stillingen]', 'stillingene våre');

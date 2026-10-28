@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Stillinger — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=206">
+<link rel="stylesheet" href="../frantz-ds.css?v=207">
 <link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
@@ -102,9 +102,6 @@
 
   .periode { white-space: nowrap; }
 
-  /* Tracking code: a short label with its copy button. The full code is copied. */
-  .table td[data-label="Sporingskode"] .copy-field { width: max-content; max-width: 100%; padding: 0 0 0 var(--space-4); gap: var(--space-2); }
-  .table td[data-label="Sporingskode"] .copy-field__value { padding: 0 var(--space-2); font: inherit; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -211,7 +208,7 @@
 
 <script src="data/kampanjer.js?v=6"></script>
 <script src="data/connect.js?v=4"></script>
-<script src="../components/js/copy-field.js?v=20261028-guide"></script>
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
 <script src="../components/js/piksel.js?v=20261028-guide"></script>
 <script>
 (function () {
@@ -236,7 +233,7 @@
   }).join('');
   // The code is long, so the cell shows a short label with the ID. The button copies all of it.
   document.querySelectorAll('[data-kode]').forEach(function (el) {
-    el.appendChild(FrantzCopyField.create(FrantzPiksel.kode(el.dataset.kode), { label: 'sporingskoden for ' + el.closest('tr').dataset.tittel, text: el.dataset.kode }));
+    el.appendChild(FrantzCopyField.create(FrantzPiksel.kode(el.dataset.kode), { label: 'sporingskoden for ' + el.closest('tr').dataset.tittel, text: el.dataset.kode, compact: true }));
   });
   // A click on the row opens the campaign, the report, or the prefilled order. Links and buttons in the row keep their own target.
   document.getElementById('rader').addEventListener('click', function (e) {
