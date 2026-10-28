@@ -13,10 +13,11 @@
   body { margin: 0; }
 
   .sum-id { margin: var(--space-2) 0 0; color: var(--text-muted); font: var(--type-support); font-variant-numeric: tabular-nums; }
-  .summary-panel__head .lagret { margin-top: var(--space-4); }
-  .lagret { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-muted); font: var(--type-support); }
+  .lagret { display: flex; align-items: center; gap: var(--space-6); margin: var(--space-8) 0 0; color: var(--text-muted); font: var(--type-support); }
+  .lagret .icon-lucide { flex: none; }
   .lagret .icon-lucide { color: var(--color-green); }
   .lagret--lagrer .icon-lucide { color: var(--text-faint); }
+  .lagret--feil, .lagret--feil .icon-lucide { color: var(--text-danger-moderate); }
   .nk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: var(--space-section-gap); margin-top: 0; }
   .nk-skjema { display: flex; flex-direction: column; min-width: 0; gap: var(--space-section-gap); }
   #del-funnet .husk__rad, #funnet-endre, #del-funnet .funnet-ferdig { display: none; }
@@ -1061,6 +1062,7 @@
               <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
               <button class="btn btn--ghost kladd-slett" type="button" id="kladd-slett" aria-haspopup="dialog" hidden><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span>Slett kladd</button>
             </div>
+            <p class="lagret lagret--lagrer" id="lagret" role="status" aria-live="polite" aria-atomic="true"><span class="icon-lucide icon-lucide--clock" id="lagret-ikon" aria-hidden="true"></span><span id="lagret-tekst">Endringer lagres automatisk</span></p>
         <details class="ordre-meny" id="ordre-oppsummering" hidden>
           <summary class="ordre-linje">
             <span class="ordre-linje__navn"><b>Din bestilling</b><small id="ordre-kort-stilling">Fylles ut underveis</small></span>
@@ -1073,7 +1075,6 @@
                 <h2>Din bestilling</h2>
                 <p class="sum-id" id="sum-id">Kampanje #—</p>
                 <p id="sum-tittel-topp" hidden></p>
-                <span class="lagret" id="lagret" role="status" aria-live="polite"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span id="lagret-tekst">Lagres av seg selv</span></span>
               </div>
               <div class="summary-panel__total" id="sum-total-rad" hidden>
                 <span>Totalt eks. mva.</span>
@@ -4133,7 +4134,9 @@
   /* ---------- Save by itself ---------- */
   var LAGER = 'fzNyKampanjeV2', lagreTimer = null;
   function lagreUtkast() {
+    $('lagret').classList.remove('lagret--feil');
     $('lagret').classList.add('lagret--lagrer');
+    $('lagret-ikon').className = 'icon-lucide icon-lucide--clock';
     $('lagret-tekst').textContent = 'Lagrer …';
     clearTimeout(lagreTimer);
     lagreTimer = setTimeout(function () {
@@ -4142,10 +4145,19 @@
         frist: $('frist').value, budsjett: budsjett(), kanalmodus: tilstand.kanalmodus, kanaler: tilstand.kanaler, uker: tilstand.uker, fra: tilstand.fra, til: tilstand.til,
         designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('v2-ekstra').value
       };
-      try { localStorage.setItem(LAGER, JSON.stringify(data)); } catch (e) {}
+      try {
+        localStorage.setItem(LAGER, JSON.stringify(data));
+      } catch (e) {
+        $('lagret').classList.remove('lagret--lagrer');
+        $('lagret').classList.add('lagret--feil');
+        $('lagret-ikon').className = 'icon-lucide icon-lucide--triangle-alert';
+        $('lagret-tekst').textContent = 'Kunne ikke lagre endringene';
+        return;
+      }
       var d = new Date();
       $('lagret').classList.remove('lagret--lagrer');
-      $('lagret-tekst').textContent = 'Lagret kl. ' + String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0');
+      $('lagret-ikon').className = 'icon-lucide icon-lucide--circle-check';
+      $('lagret-tekst').textContent = 'Lagret automatisk kl. ' + String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0');
     }, 700);
   }
   ['input', 'change', 'click'].forEach(function (h) { $('skjema').addEventListener(h, lagreUtkast); });

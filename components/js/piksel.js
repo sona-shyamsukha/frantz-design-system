@@ -49,7 +49,7 @@
       '<div data-piksel-code></div>' +
       '<div class="piksel__knapper"><a class="link link--xs" href="' + esc(epost(id, tittel)) + '">Send til den som lager nettsiden</a></div>' +
       '<p class="piksel__hjelp">' + HJELP[status] + (connect
-        ? ' Koden hører til <a class="link" href="connect-detalj.html?id=' + esc(connect) + '">ConnectID ' + esc(connect) + '</a>.'
+        ? ' Koden hører til stillingen, og står også i <a class="link" href="connect.html">Stillinger</a>.'
         : ' Koden har samme ID som kampanjen.') + ' <a class="link" href="sporingskode.html">Slik legger dere inn koden</a>.</p>';
     var field = window.FrantzCopyField.create(kodetekst, { label: 'Sporingskoden' });
     field.classList.add('piksel__code-row');

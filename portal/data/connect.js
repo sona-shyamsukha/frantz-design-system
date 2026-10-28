@@ -1,6 +1,6 @@
 /* The firm's ConnectIDs. One ConnectID = one job ad that Frantz can measure.
-   Connect, the ConnectID page and Ny kampanje all read this list, so the details match everywhere.
-   Changes made on the ConnectID page are kept in this browser only (demo). */
+   Stillinger, the campaign pages and Ny kampanje all read this list, so the details match everywhere.
+   kategori, isco and verifisering are for Frantz's admin view. Customers do not see them. */
 window.FZ_CONNECT = (function () {
   var LAGER = 'fzConnectEndringer2', NYE = 'fzConnectNye2'; // new names: older demo edits do not hide the new data
   // kampanje.side: the page that shows the campaign. Avsluttet opens the report.
