@@ -1,7 +1,7 @@
 /* Private campaign details: original submission, developments, and copyable links. */
 (function (root) {
   'use strict';
-  var current, activityRevision = 0;
+  var current, availability, activityRevision = 0;
   function element(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
@@ -72,8 +72,11 @@
     var landing = safeUrl(model.campaign.kampanjelenke || (model.status !== 'Bestilt' ? 'https://frantz.no/k/' + model.id : ''));
     row('Kampanjeside', landing, landing, 'Lenken kommer når kampanjesiden er klar.');
     var source = safeUrl(model.source.url); if (source) row('Stillingsannonse', source, source);
-    var reportUrl = root.FrantzReportSharing.linkFor(model.id);
-    row('Rapport uten innlogging', reportUrl, reportUrl, 'Rapportdeling er ikke tilgjengelig.');
+    // The shareable report only exists once the campaign is live.
+    if (model.status === 'Aktiv' || model.status === 'Avsluttet') {
+      var reportUrl = root.FrantzReportSharing.linkFor(model.id);
+      row('Rapport uten innlogging', reportUrl, reportUrl, 'Rapportdeling er ikke tilgjengelig.');
+    }
     var social = element('div', 'grid gap-2');
     social.appendChild(element('span', 'form-hint', 'Annonser i sosiale medier'));
     var links = Array.isArray(model.campaign.annonselenker) ? model.campaign.annonselenker : [];
@@ -127,6 +130,101 @@
     if (!empty) { empty = element('p', 'form-hint', 'Ingen endringer er registrert ennå.'); empty.dataset.historyEmpty = ''; host.appendChild(empty); }
     list.hidden = !list.children.length;
     empty.hidden = !!list.children.length || !!host.querySelector('.checklist li');
+    // Bestilt: no empty history card before anything has happened.
+    if (document.body.dataset.campaignPage === 'ordered') host.hidden = !list.children.length;
+  }
+  // Bestilt: dates in the next steps, the tracking-code email and the missing-material choice.
+  function shortDate(iso, daysBefore) {
+    var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if (!match) return '';
+    var day = new Date(+match[1], match[2] - 1, +match[3] - (daysBefore || 0));
+    return String(day.getDate()).padStart(2, '0') + '.' + String(day.getMonth() + 1).padStart(2, '0') + (daysBefore ? '' : '.' + day.getFullYear());
+  }
+  var MATERIAL_DONE = {
+    frantz: 'Frantz lager annonsene. Dere godkjenner dem før noe publiseres.',
+    upload: 'Annonsene er lastet opp. Frantz ser gjennom dem og sier fra hvis noe mangler.'
+  };
+  function renderOrderedStatus(model, campaign) {
+    var status = document.getElementById('ordered-status');
+    if (!status) return;
+    var start = model.campaign.fra || (campaign && campaign.fra) || '';
+    var approve = document.getElementById('ordered-step-approve');
+    if (start) {
+      approve.textContent = 'Ca. ' + shortDate(start, 3) + '.'; approve.hidden = false;
+      document.getElementById('ordered-step-start').textContent = 'Kampanjen starter ' + shortDate(start);
+    } else {
+      var note = document.getElementById('ordered-step-start-note');
+      note.textContent = 'Startdatoen avtales med Frantz.'; note.hidden = false;
+    }
+    var mail = document.getElementById('tracking-mail');
+    if (mail && root.FrantzPiksel) mail.href = root.FrantzPiksel.epost(model.order.connect || campaign && campaign.connect || model.id, model.title);
+    var banner = document.getElementById('material-missing');
+    var choice = root.FrantzCampaignActivity.read(model.id).filter(function (event) { return event.kind === 'material-choice'; }).pop();
+    var missing = (model.order.avklaringer || []).indexOf('materiell') !== -1;
+    banner.hidden = !missing && !choice;
+    if (choice) return materialDone(choice.choice);
+    if (!missing) return;
+    if (banner.dataset.bound) return;
+    banner.dataset.bound = 'true';
+    var input = document.getElementById('material-upload-input');
+    document.getElementById('material-upload').addEventListener('click', function () { input.click(); });
+    input.addEventListener('change', function () {
+      var files = Array.prototype.filter.call(input.files, function (file) { return file.size <= 50 * 1024 * 1024; });
+      input.value = '';
+      if (!files.length) { setMaterialStatus('Velg bilde, video eller PDF på inntil 50 MB.'); return; }
+      saveChoice(model, 'upload', files);
+    });
+    document.getElementById('material-frantz').addEventListener('click', function () { saveChoice(model, 'frantz'); });
+  }
+  function setMaterialStatus(text) { document.getElementById('material-missing-status').textContent = text; }
+  function materialDone(choice) {
+    var banner = document.getElementById('material-missing');
+    banner.classList.remove('alert--warning'); banner.classList.add('alert--success');
+    banner.querySelector('.alert__icon').className = 'icon-lucide icon-lucide--circle-check alert__icon';
+    // The confirmation sentence replaces the heading, so it is not said twice.
+    document.getElementById('material-missing-title').hidden = true;
+    banner.setAttribute('aria-labelledby', 'material-missing-status');
+    document.getElementById('material-missing-body').hidden = true;
+    document.getElementById('material-missing-actions').hidden = true;
+    setMaterialStatus(MATERIAL_DONE[choice] || MATERIAL_DONE.frantz);
+  }
+  // Stores the choice on the saved order, the same way ny-kampanje stores material. Local demonstration only.
+  async function saveChoice(model, choice, files) {
+    var buttons = document.querySelectorAll('#material-missing-actions .btn');
+    buttons.forEach(function (button) { button.disabled = true; });
+    try {
+      var record = model.record;
+      if (record && root.FrantzCampaignMaterial) {
+        var material = record.materiell || (record.materiell = { kilder: [], filer: [], kanaler: [], utseende: {} });
+        if (choice === 'upload') {
+          material.modus = 'ferdig';
+          material.filer = (material.filer || []).concat(files.map(function (file) { return { navn: file.name, fil: file, kilde: 'opplastet' }; }));
+        } else material.modus = 'hjelp';
+        record.ordre.avklaringer = (record.ordre.avklaringer || []).filter(function (item) { return item !== 'materiell'; });
+        record.ordre.materiell = choice === 'upload' ? 'Ferdig materiell' : 'Frantz lager annonsen';
+        await root.FrantzCampaignMaterial.save(record);
+        model.material = material;
+        root.FrantzCampaignMaterialView.render(record);
+      }
+      try {
+        var session = JSON.parse(sessionStorage.getItem('fzOrdre') || 'null');
+        if (session && String(session.id) === String(model.id)) {
+          session.avklaringer = (session.avklaringer || []).filter(function (item) { return item !== 'materiell'; });
+          sessionStorage.setItem('fzOrdre', JSON.stringify(session));
+        }
+      } catch (error) { /* The saved record is the source of truth. */ }
+      root.FrantzCampaignActivity.append(model.id, {
+        key: 'material-choice:current', kind: 'material-choice', choice: choice,
+        title: choice === 'upload' ? 'Annonsene er lastet opp' : 'Frantz lager annonsene',
+        body: choice === 'upload' ? files.map(function (file) { return file.name; }).join(', ') : 'Dere godkjenner annonsene før noe publiseres.'
+      });
+      materialDone(choice);
+      if (choice === 'upload' && availability) { availability.annonser = true; root.FrantzCampaignSections.init().setAvailable(availability); }
+      var done = document.getElementById('material-missing-status'); done.tabIndex = -1; done.focus({ preventScroll: true });
+    } catch (error) {
+      buttons.forEach(function (button) { button.disabled = false; });
+      setMaterialStatus('Vi fikk ikke lagret valget. Prøv igjen, eller kontakt rådgiveren.');
+    }
   }
   function updateHeader(model) {
     var title = document.querySelector('h1'); title.textContent = model.title;
@@ -168,21 +266,18 @@
     root.FrantzPiksel.render();
     var contact = document.querySelector('[data-campaign-contact]');
     contact.href = 'mailto:post@frantz.no?subject=' + encodeURIComponent('[Kampanje #' + model.id + '] ' + model.title) + '&body=' + encodeURIComponent('Hei,\n\nJeg har et spørsmål om kampanjen:\n\n');
-    var hint = document.getElementById('ordered-next-hint');
-    if (hint && model.order.avklaringer && model.order.avklaringer.length) {
-      document.getElementById('ordered-next-title').textContent = 'Vi trenger noen opplysninger fra deg';
-      hint.textContent = 'Dette må avklares før oppstart: ' + model.order.avklaringer.join(', ') + '. Ta kontakt med Frantz.';
-    }
+    renderOrderedStatus(model, campaign);
     renderLinks(); await renderActivity();
     var report = root.FZ_REPORTS && root.FZ_REPORTS[model.id];
     var material = model.material;
     var submittedAds = !!(material && (material.bilde || material.logo || (material.filer || []).length || material.designbrief || material.tekst || material.tittel));
     var creative = document.getElementById('creative-heading');
     var currentAds = !!(report && report.ads && report.ads.length) || !!(creative && !creative.closest('.card').hidden);
-    root.FrantzCampaignSections.init().setAvailable({
+    availability = {
       stilling: model.fields.some(function (field) { return field.group === 'stilling' && field.value; }) || !!model.source.text || !!model.source.url || !!(material && (material.kilder || []).length),
       kampanje: true, annonser: submittedAds || currentAds, innsikt: !!report, interessenter: !!(report && report.interest > 0)
-    });
+    };
+    root.FrantzCampaignSections.init().setAvailable(availability);
     document.body.dataset.submissionReady = 'true';
     root.addEventListener('focus', renderLinks);
     root.addEventListener('frantz:report-sharing-change', renderLinks);

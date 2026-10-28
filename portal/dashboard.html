@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=208">
+<link rel="stylesheet" href="../frantz-ds.css?v=209">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -46,7 +46,7 @@
   .venter > .btn { grid-column: 2; justify-self: start; }
   .venter:first-child { border-top: 0; padding-top: 0; }
   .venter__tekst { display: grid; gap: var(--space-2); min-width: 0; }
-  /* «Venter på deg» sits under the campaign table */
+  /* «Venter på dere» sits under the campaign table */
   .venter-kort { margin-top: var(--space-section-gap); }
   .venter-kort[hidden] { display: none; }
 
@@ -183,7 +183,7 @@
               <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
               <ul class="checklist">
                 <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Nordlys Rekruttering AS er satt opp i Frantz.</div></li>
-                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke til stillingen, og velg en pakke. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke eller tekst om stillingen, og se over forslaget. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Godkjenn annonsene</b>Frantz lager annonsene. Dere ser dem før noe publiseres.</div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Følg resultatene</b>Se hvor mange som trykker «Søk», og hvem som melder interesse.</div></li>
               </ul>
@@ -210,7 +210,7 @@
       <!-- Existing customer: what is going on today -->
       <div data-vis="eksisterende">
       <h1 class="text-h2">Hei Kari</h1>
-      <p class="lede">Her ser du hva som skjer med kampanjene til Nordlys Rekruttering AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
+      <p class="lede">Her ser dere hva som skjer med kampanjene til Nordlys Rekruttering AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
       <div class="nokkel hjem-tall">
         <dl class="fakta"><dt>Aktive nå</dt><dd>1 <span>kampanje</span></dd></dl>
@@ -221,7 +221,7 @@
       <div class="cols" id="hjem-kolonner">
         <section aria-labelledby="live-tittel">
           <div class="seksjonstittel">
-            <h2 id="live-tittel">Kampanjene dine nå</h2>
+            <h2 id="live-tittel">Kampanjene deres nå</h2>
             <a class="link" href="campaigns.html">Alle kampanjer</a>
           </div>
           <div class="card card--betjen table-card">
@@ -235,8 +235,8 @@
 
           <section class="card card--betjen venter-kort" id="venter-kort" aria-labelledby="venter-tittel" hidden>
             <div class="card__head"><div>
-              <h3 class="card__title" id="venter-tittel">Venter på deg</h3>
-              <p class="card__hint">Det Frantz trenger fra deg nå.</p>
+              <h3 class="card__title" id="venter-tittel">Venter på dere</h3>
+              <p class="card__hint">Det Frantz trenger fra dere nå.</p>
             </div></div>
             <ul class="venter-liste" id="venter-liste"></ul>
           </section>
@@ -245,7 +245,7 @@
         <aside class="flow" id="resultat-panel" hidden>
           <section class="card card--betjen resultat-kort" aria-labelledby="resultat-tittel">
             <div class="card__head"><div>
-              <h3 class="card__title" id="resultat-tittel">Slik gikk kampanjene dine</h3>
+              <h3 class="card__title" id="resultat-tittel">Slik gikk kampanjene deres</h3>
               <p class="card__hint" id="resultat-hint"></p>
             </div></div>
             <ul class="resultat-liste" id="resultat-liste"></ul>
@@ -313,16 +313,16 @@
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="../components/js/tour.js"></script>
 <script>
-// Omvisning for nye brukere. Starter selv første gang, og fra «Vis meg rundt» når som helst.
+// Omvisning. Starter bare når brukeren trykker «Vis meg rundt».
 FrantzTour.registrer([
-  { mal: '.topbar .topbar__ny', tittel: 'Start en kampanje', tekst: 'Knappen ligger her på alle sider. Lim inn en lenke til stillingen, så fyller Frantz ut resten.', hvisSkjult: 'Knappen «Ny kampanje» ligger øverst, ved siden av menyen.' },
-  { mal: '.rail .nav__item[href="campaigns.html"]', tittel: 'Kampanjer', tekst: 'Alle kampanjene deres, med status og resultater. Rapporten for hver kampanje ligger her også.', hvisSkjult: 'Du finner Kampanjer i menyen øverst til høyre.' }
+  { mal: '.topbar .topbar__ny', tittel: 'Start en kampanje', tekst: 'Knappen ligger her på alle sider. Lim inn en lenke eller tekst om stillingen. Frantz foreslår budsjett og kanaler, og dere sjekker før dere bestiller.', hvisSkjult: 'Knappen «Ny kampanje» ligger øverst, ved siden av menyen.' },
+  { mal: '.rail .nav__item[href="campaigns.html"]', tittel: 'Kampanjer', tekst: 'Alle kampanjene deres, med status og resultater. Rapporten for hver kampanje ligger her også.', hvisSkjult: 'Dere finner Kampanjer i menyen øverst til høyre.' }
 ].concat(window.FZ_BRUKER && FZ_BRUKER.harConnect ? [
-  { mal: '.rail .nav__item[href="connect.html"]', tittel: 'Stillinger', tekst: 'Stillinger som Connect henter fra deres eget system. Opprett en kampanje rett fra stillingen.', hvisSkjult: 'Du finner Stillinger i menyen øverst til høyre.' }
+  { mal: '.rail .nav__item[href="connect.html"]', tittel: 'Stillinger', tekst: 'Stillinger som Connect henter fra deres eget system. Opprett en kampanje rett fra stillingen.', hvisSkjult: 'Dere finner Stillinger i menyen øverst til høyre.' }
 ] : []).concat([
   { mal: '.topbar .topbar__knapp', tittel: 'Varsler', tekst: 'Varsler om nye interessenter og svar fra Frantz. Velg hvor ofte under Min profil › Varsler.', hvisSkjult: 'hopp' },
-  { mal: '.assist-fab', tittel: 'Spør Frantz', tekst: 'Lurer du på noe? Spør her, eller svar på e-posten fra Frantz.' }
-]), { auto: true });
+  { mal: '.assist-fab', tittel: 'Spør Frantz', tekst: 'Lurer dere på noe? Spør her, eller svar på e-posten fra Frantz.' }
+]), { auto: false });
 </script>
 </body>
 </html>

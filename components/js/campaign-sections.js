@@ -25,9 +25,11 @@
         document.getElementById(tab.getAttribute('aria-controls')).hidden = !chosen;
         if (chosen && options.focus) tab.focus();
         if (chosen && list.scrollWidth > list.clientWidth) {
+          // Keep the chosen tab clear of the edge fade.
+          var style = getComputedStyle(list), start = parseFloat(style.scrollPaddingLeft) || 0, end = parseFloat(style.scrollPaddingRight) || 0;
           var a = tab.getBoundingClientRect(), b = list.getBoundingClientRect();
-          if (a.left < b.left) list.scrollLeft += a.left - b.left;
-          if (a.right > b.right) list.scrollLeft += a.right - b.right;
+          if (a.left < b.left + start) list.scrollLeft += a.left - b.left - start;
+          if (a.right > b.right - end) list.scrollLeft += a.right - b.right + end;
         }
       });
       if (options.updateHash !== false) history.replaceState(null, '', '#' + name);
@@ -60,6 +62,15 @@
       select(trigger.dataset.openTab, { focus: true });
     });
     root.addEventListener('hashchange', followHash);
+    /* On a phone the tabs scroll sideways. A fade marks each edge that has more tabs behind it. */
+    function markEdges() {
+      var scrollable = list.scrollWidth > list.clientWidth + 1;
+      list.classList.toggle('sidefaner--mer-for', scrollable && list.scrollLeft > 1);
+      list.classList.toggle('sidefaner--mer-etter', scrollable && list.scrollLeft + list.clientWidth < list.scrollWidth - 1);
+    }
+    list.addEventListener('scroll', markEdges, { passive: true });
+    root.addEventListener('resize', markEdges);
+    document.addEventListener('frantz:campaign-tab', function () { requestAnimationFrame(markEdges); });
     function setAvailable(content) {
       tabs.forEach(function (tab) { tab.hidden = content[tab.dataset.fane] === false; });
       followHash();
@@ -68,5 +79,13 @@
     followHash();
     return navigation;
   }
+  /* Kampanjeoversikt opens by default on a phone for active and ended campaigns
+     (marked data-open-on-phone). Runs after the page scripts have set their own default. */
+  function openOnPhone() {
+    if (!root.matchMedia('(max-width: 640px)').matches) return;
+    document.querySelectorAll('details[data-open-on-phone]').forEach(function (details) { details.open = true; });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', openOnPhone);
+  else setTimeout(openOnPhone, 0);
   root.FrantzCampaignSections = Object.freeze({ init: init });
 })(window);

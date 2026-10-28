@@ -70,6 +70,18 @@
   font: var(--type-support);
 }
 
+/* Comparison with the customer's previous campaign. The change is written out, never shown by colour alone. */
+.metric__compare {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-top: var(--space-12);
+  color: var(--text-muted);
+  font: var(--type-support);
+}
+.metric__compare b { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+.metric__compare-value { white-space: nowrap; }
+
 .metrics__note {
   display: flex;
   align-items: center;

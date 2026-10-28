@@ -29,8 +29,17 @@
   .app .panelhode > .btn { width: 100%; }
   .app .skjema__knapper, .app .skjema-bunn, .app .footer-actions { flex-direction: column; align-items: stretch; }
   .app .skjema__knapper .btn, .app .skjema-bunn .btn { width: 100%; }
-  .app .sidefaner { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; padding-bottom: var(--space-8); scrollbar-width: thin; }
+  .app .sidefaner { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; padding-bottom: var(--space-8); scrollbar-width: thin; scroll-padding-inline: var(--space-32); }
   .app .sidefaner > * { flex: none; }
+  /* Edge fade: a tab cut off at either edge is visibly part of a scrolling row. */
+  .app .sidefaner.sidefaner--mer-for, .app .sidefaner.sidefaner--mer-etter {
+    --fade-for: 0%;
+    --fade-etter: 0%;
+    -webkit-mask-image: linear-gradient(to right, transparent, currentColor var(--fade-for), currentColor calc(100% - var(--fade-etter)), transparent);
+    mask-image: linear-gradient(to right, transparent, currentColor var(--fade-for), currentColor calc(100% - var(--fade-etter)), transparent);
+  }
+  .app .sidefaner.sidefaner--mer-for { --fade-for: var(--space-44); }
+  .app .sidefaner.sidefaner--mer-etter { --fade-etter: var(--space-44); }
 
 
 }

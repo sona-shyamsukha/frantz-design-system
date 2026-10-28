@@ -3,12 +3,13 @@
 Updated 28.10.2026.
 
 ## In progress
-- Branch `atelier/review` (committed, not pushed): baseline review of the main flows for new and existing customers. Report: `atelier/05-checks/report.html` (one file, images inside). 15 P1 and 11 P2 design findings, plus 10 notes for developers. Nothing in the prototype is changed.
+- Branch `atelier/review` (committed, not pushed): baseline review. Report: `atelier/05-checks/report.html`.
+- Branch `atelier/fixes` (committed, not pushed): the changes Sona approved on 28.10. Tour opens only from «Vis meg rundt». Ny kampanje fills in Frantz's suggestion, sorts finished ads, shows «Slik går det videre». Bestilt has one status card and a missing-ads banner. The report compares with the customer's last campaign. «dere» everywhere. All 50 tests pass.
 
 ## Waiting on Sona
-1. Push the branch and deploy a Vercel preview of the report? yes / no
-2. What to fix before 3.11: A) the order flow (themes 1–3)  B) all P0 and P1  C) nothing yet
-3. Add to the Frantz questions: benchmarks for the report, and cancel and invoice rules? yes / no
+1. The suggested budget for Sykepleier Kristiansand is kr 37 000. Users said 8–12k is normal. Lower the suggestion? yes / no
+2. The report funnel has 6 steps but is drawn for 4. Redraw it? yes / no
+3. Push both branches and deploy a Vercel preview? yes / no
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?
