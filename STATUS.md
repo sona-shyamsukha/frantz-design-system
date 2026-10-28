@@ -3,14 +3,13 @@
 Updated 28.10.2026.
 
 ## In progress
-- Branch `sporingskode-guide` (not merged to `main` yet):
-  - New page under Ressurser: `portal/sporingskode.html` («Slik legger dere inn sporingskoden»).
-  - «Stillinger» table: Stilling (with campaign name when it exists), Arbeidsgiver, Periode, Sporingskode (copy), Status.
-  - One shared copy field for the whole portal (`.copy-field`).
-  - The Connect detail page (`portal/connect-detalj.html`) is removed.
+- Branch `tabell-tekst` (pushed, no PR yet):
+  - Every table cell uses one text size. Second lines, notes and codes stay muted, not smaller.
+  - Codes in tables use the body type role.
+  - Only status badges and tags are smaller.
 
 ## Waiting on Sona
-1. Merge `sporingskode-guide` into `main`? yes / changes
+1. Open a PR for `tabell-tekst` and merge it into `main`? yes / changes
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?
@@ -21,6 +20,7 @@ Updated 28.10.2026.
 - Presentation for the client on Tuesday 3.11.
 
 ## Decisions
+- 28.10: `sporingskode-guide` and `tabell-justering` are merged into `main` (PR 19, PR 20).
 - 28.10: Change 2 («Kontakt rådgiver» to a named advisor) is not important. Dropped.
 - 28.10: Change 6 (language choice) is fixed in the real product, not in the prototype.
 - 28.10: Connect detail page removed. Audience category and ISCO belong in the admin version only.
