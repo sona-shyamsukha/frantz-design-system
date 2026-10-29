@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Endringer 28.10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C3F59;
+    --amber: #F6A321;
+    --page: #F4F7F9;
+    --surface: #FFFFFF;
+    --line: #D9E2E8;
+    --text: #13232D;
+    --muted: #4E6170;
+    --good: #1E6B45;
+    --good-bg: #E3F2EA;
+    --before-bg: #EAF0F3;
+    --radius: 12px;
+    --gutter: clamp(16px, 4vw, 40px);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font: 400 16px/1.55 Montserrat, system-ui, sans-serif;
+  }
+  main { max-width: 1200px; margin: 0 auto; padding: var(--gutter); }
+  h1 { color: var(--navy); font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 24px 0 8px; }
+  .lede { color: var(--muted); max-width: 60ch; margin: 0 0 40px; }
+  .lede code { font-size: 14px; }
+  .change {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(20px, 3vw, 32px);
+    margin-bottom: 32px;
+  }
+  .change h2 { color: var(--navy); font-size: 22px; margin: 0 0 4px; }
+  .change .where { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
+  .change ul { margin: 0 0 24px; padding-left: 20px; max-width: 70ch; }
+  .change li + li { margin-top: 4px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .pair--single { grid-template-columns: 1fr; max-width: 820px; }
+  figure { margin: 0; }
+  figcaption {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .before figcaption { background: var(--before-bg); color: var(--muted); }
+  .after figcaption { background: var(--good-bg); color: var(--good); }
+  figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .open { display: inline-block; margin-top: 16px; color: var(--navy); font-weight: 600; }
+  .open:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  @media (max-width: 760px) {
+    .pair { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Endringer 28.10</h1>
+  <p class="lede">Det du godkjente i gjennomgangen, og det som ble lagt til etterpå. Alt ligger på branchen <code>atelier/fixes</code>. Gammel versjon står til venstre, ny til høyre.</p>
+
+  <section class="change" aria-labelledby="c1">
+    <h2 id="c1">1. Ny kampanje: Frantz foreslår</h2>
+    <p class="where">portal/ny-kampanje.html</p>
+    <ul>
+      <li>Når dere limer inn en lenke, fyller Frantz inn budsjett, kanaler og periode.</li>
+      <li>Hvert forslag er merket «Forslag fra Frantz». Dere kan endre det.</li>
+      <li>Foreslått budsjett er aldri over kr 15 000. Det går heller aldri under minstebeløpet for kanalene.</li>
+    </ul>
+    <div class="pair pair--single">
+      <figure class="after"><figcaption>Ny</figcaption><img src="screenshots/endringer-28-10/nyk-forslag-etter.png" alt="Kampanjen-delen med budsjett kr 15 000, kanaler og periode, hver merket Forslag fra Frantz."></figure>
+    </div>
+    <a class="open" href="../../portal/ny-kampanje.html">Åpne Ny kampanje</a>
+  </section>
+
+  <section class="change" aria-labelledby="c2">
+    <h2 id="c2">2. Ny kampanje: prisoversikt og bestillingsknapper</h2>
+    <p class="where">portal/ny-kampanje.html</p>
+    <ul>
+      <li>«Slik går det videre» ligger nå i en farget boks.</li>
+      <li>Teksten om godkjenning er flyttet opp i prisoversikten.</li>
+      <li>De to knappene står alene på én linje, like høye.</li>
+    </ul>
+    <div class="pair">
+      <figure class="before"><figcaption>Før</figcaption><img src="screenshots/endringer-28-10/nyk-pris-for.png" alt="Gammel prisoversikt: kr 37 000, Slik går det videre uten boks, hjelpetekst under den ene knappen."></figure>
+      <figure class="after"><figcaption>Ny</figcaption><img src="screenshots/endringer-28-10/nyk-pris-etter.png" alt="Ny prisoversikt: kr 15 000, Slik går det videre i farget boks, hjelpetekst over knappene."></figure>
+    </div>
+  </section>
+
+  <section class="change" aria-labelledby="c3">
+    <h2 id="c3">3. Bestilt: ett statuskort</h2>
+    <p class="where">portal/kampanje-bestilt.html</p>
+    <ul>
+      <li>To bokser er slått sammen til ett kort med tre steg: Frantz sjekker, dere godkjenner, kampanjen starter.</li>
+      <li>Sporingskoden er en del av kortet, ikke et eget varsel.</li>
+      <li>Mangler annonser, kommer et eget banner.</li>
+    </ul>
+    <div class="pair">
+      <figure class="before"><figcaption>Før</figcaption><img src="screenshots/endringer-28-10/bestilt-for.png" alt="Gammel Bestilt-side med blå statusboks og gul sporingskode-boks."></figure>
+      <figure class="after"><figcaption>Ny</figcaption><img src="screenshots/endringer-28-10/bestilt-etter.png" alt="Ny Bestilt-side med ett kort, tre nummererte steg og sporingskoden nederst."></figure>
+    </div>
+    <a class="open" href="../../portal/kampanje-bestilt.html">Åpne Bestilt</a>
+  </section>
+
+  <section class="change" aria-labelledby="c4">
+    <h2 id="c4">4. Rapport: sammenlign med forrige kampanje</h2>
+    <p class="where">portal/campaign.html (Innsikt-fanen)</p>
+    <ul>
+      <li>Tallene viser hvor mye bedre eller dårligere det går enn kundens forrige kampanje.</li>
+      <li>29.10: Kortene har nå bare én kort linje, f.eks. «34 flere enn sist». Hvilken kampanje «sist» er, står én gang under kortene.</li>
+    </ul>
+    <div class="pair">
+      <figure class="before"><figcaption>Før</figcaption><img src="screenshots/endringer-28-10/rapport-for.png" alt="Gammel rapport med fire tall uten sammenligning."></figure>
+      <figure class="after"><figcaption>Ny</figcaption><img src="screenshots/endringer-28-10/rapport-etter.png" alt="Ny rapport: kortene viser 34 flere enn sist og kr 900 billigere enn sist. Under kortene står hvilken kampanje som er sist."></figure>
+    </div>
+  </section>
+
+  <section class="change" aria-labelledby="c5">
+    <h2 id="c5">5. Rapport: trakten viser alle 6 steg</h2>
+    <p class="where">portal/rapport.html</p>
+    <ul>
+      <li>Før var grafen tegnet for 4 steg. De to siste stegene havnet under, uten graf.</li>
+      <li>Nå har alle 6 steg sin egen kolonne i grafen.</li>
+    </ul>
+    <div class="pair">
+      <figure class="before"><figcaption>Før</figcaption><img src="screenshots/endringer-28-10/trakt-for.png" alt="Gammel trakt med 4 kolonner. Leste hele annonsen og Trykket Søk står under grafen."></figure>
+      <figure class="after"><figcaption>Ny</figcaption><img src="screenshots/endringer-28-10/trakt-etter.png" alt="Ny trakt med 6 kolonner, ett for hvert steg."></figure>
+    </div>
+    <a class="open" href="../../portal/rapport.html">Åpne rapporten</a>
+  </section>
+
+  <section class="change" aria-labelledby="c6">
+    <h2 id="c6">6. Mindre endringer</h2>
+    <ul>
+      <li>Omvisningen starter bare når dere trykker «Vis meg rundt» på Hjem.</li>
+      <li>Filer dere drar inn i Ny kampanje sorteres selv: bilder og video blir ferdige annonser, PDF og Word blir vedlegg.</li>
+      <li>«dere» brukes overalt, ikke «du».</li>
+      <li>Kopierfelt har ett felles utseende overalt.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
