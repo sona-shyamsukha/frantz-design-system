@@ -3,7 +3,11 @@
 Updated 29.10.2026.
 
 ## In progress
-- Nothing open. `atelier/review` and `atelier/fixes` are merged into `main` (PR 22, 29.10). Before/after page: `atelier/05-checks/endringer-28-10.html`.
+- Senior UX review of the current portal (29.10), on branch `atelier/ux-review`. Page: `atelier/05-checks/ux-review/review.html`. 8 P1, 7 P2, no fixes made yet.
+
+## Waiting on Sona
+1. Fix scope before Tuesday: A) the 4 quick P1s (names, Hjem order, share buttons, demo data)  B) all 8 P1s. Recommended: A.
+2. Stillinger vs Kampanjer: A) Stillinger shows only jobs without a campaign  B) merge Stillinger into Kampanjer. Recommended: A.
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?

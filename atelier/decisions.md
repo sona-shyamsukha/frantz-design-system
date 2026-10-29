@@ -8,3 +8,4 @@
 - 28.10.2026 (Sona): Personas OK: four research roles plus a screen-reader user and a phone user.
 - 28.10.2026 (Sona): The prototype is a design simulation, not the real app. Code-only findings moved to "Notes for developers". The P0 became a P1 about showing read vs. guessed values.
 - 28.10.2026 (Sona): Fix list approved one by one. Paste concept left as is. Dialogue routes stay (MVP scope). Manager preview without ads cannot be helped. Report context = compare with own earlier campaign. Tour only from «Vis meg rundt».
+- 29.10.2026: Senior UX review of current main (after PR 22). Review only, no fixes. Page: `05-checks/ux-review/review.html`.
