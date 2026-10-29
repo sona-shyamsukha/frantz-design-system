@@ -6,10 +6,11 @@ function storage(initial) {
   let value = initial;
   return { getItem: () => value, setItem: (_, next) => { value = next; } };
 }
-test('shared links round-trip all criteria without unrelated parameters', () => {
+test('public shared links round-trip criteria without account or unrelated parameters', () => {
   const link = searches.toUrl('https://example.no/portal/kalkulator.html?bruker=ny&unrelated=1#old', criteria);
   assert.deepEqual(searches.fromUrl(link), criteria);
-  assert.equal(new URL(link).searchParams.get('bruker'), 'ny');
+  assert.equal(new URL(link).searchParams.get('delt'), '1');
+  assert.equal(new URL(link).searchParams.has('bruker'), false);
   assert.equal(new URL(link).searchParams.has('unrelated'), false);
   assert.equal(new URL(link).hash, '');
 });

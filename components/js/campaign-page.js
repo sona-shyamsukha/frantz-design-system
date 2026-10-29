@@ -24,6 +24,13 @@
       link.innerHTML = button.innerHTML;
       link.href = contactUrl(button.dataset.kind === 'endring');
       link.title = 'Åpner en e-post til Frantz';
+      if (link.dataset.kind === 'endring') {
+        var icon = document.createElement('span');
+        icon.className = 'icon-lucide icon-lucide--mail icon-lucide--sm';
+        icon.setAttribute('aria-hidden', 'true');
+        link.replaceChildren(icon, document.createTextNode('Be om endring på e-post'));
+        link.title = 'Åpner e-postprogrammet ditt med kampanjenummer og emne fylt ut';
+      }
       button.replaceWith(link);
     });
   }
@@ -39,37 +46,37 @@
     var actions = approve.closest('[data-campaign-approval-actions]');
     var creativeCard = document.getElementById('creative-heading').closest('.card');
     var stage = params.get('fase') || 'godkjenning';
-    // The approval note names the campaign's real start date.
     var approvalNote = document.getElementById('approval-note');
     var productionCampaign = root.FZ_KAMPANJER.finn(params.get('id') || '129072');
-    if (approvalNote) approvalNote.textContent = productionCampaign && productionCampaign.fra
-      ? 'Når dere godkjenner, publiserer Frantz annonsene fra ' + root.FZ_KAMPANJER.dato(productionCampaign.fra) + '. Vil dere endre noe, trykk «Be om endring».'
-      : 'Når dere godkjenner, publiserer Frantz annonsene fra planlagt startdato. Vil dere endre noe, trykk «Be om endring».';
+    var latestRequest = null, reviewState = null;
+    if (approvalNote) approvalNote.textContent = 'Mottakerens svar gjelder gjennomgangen. Dere gir Frantz klarsignal for publisering i portalen. Oppstart bekreftes av Frantz.';
     var statuses = {
       produksjon: { badge: 'Frantz lager annonsene', owner: 'Frantz', title: 'Vi klargjør annonser og målretting', description: 'Dere får en e-post når utkastene er klare. Det er ingenting dere trenger å godkjenne ennå.' },
-      godkjenning: { badge: 'Venter på deres godkjenning', owner: 'Dere', title: 'Se gjennom annonsene', description: 'Godkjenn de tre utkastene innen 02.10, slik at Frantz kan gjøre klart til planlagt start 05.10.' },
-      publisering: { badge: 'Klar til publisering', owner: 'Frantz', title: 'Annonsene er godkjent', description: 'Frantz følger opp publisering. Planlagt start er 05.10. Dere får beskjed når kampanjen er aktiv.' }
+      godkjenning: { badge: 'Venter på deres godkjenning', owner: 'Dere', title: 'Se gjennom annonsene', description: 'Se gjennom annonsene og gi Frantz klarsignal. Frantz bekrefter oppstart.' },
+      publisering: { badge: 'Klar til publisering', owner: 'Frantz', title: 'Annonsene er godkjent', description: 'Frantz følger opp publisering og bekrefter oppstart. Dere får beskjed når kampanjen er aktiv.' }
     };
     function renderStage(nextStage) {
       stage = statuses[nextStage] ? nextStage : 'godkjenning';
-      var state = statuses[stage];
+      var state = reviewState && stage !== 'produksjon' ? { title: reviewState.title, description: reviewState.description } : statuses[stage];
       document.getElementById('campaign-stage').textContent = 'Under arbeid';
       document.getElementById('production-title').textContent = state.title;
       document.getElementById('production-description').textContent = state.description;
       document.getElementById('production-empty').hidden = stage !== 'produksjon';
       document.getElementById('production-ad-link').hidden = stage === 'produksjon';
-      actions.hidden = stage !== 'godkjenning';
+      actions.hidden = stage === 'produksjon';
       creativeCard.hidden = stage === 'produksjon';
       document.getElementById('material-customer-status').hidden = stage !== 'publisering';
+      approve.disabled = stage !== 'godkjenning' || !!(latestRequest && !['approved', 'revoked'].includes(root.FrantzApprovals.status(latestRequest)));
+      approve.textContent = 'Godkjenn annonsene';
       if (approvalNote) approvalNote.hidden = stage !== 'godkjenning';
       var approvalStep = document.querySelector('.checklist li:last-child');
       if (approvalStep) {
         var done = stage === 'publisering';
         approvalStep.classList.toggle('er-ok', done); approvalStep.classList.toggle('mangler', !done);
-        approvalStep.querySelector('b').textContent = done ? 'Annonsene er godkjent' : 'Dere godkjenner annonsene';
+        approvalStep.querySelector('b').textContent = reviewState ? reviewState.title : done ? 'Annonsene er godkjent' : 'Dere godkjenner annonsene';
         approvalStep.querySelector('.sr-only').textContent = done ? 'Fullført: ' : 'Gjenstår: ';
         approvalStep.querySelector('.icon-lucide').className = 'icon-lucide icon-lucide--' + (done ? 'circle-check' : 'clock');
-        if (done) approvalStep.querySelector('small').textContent = 'Frantz følger opp publisering.';
+        approvalStep.querySelector('small').textContent = reviewState ? 'Neste handling: ' + reviewState.owner : done ? 'Frantz følger opp publisering.' : 'Se gjennom gjeldende versjon.';
       }
       var panel = document.getElementById('del-panel');
       if (stage !== 'godkjenning') panel.hidden = true;
@@ -77,21 +84,48 @@
         document.getElementById('creative-heading').textContent = 'Godkjente annonser';
         creativeCard.querySelectorAll('.tag--overlay').forEach(function (tag) { tag.textContent = tag.textContent.replace('utkast', 'godkjent'); });
         creativeCard.querySelectorAll('a[href*="annonse.html"]').forEach(function (link) { var url = new URL(link.href); url.searchParams.delete('utkast'); link.href = url.href; });
+      } else {
+        document.getElementById('creative-heading').textContent = 'Tre annonseutkast';
+        creativeCard.querySelectorAll('.tag--overlay').forEach(function (tag) { tag.textContent = tag.textContent.replace('godkjent', 'utkast'); });
+        creativeCard.querySelectorAll('a[href*="annonse.html"]').forEach(function (link) { var url = new URL(link.href); url.searchParams.set('utkast', '1'); link.href = url.href; });
       }
     }
-    approve.addEventListener('click', function () {
+    async function refreshProduction() {
+      if (params.has('fase')) return;
+      try {
+        var records = await root.FrantzApprovals.list(productionCampaign.approvalKey || productionCampaign.id);
+        latestRequest = records.find(function (request) { return request.round === 'material'; }) || null;
+        reviewState = root.FrantzCampaignStatus.derive(productionCampaign, latestRequest, root.FrantzCampaignActivity.read(productionCampaign.id));
+        renderStage(reviewState.key === 'confirmed' ? 'publisering' : 'godkjenning');
+      } catch (error) {
+        approve.disabled = true;
+        document.getElementById('production-description').textContent = 'Kunne ikke hente siste godkjenning. Last siden på nytt før dere gir klarsignal.';
+      }
+    }
+    approve.addEventListener('click', async function () {
       if (approve.disabled) return;
-      document.getElementById('material-customer-status').hidden = false;
       approve.disabled = true;
-      try { sessionStorage.setItem('fzCampaignMaterialApproved129072', 'yes'); } catch (error) { /* The visible handoff still works without browser storage. */ }
-      renderStage('publisering');
-      try { root.FrantzCampaignActivity.append(params.get('id') || '129072', { key: 'material-approved:current', kind: 'material-approved', title: 'Annonsene er godkjent', body: 'Godkjent i portalen. Frantz følger opp publisering.' }); } catch (error) { document.getElementById('material-customer-status').textContent = 'Annonsene er godkjent i denne visningen, men historikken kunne ikke lagres.'; }
-      sections.select('kampanje');
-      var title = document.getElementById('production-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
-      document.getElementById('production-status').scrollIntoView({ block: 'start' });
+      try {
+        var records = await root.FrantzApprovals.list(productionCampaign.approvalKey || productionCampaign.id);
+        var request = records.find(function (item) { return item.round === 'material'; });
+        if (request && !['approved', 'revoked'].includes(root.FrantzApprovals.status(request))) { await refreshProduction(); return; }
+        root.FrantzCampaignActivity.append(productionCampaign.id, { key: 'material-approved:' + (request ? request.id : 'current'), approvalId: request && request.id, kind: 'material-approved', title: 'Klarsignal for publisering gitt', body: 'Godkjent av bestiller i portalen. Frantz bekrefter oppstart.' });
+        await refreshProduction();
+        sections.select('kampanje');
+        var title = document.getElementById('production-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
+        document.getElementById('production-status').scrollIntoView({ block: 'start' });
+      } catch (error) {
+        document.getElementById('material-customer-status').hidden = false;
+        document.getElementById('material-customer-status').textContent = 'Kunne ikke lagre klarsignalet. Prøv igjen.';
+        approve.disabled = false;
+      }
     });
-    if (!params.has('fase')) { try { if (sessionStorage.getItem('fzCampaignMaterialApproved129072') === 'yes') stage = 'publisering'; } catch (error) {} }
-    if (!params.has('fase') && root.FrantzCampaignActivity.read(params.get('id') || '129072').some(function (event) { return event.kind === 'material-approved'; })) stage = 'publisering';
+    root.addEventListener('frantz:material-review', refreshProduction);
+    root.addEventListener('frantz:approval-change', refreshProduction);
+    root.addEventListener('frantz:campaign-activity', refreshProduction);
+    root.addEventListener('focus', refreshProduction);
+    root.addEventListener('storage', function (event) { if (['fzApprovalChanged', 'fzCampaignActivityV1'].includes(event.key)) refreshProduction(); });
+    refreshProduction();
     renderStage(stage);
     sections = root.FrantzCampaignSections.init({ defaultTab: stage === 'godkjenning' ? 'annonser' : 'kampanje' });
     root.FrantzCampaignDetails.init({ id: params.get('id') || '129072' });

@@ -5,6 +5,7 @@
    A new order is kept in this browser only (demo). It shows first, with the status «Bestilt». */
 window.FZ_KAMPANJER = (function () {
   var NYE = 'fzKampanjerNye';
+  var MATERIAL = 'fzCampaignMaterialLinksV1';
   var SLETTEDE_KLADDER = 'fzKampanjerSlettedeKladder';
   var LISTE = [
     { id: '129072', radgiver: 'Martin Karlsen', connect: '777860', stilling: 'Helsefagarbeider', sted: 'Tromsø', arbeidsgiver: 'Nord-Norge Helse', ref: 'Oppdrag 22 40',
@@ -39,11 +40,13 @@ window.FZ_KAMPANJER = (function () {
   }
   function alle() {
     var ny = nye();
+    var materialLinks;
+    try { materialLinks = JSON.parse(localStorage.getItem(MATERIAL) || '{}'); } catch (error) { materialLinks = {}; }
     var slettede = lesListe(SLETTEDE_KLADDER);
     // An order made from a draft replaces the draft
     var ersatt = ny.map(function (k) { return k.connect; }).filter(Boolean);
     return ny.concat(LISTE.filter(function (k) { return !(k.status === 'Kladd' && ersatt.indexOf(k.connect) !== -1); }))
-      .filter(function (k) { return k.status !== 'Kladd' || slettede.indexOf(String(k.id)) === -1; }).map(medFelt);
+      .filter(function (k) { return k.status !== 'Kladd' || slettede.indexOf(String(k.id)) === -1; }).map(function (k) { return medFelt(Object.assign({}, k, materialLinks[k.id] || {})); });
   }
 
   // dd.mm.yyyy from 2026-09-03
@@ -94,6 +97,12 @@ window.FZ_KAMPANJER = (function () {
       liste.unshift(k);
       try { localStorage.setItem(NYE, JSON.stringify(liste)); } catch (e) {}
       return k.id;
+    },
+    oppdaterMateriell: function (id, materialId, approvalKey) {
+      var links;
+      try { links = JSON.parse(localStorage.getItem(MATERIAL) || '{}'); } catch (error) { links = {}; }
+      links[String(id)] = { materiellId: materialId, approvalKey: approvalKey };
+      localStorage.setItem(MATERIAL, JSON.stringify(links));
     },
     badge: function (status) {
       return { 'Kladd': 'badge--draft', 'Bestilt': 'badge--ordered', 'Under arbeid': 'badge--setup', 'Aktiv': 'badge--active', 'Avsluttet': 'badge--ended', 'Uten kampanje': 'badge--draft' }[status] || 'badge--default';

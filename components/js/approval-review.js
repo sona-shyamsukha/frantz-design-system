@@ -60,7 +60,7 @@
     if (content.landing) { $('landing-employer').textContent = content.landing.employer || content.employer; $('landing-heading').textContent = content.landing.title; $('landing-body').textContent = content.landing.body; }
     responseSections.forEach(function (section) {
       section.hidden = state !== 'pending';
-      section.querySelector('[data-response-effect]').textContent = plan ? 'Du godkjenner planen som vises her. Godkjenningen sender ikke bestillingen. ' + request.sender + ' bestiller i et eget steg.' : 'Du godkjenner materiellet som vises her. Frantz følger opp publisering etterpå.';
+      section.querySelector('[data-response-effect]').textContent = plan ? 'Du godkjenner planen som vises her. Godkjenningen sender ikke bestillingen. ' + request.sender + ' bestiller i et eget steg.' : 'Du godkjenner denne versjonen av materiellet. Avsenderen må deretter gi Frantz klarsignal i portalen før publisering.';
       section.querySelector('[data-approve-request]').textContent = 'Godkjenn ' + what;
     });
     $('request-receipt').hidden = state === 'pending';

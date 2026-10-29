@@ -48,6 +48,8 @@
   color: var(--color-data-700);
 }
 
+.metric__label > .tooltip { flex-shrink: 0; }
+
 .metric__value {
   margin-top: var(--space-12);
   font: var(--type-section);

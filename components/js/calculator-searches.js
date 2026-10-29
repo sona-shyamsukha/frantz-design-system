@@ -20,9 +20,9 @@
   function toUrl(base, value) {
     var state = criteria(value);
     if (!state) throw new Error('Invalid calculator criteria');
-    var url = new URL(base), user = url.searchParams.get('bruker');
+    var url = new URL(base);
     url.search = ''; url.hash = '';
-    if (user) url.searchParams.set('bruker', user);
+    url.searchParams.set('delt', '1');
     url.searchParams.set('stilling', state.stilling);
     state.steder.forEach(function (s) { url.searchParams.append('sted', s); });
     url.searchParams.set('budsjett', String(state.budsjett));

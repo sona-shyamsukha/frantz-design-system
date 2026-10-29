@@ -81,6 +81,28 @@ Existing example campaigns include all displayed ads in one request, with the sa
 submitted creative rather than substituting sample artwork. No request automatically
 places an order or publishes a campaign.
 
+## MVP consistency fixes — 29 October 2026
+
+Home keeps customer tasks beneath the campaign list, following Sona’s placement correction.
+Campaign pages, home tasks and notifications derive
+next actions from the latest material-review response and the separate publication
+confirmation. A recipient reviewing material does not publish it; the account holder
+gives Frantz the final go-ahead. This responsibility is the current prototype assumption.
+
+Orders open the same material editor as creation through `redigerMateriell=<id>`.
+Uploads use the creation flow’s 10 MB limit. Cancel leaves the order unchanged;
+changed files, text or sender require a fresh review. Original submitted fields and
+the first material snapshot remain stored separately from later material changes.
+Design requests show the hourly rate and require a cost estimate to be agreed before
+work starts. Order confirmation leaves turnaround and activation for Frantz to confirm.
+Change and cancellation remain with the existing adviser contact; the extra request-button block was removed at Sona’s request.
+
+Company brand settings retain supported colours, logo originals, font originals and
+filter strength in IndexedDB. New ad drafts copy the relevant company defaults;
+existing campaign overrides remain independent. Calculator figures are labelled as
+illustrations from a demonstration model. These changes remain browser-local;
+production storage, email, permissions and publication are separate integration work.
+
 ## Use
 
 ```html
@@ -120,3 +142,9 @@ compact navigation and packages below 860px, and the campaign summary shortcut b
 1180px when the order panel moves under the form. Keep package markup shared through
 `portal/data/pakker.js`. Check phone widths of 320px and 390px, tablet widths of 768px
 and 1024px, and the desktop layout when changing these rules.
+
+Calculator sharing copies a public criteria URL directly, without a dialog. The
+recipient sees the calculator without portal navigation, account details or saved
+searches. The URL carries only role, locations and budget; no account/session data.
+It works without sign-in in this local prototype. Production hosting must also
+serve the calculator route publicly. A localhost URL is only reachable locally.

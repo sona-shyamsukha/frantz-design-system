@@ -65,6 +65,25 @@ test('a report can omit every monetary value without omitting campaign results',
   }
 });
 
+test('portal results keep the caveat and comparison source visible with a separate tooltip for each metric', () => {
+  const window = load('portal/data/rapporter.js');
+  load('components/js/report-view.js', window);
+  const report = window.FZ_REPORTS['129041'];
+  const html = window.FrantzReportView.overview(report, { internal: true, costs: true });
+  assert.match(html, /«Søk» viser klikk, ikke innsendte søknader/);
+  assert.doesNotMatch(html, /<details|Om tallene/);
+  assert.match(html, /Sykepleier Bodø \(02.07 – 30.07.2026\)/);
+  const tips = [...html.matchAll(/data-tooltip="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(tips.length, 4);
+  assert.equal(new Set(tips).size, 4);
+  assert.match(tips[0], /Besøk på siden Frantz/);
+  assert.match(tips[1], /18 klikk/);
+  assert.match(tips[2], /kr 1 730/);
+  assert.match(tips[3], /kontaktinfo uten å søke/);
+  assert.ok(html.includes(report.assessment));
+  assert.doesNotMatch(window.FrantzReportView.overview(report, { internal: true, costs: false }), /Kostnad per|kr\s/);
+});
+
 test('public report fixtures contain aggregates and no candidate or account records', () => {
   const window = load('portal/data/rapporter.js');
   const allowed = new Set(['id', 'title', 'employer', 'period', 'active', 'updated', 'budget', 'spend', 'cost', 'visits', 'applications', 'interest', 'impressions', 'goal', 'day', 'totalDays', 'start', 'read', 'readTime', 'assessment', 'channels', 'daily', 'ads', 'placements', 'geography', 'channelNames']);

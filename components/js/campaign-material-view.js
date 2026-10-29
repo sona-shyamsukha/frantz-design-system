@@ -39,9 +39,13 @@
     $('submitted-material').hidden = !material;
     if (!material) return;
     var paid = material.modus === 'hjelp';
-    $('material-status').textContent = paid ? 'Design bestilt fra Frantz' : 'Innsendt ved bestilling';
-    $('material-explanation').textContent = paid ? 'Her ser dere materiellet og instruksjonene som ble sendt til Frantz.' : 'Dette er utkastet og originalfilene dere sendte inn. Forhåndsvisningen er ikke en godkjent, publisert annonse.';
-    showText('material-brief', material.designbrief);
+    if (root.FrantzBrand && material.brandFonts) Object.keys(material.brandFonts).forEach(async function (slot) {
+      if (!material.brandFonts[slot]) return;
+      try { var family = await root.FrantzBrand.loadFont(material.brandFonts[slot], 'campaign-' + slot); $(slot === 'heading' ? 'submitted-title' : 'submitted-over-text').style.fontFamily = family; } catch (error) { /* The original font remains downloadable in storage; use token defaults for preview. */ }
+    });
+    $('material-status').textContent = paid ? 'Designforespørsel til Frantz' : record.materialEditedAt ? 'Oppdatert materiell' : 'Innsendt ved bestilling';
+    $('material-explanation').textContent = paid ? 'Frantz bekrefter estimert designkostnad med dere før designarbeidet starter. Her ser dere grunnlaget for designet.' : 'Dette er gjeldende utkast og tilhørende filer. Forhåndsvisningen er ikke en godkjent, publisert annonse.';
+    showText('material-brief', paid ? material.designbrief : '');
     showText('material-image-text', material.tittel);
     showText('material-ad-text', material.tekst);
     var image = material.bilde, imageUrl = image ? source(image) : '';
@@ -57,11 +61,15 @@
     (material.kilder || []).forEach(function (file) { $('material-source-files').appendChild(fileRow(file, source(file))); });
     $('material-sources-block').hidden = !$('material-source-files').children.length;
     if (paid && !image && !material.logo && !(material.filer || []).length && !material.designbrief) {
-      $('material-explanation').textContent = 'Frantz skal lage annonsedesignet. Ingen annonsefiler eller designønsker ble lagt ved bestillingen.';
+      $('material-explanation').textContent = 'Design er forespurt uten vedlegg. Frantz avklarer grunnlag og estimert kostnad med dere før arbeidet starter.';
     }
     if (!showPreview) return;
     var sender = material.avsender || 'Arbeidsgiver';
     $('submitted-sender').textContent = sender; $('submitted-avatar').textContent = sender.charAt(0).toUpperCase();
+    var accountIcon = material.brandIcon instanceof Blob ? source({ fil: material.brandIcon }) : '';
+    $('submitted-avatar').style.backgroundImage = accountIcon ? 'url("' + accountIcon + '")' : '';
+    $('submitted-avatar').style.backgroundSize = 'cover';
+    if (accountIcon) $('submitted-avatar').textContent = '';
     $('submitted-over-text').textContent = material.tekst || ''; $('submitted-over-text').hidden = !material.tekst;
     FrantzAdLogo.render($('submitted-logo'), sender, logoUrl); $('submitted-title').textContent = material.tittel || '';
     $('submitted-title').hidden = !material.tittel || material.ferdig;
