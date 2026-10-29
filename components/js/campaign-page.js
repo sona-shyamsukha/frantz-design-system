@@ -23,7 +23,7 @@
       document.addEventListener('frantz:campaign-loaded', refreshContact);
       link.innerHTML = button.innerHTML;
       link.href = contactUrl(button.dataset.kind === 'endring');
-      link.title = 'Åpner e-posten din til Frantz';
+      link.title = 'Åpner en e-post til Frantz';
       button.replaceWith(link);
     });
   }
@@ -39,10 +39,16 @@
     var actions = approve.closest('[data-campaign-approval-actions]');
     var creativeCard = document.getElementById('creative-heading').closest('.card');
     var stage = params.get('fase') || 'godkjenning';
+    // The approval note names the campaign's real start date.
+    var approvalNote = document.getElementById('approval-note');
+    var productionCampaign = root.FZ_KAMPANJER.finn(params.get('id') || '129072');
+    if (approvalNote) approvalNote.textContent = productionCampaign && productionCampaign.fra
+      ? 'Når dere godkjenner, publiserer Frantz annonsene fra ' + root.FZ_KAMPANJER.dato(productionCampaign.fra) + '. Vil dere endre noe, trykk «Be om endring».'
+      : 'Når dere godkjenner, publiserer Frantz annonsene fra planlagt startdato. Vil dere endre noe, trykk «Be om endring».';
     var statuses = {
-      produksjon: { badge: 'Frantz lager annonsene', owner: 'Frantz', title: 'Vi klargjør annonser og målretting', description: 'Du får en e-post når utkastene er klare. Det er ingenting du trenger å godkjenne ennå.' },
-      godkjenning: { badge: 'Venter på din godkjenning', owner: 'Deg', title: 'Se gjennom annonsene', description: 'Godkjenn de tre utkastene innen 02.10, slik at Frantz kan gjøre klart til planlagt start 05.10.' },
-      publisering: { badge: 'Klar til publisering', owner: 'Frantz', title: 'Annonsene er godkjent', description: 'Frantz følger opp publisering. Planlagt start er 05.10. Du får beskjed når kampanjen er aktiv.' }
+      produksjon: { badge: 'Frantz lager annonsene', owner: 'Frantz', title: 'Vi klargjør annonser og målretting', description: 'Dere får en e-post når utkastene er klare. Det er ingenting dere trenger å godkjenne ennå.' },
+      godkjenning: { badge: 'Venter på deres godkjenning', owner: 'Dere', title: 'Se gjennom annonsene', description: 'Godkjenn de tre utkastene innen 02.10, slik at Frantz kan gjøre klart til planlagt start 05.10.' },
+      publisering: { badge: 'Klar til publisering', owner: 'Frantz', title: 'Annonsene er godkjent', description: 'Frantz følger opp publisering. Planlagt start er 05.10. Dere får beskjed når kampanjen er aktiv.' }
     };
     function renderStage(nextStage) {
       stage = statuses[nextStage] ? nextStage : 'godkjenning';
@@ -55,11 +61,12 @@
       actions.hidden = stage !== 'godkjenning';
       creativeCard.hidden = stage === 'produksjon';
       document.getElementById('material-customer-status').hidden = stage !== 'publisering';
+      if (approvalNote) approvalNote.hidden = stage !== 'godkjenning';
       var approvalStep = document.querySelector('.checklist li:last-child');
       if (approvalStep) {
         var done = stage === 'publisering';
         approvalStep.classList.toggle('er-ok', done); approvalStep.classList.toggle('mangler', !done);
-        approvalStep.querySelector('b').textContent = done ? 'Annonsene er godkjent' : 'Du godkjenner annonsene';
+        approvalStep.querySelector('b').textContent = done ? 'Annonsene er godkjent' : 'Dere godkjenner annonsene';
         approvalStep.querySelector('.sr-only').textContent = done ? 'Fullført: ' : 'Gjenstår: ';
         approvalStep.querySelector('.icon-lucide').className = 'icon-lucide icon-lucide--' + (done ? 'circle-check' : 'clock');
         if (done) approvalStep.querySelector('small').textContent = 'Frantz følger opp publisering.';

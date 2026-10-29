@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=208">
+<link rel="stylesheet" href="../frantz-ds.css?v=211">
 <link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
@@ -112,7 +112,7 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Kampanjer</h1>
-          <p class="lede" id="liste-lede">Kampanjene du har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.</p>
+          <p class="lede" id="liste-lede">Kampanjene dere har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.</p>
         </div>
       </div>
 
@@ -264,7 +264,7 @@
     document.querySelectorAll('input[data-status]').forEach(function (x) { x.checked = valgt.status.indexOf(x.dataset.status) !== -1; });
     $('liste-lede').textContent = valgt.hvem === 'alle'
       ? 'Alle kampanjene på Nordlys Rekruttering AS. Velg en kampanje for å se resultater og laste ned rapporten.'
-      : 'Kampanjene du har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.';
+      : 'Kampanjene dere har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.';
     tegnAktive();
   }
   // The default view is «Mine kampanjer». «Alle på Nordlys Rekruttering AS» is a filter and shows as a chip.

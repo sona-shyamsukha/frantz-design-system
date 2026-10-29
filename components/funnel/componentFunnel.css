@@ -44,7 +44,7 @@
 /* Kolonneoverskrifter — ett trinn per celle */
 .funnel__cells {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--funnel-steg, 4), minmax(0, 1fr));
 }
 
 .funnel__cell {
@@ -131,7 +131,7 @@
 /* Frafall under grafen */
 .funnel__foot {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--funnel-steg, 4), minmax(0, 1fr));
   border-top: 1px solid var(--border-default);
 }
 
@@ -273,7 +273,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 25%;
+  width: calc(100% / var(--funnel-steg, 4));
   padding: 0;
   border: 0;
   border-radius: var(--radius-8);
@@ -301,7 +301,7 @@
 /* Small labels under the chart, like an axis */
 .funnel__akse {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--funnel-steg, 4), minmax(0, 1fr));
   margin-top: var(--space-8);
 }
 

@@ -47,7 +47,8 @@
       (el.closest('details') ? '' : '<span class="summary-panel__label">Sporingskode</span>') +
       '<p class="piksel__status"><span class="piksel__prikk" aria-hidden="true"></span>' + esc(STATUS[status](el.dataset.tid || '')) + '</p>' +
       '<div data-piksel-code></div>' +
-      '<div class="piksel__knapper"><a class="link link--xs" href="' + esc(epost(id, tittel)) + '">Send til den som lager nettsiden</a></div>' +
+      // data-piksel-mail="off": the page already has its own send button.
+      (el.dataset.pikselMail === 'off' ? '' : '<div class="piksel__knapper"><a class="link link--xs" href="' + esc(epost(id, tittel)) + '">Send til den som lager nettsiden</a></div>') +
       '<p class="piksel__hjelp">' + HJELP[status] + (connect
         ? ' Koden hører til stillingen, og står også i <a class="link" href="connect.html">Stillinger</a>.'
         : ' Koden har samme ID som kampanjen.') + ' <a class="link" href="sporingskode.html">Slik legger dere inn koden</a>.</p>';

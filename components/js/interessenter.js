@@ -1,5 +1,5 @@
 /* Meldte interesse: listen har personopplysninger, så den vises først etter
-   at brukeren bekrefter hvordan de skal brukes. Etterpå kan listen sendes på e-post.
+   at kunden bekrefter hvordan de skal brukes. Etterpå kan listen sendes på e-post.
    Markup: [data-samtykke="<kampanje-id>"] med [data-samtykke-boks], [data-samtykke-liste] og [data-epost]. */
 (function () {
   function husk(nokkel, verdi) {
@@ -37,6 +37,28 @@
     if (!epostKnapp || !epost) return;
     var felt = epost.querySelector('input[type="email"]');
     var svar = epost.querySelector('[data-epost-svar]');
+    // The shared error style: under the field, linked to it, announced only when it appears.
+    var feil = document.createElement('p');
+    feil.className = 'form-error';
+    feil.id = felt.id + '-feil';
+    feil.setAttribute('role', 'alert');
+    feil.hidden = true;
+    felt.insertAdjacentElement('afterend', feil);
+    function visFeil(tekst) {
+      feil.textContent = tekst;
+      feil.hidden = false;
+      felt.classList.add('form-input--error');
+      felt.setAttribute('aria-invalid', 'true');
+      felt.setAttribute('aria-describedby', feil.id);
+    }
+    function fjernFeil() {
+      feil.textContent = '';
+      feil.hidden = true;
+      felt.classList.remove('form-input--error');
+      felt.removeAttribute('aria-invalid');
+      felt.removeAttribute('aria-describedby');
+    }
+    felt.addEventListener('input', function () { if (!feil.hidden && felt.checkValidity()) fjernFeil(); });
     epostKnapp.addEventListener('click', function () {
       epost.hidden = !epost.hidden;
       epostKnapp.setAttribute('aria-expanded', String(!epost.hidden));
@@ -44,7 +66,13 @@
     });
     epost.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!felt.checkValidity()) { svar.textContent = 'Skriv en gyldig e-postadresse.'; felt.focus(); return; }
+      svar.textContent = '';
+      if (!felt.checkValidity()) {
+        visFeil(felt.value.trim() ? 'Skriv en gyldig e-postadresse, for eksempel navn@virksomhet.no.' : 'Skriv e-postadressen listen skal sendes til.');
+        felt.focus();
+        return;
+      }
+      fjernFeil();
       svar.textContent = 'Listen er sendt til ' + felt.value + '.';
       felt.value = '';
     });

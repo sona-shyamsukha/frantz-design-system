@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=208">
+<link rel="stylesheet" href="../frantz-ds.css?v=211">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
 <style>
@@ -111,6 +111,7 @@
               <p class="card__hint">57 % av besøkende har lest hele stillingsteksten. De bruker i snitt 1 min 42 s på siden.</p></div>
             </div>
             <div id="resultat-trakt" data-trakt data-visning="trakt"></div>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p><b>Visninger:</b> hvor mange ganger annonsene ble vist.</p><p><b>Klikk:</b> hvor mange som klikket på en annonse.</p><p><b>Besøk på siden:</b> hvor mange som kom til kampanjesiden og ble der en stund.</p><p><b>Begynte å lese:</b> hvor mange som begynte å scrolle i stillingsteksten.</p><p><b>Leste hele annonsen:</b> hvor mange som leste stillingsteksten helt ut.</p><p><b>Trykket «Søk»:</b> hvor mange som gikk videre til søknadsskjemaet. Hvor mange som sendte søknaden, ser dere i deres eget system.</p></div></details>
           </div>
           <div class="card card--betjen" id="dag-for-dag">
             <div class="card__head"><div>
@@ -199,7 +200,7 @@
                 <div class="journey__body">
                   <div class="journey__head"><span class="tag">Sluttevaluering</span><span>Etter 03.10 · planlagt</span></div>
                   <h4>Sluttevaluering fra rådgiver</h4>
-                  <p>Du får en samlet vurdering av resultatet og råd til neste kampanje.</p>
+                  <p>Dere får en samlet vurdering av resultatet og råd til neste kampanje.</p>
                 </div>
               </li>
             </ol>
@@ -287,8 +288,8 @@
               <p class="card__hint">9 personer har meldt interesse så langt. 3 er nye siden 26.09. Ta kontakt mens de er varme.</p>
             </div><button class="btn btn--secondary" type="button" data-epost-apne aria-expanded="false" aria-controls="epost-129041" hidden><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span> Send listen på e-post</button></div>
             <div class="samtykke" data-samtykke-boks>
-              <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må du bekrefte hvordan du bruker opplysningene.</p>
-              <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Jeg bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
+              <p>Listen viser navn, e-post og telefon til personer som har meldt interesse. For å se den må dere bekrefte hvordan dere bruker opplysningene.</p>
+              <label class="form-check"><input class="form-check__input" type="checkbox"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Vi bruker opplysningene bare til denne rekrutteringen, og sletter dem når stillingen er besatt.</span></label>
               <button class="btn btn--primary" type="button" data-vis-liste disabled>Vis listen</button>
             </div>
             <div data-samtykke-liste hidden>
@@ -318,7 +319,7 @@
             </div>
             <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Disse personene la igjen navn og kontaktinfo på kampanjesiden. «Vil bli kontaktet» betyr at de ønsker en samtale. Ring dem gjerne innen en uke. «Varsel før frist» betyr at de vil ha en påminnelse før søknadsfristen.</p></div></details>
           </div></section>
-</div><aside class="campaign-rail"><details class="disclosure campaign-links" open><summary>Kampanjeoversikt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="grid gap-4 campaign-overview-facts" data-campaign-facts></div><div class="grid gap-4" data-campaign-links><p class="form-hint">Laster lenkene …</p></div></div></details></aside></div>
+</div><aside class="campaign-rail"><details class="disclosure campaign-links" open data-open-on-phone><summary>Kampanjeoversikt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="grid gap-4 campaign-overview-facts" data-campaign-facts></div><div class="grid gap-4" data-campaign-links><p class="form-hint">Laster lenkene …</p></div></div></details></aside></div>
     </div>
   </div>
 </div>
@@ -357,7 +358,7 @@
   ] });
 })();
 </script>
-<script src="../components/js/funnel.js?v=70"></script>
+<script src="../components/js/funnel.js?v=71"></script>
 
 <script>
 tegnTrakt(document.getElementById('resultat-trakt'), {
@@ -440,6 +441,8 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
     if (tegnet || !el || !el.offsetWidth || !window.d3 || !window.topojson) return;
     tegnet = true;
     fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(function (r) { return r.json(); }).then(function (topo) {
+      // A campaign without a breakdown removes the map before the outline arrives.
+      if (!el.isConnected || !el.offsetWidth) { tegnet = false; return; }
       var alle = topojson.feature(topo, topo.objects.countries).features;
       var norge = alle.filter(function (f) { return String(f.id) === '578'; })[0];
       var naboer = alle.filter(function (f) { return ['752', '246', '643'].indexOf(String(f.id)) !== -1; });
@@ -471,26 +474,26 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
   tegn();
 })();
 </script>
-<script src="../components/js/interessenter.js?v=1"></script>
-<script src="../components/js/campaign-material.js?v=5"></script>
+<script src="../components/js/interessenter.js?v=2"></script>
+<script src="../components/js/campaign-material.js?v=8"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
 <script src="../components/js/campaign-material-view.js?v=6"></script>
 <script src="../components/js/copy-field.js?v=20261028-copy"></script>
-<script src="../components/js/piksel.js?v=20261028-copy"></script>
+<script src="../components/js/piksel.js?v=20261028-fix"></script>
 <script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=18"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="data/rapporter.js?v=20261027-client"></script>
 <script src="data/kampanjer.js?v=20261027-adviser"></script>
-<script src="../components/js/report-view.js?v=20261027-overview2"></script>
+<script src="../components/js/report-view.js?v=20261029-sist2"></script>
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
-<script src="../components/js/campaign-sections.js?v=20261027-overview2"></script>
+<script src="../components/js/campaign-sections.js?v=20261028-fix"></script>
 <script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
-<script src="../components/js/campaign-activity.js?v=20261027-submitted"></script>
-<script src="../components/js/campaign-details.js?v=20261027-spacing"></script>
-<script src="../components/js/campaign-page.js?v=20261027-simple-report" data-default-campaign="129041"></script>
+<script src="../components/js/campaign-activity.js?v=20261028-fix"></script>
+<script src="../components/js/campaign-details.js?v=20261028-fix"></script>
+<script src="../components/js/campaign-page.js?v=20261028-fix" data-default-campaign="129041"></script>
 </body>
 </html>

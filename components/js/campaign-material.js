@@ -2,6 +2,8 @@
 (function (root) {
   'use strict';
   var opening;
+  // The demo runs on one clock (FZ_I_DAG, 30.09.2026). Without it, real time.
+  function now() { return typeof root.FZ_I_DAG === 'function' ? root.FZ_I_DAG() : new Date(); }
   function database() {
     if (!opening) opening = new Promise(function (resolve, reject) {
       var request = indexedDB.open('frantzCampaignMaterialV1', 1);
@@ -65,7 +67,7 @@
       else throw new Error('Upload the original image again');
     }
     return {
-      id: root.crypto.randomUUID(), ordre: order, innsendt: new Date().toISOString(),
+      id: root.crypto.randomUUID(), ordre: order, innsendt: now().toISOString(),
       materiell: {
         kilder: (options.sourceFiles || (options.sourceFile ? [options.sourceFile] : [])).map(function (file) { return { navn: file.name, fil: file, kilde: 'stillingsgrunnlag' }; }),
         logo: ad.logoFil ? { navn: ad.logoFil.name, fil: ad.logoFil, kilde: 'egen-logo' } : null,

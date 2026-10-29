@@ -41,3 +41,4 @@
 .disclosure[open] > summary > .icon-lucide { transform: rotate(180deg); }
 .disclosure > .disclosure__content { padding: var(--space-16) var(--space-panel-padding); }
 .disclosure > .disclosure__content > p + p { margin-top: var(--space-12); }
+.disclosure > .disclosure__content > p { max-width: 65ch; }

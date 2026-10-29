@@ -1,15 +1,14 @@
 # Status — Frantz portal prototype
 
-Updated 28.10.2026.
+Updated 29.10.2026.
 
 ## In progress
-- Branch `tabell-tekst` (pushed, no PR yet):
-  - Every table cell uses one text size. Second lines, notes and codes stay muted, not smaller.
-  - Codes in tables use the body type role.
-  - Only status badges and tags are smaller.
+- Branch `atelier/review` (committed, not pushed): baseline review. Report: `atelier/05-checks/report.html`.
+- Branch `atelier/fixes` (committed, not pushed): the changes Sona approved on 28.10. Tour opens only from «Vis meg rundt». Ny kampanje fills in Frantz's suggestion, sorts finished ads, shows «Slik går det videre». Bestilt has one status card and a missing-ads banner. The report compares with the customer's last campaign. «dere» everywhere. All 50 tests pass.
+- 29.10 (not committed): report cards show one short comparison line; the previous campaign is named once under the cards. Before/after page: `atelier/05-checks/endringer-28-10.html`.
 
 ## Waiting on Sona
-1. Open a PR for `tabell-tekst` and merge it into `main`? yes / changes
+1. Push both branches and deploy a Vercel preview? yes / no
 
 ## Questions for Frantz (Tuesday 3.11)
 1. How do customers change job details after ordering today: the Pixel page, or «Forespør endringer»?
@@ -20,7 +19,11 @@ Updated 28.10.2026.
 - Presentation for the client on Tuesday 3.11.
 
 ## Decisions
+- 29.10: Report comparison was too much text in the small cards (Sona). Cards now say only «34 flere enn sist»; «Sist» is explained in one line under the cards.
+- 28.10: The report funnel now draws all 6 steps (Sona said yes). The approval hint in Ny kampanje sits under both order buttons.
+- 28.10: Suggested budget in Ny kampanje capped at kr 15 000, never below the channel minimum (Sona said yes).
 - 28.10: `sporingskode-guide` and `tabell-justering` are merged into `main` (PR 19, PR 20).
+- 28.10: `tabell-tekst` is merged into `main` (PR 21). One text size in every table cell.
 - 28.10: Change 2 («Kontakt rådgiver» to a named advisor) is not important. Dropped.
 - 28.10: Change 6 (language choice) is fixed in the real product, not in the prototype.
 - 28.10: Connect detail page removed. Audience category and ISCO belong in the admin version only.

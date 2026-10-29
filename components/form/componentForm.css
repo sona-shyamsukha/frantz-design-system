@@ -60,18 +60,22 @@
   resize: vertical;
 }
 
+/* Help text keeps a readable line length on wide screens. */
 .form-hint,
 .felt .hjelp {
+  max-width: 65ch;
   font: var(--type-support);
   color: var(--text-muted);
 }
 
 .form-description {
+  max-width: 65ch;
   font: var(--type-body);
   color: var(--text-muted);
 }
 
 .form-error {
+  max-width: 65ch;
   font: var(--type-support);
   color: var(--text-danger-moderate);
 }
