@@ -928,6 +928,10 @@
   .v2-dialog__felt { min-width: 0; }
   .v2-dialog__felt > .felt, .v2-dialog__felt > .blokk { margin: 0; width: 100%; min-width: 0; }
   .v2-dialog__felt > .form-hint { margin: var(--space-8) 0 0; }
+  .v2-dialog .felt > .form-hint { order: 2; margin: 0; }
+  .v2-dialog__innhold--kampanje .budsjett-kontroll { display: flex; flex-direction: column; gap: var(--space-label-gap); }
+  .v2-dialog__innhold--kampanje .budsjett-kontroll__topp { align-items: center; justify-content: flex-start; gap: var(--space-16); margin-bottom: 0; }
+  .v2-dialog__innhold--kampanje .budsjett-felt .form-input { height: auto; padding-block: var(--space-12); font: var(--type-body); }
   .v2-dialog__felt #blokk-periode { border-top: 0; padding-top: 0; }
   .v2-dialog .form-input, .v2-dialog .picker__felt { max-width: 100%; }
   .v2-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); position: sticky; bottom: 0; padding: var(--space-16) var(--space-24); background: var(--surface-raised); border-top: 1px solid var(--border-subtle); }
@@ -968,6 +972,12 @@
   /* Values Frantz filled in for the customer */
   .v2-forslag { margin-left: var(--space-4); vertical-align: middle; }
   .v2-forslag-hint { margin: 0; padding: var(--space-12) var(--space-24); border-top: 1px solid var(--border-subtle); color: var(--text-muted); font: var(--type-support); }
+  .v2-sporsmal { display: grid; gap: var(--space-12); justify-items: start; margin: var(--space-16) var(--space-24); }
+  .v2-sporsmal .card__title, .v2-sporsmal p { margin: 0; }
+  .v2-sporsmal ul { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; color: var(--text-body); font: var(--type-body); }
+  .v2-sporsmal li b, .v2-sporsmal__rekkevidde b { color: var(--text-heading); }
+  .v2-sporsmal__rekkevidde { margin: 0; color: var(--text-body); font: var(--type-body); }
+  .v2-sporsmal__valg { display: flex; flex-wrap: wrap; gap: var(--space-8); }
   .v2-ferdige { grid-column: 2; display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; }
   .v2-ferdige li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: var(--space-12); min-width: 0; }
   .v2-ferdige img, .v2-ferdige video { display: block; width: 48px; height: 48px; border-radius: var(--radius-8); object-fit: cover; background: var(--surface-section); }
@@ -1181,8 +1191,7 @@
               <div id="v2-ref-lager" hidden>
               <div class="felt funnet__bred kilde-referanse" id="felt-ref">
                 <label class="form-label" for="ref">Kampanjenavn/deres referansekode <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <p class="form-hint" id="ref-hint">Deres eget nummer (valgfritt)</p>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" aria-describedby="ref-hint ref-feil">
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" aria-describedby="ref-feil">
                 <p class="feil" id="ref-feil" role="alert" hidden>Gi kampanjen et navn eller oppgi deres referansekode.</p>
               </div>
               </div>
@@ -2051,7 +2060,7 @@
     var ok = tilstand.v2ok || {}, kilde = tilstand.v2kilde || {};
     if (id === 'budsjett') return budsjett() ? kr(budsjett()) : '';
     if (id === 'kanaler') return tilstand.kanaler.join(', ');
-    if (id === 'periode') return periodeTekst();
+    if (id === 'periode') return tilstand.periodeApent ? '' : periodeTekst();
     if (id === 'pakke') return pakkeTekst();
     if (id === 'produkter') return tilleggListe().join(', ') || 'Ingen tilleggsprodukter valgt';
     if (id === 'faktura') return $('faktura').value;
@@ -2097,6 +2106,76 @@
   }
   // Summary values stay read-only. Related controls move into one native dialog.
   var v2DialogSnapshot = null, v2DialogGroup = null;
+  function v2ForslagSpor() {
+    var spor = tilstand.forslagSpor || {};
+    var deler = [];
+    if (spor.budsjett) deler.push('budsjett');
+    if (spor.kanaler) deler.push('kanaler');
+    if (spor.periode) deler.push('periode');
+    var kort = document.createElement('div');
+    kort.className = 'card card--betjen v2-sporsmal';
+    var tittel = document.createElement('h3');
+    tittel.className = 'card__title';
+    tittel.textContent = 'Vil dere bruke forslaget fra Frantz?';
+    var hint = document.createElement('p');
+    hint.className = 'card__hint';
+    hint.textContent = (deler.length ? ogListe(deler).replace(/^./, function (tegn) { return tegn.toUpperCase(); }) : 'Forslaget') + ' er et forslag ut fra stillingen. Det legges ikke inn før dere sier ja.';
+    var liste = document.createElement('ul');
+    function rad(navn, verdi) {
+      var li = document.createElement('li');
+      var sterk = document.createElement('b');
+      sterk.textContent = navn;
+      li.append(sterk, ' ' + verdi);
+      return li;
+    }
+    if (spor.budsjett) liste.appendChild(rad('Budsjett', kr(spor.budsjett)));
+    if (spor.kanaler) liste.appendChild(rad('Kanaler', spor.kanaler.join(', ')));
+    if (spor.periode) liste.appendChild(rad('Periode', spor.periode.uker + (spor.periode.uker === 1 ? ' uke' : ' uker')));
+    var rekkevidde = forslagPersoner(spor);
+    var naa = document.createElement('p');
+    naa.className = 'v2-sporsmal__rekkevidde';
+    if (rekkevidde) {
+      naa.append(document.createTextNode('Med dette kan kampanjen nå rundt '));
+      var antall = document.createElement('b');
+      antall.textContent = rekkevidde + ' personer';
+      naa.append(antall, document.createTextNode('. Illustrasjon, ikke et lovet resultat.'));
+    }
+    var valg = document.createElement('div');
+    valg.className = 'v2-sporsmal__valg';
+    var knapp = document.createElement('button');
+    knapp.type = 'button';
+    knapp.className = 'btn btn--primary';
+    knapp.dataset.brukForslag = 'ja';
+    knapp.textContent = 'Bruk forslaget';
+    var selv = document.createElement('button');
+    selv.type = 'button';
+    selv.className = 'btn btn--secondary';
+    selv.dataset.velgSelv = 'ja';
+    selv.textContent = 'Velg selv';
+    valg.append(knapp, selv);
+    kort.append(tittel, hint, liste);
+    if (rekkevidde) kort.appendChild(naa);
+    kort.appendChild(valg);
+    return kort;
+  }
+  function forslagPersoner(spor) {
+    var liste = steder.verdi();
+    var belop = spor.budsjett || budsjett();
+    var kanaler = spor.kanaler && spor.kanaler.length ? spor.kanaler : tilstand.kanaler;
+    if (!R || !tilstand.rolle || !liste.length || !belop || !kanaler.length) return '';
+    var uker = spor.periode ? spor.periode.uker : (typeof tilstand.uker === 'number' ? tilstand.uker : 3);
+    var tall = R.beregn({ rolle: tilstand.rolle, steder: liste, budsjett: belop, kanaler: kanaler, uker: uker });
+    return R.spenn(tall.malgruppe * tall.dybde);
+  }
+  function brukForslagSpor() {
+    var spor = tilstand.forslagSpor;
+    if (!spor) return;
+    if (spor.budsjett) { budsjettKontroll.set(spor.budsjett); tilstand.valgtBudsjett = true; }
+    if (spor.kanaler) { tilstand.kanaler = spor.kanaler.slice(); tilstand.kanalmodus = 'selv'; tilstand.valgtKanal = true; }
+    if (spor.periode) { tilstand.uker = spor.periode.uker; tilstand.til = null; tilstand.venter = false; tilstand.periodeApent = false; }
+    tilstand.forslagSpor = null;
+    tegnKanaler(); tegnPeriode(); oppdater(); v2Tegn();
+  }
   function v2Tegn() {
     if ($('v2-dialog').open) return;
     v2hjemAlle();
@@ -2126,6 +2205,7 @@
         var valgfritt = document.createElement('span'); valgfritt.className = 'form-hint'; valgfritt.textContent = 'Valgfritt'; topp.appendChild(valgfritt);
       } else if (seksjon.id !== 'bestilling') topp.appendChild(endre);
       blokk.appendChild(topp);
+      if (seksjon.id === 'kampanje' && tilstand.forslagSpor) blokk.appendChild(v2ForslagSpor());
       if (seksjon.id === 'produkter') {
         var valg = document.createElement('div'); valg.className = 'v2-produkter';
         v2flytt('produkter', valg); blokk.appendChild(valg); rot.appendChild(blokk);
@@ -2146,6 +2226,7 @@
       var forslagVist = false;
       seksjon.felt.forEach(function (felt) {
         if (felt[0] === 'pakke' && !tilstand.pakke) return;
+        if (tilstand.forslagSpor && tilstand.forslagSpor[felt[0]]) return;
         var verdi = felt[0] === 'fil' ? v2Vedleggnavn() : v2VisVerdi(felt[0]);
         var rad = document.createElement('div');
         var mangler = V2OBLIGATORISK.indexOf(felt[0]) !== -1 && !verdi;
@@ -2392,7 +2473,15 @@
     // Saving a section updates the draft. Required fields are checked when ordering or sharing.
     ++logoRequest;
     setCropEditing(false);
-    if (lagre) gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
+    if (lagre) {
+      gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
+      if (tilstand.forslagSpor) {
+        if (budsjett()) delete tilstand.forslagSpor.budsjett;
+        if (tilstand.kanaler.length) delete tilstand.forslagSpor.kanaler;
+        if (!tilstand.periodeApent) delete tilstand.forslagSpor.periode;
+        if (!tilstand.forslagSpor.budsjett && !tilstand.forslagSpor.kanaler && !tilstand.forslagSpor.periode) tilstand.forslagSpor = null;
+      }
+    }
     else {
       var snapshot = v2DialogSnapshot;
       if (gruppe.id === 'materiell') v2GjenopprettMedia(snapshot);
@@ -2454,6 +2543,8 @@
     $('beskrivelse').focus();
   }
   $('v2').addEventListener('click', function (e) {
+    if (e.target.closest('[data-bruk-forslag]')) { brukForslagSpor(); return; }
+    if (e.target.closest('[data-velg-selv]')) { v2Apne('kampanje'); return; }
     var gruppe = e.target.closest('[data-v2-gruppe]');
     if (gruppe) v2Apne(gruppe.dataset.v2Gruppe);
   });
@@ -2603,15 +2694,20 @@
     tilstand.til = a.til || null;
     tilstand.materiell = a.materiell || (tilstand.ferdige.length ? 'ferdig' : '');
     if (!tilstand.v2kilde.materiell && tilstand.ferdige.length) tilstand.v2kilde.materiell = 'ferdig';
-    // What the customer left out, Frantz suggests from the job. The values stay editable and never block the order.
+    // What the customer left out stays a suggestion until they accept it.
     var harKanaler = !!(a.kanaler && a.kanaler.length);
-    if (!harKanaler) tilstand.kanaler = anbefalt();
-    budsjettKontroll.set(a.budsjett || forslagBudsjett() || (anbefalingOriginal && anbefalingOriginal.budsjett) || null);
+    var harPeriode = !!(a.uker || a.fra || a.til);
+    if (!harKanaler) { tilstand.kanaler = []; tilstand.kanalmodus = 'selv'; }
+    budsjettKontroll.set(a.budsjett || null);
+    tilstand.periodeApent = !harPeriode;
     tegnKanaler(); tegnPeriode();
+    var spor = {};
+    var original = anbefalingOriginal || {};
+    if (!a.budsjett && original.budsjett) spor.budsjett = original.budsjett;
+    if (!harKanaler) spor.kanaler = (original.kanaler && original.kanaler.length ? original.kanaler : anbefalt()).slice();
+    if (!harPeriode) spor.periode = { uker: 3 };
+    tilstand.forslagSpor = (spor.budsjett || spor.kanaler || spor.periode) ? spor : null;
     tilstand.forslag = {};
-    if (!a.budsjett && budsjett()) tilstand.forslag.budsjett = v2VisVerdi('budsjett');
-    if (!harKanaler && tilstand.kanaler.length) tilstand.forslag.kanaler = v2VisVerdi('kanaler');
-    if (!a.uker && !a.fra && !a.til) tilstand.forslag.periode = v2VisVerdi('periode');
     v2apen = null;
     $('v2-bestill').hidden = false;
     $('v2-status').hidden = true;
@@ -3163,7 +3259,7 @@
   document.addEventListener('click', function (e) {
     var uker = e.target.closest('[data-uker]'); if (!uker) return;
     tilstand.uker = uker.dataset.uker === 'frist' ? 'frist' : Number(uker.dataset.uker);
-    tilstand.til = null; tilstand.venter = false;
+    tilstand.til = null; tilstand.venter = false; tilstand.periodeApent = false;
     oppdater();
   });
   // A new start keeps the number of weeks, so the end date moves with it. A day before the earliest start is not used.
