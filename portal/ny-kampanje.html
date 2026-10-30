@@ -977,6 +977,8 @@
   .v2-sporsmal ul { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; color: var(--text-body); font: var(--type-body); }
   .v2-sporsmal li b, .v2-sporsmal__rekkevidde b { color: var(--text-heading); }
   .v2-sporsmal__rekkevidde { margin: 0; color: var(--text-body); font: var(--type-body); }
+  .v2-rekkevidde { margin: var(--space-16) var(--space-24); }
+  .v2-rekkevidde .alert__body { margin: 0; }
   .v2-sporsmal__valg { display: flex; flex-wrap: wrap; gap: var(--space-8); }
   .v2-ferdige { grid-column: 2; display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; }
   .v2-ferdige li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: var(--space-12); min-width: 0; }
@@ -2167,6 +2169,30 @@
     var tall = R.beregn({ rolle: tilstand.rolle, steder: liste, budsjett: belop, kanaler: kanaler, uker: uker });
     return R.spenn(tall.malgruppe * tall.dybde);
   }
+  function v2Rekkevidde() {
+    var liste = steder.verdi();
+    if (!R || !tilstand.rolle || !liste.length || !budsjett() || !tilstand.kanaler.length || tilstand.periodeApent) return '';
+    var tall = R.beregn({ rolle: tilstand.rolle, steder: liste, budsjett: budsjett(), kanaler: tilstand.kanaler, uker: antallDager(periodeDatoer()) / 7 });
+    return R.spenn(tall.malgruppe * tall.dybde);
+  }
+  function v2RekkeviddeBoks() {
+    var rekkevidde = v2Rekkevidde();
+    if (!rekkevidde) return null;
+    var boks = document.createElement('div');
+    boks.className = 'alert alert--info v2-rekkevidde';
+    boks.setAttribute('role', 'status');
+    var innhold = document.createElement('div');
+    innhold.className = 'alert__content';
+    var tittel = document.createElement('b');
+    tittel.className = 'alert__title';
+    tittel.textContent = 'Kampanjen kan nå rundt ' + rekkevidde + ' personer';
+    var tekst = document.createElement('p');
+    tekst.className = 'alert__body';
+    tekst.textContent = 'Illustrasjon ut fra budsjett, kanaler og periode. Ikke et lovet resultat.';
+    innhold.append(tittel, tekst);
+    boks.appendChild(innhold);
+    return boks;
+  }
   function brukForslagSpor() {
     var spor = tilstand.forslagSpor;
     if (!spor) return;
@@ -2257,6 +2283,10 @@
         if (felt[0] === 'materiell' && verdi === 'Ferdig materiell' && tilstand.ferdige.length) rad.appendChild(v2FerdigeListe());
         blokk.appendChild(rad);
       });
+      if (seksjon.id === 'kampanje') {
+        var rekkevidde = v2RekkeviddeBoks();
+        if (rekkevidde) blokk.appendChild(rekkevidde);
+      }
       if (forslagVist) {
         var forklar = document.createElement('p');
         forklar.className = 'v2-forslag-hint';
