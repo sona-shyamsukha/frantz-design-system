@@ -4,9 +4,11 @@
   function escape(value) { return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function number(value) { return Number(value).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); }
   function money(value) { return 'kr ' + number(value); }
-  function metric(label, value, icon, foot) {
-    return '<div class="metric"><span class="metric__icon"><span class="icon-lucide icon-lucide--' + icon + '" aria-hidden="true"></span></span>' +
-      '<div class="metric__value">' + escape(value) + '</div><div class="metric__label">' + escape(label) + '</div>' + (foot || '') + '</div>';
+  function metric(label, value, icon, foot, help, align) {
+    var symbol = '<span class="metric__icon"><span class="icon-lucide icon-lucide--' + icon + '" aria-hidden="true"></span></span>';
+    var tip = help ? '<button type="button" class="tooltip"' + (align ? ' data-tooltip-align="' + escape(align) + '"' : '') + ' data-tooltip="' + escape(help) + '" aria-label="' + escape('Hva betyr ' + label.toLocaleLowerCase('nb-NO') + '?') + '"><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button>' : '';
+    return '<div class="metric">' + symbol +
+      '<div class="metric__value">' + escape(value) + '</div><div class="metric__label' + (help ? ' tooltip-label' : '') + '"><span>' + escape(label) + '</span>' + tip + '</div>' + (foot || '') + '</div>';
   }
   /* Dates in the fixtures are «dd.mm – dd.mm.yyyy». */
   function periodDates(report) {
@@ -26,7 +28,7 @@
     }).sort(function (a, b) { return periodDates(b).end - periodDates(a).end; })[0] || null;
   }
   /* One short line per card. Direction is said in words, so it never depends on colour. For cost, lower is better: «billigere».
-     Which campaign «sist» means is said once, under the cards (previousNote). */
+     Which campaign «sist» means is said once, under the cards. */
   function comparison(previous, current, before, kind) {
     if (!previous || current == null || before == null) return '';
     var diff = current - before, change;
@@ -52,15 +54,16 @@
     var metrics = [];
     // Comparisons use the customer's own campaigns, so they stay inside the portal.
     var previous = options.internal ? previousCampaign(report, root.FZ_REPORTS) : null;
-    if (report.visits != null) metrics.push(metric('Besøk på kampanjesiden', number(report.visits), 'eye'));
-    metrics.push(metric('Trykket «Søk»', number(report.applications), 'target', comparison(previous, report.applications, previous && previous.applications, 'count')));
-    if (costs && report.cost != null) metrics.push(metric('Kostnad per «Søk»', money(report.cost), 'wallet', comparison(previous, report.cost, previous && previous.cost, 'cost')));
-    if (report.interest != null) metrics.push(metric('Meldte interesse', number(report.interest), 'users'));
+    if (report.visits != null) metrics.push(metric('Besøk på kampanjesiden', number(report.visits), 'eye', '', options.internal && 'Besøk på siden Frantz lager for stillingen. Derfra kan kandidaten trykke «Søk».', 'end'));
+    metrics.push(metric('Trykket «Søk»', number(report.applications), 'target', comparison(previous, report.applications, previous && previous.applications, 'count'), options.internal && ('Klikk videre til søknadsskjemaet, ikke innsendte søknader.' + (previous ? ' Forrige kampanje: ' + number(previous.applications) + ' klikk.' : ''))));
+    if (costs && report.cost != null) metrics.push(metric('Kostnad per «Søk»', money(report.cost), 'wallet', comparison(previous, report.cost, previous && previous.cost, 'cost'), options.internal && ('Annonsekostnad delt på antall klikk på «Søk».' + (previous && previous.cost != null ? ' Forrige kampanje: ' + money(previous.cost) + ' per «Søk».' : ''))));
+    if (report.interest != null) metrics.push(metric('Meldte interesse', number(report.interest), 'users', '', options.internal && 'Personer som la igjen kontaktinfo uten å søke. Dere kan følge dem opp under Interessenter.'));
     var assessment = report.assessment ? '<blockquote class="quote mt-6"><p>' + escape(report.assessment) + '</p><footer><span class="avatar avatar--sm avatar--data" aria-hidden="true">MK</span>Martin Karlsen · Rådgiver i Frantz</footer></blockquote>' : '';
+    var explanation = options.internal ? '<p class="form-hint mt-4">«Søk» viser klikk, ikke innsendte søknader.</p>' + (previous ? '<p class="form-hint">«Sist»: ' + escape(previous.title) + ' (' + escape(previous.period) + ').</p>' : '') : previousNote(previous, costs) + '<p class="form-hint mt-4">' + (report.visits != null ? 'Kampanjesiden er siden Frantz lager for stillingen. Derfra trykker kandidaten «Søk». ' : '') + '«Trykket Søk» er klikk videre til søknadsskjemaet, ikke antall innsendte søknader.' + (report.interest != null ? ' Meldte interesse: kandidater som la igjen kontaktinfo uten å søke.' : '') + '</p>';
     var channels = report.channels ? '<section class="card card--betjen report-channel-section" aria-labelledby="report-channel-title"><div class="card__head"><h2 class="card__title" id="report-channel-title">Resultater per kanal</h2></div><div class="metrics metrics--channel">' + report.channels.map(function (channel, index) {
       return '<div class="metric"><div class="metric__channel"><span class="kanal-prikk kanal-prikk--' + (index === 0 ? 'meta' : 'nettsteder') + '" aria-hidden="true"></span>' + escape(channel.name) + '</div><div class="metric__value">' + number(channel.applications) + '</div><div class="metric__label">Trykket «Søk»</div>' + (costs && channel.cost != null ? '<div class="metric__foot">' + money(channel.cost) + ' per «Søk»</div>' : '') + '</div>';
     }).join('') + '</div></section>' : '';
-    return '<section class="card card--betjen report-summary" aria-labelledby="result-summary-title"><div class="card__head"><div><h2 class="card__title" id="result-summary-title">' + (report.active ? 'Resultater så langt' : 'Kampanjerapport') + '</h2><p class="form-hint">' + (report.active ? 'Oppdatert ' + escape(report.updated) : 'Resultater for hele kampanjeperioden' + (report.updated ? ' · Oppdatert ' + escape(report.updated) : '')) + '</p></div></div><div class="' + (metrics.length === 1 ? 'mt-4' : 'metrics' + (metrics.length === 4 ? ' metrics--fire' : '')) + '">' + metrics.join('') + '</div>' + previousNote(previous, costs) + '<p class="form-hint mt-4">' + (report.visits != null ? 'Kampanjesiden er siden Frantz lager for stillingen. Derfra trykker kandidaten «Søk». ' : '') + '«Trykket Søk» er klikk videre til søknadsskjemaet, ikke antall innsendte søknader.' + (report.interest != null ? ' Meldte interesse: kandidater som la igjen kontaktinfo uten å søke.' : '') + '</p>' + (!report.channels ? '<p class="form-hint mt-4">Annonsert i ' + escape((report.channelNames || []).join(', ')) + '. Detaljert fordeling per kanal er ikke tilgjengelig.</p>' : '') + assessment + '</section>' + channels +
+    return '<section class="card card--betjen report-summary" aria-labelledby="result-summary-title"><div class="card__head"><div><h2 class="card__title" id="result-summary-title">' + (report.active ? 'Resultater så langt' : 'Kampanjerapport') + '</h2><p class="form-hint">' + (report.active ? 'Oppdatert ' + escape(report.updated) : 'Resultater for hele kampanjeperioden' + (report.updated ? ' · Oppdatert ' + escape(report.updated) : '')) + '</p></div></div><div class="' + (metrics.length === 1 ? 'mt-4' : 'metrics' + (metrics.length === 4 ? ' metrics--fire' : '')) + '">' + metrics.join('') + '</div>' + explanation + (!report.channels ? '<p class="form-hint mt-4">Annonsert i ' + escape((report.channelNames || []).join(', ')) + '. Detaljert fordeling per kanal er ikke tilgjengelig.</p>' : '') + assessment + '</section>' + channels +
       (options.internal && report.interest > 0 ? '<div class="report-interest-link"><span>Følg opp de som har meldt interesse.</span><button type="button" class="link" data-open-tab="interessenter">Åpne interessenter (' + number(report.interest) + ')</button></div>' : '');
   }
   function empty(title, message, level) { var heading = level === 2 ? 'h2' : 'h1'; return '<section class="card card--les"><' + heading + ' class="card__title">' + escape(title) + '</' + heading + '><p class="card__hint">' + escape(message) + '</p></section>'; }

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frantz UX review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C3F59;
+    --navy-ink: #082C3F;
+    --amber: #F6A321;
+    --page: #F4F7F9;
+    --surface: #FFFFFF;
+    --line: #D9E2E8;
+    --text: #13232D;
+    --muted: #4E6170;
+    --p1: #8A4B00;
+    --p1-bg: #FDF0DC;
+    --p2: #3F5361;
+    --p2-bg: #EAF0F3;
+    --good: #1E6B45;
+    --good-bg: #E3F2EA;
+    --radius: 12px;
+    --gutter: clamp(16px, 4vw, 40px);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 400 16px/1.55 Montserrat, system-ui, sans-serif; color: var(--text); background: var(--page); }
+  a { color: var(--navy); }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  header.hero { background: var(--navy-ink); color: #fff; padding: 44px 0 36px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: 13px; font-weight: 600; color: #B9CCD7; margin: 0 0 8px; }
+  h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.15; margin: 0 0 12px; }
+  .lead { max-width: 62ch; color: #DCE7ED; margin: 0; font-size: 18px; }
+  .counts { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
+  .counts li { background: rgba(255,255,255,.08); border-radius: var(--radius); padding: 12px 16px; min-width: 120px; }
+  .counts strong { display: block; font-size: 32px; line-height: 1.1; }
+  .counts span { font-size: 14px; color: #DCE7ED; }
+
+  main section { padding: 40px 0 8px; }
+  h2 { font-size: clamp(22px, 3.2vw, 28px); margin: 0 0 6px; color: var(--navy); }
+  .section-intro { color: var(--muted); max-width: 66ch; margin: 0 0 20px; }
+
+  .keep { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); padding: 0; list-style: none; margin: 0; }
+  .keep li { background: var(--good-bg); border-radius: var(--radius); padding: 14px 16px; }
+  .keep strong { display: block; color: var(--good); }
+
+  .top3 { counter-reset: t; display: grid; gap: 12px; padding: 0; list-style: none; margin: 0; }
+  .top3 li { counter-increment: t; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px 16px 60px; position: relative; }
+  .top3 li::before { content: counter(t); position: absolute; left: 20px; top: 12px; font-size: 26px; font-weight: 700; color: var(--amber); }
+  .top3 h3 { margin: 0 0 2px; font-size: 17px; }
+  .top3 p { margin: 0; color: var(--muted); }
+
+  .finding { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); margin: 0 0 20px; overflow: hidden; }
+  .finding__head { padding: 18px 20px 4px; }
+  .finding h3 { margin: 6px 0 0; font-size: 19px; line-height: 1.3; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 13px; font-weight: 600; border-radius: 999px; padding: 2px 10px; }
+  .tag--p1 { background: var(--p1-bg); color: var(--p1); }
+  .tag--p2 { background: var(--p2-bg); color: var(--p2); }
+  .tag--where { background: transparent; color: var(--muted); border: 1px solid var(--line); font-weight: 400; }
+  .finding figure { margin: 14px 0 0; background: var(--page); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .finding img { display: block; width: 100%; height: auto; }
+  .finding figure.narrow img { max-width: 360px; margin: 0 auto; }
+  .finding figcaption { font-size: 14px; color: var(--muted); padding: 8px 20px; }
+  .finding dl { margin: 0; padding: 14px 20px 20px; display: grid; gap: 10px; }
+  .finding dt { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .finding dd { margin: 0; }
+  .finding dd + dt { margin-top: 4px; }
+
+  .small { display: grid; gap: 10px; padding: 0; list-style: none; margin: 0; }
+  .small li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+  .small strong { display: block; }
+  .small span { color: var(--muted); }
+
+  .later { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .later article { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--navy); border-radius: var(--radius); padding: 16px 18px; }
+  .later h3 { margin: 0 0 6px; font-size: 17px; }
+  .later p { margin: 0; color: var(--muted); }
+
+  .note { color: var(--muted); font-size: 14px; padding: 24px 0 48px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Senior UX review · 29.10.2026 · current main</p>
+    <h1>Frantz portal: a calm, honest tool that still makes people hunt</h1>
+    <p class="lead">The craft is good and the tone is right. What holds it back: the same campaign has different names, two lists show the same things, and the most useful moments (approve, share) are not where people look first.</p>
+    <ul class="counts">
+      <li><strong>0</strong><span>P0 · blocks a task</span></li>
+      <li><strong>8</strong><span>P1 · real friction</span></li>
+      <li><strong>7</strong><span>P2 · polish</span></li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section aria-labelledby="keep">
+    <h2 id="keep">Keep these</h2>
+    <p class="section-intro">They work. Protect them when you change other things.</p>
+    <ul class="keep">
+      <li><strong>Status-specific campaign pages</strong>Bestilt tells you the next three steps. That answers «what happens now?» from the research.</li>
+      <li><strong>Advisor note in the report</strong>Martin's one-line comment gives the numbers meaning. Very few tools do this.</li>
+      <li><strong>Compare with your own last campaign</strong>«34 flere enn sist» is the right kind of context.</li>
+      <li><strong>Delt rapport</strong>Clean, no login, PDF button at the top. This is the best page in the portal.</li>
+      <li><strong>New-customer home</strong>One clear first step, and a plain answer to «Hva er en kampanje?».</li>
+      <li><strong>Visual restraint</strong>Navy, one amber action, real Norwegian copy. It feels like one product.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="top3">
+    <h2 id="top3">Fix before Tuesday</h2>
+    <p class="section-intro">Small changes, big effect in a demo. All four are an hour or less each.</p>
+    <ol class="top3">
+      <li><h3>One name per campaign, everywhere</h3><p>Finding 1. The client will notice «Oppdrag 22 31» vs «Sykepleier Oslo» in the first minute.</p></li>
+      <li><h3>Put «Venter på dere» first on Hjem</h3><p>Finding 3. The thing that needs the user is now third on the page.</p></li>
+      <li><h3>«Del rapport» and «Last ned PDF» at the top of the report</h3><p>Finding 6. Task 5 in the brief has no visible button today.</p></li>
+      <li><h3>Make the demo data agree</h3><p>Finding 8. Drammen is missing from every list.</p></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="findings">
+    <h2 id="findings">Findings</h2>
+    <p class="section-intro">Ranked by how much they slow a real user down. Each one has a fix that keeps the current design language.</p>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Hjem · Kampanjer · Stillinger · campaign pages</span></div>
+        <h3>1. The same campaign has two or three names</h3>
+      </div>
+      <figure><img src="crops/kampanjer.jpg" alt="Kampanjer list where the bold name is Oppdrag 22 31 and the job title is grey under it"><figcaption>Kampanjer leads with «Oppdrag 22 31». Hjem, Stillinger and the campaign page lead with «Sykepleier Oslo». Bodø is «Rekruttering Bodø» in the list and «Sykepleier Bodø» on its own page.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>Task 2 in the brief is «find a campaign by their own name or number». If the bold name changes between pages, people stop trusting what they see and start reading every row.</dd>
+        <dt>Fix</dt><dd>One rule for every list, title and breadcrumb: the customer's own name first (if they gave one), job title and place second, number third. Same order on Hjem, Kampanjer, Stillinger and the page header.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Stillinger · Kampanjer</span></div>
+        <h3>2. Stillinger and Kampanjer are two lists of the same things</h3>
+      </div>
+      <figure><img src="crops/stillinger.jpg" alt="Stillinger list with status pills and Opprett kampanje buttons in the same column"><figcaption>Same rows, same period column, same status pills. «Opprett kampanje» also sits in the Status column, so one column holds both a state and an action.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>Users will ask «where do I look for my campaign?». Two answers to one question is a classic cause of support calls.</dd>
+        <dt>Fix</dt><dd>Give each list one job. Stillinger shows only jobs that do <em>not</em> have a campaign yet, with «Opprett kampanje» as its own column. Everything with a campaign lives in Kampanjer. (See decision 2.)</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Hjem</span></div>
+        <h3>3. Hjem puts the status table above what needs the user</h3>
+      </div>
+      <figure><img src="crops/hjem.jpg" alt="Hjem with three dark number tiles, a campaign table, and the Venter på dere card below"><figcaption>«Venter på dere» (approve ads, finish a draft) is the third block. The three dark tiles above have small numbers, and «Aktive nå: 1» repeats the table.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>Returning users open Hjem to answer one question: «do I need to do something?». Today they scroll past status to find it. The dark tiles also use the bold colour block three times, so nothing stands out.</dd>
+        <dt>Fix</dt><dd>Order: greeting → «Venter på dere» (hidden when empty) → campaigns now → results. Turn the tiles light, make the numbers big, and drop «Aktive nå» since the table already shows it.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Under arbeid · approval</span></div>
+        <h3>4. People approve ads they can only see as grey boxes</h3>
+      </div>
+      <figure><img src="crops/under-arbeid.jpg" alt="Three grey ad placeholders and three buttons on two rows"><figcaption>The approval decision sits under three empty placeholders. To see an ad you open a new tab, three times. The three buttons wrap onto two rows with equal weight.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>This is the moment Frantz most needs a fast «yes». Showing the real ad is the whole point of the step (principle 3: one place per campaign).</dd>
+        <dt>Fix</dt><dd>Show the real image or video frame and the headline in each card. «Se annonsen» opens a large view on the same page. Keep «Godkjenn annonsene» as the only filled button. Put the other two side by side as secondary.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">All campaign pages · phone</span></div>
+        <h3>5. «Kampanjeoversikt» is heavy and hides things</h3>
+      </div>
+      <figure class="narrow"><img src="crops/rapport-mobil.jpg" alt="Phone view of Sykepleier Bodø where the first screen is filled by the open overview panel with script code"><figcaption>On a phone, the finished campaign opens with the panel expanded: the first screen is IDs and script code, not results. On Under arbeid the same panel starts closed.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>On desktop the panel scrolls inside itself, so the bottom links (like the shareable report) are out of sight. It mixes facts people read (period, advisor) with tools few people need (script code, URLs).</dd>
+        <dt>Fix</dt><dd>Split it: «Om kampanjen» (period, ordered by, advisor) always visible; «Lenker og kode» folded. On phone, always start closed. Lighten the navy header so it does not compete with the page title.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Avsluttet · Aktiv</span></div>
+        <h3>6. The report has no share or download button</h3>
+      </div>
+      <figure><img src="crops/delt.jpg" alt="Shared report page with a Last ned PDF button next to the title"><figcaption>The shared report gets it right: «Last ned PDF» next to the title. Inside the portal the same report has no such button. The share link is at the bottom of the side panel.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>Task 5: «show the result to their own client». Agencies do this after every campaign. It should be the most obvious action on a finished campaign.</dd>
+        <dt>Fix</dt><dd>Add «Del rapport» (copies the no-login link) and «Last ned PDF» next to the title on Avsluttet. On Aktiv, «Del rapport» only.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Insikt · Rapport</span></div>
+        <h3>7. The funnel is not to scale, so it hides where people drop off</h3>
+      </div>
+      <figure><img src="crops/trakt.jpg" alt="Funnel chart that falls steeply after Visninger and then stays almost flat to Trykket Søk"><figcaption>Klikk is 1.5 % of Visninger but is drawn at about a quarter of the height. From Leste hele annonsen (1 150) to «Søk» (52) is the second-biggest drop, but it looks small. «Søk», the result that matters, is a thin orange line.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>Principle 4: numbers with meaning. A chart that changes the story is worse than no chart.</dd>
+        <dt>Fix</dt><dd>Show Visninger as a number above, then true-scale bars from Klikk to «Søk». Mark the step with the biggest drop in words («Flest falt fra her»). Make «Søk» the strongest bar.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1</span><span class="tag tag--where">Demo data</span></div>
+        <h3>8. Campaigns are missing from the lists</h3>
+      </div>
+      <figure><img src="crops/bestilt.jpg" alt="Barnehagelærer Drammen campaign page with status Bestilt"><figcaption>Barnehagelærer Drammen (#129074) has its own page but is not in Kampanjer or on Hjem. Anestesisykepleier Stavanger is in Stillinger but not in Kampanjer.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>In the demo on 3.11, someone will click «Kampanjer» after seeing Drammen and not find it. It makes the prototype look broken, not the design.</dd>
+        <dt>Fix</dt><dd>Add the missing rows to the shared demo data, so every campaign appears in every list it belongs to.</dd>
+      </dl>
+    </article>
+  </section>
+
+  <section aria-labelledby="polish">
+    <h2 id="polish">Polish (P2)</h2>
+    <p class="section-intro">Worth doing, but none of these stops a task.</p>
+    <ul class="small">
+      <li><strong>Sporingskode shows up three times on Bestilt</strong><span>A task block, a folded section and the side panel. Keep the task block only.</span></li>
+      <li><strong>The amber «Ny kampanje» stays visible while you make a new campaign</strong><span>On Ny kampanje it competes with «Fyll ut skjemaet». Hide it on that page. The page title also says «Opprett kampanje» for the same thing.</span></li>
+      <li><strong>Four «Hva betyr dette?» boxes on one report</strong><span>They look the same and say similar things. Use a one-line caption per chart, and keep one glossary at the bottom.</span></li>
+      <li><strong>Page tabs look like filter buttons</strong><span>Stilling / Kampanje / Annonser / Insikt use the same pill style as «Trakt / Per kanal». Underline tabs would show «this is a page section».</span></li>
+      <li><strong>«Følg opp de som har meldt interesse» floats between cards</strong><span>Move it into the «Meldte interesse» number tile as a link.</span></li>
+      <li><strong>Kampanjer: the draft row shows «Søknadsfrist» in the period column</strong><span>And the intro promises results and reports, which drafts don't have. Show «—» and say «Alle kampanjene deres, også kladder».</span></li>
+      <li><strong>Phone Hjem: one campaign fills the whole screen</strong><span>Label/value rows make each card very tall. Use a compact row: name, status, period on two lines.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="later">
+    <h2 id="later">Bigger ideas for after 3.11</h2>
+    <p class="section-intro">Not fixes. Directions to discuss with Frantz.</p>
+    <div class="later">
+      <article><h3>One progress line on every campaign</h3><p>Bestilt's three steps work well. Show the same slim line on all states: Bestilt → Under arbeid → Aktiv → Avsluttet. People always know where they are.</p></article>
+      <article><h3>Agencies think in end clients</h3><p>Nordlys Rekruttering runs campaigns for many employers. A filter or grouping by «Arbeidsgiver» on Kampanjer would match how they work and report.</p></article>
+      <article><h3>A report that leads with the answer</h3><p>Start the report with one sentence: «18 trykket «Søk». Nettsteder og aviser ga mest, og billigst.» Then the charts as proof.</p></article>
+    </div>
+  </section>
+
+  <p class="note">Checked on 390 px and 1440 px: Hjem (new and existing), Kampanjer, Stillinger, Ny kampanje step 1, Bestilt, Under arbeid, Aktiv, Avsluttet, Delt rapport. Not checked in this pass: the approval page itself (needs the full flow), later steps of Ny kampanje, settings, keyboard and screen-reader use. Earlier review (28.10) fixes are already in.</p>
+</main>
+</body>
+</html>

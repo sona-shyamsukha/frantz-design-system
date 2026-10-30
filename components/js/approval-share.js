@@ -40,7 +40,7 @@
           row.append(head, recipient, el('p', 'form-hint approval-summary__version', 'Versjon ' + request.version));
           if (request.answered) row.append(el('p', 'form-hint', 'Svar registrert ' + date(request.answered) + '.'));
           if (request.comment) row.append(el('blockquote', 'approval-comment', request.comment));
-          if (state === 'approved') row.append(el('p', 'form-hint', request.round === 'plan' ? (options.ordered ? 'Kampanjeplanen ble godkjent før bestilling.' : 'Planen er godkjent. Bestill kampanjen når dere er klare.') : 'Materiellet er godkjent. Frantz kan følge opp publisering.'));
+          if (state === 'approved') row.append(el('p', 'form-hint', request.round === 'plan' ? (options.ordered ? 'Kampanjeplanen ble godkjent før bestilling.' : 'Planen er godkjent. Bestill kampanjen når dere er klare.') : 'Gjennomgangen er godkjent. Dere må fortsatt gi Frantz klarsignal i portalen.'));
           if (state === 'superseded') row.append(el('p', 'form-hint', 'Innholdet er endret. Send en ny forespørsel.'));
           var actions = el('div', 'del-panel__knapper approval-summary__actions'), open = el('a', 'btn btn--primary btn--sm', 'Se forespørselen'); open.href = url(request); open.target = '_blank'; open.rel = 'noopener'; actions.append(open);
           var prototype = el('details', 'disclosure approval-test'), testLabel = disclosureLabel('Test i prototypen'), testLinks = el('div', 'disclosure__content del-panel__knapper'), testEmail = el('a', 'link', 'Se e-posten');
@@ -124,8 +124,8 @@
         var latest = records.find(function (item) { return item.round === 'material'; });
         var state = latest && Store.status(latest);
         approvalButton.disabled = !!latest && !['approved', 'revoked'].includes(state);
-        if (!document.getElementById('material-customer-status').hidden) approvalButton.disabled = true;
-        approvalButton.textContent = state === 'approved' ? 'Gi Frantz klarsignal' : 'Godkjenn annonsene';
+        root.dispatchEvent(new CustomEvent('frantz:material-review', { detail: { records: records } }));
+        approvalButton.textContent = 'Godkjenn annonsene';
       },
       readContent: function () {
         var ads = Array.from(document.querySelectorAll('.ad-card a[href*="annonse.html"]')).map(function (link) {

@@ -98,13 +98,15 @@
       return Object.assign({}, request, { state: 'revoked', revoked: new Date().toISOString() });
     });
   }
-  async function invalidate(campaign, content) {
-    var expected = fingerprint(content), db = await database();
+  async function invalidate(campaign, content, round) {
+    var expected = fingerprint(round === 'material' ? content.material : content), db = await database();
     return new Promise(function (resolve, reject) {
       var tx = db.transaction('requests', 'readwrite'), store = tx.objectStore('requests'), request = store.getAll(), changed = false;
       request.onsuccess = function () {
         request.result.forEach(function (item) {
-          if (item.campaign === campaign && item.round === 'plan' && item.fingerprint !== expected && ['pending', 'approved'].includes(item.state)) {
+          var actual = round === 'material' ? fingerprint(item.content.material) : item.fingerprint;
+          var eligible = ['pending', 'approved'].concat(round === 'material' ? ['changes'] : []);
+          if (item.campaign === campaign && item.round === (round || 'plan') && actual !== expected && eligible.includes(item.state)) {
             store.put(Object.assign({}, item, { state: 'superseded' })); changed = true;
           }
         });

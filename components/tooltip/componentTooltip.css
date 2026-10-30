@@ -153,6 +153,16 @@ button.tooltip:focus-visible {
   gap: var(--space-6);
 }
 
+/* Keep a tooltip inside the screen when its trigger sits near the right edge. */
+.tooltip[data-tooltip-align="end"]:not([data-tooltip-pos])::after {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+.tooltip[data-tooltip-align="end"]:not([data-tooltip-pos]):is(:hover, :focus, :focus-visible)::after {
+  transform: translateY(0);
+}
+
 /* Escape hides the tooltip. interactions.js sets .is-lukket */
 .tooltip.is-lukket::after,
 .tooltip.is-lukket::before {

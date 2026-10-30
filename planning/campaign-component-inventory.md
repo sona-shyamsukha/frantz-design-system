@@ -266,3 +266,39 @@ font and token-based padding. Message fields remain accessible after expansion.
 Asset versions were updated so existing browser sessions load the consolidated CSS
 and generated markup. Complete order-creation submission was not repeated for this
 visual consolidation; the order-summary compound control itself was left intact.
+
+## MVP consistency implementation — 29 October 2026
+
+Authorized by Sona after the portal review. Reuses the existing task card, status
+alert, button row, native section editor, upload controls, read-only summary and
+brand settings. No new visual primitive, token or animation. Shared behaviour is
+added in `campaign-status.js` and `brand-store.js`; material editing uses the existing
+creation editor with a campaign-scoped return/save path.
+
+Publication remains a separate confirmation by the account holder after any invited
+reviewer has replied. Final agency/client authority still needs confirmation for
+production. Cost-estimate approval and turnaround are service responsibilities;
+no automatic paid work or real cancellation is implemented by the prototype.
+
+Sona rejected the task card above the statistics on 29 October. It is restored
+beneath the campaign list; the shared next-action logic remains in place.
+
+Sona removed the added change/cancellation action block and the duplicated employer,
+sender and brand-note rows in Bestilling. The original job/material fields and
+invoice selector remain. Calculator sharing now copies a public criteria link
+directly and reuses the public-report brand header for its anonymous view.
+
+The shared calculator now leads with results and a compact role/location/budget
+summary. Search inputs move into a closed native disclosure after the results,
+using the existing disclosure component. The signed-in calculator stays unchanged.
+
+Sona changed only the accordion hover on 29 October. Hover uses the existing
+medium blue `--color-data-700` with white text. Closed labels, the dark blue
+expanded header, pressed state and keyboard focus ring retain their original
+appearance. This supersedes the earlier dark navy hover treatment.
+
+The report metric definitions now use separate existing info tooltips inside
+each metric tile, replacing the short-lived “Om tallene” disclosure. The
+click-versus-submission caveat and previous campaign title/period stay visible;
+each comparison tooltip includes its own previous value. Public reports retain
+their expanded definitions and cost visibility rules.

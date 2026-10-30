@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ny kampanje · Oversikt — Frantz</title><link rel="icon" href="../assets/logo-frantz.png"><link rel="stylesheet" href="../frantz-ds.css?v=211"><script src="../components/js/brukerflyt.js?v=2"></script><style>body { margin: 0; }
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ny kampanje · Oversikt — Frantz</title><link rel="icon" href="../assets/logo-frantz.png"><link rel="stylesheet" href="../frantz-ds.css?v=213"><script src="../components/js/brukerflyt.js?v=2"></script><style>body { margin: 0; }
 [hidden] { display: none !important; }
 .onepage { max-width: 1440px; }
 .flytbytte { display: none !important; }
@@ -635,4 +635,9 @@ Instrukser: Frantz kan avklare kostnaden for design med oss. Budsjettet må legg
   const demo=new URLSearchParams(location.search).get('eksempel');
   if(['complete','missing'].includes(demo)){document.querySelector(`[data-demo="${demo}"]`).click();if(new URLSearchParams(location.search).has('oversikt'))$('fortsett').click();}
 })();
-</script><script src="../components/js/interactions.js?v=6"></script><script src="../components/js/konto.js?v=18"></script></body></html>
+</script><script src="../components/js/interactions.js?v=6"></script><script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
+<script src="data/kampanjer.js?v=20261029-mvp"></script>
+<script src="../components/js/konto.js?v=20261029-mvp"></script></body></html>

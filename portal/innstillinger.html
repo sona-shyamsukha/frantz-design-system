@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Innstillinger for firmaet — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=211">
+<link rel="stylesheet" href="../frantz-ds.css?v=213">
 <script src="../components/js/brukerflyt.js?v=2"></script>
 <style>
   body { margin: 0; }
@@ -317,7 +317,7 @@
           <input type="file" aria-label="Velg filer" id="merke-fil" multiple hidden>
         </div>
 
-        <div class="lagre-linje"><button class="btn btn--primary" type="button" id="lagre-merke">Lagre merkevare</button><span id="merke-lagret" hidden style="font-size: var(--text-sm);color: var(--text-success-strong)">Lagret. Gjelder for nye kampanjer.</span></div>
+        <div class="lagre-linje"><button class="btn btn--primary" type="button" id="lagre-merke">Lagre merkevare</button><span class="form-hint" id="merke-lagret" role="status" hidden></span></div>
           </div>
           <aside class="merke-arbeid__vis">
             <span class="summary-panel__label" style="display:block;margin-bottom: var(--space-8)">Forhåndsvisning av banner</span>
@@ -338,6 +338,7 @@
   </div>
 </div>
 
+<script src="../components/js/brand-store.js?v=20261029-mvp"></script>
 <script>
 var brukere = [
   { navn: 'Kari Hansen', epost: 'kari.hansen@nordlysrekruttering.no', rolle: 'Administrator', sist: 'I dag', aktiv: true, meg: true },
@@ -425,6 +426,9 @@ document.querySelectorAll('[data-font-token]').forEach(function (input) {
   input.value = merkeTokens.getPropertyValue(input.dataset.fontToken).trim();
 });
 // Merkevare
+var brandAssets = {}, brandUrls = [], brandBusy = 0;
+var brandSave = document.getElementById('lagre-merke');
+brandSave.disabled = true;
 var bn = document.getElementById('banner');
 function hexRgba(h, a) { var n = parseInt(h.slice(1), 16); return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')'; }
 var bannerFarger = { b1: '--bn-tittel', b2: '--bn-kort', b3: '--bn-les', b4: '--bn-boks' };
@@ -447,42 +451,79 @@ function settLogo(id, url) {
   var mal = id === 'bn-logo' ? document.getElementById('banner-logo') : (id === 'bn-ikon' ? document.getElementById('bn-ikon-mini') : null);
   if (mal) { mal.style.backgroundImage = url ? 'url("' + url + '")' : ''; mal.classList.toggle('har-bilde', !!url); }
 }
-document.querySelectorAll('[data-last-logo]').forEach(function (b) {
-  var id = b.dataset.lastLogo, fil = document.getElementById(id + '-fil');
-  b.addEventListener('click', function () { fil.click(); });
-  fil.addEventListener('change', function () { if (fil.files[0]) settLogo(id, URL.createObjectURL(fil.files[0])); });
+function brandMessage(text, error) {
+  var note = document.getElementById('merke-lagret'); note.textContent = text; note.hidden = false;
+  note.className = error ? 'form-error' : 'form-hint';
+}
+function markBrandDirty() { document.getElementById('merke-lagret').hidden = true; }
+document.getElementById('panel-merkevare').addEventListener('input', markBrandDirty);
+function brandAssetUrl(file) { var url = URL.createObjectURL(file); brandUrls.push(url); return url; }
+document.querySelectorAll('[data-last-logo]').forEach(function (button) {
+  var id = button.dataset.lastLogo, input = document.getElementById(id + '-fil');
+  button.addEventListener('click', function () { input.click(); });
+  input.addEventListener('change', function () {
+    var file = input.files[0]; input.value = '';
+    if (!file) return;
+    if (!['image/png', 'image/svg+xml', 'image/jpeg'].includes(file.type) || file.size > 10 * 1024 * 1024) { brandMessage('Velg SVG, PNG eller JPG på maks 10 MB.', true); return; }
+    brandAssets[id] = file; settLogo(id, brandAssetUrl(file)); markBrandDirty();
+  });
 });
-document.querySelectorAll('[data-fjern-logo]').forEach(function (b) { b.addEventListener('click', function () { settLogo(b.dataset.fjernLogo, ''); }); });
+document.querySelectorAll('[data-fjern-logo]').forEach(function (button) { button.addEventListener('click', function () { brandAssets[button.dataset.fjernLogo] = null; settLogo(button.dataset.fjernLogo, ''); markBrandDirty(); }); });
 // Font upload: the new font is added to every font list and chosen for this field
 var skriftMal = null;
 document.querySelectorAll('[data-last-skrift]').forEach(function (b) {
   b.addEventListener('click', function () { skriftMal = b.dataset.lastSkrift; document.getElementById('skrift-fil').click(); });
 });
-document.getElementById('skrift-fil').addEventListener('change', function () {
-  var f = this.files[0], mal = skriftMal, inp = this;
-  if (!f || !mal) return;
-  var familie = 'Egen ' + Date.now();
-  new FontFace(familie, 'url(' + URL.createObjectURL(f) + ')').load().then(function (font) {
-    document.fonts.add(font);
-    document.getElementById(mal).value = '"' + familie + '", sans-serif';
-    document.querySelector('[data-fjern-skrift="' + mal + '"]').hidden = false;
-    tegnBanner(); tegnProver();
-  }).catch(function () { alert('Vi klarte ikke å lese skriftfilen. Bruk WOFF, WOFF2, TTF eller OTF.'); });
-  inp.value = '';
+document.getElementById('skrift-fil').addEventListener('change', async function () {
+  var file = this.files[0], target = skriftMal; this.value = '';
+  if (!file || !target) return;
+  if (!/\.(woff2?|ttf|otf)$/i.test(file.name) || file.size > 10 * 1024 * 1024) { brandMessage('Velg WOFF, WOFF2, TTF eller OTF på maks 10 MB.', true); return; }
+  brandBusy++; brandSave.disabled = true;
+  try {
+    var family = await FrantzBrand.loadFont(file, target);
+    brandAssets[target] = file;
+    document.getElementById(target).value = family;
+    document.querySelector('[data-fjern-skrift="' + target + '"]').hidden = false;
+    tegnBanner(); tegnProver(); markBrandDirty();
+  } catch (error) { brandMessage('Kunne ikke lese skriftfilen. Velg en annen fil.', true); }
+  finally { brandBusy--; brandSave.disabled = brandBusy > 0; }
 });
-document.querySelectorAll('[data-fjern-skrift]').forEach(function (b) {
-  b.addEventListener('click', function () {
-    var id = b.dataset.fjernSkrift;
-    var input = document.getElementById(id);
+document.querySelectorAll('[data-fjern-skrift]').forEach(function (button) {
+  button.addEventListener('click', function () {
+    var id = button.dataset.fjernSkrift, input = document.getElementById(id);
+    brandAssets[id] = null;
     input.value = getComputedStyle(document.documentElement).getPropertyValue(input.dataset.fontToken).trim();
-    b.hidden = true;
-    tegnBanner(); tegnProver();
+    button.hidden = true; tegnBanner(); tegnProver(); markBrandDirty();
   });
 });
-document.getElementById('lagre-merke').addEventListener('click', function () {
-  try { localStorage.setItem('frantz-std-chip', document.getElementById('b4').value); } catch (e) {}
-  document.getElementById('merke-lagret').hidden = false;
+var brandReady = (async function () {
+  try {
+    var profile = await FrantzBrand.read();
+    if (!profile) return;
+    brandAssets = profile.assets || {};
+    Object.keys(profile.values || {}).forEach(function (id) { var field = document.getElementById(id); if (field) field.value = profile.values[id]; });
+    ['lp-logo', 'bn-logo', 'bn-ikon'].forEach(function (id) { if (Object.prototype.hasOwnProperty.call(brandAssets, id)) settLogo(id, brandAssets[id] ? brandAssetUrl(brandAssets[id]) : ''); });
+    await Promise.all(['lp-f1', 'lp-f2', 'bn-f1', 'bn-f2'].map(async function (id) {
+      if (!brandAssets[id]) return;
+      document.getElementById(id).value = await FrantzBrand.loadFont(brandAssets[id], id);
+      document.querySelector('[data-fjern-skrift="' + id + '"]').hidden = false;
+    }));
+    tegnBanner(); tegnProver();
+  } catch (error) { brandMessage('Kunne ikke hente lagret merkevare. Last siden på nytt før du lagrer.', true); throw error; }
+})();
+brandReady.then(function () { brandSave.disabled = false; }).catch(function () { brandSave.disabled = true; });
+brandSave.addEventListener('click', async function () {
+  brandSave.disabled = true;
+  try {
+    await brandReady;
+    var values = {};
+    document.querySelectorAll('#panel-merkevare [data-color-token], #panel-merkevare [data-font-token], #bn-styrke').forEach(function (input) { values[input.id] = input.value; });
+    await FrantzBrand.save({ values: values, assets: brandAssets });
+    brandMessage('Merkevaren er lagret. Gjelder nye kampanjer i denne nettleseren.', false);
+  } catch (error) { brandMessage('Kunne ikke lagre merkevaren. Endringene er ikke lagret. Prøv igjen.', true); }
+  finally { brandSave.disabled = brandBusy > 0; }
 });
+window.addEventListener('pagehide', function (event) { if (!event.persisted) brandUrls.forEach(function (url) { URL.revokeObjectURL(url); }); });
 document.querySelectorAll('[data-last-opp-merke]').forEach(function (b) { b.addEventListener('click', function () { document.getElementById('merke-fil').click(); }); });
 document.getElementById('merke-fil').addEventListener('change', function () {
   var liste = document.getElementById('merkefiler');
@@ -499,7 +540,12 @@ tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
 window.addEventListener('hashchange', function () { visFane(location.hash.slice(1), false); });
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=18"></script>
+<script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
+<script src="data/kampanjer.js?v=20261029-mvp"></script>
+<script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

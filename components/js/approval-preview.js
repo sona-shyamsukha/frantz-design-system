@@ -42,6 +42,10 @@
     var article = el('article', 'ad-preview approval-ad');
     var header = el('header', 'ad-preview__topp'), avatar = el('span', 'ad-preview__avatar', sender.charAt(0).toUpperCase()), account = el('div');
     avatar.setAttribute('aria-hidden', 'true'); account.append(el('b', '', sender), el('small', '', 'Sponset')); header.append(avatar, account);
+    if (material.brandIcon instanceof Blob) {
+      avatar.style.backgroundImage = 'url("' + source({ fil: material.brandIcon }) + '")';
+      avatar.style.backgroundSize = 'cover'; avatar.textContent = '';
+    }
     var copy = el('p', 'ad-preview__tekst', material.tekst); copy.hidden = !material.tekst;
     var creative = el('div', 'ad-preview__kreativ ad-composition'), logo = el('div', 'ad-preview__logo'), title = el('h3', 'ad-preview__tittel', material.tittel), image = el('div', 'ad-preview__bilde'), fileImage = el('img', 'approval-file'), video = el('video', 'approval-file');
     image.setAttribute('role', 'img'); image.setAttribute('aria-label', material.bilde && material.bilde.navn || 'Bildet i annonsen');
@@ -51,6 +55,10 @@
     var background = templated ? appearance.bakgrunner && appearance.bakgrunner[material.template] || (material.template === 'frame' ? 'var(--surface-section)' : 'var(--color-navy)') : appearance.bg || 'var(--color-coral-wash)';
     creative.style.setProperty('--pv-bg', background);
     creative.style.setProperty('--pv-tekst', templated && !background.startsWith('var(') ? root.FrantzAdColors.textFor(background) : appearance.tekst || 'var(--color-navy)');
+    if (root.FrantzBrand && material.brandFonts) Object.keys(material.brandFonts).forEach(async function (slot) {
+      if (!material.brandFonts[slot]) return;
+      try { var family = await root.FrantzBrand.loadFont(material.brandFonts[slot], 'review-' + slot); (slot === 'heading' ? title : copy).style.fontFamily = family; } catch (error) { /* Keep default fonts if unavailable. */ }
+    });
     title.hidden = material.ferdig || !material.tittel; logo.hidden = material.ferdig || appearance.logo === false;
     image.hidden = material.ferdig; fileImage.hidden = !material.ferdig || material.video; video.hidden = !material.video;
     creative.classList.toggle('approval-creative--file', !!material.ferdig);

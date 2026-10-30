@@ -27,12 +27,12 @@
 }
 .disclosure > summary::-webkit-details-marker { display: none; }
 .disclosure > summary::marker { content: ''; }
-.disclosure > summary:hover,
 .disclosure[open] > summary,
 .disclosure > summary:active {
   background: var(--bg-navy-strong);
   color: var(--text-on-navy);
 }
+.disclosure > summary:hover { background: var(--color-data-700); color: var(--text-on-navy); }
 .disclosure > summary:active { background: var(--bg-navy-strong-hover); }
 .disclosure > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .disclosure > summary > .icon-lucide { margin-left: auto; color: inherit; }

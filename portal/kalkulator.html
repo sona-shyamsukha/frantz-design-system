@@ -7,11 +7,34 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Tilbudskalkulator — Frantz</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=211">
+<link rel="stylesheet" href="../frantz-ds.css?v=213">
+<script>
+// Shared criteria use the public calculator view, independently of the portal account.
+(function () {
+  var params = new URLSearchParams(location.search);
+  window.FrantzCalculatorPublic = params.get('delt') === '1' || params.has('stilling') && params.has('sted') && params.has('budsjett');
+  if (window.FrantzCalculatorPublic) document.documentElement.dataset.calculatorPublic = 'true';
+})();
+</script>
 <script src="../components/js/brukerflyt.js?v=2"></script>
+<link rel="stylesheet" href="../styles/campaign.css?v=20261027-report-sections">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   body { margin: 0; }
+  html[data-calculator-public] .rail,
+  html[data-calculator-public] .topbar,
+  html[data-calculator-public] .mobiltopp,
+  html[data-calculator-public] #lagre-sok,
+  html[data-calculator-public] .lagrede-sok { display: none !important; }
+  html[data-calculator-public] .app { grid-template-columns: minmax(0, 1fr); }
+  html[data-calculator-public] .wrap { margin-inline: auto; }
+  .calculator-public-brand { margin-bottom: var(--space-32); }
+  .calculator-public-brand[hidden] { display: none; }
+  #sok-kopi-fallback[hidden] { display: none; }
+  .calculator-search-edit { margin-top: var(--space-24); }
+  .calculator-search-edit .inndata { margin: 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
+
+
 
 
   .kalk { margin: 0; }
@@ -155,8 +178,9 @@
 
     <div class="wrap">
 <main class="kalk">
+  <header class="shared-report__brand calculator-public-brand" id="calculator-public-brand" hidden><img class="logo" src="../assets/logo-frantz.png" alt="Frantz"><span>Delt beregning · ingen innlogging</span></header>
   <h1 class="text-h2">Hva når dere for budsjettet?</h1>
-  <p class="lede">Velg stilling, sted og budsjett. Du ser med en gang hvor mange kampanjen kan nå, og hva dere kan vente dere.</p>
+  <p class="lede">Velg stilling, sted og budsjett. Du ser med en gang hvor mange kampanjen kan nå, og et illustrerende eksempel på mulig rekkevidde.</p>
 
   <section class="inndata" aria-label="Kampanjen" tabindex="-1">
     <div>
@@ -206,7 +230,7 @@
     <div class="res-kort">
       <p class="res-overskrift">Målgruppen</p>
       <p class="res-stort" id="ut-malgruppe">27 041</p>
-      <p class="res-tekst" id="ut-malgruppe-tekst">personer har vist interesse for lignende stillinger de siste 90 dagene.</p>
+      <p class="res-tekst" id="ut-malgruppe-tekst">personer i eksempelmodellen for valgt stilling og sted.</p>
 
       <div class="dybde">
         <div class="dybde__topp"><span>Budsjettet når</span><b id="ut-dybde">6 av 10 i målgruppen</b></div>
@@ -215,7 +239,7 @@
 
       <p class="tips" id="tips" hidden><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span><span id="tips-tekst"></span></p>
 
-      <p class="res-overskrift" style="margin-top: var(--space-24)">Forventet resultat</p>
+      <p class="res-overskrift" style="margin-top: var(--space-24)">Illustrasjon – eksempelberegning</p>
       <ol class="results__steps">
         <li class="results__step"><span class="results__label">Visninger <button type="button" class="tooltip" data-tooltip="Hvor mange ganger annonsen blir vist." aria-label="Mer info: Hvor mange ganger annonsen blir vist."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></span><span class="results__value" id="ut-visninger">—</span></li>
         <li class="results__step"><span class="results__label">Klikk <button type="button" class="tooltip" data-tooltip="Hvor mange som klikker på annonsen." aria-label="Mer info: Hvor mange som klikker på annonsen."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></span><span class="results__value" id="ut-klikk">—</span></li>
@@ -226,7 +250,7 @@
       <p class="res-overskrift" style="margin-top: var(--space-24)">Kanaler i kampanjen</p>
       <div class="kanaler" id="kanaler"></div>
 
-      <p class="kilde">Anslag basert på Frantz-data fra de siste 90 dagene og tidligere kampanjer. Tall fra SSB for arbeidsmarkedet.</p>
+      <p class="kilde">Illustrasjon – eksempelberegning. Målgruppe og resultater beregnes med en demomodell. Frantz må bekrefte faktiske tall og budsjett før bestilling.</p>
 
       <div class="neste btn-row btn-row--stack">
         <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Opprett kampanje</a>
@@ -263,12 +287,10 @@
       <div class="calculator-dialog__bunn"><button class="btn btn--secondary" type="button" data-lukk-dialog="lagre-sok-dialog">Avbryt</button><button class="btn btn--primary" type="submit">Lagre søket</button></div>
     </form>
   </dialog>
-  <dialog class="calculator-dialog" id="del-sok-dialog" aria-labelledby="del-sok-tittel">
-    <div class="calculator-dialog__hode"><h2 id="del-sok-tittel">Del søk</h2><button class="btn btn--ghost calculator-dialog__lukk" type="button" data-lukk-dialog="del-sok-dialog" aria-label="Lukk"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></div>
-    <p class="calculator-dialog__kriterier" id="del-sok-kriterier"></p>
-    <div class="form-group"><span class="form-label">Lenke til søket</span><div id="sok-lenke"></div><p class="form-hint">Lenken åpner kalkulatoren med samme stilling, arbeidssted og budsjett.</p></div>
-    <div class="calculator-dialog__bunn"><button class="btn btn--secondary" type="button" data-lukk-dialog="del-sok-dialog">Lukk</button></div>
-  </dialog>
+  <div class="form-group" id="sok-kopi-fallback" hidden>
+    <label class="form-label" for="sok-kopi-lenke">Kopier lenken manuelt</label>
+    <input class="form-input" id="sok-kopi-lenke" type="text" readonly>
+  </div>
 </main>
     </div>
   </div>
@@ -279,8 +301,7 @@
 <script src="data/frantz-data.js"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
-<script src="../components/js/calculator-searches.js?v=1"></script>
-<script src="../components/js/copy-field.js?v=20261028-copy"></script>
+<script src="../components/js/calculator-searches.js?v=20261029-direct-share"></script>
 <script>
 (function () {
   var R = window.FrantzRekkevidde;
@@ -315,6 +336,26 @@
   var sisteAnbefalt = null;
   var initialiserer = true;
   var S = window.FrantzCalculatorSearches;
+  var publicView = !!window.FrantzCalculatorPublic;
+  if (publicView) {
+    document.title = 'Delt beregning — Frantz';
+    document.querySelectorAll('.rail, .topbar, .mobiltopp, #backdrop').forEach(function (node) { node.remove(); });
+    $('calculator-public-brand').hidden = false;
+    $('lagre-sok').hidden = true;
+    document.querySelector('.lagrede-sok').hidden = true;
+    var searchEditor = document.createElement('details');
+    searchEditor.className = 'disclosure calculator-search-edit';
+    searchEditor.id = 'calculator-search-edit';
+    var searchSummary = document.createElement('summary'); searchSummary.textContent = 'Endre søket';
+    var searchChevron = document.createElement('span'); searchChevron.className = 'icon-lucide icon-lucide--chevron-down icon-lucide--md'; searchChevron.setAttribute('aria-hidden', 'true');
+    searchSummary.appendChild(searchChevron);
+    var searchContent = document.createElement('div'); searchContent.className = 'disclosure__content';
+    searchContent.appendChild(document.querySelector('.inndata'));
+    searchEditor.append(searchSummary, searchContent);
+    document.querySelector('.resultat').after(searchEditor, document.querySelector('.sok-handlinger'), $('sok-status'), $('sok-kopi-fallback'));
+
+  }
+
 
   // Map
   var kart = L.map('kart', { scrollWheelZoom: false }).setView([64.5, 12], 4);
@@ -390,7 +431,7 @@
 
     var hele = steder.indexOf(FrantzPicker.HELE_NORGE) !== -1;
     var hvor = !steder.length ? 'i Norge' : hele ? 'i hele Norge' : 'i og rundt ' + navnListe(steder);
-    $('ut-malgruppe-tekst').textContent = 'personer ' + hvor + ' har vist interesse for lignende stillinger de siste 90 dagene.';
+    $('ut-malgruppe-tekst').textContent = 'personer ' + hvor + ' i eksempelmodellen for valgt stilling og sted.';
     $('ut-kart-tekst').textContent = !steder.length ? 'Velg et arbeidssted for å se området.'
       : hele ? 'Kampanjen vises i hele Norge, mest der målgruppen bor.'
       : 'Kampanjen når folk som bor eller jobber i og rundt ' + navnListe(steder) + '.';
@@ -401,6 +442,11 @@
     tegnKart(r.dybde);
     var gyldig = !!gjeldendeSok();
     $('lagre-sok').disabled = !gyldig; $('del-sok').disabled = !gyldig;
+    if (publicView) {
+      document.querySelector('.kalk > h1').textContent = 'Beregning for ' + ($('stilling').value.trim() || 'valgt stilling');
+      document.querySelector('.kalk > .lede').textContent = gjeldendeSok() ? beskriv(gjeldendeSok()) : 'Velg stilling, sted og budsjett under «Endre søket».';
+    }
+
   }
 
   var stille = false;
@@ -441,6 +487,7 @@
   var esc = function (t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   function lesLagredeSok() { try { return S.read(window.localStorage); } catch (e) { return []; } }
   function tegnLagredeSok() {
+    if (publicView) return;
     var rows = lesLagredeSok();
     $('lagrede-sok-tom').hidden = !!rows.length; $('lagrede-sok-tabell').hidden = !rows.length;
     $('lagrede-sok-antall').textContent = rows.length ? String(rows.length) : '';
@@ -453,10 +500,21 @@
         '<button class="btn btn--ghost btn--sm" type="button" data-del-sok="' + esc(row.id) + '" aria-label="Del søket ' + esc(row.navn) + '"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del</button></div></td></tr>';
     }).join('');
   }
-  function delSok(sok) {
-    $('sok-lenke').replaceChildren(FrantzCopyField.create(S.toUrl(location.href, sok), { label: 'lenken til søket' }));
-    $('del-sok-kriterier').textContent = beskriv(sok);
-    $('del-sok-dialog').showModal();
+  async function delSok(sok, button) {
+    if (button.disabled) return;
+    var link = S.toUrl(location.href, sok), original = button.innerHTML;
+    button.disabled = true;
+    $('sok-kopi-fallback').hidden = true;
+    try {
+      await navigator.clipboard.writeText(link);
+      button.innerHTML = '<span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Lenke kopiert';
+      $('sok-status').textContent = 'Lenken er kopiert. Mottakeren ser stilling, arbeidssted og budsjett uten å logge inn.';
+      setTimeout(function () { button.innerHTML = original; }, 2000);
+    } catch (error) {
+      $('sok-status').textContent = 'Nettleseren tillot ikke automatisk kopiering. Kopier lenken nedenfor.';
+      $('sok-kopi-lenke').value = link; $('sok-kopi-fallback').hidden = false;
+      $('sok-kopi-lenke').focus(); $('sok-kopi-lenke').select();
+    } finally { button.disabled = false; }
   }
   $('lagre-sok').addEventListener('click', function () {
     var state = gjeldendeSok(); if (!state) return;
@@ -479,13 +537,13 @@
     }
   });
   $('sok-navn').addEventListener('input', function () { this.setCustomValidity(''); });
-  $('del-sok').addEventListener('click', function () { var state = gjeldendeSok(); if (state) delSok(state); });
+  $('del-sok').addEventListener('click', function () { var state = gjeldendeSok(); if (state) delSok(state, this); });
   document.querySelectorAll('[data-lukk-dialog]').forEach(function (button) { button.addEventListener('click', function () { $(button.dataset.lukkDialog).close(); }); });
   $('lagrede-sok-rader').addEventListener('click', function (e) {
     var button = e.target.closest('[data-apne-sok], [data-del-sok]'); if (!button) return;
     var id = button.dataset.apneSok || button.dataset.delSok;
     var row = lesLagredeSok().filter(function (r) { return r.id === id; })[0]; if (!row) return;
-    if (button.dataset.delSok) { delSok(row); return; }
+    if (button.dataset.delSok) { delSok(row, button); return; }
     if (brukSok(row)) {
       $('sok-status').textContent = 'Viser «' + row.navn + '».';
       document.querySelector('.inndata').focus({ preventScroll: true });
@@ -495,7 +553,7 @@
   window.addEventListener('storage', function (e) { if (e.key === 'fzCalculatorSearchesV1') tegnLagredeSok(); });
   initialiserer = false;
   var shared = S.fromUrl(location.href);
-  if (shared && brukSok(shared)) $('sok-status').textContent = 'Viser søket fra den delte lenken.';
+  if (shared && brukSok(shared)) $('sok-status').textContent = publicView ? '' : 'Viser det delte søket.';
   else {
     oppdater(true);
     if (new URLSearchParams(location.search).has('stilling')) $('sok-status').textContent = 'Lenken inneholdt ikke et gyldig søk. Velg kriteriene på nytt.';
@@ -505,6 +563,11 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=18"></script>
+<script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
+<script src="data/kampanjer.js?v=20261029-mvp"></script>
+<script src="../components/js/konto.js?v=20261029-mvp"></script>
 </body>
 </html>

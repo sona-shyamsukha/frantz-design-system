@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Opprett kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=211">
+<link rel="stylesheet" href="../frantz-ds.css?v=213">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
@@ -928,6 +928,10 @@
   .v2-dialog__felt { min-width: 0; }
   .v2-dialog__felt > .felt, .v2-dialog__felt > .blokk { margin: 0; width: 100%; min-width: 0; }
   .v2-dialog__felt > .form-hint { margin: var(--space-8) 0 0; }
+  .v2-dialog .felt > .form-hint { order: 2; margin: 0; }
+  .v2-dialog__innhold--kampanje .budsjett-kontroll { display: flex; flex-direction: column; gap: var(--space-label-gap); }
+  .v2-dialog__innhold--kampanje .budsjett-kontroll__topp { align-items: center; justify-content: flex-start; gap: var(--space-16); margin-bottom: 0; }
+  .v2-dialog__innhold--kampanje .budsjett-felt .form-input { height: auto; padding-block: var(--space-12); font: var(--type-body); }
   .v2-dialog__felt #blokk-periode { border-top: 0; padding-top: 0; }
   .v2-dialog .form-input, .v2-dialog .picker__felt { max-width: 100%; }
   .v2-dialog__bunn { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); position: sticky; bottom: 0; padding: var(--space-16) var(--space-24); background: var(--surface-raised); border-top: 1px solid var(--border-subtle); }
@@ -968,6 +972,15 @@
   /* Values Frantz filled in for the customer */
   .v2-forslag { margin-left: var(--space-4); vertical-align: middle; }
   .v2-forslag-hint { margin: 0; padding: var(--space-12) var(--space-24); border-top: 1px solid var(--border-subtle); color: var(--text-muted); font: var(--type-support); }
+  .v2-sporsmal { display: grid; gap: var(--space-12); justify-items: start; margin: var(--space-16) var(--space-24); }
+  .v2-sporsmal .card__title, .v2-sporsmal p { margin: 0; }
+  .v2-sporsmal ul { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; color: var(--text-body); font: var(--type-body); }
+  .v2-sporsmal li b { color: var(--text-heading); }
+  .v2-rekkevidde { margin: var(--space-16) var(--space-24); }
+  .v2-sporsmal .v2-rekkevidde { margin: 0; width: 100%; }
+  .v2-rekkevidde .alert__body { margin: 0; }
+  .v2-rekkevidde strong { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .v2-sporsmal__valg { display: flex; flex-wrap: wrap; gap: var(--space-8); }
   .v2-ferdige { grid-column: 2; display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; }
   .v2-ferdige li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: var(--space-12); min-width: 0; }
   .v2-ferdige img, .v2-ferdige video { display: block; width: 48px; height: 48px; border-radius: var(--radius-8); object-fit: cover; background: var(--surface-section); }
@@ -1181,13 +1194,12 @@
               <div id="v2-ref-lager" hidden>
               <div class="felt funnet__bred kilde-referanse" id="felt-ref">
                 <label class="form-label" for="ref">Kampanjenavn/deres referansekode <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <p class="form-hint" id="ref-hint">Deres eget nummer (valgfritt)</p>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" aria-describedby="ref-hint ref-feil">
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" aria-describedby="ref-feil">
                 <p class="feil" id="ref-feil" role="alert" hidden>Gi kampanjen et navn eller oppgi deres referansekode.</p>
               </div>
               </div>
               <fieldset class="kildegruppe" id="kildegruppe" aria-labelledby="kilde-tittel" aria-describedby="kilde-veiledning">
-                <p class="form-hint" id="kilde-veiledning">Legg til minst én: stilling, lenke, tekst eller vedlegg.</p>
+                <p class="form-hint" id="kilde-veiledning">Legg til informasjon i minst ett felt for å gå videre. Vi bruker det du skriver til å sette opp kampanjen. Resten kan avklares med Frantz.</p>
                 <p class="alert alert--error" id="feil-start" role="alert" hidden></p>
               <div class="kilde-felter">
               <div class="felt connect-valg" id="connect-valg">
@@ -1208,8 +1220,7 @@
                   <label class="form-label" for="beskrivelse">Skriv øvrig informasjon om stillingen eller kampanjen</label>
                   <button class="link" type="button" id="bruk-behovsmal">Bruk utfyllingsmal</button>
                 </div>
-                <p class="form-hint" id="behov-hint">Fyll ut det dere vet. Resten kan avklares med Frantz.</p>
-                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="11" aria-describedby="behov-hint" placeholder="Kampanjenavn/deres referansekode:&#10;Stilling:&#10;Arbeidsgiver:&#10;Arbeidssted:&#10;Søknadsfrist:&#10;Budsjett:&#10;Kanaler:&#10;Periode:&#10;Materiell:&#10;Tilleggsinformasjon:"></textarea>
+                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="11" placeholder="Kampanjenavn/deres referansekode:&#10;Stilling:&#10;Arbeidsgiver:&#10;Arbeidssted:&#10;Søknadsfrist:&#10;Budsjett:&#10;Kanaler:&#10;Periode:&#10;Materiell:&#10;Tilleggsinformasjon:"></textarea>
               </div>
               <div class="felt kilde-bred" id="felt-fil">
                 <span class="form-label" id="pdf-lbl">Vedlegg</span>
@@ -1515,6 +1526,7 @@
                     <li><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span>Dere ser og godkjenner designet før noe publiseres</li>
                   </ul>
                 </div>
+                <p class="form-hint">Frantz bekrefter estimert designkostnad med dere før designarbeidet starter.</p>
                 <div class="form-group"><label class="form-label" for="an-designbrief">Hva skal annonsen formidle? <span class="valgfri">(valgfritt)</span></label><textarea class="form-textarea" id="an-designbrief" rows="3" placeholder="F.eks. hvem dere søker, viktigste budskap og ønsker til uttrykket."></textarea></div>
                 <div class="mat-filer mat-filer--alltid"><span class="form-label mat-filer__tittel" id="mat-filer-lbl">Vedlegg <span class="valgfri">(valgfritt)</span></span>
                   <div class="pdf-rad" id="mat-slipp" aria-labelledby="mat-filer-lbl"><span class="icon-lucide icon-lucide--paperclip" aria-hidden="true"></span><span class="pdf-rad__tekst">Dra bilder, logo eller tekst hit, eller <button class="link" type="button" data-velg-filer>velg filer</button>. Maks 10 MB per fil.</span></div>
@@ -1615,7 +1627,7 @@
               <dl class="summary-row"><dt>Kampanjebudsjett</dt><dd id="v2-pris-budsjett">Ikke oppgitt</dd></dl>
               <dl class="summary-row"><dt>Tilleggsprodukter</dt><dd id="v2-pris-tillegg">kr 0</dd></dl>
               <dl class="summary-row v2-pris__total"><dt id="v2-total-label">Totalt eks. mva.</dt><dd id="v2-total">Ikke beregnet</dd></dl>
-              <p id="v2-designkostnad" hidden></p>
+              <p id="v2-designkostnad" hidden></p><p class="form-hint" id="v2-designestimat" hidden>Frantz bekrefter estimert designkostnad med dere før designarbeidet starter.</p>
               <p>Oppstart avklares med Frantz. Materiell kan ettersendes og må være klart og godkjent før publisering.</p>
               <div class="v2-videre-boks">
                 <h3 class="v2-videre__tittel" id="v2-videre-tittel">Slik går det videre</h3>
@@ -1699,19 +1711,21 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=19"></script>
-<script src="../components/js/campaign-material.js?v=8"></script>
+<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
-<script src="../components/js/approval-store.js?v=3"></script>
-<script src="../components/js/approval-share.js?v=5"></script>
+<script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/approval-share.js?v=20261029-approval-copy"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=20261027-delete-draft"></script>
+<script src="data/kampanjer.js?v=20261029-mvp"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
+<script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
+<script src="../components/js/brand-store.js?v=20261029-mvp"></script>
 <script>
-(function () {
+(async function () {
   var kladdParametre = new URLSearchParams(location.search);
   var kladdId = kladdParametre.get('kladd');
   if (kladdId && (!FZ_KAMPANJER.finn(kladdId) || FZ_KAMPANJER.finn(kladdId).status !== 'Kladd')) {
@@ -1719,6 +1733,9 @@
     location.replace('campaigns.html' + (kladdParametre.size ? '?' + kladdParametre.toString() : ''));
     return;
   }
+  var materialEditId = kladdParametre.get('redigerMateriell'), materialEditModel = null, materialSaving = false;
+  var campaignBrand = null;
+  try { campaignBrand = await FrantzBrand.read(); } catch (error) { /* Existing campaign values and token defaults stay available. */ }
   var R = window.FrantzRekkevidde;
   var $ = function (id) { return document.getElementById(id); };
   var kr = function (n) { return 'kr ' + R.tall(n); };
@@ -2046,12 +2063,13 @@
     var ok = tilstand.v2ok || {}, kilde = tilstand.v2kilde || {};
     if (id === 'budsjett') return budsjett() ? kr(budsjett()) : '';
     if (id === 'kanaler') return tilstand.kanaler.join(', ');
-    if (id === 'periode') return periodeTekst();
+    if (id === 'periode') return tilstand.periodeApent ? '' : periodeTekst();
     if (id === 'pakke') return pakkeTekst();
     if (id === 'produkter') return tilleggListe().join(', ') || 'Ingen tilleggsprodukter valgt';
     if (id === 'faktura') return $('faktura').value;
     if (id === 'ekstra') return $('v2-ekstra').value.trim();
     if (id === 'avsender') return $('avsender').value.trim();
+    if (id === 'arbeidsgiver') return $('arbeidsgiver').value.trim();
     if (id === 'fil') return v2Filnavn().join(', ');
     if (Object.prototype.hasOwnProperty.call(ok, id)) return ok[id];
     if (id === 'materiell') {
@@ -2091,6 +2109,87 @@
   }
   // Summary values stay read-only. Related controls move into one native dialog.
   var v2DialogSnapshot = null, v2DialogGroup = null;
+  function v2ForslagSpor() {
+    var spor = tilstand.forslagSpor || {};
+    var deler = [];
+    if (spor.budsjett) deler.push('budsjett');
+    if (spor.kanaler) deler.push('kanaler');
+    if (spor.periode) deler.push('periode');
+    var kort = document.createElement('div');
+    kort.className = 'card card--betjen v2-sporsmal';
+    var tittel = document.createElement('h3');
+    tittel.className = 'card__title';
+    tittel.textContent = 'Vil dere bruke forslaget fra Frantz?';
+    var hint = document.createElement('p');
+    hint.className = 'card__hint';
+    hint.textContent = (deler.length ? ogListe(deler).replace(/^./, function (tegn) { return tegn.toUpperCase(); }) : 'Forslaget') + ' er et forslag ut fra stillingen. Det legges ikke inn før dere sier ja.';
+    var liste = document.createElement('ul');
+    function rad(navn, verdi) {
+      var li = document.createElement('li');
+      var sterk = document.createElement('b');
+      sterk.textContent = navn;
+      li.append(sterk, ' ' + verdi);
+      return li;
+    }
+    if (spor.budsjett) liste.appendChild(rad('Budsjett', kr(spor.budsjett)));
+    if (spor.kanaler) liste.appendChild(rad('Kanaler', spor.kanaler.join(', ')));
+    if (spor.periode) liste.appendChild(rad('Periode', spor.periode.uker + (spor.periode.uker === 1 ? ' uke' : ' uker')));
+    var rekkevidde = v2RekkeviddeBoks(spor);
+    var valg = document.createElement('div');
+    valg.className = 'v2-sporsmal__valg';
+    var knapp = document.createElement('button');
+    knapp.type = 'button';
+    knapp.className = 'btn btn--primary';
+    knapp.dataset.brukForslag = 'ja';
+    knapp.textContent = 'Bruk forslaget';
+    var selv = document.createElement('button');
+    selv.type = 'button';
+    selv.className = 'btn btn--secondary';
+    selv.dataset.velgSelv = 'ja';
+    selv.textContent = 'Velg selv';
+    valg.append(knapp, selv);
+    kort.append(tittel, hint, liste);
+    if (rekkevidde) kort.appendChild(rekkevidde);
+    kort.appendChild(valg);
+    return kort;
+  }
+  function v2EstimatHtml(spor) {
+    var liste = steder.verdi();
+    var belop = spor && spor.budsjett ? spor.budsjett : budsjett();
+    var kanaler = spor && spor.kanaler && spor.kanaler.length ? spor.kanaler : tilstand.kanaler;
+    if (!R || !tilstand.rolle || !liste.length || !belop || !kanaler.length) return '';
+    if ((!spor || !spor.periode) && tilstand.periodeApent) return '';
+    var uker = spor && spor.periode ? spor.periode.uker : antallDager(periodeDatoer()) / 7;
+    var tall = R.beregn({ rolle: tilstand.rolle, steder: liste, budsjett: belop, kanaler: kanaler, uker: uker });
+    return estimatSetning(belop, tall, kanaler);
+  }
+  function v2RekkeviddeBoks(spor) {
+    var html = v2EstimatHtml(spor);
+    if (!html) return null;
+    var boks = document.createElement('div');
+    boks.className = 'alert alert--info v2-rekkevidde';
+    boks.setAttribute('role', 'status');
+    var ikon = document.createElement('span');
+    ikon.className = 'icon-lucide icon-lucide--trending-up alert__icon';
+    ikon.setAttribute('aria-hidden', 'true');
+    var innhold = document.createElement('div');
+    innhold.className = 'alert__content';
+    var tekst = document.createElement('div');
+    tekst.className = 'alert__body';
+    tekst.innerHTML = html;
+    innhold.appendChild(tekst);
+    boks.append(ikon, innhold);
+    return boks;
+  }
+  function brukForslagSpor() {
+    var spor = tilstand.forslagSpor;
+    if (!spor) return;
+    if (spor.budsjett) { budsjettKontroll.set(spor.budsjett); tilstand.valgtBudsjett = true; }
+    if (spor.kanaler) { tilstand.kanaler = spor.kanaler.slice(); tilstand.kanalmodus = 'selv'; tilstand.valgtKanal = true; }
+    if (spor.periode) { tilstand.uker = spor.periode.uker; tilstand.til = null; tilstand.venter = false; tilstand.periodeApent = false; }
+    tilstand.forslagSpor = null;
+    tegnKanaler(); tegnPeriode(); oppdater(); v2Tegn();
+  }
   function v2Tegn() {
     if ($('v2-dialog').open) return;
     v2hjemAlle();
@@ -2120,6 +2219,7 @@
         var valgfritt = document.createElement('span'); valgfritt.className = 'form-hint'; valgfritt.textContent = 'Valgfritt'; topp.appendChild(valgfritt);
       } else if (seksjon.id !== 'bestilling') topp.appendChild(endre);
       blokk.appendChild(topp);
+      if (seksjon.id === 'kampanje' && tilstand.forslagSpor) blokk.appendChild(v2ForslagSpor());
       if (seksjon.id === 'produkter') {
         var valg = document.createElement('div'); valg.className = 'v2-produkter';
         v2flytt('produkter', valg); blokk.appendChild(valg); rot.appendChild(blokk);
@@ -2140,6 +2240,7 @@
       var forslagVist = false;
       seksjon.felt.forEach(function (felt) {
         if (felt[0] === 'pakke' && !tilstand.pakke) return;
+        if (tilstand.forslagSpor && tilstand.forslagSpor[felt[0]]) return;
         var verdi = felt[0] === 'fil' ? v2Vedleggnavn() : v2VisVerdi(felt[0]);
         var rad = document.createElement('div');
         var mangler = V2OBLIGATORISK.indexOf(felt[0]) !== -1 && !verdi;
@@ -2170,6 +2271,10 @@
         if (felt[0] === 'materiell' && verdi === 'Ferdig materiell' && tilstand.ferdige.length) rad.appendChild(v2FerdigeListe());
         blokk.appendChild(rad);
       });
+      if (seksjon.id === 'kampanje') {
+        var rekkevidde = v2RekkeviddeBoks();
+        if (rekkevidde) blokk.appendChild(rekkevidde);
+      }
       if (forslagVist) {
         var forklar = document.createElement('p');
         forklar.className = 'v2-forslag-hint';
@@ -2247,7 +2352,7 @@
     });
     if (seksjon.id === 'kampanje') {
       var estimatHint = document.createElement('p'); estimatHint.className = 'form-hint';
-      estimatHint.textContent = 'Estimat for kampanjeperioden, ikke garanterte resultater.';
+      estimatHint.textContent = 'Illustrasjon – eksempelberegning. Tallene er ikke et tilbud eller en resultatprognose.';
       rot.querySelector('[data-v2-dialog-felt="budsjett"]').appendChild(estimatHint);
     }
     $('v2-dialog').classList.toggle('v2-dialog--studio', seksjon.id === 'materiell');
@@ -2272,6 +2377,7 @@
     if (!studio) return;
     var vedlegg = $('v2-dialog-felt').querySelector('[data-v2-dialog-felt="fil"]');
     if (vedlegg) vedlegg.hidden = v2matValg !== 'hjelp';
+    $('slipp-format').textContent = v2matValg === 'hjelp' ? '. Bilder, logo og dokumenter blir grunnlag for designet. Maks 10 MB per fil.' : '. Bilder og video blir ferdige annonser. PDF og Word blir vedlegg. Maks 10 MB per fil.';
     studio.hidden = !v2matValg;
     if (!v2matValg) return;
     velgMateriell(v2matValg);
@@ -2298,6 +2404,7 @@
     $('v2-total').textContent = b ? kr(b + v2TilleggSum()) : 'Ikke beregnet';
     $('v2-total-label').textContent = design ? 'Sum eks. mva., uten design' : 'Totalt eks. mva.';
     $('v2-designkostnad').hidden = !design;
+    $('v2-designestimat').hidden = !design;
     $('v2-designkostnad').textContent = 'Design: ' + $('materiell-designpris').textContent.trim() + ' Dette er ikke inkludert i summen over.';
     var feil = v2FeilBestilling();
     $('v2-bestill').disabled = !!feil || !!approvalBlocked || v2Bestiller;
@@ -2372,13 +2479,27 @@
   $('ref').addEventListener('input', function () {
     if (this.value.trim()) { $('ref-feil').hidden = true; this.removeAttribute('aria-invalid'); this.classList.remove('form-input--error'); }
   });
-  function v2Lukk(lagre) {
+  async function v2Lukk(lagre) {
     if (!$('v2-dialog').open) return;
+    if (materialSaving) return;
     var gruppe = v2DialogGroup;
+    if (materialEditId) {
+      if (!lagre) { location.href = materialReturnUrl(); return; }
+      await saveEditedMaterial();
+      return;
+    }
     // Saving a section updates the draft. Required fields are checked when ordering or sharing.
     ++logoRequest;
     setCropEditing(false);
-    if (lagre) gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
+    if (lagre) {
+      gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
+      if (tilstand.forslagSpor) {
+        if (budsjett()) delete tilstand.forslagSpor.budsjett;
+        if (tilstand.kanaler.length) delete tilstand.forslagSpor.kanaler;
+        if (!tilstand.periodeApent) delete tilstand.forslagSpor.periode;
+        if (!tilstand.forslagSpor.budsjett && !tilstand.forslagSpor.kanaler && !tilstand.forslagSpor.periode) tilstand.forslagSpor = null;
+      }
+    }
     else {
       var snapshot = v2DialogSnapshot;
       if (gruppe.id === 'materiell') v2GjenopprettMedia(snapshot);
@@ -2440,6 +2561,8 @@
     $('beskrivelse').focus();
   }
   $('v2').addEventListener('click', function (e) {
+    if (e.target.closest('[data-bruk-forslag]')) { brukForslagSpor(); return; }
+    if (e.target.closest('[data-velg-selv]')) { v2Apne('kampanje'); return; }
     var gruppe = e.target.closest('[data-v2-gruppe]');
     if (gruppe) v2Apne(gruppe.dataset.v2Gruppe);
   });
@@ -2496,7 +2619,7 @@
       order.id = FZ_KAMPANJER.bestill({
         stilling: order.stilling || order.ref, sted: order.sted, arbeidsgiver: order.arbeidsgiver, ref: order.ref,
         connect: order.connect, kanaler: channels, fra: start && end ? start : '', til: start && end ? end : '', budsjett: budget,
-        materiellId: material.id, tilleggsinformasjon: order.notat
+        materiellId: material.id, approvalKey: order.approvalKey, tilleggsinformasjon: order.notat
       });
       sessionStorage.setItem('fzOrdre', JSON.stringify(order));
       clearTimeout(lagreTimer);
@@ -2589,15 +2712,20 @@
     tilstand.til = a.til || null;
     tilstand.materiell = a.materiell || (tilstand.ferdige.length ? 'ferdig' : '');
     if (!tilstand.v2kilde.materiell && tilstand.ferdige.length) tilstand.v2kilde.materiell = 'ferdig';
-    // What the customer left out, Frantz suggests from the job. The values stay editable and never block the order.
+    // What the customer left out stays a suggestion until they accept it.
     var harKanaler = !!(a.kanaler && a.kanaler.length);
-    if (!harKanaler) tilstand.kanaler = anbefalt();
-    budsjettKontroll.set(a.budsjett || forslagBudsjett() || (anbefalingOriginal && anbefalingOriginal.budsjett) || null);
+    var harPeriode = !!(a.uker || a.fra || a.til);
+    if (!harKanaler) { tilstand.kanaler = []; tilstand.kanalmodus = 'selv'; }
+    budsjettKontroll.set(a.budsjett || null);
+    tilstand.periodeApent = !harPeriode;
     tegnKanaler(); tegnPeriode();
+    var spor = {};
+    var original = anbefalingOriginal || {};
+    if (!a.budsjett && original.budsjett) spor.budsjett = original.budsjett;
+    if (!harKanaler) spor.kanaler = (original.kanaler && original.kanaler.length ? original.kanaler : anbefalt()).slice();
+    if (!harPeriode) spor.periode = { uker: 3 };
+    tilstand.forslagSpor = (spor.budsjett || spor.kanaler || spor.periode) ? spor : null;
     tilstand.forslag = {};
-    if (!a.budsjett && budsjett()) tilstand.forslag.budsjett = v2VisVerdi('budsjett');
-    if (!harKanaler && tilstand.kanaler.length) tilstand.forslag.kanaler = v2VisVerdi('kanaler');
-    if (!a.uker && !a.fra && !a.til) tilstand.forslag.periode = v2VisVerdi('periode');
     v2apen = null;
     $('v2-bestill').hidden = false;
     $('v2-status').hidden = true;
@@ -2869,7 +2997,7 @@
   // Connect is only for some customers. Without it, the field is not there at all.
   if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) {
     $('connect-valg').remove();
-    $('kilde-veiledning').textContent = 'Legg til minst én: lenke, tekst eller vedlegg.';
+    $('kilde-veiledning').textContent = 'Legg til informasjon i minst ett felt for å gå videre. Vi bruker det du skriver til å sette opp kampanjen. Resten kan avklares med Frantz.';
   }
   $('fortsett').addEventListener('click', function () {
     if (tilstand.pdfFil && !tilstand.pdfLest) {
@@ -3080,12 +3208,13 @@
     $('feil-kanal').hidden = document.body.classList.contains('v2-ute') || tilstand.kanaler.length > 0;
   }
   // «Med kr 30 000 over 4 uker på Meta, LinkedIn og Nettsteder og aviser kan dere vente …»
-  function estimatSetning(b, r) {
+  function estimatSetning(b, r, kanalListe) {
     var pd = periodeDatoer(), dag = function (d) { return d.getDate() + '.' + (d.getMonth() + 1) + '.'; };
     var periode = ukeTekst(antallDager(pd) / 7) + '</strong> (' + dag(pd.start) + '–' + dag(pd.slutt) + ')';
-    var kanaler = tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length
+    var valgte = kanalListe && kanalListe.length ? kanalListe : tilstand.kanaler;
+    var kanaler = !kanalListe && (tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length)
       ? 'kanalene Frantz anbefaler'
-      : tilstand.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1');
+      : valgte.join(', ').replace(/, ([^,]*)$/, ' og $1');
     return 'Med <strong>kr ' + R.tall(b) + '</strong> over <strong>' + periode + ' på ' + kanaler +
       ' kan dere vente rundt <strong>' + R.spenn(r.visninger) + '</strong> visninger, <strong>' + R.spenn(r.klikk) +
       '</strong> klikk og <strong>' + R.spenn(r.sok) + '</strong> som trykker «Søk».';
@@ -3149,7 +3278,7 @@
   document.addEventListener('click', function (e) {
     var uker = e.target.closest('[data-uker]'); if (!uker) return;
     tilstand.uker = uker.dataset.uker === 'frist' ? 'frist' : Number(uker.dataset.uker);
-    tilstand.til = null; tilstand.venter = false;
+    tilstand.til = null; tilstand.venter = false; tilstand.periodeApent = false;
     oppdater();
   });
   // A new start keeps the number of weeks, so the end date moves with it. A day before the earliest start is not used.
@@ -3192,6 +3321,17 @@
     endret: false, brukForslag: false, kanal: 'facebook',
     erFerdig: false, // true: the picture is the whole ad, with text and logo already on it
     utseende: { logo: true, bg: '#174c50', tekst: '#ffffff', bakgrunner: { profile: '#174c50', frame: '#ecefe9' } } };
+  if (campaignBrand) {
+    var defaults = campaignBrand.values || {}, assets = campaignBrand.assets || {}, ad = tilstand.annonse;
+    if (defaults.b4) { ad.utseende.bg = defaults.b4; ad.utseende.bakgrunner.profile = defaults.b4; ad.utseende.bakgrunner.frame = defaults.b4; }
+    if (assets['bn-logo']) { ad.logoFil = assets['bn-logo']; ad.logoUrl = URL.createObjectURL(ad.logoFil); }
+    ad.brandFonts = { heading: assets['bn-f1'] || null, body: assets['bn-f2'] || null };
+    ad.brandIcon = assets['bn-ikon'] || null;
+    await Promise.all([['heading', 'bn-f1'], ['body', 'bn-f2']].map(async function (item) {
+      if (!assets[item[1]]) return;
+      try { var family = await FrantzBrand.loadFont(assets[item[1]], item[1]); $(item[0] === 'heading' ? 'pv-tittel' : 'pv-tekst').style.fontFamily = family; } catch (error) { /* Keep the token font if the file cannot load. */ }
+    }));
+  }
   // The title fits itself: a long title gets smaller text, so nobody has to set a size
   function tittelStorrelse(t) { var n = (t || '').length; return n <= 20 ? 'l' : n <= 30 ? 'm' : 's'; }
   function kanalVisninger() {
@@ -3318,6 +3458,10 @@
     $('pv').setAttribute('aria-label', 'Forhåndsvisning på ' + kanalNavn);
     $('pv-avsender').textContent = avsender;
     $('pv-avatar').textContent = avsender.charAt(0).toUpperCase();
+    if (a.brandIcon && !a.brandIconUrl) a.brandIconUrl = URL.createObjectURL(a.brandIcon);
+    $('pv-avatar').style.backgroundImage = a.brandIconUrl ? 'url("' + a.brandIconUrl + '")' : '';
+    $('pv-avatar').style.backgroundSize = 'cover';
+    if (a.brandIconUrl) $('pv-avatar').textContent = '';
     FrantzAdLogo.render($('pv-logo'), avsender, a.logoUrl);
     $('pv-tittel').textContent = a.tittel.trim(); // empty: no text on the image, as on the order and approval pages
     $('pv-tekst').textContent = a.tekst;
@@ -3542,7 +3686,7 @@
       bildeUrl: forste && forste.kilde === 'fil' ? forste.url : '', bilde: forste && forste.kilde === 'bibliotek' ? forste.bilde : tilstand.annonse.bilde
     });
     return { ad: ad, mainFile: forste && forste.fil || null, files: tilstand.filer,
-      extraFiles: f.slice(1).map(function (x) { return { navn: x.navn, fil: x.fil }; }) };
+      extraFiles: f.slice(1).map(function (x) { return { navn: x.navn, fil: x.fil || null, sti: x.kilde === 'bibliotek' && x.bilde ? '../assets/media/' + x.bilde : '', kilde: x.kilde }; }) };
   }
   $('an-last-opp').addEventListener('click', function () { $('an-bilde-fil').click(); });
   function velgMateriell(valg) {
@@ -3794,8 +3938,8 @@
 
   /* ---------- Approval of a frozen plan, before the separate order action ---------- */
   var approvalKey, approvalKeyStorage = 'fzApprovalDraftKeyV2' + (new URLSearchParams(location.search).get('kladd') ? ':' + new URLSearchParams(location.search).get('kladd') : '');
-  try { approvalKey = localStorage.getItem(approvalKeyStorage); } catch (e) {}
-  if (!approvalKey) { approvalKey = crypto.randomUUID(); try { localStorage.setItem(approvalKeyStorage, approvalKey); } catch (e) {} }
+  if (!materialEditId) { try { approvalKey = localStorage.getItem(approvalKeyStorage); } catch (e) {} }
+  if (!approvalKey) { approvalKey = crypto.randomUUID(); if (!materialEditId) { try { localStorage.setItem(approvalKeyStorage, approvalKey); } catch (e) {} } }
   var approvalChangedTimer, approvalBlocked = false;
   function approvalContent() {
     var st = steder.verdi();
@@ -3840,10 +3984,11 @@
   $('del-knapp').setAttribute('aria-haspopup', 'dialog');
 
   function checkApprovalVersion() {
+    if (materialEditId) return;
     clearTimeout(approvalChangedTimer);
     if ($('v2-dialog').open) return;
     approvalChangedTimer = setTimeout(async function () {
-      if ($('v2-dialog').open || !planShare.latest('plan')) return;
+      if (materialEditId || $('v2-dialog').open || !planShare.latest('plan')) return;
       try { await planShare.invalidate(approvalContent()); }
       catch (e) {
         // If the original upload was removed, the old plan cannot remain approved.
@@ -3960,7 +4105,7 @@
     // What the budget, channels and period can give. The same box shows for a package and for «Sett opp selv».
     var estimatTekst = r ? estimatSetning(b, r) : (b ? !tilstand.kanaler.length ? 'Velg minst én kanal for å se estimatet.' : 'Fyll inn stilling og sted, så viser vi hva dere kan vente.' : '');
     $('estimat-tekst').innerHTML = (anbefalingModus === 'anbefalt' || anbefalingModus === 'pakke') && r
-      ? '<h3 class="metrics__title">Estimert resultat</h3><div class="metrics">' +
+      ? '<h3 class="metrics__title">Illustrasjon – eksempelberegning</h3><div class="metrics">' +
         [[r.visninger, 'visninger'], [r.klikk, 'klikk'], [r.sok, 'trykk på «Søk»']].map(function (item) {
           return '<div class="metric"><span class="metric__value">' + R.spenn(item[0]) + '</span><span class="metric__label">' + item[1] + '</span></div>';
         }).join('') + '</div>'
@@ -4259,6 +4404,7 @@
   /* ---------- Save by itself ---------- */
   var LAGER = 'fzNyKampanjeV2', lagreTimer = null;
   function lagreUtkast() {
+    if (materialEditId) return;
     $('lagret').classList.remove('lagret--feil');
     $('lagret').classList.add('lagret--lagrer');
     $('lagret-ikon').className = 'icon-lucide icon-lucide--clock';
@@ -4380,7 +4526,7 @@
 
   tegnKanaler(); tegnFiler(); oppdater();
   // The campaign has its ID from the start, so the user can refer to it in e-mails. A draft keeps its own.
-  $('sum-id').textContent = 'Kampanje #' + (new URLSearchParams(location.search).get('kladd') || FZ_KAMPANJER.nesteId());
+  $('sum-id').textContent = 'Kampanje #' + (materialEditId || new URLSearchParams(location.search).get('kladd') || FZ_KAMPANJER.nesteId());
   /* One page for every start. The title says where it came from. The stilling card
      holds the link and the job, and Kampanjen holds only what is still missing. */
   function sideFra(tittel, lede) { tilstand.side = { tittel: tittel, lede: lede }; }
@@ -4392,6 +4538,115 @@
     sideFra('Ny kampanje', 'ConnectID ' + c.id + ' · ' + c.tittel + '. Sjekk at stillingen stemmer, og velg pakke eller budsjett.');
     startMed({ tittel: c.stilling, steder: [FrantzPicker.finnSted(c.sted)].filter(Boolean), fristDato: c.frist, arbeidsgiver: c.arbeidsgiver, meld: !!c.interessenter }, 'ConnectID ' + c.id);
   }
+  function materialReturnUrl() {
+    var campaign = FZ_KAMPANJER.finn(materialEditId);
+    var url = new URL(campaign && campaign.side || 'kampanje-bestilt.html', location.href);
+    url.searchParams.set('id', materialEditId); url.hash = 'annonser';
+    return url.href;
+  }
+  async function saveEditedMaterial() {
+    if (materialSaving) return;
+    var save = $('v2-dialog-form').querySelector('[type="submit"]');
+    var error = $('v2-dialog-feil'); error.hidden = true;
+    if (!v2matValg) { error.textContent = 'Velg hvordan annonsene skal lages.'; error.hidden = false; return; }
+    if (v2matValg === 'ferdig' && !tilstand.ferdige.length) { error.textContent = 'Legg til minst én ferdig annonse.'; error.hidden = false; return; }
+    if (v2matValg === 'bygg' && !tilstand.annonse.egetBilde && !tilstand.annonse.bildeUrl) { error.textContent = 'Velg et bilde til annonsen.'; error.hidden = false; return; }
+    materialSaving = true;
+    save.disabled = true; save.textContent = 'Lagrer …';
+    $('v2-dialog-avbryt').disabled = true; $('v2-dialog-lukk').disabled = true;
+    try {
+      var original = materialEditModel.record;
+      var order = original ? original.ordre : Object.assign({}, materialEditModel.order, {
+        id: materialEditId, tittel: materialEditModel.title, stilling: materialEditModel.campaign.stilling,
+        arbeidsgiver: materialEditModel.campaign.arbeidsgiver, sted: materialEditModel.campaign.sted,
+        approvalKey: materialEditModel.approvalKey
+      });
+      var mf = materiellFor();
+      var snapshot = FrantzCampaignMaterial.snapshot(order, {
+        ad: v2matValg === 'hjelp' ? {} : mf.ad, mainFile: mf.mainFile, files: mf.files,
+        extraFiles: mf.extraFiles || [], mode: v2matValg, sourceFiles: vedleggFiler(),
+        channels: tilstand.kanaler, sender: $('avsender').value.trim(), brief: $('an-designbrief').value.trim(),
+        position: $('pv-bilde').style.getPropertyValue('--pv-pos')
+      });
+      var record = original ? structuredClone(original) : snapshot;
+      if (original && !record.originalMateriell) record.originalMateriell = structuredClone(original.materiell);
+      record.materiell = snapshot.materiell;
+      record.materialEditedAt = new Date().toISOString();
+      if (original && FrantzApprovals.fingerprint(original.materiell) === FrantzApprovals.fingerprint(record.materiell)) { location.href = materialReturnUrl(); return; }
+      // Invalidate old reviews before saving changed content: a failed write cannot leave stale approval valid.
+      await FrantzApprovals.invalidate(materialEditModel.approvalKey, { material: snapshot.materiell }, 'material');
+      await FrantzCampaignMaterial.save(record);
+      FZ_KAMPANJER.oppdaterMateriell(materialEditId, record.id, materialEditModel.approvalKey);
+      FrantzCampaignActivity.append(materialEditId, { kind: 'material-updated', title: v2matValg === 'hjelp' ? 'Designforespørsel oppdatert' : 'Materiellet er oppdatert', body: v2matValg === 'hjelp' ? 'Frantz bekrefter estimert designkostnad før arbeidet starter.' : 'Den nye versjonen må gjennomgås før publisering.' });
+      location.href = materialReturnUrl();
+    } catch (failure) {
+      error.textContent = 'Kunne ikke lagre materiellet. Prøv igjen. Ingen endringer er sendt til Frantz.';
+      error.hidden = false; error.scrollIntoView({ block: 'nearest' });
+    } finally {
+      materialSaving = false; save.disabled = false; save.textContent = 'Lagre endringer';
+      $('v2-dialog-avbryt').disabled = false; $('v2-dialog-lukk').disabled = false;
+    }
+  }
+  async function openOrderedMaterial() {
+    try {
+      var campaign = FZ_KAMPANJER.finn(materialEditId);
+      if (!campaign || campaign.status !== 'Bestilt') throw new Error('unavailable');
+      materialEditModel = await FrantzCampaignSubmission.load(materialEditId, campaign);
+      var order = materialEditModel.order, material = materialEditModel.material || {};
+      startMed({ tittel: campaign.stilling, steder: [FrantzPicker.finnSted(campaign.sted)].filter(Boolean), arbeidsgiver: campaign.arbeidsgiver, budsjett: campaign.budsjett, kanaler: material.kanaler || campaign.kanaler || [] }, 'bestillingen');
+      tilstand.kanaler = (material.kanaler || campaign.kanaler || ['Meta']).slice(); tilstand.kanalmodus = 'selv';
+      $('avsender').value = material.avsender || order.avsender || campaign.arbeidsgiver || '';
+      $('an-designbrief').value = material.designbrief || '';
+      tilstand.vedlegg = await Promise.all((material.kilder || []).concat(material.modus === 'hjelp' ? material.filer || [] : []).map(async function (item) {
+        if (item.fil) return item.fil;
+        if (!/^\.\.\/assets\/media\/[a-z0-9][a-z0-9._-]*\.(jpe?g|png|webp)$/i.test(item.sti || '')) throw new Error('missing-original');
+        var response = await fetch(item.sti); if (!response.ok) throw new Error('missing-original');
+        return new File([await response.blob()], item.navn, { type: response.headers.get('Content-Type') || 'image/jpeg' });
+      }));
+      tilstand.pdf = tilstand.vedlegg.map(function (file) { return file.name; }).join(', ');
+      var ad = tilstand.annonse;
+      Object.assign(ad, { tittel: material.tittel || '', tekst: material.tekst || '', knapp: material.knapp || 'Søk nå', template: material.template || 'profile', crop: material.crop || ad.crop });
+      if (materialEditModel.material) {
+        // An existing campaign keeps its own brand, including intentionally omitted logos/fonts.
+        ad.brandFonts = material.brandFonts || null; ad.brandIcon = material.brandIcon || null;
+        if (ad.logoUrl) URL.revokeObjectURL(ad.logoUrl);
+        ad.logoFil = null; ad.logoUrl = '';
+        $('pv-tittel').style.fontFamily = ''; $('pv-tekst').style.fontFamily = '';
+        if (ad.brandFonts) await Promise.all(Object.keys(ad.brandFonts).map(async function (slot) {
+          if (!ad.brandFonts[slot]) return;
+          var family = await FrantzBrand.loadFont(ad.brandFonts[slot], 'saved-' + slot);
+          $(slot === 'heading' ? 'pv-tittel' : 'pv-tekst').style.fontFamily = family;
+        }));
+      }
+      if (material.utseende) ad.utseende = Object.assign({}, ad.utseende, material.utseende);
+      if (material.bilde) {
+        var image = material.bilde;
+        if (image.fil) { ad.fil = image.fil; ad.bildeUrl = URL.createObjectURL(image.fil); ad.filnavn = image.navn; }
+        else if (image.sti) ad.bilde = image.sti.split('/').pop();
+        ad.egetBilde = true; ad.video = !!material.video; ad.erFerdig = !!material.ferdig;
+      }
+      if (material.logo && material.logo.fil) { ad.logoFil = material.logo.fil; ad.logoUrl = URL.createObjectURL(ad.logoFil); }
+      $('an-tittel').value = ad.tittel; $('an-tekst').value = ad.tekst; $('an-knapp').value = ad.knapp;
+      tilstand.ferdige = material.modus === 'ferdig' ? (material.bilde ? [material.bilde] : []).concat(material.filer || []).filter(function (item) { return item.fil || item.sti; }).map(function (item) {
+        return { navn: item.navn, fil: item.fil || null, kilde: item.fil ? 'fil' : 'bibliotek', bilde: item.sti ? item.sti.split('/').pop() : '', url: item.fil ? URL.createObjectURL(item.fil) : item.sti, video: !!(item.fil && item.fil.type === 'video/mp4') };
+      }) : [];
+      await Promise.all(tilstand.ferdige.map(async function (file) { file.format = await malFil(file.url, file.video); }));
+      var mode = material.modus || '', desired = kladdParametre.get('valg');
+      if (['ferdig', 'bygg', 'hjelp'].includes(desired)) mode = desired;
+      tilstand.v2ok = Object.assign({}, tilstand.v2ok, { materiell: mode === 'hjelp' ? 'Frantz lager annonsen' : mode === 'ferdig' ? 'Ferdig materiell' : mode === 'bygg' ? 'Lager annonsen selv' : '' });
+      v2Tegn();
+      $('side-tittel').textContent = 'Endre materiell · ' + materialEditModel.title;
+      document.title = 'Endre materiell – ' + materialEditModel.title;
+      $('lagret').hidden = true;
+      $('v2-del').hidden = true; $('v2-bestill').hidden = true;
+      v2Apne('materiell');
+    } catch (error) {
+      $('side-tittel').textContent = 'Kunne ikke åpne materiellet';
+      var back = document.createElement('a'); back.className = 'link'; back.href = materialReturnUrl(); back.textContent = 'Tilbake til kampanjen'; $('side-tittel').after(back);
+      $('del-start').hidden = true;
+    }
+  }
+  if (materialEditId) { await openOrderedMaterial(); return; }
   var qp = new URLSearchParams(location.search);
   var dm = qp.get('demo');
   if (DEMO[dm]) kjorDemo(dm);
@@ -4432,7 +4687,8 @@
 
 <script src="../components/js/campaign-draft-delete.js?v=1"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=18"></script>
+<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
+<script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 </body>

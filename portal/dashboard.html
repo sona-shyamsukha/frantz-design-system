@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=211">
+<link rel="stylesheet" href="../frantz-ds.css?v=213">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -46,7 +46,7 @@
   .venter > .btn { grid-column: 2; justify-self: start; }
   .venter:first-child { border-top: 0; padding-top: 0; }
   .venter__tekst { display: grid; gap: var(--space-2); min-width: 0; }
-  /* «Venter på dere» sits under the campaign table */
+  /* Customer tasks follow the campaign list, preserving the selected dashboard hierarchy. */
   .venter-kort { margin-top: var(--space-section-gap); }
   .venter-kort[hidden] { display: none; }
 
@@ -79,7 +79,7 @@
   .row-alert__desc { margin-top: var(--space-2); color: var(--text-muted); font: var(--type-body); }
   .row-alert .icon-lucide--chevron-right { flex: none; margin-top: var(--space-8); color: var(--text-faint); }
 
-  /* New customer: a slim banner, then a «Kom i gang» checklist. Reuses card, checklist, meter and buttons. */
+  /* New customer: a slim banner, then a «Kom i gang» card that explains the process. Reuses card and checklist. */
   .kom-i-gang { margin-top: var(--space-section-gap); }
   .banner { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-24); padding: var(--space-24) var(--space-32); border-radius: var(--radius-16); background: var(--gradient-hero); color: var(--text-on-dark); }
   .banner__tittel { margin: 0; color: var(--color-white); font: var(--type-section); }
@@ -165,7 +165,7 @@
         <h1 class="text-h2">Velkommen, Kari</h1>
         <p class="lede">Her bestiller dere stillingsannonser og følger med på hvordan de går. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
-        <!-- A slim banner, then a "Kom i gang" checklist with progress -->
+        <!-- A slim banner, then a "Kom i gang" checklist -->
         <div class="kom-i-gang">
           <section class="banner" aria-labelledby="c-tittel">
             <div>
@@ -180,12 +180,11 @@
                 <h2 class="card__title" id="c-liste">Kom i gang</h2>
                 <p class="card__hint">Fire steg fra konto til søkere.</p>
               </div></div>
-              <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
               <ul class="checklist">
-                <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Nordlys Rekruttering AS er satt opp i Frantz.</div></li>
-                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke eller tekst om stillingen, og se over forslaget. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>
-                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Godkjenn annonsene</b>Frantz lager annonsene. Dere ser dem før noe publiseres.</div></li>
-                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Følg resultatene</b>Se hvor mange som trykker «Søk», og hvem som melder interesse.</div></li>
+                <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><span><span class="sr-only">Fullført: </span><b>Kontoen er klar</b><small>Nordlys Rekruttering AS er satt opp i Frantz.</small></span></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span><span class="sr-only">Gjenstår: </span><b>Lag den første kampanjen</b><small>Lim inn en lenke eller tekst om stillingen, og se over forslaget.</small> <a class="link" href="ny-kampanje.html">Start nå</a></span></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span><span class="sr-only">Gjenstår: </span><b>Godkjenn annonsene</b><small>Frantz lager annonsene. Dere ser dem før noe publiseres.</small></span></li>
+                <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><span><span class="sr-only">Gjenstår: </span><b>Følg resultatene</b><small>Se hvor mange som trykker «Søk», og hvem som melder interesse.</small></span></li>
               </ul>
             </section>
             <aside class="flow">
@@ -211,6 +210,8 @@
       <div data-vis="eksisterende">
       <h1 class="text-h2">Hei Kari</h1>
       <p class="lede">Her ser dere hva som skjer med kampanjene til Nordlys Rekruttering AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
+
+
 
       <div class="nokkel hjem-tall">
         <dl class="fakta"><dt>Aktive nå</dt><dd>1 <span>kampanje</span></dd></dl>
@@ -260,7 +261,11 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=20261027-complete-reports"></script>
+<script src="data/kampanjer.js?v=20261029-mvp"></script>
+<script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
 <script>
 // Hjem has two parts: the campaigns running or on the way, and what Frantz needs from you.
 // Both read the shared campaign list, so a new order shows here as «Bestilt».
@@ -282,15 +287,41 @@
   // What waits for you: ads to approve, and drafts to finish
   var venter = [];
   alle.forEach(function (k) {
-    if (k.status === 'Under arbeid' && k.bestiller === 'Kari Hansen') venter.push({ ikon: 'eye', tittel: 'Godkjenn 3 annonser innen 02.10', under: k.tittel, knapp: 'Se annonsene', href: k.side });
-    if (k.status === 'Kladd' && k.bestiller === 'Kari Hansen') venter.push({ ikon: 'pencil', tittel: 'Fortsett kladden', under: k.tittel + ' · 1 av 4 steg ferdig', knapp: 'Fortsett', href: k.side });
+    if (k.status === 'Under arbeid' && k.bestiller === 'Kari Hansen') venter.push({ ikon: 'eye', tittel: 'Se gjennom annonsene', under: k.tittel, knapp: 'Se annonsene', href: k.side });
+    if (k.status === 'Kladd' && k.bestiller === 'Kari Hansen') venter.push({ ikon: 'pencil', tittel: 'Fortsett kladden', under: k.tittel + (k.endret ? ' · Sist lagret ' + k.endret : ''), knapp: 'Fortsett', href: k.side });
   });
-  document.getElementById('venter-liste').innerHTML = venter.map(function (v) {
-    return '<li class="venter"><span class="row-alert__icon"><span class="icon-lucide icon-lucide--' + v.ikon + '" aria-hidden="true"></span></span>' +
-      '<div class="venter__tekst"><span class="row-alert__title">' + esc(v.tittel) + '</span><span class="row-alert__desc">' + esc(v.under) + '</span></div>' +
-      '<a class="btn btn--secondary btn--sm" href="' + v.href + '">' + v.knapp + '</a></li>';
-  }).join('');
-  document.getElementById('venter-kort').hidden = !venter.length;
+  function renderTasks(items) {
+    document.getElementById('venter-liste').innerHTML = items.map(function (v) {
+      return '<li class="venter"><span class="row-alert__icon"><span class="icon-lucide icon-lucide--' + v.ikon + '" aria-hidden="true"></span></span>' +
+        '<div class="venter__tekst"><span class="row-alert__title">' + esc(v.tittel) + '</span><span class="row-alert__desc">' + esc(v.under) + '</span></div>' +
+        '<a class="btn btn--secondary btn--sm" href="' + esc(v.href) + '">' + esc(v.knapp) + '</a></li>';
+    }).join('');
+    document.getElementById('venter-kort').hidden = !items.length;
+  }
+  renderTasks(venter);
+  var taskRevision = 0;
+  async function refreshTasks() {
+    var revision = ++taskRevision;
+    alle = FZ_KAMPANJER.synlige();
+    var items = await Promise.all(alle.filter(function (k) { return k.bestiller === 'Kari Hansen' && ['Kladd', 'Under arbeid', 'Bestilt'].includes(k.status); }).map(async function (k) {
+      if (k.status === 'Kladd') return venter.find(function (v) { return v.href === k.side; });
+      try {
+        var state = await window.FrantzCampaignStatus.read(k);
+        if (!state.action) return null;
+        return { ikon: 'eye', tittel: state.title, under: k.tittel, knapp: state.key === 'missing' ? 'Legg til materiell' : 'Se annonsene', href: k.side + (state.key === 'missing' ? '#kampanje' : '#annonser') };
+      } catch (error) {
+        return { ikon: 'eye', tittel: 'Kontroller kampanjestatus', under: k.tittel, knapp: 'Åpne kampanjen', href: k.side };
+      }
+    }));
+    if (revision === taskRevision) renderTasks(items.filter(Boolean));
+  }
+  if (typeof window !== 'undefined' && window.FrantzCampaignStatus) {
+    refreshTasks();
+    window.addEventListener('focus', refreshTasks);
+    window.addEventListener('frantz:approval-change', refreshTasks);
+    window.addEventListener('frantz:campaign-activity', refreshTasks);
+    window.addEventListener('storage', function (event) { if (['fzApprovalChanged', 'fzCampaignActivityV1'].includes(event.key)) refreshTasks(); });
+  }
 
   // A completed campaign with zero clicks is still completed; it has no price per click yet.
   var kr = function (n) { return 'kr ' + String(Math.round(n / 10) * 10).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); };
@@ -308,7 +339,7 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=18"></script>
+<script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="../components/js/tour.js"></script>

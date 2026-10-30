@@ -71,7 +71,7 @@
       materiell: {
         kilder: (options.sourceFiles || (options.sourceFile ? [options.sourceFile] : [])).map(function (file) { return { navn: file.name, fil: file, kilde: 'stillingsgrunnlag' }; }),
         logo: ad.logoFil ? { navn: ad.logoFil.name, fil: ad.logoFil, kilde: 'egen-logo' } : null,
-        crop: ad.crop ? Object.assign({}, ad.crop) : null, template: ad.template || '', modus: options.mode, designbrief: options.brief || '', bilde: image, filer: files,
+        brandFonts: ad.brandFonts || null, brandIcon: ad.brandIcon || null, crop: ad.crop ? Object.assign({}, ad.crop) : null, template: ad.template || '', modus: options.mode, designbrief: options.brief || '', bilde: image, filer: files,
         tittel: ad.tittel || '', tekst: ad.tekst || '', knapp: ad.knapp || 'Søk nå',
         ferdig: !!ad.erFerdig, video: !!ad.video, avsender: options.sender || '',
         kanaler: options.channels.slice(), utseende: Object.assign({}, ad.utseende),

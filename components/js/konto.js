@@ -7,7 +7,7 @@
   var varsler = [
     { ikon: 'users', tittel: '3 nye interessenter på Sykepleier Oslo', tid: '27.09.2026', href: 'campaign.html', ulest: true },
     { ikon: 'file-text', tittel: 'Ny status fra rådgiver: «Leverer svært bra sammenlignet med lignende kampanjer»', tid: '24.09.2026', href: 'campaign.html', ulest: true },
-    { ikon: 'clock', tittel: 'Annonsene for Helsefagarbeider Tromsø er klare. Godkjenn dem innen 02.10.', tid: '29.09.2026', href: 'kampanje-under-arbeid.html', ulest: true },
+    { campaign: '129072', ikon: 'clock', tittel: 'Se gjennom annonsene for Helsefagarbeider Tromsø', tid: '29.09.2026', href: 'kampanje-under-arbeid.html', ulest: true },
     { ikon: 'circle-check', tittel: 'Rapporten for Sykepleier Bodø er klar', tid: '31.07.2026', href: 'rapport.html', ulest: false }
   ];
 
@@ -38,11 +38,12 @@
       varsler.map(function (v) {
         return '<a class="varsel' + (v.ulest ? ' varsel--ulest' : '') + '" href="' + v.href + '">' +
           '<span class="varsel__ikon"><span class="icon-lucide icon-lucide--' + v.ikon + '" aria-hidden="true"></span></span>' +
-          '<span><span class="varsel__tittel"><span class="varsel__prikk" aria-hidden="true"></span>' + v.tittel + '</span>' +
+          '<span><span class="varsel__tittel"><span class="varsel__prikk" aria-hidden="true"></span>' + escapeText(v.tittel) + '</span>' +
           '<span class="varsel__tid" style="display:block">' + v.tid + '</span></span></a>';
       }).join('') + innst;
   };
 
+  function escapeText(value) { return String(value).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   var backdrop = document.createElement('div');
   backdrop.className = 'drawer-backdrop';
   backdrop.hidden = true;
@@ -64,6 +65,31 @@
     bjelle.setAttribute('aria-label', n ? 'Varsler, ' + n + ' uleste' : 'Varsler');
   }
   oppdaterTeller();
+  var notificationRevision = 0, readNotifications = new Set();
+  async function refreshNotifications() {
+    if (!window.FrantzCampaignStatus || !window.FZ_KAMPANJER || window.FZ_BRUKER && FZ_BRUKER.ny) return;
+    var revision = ++notificationRevision;
+    var updates = await Promise.all(FZ_KAMPANJER.alle().filter(function (campaign) { return ['Under arbeid', 'Bestilt'].includes(campaign.status) && campaign.bestiller === 'Kari Hansen'; }).map(async function (campaign) {
+      try {
+        var state = await FrantzCampaignStatus.read(campaign);
+        if (state.key === 'ordered') return null;
+        var signature = campaign.id + ':' + state.key + ':' + (state.updated || '');
+        return { id: signature, ikon: state.action ? 'eye' : 'clock', campaign: campaign.id,
+          tittel: campaign.tittel + ': ' + state.title, href: campaign.side + (state.action && state.key !== 'missing' ? '#annonser' : '#kampanje'),
+          tid: state.updated ? new Date(state.updated).toLocaleDateString('nb-NO') : 'Kampanjestatus', ulest: !readNotifications.has(signature) };
+      } catch (error) { return { campaign: campaign.id, ikon: 'clock', tittel: 'Kontroller siste status for ' + campaign.tittel, href: campaign.side, tid: '', ulest: false }; }
+    }));
+    if (revision !== notificationRevision) return;
+    varsler = updates.filter(Boolean).concat(varsler.filter(function (item) { return !item.campaign; }));
+    dVarsler.querySelector('.drawer__body').innerHTML = varselHtml();
+    oppdaterTeller();
+  }
+  // Some pages load campaign data after the top bar; defer until all page scripts are ready.
+  window.addEventListener('DOMContentLoaded', refreshNotifications);
+  window.addEventListener('focus', refreshNotifications);
+  window.addEventListener('frantz:approval-change', refreshNotifications);
+  window.addEventListener('frantz:campaign-activity', refreshNotifications);
+  window.addEventListener('storage', function (event) { if (['fzApprovalChanged', 'fzCampaignActivityV1'].includes(event.key)) refreshNotifications(); });
 
   if (who) {
     var knapp = document.createElement('button');
@@ -161,7 +187,7 @@
   dVarsler.querySelector('[data-lukk]').addEventListener('click', lukk);
   dVarsler.addEventListener('click', function (e) {
     if (!e.target.closest('[data-alle-lest]')) return;
-    varsler.forEach(function (v) { v.ulest = false; });
+    varsler.forEach(function (v) { v.ulest = false; if (v.id) readNotifications.add(v.id); });
     dVarsler.querySelectorAll('.varsel--ulest').forEach(function (a) { a.classList.remove('varsel--ulest'); });
     oppdaterTeller();
   });
