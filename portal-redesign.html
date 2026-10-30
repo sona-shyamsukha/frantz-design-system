@@ -11,29 +11,30 @@
 <link rel="stylesheet" href="styles/docs.css?v=76">
 <style>
   .pr-main { padding-top: var(--docs-topbar-height); }
-  .pr-card .card__footer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16); }
-  .pr-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-16);
-    max-width: 900px;
+  .pr-table { width: 100%; }
+  .pr-table td { vertical-align: top; }
+  .pr-table .pr-group td {
+    padding-top: var(--space-24);
+    border-bottom: 0;
+    color: var(--text-muted);
+    font: var(--type-support);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
   }
-  @media (max-width: 900px) {
-    .pr-grid { grid-template-columns: 1fr; }
+  .pr-table a.link {
+    display: inline;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
-  .pr-card { display: flex; flex-direction: column; gap: var(--space-4); }
-  .pr-card__thumb {
-    display: grid;
-    place-items: center;
-    height: 96px;
-    margin-bottom: var(--space-16);
-    border-radius: var(--radius-12);
-    background: var(--surface-rail);
-    color: var(--color-amber);
-  }
-  .pr-card__thumb .icon-lucide { width: 28px; height: 28px; }
-  .pr-card .card__footer { margin-top: var(--space-20); }
-  .pr-grid--flyt .btn { min-height: 44px; max-width: 100%; white-space: normal; line-height: var(--leading-snug); }
+  .pr-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-8); }
+  .pr-table .pr-group td::before { content: none; }
+  .pr-table .pr-group td { display: block; }
+  .pr-test { max-width: 760px; margin: var(--space-32) 0 0; }
+  .pr-test p { margin: 0 0 var(--space-12); color: var(--text-body); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .pr-test ul { margin: 0; padding-left: 1.2em; }
+  .pr-test li { margin: 0 0 var(--space-8); color: var(--text-body); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .pr-test li:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body class="ds-docs">
@@ -59,108 +60,155 @@
     <h1 class="ds-title" style="font-size: var(--text-xl);">Kampanjeportalen for Vokser AS</h1>
     <p class="ds-desc" style="max-width: 640px;">Redesign av Frantz' kampanjebygger, bygget med tokenene og komponentene i dette biblioteket i stedet for prototypens egne stiler. Skjermene under viser hvordan de virkelige sidene vil se ut — klikk inn på hver for å se den fungerende siden. Se <a class="link" href="losninger.html">Løsninger</a> for demoen steg for steg.</p>
 
-    <h2 class="ds-title" style="font-size: var(--text-lg); margin-top: var(--space-32);">To brukerflyter</h2>
-    <p class="ds-desc" style="max-width: 640px;">Samme sider, to slags kunder. Åpne en flyt, og klikk deg rundt. Bryteren «Demo: … · Bytt» øverst på hver side bytter mellom dem.</p>
-    <div class="pr-grid pr-grid--flyt">
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--user-plus" aria-hidden="true"></span></div>
-        <h3 class="card__title">Ny kunde</h3>
-        <p class="card__hint">Har aldri brukt Frantz. Ingen kampanjer ennå og ingen Connect. Sidene forklarer hva en kampanje er, og Ny kampanje har to måter å starte på.</p>
-        <div class="card__footer"><a class="btn btn--primary btn--sm" href="portal/dashboard.html?bruker=ny">Åpne flyten for ny kunde</a></div>
-      </div>
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span></div>
-        <h3 class="card__title">Eksisterende kunde</h3>
-        <p class="card__hint">Kari Hansen i Vokser AS. Har aktive og avsluttede kampanjer, kladder og Connect. Ny kampanje har tre måter å starte på, også «Hent fra Connect».</p>
-        <div class="card__footer"><a class="btn btn--primary btn--sm" href="portal/dashboard.html?bruker=eksisterende">Åpne flyten for eksisterende kunde</a></div>
-      </div>
+    <div class="card card--betjen table-card">
+      <table class="table pr-table">
+        <thead>
+          <tr>
+            <th>Side</th>
+            <th>Hva du ser</th>
+            <th>Lenke</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pr-group"><td colspan="3">Brukerflyter</td></tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/dashboard.html?bruker=ny&demo=1">Ny kunde</a></td>
+            <td data-label="Hva du ser">Ingen kampanjer ennå og ingen Stillinger. Sidene forklarer hva en kampanje er.</td>
+            <td data-label="Lenke"><a class="link" href="portal/dashboard.html?bruker=ny&demo=1">dashboard.html?bruker=ny&amp;demo=1</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/dashboard.html?bruker=eksisterende&demo=1">Eksisterende kunde</a></td>
+            <td data-label="Hva du ser">Kari Hansen i Nordlys Rekruttering AS, med kampanjer, kladder og Stillinger.</td>
+            <td data-label="Lenke"><a class="link" href="portal/dashboard.html?bruker=eksisterende&demo=1">dashboard.html?bruker=eksisterende&amp;demo=1</a></td>
+          </tr>
+
+          <tr class="pr-group"><td colspan="3">Sider</td></tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/login.html">Innlogging</a></td>
+            <td data-label="Hva du ser">Innlogging for Nordlys Rekruttering AS. E-posten til Kari Hansen ligger klar.</td>
+            <td data-label="Lenke"><a class="link" href="portal/login.html">login.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/glemt-passord.html">Glemt passord</a></td>
+            <td data-label="Hva du ser">Fra Innlogging. «Se e-posten» åpner Nytt passord. Ingen e-post sendes.</td>
+            <td data-label="Lenke"><a class="link" href="portal/glemt-passord.html">glemt-passord.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/nytt-passord.html">Nytt passord</a></td>
+            <td data-label="Hva du ser">Siden etter «Se e-posten» på Glemt passord.</td>
+            <td data-label="Lenke"><a class="link" href="portal/nytt-passord.html">nytt-passord.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/dashboard.html?bruker=eksisterende&demo=1">Hjem</a></td>
+            <td data-label="Hva du ser">Nøkkeltall, kampanjer som trenger oppmerksomhet, og status på aktive kampanjer.</td>
+            <td data-label="Lenke"><a class="link" href="portal/dashboard.html?bruker=eksisterende&demo=1">dashboard.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/campaigns.html?bruker=eksisterende&demo=1">Kampanjer</a></td>
+            <td data-label="Hva du ser">Alle kampanjer, med søk, filter og «Mine kampanjer».</td>
+            <td data-label="Lenke"><a class="link" href="portal/campaigns.html?bruker=eksisterende&demo=1">campaigns.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/kalkulator.html?bruker=eksisterende&demo=1">Tilbudskalkulator</a></td>
+            <td data-label="Hva du ser">Stilling, sted og budsjett, og hva kampanjen kan nå.</td>
+            <td data-label="Lenke"><a class="link" href="portal/kalkulator.html?bruker=eksisterende&demo=1">kalkulator.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/connect.html?bruker=eksisterende&demo=1">Stillinger</a></td>
+            <td data-label="Hva du ser">Stillingene firmaet har i Connect. «Bestill» fyller ut Ny kampanje.</td>
+            <td data-label="Lenke"><a class="link" href="portal/connect.html?bruker=eksisterende&demo=1">connect.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/ny-kampanje.html?bruker=eksisterende&demo=1">Ny kampanje</a></td>
+            <td data-label="Hva du ser">Start med en stilling, en lenke, tekst eller vedlegg, og se over i én oversikt.</td>
+            <td data-label="Lenke"><span class="pr-links"><a class="link" href="portal/ny-kampanje.html?bruker=eksisterende&demo=1">ny-kampanje.html</a><a class="link" href="portal/ny-kampanje-alternativ.html?bruker=eksisterende&demo=1">ny-kampanje-alternativ.html</a></span></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/kampanje-bestilt.html?id=129074&bruker=eksisterende&demo=1">Bestilt</a></td>
+            <td data-label="Hva du ser">Barnehagelærer Drammen. Bestillingen er mottatt, og annonsene mangler.</td>
+            <td data-label="Lenke"><a class="link" href="portal/kampanje-bestilt.html?id=129074&bruker=eksisterende&demo=1">kampanje-bestilt.html?id=129074</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/kampanje-under-arbeid.html?id=129072&bruker=eksisterende&demo=1">Under arbeid</a></td>
+            <td data-label="Hva du ser">Helsefagarbeider Tromsø. Annonsene er klare til godkjenning.</td>
+            <td data-label="Lenke"><a class="link" href="portal/kampanje-under-arbeid.html?id=129072&bruker=eksisterende&demo=1">kampanje-under-arbeid.html?id=129072</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/annonse.html?navn=N%C3%A6r+folk%2C+hver+dag&kanal=Meta&type=Video&id=129072&utkast=1">Se annonsen</a></td>
+            <td data-label="Hva du ser">Én annonse i full størrelse. Åpnes fra «Se annonsen» på kampanjen. Lenken her er utkastet fra Tromsø.</td>
+            <td data-label="Lenke"><a class="link" href="portal/annonse.html?navn=N%C3%A6r+folk%2C+hver+dag&kanal=Meta&type=Video&id=129072&utkast=1">annonse.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side">Godkjenning</td>
+            <td data-label="Hva du ser">Åpnes ikke alene. Siden sier da at lenken ikke er tilgjengelig. Send en forespørsel fra Ny kampanje eller Tromsø, og bruk «Se e-posten» i samme nettleser.</td>
+            <td data-label="Lenke"><span class="table__meta">Ingen direkte lenke</span></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/campaign.html?id=129041&bruker=eksisterende&demo=1">Aktiv</a></td>
+            <td data-label="Hva du ser">Sykepleier Oslo. Innsikt for kampanjen som går nå.</td>
+            <td data-label="Lenke"><a class="link" href="portal/campaign.html?id=129041&bruker=eksisterende&demo=1">campaign.html?id=129041</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/rapport.html?id=128984&bruker=eksisterende&demo=1">Avsluttet</a></td>
+            <td data-label="Hva du ser">Sykepleier Bodø. Rapporten for hele perioden.</td>
+            <td data-label="Lenke"><a class="link" href="portal/rapport.html?id=128984&bruker=eksisterende&demo=1">rapport.html?id=128984</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/delt-rapport.html?kampanje=128984&forhandsvis=1">Delt rapport</a></td>
+            <td data-label="Hva du ser">Rapporten uten innlogging og uten interessenter. Forhåndsvisning av Bodø. Kundelenken kopieres fra Kampanjeoversikt.</td>
+            <td data-label="Lenke"><a class="link" href="portal/delt-rapport.html?kampanje=128984&forhandsvis=1">delt-rapport.html?kampanje=128984&amp;forhandsvis=1</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/mediebibliotek.html?bruker=eksisterende&demo=1">Mediebibliotek</a></td>
+            <td data-label="Hva du ser">Bilder og filer som kan brukes igjen i en annonse.</td>
+            <td data-label="Lenke"><a class="link" href="portal/mediebibliotek.html?bruker=eksisterende&demo=1">mediebibliotek.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/mine-pakker.html?bruker=eksisterende&demo=1">Lagrede pakker</a></td>
+            <td data-label="Hva du ser">Budsjett og kanaler som kan velges på nytt i Ny kampanje.</td>
+            <td data-label="Lenke"><a class="link" href="portal/mine-pakker.html?bruker=eksisterende&demo=1">mine-pakker.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/sporingskode.html?bruker=eksisterende&demo=1">Sporingskode</a></td>
+            <td data-label="Hva du ser">Koden som teller hvem som trykker «Søk».</td>
+            <td data-label="Lenke"><a class="link" href="portal/sporingskode.html?bruker=eksisterende&demo=1">sporingskode.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/landingsside.html?bruker=eksisterende&demo=1">Rediger kampanjesiden</a></td>
+            <td data-label="Hva du ser">Endre tekst og bilde på kampanjesiden, og send endringen til Frantz.</td>
+            <td data-label="Lenke"><a class="link" href="portal/landingsside.html?bruker=eksisterende&demo=1">landingsside.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/innstillinger.html?bruker=eksisterende&demo=1">Firmainnstillinger</a></td>
+            <td data-label="Hva du ser">Brukere, fakturamottakere, merkevare og lagrede pakker.</td>
+            <td data-label="Lenke"><a class="link" href="portal/innstillinger.html?bruker=eksisterende&demo=1">innstillinger.html</a></td>
+          </tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/min-profil.html?bruker=eksisterende&demo=1">Min profil</a></td>
+            <td data-label="Hva du ser">Karis egen profil. Lenken ligger i teksten på Firmainnstillinger.</td>
+            <td data-label="Lenke"><a class="link" href="portal/min-profil.html?bruker=eksisterende&demo=1">min-profil.html</a></td>
+          </tr>
+          <tr class="pr-group"><td colspan="3">Senere</td></tr>
+          <tr>
+            <td data-label="Side"><a class="link" href="portal/assistent.html?bruker=eksisterende&demo=1">Assistent</a></td>
+            <td data-label="Hva du ser">Frantz-assistenten i full skjerm. Kan fylle ut Ny kampanje. Ikke med i det som vises nå.</td>
+            <td data-label="Lenke"><a class="link" href="portal/assistent.html?bruker=eksisterende&demo=1">assistent.html</a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <h2 class="ds-title" style="font-size: var(--text-lg); margin-top: var(--space-32);">Alle sidene</h2>
-    <div class="pr-grid">
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--log-out" aria-hidden="true" style="transform:scaleX(-1)"></span></div>
-        <h3 class="card__title">Innlogging</h3>
-        <p class="card__hint">Enkel innloggingsside for Vokser AS, med e-post og passord.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/login.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--sparkles" aria-hidden="true"></span></div>
-        <h3 class="card__title">Assistent</h3>
-        <p class="card__hint">Frantz-assistenten i full skjerm. Den finnes også som «Spør Frantz»-knapp nede til høyre på alle sidene, og kan fylle ut Ny kampanje for deg.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/assistent.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--trending-up" aria-hidden="true"></span></div>
-        <h3 class="card__title">Tilbudskalkulator</h3>
-        <p class="card__hint">Åpen side der kunden velger stilling, sted og budsjett, og ser med en gang hva kampanjen kan nå. Med kart.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/kalkulator.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--house" aria-hidden="true"></span></div>
-        <h3 class="card__title">Hjem</h3>
-        <p class="card__hint">Nøkkeltall, kampanjer som trenger oppmerksomhet, og status på aktive kampanjer. «Ny kampanje» ligger øverst til høyre på alle sider.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/dashboard.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--list" aria-hidden="true"></span></div>
-        <h3 class="card__title">Kampanjer</h3>
-        <p class="card__hint">Alle kampanjer, med søk, filter og «Mine kampanjer». Hver rad viser resultatet, og rapporten ligger i kampanjen. Erstatter Rapporter.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/campaigns.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span></div>
-        <h3 class="card__title">Kampanje — resultater</h3>
-        <p class="card__hint">Visninger først, tall dag for dag, nettsteder og aviser, interessenter og kampanjeforløpet.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/campaign.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span></div>
-        <h3 class="card__title">Ny kampanje</h3>
-        <p class="card__hint">Start med en stilling fra Connect, en lenke, tekst eller vedlegg. Sjekk opplysningene i en samlet oversikt og rediger hver seksjon ved behov. Den tidligere stegflyten er bevart som alternativ for brukertesting.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/ny-kampanje.html">Åpne hovedflyten</a><a class="link" href="portal/ny-kampanje-alternativ.html">Alternativ til brukertest</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--file-text" aria-hidden="true"></span></div>
-        <h3 class="card__title">Rapport</h3>
-        <p class="card__hint">Rapporten for en avsluttet kampanje, med endelige tall sammenlignet med det som er normalt. Åpnes fra Kampanjer. Den gamle Rapporter-siden er tatt ut av menyen.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/rapport.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span></div>
-        <h3 class="card__title">Connect</h3>
-        <p class="card__hint">Stillingene firmaet har i Connect. «Bestill» fyller ut Ny kampanje.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/connect.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--check" aria-hidden="true"></span></div>
-        <h3 class="card__title">Godkjenning</h3>
-        <p class="card__hint">Siden lederen eller kunden får når du deler en bestilling. Ingen innlogging.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/godkjenning.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--pencil" aria-hidden="true"></span></div>
-        <h3 class="card__title">Rediger kampanjesiden</h3>
-        <p class="card__hint">Endre tekst og bilde på kampanjesiden, og send endringen til Frantz.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/landingsside.html">Åpne siden</a></div>
-      </div>
-
-      <div class="card card--betjen pr-card">
-        <div class="pr-card__thumb"><span class="icon-lucide icon-lucide--settings" aria-hidden="true"></span></div>
-        <h3 class="card__title">Innstillinger</h3>
-        <p class="card__hint">Brukere, fakturamottakere, merkevare og lagrede pakker.</p>
-        <div class="card__footer"><a class="btn btn--secondary btn--sm" href="portal/innstillinger.html">Åpne siden</a></div>
-      </div>
+    <div class="pr-test">
+      <h2 class="ds-title" style="font-size: var(--text-lg);">Slik tester du</h2>
+      <p>Åpne Ny kunde eller Eksisterende kunde, og bli i samme fane. Bryteren «Demo: … · Bytt» vises bare når adressen har <code>demo=1</code>. Passordet på innlogging sjekkes ikke. En ny kunde ser ikke Stillinger.</p>
+      <p>Disse sidene får innhold først når du kommer fra en handling. Filen alene er tom eller sier at lenken mangler.</p>
+      <ul>
+        <li><b>Godkjenning.</b> Gå til Ny kampanje og trykk «Send planen til godkjenning», eller til Helsefagarbeider Tromsø og «Send videre til godkjenning». Ett navn og én e-post. Åpne «Test i prototypen», og deretter «Se e-posten». Lenken virker bare i samme nettleser.</li>
+        <li><b>Delt rapport.</b> Kopier lenken i Kampanjeoversikt på Sykepleier Bodø eller Oslo. Forhåndsvisningen i tabellen åpner Bodø uten innlogging.</li>
+        <li><b>Se annonsen.</b> Trykk «Se annonsen» på en kampanje. Filen alene viser en tom eksempelannonse.</li>
+        <li><b>Glemt passord.</b> Lenken ligger på Innlogging. «Se e-posten» der åpner Nytt passord. Ingen e-post sendes.</li>
+      </ul>
+      <p>På Ny kampanje er «Bare lenke», «Lenke og tekst» og «Bare tekst» bare til utfylling her. De skal ikke vises for kunden. Innboks for rådgiver, den interne gjennomgangen og den gamle samlesiden for Ny kampanje er ikke med. <code>ny-kampanje-v2.html</code> sender deg videre til hovedflyten.</p>
     </div>
   </div>
 </div>
