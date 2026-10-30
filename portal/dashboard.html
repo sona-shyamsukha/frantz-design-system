@@ -79,7 +79,7 @@
   .row-alert__desc { margin-top: var(--space-2); color: var(--text-muted); font: var(--type-body); }
   .row-alert .icon-lucide--chevron-right { flex: none; margin-top: var(--space-8); color: var(--text-faint); }
 
-  /* New customer: a slim banner, then a «Kom i gang» checklist. Reuses card, checklist, meter and buttons. */
+  /* New customer: a slim banner, then a «Kom i gang» checklist. Reuses card, checklist and buttons. */
   .kom-i-gang { margin-top: var(--space-section-gap); }
   .banner { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-24); padding: var(--space-24) var(--space-32); border-radius: var(--radius-16); background: var(--gradient-hero); color: var(--text-on-dark); }
   .banner__tittel { margin: 0; color: var(--color-white); font: var(--type-section); }
@@ -165,7 +165,7 @@
         <h1 class="text-h2">Velkommen, Kari</h1>
         <p class="lede">Her bestiller dere stillingsannonser og følger med på hvordan de går. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
-        <!-- A slim banner, then a "Kom i gang" checklist with progress -->
+        <!-- A slim banner, then a "Kom i gang" checklist -->
         <div class="kom-i-gang">
           <section class="banner" aria-labelledby="c-tittel">
             <div>
@@ -180,7 +180,6 @@
                 <h2 class="card__title" id="c-liste">Kom i gang</h2>
                 <p class="card__hint">Fire steg fra konto til søkere.</p>
               </div></div>
-              <div class="meter meter--sm"><span class="meter__track"><span class="meter__bar" style="width:25%"></span></span><span class="meter__value">1 av 4 steg</span></div>
               <ul class="checklist">
                 <li class="er-ok"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div><span class="sr-only">Fullført: </span><b>Kontoen er klar</b>Nordlys Rekruttering AS er satt opp i Frantz.</div></li>
                 <li class="mangler"><span class="icon-lucide icon-lucide--clock" aria-hidden="true"></span><div><b>Lag den første kampanjen</b>Lim inn en lenke eller tekst om stillingen, og se over forslaget. <a class="link" href="ny-kampanje.html">Start nå</a></div></li>

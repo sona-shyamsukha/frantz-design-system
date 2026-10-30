@@ -1187,7 +1187,7 @@
               </div>
               </div>
               <fieldset class="kildegruppe" id="kildegruppe" aria-labelledby="kilde-tittel" aria-describedby="kilde-veiledning">
-                <p class="form-hint" id="kilde-veiledning">Legg til minst én: stilling, lenke, tekst eller vedlegg.</p>
+                <p class="form-hint" id="kilde-veiledning">Legg til informasjon i minst ett felt for å gå videre. Vi bruker det du skriver til å sette opp kampanjen. Resten kan avklares med Frantz.</p>
                 <p class="alert alert--error" id="feil-start" role="alert" hidden></p>
               <div class="kilde-felter">
               <div class="felt connect-valg" id="connect-valg">
@@ -1208,8 +1208,7 @@
                   <label class="form-label" for="beskrivelse">Skriv øvrig informasjon om stillingen eller kampanjen</label>
                   <button class="link" type="button" id="bruk-behovsmal">Bruk utfyllingsmal</button>
                 </div>
-                <p class="form-hint" id="behov-hint">Fyll ut det dere vet. Resten kan avklares med Frantz.</p>
-                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="11" aria-describedby="behov-hint" placeholder="Kampanjenavn/deres referansekode:&#10;Stilling:&#10;Arbeidsgiver:&#10;Arbeidssted:&#10;Søknadsfrist:&#10;Budsjett:&#10;Kanaler:&#10;Periode:&#10;Materiell:&#10;Tilleggsinformasjon:"></textarea>
+                <textarea class="form-textarea beskrivelse" id="beskrivelse" rows="11" placeholder="Kampanjenavn/deres referansekode:&#10;Stilling:&#10;Arbeidsgiver:&#10;Arbeidssted:&#10;Søknadsfrist:&#10;Budsjett:&#10;Kanaler:&#10;Periode:&#10;Materiell:&#10;Tilleggsinformasjon:"></textarea>
               </div>
               <div class="felt kilde-bred" id="felt-fil">
                 <span class="form-label" id="pdf-lbl">Vedlegg</span>
@@ -2884,7 +2883,7 @@
   // Connect is only for some customers. Without it, the field is not there at all.
   if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) {
     $('connect-valg').remove();
-    $('kilde-veiledning').textContent = 'Legg til minst én: lenke, tekst eller vedlegg.';
+    $('kilde-veiledning').textContent = 'Legg til informasjon i minst ett felt for å gå videre. Vi bruker det du skriver til å sette opp kampanjen. Resten kan avklares med Frantz.';
   }
   $('fortsett').addEventListener('click', function () {
     if (tilstand.pdfFil && !tilstand.pdfLest) {
