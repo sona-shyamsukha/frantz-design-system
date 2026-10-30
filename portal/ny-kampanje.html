@@ -975,10 +975,11 @@
   .v2-sporsmal { display: grid; gap: var(--space-12); justify-items: start; margin: var(--space-16) var(--space-24); }
   .v2-sporsmal .card__title, .v2-sporsmal p { margin: 0; }
   .v2-sporsmal ul { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; color: var(--text-body); font: var(--type-body); }
-  .v2-sporsmal li b, .v2-sporsmal__rekkevidde b { color: var(--text-heading); }
-  .v2-sporsmal__rekkevidde { margin: 0; color: var(--text-body); font: var(--type-body); }
+  .v2-sporsmal li b { color: var(--text-heading); }
   .v2-rekkevidde { margin: var(--space-16) var(--space-24); }
+  .v2-sporsmal .v2-rekkevidde { margin: 0; width: 100%; }
   .v2-rekkevidde .alert__body { margin: 0; }
+  .v2-rekkevidde strong { color: var(--text-heading); font-weight: var(--font-weight-semibold); }
   .v2-sporsmal__valg { display: flex; flex-wrap: wrap; gap: var(--space-8); }
   .v2-ferdige { grid-column: 2; display: grid; gap: var(--space-8); margin: 0; padding: 0; list-style: none; }
   .v2-ferdige li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: var(--space-12); min-width: 0; }
@@ -2133,15 +2134,7 @@
     if (spor.budsjett) liste.appendChild(rad('Budsjett', kr(spor.budsjett)));
     if (spor.kanaler) liste.appendChild(rad('Kanaler', spor.kanaler.join(', ')));
     if (spor.periode) liste.appendChild(rad('Periode', spor.periode.uker + (spor.periode.uker === 1 ? ' uke' : ' uker')));
-    var rekkevidde = forslagPersoner(spor);
-    var naa = document.createElement('p');
-    naa.className = 'v2-sporsmal__rekkevidde';
-    if (rekkevidde) {
-      naa.append(document.createTextNode('Med dette kan kampanjen nå rundt '));
-      var antall = document.createElement('b');
-      antall.textContent = rekkevidde + ' personer';
-      naa.append(antall, document.createTextNode('. Illustrasjon, ikke et lovet resultat.'));
-    }
+    var rekkevidde = v2RekkeviddeBoks(spor);
     var valg = document.createElement('div');
     valg.className = 'v2-sporsmal__valg';
     var knapp = document.createElement('button');
@@ -2156,41 +2149,36 @@
     selv.textContent = 'Velg selv';
     valg.append(knapp, selv);
     kort.append(tittel, hint, liste);
-    if (rekkevidde) kort.appendChild(naa);
+    if (rekkevidde) kort.appendChild(rekkevidde);
     kort.appendChild(valg);
     return kort;
   }
-  function forslagPersoner(spor) {
+  function v2EstimatHtml(spor) {
     var liste = steder.verdi();
-    var belop = spor.budsjett || budsjett();
-    var kanaler = spor.kanaler && spor.kanaler.length ? spor.kanaler : tilstand.kanaler;
+    var belop = spor && spor.budsjett ? spor.budsjett : budsjett();
+    var kanaler = spor && spor.kanaler && spor.kanaler.length ? spor.kanaler : tilstand.kanaler;
     if (!R || !tilstand.rolle || !liste.length || !belop || !kanaler.length) return '';
-    var uker = spor.periode ? spor.periode.uker : (typeof tilstand.uker === 'number' ? tilstand.uker : 3);
+    if ((!spor || !spor.periode) && tilstand.periodeApent) return '';
+    var uker = spor && spor.periode ? spor.periode.uker : antallDager(periodeDatoer()) / 7;
     var tall = R.beregn({ rolle: tilstand.rolle, steder: liste, budsjett: belop, kanaler: kanaler, uker: uker });
-    return R.spenn(tall.malgruppe * tall.dybde);
+    return estimatSetning(belop, tall, kanaler);
   }
-  function v2Rekkevidde() {
-    var liste = steder.verdi();
-    if (!R || !tilstand.rolle || !liste.length || !budsjett() || !tilstand.kanaler.length || tilstand.periodeApent) return '';
-    var tall = R.beregn({ rolle: tilstand.rolle, steder: liste, budsjett: budsjett(), kanaler: tilstand.kanaler, uker: antallDager(periodeDatoer()) / 7 });
-    return R.spenn(tall.malgruppe * tall.dybde);
-  }
-  function v2RekkeviddeBoks() {
-    var rekkevidde = v2Rekkevidde();
-    if (!rekkevidde) return null;
+  function v2RekkeviddeBoks(spor) {
+    var html = v2EstimatHtml(spor);
+    if (!html) return null;
     var boks = document.createElement('div');
     boks.className = 'alert alert--info v2-rekkevidde';
     boks.setAttribute('role', 'status');
+    var ikon = document.createElement('span');
+    ikon.className = 'icon-lucide icon-lucide--trending-up alert__icon';
+    ikon.setAttribute('aria-hidden', 'true');
     var innhold = document.createElement('div');
     innhold.className = 'alert__content';
-    var tittel = document.createElement('b');
-    tittel.className = 'alert__title';
-    tittel.textContent = 'Kampanjen kan nå rundt ' + rekkevidde + ' personer';
-    var tekst = document.createElement('p');
+    var tekst = document.createElement('div');
     tekst.className = 'alert__body';
-    tekst.textContent = 'Illustrasjon ut fra budsjett, kanaler og periode. Ikke et lovet resultat.';
-    innhold.append(tittel, tekst);
-    boks.appendChild(innhold);
+    tekst.innerHTML = html;
+    innhold.appendChild(tekst);
+    boks.append(ikon, innhold);
     return boks;
   }
   function brukForslagSpor() {
@@ -3220,12 +3208,13 @@
     $('feil-kanal').hidden = document.body.classList.contains('v2-ute') || tilstand.kanaler.length > 0;
   }
   // «Med kr 30 000 over 4 uker på Meta, LinkedIn og Nettsteder og aviser kan dere vente …»
-  function estimatSetning(b, r) {
+  function estimatSetning(b, r, kanalListe) {
     var pd = periodeDatoer(), dag = function (d) { return d.getDate() + '.' + (d.getMonth() + 1) + '.'; };
     var periode = ukeTekst(antallDager(pd) / 7) + '</strong> (' + dag(pd.start) + '–' + dag(pd.slutt) + ')';
-    var kanaler = tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length
+    var valgte = kanalListe && kanalListe.length ? kanalListe : tilstand.kanaler;
+    var kanaler = !kanalListe && (tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length)
       ? 'kanalene Frantz anbefaler'
-      : tilstand.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1');
+      : valgte.join(', ').replace(/, ([^,]*)$/, ' og $1');
     return 'Med <strong>kr ' + R.tall(b) + '</strong> over <strong>' + periode + ' på ' + kanaler +
       ' kan dere vente rundt <strong>' + R.spenn(r.visninger) + '</strong> visninger, <strong>' + R.spenn(r.klikk) +
       '</strong> klikk og <strong>' + R.spenn(r.sok) + '</strong> som trykker «Søk».';
