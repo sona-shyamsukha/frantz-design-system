@@ -79,5 +79,11 @@
       }
     };
   }
-  root.FrantzCampaignMaterial = { save: save, read: read, snapshot: snapshot };
+  // Choosing a delivery method does not mean that an ad has actually been supplied.
+  function hasVisual(material) {
+    return !!(material && (material.bilde || (material.filer || []).some(function (file) {
+      return file.fil && /^(image|video)\//.test(file.fil.type || '') || /\.(jpe?g|png|webp|gif|mp4|webm)$/i.test(file.navn || '');
+    })));
+  }
+  root.FrantzCampaignMaterial = { save: save, read: read, snapshot: snapshot, hasVisual: hasVisual };
 })(window);

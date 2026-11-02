@@ -80,6 +80,9 @@ Each request
 stores an immutable version of the plan and creative, including original uploaded
 images, video, custom logos and crop settings. Replies persist and refresh the sender's
 view across tabs. Revised plans require a fresh request; ordering remains a separate action.
+After ordering, budget, channels and period are locked. Plan approval stays in
+Kampanje → Kampanjeforløp as history; Annonser shows material approvals only and
+does not offer a new plan-approval request.
 
 This is a browser-local demonstration using IndexedDB, with simulated emails and
 notifications. Use `Se e-posten` to test the email-to-approval journey in the same
@@ -102,6 +105,9 @@ Orders open the same material editor as creation through `redigerMateriell=<id>`
 Uploads use the creation flow’s 10 MB limit. Cancel leaves the order unchanged;
 changed files, text or sender require a fresh review. Original submitted fields and
 the first material snapshot remain stored separately from later material changes.
+Selecting finished ads without attaching an image or video still counts as missing
+material. The ad tab and campaign tasks prompt for files rather than claiming that
+material was submitted. A design request remains with Frantz even without attachments.
 Design requests show the hourly rate and require a cost estimate to be agreed before
 work starts. Order confirmation leaves turnaround and activation for Frantz to confirm.
 Change and cancellation remain with the existing adviser contact; the extra request-button block was removed at Sona’s request.

@@ -30,6 +30,13 @@ test('original submitted values survive later changes to campaign phase and sett
     assert.equal(result.material.kilder[0], 'original.pdf');
   }
 });
+test('campaign headings use the submitted role and location rather than the customer reference', () => {
+  const result = setup().normalize({ id: '42', stilling: 'Later role', sted: 'Later place' }, {
+    ordre: { tittel: 'Oppdrag 42', ref: 'Oppdrag 42', stilling: 'Sykepleier', sted: 'Kristiansand' }
+  }, null);
+  assert.equal(result.title, 'Sykepleier Kristiansand');
+  assert.equal(result.order.ref, 'Oppdrag 42');
+});
 test('does not substitute another campaign session or original material record', () => {
   const model = setup();
   const result = model.normalize({ id: '42', materiellId: 'own', stilling: 'Own role' }, { id: 'other', ordre: { stilling: 'Foreign role' } }, { id: '43', stilling: 'Foreign session' });

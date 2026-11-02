@@ -4,6 +4,18 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const { File } = require('node:buffer');
 
+test('a delivery choice, copy, logo or PDF alone does not count as a supplied ad', () => {
+  const window = {};
+  vm.runInNewContext(fs.readFileSync('components/js/campaign-material.js', 'utf8'), { window, document: { addEventListener() {} } });
+  const hasVisual = window.FrantzCampaignMaterial.hasVisual;
+  assert.equal(hasVisual(null), false);
+  assert.equal(hasVisual({ modus: 'ferdig', tekst: 'Annonsetekst', logo: { navn: 'logo.png' }, filer: [] }), false);
+  assert.equal(hasVisual({ modus: 'bygg', filer: [{ navn: 'stilling.pdf' }] }), false);
+  assert.equal(hasVisual({ modus: 'ferdig', bilde: { navn: 'annonse.png' } }), true);
+  assert.equal(hasVisual({ modus: 'ferdig', filer: [{ navn: 'annonse.mp4' }] }), true);
+  assert.equal(hasVisual({ filer: [{ fil: new File(['image'], 'upload', { type: 'image/png' }) }] }), true);
+});
+
 function setup() {
   const listeners = {};
   const window = { crypto: { randomUUID: () => 'material-test' } };

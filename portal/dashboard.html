@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=214">
+<link rel="stylesheet" href="../frantz-ds.css?v=218">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -259,11 +259,11 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=20261102-channels"></script>
-<script src="../components/js/approval-store.js?v=20261102-demo"></script>
+<script src="data/kampanjer.js?v=20261102-drafts"></script>
+<script src="../components/js/approval-store.js?v=20261102-drafts"></script>
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
-<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
-<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-material.js?v=20261102-visuals"></script>
+<script src="../components/js/campaign-status.js?v=20261102-visuals"></script>
 <script>
 // Hjem has two parts: the campaigns running or on the way, and what Frantz needs from you.
 // Both read the shared campaign list, so a new order shows here as «Bestilt».
@@ -320,6 +320,12 @@
         return { ikon: 'eye', tittel: 'Kontroller kampanjestatus', under: k.tittel, knapp: 'Åpne kampanjen', href: k.side };
       }
     }));
+    // An approved plan comes first: the only step left is to order. It replaces the plain «Fortsett kladden».
+    var approvedPlans = window.FrantzApprovals && FrantzApprovals.approvedDrafts ? await FrantzApprovals.approvedDrafts().catch(function () { return []; }) : [];
+    var approvedHrefs = approvedPlans.map(function (plan) { return plan.href; });
+    items = approvedPlans.map(function (plan) {
+      return { ikon: 'circle-check', tittel: 'Planen er godkjent', under: plan.title + ' · Godkjent av ' + plan.approver, knapp: 'Bestill kampanjen', href: plan.href };
+    }).concat(items.filter(function (item) { return item && approvedHrefs.indexOf(item.href) === -1; }));
     if (revision === taskRevision) renderTasks(items.filter(Boolean));
   }
   if (typeof window !== 'undefined' && window.FrantzCampaignStatus) {
@@ -346,7 +352,7 @@
 })();
 </script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/konto.js?v=20261029-mvp"></script>
+<script src="../components/js/konto.js?v=20261102-drafts"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="../components/js/tour.js"></script>

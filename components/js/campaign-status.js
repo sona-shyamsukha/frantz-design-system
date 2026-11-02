@@ -18,7 +18,8 @@
     var key = campaign.approvalKey || String(campaign.id);
     if (campaign.materiellId && root.FrantzCampaignMaterial) {
       var record = await root.FrantzCampaignMaterial.read(campaign.materiellId);
-      campaign = Object.assign({}, campaign, { materialMode: record && record.materiell && record.materiell.modus || '' });
+      var material = record && record.materiell;
+      campaign = Object.assign({}, campaign, { materialMode: material && (material.modus === 'hjelp' || root.FrantzCampaignMaterial.hasVisual(material)) ? material.modus : '' });
       if (record && record.ordre && record.ordre.approvalKey) key = record.ordre.approvalKey;
     }
     var records = await root.FrantzApprovals.list(key);

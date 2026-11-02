@@ -79,6 +79,13 @@
           tid: state.updated ? new Date(state.updated).toLocaleDateString('nb-NO') : 'Kampanjestatus', ulest: !readNotifications.has(signature) };
       } catch (error) { return { campaign: campaign.id, ikon: 'clock', tittel: 'Kontroller siste status for ' + campaign.tittel, href: campaign.side, tid: '', ulest: false }; }
     }));
+    // A plan approved by the recipient is not ordered yet. Remind the orderer to press «Bestill kampanjen».
+    var approvedPlans = window.FrantzApprovals && FrantzApprovals.approvedDrafts ? await FrantzApprovals.approvedDrafts().catch(function () { return []; }) : [];
+    approvedPlans.forEach(function (plan) {
+      var signature = 'plan:' + plan.id;
+      updates.unshift({ id: signature, ikon: 'circle-check', campaign: signature, tittel: plan.title + ': Planen er godkjent av ' + plan.approver + '. Bestill kampanjen.',
+        href: plan.href, tid: plan.answered ? new Date(plan.answered).toLocaleDateString('nb-NO') : '', ulest: !readNotifications.has(signature) });
+    });
     if (revision !== notificationRevision) return;
     varsler = updates.filter(Boolean).concat(varsler.filter(function (item) { return !item.campaign; }));
     dVarsler.querySelector('.drawer__body').innerHTML = varselHtml();

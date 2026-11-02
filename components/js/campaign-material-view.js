@@ -7,10 +7,13 @@
     if (item.fil instanceof Blob) { var url = URL.createObjectURL(item.fil); urls.push(url); return url; }
     return /^\.\.\/assets\/media\/[a-z0-9][a-z0-9._-]*\.(jpe?g|png|webp)$/i.test(item.sti || '') ? item.sti : '';
   }
-  function platforms(channels) {
+  function platforms(channels, finished) {
     var all = [];
     if (channels.indexOf('Meta') !== -1) all.push(['facebook', 'Facebook'], ['instagram', 'Instagram']);
     if (channels.indexOf('LinkedIn') !== -1) all.push(['linkedin', 'LinkedIn']);
+    if (finished && channels.indexOf('Meta') !== -1) all.push(['story', 'Stories']);
+    if (channels.indexOf('Snapchat') !== -1) all.push(['snapchat', 'Snapchat']);
+    if (channels.indexOf('TikTok') !== -1) all.push(['tiktok', 'TikTok']);
     if (channels.indexOf('Nettsteder og aviser') !== -1) all.push(['nettsteder', 'Nettsteder og aviser']);
     return all.length ? all : [['facebook', 'Facebook']];
   }
@@ -39,12 +42,13 @@
     $('submitted-material').hidden = !material;
     if (!material) return;
     var paid = material.modus === 'hjelp';
+    var missingVisual = !paid && !root.FrantzCampaignMaterial.hasVisual(material);
     if (root.FrantzBrand && material.brandFonts) Object.keys(material.brandFonts).forEach(async function (slot) {
       if (!material.brandFonts[slot]) return;
       try { var family = await root.FrantzBrand.loadFont(material.brandFonts[slot], 'campaign-' + slot); $(slot === 'heading' ? 'submitted-title' : 'submitted-over-text').style.fontFamily = family; } catch (error) { /* The original font remains downloadable in storage; use token defaults for preview. */ }
     });
-    $('material-status').textContent = paid ? 'Designforespørsel til Frantz' : record.materialEditedAt ? 'Oppdatert materiell' : 'Innsendt ved bestilling';
-    $('material-explanation').textContent = paid ? 'Frantz bekrefter estimert designkostnad med dere før designarbeidet starter. Her ser dere grunnlaget for designet.' : 'Dette er gjeldende utkast og tilhørende filer. Forhåndsvisningen er ikke en godkjent, publisert annonse.';
+    $('material-status').textContent = paid ? 'Designforespørsel til Frantz' : missingVisual ? 'Annonsemateriell mangler' : record.materialEditedAt ? 'Oppdatert materiell' : 'Innsendt ved bestilling';
+    $('material-explanation').textContent = paid ? 'Frantz bekrefter estimert designkostnad med dere før designarbeidet starter. Her ser dere grunnlaget for designet.' : missingVisual ? 'Ingen annonsebilder eller videoer er lagt til ennå. Legg til annonser og filer for å se dem her. Eventuell innsendt tekst og andre vedlegg vises nedenfor.' : 'Dette er gjeldende utkast og tilhørende filer. Forhåndsvisningen er ikke en godkjent, publisert annonse.';
     showText('material-brief', paid ? material.designbrief : '');
     showText('material-image-text', material.tittel);
     showText('material-ad-text', material.tekst);
@@ -97,10 +101,33 @@
     if (material.video) $('submitted-video').src = imageUrl;
     else if (material.ferdig) { $('submitted-file-image').src = imageUrl; $('submitted-file-image').alt = 'Ferdig annonse sendt inn ved bestilling'; }
     if (material.crop && !material.video) FrantzAdCrop.apply($('submitted-image'), $('submitted-file-image'), material.crop, material.ferdig);
-    var choices = platforms(material.kanaler || []);
+    var picker = $('submitted-variant-picker');
+    if (!picker) {
+      picker = document.createElement('div'); picker.id = 'submitted-variant-picker'; picker.className = 'form-group submitted-variant-picker';
+      $('submitted-preview').prepend(picker);
+    }
+    picker.replaceChildren(); picker.hidden = true;
+    if (material.ferdig) {
+      var variants = (image ? [image] : []).concat(material.filer || []).filter(function (file) {
+        return file.fil && /^(image|video)\//.test(file.fil.type || '') || /\.(jpe?g|png|webp|gif|mp4|webm)$/i.test(file.navn || '');
+      });
+      if (variants.length > 1) {
+        var label = document.createElement('label'); label.className = 'form-label'; label.htmlFor = 'submitted-variant'; label.textContent = 'Vis annonse';
+        var select = document.createElement('select'); select.id = label.htmlFor; select.className = 'form-select';
+        variants.forEach(function (file, index) { var option = document.createElement('option'); option.value = String(index); option.textContent = file.navn; select.appendChild(option); });
+        select.addEventListener('change', function () {
+          var file = variants[Number(select.value)], fileUrl = source(file), video = file.fil && /^video\//.test(file.fil.type || '') || /\.(mp4|webm)$/i.test(file.navn || '');
+          $('submitted-video').pause(); $('submitted-video').hidden = !video; $('submitted-file-image').hidden = !!video;
+          if (video) $('submitted-video').src = fileUrl;
+          else { $('submitted-file-image').src = fileUrl; $('submitted-file-image').alt = file.navn; }
+        });
+        picker.append(label, select); picker.hidden = false;
+      }
+    }
+    var choices = platforms(material.kanaler || [], material.ferdig);
     function choose(platform) {
       $('submitted-ad').dataset.plattform = platform;
-      creative.style.aspectRatio = platform === 'linkedin' || platform === 'nettsteder' ? '1 / 1' : '4 / 5';
+      creative.style.aspectRatio = ['story', 'snapchat', 'tiktok'].indexOf(platform) !== -1 ? '9 / 16' : platform === 'linkedin' || platform === 'nettsteder' ? '1 / 1' : '4 / 5';
       $('submitted-ad').setAttribute('aria-label', 'Innsendt annonse på ' + choices.filter(function (x) { return x[0] === platform; })[0][1]);
       $('submitted-platforms').querySelectorAll('button').forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.platform === platform)); });
     }

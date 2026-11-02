@@ -53,7 +53,18 @@
   if (page === 'production') {
     var approve = document.getElementById('approve-campaign-material');
     var actions = approve.closest('[data-campaign-approval-actions]');
-    var creativeCard = document.getElementById('creative-heading').closest('.card');
+    var exampleCard = document.getElementById('creative-heading').closest('.card');
+    var usesExample = !params.get('id') || params.get('id') === '129072';
+    var materialModel = null;
+    var creativeCard = usesExample ? exampleCard : document.querySelector('[data-submitted-material]');
+    var creativeHeading = document.getElementById(usesExample ? 'creative-heading' : 'material-heading');
+    if (!usesExample) {
+      exampleCard.hidden = true;
+      actions.querySelector('[data-del-godkjenning]').hidden = true;
+      var materialActions = document.getElementById('ordered-approval-actions');
+      materialActions.prepend(actions);
+      document.getElementById('ordered-share').dataset.approvalLabel = 'Send videre til godkjenning';
+    }
     var stage = params.get('fase') || 'godkjenning';
     var approvalNote = document.getElementById('approval-note');
     var productionCampaign = root.FZ_KAMPANJER.finn(params.get('id') || '129072');
@@ -73,7 +84,7 @@
       document.getElementById('production-empty').hidden = stage !== 'produksjon';
       document.getElementById('production-ad-link').hidden = stage === 'produksjon';
       actions.hidden = stage === 'produksjon';
-      creativeCard.hidden = stage === 'produksjon';
+      creativeCard.hidden = usesExample ? stage === 'produksjon' : !materialModel || !materialModel.material;
       document.getElementById('material-customer-status').hidden = stage !== 'publisering';
       approve.disabled = stage !== 'godkjenning' || !!(latestRequest && !['approved', 'revoked'].includes(root.FrantzApprovals.status(latestRequest)));
       approve.textContent = 'Godkjenn annonsene';
@@ -90,11 +101,11 @@
       var panel = document.getElementById('del-panel');
       if (stage !== 'godkjenning') panel.hidden = true;
       if (stage === 'publisering') {
-        document.getElementById('creative-heading').textContent = 'Godkjente annonser';
+        creativeHeading.textContent = 'Godkjente annonser';
         creativeCard.querySelectorAll('.tag--overlay').forEach(function (tag) { tag.textContent = tag.textContent.replace('utkast', 'godkjent'); });
         creativeCard.querySelectorAll('a[href*="annonse.html"]').forEach(function (link) { var url = new URL(link.href); url.searchParams.delete('utkast'); link.href = url.href; });
       } else {
-        document.getElementById('creative-heading').textContent = 'Tre annonseutkast';
+        creativeHeading.textContent = usesExample ? 'Tre annonseutkast' : 'Annonser og materiell';
         creativeCard.querySelectorAll('.tag--overlay').forEach(function (tag) { tag.textContent = tag.textContent.replace('godkjent', 'utkast'); });
         creativeCard.querySelectorAll('a[href*="annonse.html"]').forEach(function (link) { var url = new URL(link.href); url.searchParams.set('utkast', '1'); link.href = url.href; });
       }
@@ -104,6 +115,12 @@
       try {
         var records = await root.FrantzApprovals.list(productionCampaign.approvalKey || productionCampaign.id);
         latestRequest = records.find(function (request) { return request.round === 'material'; }) || null;
+        if (!usesExample && materialModel && (!root.FrantzCampaignMaterial.hasVisual(materialModel.material) || materialModel.material.modus === 'hjelp')) {
+          var designRequested = materialModel.material && materialModel.material.modus === 'hjelp';
+          reviewState = designRequested ? { title: 'Frantz lager annonsene', description: 'Dere får beskjed når annonseutkastene er klare til gjennomgang.', owner: 'Frantz' } : { title: 'Annonsemateriell mangler', description: 'Kontakt Frantz for å avklare materiellet som mangler før annonsene kan gjennomgås.', owner: 'Dere' };
+          renderStage('produksjon');
+          return;
+        }
         reviewState = root.FrantzCampaignStatus.derive(productionCampaign, latestRequest, root.FrantzCampaignActivity.read(productionCampaign.id));
         renderStage(reviewState.key === 'confirmed' ? 'publisering' : 'godkjenning');
       } catch (error) {
@@ -148,7 +165,10 @@
     refreshProduction();
     renderStage(stage);
     sections = root.FrantzCampaignSections.init({ defaultTab: stage === 'godkjenning' ? 'annonser' : 'kampanje' });
-    root.FrantzCampaignDetails.init({ id: params.get('id') || '129072' });
+    root.FrantzCampaignDetails.init({ id: params.get('id') || '129072' }).then(function (model) {
+      materialModel = model || null;
+      return refreshProduction();
+    });
     return;
   }
   if (page !== 'results') return;
@@ -194,7 +214,9 @@
     document.getElementById('panel-interessenter').innerHTML = View.empty('Ingen registrerte interessenter', 'Det er ikke registrert noen interessenter for denne kampanjen.', 2);
     document.getElementById('fane-interessenter').textContent = 'Interessenter';
   }
-  document.getElementById('campaign-overview').innerHTML = hasReport ? View.overview(report, { internal: true, costs: true }) : View.empty('Innsikt er ikke tilgjengelig ennå', 'De lagrede stillingsopplysningene, bestillingen og kampanjeforløpet er tilgjengelige i de andre fanene.', 2);
+  var channelChart = document.getElementById('resultat-trakt');
+  var channelsInChart = channelChart && root.oppdaterTraktKanaler && root.oppdaterTraktKanaler(channelChart, report.channels);
+  document.getElementById('campaign-overview').innerHTML = hasReport ? View.overview(report, { internal: true, costs: true, channelBreakdown: !channelsInChart }) : View.empty('Innsikt er ikke tilgjengelig ennå', 'De lagrede stillingsopplysningene, bestillingen og kampanjeforløpet er tilgjengelige i de andre fanene.', 2);
   sections = root.FrantzCampaignSections.init({ defaultTab: 'innsikt' });
   root.FrantzCampaignDetails.init({ id: id, report: report });
   var share = header.querySelector('[data-share-report]');

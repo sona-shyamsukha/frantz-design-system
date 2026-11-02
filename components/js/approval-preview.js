@@ -11,12 +11,22 @@
   function mount(host, content) {
     if (host._cleanup) host._cleanup();
     host.replaceChildren();
+    if (!(content.ads && content.ads.length) && content.material && content.material.ferdig) {
+      var originals = (content.material.bilde ? [content.material.bilde] : []).concat(content.material.filer || []).filter(function (file) {
+        return file.fil && /^(image|video)\//.test(file.fil.type || '') || /\.(jpe?g|png|webp|gif|mp4|webm)$/i.test(file.navn || '');
+      });
+      if (originals.length > 1) content = Object.assign({}, content, { ads: originals.map(function (file, index) {
+        var isVideo = file.fil && /^video\//.test(file.fil.type || '') || /\.(mp4|webm)$/i.test(file.navn || '');
+        return { name: file.navn, type: isVideo ? 'Video' : 'Bilde', channel: (content.channels || []).join(', '), channels: content.channels,
+          material: Object.assign({}, content.material, { bilde: file, filer: [], video: !!isVideo, crop: index === 0 ? content.material.crop : null }) };
+      }) });
+    }
     if (content.ads && content.ads.length) {
       var previews = [];
       content.ads.forEach(function (ad, index) {
         var section = el('section', 'approval-ad-item'), heading = el('h3', 'approval-ad-name', (index + 1) + '. ' + ad.name), preview = el('div', 'approval-preview');
         section.append(heading, el('p', 'form-hint', ad.type + ' · ' + ad.channel), preview); host.append(section);
-        mount(preview, { title: content.title, employer: content.employer, channels: [ad.channel], material: ad.material });
+        mount(preview, { title: content.title, employer: content.employer, channels: ad.channels || [ad.channel], material: ad.material });
         previews.push(preview);
       });
       host._cleanup = function () { previews.forEach(function (preview) { if (preview._cleanup) preview._cleanup(); }); };

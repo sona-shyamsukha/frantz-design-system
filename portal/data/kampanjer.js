@@ -2,7 +2,7 @@
    so a campaign shows the same name, period, budget and status everywhere.
    connect: the ConnectID (job) the campaign belongs to.
    sok: how many pressed «Søk». Only ended campaigns have it. Bodø matches rapport.html.
-   A new order is kept in this browser only (demo). It shows first, with the status «Bestilt». */
+   A new draft or order is kept in this browser only (demo). It shows first: a draft as «Kladd», an order as «Bestilt». */
 window.FZ_KAMPANJER = (function () {
   var NYE = 'fzKampanjerNye';
   var MATERIAL = 'fzCampaignMaterialLinksV1';
@@ -45,7 +45,8 @@ window.FZ_KAMPANJER = (function () {
     var slettede = lesListe(SLETTEDE_KLADDER);
     // An order made from a draft replaces the draft
     var ersatt = ny.map(function (k) { return k.connect; }).filter(Boolean);
-    return ny.concat(LISTE.filter(function (k) { return !(k.status === 'Kladd' && ersatt.indexOf(k.connect) !== -1); }))
+    var nyeId = ny.map(function (k) { return k.id; }); // a saved or ordered example draft replaces the example
+    return ny.concat(LISTE.filter(function (k) { return nyeId.indexOf(k.id) === -1 && !(k.status === 'Kladd' && ersatt.indexOf(k.connect) !== -1); }))
       .filter(function (k) { return k.status !== 'Kladd' || slettede.indexOf(String(k.id)) === -1; }).map(function (k) { return medFelt(Object.assign({}, k, materialLinks[k.id] || {})); });
   }
 
@@ -58,12 +59,21 @@ window.FZ_KAMPANJER = (function () {
   function medFelt(k) {
     var ut = {};
     Object.keys(k).forEach(function (n) { ut[n] = k[n]; });
-    ut.tittel = k.stilling + ' ' + k.sted;
+    ut.tittel = [k.stilling, k.sted].filter(Boolean).join(' ') || k.ref || 'Ny kampanje';
     if (['Aktiv', 'Avsluttet', 'Bestilt'].indexOf(k.status) !== -1 && k.side.indexOf('id=') === -1) ut.side = k.side + (k.side.indexOf('?') === -1 ? '?' : '&') + 'id=' + encodeURIComponent(k.id);
     ut.periode = k.fra ? dato(k.fra).slice(0, 5) + ' – ' + dato(k.til) : '';
     ut.lengde = k.fra ? dager(k.fra, k.til) : 0;
     if (k.status === 'Aktiv') ut.dag = Math.round((idag() - fraIso(k.fra)) / 86400000) + 1;
     return ut;
+  }
+
+  // Every campaign and draft gets its own number, also after drafts are deleted.
+  function nyId() {
+    var hoyeste = LISTE.concat(nye()).reduce(function (max, k) { return Math.max(max, Number(k.id) || 0); }, 129074);
+    return String(hoyeste + 1);
+  }
+  function lagreNye(liste) {
+    try { localStorage.setItem(NYE, JSON.stringify(liste)); return true; } catch (e) { return false; }
   }
 
   return {
@@ -86,16 +96,25 @@ window.FZ_KAMPANJER = (function () {
     dato: dato,
     dager: dager,
     // The ID the next order gets. Ny kampanje shows it while the order is filled in.
-    nesteId: function () { return String(129075 + nye().length); },
-    // Saves a new order. Returns the new campaign id.
+    nesteId: nyId,
+    // A new campaign becomes a draft with its own number and address as soon as it has content.
+    // Saving again updates the same draft. Returns the draft id.
+    lagreKladd: function (k) {
+      var liste = nye();
+      var id = k.id ? String(k.id) : nyId();
+      var tidligere = liste.filter(function (x) { return x.id === id; })[0] || {};
+      var kladd = Object.assign({}, tidligere, k, { id: id, status: 'Kladd', bestiller: 'Kari Hansen', side: 'ny-kampanje.html?kladd=' + id });
+      lagreNye([kladd].concat(liste.filter(function (x) { return x.id !== id; })));
+      return id;
+    },
+    // Saves a new order. An order from a draft keeps the draft's number. Returns the campaign id.
     bestill: function (k) {
       var liste = nye();
-      k.id = String(129075 + liste.length);
+      k.id = k.id ? String(k.id) : nyId();
       k.status = 'Bestilt';
       k.bestiller = 'Kari Hansen';
       k.side = 'kampanje-bestilt.html?id=' + k.id;
-      liste.unshift(k);
-      try { localStorage.setItem(NYE, JSON.stringify(liste)); } catch (e) {}
+      lagreNye([k].concat(liste.filter(function (x) { return x.id !== k.id; })));
       return k.id;
     },
     oppdaterMateriell: function (id, materialId, approvalKey) {

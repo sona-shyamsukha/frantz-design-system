@@ -91,6 +91,76 @@
   box-shadow: var(--focus-ring-danger);
 }
 
+/* Password field: the show/hide button sits inside the field, at its right edge. */
+.form-password {
+  position: relative;
+  display: block;
+}
+
+.form-password .form-input {
+  padding-right: var(--control-icon-padding);
+}
+
+.form-password__knapp {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-8);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.form-password__knapp:hover {
+  color: var(--color-navy);
+}
+
+.form-password__knapp:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Password rules: each line turns green when the password meets it. */
+.form-krav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: var(--type-support);
+  color: var(--text-muted);
+}
+
+.form-krav li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.form-krav li[data-ok="true"] {
+  color: var(--text-success-moderate);
+}
+
+/* Shown while Caps Lock is on, so a wrong password is not a surprise. */
+.form-varsel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font: var(--type-support-strong);
+  color: var(--text-warning-moderate);
+}
+
+.form-varsel[hidden] {
+  display: none;
+}
+
 .form-grid,
 .feltrad {
   display: grid;
@@ -136,7 +206,7 @@
 .filter {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--border-default);
+  border: 0;
   border-radius: var(--radius-full);
   padding: var(--space-8) var(--space-16);
   background: var(--surface-raised);
@@ -154,7 +224,6 @@
 .filter[aria-pressed="true"],
 .filter[role="tab"][aria-selected="true"] {
   background: var(--color-navy);
-  border-color: var(--color-navy);
   color: var(--color-white);
 }
 
