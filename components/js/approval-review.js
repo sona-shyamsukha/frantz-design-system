@@ -73,7 +73,15 @@
     if (state === 'pending') expiryTimer = setTimeout(load, Math.max(0, Date.parse(request.expires) - Date.now()) + 50);
   }
   async function load() {
-    try { render(requestId ? await Store.read(requestId) : null); }
+    try {
+      // «request=siste» (from the overview page) opens the newest request; the real ID then replaces it in the address
+      if (requestId === 'siste') {
+        var newest = await Store.newest();
+        requestId = newest ? newest.id : null;
+        if (requestId) { params.set('request', requestId); history.replaceState(null, '', location.pathname + '?' + params.toString()); }
+      }
+      render(requestId ? await Store.read(requestId) : null);
+    }
     catch (e) { unavailable('storage'); }
     finally { $('approval-loading').hidden = true; }
   }

@@ -106,6 +106,32 @@
   .feil { margin: var(--space-12) 0 0; color: var(--text-danger-moderate); font: var(--type-support-strong); }
   .feil[hidden] { display: none; }
   @media (max-width: 860px) { .skjema__rad { grid-template-columns: 1fr; } }
+  /* Sporingskode tab: the step-by-step guide that used to be its own page */
+  .guide-steg { display: grid; gap: var(--space-24); max-width: 880px; }
+
+  /* Each step: a number, a heading and the text. The number keeps the order clear on a phone too. */
+  .steg { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-16); }
+  .steg__n { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--color-navy); color: var(--text-on-dark); font: var(--type-label); }
+  .steg__innhold { min-width: 0; }
+  .steg__innhold .card__title { margin: var(--space-4) 0 var(--space-8); }
+  .steg__innhold > p { margin: 0 0 var(--space-12); color: var(--text-body); font: var(--type-body); max-width: 640px; }
+  .steg__innhold > p:last-child { margin-bottom: 0; }
+
+  .kodeblokk { margin: 0 0 var(--space-12); padding: var(--space-12) var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); color: var(--text-body); font: var(--type-support); font-family: var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .kodeblokk b { color: var(--text-heading); }
+
+  .merker { margin-top: var(--space-4); }
+  @container (min-width: 721px) { .merker td[data-label="Merke"] { width: 1%; } }
+  .merker td[data-label="Når"] { color: var(--text-muted); }
+  .merker .table__title { font-weight: var(--font-weight-semibold); color: var(--text-heading); }
+
+  .hjelp { display: flex; flex-wrap: wrap; gap: var(--space-12); align-items: center; }
+  @media (max-width: 640px) { .steg { grid-template-columns: 1fr; gap: var(--space-8); } }
+  /* Stacked rows are narrow: the name gets the full row, and wraps only if it must. */
+  @container (max-width: 720px) {
+    .merker td[data-label="Merke"] > .copy-field { grid-column: 1 / -1; width: 100%; }
+    .merker .copy-field__value { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; }
+  }
 </style>
 </head>
 <body>
@@ -134,7 +160,6 @@
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
       <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
-      <a class="nav__item" href="sporingskode.html"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span>Sporingskode</a>
       <a class="nav__item" href="innstillinger.html" aria-current="page"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -148,11 +173,12 @@
 
     <div class="wrap">
       <h1 class="text-h2">Innstillinger for firmaet</h1>
-      <p class="lede">Gjelder alle i Nordlys Rekruttering AS: hvem som har tilgang, hvem som får fakturaen, og hvordan kampanjesidene og annonsene ser ut. Din egen profil finner du under <a class="link" href="min-profil.html">Min profil</a>.</p>
+      <p class="lede">Gjelder alle i Nordlys Rekruttering AS: hvem som har tilgang, hvem som får fakturaen, hvordan kampanjesidene og annonsene ser ut, og sporingskoden for stillingssidene. Din egen profil finner du under <a class="link" href="min-profil.html">Min profil</a>.</p>
       <div class="sidefaner" role="tablist" aria-label="Innstillinger for firmaet">
         <button type="button" class="filter" role="tab" id="fane-brukere" aria-controls="panel-brukere" data-fane="brukere" aria-selected="true" tabindex="0"><span class="icon-lucide icon-lucide--users" aria-hidden="true"></span>Brukere</button>
         <button type="button" class="filter" role="tab" id="fane-faktura" aria-controls="panel-faktura" data-fane="faktura" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--receipt" aria-hidden="true"></span>Fakturamottakere</button>
         <button type="button" class="filter" role="tab" id="fane-merkevare" aria-controls="panel-merkevare" data-fane="merkevare" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--palette" aria-hidden="true"></span>Merkevare</button>
+        <button type="button" class="filter" role="tab" id="fane-sporingskode" aria-controls="panel-sporingskode" data-fane="sporingskode" aria-selected="false" tabindex="-1"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span>Sporingskode</button>
       </div>
 
       <section class="panel" id="panel-brukere" role="tabpanel" aria-labelledby="fane-brukere">
@@ -334,6 +360,56 @@
         </div>
       <input type="file" aria-label="Velg filer" id="skrift-fil" accept=".woff,.woff2,.ttf,.otf" hidden>
       </section>
+
+      <section class="panel" id="panel-sporingskode" role="tabpanel" aria-labelledby="fane-sporingskode" hidden>
+        <div class="panelhode"><p>Sporingskoden måler hvem som besøker stillingssiden deres og trykker «Søk». Uten koden får rapporten ingen tall fra stillingssiden. Hver stilling har sin egen kode.</p></div>
+        <div class="guide-steg">
+        <section class="card card--les steg" aria-labelledby="steg-1">
+          <span class="steg__n" aria-hidden="true">1</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-1">Kopier koden for stillingen</h2>
+            <p>Finn stillingen i <a class="link" href="connect.html">Stillinger</a> og trykk på kopier-knappen ved sporingskoden. Koden ligger også på kampanjesiden.</p>
+            <p>Koden ser slik ut. Tallet er ID-en til stillingen:</p>
+            <pre class="kodeblokk" id="eksempel"></pre>
+          </div>
+        </section>
+
+        <section class="card card--les steg" aria-labelledby="steg-2">
+          <span class="steg__n" aria-hidden="true">2</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-2">Lim inn koden på stillingssiden</h2>
+            <p>Lim inn koden i <code>&lt;head&gt;</code> på stillingssiden. Gjør det før kampanjen starter. Er dere usikre, send oppskriften til den som lager nettsiden.</p>
+          </div>
+        </section>
+
+        <section class="card card--les steg" aria-labelledby="steg-3">
+          <span class="steg__n" aria-hidden="true">3</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-3">Merk knappene på siden</h2>
+            <p>Koden alene måler besøk. For å måle hvem som leser og trykker «Søk», legger utvikleren et merke på noen knapper. Søknadsknappen trenger alltid et merke. De andre trengs bare hvis siden har dem. Kopier-knappen kopierer hele merket, for eksempel <code>data-frnav-context="applyposition"</code>.</p>
+            <div class="card table-card merker">
+              <table class="table">
+                <thead><tr><th>Hvor</th><th>Når</th><th>Merke</th></tr></thead>
+                <tbody id="merker"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--les steg" aria-labelledby="steg-4">
+          <span class="steg__n" aria-hidden="true">4</span>
+          <div class="steg__innhold">
+            <h2 class="card__title" id="steg-4">Sjekk at det virker</h2>
+            <p>Frantz finner koden av seg selv. På kampanjesiden står det «Aktiv · sist målt …» når koden virker. Står det «Ikke funnet på stillingssiden ennå», er koden ikke på plass.</p>
+            <p>Har dere et eget rekrutteringssystem? Be utvikleren lage et felt for stillingens ID. Da legges koden inn av seg selv for hver ny stilling.</p>
+          </div>
+        </section>
+
+        <div class="hjelp">
+          <a class="btn btn--secondary" id="send-utvikler" href="#"><span class="icon-lucide icon-lucide--mail" aria-hidden="true"></span>Send oppskriften til den som lager nettsiden</a>
+        </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>
@@ -404,7 +480,7 @@ document.querySelector('.sidefaner').addEventListener('keydown', function (e) {
   fane.click();
   fane.focus();
 });
-var FANER = ['brukere', 'faktura', 'merkevare'];
+var FANER = ['brukere', 'faktura', 'merkevare', 'sporingskode'];
 function visFane(navn, oppdaterUrl) {
   if (FANER.indexOf(navn) === -1) navn = 'brukere';
   document.querySelectorAll('[data-fane]').forEach(function (b) { var på = b.dataset.fane === navn; b.setAttribute('aria-selected', på); b.tabIndex = på ? 0 : -1; });
@@ -539,8 +615,27 @@ tegnBrukere(); tegnFaktura(); visFane(location.hash.slice(1), false);
 // The account menu links here with a #fane, also from this page
 window.addEventListener('hashchange', function () { visFane(location.hash.slice(1), false); });
 </script>
+<script src="../components/js/copy-field.js?v=20261028-copy"></script>
+<script src="../components/js/piksel.js?v=20261102-innstillinger"></script>
+<script>
+// Sporingskode tab
+(function () {
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  // Example only: the real code, with its own ID, is copied from Stillinger or the campaign.
+  document.getElementById('eksempel').innerHTML = esc(FrantzPiksel.kode('123456')).replace(/123456/g, '<b>123456</b>');
+  document.getElementById('merker').innerHTML = FrantzPiksel.merker.map(function (m) {
+    return '<tr><td data-label="Hvor"><span class="table__title">' + esc(m.hvor) + '</span></td>' +
+      '<td data-label="Når">' + esc(m.nar) + '</td><td data-label="Merke" data-merke="' + m.attr + '"></td></tr>';
+  }).join('');
+  document.querySelectorAll('[data-merke]').forEach(function (td) {
+    td.appendChild(FrantzCopyField.create('data-frnav-context="' + td.dataset.merke + '"', { label: 'merket ' + td.dataset.merke, text: td.dataset.merke, compact: true }));
+  });
+  // The email holds the same steps. The ID is left for the developer to fill in.
+  document.getElementById('send-utvikler').href = FrantzPiksel.epost('[ID-en til stillingen]', 'stillingene våre');
+})();
+</script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/approval-store.js?v=20261102-demo"></script>
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
