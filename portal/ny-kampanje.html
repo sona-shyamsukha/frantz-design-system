@@ -2422,8 +2422,10 @@
     }
     $('v2-bestill-hint').textContent = grunn;
     $('v2-bestill-hint').hidden = !grunn;
-    $('v2-del').hidden = !!(planShare && planShare.latest('plan'));
+    // A withdrawn request is gone for the user: the summary looks as it did before they sent it
+    $('v2-del').hidden = v2AktivForesporsel();
     $('v2-del-hint').hidden = $('v2-del').hidden;
+    $('v2-godkjenning').hidden = !$('v2-del').hidden;
   }
   function v2Pakkevelger(rot) {
     var felt = document.createElement('div'); felt.className = 'felt v2-pakkevalg';
@@ -4004,6 +4006,10 @@
       period: periodeTekst(), budget: budsjett(), extras: extras, channels: tilstand.kanaler.slice(), material: material,
       reference: $('ref').value.trim(), invoice: $('faktura').value, notes: v2VisVerdi('ekstra'), products: tilleggListe() };
   }
+  function v2AktivForesporsel() {
+    var request = planShare && planShare.latest('plan');
+    return !!request && FrantzApprovals.status(request) !== 'revoked';
+  }
   var planShare = FrantzApprovalShare.attach($('del-knapp'), {
     campaign: approvalKey, rounds: ['plan'], host: $('del-panel'), readContent: approvalContent,
     onChange: function (records) {
@@ -4011,7 +4017,10 @@
       approvalBlocked = !!latest && !['approved', 'revoked'].includes(FrantzApprovals.status(latest));
       $('bestill').disabled = $('bestill').dataset.ready !== 'true' || approvalBlocked;
       if (tilstand.steg === 4) $('mobil-oppsummering').disabled = approvalBlocked;
+      var fokusBorte = !document.activeElement || document.activeElement === document.body;
       if (!$('v2').hidden) v2Pris();
+      // «Trekk tilbake» removes the card it sits in, so keyboard users land on the send button again
+      if (latest && FrantzApprovals.status(latest) === 'revoked' && fokusBorte && !$('v2-del').hidden) $('v2-del').focus();
     }
   });
   var planSummary = $('blokk-del').querySelector('.approval-summary');
