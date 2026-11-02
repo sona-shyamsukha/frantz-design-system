@@ -147,7 +147,6 @@
   if (!report) {
     document.querySelector('.campaign-header').innerHTML = '<h1 class="text-h2">Fant ikke kampanjen</h1>';
     document.querySelector('.campaign-layout').innerHTML = View.empty('Kampanjen er ikke tilgjengelig', 'Gå tilbake til kampanjene og velg en kampanje.', 2) + '<a class="link" href="campaigns.html">Tilbake til kampanjene</a>';
-    document.querySelector('.breadcrumb__item:last-child').textContent = 'Fant ikke kampanjen';
     return;
   }
   // An ID from a different report type must never display the current template's figures.
@@ -164,7 +163,6 @@
   header.querySelector('.campaign-eyebrow').remove();
   header.querySelector('.campaign-meta').remove();
   document.title = report.title + ' — Frantz kampanjeportal';
-  document.querySelector('.breadcrumb__item:last-child').innerHTML = '<span aria-current="page">' + View.escape(report.title) + '</span>';
   var campaign = root.FZ_KAMPANJER.finn(id);
   if (!report.daily) {
     document.getElementById('panel-innsikt').innerHTML = '<div id="campaign-overview" class="flow"></div>';

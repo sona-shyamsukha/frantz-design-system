@@ -198,7 +198,6 @@
   function updateHeader(model) {
     var title = document.querySelector('h1'); title.textContent = model.title;
     document.title = model.title + ' — Frantz kampanjeportal';
-    document.querySelector('.breadcrumb__item:last-child span').textContent = model.title;
     document.body.dataset.campaignId = model.id;
   }
   async function init(options) {

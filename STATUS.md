@@ -6,7 +6,7 @@ Updated 02.11.2026.
 - Nothing open. The 5 quick fixes from the UX review are merged into `main` (PR 24, 02.11). Kampanjen dialog changes merged (PR 25, 02.11): packages always shown, «Lagre som pakke», «Bruk anbefalt» right-aligned. Review page: `atelier/05-checks/ux-review/review.html`.
 
 ## Waiting on Sona
-- Merge `atelier/polish` (4 polish fixes from the review) into `main`? Recommended: yes.
+- Merge `atelier/polish` into `main`? 4 polish fixes from the review, plus a back link instead of the breadcrumb on campaign pages. Recommended: yes.
 1. Stillinger vs Kampanjer: A) Stillinger shows only jobs without a campaign  B) merge Stillinger into Kampanjer. Recommended: A.
 2. Vercel previews reject every password: `SITE_PASSWORD` is set for Production only. Tick «Preview» on it in Vercel settings.
 3. Open P1s from the review (not fixed): Stillinger/Kampanjer overlap, grey ad placeholders on approval, heavy «Kampanjeoversikt» panel, funnel not to scale.
