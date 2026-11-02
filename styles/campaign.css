@@ -10,6 +10,7 @@
 @container (max-width: 640px) { .report-summary .metrics--fire { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (max-width: 360px) { .report-summary .metrics--fire { grid-template-columns: minmax(0, 1fr); } }
 .campaign-header .campaign-meta { margin-top: var(--space-8); }
+.campaign-header__actions { display: flex; flex-wrap: wrap; gap: var(--space-8); }
 .campaign-meta > span { margin-inline: var(--space-6); }
 .report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
@@ -36,6 +37,9 @@
 .shared-report__footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-16); padding-top: var(--space-24); border-top: 1px solid var(--border-default); font: var(--type-support); color: var(--text-muted); }
 @media (max-width: 640px) {
   .campaign-header { align-items: flex-start; }
+  /* On a phone the report actions share one row */
+  .campaign-header__actions { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+  .campaign-header__actions .btn { padding-inline: var(--space-12); white-space: nowrap; }
   .campaign-rail { grid-template-columns: minmax(0, 1fr); }
   .shared-report__wrap { padding: var(--space-20) var(--space-16); }
   .shared-report__brand { align-items: flex-start; }

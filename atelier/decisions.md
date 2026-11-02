@@ -10,3 +10,4 @@
 - 28.10.2026 (Sona): Fix list approved one by one. Paste concept left as is. Dialogue routes stay (MVP scope). Manager preview without ads cannot be helped. Report context = compare with own earlier campaign. Tour only from «Vis meg rundt».
 - 29.10.2026: Senior UX review of current main (after PR 22). Review only, no fixes. Page: `05-checks/ux-review/review.html`.
 - 02.11.2026: Review updated for the latest main (new-customer Hjem, Ny kampanje summary). Review only, no fixes.
+- 02.11.2026 (Sona): Fix the 5 quick P1s (1, 3, 6, 8, 9). Names: job title + place first, own name second (fewest pages changed, H1 stays readable).

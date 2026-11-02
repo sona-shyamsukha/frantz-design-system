@@ -154,7 +154,13 @@
   var expected = report.active ? 'campaign.html' : 'rapport.html';
   if (location.pathname.split('/').pop() !== expected) { location.replace(expected + '?id=' + encodeURIComponent(id)); return; }
   var header = document.querySelector('.campaign-header');
-  header.innerHTML = View.header(report);
+  // Sharing the result with their own client is a main task, so it sits next to the title.
+  // A finished campaign can also be saved as PDF. The PDF comes from the shared report, which has no portal menus.
+  var actions = hasReport ? '<div class="campaign-header__actions">' +
+    '<button type="button" class="btn btn--secondary" data-share-report><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span><span data-share-label>Del rapport</span></button>' +
+    (report.active ? '' : '<a class="btn btn--secondary" href="' + View.escape(root.FrantzReportSharing.previewUrl(id) + '&skriv=1') + '" target="_blank" rel="noopener"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span>Last ned PDF<span class="sr-only"> (åpnes i ny fane)</span></a>') +
+    '<span class="sr-only" role="status" data-share-status></span></div>' : '';
+  header.innerHTML = View.header(report, actions);
   header.querySelector('.campaign-eyebrow').remove();
   header.querySelector('.campaign-meta').remove();
   document.title = report.title + ' — Frantz kampanjeportal';
@@ -173,6 +179,22 @@
   document.getElementById('campaign-overview').innerHTML = hasReport ? View.overview(report, { internal: true, costs: true }) : View.empty('Innsikt er ikke tilgjengelig ennå', 'De lagrede stillingsopplysningene, bestillingen og kampanjeforløpet er tilgjengelige i de andre fanene.', 2);
   sections = root.FrantzCampaignSections.init({ defaultTab: 'innsikt' });
   root.FrantzCampaignDetails.init({ id: id, report: report });
+  var share = header.querySelector('[data-share-report]');
+  if (share) share.addEventListener('click', async function () {
+    var label = share.querySelector('[data-share-label]'), status = header.querySelector('[data-share-status]');
+    var url = root.FrantzReportSharing.linkFor(id);
+    try {
+      if (!url) { root.FrantzReportSharing.ensure(id); url = root.FrantzReportSharing.linkFor(id); }
+      if (!url) throw new Error('No active link');
+      await navigator.clipboard.writeText(url);
+      label.textContent = 'Lenken er kopiert';
+      status.textContent = 'Lenken til rapporten er kopiert. Mottakeren trenger ikke å logge inn.';
+    } catch (error) {
+      label.textContent = 'Kunne ikke kopiere';
+      status.textContent = 'Kunne ikke kopiere lenken. Den står under Kampanjeoversikt.';
+    }
+    setTimeout(function () { label.textContent = 'Del rapport'; status.textContent = ''; }, 2500);
+  });
   // Follow-up state is scoped to a campaign and kept across page reloads in this local demo.
   var key = 'fzCampaignInterestReview-' + id;
   var table = document.querySelector('.prospekt');

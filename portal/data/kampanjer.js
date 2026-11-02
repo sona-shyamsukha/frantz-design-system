@@ -11,7 +11,7 @@ window.FZ_KAMPANJER = (function () {
     { id: '129072', radgiver: 'Martin Karlsen', connect: '777860', stilling: 'Helsefagarbeider', sted: 'Tromsø', arbeidsgiver: 'Nord-Norge Helse', ref: 'Oppdrag 22 40',
       kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-10-05', til: '2026-11-02', budsjett: 28000, status: 'Under arbeid', bestiller: 'Kari Hansen', side: 'kampanje-under-arbeid.html' },
     { id: '129074', radgiver: 'Martin Karlsen', connect: '', stilling: 'Barnehagelærer', sted: 'Drammen', arbeidsgiver: 'Drammen Barnehager', ref: 'Oppdrag 22 41',
-      kanaler: null, fra: '2026-10-07', til: '2026-11-04', budsjett: 32000, status: 'Bestilt', bestiller: 'Ingrid Moe', side: 'kampanje-bestilt.html' },
+      kanaler: null, fra: '2026-10-07', til: '2026-11-04', budsjett: 32000, status: 'Bestilt', bestiller: 'Kari Hansen', side: 'kampanje-bestilt.html' },
     { id: '129041', radgiver: 'Martin Karlsen', connect: '777689', stilling: 'Sykepleier', sted: 'Oslo', arbeidsgiver: 'Oslo Sykehusdrift', ref: 'Oppdrag 22 31',
       kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-09-03', til: '2026-10-03', budsjett: 48200, status: 'Aktiv', bestiller: 'Kari Hansen', side: 'campaign.html' },
     { id: '129070', connect: '777845', stilling: 'Helsesykepleier', sted: 'Kristiansand', arbeidsgiver: 'Sørlandet Helse', ref: 'Oppdrag 22 52',

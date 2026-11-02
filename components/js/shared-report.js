@@ -47,6 +47,12 @@
     container.querySelector('[data-print-report]').addEventListener('click', function () {
       window.print();
     });
+    // «Last ned PDF» in the portal opens this page with skriv=1. Print once, then drop the flag.
+    if (params.get('skriv') === '1') {
+      params.delete('skriv');
+      history.replaceState(null, '', location.pathname + '?' + params.toString());
+      setTimeout(function () { window.print(); }, 300);
+    }
   }
   root.addEventListener('storage', function (event) { if (event.key === Sharing.key) render(); });
   root.addEventListener('focus', render);
