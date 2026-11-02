@@ -24,7 +24,7 @@ Updated 02.11.2026.
 ## Next
 - Flow check (02.11): every page and button clicked by a robot. Broken: admin inbox filters and case list do nothing (AI assistant part, not MVP, Sona 02.11); 2 old tests in `tests/dashboard.test.cjs` look for `resultat-panel`, which the page no longer has. No way in from the portal to `landingsside.html` and `ny-kampanje-samlet.html`. Nothing fixed yet.
 - Presentation for the client on Tuesday 3.11.
-- Status one-pager for Frantz (tilbud vs delivered, hours, way forward): `Kunder/Frantz/1-presentasjon/statusrapport-2026-11-02.html`, private preview https://claude.ai/artifact/8sm1V9WWW9YLnAWtVAfUDn. Not sent. Sona decides if the hours section stays.
+- Status one-pager for Frantz (tilbud vs delivered, hours, way forward): `Kunder/Frantz/1-presentasjon/statusrapport-2026-11-02.html`, private preview https://claude.ai/artifact/8sm1V9WWW9YLnAWtVAfUDn. Not sent. Hours section stays (Sona, 02.11). Style guide + component library count as the design principles (Sona, 02.11).
 
 ## Decisions
 - 02.11: PR 27, 28 and 29 merged into `main`.
