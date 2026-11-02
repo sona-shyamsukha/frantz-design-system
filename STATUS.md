@@ -3,10 +3,9 @@
 Updated 02.11.2026.
 
 ## In progress
-- Nothing open. The 5 quick fixes from the UX review are merged into `main` (PR 24, 02.11). Kampanjen dialog changes merged (PR 25, 02.11). Polish fixes and back link on campaign pages merged (PR 26, 02.11). Review page: `atelier/05-checks/ux-review/review.html`.
+- Nothing open. The 5 quick fixes from the UX review are merged into `main` (PR 24, 02.11). Kampanjen dialog changes merged (PR 25, 02.11). Polish fixes and back link on campaign pages merged (PR 26, 02.11). Sporingskode in Firmainnstillinger, no prototype boxes, calculator actions (PR 27); «Trekk tilbake» fix (PR 28); «Gratis» (PR 29), all 02.11. Review page: `atelier/05-checks/ux-review/review.html`.
 
 ## Waiting on Sona
-- Branch `atelier/gratis` («Gratis» instead of «Inkludert» on free add-ons) is ready but not merged. Sona said «not yet» (02.11).
 - Report tiles: how to show if a number is good or bad. A) «normalt»  B) «sist» only  C) «sist», else «normalt». Recommended: C. Needs average numbers from Frantz for A and C.
 1. Stillinger vs Kampanjer: A) Stillinger shows only jobs without a campaign  B) merge Stillinger into Kampanjer. Recommended: A.
 2. Vercel previews reject every password: `SITE_PASSWORD` is set for Production only. Tick «Preview» on it in Vercel settings.
@@ -19,8 +18,10 @@ Updated 02.11.2026.
 
 ## Next
 - Presentation for the client on Tuesday 3.11.
+- Status one-pager for Frantz (tilbud vs delivered, hours, way forward): `Kunder/Frantz/1-presentasjon/statusrapport-2026-11-02.html`, private preview https://claude.ai/artifact/8sm1V9WWW9YLnAWtVAfUDn. Not sent. Sona decides if the hours section stays.
 
 ## Decisions
+- 02.11: PR 27, 28 and 29 merged into `main`.
 - 02.11: `atelier/polish` merged into `main` (PR 26). Campaign pages use «‹ Kampanjer» instead of a breadcrumb.
 - 02.11: Kampanjen dialog merged (PR 25). Taste rule saved: field links right-aligned with the field edge.
 - 02.11: `atelier/quick-fixes` merged into `main` (PR 24).
