@@ -206,7 +206,7 @@
   </div>
 </div>
 
-<script src="data/kampanjer.js?v=20261029-mvp"></script>
+<script src="data/kampanjer.js?v=20261102-names"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/copy-field.js?v=20261028-copy"></script>
 <script src="../components/js/piksel.js?v=20261028-fix"></script>
@@ -215,7 +215,11 @@
   // Rows come from the shared ConnectID list, so they match the ConnectID page and Ny kampanje
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var mangler = function (t) { return '<span class="mangler">' + t + '</span>'; };
-  document.getElementById('rader').innerHTML = FZ_CONNECT.alle().map(function (c) {
+  // Only jobs whose campaign Kampanjer also shows, so the two lists agree in the demo
+  var synlige = FZ_KAMPANJER.synlige().map(function (k) { return k.id; });
+  document.getElementById('rader').innerHTML = FZ_CONNECT.alle().filter(function (c) {
+    return !c.kampanje || synlige.indexOf(c.kampanje.id) !== -1;
+  }).map(function (c) {
     var k = c.kampanje;
     // A stilling with a campaign opens that campaign, or the report when it has ended.
     // One without a campaign opens the order form, already filled from the ConnectID.

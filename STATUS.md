@@ -1,12 +1,12 @@
 # Status — Frantz portal prototype
 
-Updated 29.10.2026.
+Updated 02.11.2026.
 
 ## In progress
-- Senior UX review of the current portal (29.10), on branch `atelier/ux-review`. Page: `atelier/05-checks/ux-review/review.html`. 8 P1, 7 P2, no fixes made yet.
+- 02.11: The 5 quick P1s from the UX review are fixed on branch `atelier/quick-fixes` (not merged). One name per campaign, «Venter på dere» in the right column on Hjem (first on phone), «Slik gikk» under the campaign table, «Del rapport» and «Last ned PDF» on reports, demo data agrees, order buttons in Ny kampanje stay active. Review page: `atelier/05-checks/ux-review/review.html`.
 
 ## Waiting on Sona
-1. Fix scope before Tuesday: A) the 4 quick P1s (names, Hjem order, share buttons, demo data)  B) all 8 P1s. Recommended: A.
+1. Merge `atelier/quick-fixes` into `main` before Tuesday? yes / no. Recommended: yes.
 2. Stillinger vs Kampanjer: A) Stillinger shows only jobs without a campaign  B) merge Stillinger into Kampanjer. Recommended: A.
 
 ## Questions for Frantz (Tuesday 3.11)
@@ -18,6 +18,7 @@ Updated 29.10.2026.
 - Presentation for the client on Tuesday 3.11.
 
 ## Decisions
+- 02.11: Sona chose the 5 quick P1s. Job title + place leads everywhere; own campaign name is second.
 - 29.10: `atelier/fixes` (with the review) merged into `main` (PR 22).
 - 29.10: Report comparison was too much text in the small cards (Sona). Cards now say only «34 flere enn sist»; «Sist» is explained in one line under the cards.
 - 28.10: The report funnel now draws all 6 steps (Sona said yes). The approval hint in Ny kampanje sits under both order buttons.

@@ -1,1 +1,1 @@
-{"project": "frantz", "mode": "existing", "stage": 6, "approved": [], "skipped": [2, 3, 4], "direction": "existing Frantz DS", "fixRounds": 1, "baseline": true, "previewUrl": null, "uxReview": "05-checks/ux-review/review.html", "branch": "atelier/ux-review"}
+{"project": "frantz", "mode": "existing", "stage": 6, "approved": [], "skipped": [2, 3, 4], "direction": "existing Frantz DS", "fixRounds": 1, "baseline": true, "previewUrl": "https://frantz-design-system-r3cxwyb8t-ss-vokser.vercel.app", "uxReview": "05-checks/ux-review/review.html", "branch": "atelier/quick-fixes"}

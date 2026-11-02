@@ -88,18 +88,69 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Senior UX review · 29.10.2026 · current main</p>
+    <p class="eyebrow">Senior UX review · 29.10.2026 · updated 02.11.2026</p>
     <h1>Frantz portal: a calm, honest tool that still makes people hunt</h1>
     <p class="lead">The craft is good and the tone is right. What holds it back: the same campaign has different names, two lists show the same things, and the most useful moments (approve, share) are not where people look first.</p>
     <ul class="counts">
       <li><strong>0</strong><span>P0 · blocks a task</span></li>
-      <li><strong>8</strong><span>P1 · real friction</span></li>
-      <li><strong>7</strong><span>P2 · polish</span></li>
+      <li><strong>9</strong><span>P1 · real friction</span></li>
+      <li><strong>12</strong><span>P2 · polish</span></li>
     </ul>
   </div>
 </header>
 
 <main class="wrap">
+
+  <section aria-labelledby="update">
+    <h2 id="fixed">Fixed 02.11 (branch atelier/quick-fixes)</h2>
+    <ul class="keep" style="margin-bottom:32px">
+      <li><strong>1. One name per campaign</strong>Job title and place lead everywhere. The customer's own name («Oppdrag 22 31») sits under it in Kampanjer.</li>
+      <li><strong>3. «Venter på dere» first on Hjem</strong>It now sits right under the greeting, above the numbers and the table.</li>
+      <li><strong>6. Share and PDF next to the title</strong>«Del rapport» copies the no-login link. «Last ned PDF» (finished campaigns) opens the shared report and the print dialog.</li>
+      <li><strong>8. Demo data agrees</strong>Drammen is Kari's order now, so it shows on Hjem and in Kampanjer. Stillinger hides jobs whose campaign Kampanjer does not show.</li>
+      <li><strong>9. Order buttons stay active</strong>A click jumps to Frantz's suggestion. The price shows «kr 15 000 (forslag)» until they accept.</li>
+    </ul>
+
+    <h2 id="update">Update 02.11: the latest version</h2>
+    <p class="section-intro">Since 29.10, two pages changed: the new-customer Hjem and the Ny kampanje summary. The 8 findings further down are still open. They were not part of these changes.</p>
+    <ul class="keep">
+      <li><strong>Frantz's suggestion now asks first</strong>Budget, channels and period stay out of the order until the customer says yes. Honest, and it still lets Frantz choose (principle 1).</li>
+      <li><strong>The reach estimate is excellent</strong>«6–9 som trykker «Søk»» turns a budget into something an HR adviser can explain to their boss. Keep it on the summary and in the calculator.</li>
+      <li><strong>Kom i gang is calmer</strong>A plain checklist with the account already done. Easier to scan than the progress bar.</li>
+    </ul>
+
+    <article class="finding" style="margin-top:20px">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p1">P1 · new</span><span class="tag tag--where">Ny kampanje · summary</span></div>
+        <h3>9. The order buttons are locked, and the key is far above</h3>
+      </div>
+      <figure><img src="crops/nk-bunn.jpg" alt="Bottom of the summary: price shows Ikke oppgitt, both order buttons are pale and disabled, a small line says to fill in budget and channels"><figcaption>Both buttons are disabled. The only hint is a small grey line: «Fyll inn budsjett og kanaler før dere fortsetter». The answer («Bruk forslaget») is about 1 000 px higher up. The price says «Ikke oppgitt» while kr 15 000 is shown in the suggestion.</figcaption></figure>
+      <dl>
+        <dt>Why it matters</dt><dd>Someone who scrolls past the suggestion lands on dead buttons with no way forward on screen. This is the last step before money, so it is where people give up or call Frantz.</dd>
+        <dt>Fix</dt><dd>Keep the buttons active. On click, jump to the suggestion and say «Svar på forslaget fra Frantz først». Or make the line a link: «Svar på forslaget under Kampanjen». In the price, show «kr 15 000 (forslag)» in grey until they accept.</dd>
+      </dl>
+    </article>
+
+    <article class="finding">
+      <div class="finding__head">
+        <div class="tags"><span class="tag tag--p2">P2 · new</span><span class="tag tag--where">Ny kampanje · summary</span></div>
+        <h3>10. The suggestion is a box inside a box</h3>
+      </div>
+      <figure><img src="crops/nk-forslag.jpg" alt="The suggestion card with its own border and shadow, sitting inside the summary card"><figcaption>A bordered card, inside the summary card, with a blue box inside it. Three frames for one question.</figcaption></figure>
+      <figure class="narrow"><img src="crops/nk-mobil.jpg" alt="Phone view of the suggestion with two stacked buttons of different widths"><figcaption>On a phone the nesting eats width, and the two buttons stack with different widths.</figcaption></figure>
+      <dl>
+        <dt>Fix</dt><dd>Drop the outer card. Let the suggestion be rows in the Kampanjen section (Budsjett, Kanaler, Periode with «Forslag» next to each), then the blue reach box, then the two buttons side by side.</dd>
+      </dl>
+    </article>
+
+    <ul class="small">
+      <li><strong>11. Empty values look like answers</strong><span>«Ikke oppgitt» and «Ingen fil lagt til» use the same bold dark text as real values. Use grey text and a «Legg til» link, so gaps are easy to spot.</span></li>
+      <li><strong>12. «Inkludert» next to an empty checkbox</strong><span>«Vis Meld interesse-knapp» says «Inkludert», but the box is not ticked. People read it as «already on». Say «Uten ekstra kostnad».</span></li>
+      <li><strong>13. «Kampanjenavn/deres referansekode» sits alone under the suggestion</strong><span>It is cut off from the other Kampanjen rows, and the slash label is heavy. Move it to the top of the section. A shorter label like «Deres navn på kampanjen» would read easier.</span></li>
+      <li><strong>14. New-customer Hjem has three buttons for the same thing</strong><span>«Ny kampanje» in the top bar, «Lag første kampanje» in the banner and «Start nå» in the checklist. Keep the banner and the top bar. Drop «Start nå».</span></li>
+      <li><strong>Note for developers</strong><span>After «Fyll ut skjemaet», keyboard focus goes back to the top of the page. Screen-reader users must find the summary again. Move focus to the summary heading.</span></li>
+    </ul>
+  </section>
 
   <section aria-labelledby="keep">
     <h2 id="keep">Keep these</h2>
@@ -250,7 +301,7 @@
     </div>
   </section>
 
-  <p class="note">Checked on 390 px and 1440 px: Hjem (new and existing), Kampanjer, Stillinger, Ny kampanje step 1, Bestilt, Under arbeid, Aktiv, Avsluttet, Delt rapport. Not checked in this pass: the approval page itself (needs the full flow), later steps of Ny kampanje, settings, keyboard and screen-reader use. Earlier review (28.10) fixes are already in.</p>
+  <p class="note">Checked on 390 px and 1440 px: Hjem (new and existing), Kampanjer, Stillinger, Ny kampanje step 1, Bestilt, Under arbeid, Aktiv, Avsluttet, Delt rapport. Not checked in this pass: the approval page itself (needs the full flow), later steps of Ny kampanje, settings, keyboard and screen-reader use. Earlier review (28.10) fixes are already in. 02.11: re-checked all pages on current main, and walked Ny kampanje from «Bare lenke» to the summary, before and after «Bruk forslaget».</p>
 </main>
 </body>
 </html>

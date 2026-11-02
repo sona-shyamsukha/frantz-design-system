@@ -1718,7 +1718,7 @@
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=20261029-mvp"></script>
+<script src="data/kampanjer.js?v=20261102-names"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
@@ -2120,6 +2120,8 @@
     var tittel = document.createElement('h3');
     tittel.className = 'card__title';
     tittel.textContent = 'Vil dere bruke forslaget fra Frantz?';
+    tittel.id = 'v2-forslag-tittel';
+    tittel.tabIndex = -1; // the order buttons move focus here while the suggestion is unanswered
     var hint = document.createElement('p');
     hint.className = 'card__hint';
     hint.textContent = (deler.length ? ogListe(deler).replace(/^./, function (tegn) { return tegn.toUpperCase(); }) : 'Forslaget') + ' er et forslag ut fra stillingen. Det legges ikke inn før dere sier ja.';
@@ -2399,17 +2401,20 @@
   }
   function v2Pris() {
     var b = budsjett(), design = v2VisVerdi('materiell') === 'Frantz lager annonsen';
-    $('v2-pris-budsjett').textContent = b ? kr(b) : 'Ikke oppgitt';
+    // An unanswered suggestion still shows its price, marked as a suggestion, so the summary never contradicts itself
+    var forslag = !b && tilstand.forslagSpor && tilstand.forslagSpor.budsjett;
+    $('v2-pris-budsjett').textContent = b ? kr(b) : forslag ? kr(forslag) + ' (forslag)' : 'Ikke oppgitt';
     $('v2-pris-tillegg').textContent = kr(v2TilleggSum());
-    $('v2-total').textContent = b ? kr(b + v2TilleggSum()) : 'Ikke beregnet';
+    $('v2-total').textContent = b ? kr(b + v2TilleggSum()) : forslag ? kr(forslag + v2TilleggSum()) + ' (forslag)' : 'Ikke beregnet';
     $('v2-total-label').textContent = design ? 'Sum eks. mva., uten design' : 'Totalt eks. mva.';
     $('v2-designkostnad').hidden = !design;
     $('v2-designestimat').hidden = !design;
     $('v2-designkostnad').textContent = 'Design: ' + $('materiell-designpris').textContent.trim() + ' Dette er ikke inkludert i summen over.';
     var feil = v2FeilBestilling();
-    $('v2-bestill').disabled = !!feil || !!approvalBlocked || v2Bestiller;
-    $('v2-del').disabled = !!feil || v2Bestiller;
-    var grunn = feil ? feil.tekst : '';
+    // The buttons stay active when something is missing. A click shows what to fix (v2KrevBestilling).
+    $('v2-bestill').disabled = !!approvalBlocked || v2Bestiller;
+    $('v2-del').disabled = v2Bestiller;
+    var grunn = feil ? (v2VenterPaForslag(feil) ? 'Svar på forslaget fra Frantz under «Kampanjen» før dere fortsetter.' : feil.tekst) : '';
     if (!grunn && approvalBlocked) {
       var request = planShare && planShare.latest('plan');
       grunn = request && FrantzApprovals.status(request) === 'pending' ? 'Vent på godkjenningen, eller trekk forespørselen tilbake før dere bestiller.' : 'Planen må godkjennes på nytt før dere kan bestille.';
@@ -2457,9 +2462,17 @@
     if (tilstand.venter || !Number.isFinite(pd.start.getTime()) || !Number.isFinite(pd.slutt.getTime()) || pd.slutt < pd.start) return { felt: 'periode', tekst: 'Velg en gyldig kampanjeperiode.' };
     return null;
   }
+  function v2VenterPaForslag(feil) {
+    return !!(feil && tilstand.forslagSpor && tilstand.forslagSpor[feil.felt]);
+  }
   function v2KrevBestilling() {
     var feil = v2FeilBestilling();
     if (!feil) return true;
+    if (v2VenterPaForslag(feil) && $('v2-forslag-tittel')) {
+      $('v2-forslag-tittel').scrollIntoView({ block: 'center', behavior: 'smooth' });
+      $('v2-forslag-tittel').focus({ preventScroll: true });
+      return false;
+    }
     v2Apne(feil.felt);
     $('v2-dialog-feil').textContent = feil.tekst; $('v2-dialog-feil').hidden = false;
     return false;
