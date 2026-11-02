@@ -40,6 +40,15 @@
       request.onerror = function () { reject(request.error); };
     });
   }
+  // Demo helper: the newest request in this browser, so the overview page can open its email
+  async function newest() {
+    var db = await database();
+    return new Promise(function (resolve, reject) {
+      var request = db.transaction('requests', 'readonly').objectStore('requests').getAll();
+      request.onsuccess = function () { resolve(request.result.sort(function (a, b) { return (b.sequence || 0) - (a.sequence || 0); })[0] || null); };
+      request.onerror = function () { reject(request.error); };
+    });
+  }
   async function list(key) {
     var db = await database();
     return new Promise(function (resolve, reject) {
@@ -116,5 +125,5 @@
     });
   }
   var labels = { pending: 'Venter på svar', approved: 'Godkjent', changes: 'Endring ønsket', expired: 'Lenken er utløpt', superseded: 'Erstattet av ny versjon', revoked: 'Trukket tilbake' };
-  root.FrantzApprovals = { create: create, read: read, list: list, respond: respond, revoke: revoke, invalidate: invalidate, status: status, transition: transition, fingerprint: fingerprint, labels: labels };
+  root.FrantzApprovals = { create: create, read: read, newest: newest, list: list, respond: respond, revoke: revoke, invalidate: invalidate, status: status, transition: transition, fingerprint: fingerprint, labels: labels };
 })(window);
