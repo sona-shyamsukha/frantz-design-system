@@ -1,9 +1,9 @@
 # Status — Frantz portal prototype
 
-Updated 29.10.2026.
+Updated 02.11.2026.
 
 ## In progress
-- Senior UX review of the current portal (29.10), on branch `atelier/ux-review`. Page: `atelier/05-checks/ux-review/review.html`. 8 P1, 7 P2, no fixes made yet.
+- Senior UX review, updated 02.11 for the latest version (branch `atelier/ux-review-0211`). Page: `atelier/05-checks/ux-review/review.html`. The 8 P1s from 29.10 are still open. New: 1 P1 (locked order buttons on the Ny kampanje summary), 5 P2. No fixes made yet.
 
 ## Waiting on Sona
 1. Fix scope before Tuesday: A) the 4 quick P1s (names, Hjem order, share buttons, demo data)  B) all 8 P1s. Recommended: A.
