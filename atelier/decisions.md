@@ -13,3 +13,4 @@
 - 02.11.2026 (Sona): Fix the 5 quick P1s (1, 3, 6, 8, 9). Names: job title + place first, own name second (fewest pages changed, H1 stays readable).
 - 02.11.2026 (Sona): «Venter på dere» sits under the blue number tiles, above «Kampanjene deres nå».
 - 02.11.2026 (Sona): «Venter på dere» moved to the right column on Hjem, above «Slik gikk kampanjene deres». On phone it comes after «Kampanjene deres nå».
+- 02.11.2026 (Sona): Hjem: «Venter på dere» first on phone and in the right column on wide screens. «Slik gikk kampanjene deres» sits under the campaign table.

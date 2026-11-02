@@ -3,7 +3,7 @@
 Updated 02.11.2026.
 
 ## In progress
-- 02.11: The 5 quick P1s from the UX review are fixed on branch `atelier/quick-fixes` (not merged). One name per campaign, «Venter på dere» in the right column on Hjem, above «Slik gikk kampanjene deres», «Del rapport» and «Last ned PDF» on reports, demo data agrees, order buttons in Ny kampanje stay active. Review page: `atelier/05-checks/ux-review/review.html`.
+- 02.11: The 5 quick P1s from the UX review are fixed on branch `atelier/quick-fixes` (not merged). One name per campaign, «Venter på dere» in the right column on Hjem (first on phone), «Slik gikk» under the campaign table, «Del rapport» and «Last ned PDF» on reports, demo data agrees, order buttons in Ny kampanje stay active. Review page: `atelier/05-checks/ux-review/review.html`.
 
 ## Waiting on Sona
 1. Merge `atelier/quick-fixes` into `main` before Tuesday? yes / no. Recommended: yes.
