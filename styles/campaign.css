@@ -67,6 +67,24 @@
 }
 
 .campaign-fields .summary-row dd { white-space: pre-line; }
+.campaign-price-summary { display: grid; gap: var(--space-16); margin-bottom: var(--space-24); }
+.campaign-price-summary .summary-row { grid-template-columns: minmax(0, 1fr) auto; }
+.campaign-price-table { width: 100%; min-width: 520px; border-collapse: collapse; font: var(--type-support); }
+.campaign-price-table th, .campaign-price-table td { padding: var(--space-12); border-bottom: 1px solid var(--border-default); text-align: left; vertical-align: top; }
+.campaign-price-table thead th { font: var(--type-support-strong); color: var(--text-muted); }
+.campaign-price-table tbody th { font: var(--type-support-strong); text-transform: none; letter-spacing: normal; }
+.campaign-price-table th small { display: block; margin-top: var(--space-4); color: var(--text-muted); font: var(--type-support); }
+.campaign-price-table td:not(:first-child), .campaign-price-table thead th:not(:first-child) { text-align: right; }
+@media (max-width: 640px) {
+  .campaign-price-table { min-width: 0; }
+  .campaign-price-table thead { display: none; }
+  .campaign-price-table, .campaign-price-table tbody, .campaign-price-table tr { display: block; width: 100%; }
+  .campaign-price-table tr { padding: var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--border-default); border-radius: var(--radius-8); }
+  .campaign-price-table tbody th { display: block; padding: 0 0 var(--space-12); }
+  .campaign-price-table td { display: flex; justify-content: space-between; gap: var(--space-12); padding: var(--space-8) 0; }
+  .campaign-price-table td::before { content: attr(data-label); color: var(--text-muted); }
+  .campaign-price-table td:last-child { border-bottom: 0; }
+}
 .campaign-source-text { white-space: pre-wrap; overflow-wrap: anywhere; }
 .campaign-links .copy-field { min-width: 0; }
 .campaign-overview-facts { padding-bottom: var(--space-20); margin-bottom: var(--space-20); border-bottom: 1px solid var(--border-default); }

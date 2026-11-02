@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=222">
+<link rel="stylesheet" href="../frantz-ds.css?v=225">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
 <style>
@@ -50,7 +50,7 @@
     .prospekt td > * { text-align: left; }
   }
 </style>
-<link rel="stylesheet" href="../styles/campaign.css?v=20261102-status-below">
+<link rel="stylesheet" href="../styles/campaign.css?v=20261102-details-4">
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 </head>
 <body class="campaign-page" data-campaign-page="results">
@@ -178,7 +178,7 @@
                 <div class="journey__body">
                   <div class="journey__head"><span class="tag">Status</span><span>24.09.2026</span></div>
                   <h4>Leverer svært bra sammenlignet med lignende kampanjer</h4>
-                  <p>Kostnad per «Søk» er 13 % lavere enn normalt. Kampanjen ligger foran planen, og målet er innen rekkevidde.</p>
+                  <p>Resultatene oppdateres mens kampanjen pågår. Se utviklingen under Innsikt.</p>
                 </div>
               </li>
               <li class="journey__step journey__step--planned">
@@ -207,14 +207,13 @@
             </div>
             <button class="btn btn--secondary btn--sm" type="button" data-last-ned="Sykepleier-Oslo-annonser.zip"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span> Last ned alle</button></div>
             <div class="ad-grid">
-              <div class="ad-card ad-card--best">
+              <div class="ad-card">
                 <div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«Hverdagshelter i Oslo»</div>
                   <div class="ad-card__channel" data-vis-kanaler>Meta</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>1 370</b><span>Klikkrate</span><b>2,0 %</b><span>Trykket «Søk»</span><b>30</b></div>
                   <div class="ad-card__knapper"><a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=Hverdagshelter+i+Oslo&kanal=Meta&type=Video&id=129041" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «Hverdagshelter i Oslo» (åpnes i ny fane)</span></a><button class="btn btn--ghost btn--sm" type="button" title="Last ned" data-last-ned="Hverdagshelter i Oslo" aria-label="Last ned «Hverdagshelter i Oslo»"><span class="icon-lucide icon-lucide--download" aria-hidden="true"></span></button></div>
-                  <span class="tag tag--outline tag--good">Beste annonse</span>
                 </div>
               </div>
               <div class="ad-card">
@@ -238,7 +237,7 @@
                 </div>
               </div>
             </div>
-            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></div></details>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Klikkrate er andelen som klikket av dem som så annonsen. «Søk» er klikk videre til søknadsskjemaet, ikke innsendte søknader.</p></div></details>
           </div><details class="disclosure approval-message campaign-disclosure"><summary>Endringer og ny godkjenning<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><p>Bruk dette hvis kampanjen skal få nytt annonsemateriell.</p><button type="button" class="btn btn--secondary" data-del-godkjenning="del-panel" data-approval-label="Send nye annonser til godkjenning" aria-expanded="false">Send nye annonser til godkjenning</button><div class="del-panel del-panel--topp" id="del-panel" hidden
         data-deler="plan annonser side" data-valgt="annonser" data-status="aktiv" data-id="129041"
         data-tittel="Sykepleier" data-sted="Oslo" data-arbeidsgiver="Oslo Sykehusdrift" data-periode="03.09 – 03.10.2026" data-budsjett="48200"
@@ -352,7 +351,7 @@
   ] });
 })();
 </script>
-<script src="../components/js/funnel.js?v=76"></script>
+<script src="../components/js/funnel.js?v=20261102-details-3"></script>
 
 <script>
 tegnTrakt(document.getElementById('resultat-trakt'), {
@@ -484,12 +483,13 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
-<script src="data/rapporter.js?v=20261027-client"></script>
+<script src="data/rapporter.js?v=20261102-details"></script>
 <script src="../components/js/report-view.js?v=20261102-channel-merge"></script>
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
 <script src="../components/js/campaign-sections.js?v=20261102-scenarios"></script>
 <script src="../components/js/campaign-submission.js?v=20261102-scenarios"></script>
-<script src="../components/js/campaign-details.js?v=20261102-scenarios"></script>
+<script src="../components/js/campaign-pricing.js?v=20261102-details-4"></script>
+<script src="../components/js/campaign-details.js?v=20261102-details"></script>
 <script src="../components/js/campaign-page.js?v=20261102-confirm" data-default-campaign="129041"></script>
 </body>
 </html>

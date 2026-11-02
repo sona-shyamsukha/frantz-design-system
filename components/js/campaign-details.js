@@ -221,6 +221,13 @@
     current = model; updateHeader(model); renderOverview(model);
     try { root.FrantzReportSharing.ensure(model.id); } catch (error) { /* Show an unavailable link rather than an unsaved URL. */ }
     renderFields(model, 'stilling'); renderFields(model, 'kampanje'); renderSource(model);
+    var prices = document.querySelector('[data-campaign-pricing]');
+    if (!prices) {
+      prices = element('section', 'card card--les'); prices.dataset.campaignPricing = '';
+      var panel = document.getElementById('panel-kampanje'), history = panel.querySelector('[data-campaign-history]');
+      panel.insertBefore(prices, history && history.parentNode === panel ? history : null);
+    }
+    prices.innerHTML = root.FrantzCampaignPricing.render(model, options.report || root.FZ_REPORTS && root.FZ_REPORTS[model.id]);
     document.querySelectorAll('[data-submitted-date]').forEach(function (node) { node.textContent = model.submittedAt ? 'Bestilt ' + displayDate(model.submittedAt) : ''; });
     document.querySelectorAll('[data-submitted-note]').forEach(function (node) { node.hidden = model.hasSubmission; node.textContent = model.hasSubmission ? '' : 'Viser opplysningene som er lagret for kampanjen. Originalbestillingen er ikke tilgjengelig.'; });
     var materialCard = document.querySelector('[data-submitted-material]');

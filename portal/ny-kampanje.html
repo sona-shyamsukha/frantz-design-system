@@ -2622,6 +2622,7 @@
       var mode = v2VisVerdi('materiell') === 'Frantz lager annonsen' ? 'hjelp' : v2VisVerdi('materiell') === 'Ferdig materiell' ? 'ferdig' : v2VisVerdi('materiell') ? 'bygg' : '';
       var now = window.FZ_I_DAG(); // the demo clock, so the order is stamped 30.09.2026
       var order = {
+        prislinjer: prislinjerForBestilling(),
         flyt: 'forenklet', tittel: [v2VisVerdi('stilling'), v2VisVerdi('sted')].filter(Boolean).join(' '), ref: $('ref').value.trim(),
         stilling: v2VisVerdi('stilling'), sted: v2VisVerdi('sted'), arbeidsgiver: v2VisVerdi('arbeidsgiver'), frist: v2VisVerdi('frist'),
         kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
@@ -3847,6 +3848,13 @@
   $('crop-reset').addEventListener('click', function () { updateCrop({ x: 50, y: 50, zoom: 1, fit: 'auto' }); });
   [$('pv-bilde'), $('pv-fil')].forEach(function (element) { FrantzAdCrop.bind(element, function () { return tilstand.annonse.crop; }, updateCrop); });
   function tilleggListe() { return tilstand.tillegg.concat(tilstand.meld ? ['Meld interesse'] : []); }
+  function prislinjerForBestilling() {
+    var extras = TILLEGG.filter(function (item) { return tilstand.tillegg.indexOf(item.navn) !== -1; }).map(function (item) {
+      return { name: item.navn, quantity: 1, unitPrice: item.pris, price: item.pris };
+    });
+    if (tilstand.meld) extras.push({ name: 'Meld interesse', quantity: 1, unitPrice: 0, price: 0 });
+    return { kanaler: tilstand.kanaler.map(function (name) { return { name: name, price: null }; }), tillegg: extras };
+  }
   function tegnFiler() {
     var html = tilstand.filer.map(function (f, i) {
       return '<span class="picker-chip">' + f.replace(/[<>&]/g, '') + '<button type="button" data-fjern-fil="' + i + '" aria-label="Fjern ' + f.replace(/"/g, '') + '"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></span>';
@@ -4557,6 +4565,7 @@
     var tilleggSum = TILLEGG.reduce(function (sum, t) { return sum + (tilstand.tillegg.indexOf(t.navn) !== -1 ? t.pris : 0); }, 0);
     var d = window.FZ_I_DAG();
     var ordre = {
+      prislinjer: prislinjerForBestilling(),
       approvalKey: approvalKey,
       arbeidsgiver: $('arbeidsgiver').value.trim(), frist: $('frist').value,
       kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),

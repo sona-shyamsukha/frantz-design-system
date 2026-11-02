@@ -46,3 +46,35 @@ test('unknown costs are omitted and incompatible channels keep the fallback brea
   assert.equal((el.innerHTML.match(/funnel__channel-cost/g) || []).length, 1);
   assert.match(el.innerHTML, /kr 0 per «Søk»/);
 });
+
+test('reported funnels support every channel, strategy rows and explicit unavailable reading times', () => {
+  const { window, el } = chart();
+  const channels = ['Meta', 'LinkedIn', 'Snapchat', 'TikTok', 'Nettsteder og aviser'].map((name, i) => ({
+    name, cost: 100 + i, funnel: [20, 2],
+    strategies: name === 'Meta' ? [{ name: 'QA strategy <one>', funnel: [10, 1], readTime: '45 s' }] : undefined
+  }));
+  const before = JSON.stringify(channels);
+  assert.equal(window.oppdaterTraktKanaler(el, channels), true);
+  for (const channel of channels) assert.ok(el.innerHTML.includes(channel.name));
+  for (const token of ['--kanal-meta', '--kanal-linkedin', '--color-amber', '--color-violet', '--kanal-nettsteder']) {
+    assert.match(el.innerHTML, new RegExp('fill="var\\(' + token + '\\)"'));
+  }
+  assert.match(el.innerHTML, /Se målinger per kanal og strategi/);
+  assert.match(el.innerHTML, /QA strategy &lt;one&gt;/);
+  assert.match(el.innerHTML, /45 s/);
+  assert.match(el.innerHTML, /målingen ikke er tilgjengelig/);
+  assert.equal(JSON.stringify(channels), before);
+});
+
+test('report channel counts and aggregate funnel totals agree', () => {
+  const window = {};
+  vm.runInNewContext(fs.readFileSync('portal/data/rapporter.js', 'utf8'), { window });
+  for (const report of Object.values(window.FZ_REPORTS).filter(report => report.channels)) {
+    const sum = index => report.channels.reduce((value, channel) => value + channel.funnel[index], 0);
+    assert.equal(sum(0), report.impressions);
+    assert.equal(sum(2), report.visits);
+    assert.equal(sum(4), report.read);
+    assert.equal(sum(5), report.applications);
+    for (const channel of report.channels) assert.equal(channel.funnel[5], channel.applications);
+  }
+});

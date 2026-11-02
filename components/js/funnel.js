@@ -16,6 +16,25 @@
   function pst(x) {
     return (x * 100).toFixed(1).replace('.', ',') + ' %';
   }
+  function escape(value) { return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function channelColor(name, index) {
+    var colors = { meta: '--kanal-meta', linkedin: '--kanal-linkedin', snapchat: '--color-amber', tiktok: '--color-violet', 'nettsteder og aviser': '--kanal-nettsteder' };
+    return 'var(' + (colors[String(name).toLowerCase()] || ['--color-data-700', '--color-green', '--color-violet', '--color-coral', '--color-data-900'][index % 5]) + ')';
+  }
+  function channelDetails(layers, names) {
+    if (!layers.some(function (layer) { return layer.details; })) return '';
+    function measurements(values, time) {
+      return names.map(function (label, index) {
+        return '<dl class="funnel__measurement"><dt>' + escape(label) + '</dt><dd>' + (values && Number.isFinite(values[index]) ? tall(values[index]) : '—') + '</dd></dl>';
+      }).join('') + '<dl class="funnel__measurement"><dt>Gj. lesetid</dt><dd>' + escape(time || '—') + '</dd></dl>';
+    }
+    var groups = layers.map(function (layer) {
+      return '<section class="funnel__measurements-group" aria-label="' + escape(layer.navn) + '"><h4>' + escape(layer.navn) + '</h4>' + measurements(layer.v, layer.readTime) + (layer.strategies || []).map(function (strategy) {
+        return '<section class="funnel__strategy-details"><h5>' + escape(strategy.name) + '</h5>' + measurements(strategy.funnel, strategy.readTime) + '</section>';
+      }).join('') + '</section>';
+    }).join('');
+    return '<details class="disclosure funnel__channel-details"><summary>Se målinger per kanal og strategi<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><div class="funnel__channel-measurements">' + groups + '</div><p class="form-hint mt-4">— betyr at målingen ikke er tilgjengelig. Strategier vises bare når de er rapportert. «Søk» er klikk videre til søknadsskjemaet, ikke innsendte søknader.</p></div></details>';
+  }
 
   var PIL = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 2.5v8M3.5 7.5 7 11l3.5-3.5"/></svg>';
   var HAKE = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m3 7.4 2.7 2.7L11 4.5"/></svg>';
@@ -79,7 +98,7 @@
         }
         return d + ' Z';
       };
-      var flater = [2, 1, 0].filter(function (k) { return lag[k]; }).map(function (k) {
+      var flater = lag.map(function (_, k) { return k; }).reverse().map(function (k) {
         return '<path d="' + sti(kum(k)) + '" fill="' + (lag[k].farge || 'url(#' + gradId + ')') + '" opacity="' + (lag[k].farge ? 1 : lag[k].o) + '"></path>';
       }).join('');
       var merker = v.map(function (verdi, i) {
@@ -188,13 +207,15 @@
     }
 
     var forklaring = '';
+    var kanaldetaljer = '';
     if (visning === 'lagdelt' && lag && lag.length) {
       forklaring = '<div class="funnel__legend">' +
         lag.map(function (l) {
           var cost = Number.isFinite(l.kostnadPerSok) && l.kostnadPerSok >= 0 ? '<span class="funnel__channel-cost">kr ' + tall(l.kostnadPerSok) + ' per «Søk»</span>' : '';
-          return '<div class="funnel__legend-item"><span><i style="' + (l.farge ? 'background:' + l.farge : 'opacity:' + l.o) + '"></i>' + l.navn + '</span>' + cost + '</div>';
+          return '<div class="funnel__legend-item"><span><i style="' + (l.farge ? 'background:' + l.farge : 'opacity:' + l.o) + '"></i>' + escape(l.navn) + '</span>' + cost + '</div>';
         }).join('') +
         '<span style="color:var(--text-faint)">' + (d.lagTekst || 'Lagene er kanaler. Tykkelsen er antall personer.') + '</span></div>';
+      kanaldetaljer = channelDetails(lag, navn);
     }
 
     if (d.interaktiv) {
@@ -217,7 +238,7 @@
         '<div class="funnel__kort" role="status" tabindex="0" hidden></div></div>' +
         '<div class="funnel__akse">' + akse + '</div>' +
         forklaring +
-        '</div>';
+        '</div>' + kanaldetaljer;
 
       var grafEl = el.querySelector('.funnel__graph--hover');
       var kort = grafEl.querySelector('.funnel__kort');
@@ -253,7 +274,7 @@
           linjer.push(['Falt fra', tall(v[i - 1] - v[i]) + ' personer']);
         }
         if (i === siste) linjer.push(['Av alle som så annonsen', pst(v[siste] / v[0])]);
-        (lag || []).forEach(function (l) { linjer.push(['<i style="background:' + (l.farge || 'var(--color-data-700)') + '"></i>' + l.navn, tall(l.v[i])]); });
+        (lag || []).forEach(function (l) { linjer.push(['<i style="background:' + (l.farge || 'var(--color-data-700)') + '"></i>' + escape(l.navn), tall(l.v[i])]); });
         kort.innerHTML = '<span class="funnel__kort-navn">' + navn[i] + '</span>' +
           '<span class="funnel__kort-tall">' + tall(v[i]) + '</span>' +
           (d.hjelp && d.hjelp[i] ? '<span class="funnel__kort-hjelp">' + d.hjelp[i] + '</span>' : '') +
@@ -315,20 +336,23 @@
       '</svg></div>' +
       forklaring +
       '<div class="funnel__foot">' + fot + '</div>' +
-      '</div></div>';
+      '</div></div>' + kanaldetaljer;
   };
 
   // Report figures are the source for costs; do not duplicate them in page templates.
   // Return false when this chart cannot represent every supplied channel.
   window.oppdaterTraktKanaler = function (el, channels) {
     var data = lagret.get(el);
-    if (!data || !data.lag || !Array.isArray(channels) || !channels.length || data.lag.length !== channels.length) return false;
-    var layers = data.lag.map(function (layer) {
-      var channel = channels.find(function (item) { return item.name === layer.navn; });
-      return channel ? Object.assign({}, layer, { kostnadPerSok: channel.cost }) : null;
+    if (!data || !data.lag || !Array.isArray(channels) || !channels.length) return false;
+    var reported = channels.every(function (channel) { return Array.isArray(channel.funnel) && channel.funnel.length === data.verdier.length && channel.funnel.every(function (value) { return Number.isFinite(value) && value >= 0; }); });
+    if (!reported && data.lag.length !== channels.length) return false;
+    var layers = channels.map(function (channel, index) {
+      var layer = reported ? { navn: channel.name, v: channel.funnel.slice(), farge: channelColor(channel.name, index), o: 1 } : data.lag.find(function (item) { return item.navn === channel.name; });
+      return layer ? Object.assign({}, layer, { kostnadPerSok: channel.cost, readTime: channel.readTime, strategies: channel.strategies, details: true }) : null;
     });
     if (layers.some(function (layer) { return !layer; })) return false;
-    window.tegnTrakt(el, Object.assign({}, data, { lag: layers }));
+    var values = reported ? data.verdier.map(function (_, i) { return layers.reduce(function (sum, layer) { return sum + layer.v[i]; }, 0); }) : data.verdier;
+    window.tegnTrakt(el, Object.assign({}, data, { lag: layers, verdier: values }));
     return true;
   };
 

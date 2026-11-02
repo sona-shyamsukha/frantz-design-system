@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Rapport — Sykepleier Bodø — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=222">
+<link rel="stylesheet" href="../frantz-ds.css?v=225">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
@@ -31,7 +31,7 @@
   [data-samtykke] .card__head > div { flex: 1 1 260px; }
   .epost__svar { flex-basis: 100%; margin: 0; font: var(--type-support); color: var(--text-success-strong); }
 </style>
-<link rel="stylesheet" href="../styles/campaign.css?v=20261102-status-below">
+<link rel="stylesheet" href="../styles/campaign.css?v=20261102-details-4">
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 </head>
 <body class="campaign-page" data-campaign-page="results">
@@ -140,8 +140,8 @@
                 <span class="journey__dot" aria-hidden="true"></span>
                 <div class="journey__body">
                   <div class="journey__head"><span class="tag">Status</span><span>09.07.2026</span></div>
-                  <h4>Leverer over forventet nivå</h4>
-                  <p>Kampanjen leverer over forventet nivå gjennom hele trakten. 61 % av besøkende leser hele stillingsteksten, mot 45 % normalt. Vi følger med på kostnad per «Søk» på Meta, som ligger litt høyt.</p>
+                  <h4>Status underveis</h4>
+                  <p>Vi følger utviklingen i lesing og klikk på «Søk» for hver kanal.</p>
                 </div>
               </li>
               <li class="journey__step">
@@ -149,7 +149,7 @@
                 <div class="journey__body">
                   <div class="journey__head"><span class="tag">Optimalisering</span><span>18.07.2026</span></div>
                   <h4>Budsjett flyttet mot Nettsteder og aviser</h4>
-                  <p>Nettsteder og aviser gir lavere kostnad per «Søk» enn Meta i denne regionen. Vi flyttet kr 4 000 fra Meta til Nettsteder og aviser. Meta fortsetter med videoannonsen, som gir best resultat.</p>
+                  <p>Nettsteder og aviser gir lavere kostnad per «Søk» enn Meta i denne regionen. Vi flyttet kr 4 000 fra Meta til Nettsteder og aviser. Meta fortsetter med videoannonsen.</p>
                 </div>
               </li>
               <li class="journey__step">
@@ -157,7 +157,7 @@
                 <div class="journey__body">
                   <div class="journey__head"><span class="tag">Status</span><span>24.07.2026</span></div>
                   <h4>Leverer svært bra sammenlignet med lignende kampanjer</h4>
-                  <p>Kostnad per «Søk» har falt til kr 1 730 etter optimaliseringen. Det er 21 % lavere enn normalt for lignende stillinger. 15 personer har meldt interesse så langt.</p>
+                  <p>Kostnad per «Søk» har falt til kr 1 730 etter optimaliseringen. 15 personer har meldt interesse så langt.</p>
                 </div>
               </li>
               <li class="journey__step journey__step--key">
@@ -182,17 +182,16 @@
 <section class="flow" role="tabpanel" id="panel-annonser" aria-labelledby="fane-annonser" hidden><div class="flow" data-current-ads><div class="card card--betjen">
             <div class="card__head"><div>
               <h3 class="card__title" id="annonser">Annonser</h3>
-              <p class="card__hint">Video ga 3 ganger så mange «Søk» som bilde på Meta.</p>
+              <p class="card__hint">Se annonsene og de registrerte resultatene for hver annonse.</p>
             </div></div>
             <div class="ad-grid">
-              <div class="ad-card ad-card--best">
+              <div class="ad-card">
                 <div class="ad-card__media"><span class="tag tag--overlay">Video</span><span class="icon-lucide icon-lucide--play icon-lucide--lg" aria-hidden="true"></span></div>
                 <div class="ad-card__body">
                   <div class="ad-card__name">«En dag på akutten»</div>
                   <div class="ad-card__channel" data-vis-kanaler>Meta</div>
                   <div class="ad-card__stats"><span>Klikk</span><b>310</b><span>Klikkrate</span><b>1,6 %</b><span>Trykket «Søk»</span><b>6</b></div>
                   <a class="btn btn--secondary btn--sm ad-card__action" href="annonse.html?navn=En+dag+p%C3%A5+akutten&kanal=Meta&type=Video&id=128984" target="_blank" rel="noopener">Se annonsen <span class="icon-lucide icon-lucide--external-link icon-lucide--sm" aria-hidden="true"></span><span class="chat__sr"> «En dag på akutten» (åpnes i ny fane)</span></a>
-                  <span class="tag tag--outline tag--good">Beste annonse</span>
                 </div>
               </div>
               <div class="ad-card">
@@ -216,7 +215,7 @@
                 </div>
               </div>
             </div>
-            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Klikkrate er andelen som klikket av dem som så annonsen. Beste annonse er den med flest «Søk» per krone.</p></div></details>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Klikkrate er andelen som klikket av dem som så annonsen. «Søk» er klikk videre til søknadsskjemaet, ikke innsendte søknader.</p></div></details>
           </div></div><section class="card card--betjen material-card" data-submitted-material aria-labelledby="material-heading">
             <div class="card__head"><h2 class="card__title" id="material-heading">Annonser og materiell</h2></div>
             <p class="material-empty" id="material-loading" role="status">Laster inn materiellet …</p>
@@ -306,7 +305,7 @@
   ] });
 })();
 </script>
-<script src="../components/js/funnel.js?v=76"></script>
+<script src="../components/js/funnel.js?v=20261102-details-3"></script>
 
 <script>
 tegnTrakt(document.getElementById('resultat-trakt'), {
@@ -440,12 +439,13 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
-<script src="data/rapporter.js?v=20261027-client"></script>
+<script src="data/rapporter.js?v=20261102-details"></script>
 <script src="../components/js/report-view.js?v=20261102-channel-merge"></script>
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
 <script src="../components/js/campaign-sections.js?v=20261102-scenarios"></script>
 <script src="../components/js/campaign-submission.js?v=20261102-scenarios"></script>
-<script src="../components/js/campaign-details.js?v=20261102-scenarios"></script>
+<script src="../components/js/campaign-pricing.js?v=20261102-details-4"></script>
+<script src="../components/js/campaign-details.js?v=20261102-details"></script>
 <script src="../components/js/campaign-page.js?v=20261102-confirm" data-default-campaign="128984"></script>
 </body>
 </html>

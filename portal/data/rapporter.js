@@ -26,12 +26,14 @@ window.FZ_REPORTS = Object.freeze({
       {
         "name": "Meta",
         "applications": 44,
-        "cost": 790
+        "cost": 790,
+        "funnel": [117000, 2000, 1710, 1440, 970, 44]
       },
       {
         "name": "Nettsteder og aviser",
         "applications": 8,
-        "cost": 1080
+        "cost": 1080,
+        "funnel": [41000, 370, 310, 260, 180, 8]
       }
     ],
     "daily": [
@@ -207,12 +209,14 @@ window.FZ_REPORTS = Object.freeze({
       {
         "name": "Meta",
         "applications": 8,
-        "cost": 2400
+        "cost": 2400,
+        "funnel": [31000, 430, 360, 290, 200, 8]
       },
       {
         "name": "Nettsteder og aviser",
         "applications": 10,
-        "cost": 1200
+        "cost": 1200,
+        "funnel": [19200, 330, 280, 230, 170, 10]
       }
     ],
     "daily": [
