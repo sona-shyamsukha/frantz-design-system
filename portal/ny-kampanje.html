@@ -2356,11 +2356,6 @@
       if (kampanje && felt[0] === 'navn') v2Pakkevelger(rot);
     });
     if (kampanje) v2LagrePakkeFelt(rot);
-    if (seksjon.id === 'kampanje') {
-      var estimatHint = document.createElement('p'); estimatHint.className = 'form-hint';
-      estimatHint.textContent = 'Illustrasjon – eksempelberegning. Tallene er ikke et tilbud eller en resultatprognose.';
-      rot.querySelector('[data-v2-dialog-felt="budsjett"]').appendChild(estimatHint);
-    }
     $('v2-dialog').classList.toggle('v2-dialog--studio', seksjon.id === 'materiell');
     $('v2-dialog').classList.toggle('v2-dialog--kampanje', kampanje);
     if (seksjon.id === 'materiell') { v2flytt('bibliotek', $('v2-dialog-form')); v2StudioValg(); visVedlegg(tilstand.pdf); }
