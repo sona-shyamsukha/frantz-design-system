@@ -5,7 +5,7 @@
 .campaign-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
 .campaign-eyebrow { margin: 0 0 var(--space-8); color: var(--text-muted); font: var(--type-support); }
 .campaign-meta > span { margin-inline: var(--space-6); }
-.report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
+.metric__link { margin-top: var(--space-8); align-self: flex-start; }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
 .campaign-rail > .btn { justify-self: start; }
 .campaign-disclosure .piksel { padding: 0; }

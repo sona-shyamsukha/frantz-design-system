@@ -82,7 +82,9 @@
       }
       tracking.appendChild(root.FrantzCopyField.create(root.FrantzPiksel.kode(pixel.dataset.connect || pixel.dataset.piksel), { label: 'sporingskode' }));
       var setup = element('a', 'link', 'Se kode og oppsett'); setup.href = '#tracking-details';
-      setup.addEventListener('click', function (event) {
+      // Bestilt has no folded code section; the guide page explains the setup there
+      if (!document.getElementById('tracking-details')) setup.href = 'sporingskode.html';
+      else setup.addEventListener('click', function (event) {
         event.preventDefault();
         root.FrantzCampaignSections.init().select('kampanje');
         var details = document.getElementById('tracking-details');

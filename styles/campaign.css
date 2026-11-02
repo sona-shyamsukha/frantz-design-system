@@ -12,7 +12,7 @@
 .campaign-header .campaign-meta { margin-top: var(--space-8); }
 .campaign-header__actions { display: flex; flex-wrap: wrap; gap: var(--space-8); }
 .campaign-meta > span { margin-inline: var(--space-6); }
-.report-interest-link { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); align-items: center; font: var(--type-support); }
+.metric__link { margin-top: var(--space-8); align-self: flex-start; }
 .campaign-rail { display: grid; gap: var(--space-16); align-items: start; }
 /* Only the compact links card can stick; long campaign details stay in tabs. */
 .campaign-rail .summary-panel { position: static; top: auto; }

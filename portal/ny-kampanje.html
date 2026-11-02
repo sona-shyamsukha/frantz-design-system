@@ -845,6 +845,8 @@
   .v2-rad { display: grid; grid-template-columns: 11.5rem minmax(0, 1fr) auto; gap: var(--space-12) var(--space-16); align-items: center; padding: var(--space-16) var(--space-24); border-top: 1px solid var(--border-subtle); }
   .v2-rad__navn { color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); }
   .v2-rad__verdi { margin: 0; color: var(--text-heading); font-weight: var(--font-weight-semibold); }
+  .v2:focus { outline: none; }
+  .v2-rad__verdi--tom { color: var(--text-muted); font-weight: var(--font-weight-normal); }
   .v2-rad__navn, .v2-rad__verdi { min-width: 0; overflow-wrap: anywhere; }
   .v2-rad--mangler .v2-rad__verdi { color: var(--color-amber-ink); }
   .v2-rad--obligatorisk .v2-rad__verdi { display: flex; align-items: center; gap: var(--space-8); }
@@ -1619,7 +1621,7 @@
           </section>
           </div>
 
-          <section class="del v2" id="v2" hidden aria-label="Det vi leste ut av teksten">
+          <section class="del v2" id="v2" hidden aria-label="Det vi leste ut av teksten" tabindex="-1">
             <div class="v2-kilde">
               <p id="v2-kilde-tekst"></p>
               <button class="link" type="button" id="v2-endre">Endre teksten</button>
@@ -2257,6 +2259,8 @@
         var tekst = document.createElement('p');
         tekst.className = 'v2-rad__verdi';
         tekst.textContent = verdi || (felt[0] === 'fil' ? 'Ingen fil lagt til' : mangler ? 'Mangler' : 'Ikke oppgitt');
+        // An empty optional value is grey, so it does not read like an answer
+        if (!verdi && !mangler) tekst.classList.add('v2-rad__verdi--tom');
         if (mangler) {
           rad.classList.add('v2-rad--obligatorisk');
           var ikon = document.createElement('span');
@@ -2779,6 +2783,8 @@
     v2Tegn();
     $('v2').hidden = false;
     $('v2').scrollIntoView({ block: 'start' });
+    // Keyboard and screen-reader users continue from the summary, not from the top of the page
+    $('v2').focus({ preventScroll: true });
   }
 
   // Prototype rule agreed with Sona: same channels, nearest budget within 10%.

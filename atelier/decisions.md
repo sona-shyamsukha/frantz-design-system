@@ -15,3 +15,4 @@
 - 02.11.2026 (Sona): «Venter på dere» moved to the right column on Hjem, above «Slik gikk kampanjene deres». On phone it comes after «Kampanjene deres nå».
 - 02.11.2026 (Sona): Hjem: «Venter på dere» first on phone and in the right column on wide screens. «Slik gikk kampanjene deres» sits under the campaign table.
 - 02.11.2026 (Sona): Links next to a field label (like «Bruk anbefalt») sit at the right edge of the field. The Kampanjen dialog always shows the package choice, and has «Lagre budsjett og kanaler som pakke».
+- 02.11.2026 (Sona): Polish 5–8 from the review: grey empty values in the summary, tracking code once on Bestilt (task block + panel, no folded section), «Følg dem opp» inside the «Meldte interesse» tile, focus to the summary after «Fyll ut skjemaet».
