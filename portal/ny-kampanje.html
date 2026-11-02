@@ -1016,8 +1016,6 @@
   .kladd-hode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-16); }
   .kladd-slett { min-height: 44px; margin-inline-start: auto; background: var(--surface-raised); border-color: var(--border-strong); color: var(--text-danger-moderate); }
   .kladd-slett[hidden] { display: none; }
-  /* Same place and size as «Slett kladd», but not a warning: starting over is a normal choice. */
-  .kladd-ny { color: var(--color-navy); }
   dialog.kladd-dialog { position: fixed; inset: 0; margin: auto; width: min(520px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); overflow: auto; padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
   .kladd-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
   .kladd-dialog h2 { margin: 0 0 var(--space-16); }
@@ -1078,7 +1076,6 @@
             <div class="kladd-hode">
               <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
               <button class="btn btn--ghost kladd-slett" type="button" id="kladd-slett" aria-haspopup="dialog" hidden><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span>Slett kladd</button>
-              <button class="btn btn--ghost kladd-slett kladd-ny" type="button" id="start-ny" hidden><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Start en ny kampanje</button>
             </div>
             <p class="lagret lagret--lagrer" id="lagret" role="status" aria-live="polite" aria-atomic="true"><span class="icon-lucide icon-lucide--clock" id="lagret-ikon" aria-hidden="true"></span><span id="lagret-tekst">Endringer lagres automatisk</span></p>
         <details class="ordre-meny" id="ordre-oppsummering" hidden>
@@ -1704,7 +1701,7 @@
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=20261102-channels"></script>
+<script src="data/kampanjer.js?v=20261102-drafts"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
@@ -2649,7 +2646,7 @@
       order.materiellId = material.id;
       order.id = FZ_KAMPANJER.bestill({
         stilling: order.stilling || order.ref, sted: order.sted, arbeidsgiver: order.arbeidsgiver, ref: order.ref,
-        connect: order.connect, kanaler: channels, fra: start && end ? start : '', til: start && end ? end : '', budsjett: budget,
+        id: kladdId || undefined, connect: order.connect, kanaler: channels, fra: start && end ? start : '', til: start && end ? end : '', budsjett: budget,
         materiellId: material.id, approvalKey: order.approvalKey, tilleggsinformasjon: order.notat
       });
       sessionStorage.setItem('fzOrdre', JSON.stringify(order));
@@ -3971,9 +3968,10 @@
   $('notat').addEventListener('input', oppdater);
 
   /* ---------- Approval of a frozen plan, before the separate order action ---------- */
-  var approvalKey, approvalKeyStorage = 'fzApprovalDraftKeyV2' + (new URLSearchParams(location.search).get('kladd') ? ':' + new URLSearchParams(location.search).get('kladd') : '');
-  if (!materialEditId) { try { approvalKey = localStorage.getItem(approvalKeyStorage); } catch (e) {} }
-  if (!approvalKey) { approvalKey = crypto.randomUUID(); if (!materialEditId) { try { localStorage.setItem(approvalKeyStorage, approvalKey); } catch (e) {} } }
+  // Each draft has its own approval link. A new campaign gets one when it becomes a draft (see lagreUtkast).
+  var approvalKey, approvalKeyStorage = 'fzApprovalDraftKeyV2:' + (kladdId || '');
+  if (!materialEditId && kladdId) { try { approvalKey = localStorage.getItem(approvalKeyStorage); } catch (e) {} }
+  if (!approvalKey) { approvalKey = crypto.randomUUID(); if (!materialEditId && kladdId) { try { localStorage.setItem(approvalKeyStorage, approvalKey); } catch (e) {} } }
   var approvalChangedTimer, approvalBlocked = false;
   function approvalContent() {
     var st = steder.verdi();
@@ -4429,7 +4427,33 @@
   });
 
   /* ---------- Save by itself ---------- */
-  var LAGER = 'fzNyKampanjeV2', lagreTimer = null;
+  // Each draft is saved under its own number. A new campaign gets a number as soon as it has content.
+  var LAGER = 'fzNyKampanjeV2' + (kladdId ? ':' + kladdId : ''), lagreTimer = null;
+  function harInnhold() {
+    return !!(tilstand.lest || tilstand.valgtConnect || $('lenke').value.trim() || rensBehovTekst($('beskrivelse').value));
+  }
+  // The short version of the draft that Kampanjer and Hjem show
+  function kladdSammendrag() {
+    var c = tilstand.valgtConnect || {}, sted = steder.verdi()[0], d = window.FZ_I_DAG();
+    return {
+      id: kladdId || undefined,
+      stilling: $('stilling').value.trim() || c.stilling || '', sted: sted ? FrantzPicker.delSted(sted).navn : (c.sted || ''),
+      arbeidsgiver: $('arbeidsgiver').value.trim() || c.arbeidsgiver || '', ref: $('ref').value.trim(), connect: tilstand.connectId || c.id || '',
+      kanaler: tilstand.lest && tilstand.kanaler.length ? tilstand.kanaler.slice() : null, fra: '', til: '', frist: $('frist').value, budsjett: tilstand.lest ? budsjett() || 0 : 0,
+      endret: 'i dag kl. ' + String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0')
+    };
+  }
+  function lagreKladdIListen() {
+    var ny = !kladdId;
+    kladdId = FZ_KAMPANJER.lagreKladd(kladdSammendrag());
+    if (!ny) return;
+    // The draft now has its own address, save slot and approval link
+    history.replaceState(null, '', 'ny-kampanje.html?kladd=' + encodeURIComponent(kladdId));
+    LAGER = 'fzNyKampanjeV2:' + kladdId;
+    approvalKeyStorage = 'fzApprovalDraftKeyV2:' + kladdId;
+    try { localStorage.setItem(approvalKeyStorage, approvalKey); } catch (e) {}
+    $('sum-id').textContent = 'Kampanje #' + kladdId;
+  }
   function lagreUtkast() {
     if (materialEditId) return;
     $('lagret').classList.remove('lagret--feil');
@@ -4447,6 +4471,8 @@
         modus: lagbarKopi({ anbefalingModus: anbefalingModus, anbefalingOriginal: anbefalingOriginal, egetForslag: egetForslag, tilpassetAnbefaling: tilpassetAnbefaling, valgtLagretPakke: valgtLagretPakke })
       };
       try {
+        if (!kladdId && !harInnhold()) return; // nothing to keep yet
+        lagreKladdIListen();
         localStorage.setItem(LAGER, JSON.stringify(data));
       } catch (e) {
         $('lagret').classList.remove('lagret--lagrer');
@@ -4478,13 +4504,21 @@
     });
     return felt;
   }
-  // Coming back opens the saved draft on the summary, with the same answers.
+  // Opening a draft's address brings it back where the user left it, with the same answers.
   // It runs in one go, so the approval check (which waits 100 ms) sees the finished draft.
   function gjenopprettUtkast() {
     var data = null;
     try { data = JSON.parse(localStorage.getItem(LAGER) || 'null'); } catch (e) {}
-    if (!data || data.versjon !== 2 || !data.kildeA || !data.tilstand || !data.tilstand.lest) return false;
+    if (!data || data.versjon !== 2 || !data.tilstand) return false;
     var lagret = data.tilstand;
+    if (!lagret.lest || !data.kildeA) {
+      // Saved before «Fyll ut skjemaet»: bring back what was typed and the chosen job
+      $('lenke').value = data.felt.lenke || ''; $('beskrivelse').value = data.felt.beskrivelse || '';
+      if (lagret.valgtConnect) { tilstand.valgtConnect = lagret.valgtConnect; if ($('connect-sok')) $('connect-sok').value = lagret.valgtConnect.tittel; }
+      tegnKilder();
+      $('lagret-tekst').textContent = 'Kladden er hentet fram';
+      return true;
+    }
     if (lagret.connectId) tilstand.connectId = lagret.connectId;
     if (lagret.side) tilstand.side = lagret.side;
     $('lenke').value = data.felt.lenke || ''; $('beskrivelse').value = data.felt.beskrivelse || '';
@@ -4502,16 +4536,9 @@
     steder.set(data.steder || []);
     budsjettKontroll.set(data.budsjett || null);
     tegnKanaler(); tegnPeriode(); oppdater(); v2Tegn();
-    $('lagret-tekst').textContent = 'Utkastet er hentet fram';
-    $('start-ny').hidden = false;
+    $('lagret-tekst').textContent = 'Kladden er hentet fram';
     return true;
   }
-  // One unsaved draft at a time. Starting a new one clears it and its approval link.
-  $('start-ny').addEventListener('click', function () {
-    clearTimeout(lagreTimer);
-    try { localStorage.removeItem(LAGER); localStorage.removeItem(approvalKeyStorage); } catch (e) {}
-    location.href = 'ny-kampanje.html';
-  });
   ['input', 'change', 'click'].forEach(function (h) { $('skjema').addEventListener(h, lagreUtkast); });
   $('fortsett').addEventListener('click', function () { setTimeout(lagreUtkast, 3000); });
 
@@ -4572,7 +4599,7 @@
       return;
     }
     ordre.id = FZ_KAMPANJER.bestill({
-      connect: tilstand.connectId || '', stilling: ordre.stilling, sted: stederListe.length ? FrantzPicker.delSted(stederListe[0]).navn : '',
+      id: kladdId || undefined, connect: tilstand.connectId || '', stilling: ordre.stilling, sted: stederListe.length ? FrantzPicker.delSted(stederListe[0]).navn : '',
       arbeidsgiver: $('arbeidsgiver').value.trim(), ref: ordre.ref, kanaler: tilstand.kanaler.slice(), materiellId: ordre.materiellId, approvalKey: approvalKey,
       fra: iso(pd.start), til: iso(pd.slutt), budsjett: budsjett()
     });
@@ -4731,7 +4758,9 @@
   var qp = new URLSearchParams(location.search);
   var dm = qp.get('demo');
   if (DEMO[dm]) kjorDemo(dm);
-  else if (FZ_BRUKER.harConnect && qp.get('connect') && FZ_CONNECT.finn(qp.get('connect'))) {
+  else if (kladdId && gjenopprettUtkast()) {
+    // The saved draft is open again
+  } else if (FZ_BRUKER.harConnect && qp.get('connect') && FZ_CONNECT.finn(qp.get('connect'))) {
     // The listing was already chosen in Connect; skip choosing an import method again.
     tilstand.fraConnectSide = true;
     startFraConnect(FZ_CONNECT.finn(qp.get('connect')));
@@ -4741,14 +4770,14 @@
     sideFra('Fortsett kladden', 'Helsesykepleier Kristiansand. Sjekk at det stemmer, og fyll ut resten.');
     startMed({ tittel: 'Helsesykepleier', steder: [FrantzPicker.finnSted('Kristiansand')].filter(Boolean), fristDato: '2026-11-08', arbeidsgiver: 'Sørlandet Helse' }, 'kladden');
     visSteg(2, false); // the draft has the stilling done, like the card on Hjem says
-  } else if (!qp.has('tittel') && !qp.has('steder') && !qp.has('sted') && !qp.has('kladd') && gjenopprettUtkast()) {
-    // The saved draft is open again
   } else if (qp.get('tittel') || qp.get('steder') || qp.get('sted')) {
     var liste = (qp.get('steder') || '').split('|').filter(Boolean);
     if (!liste.length && qp.get('sted')) { var fs = FrantzPicker.finnSted(qp.get('sted')); if (fs) liste = [fs]; }
     sideFra('Fra kalkulatoren', 'Stilling, sted og budsjett er fylt ut. Sjekk at det stemmer.');
     startMed({ tittel: qp.get('tittel') || '', steder: liste, budsjett: Number(qp.get('budsjett')) || 0 }, 'tallene fra kalkulatoren');
   }
+  // A campaign filled in from Stillinger or the calculator is a draft from the start
+  if (!kladdId && tilstand.lest) lagreUtkast();
 
   document.addEventListener('assistant:fill', function (e) {
     var d = e.detail || {};

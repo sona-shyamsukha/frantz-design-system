@@ -133,11 +133,12 @@
       for (var i = 0; i < localStorage.length; i++) { var key = localStorage.key(i); if (key.indexOf(DRAFT_KEY) === 0) keys.push(key); }
     } catch (e) { return []; }
     var found = await Promise.all(keys.map(async function (storageKey) {
+      var draft = storageKey.slice(DRAFT_KEY.length + 1);
+      if (!draft) return null; // only numbered drafts can be opened again
       var plan = (await list(localStorage.getItem(storageKey))).find(function (item) { return item.round === 'plan'; });
       if (!plan || status(plan) !== 'approved') return null;
-      var draft = storageKey.slice(DRAFT_KEY.length + 1);
       return { id: plan.id, title: [plan.content && plan.content.title, plan.content && plan.content.location].filter(Boolean).join(' ') || 'Kampanjen', approver: plan.name, answered: plan.answered,
-        href: 'ny-kampanje.html' + (draft ? '?kladd=' + encodeURIComponent(draft) : '') };
+        href: 'ny-kampanje.html?kladd=' + encodeURIComponent(draft) };
     }));
     return found.filter(Boolean);
   }
