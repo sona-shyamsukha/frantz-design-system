@@ -157,6 +157,10 @@
   color: var(--text-warning-moderate);
 }
 
+.form-varsel[hidden] {
+  display: none;
+}
+
 .form-grid,
 .feltrad {
   display: grid;

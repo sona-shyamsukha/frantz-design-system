@@ -26,7 +26,11 @@
 
       <div class="form-group">
         <label class="form-label" for="passord">Passord</label>
-        <input class="form-input" type="password" id="passord" name="passord" placeholder="••••••••" autocomplete="current-password">
+        <div class="form-password">
+          <input class="form-input" type="password" id="passord" name="passord" placeholder="••••••••" autocomplete="current-password" aria-describedby="passord-caps">
+          <button class="form-password__knapp" type="button" aria-controls="passord" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
+        </div>
+        <p class="form-varsel" id="passord-caps" data-caps-for="passord" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
       </div>
 
       <div class="login__row">
@@ -46,5 +50,6 @@
   </div>
 </div>
 
+<script src="../components/js/password-field.js?v=1"></script>
 </body>
 </html>

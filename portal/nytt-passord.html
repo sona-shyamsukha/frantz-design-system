@@ -33,7 +33,7 @@
             <input class="form-input" type="password" id="passord" name="passord" autocomplete="new-password" aria-describedby="passord-krav passord-caps passord-feil" required>
             <button class="form-password__knapp" type="button" aria-controls="passord" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
           </div>
-          <p class="form-varsel" id="passord-caps" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
+          <p class="form-varsel" id="passord-caps" data-caps-for="passord" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
           <!-- [GAP] The password rules must come from Frantz. These four are placeholders. -->
           <ul class="form-krav" id="passord-krav" aria-label="Passordet må ha">
             <li data-krav="lengde"><span class="icon-lucide icon-lucide--circle" aria-hidden="true"></span>Minst 8 tegn<span class="sr-only"></span></li>
@@ -49,7 +49,7 @@
             <input class="form-input" type="password" id="gjenta" name="gjenta" autocomplete="new-password" aria-describedby="gjenta-caps gjenta-feil" required>
             <button class="form-password__knapp" type="button" aria-controls="gjenta" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
           </div>
-          <p class="form-varsel" id="gjenta-caps" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
+          <p class="form-varsel" id="gjenta-caps" data-caps-for="gjenta" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
           <p class="form-error" id="gjenta-feil" hidden></p>
         </div>
         <button class="btn btn--primary" type="submit" id="lagre">Lagre og logg inn</button>
@@ -67,6 +67,7 @@
   </div>
 </main>
 
+<script src="../components/js/password-field.js?v=1"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -117,26 +118,6 @@
   }
 
   function like() { return gjenta.value === felt.value; }
-
-  // The eye button inside each field shows or hides what was typed.
-  document.querySelectorAll('.form-password__knapp').forEach(function (knapp) {
-    knapp.addEventListener('click', function () {
-      var input = $(knapp.getAttribute('aria-controls'));
-      var vis = input.type === 'password';
-      input.type = vis ? 'text' : 'password';
-      knapp.setAttribute('aria-pressed', String(vis));
-      knapp.setAttribute('aria-label', vis ? 'Skjul passordet' : 'Vis passordet');
-      knapp.querySelector('.icon-lucide').className = 'icon-lucide icon-lucide--' + (vis ? 'eye-off' : 'eye') + ' icon-lucide--md';
-    });
-  });
-
-  // Caps Lock warning for both fields.
-  [[felt, 'passord-caps'], [gjenta, 'gjenta-caps']].forEach(function (par) {
-    function caps(e) { if (e.getModifierState) $(par[1]).hidden = !e.getModifierState('CapsLock'); }
-    par[0].addEventListener('keydown', caps);
-    par[0].addEventListener('keyup', caps);
-    par[0].addEventListener('blur', function () { $(par[1]).hidden = true; });
-  });
 
   felt.addEventListener('input', function () {
     var ok = sjekkKrav();

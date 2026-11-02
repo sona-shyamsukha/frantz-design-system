@@ -124,6 +124,23 @@
       tx.onerror = tx.onabort = function () { reject(tx.error); };
     });
   }
+  // «Opprett kampanje» keeps each draft's approval key in localStorage (cleared when the draft is ordered).
+  // Drafts whose latest plan is approved still wait for the orderer to press «Bestill kampanjen».
+  var DRAFT_KEY = 'fzApprovalDraftKeyV2';
+  async function approvedDrafts() {
+    var keys = [];
+    try {
+      for (var i = 0; i < localStorage.length; i++) { var key = localStorage.key(i); if (key.indexOf(DRAFT_KEY) === 0) keys.push(key); }
+    } catch (e) { return []; }
+    var found = await Promise.all(keys.map(async function (storageKey) {
+      var plan = (await list(localStorage.getItem(storageKey))).find(function (item) { return item.round === 'plan'; });
+      if (!plan || status(plan) !== 'approved') return null;
+      var draft = storageKey.slice(DRAFT_KEY.length + 1);
+      return { id: plan.id, title: [plan.content && plan.content.title, plan.content && plan.content.location].filter(Boolean).join(' ') || 'Kampanjen', approver: plan.name, answered: plan.answered,
+        href: 'ny-kampanje.html' + (draft ? '?kladd=' + encodeURIComponent(draft) : '') };
+    }));
+    return found.filter(Boolean);
+  }
   var labels = { pending: 'Venter på svar', approved: 'Godkjent', changes: 'Endring ønsket', expired: 'Lenken er utløpt', superseded: 'Erstattet av ny versjon', revoked: 'Trukket tilbake' };
-  root.FrantzApprovals = { create: create, read: read, newest: newest, list: list, respond: respond, revoke: revoke, invalidate: invalidate, status: status, transition: transition, fingerprint: fingerprint, labels: labels };
+  root.FrantzApprovals = { create: create, read: read, newest: newest, list: list, respond: respond, revoke: revoke, invalidate: invalidate, approvedDrafts: approvedDrafts, status: status, transition: transition, fingerprint: fingerprint, labels: labels };
 })(window);

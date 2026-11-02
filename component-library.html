@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Frantz DS — Komponentbibliotek</title>
-<link rel="stylesheet" href="frantz-ds.css?v=214">
+<link rel="stylesheet" href="frantz-ds.css?v=218">
 <link rel="stylesheet" href="components/inbox/componentInbox.css?v=204">
 <link rel="stylesheet" href="styles/docs.css?v=76">
 <link rel="stylesheet" href="components/del-godkjenning/approval.css?v=205">
@@ -616,6 +616,32 @@
         </div>
       </div>
       <div class="cl-sep"></div>
+      <span class="cl-variant">Passord</span>
+      <p class="cl-note">Øyeknappen ligger inne i feltet. Kravene blir grønne når passordet oppfyller dem.</p>
+      <div class="feltrad">
+        <div class="felt">
+          <label for="cl-passord">Nytt passord</label>
+          <div class="form-password">
+            <input class="form-input" id="cl-passord" type="password" value="Sommer2026" autocomplete="off" aria-describedby="cl-passord-caps cl-passord-krav">
+            <button class="form-password__knapp" type="button" aria-controls="cl-passord" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
+          </div>
+          <p class="form-varsel" id="cl-passord-caps" data-caps-for="cl-passord" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
+          <ul class="form-krav" id="cl-passord-krav" aria-label="Passordet må ha">
+            <li data-ok="true"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Minst 8 tegn<span class="sr-only"> – oppfylt</span></li>
+            <li data-ok="true"><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span>Minst ett tall<span class="sr-only"> – oppfylt</span></li>
+            <li data-ok="false"><span class="icon-lucide icon-lucide--circle" aria-hidden="true"></span>Minst ett spesialtegn<span class="sr-only"> – mangler</span></li>
+          </ul>
+        </div>
+        <div class="felt">
+          <label for="cl-gjenta">Gjenta passordet</label>
+          <div class="form-password">
+            <input class="form-input form-input--error" id="cl-gjenta" type="password" value="Sommer2025" autocomplete="off" aria-invalid="true" aria-describedby="cl-gjenta-feil">
+            <button class="form-password__knapp" type="button" aria-controls="cl-gjenta" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
+          </div>
+          <p class="form-error" id="cl-gjenta-feil">Passordene er ikke like.</p>
+        </div>
+      </div>
+      <div class="cl-sep"></div>
       <span class="cl-variant">Nedtrekk i verktøylinjer</span>
       <p class="cl-note">Pilleform sammen med søk og filtre. Vanlige skjemafelt beholder 8px radius.</p>
       <div class="feltrad">
@@ -637,13 +663,16 @@
       <h3 class="cl-install__title">Slik legger du den til</h3>
       <dl class="cl-install__facts">
         <dt>CSS</dt><dd><code>frantz-ds.css</code> har alt. Vil du bare ha denne komponenten, bruk filene under.</dd>
-        <dt>JavaScript</dt><dd>Nei, den trenger ikke JS.</dd>
+        <dt>JavaScript</dt><dd>Bare passordfeltet: <code>components/js/password-field.js</code> styrer øyeknappen og Caps Lock-varselet.</dd>
       </dl>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Bare denne komponenten</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
           <pre class="cl-code-pre"><code>&lt;link rel="stylesheet" href="tokens/base.css"&gt;
 &lt;link rel="stylesheet" href="styles/reset.css"&gt;
-&lt;link rel="stylesheet" href="components/form/componentForm.css"&gt;</code></pre>
+&lt;link rel="stylesheet" href="components/form/componentForm.css"&gt;
+&lt;!-- Bare for passordfelt --&gt;
+&lt;link rel="stylesheet" href="components/icon/lucide-icons.css"&gt;
+&lt;script src="components/js/password-field.js"&gt;&lt;/script&gt;</code></pre>
         </div>
     </div>
 
@@ -671,6 +700,9 @@
           <tr><td><code>.form-select</code></td><td>I <code>.form-select-wrap</code> for chevron</td></tr>
           <tr><td><code>.form-select--pill</code></td><td>Pilleform for sortering og filtre i verktøylinjer. Brukes sammen med <code>.form-select</code>.</td></tr>
           <tr><td><code>.chip</code></td><td>Filter. På: <code>aria-pressed="true"</code></td></tr>
+          <tr><td><code>.form-password</code></td><td>Passordfelt med <code>.form-password__knapp</code> (øyeknapp) inne i feltet</td></tr>
+          <tr><td><code>.form-krav</code></td><td>Passordkrav. <code>data-ok="true"</code> gjør linjen grønn</td></tr>
+          <tr><td><code>.form-varsel</code></td><td>Caps Lock-varsel. <code>data-caps-for</code> peker på feltets <code>id</code></td></tr>
         </tbody>
       </table>
 
@@ -689,6 +721,8 @@
           <li>Fokus gir navy kant og myk ring. Feltet med feil får rød ring. Ikke fjern ringen.</li>
           <li>Chips er <code>&lt;button type="button"&gt;</code> med <code>aria-pressed="true"</code> eller <code>"false"</code>. Legg dem i en gruppe med <code>role="group"</code> og <code>aria-label</code>.</li>
           <li>Deaktivert felt kan ikke nås med tastatur. Skriv i hjelpeteksten hvorfor det er låst.</li>
+          <li>Øyeknappen er en <code>&lt;button type="button"&gt;</code> med <code>aria-label</code> «Vis passordet» / «Skjul passordet» og <code>aria-pressed</code>. Den er 40 × 40 px.</li>
+          <li>Hvert passordkrav har skjult tekst («oppfylt» / «mangler»), så fargen er ikke eneste signal.</li>
         </ul>
       </div>
     </details>
@@ -764,6 +798,25 @@
   &lt;div class="felt"&gt;...&lt;/div&gt;
   &lt;div class="felt"&gt;...&lt;/div&gt;
 &lt;/div&gt;</code></pre>
+        </div>
+        <div class="cl-snippet">
+          <div class="cl-snippet__bar"><span class="cl-snippet__label">Passord</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
+          <pre class="cl-code-pre"><code>&lt;div class="form-group"&gt;
+  &lt;label class="form-label" for="passord"&gt;Nytt passord&lt;/label&gt;
+  &lt;div class="form-password"&gt;
+    &lt;input class="form-input" type="password" id="passord" autocomplete="new-password" aria-describedby="passord-caps passord-krav"&gt;
+    &lt;button class="form-password__knapp" type="button" aria-controls="passord" aria-pressed="false" aria-label="Vis passordet"&gt;
+      &lt;span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="form-varsel" id="passord-caps" data-caps-for="passord" hidden&gt;
+    &lt;span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"&gt;&lt;/span&gt;Caps Lock er på.
+  &lt;/p&gt;
+  &lt;ul class="form-krav" id="passord-krav" aria-label="Passordet må ha"&gt;
+    &lt;li data-ok="false"&gt;&lt;span class="icon-lucide icon-lucide--circle" aria-hidden="true"&gt;&lt;/span&gt;Minst 8 tegn&lt;span class="sr-only"&gt; – mangler&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;script src="components/js/password-field.js"&gt;&lt;/script&gt;</code></pre>
         </div>
         <div class="cl-snippet">
           <div class="cl-snippet__bar"><span class="cl-snippet__label">Chips / filter</span><button class="cl-copy-btn" type="button" onclick="copyPre(this)">Kopier</button></div>
@@ -5630,5 +5683,6 @@ tegnTrakt(document.getElementById('cl-trakt'), {
 <script src="components/js/advisor-inbox.js?v=3"></script>
 <script src="components/js/annonse-studio.js?v=2"></script>
 <script src="components/js/interactions.js?v=6" defer></script>
+<script src="components/js/password-field.js?v=1"></script>
 </body>
 </html>

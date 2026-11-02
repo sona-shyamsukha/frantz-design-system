@@ -1016,6 +1016,8 @@
   .kladd-hode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-16); }
   .kladd-slett { min-height: 44px; margin-inline-start: auto; background: var(--surface-raised); border-color: var(--border-strong); color: var(--text-danger-moderate); }
   .kladd-slett[hidden] { display: none; }
+  /* Same place and size as «Slett kladd», but not a warning: starting over is a normal choice. */
+  .kladd-ny { color: var(--color-navy); }
   dialog.kladd-dialog { position: fixed; inset: 0; margin: auto; width: min(520px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); overflow: auto; padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
   .kladd-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
   .kladd-dialog h2 { margin: 0 0 var(--space-16); }
@@ -1076,6 +1078,7 @@
             <div class="kladd-hode">
               <h1 class="text-h2 steg-hode__side" id="side-tittel">Opprett kampanje</h1>
               <button class="btn btn--ghost kladd-slett" type="button" id="kladd-slett" aria-haspopup="dialog" hidden><span class="icon-lucide icon-lucide--trash-2" aria-hidden="true"></span>Slett kladd</button>
+              <button class="btn btn--ghost kladd-slett kladd-ny" type="button" id="start-ny" hidden><span class="icon-lucide icon-lucide--plus" aria-hidden="true"></span>Start en ny kampanje</button>
             </div>
             <p class="lagret lagret--lagrer" id="lagret" role="status" aria-live="polite" aria-atomic="true"><span class="icon-lucide icon-lucide--clock" id="lagret-ikon" aria-hidden="true"></span><span id="lagret-tekst">Endringer lagres automatisk</span></p>
         <details class="ordre-meny" id="ordre-oppsummering" hidden>
@@ -2665,6 +2668,7 @@
   });
 
   function vis(a) {
+    tilstand.kildeA = JSON.parse(JSON.stringify(a || {})); // the saved draft rebuilds the summary from this
     $('del-funnet').hidden = false;
     tilstand.lest = true;
     tilstand.stillingKlar = !!a.tittel;
@@ -4437,7 +4441,10 @@
       var data = {
         ref: $('ref').value, lenke: $('lenke').value, tekst: $('beskrivelse').value, stilling: $('stilling').value, steder: steder.verdi(),
         frist: $('frist').value, budsjett: budsjett(), kanalmodus: tilstand.kanalmodus, kanaler: tilstand.kanaler, uker: tilstand.uker, fra: tilstand.fra, til: tilstand.til,
-        designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('v2-ekstra').value
+        designbrief: $('an-designbrief').value, annonsetittel: $('an-tittel').value, annonsetekst: $('an-tekst').value, materiell: tilstand.materiell, tillegg: tilstand.tillegg, meld: tilstand.meld, pakke: tilstand.pakke, filer: tilstand.filer, avsender: $('avsender').value, notat: $('v2-ekstra').value,
+        // Enough to open the draft again exactly where the user left it
+        versjon: 2, kildeA: tilstand.kildeA || null, tilstand: lagbarKopi(tilstand), felt: feltVerdier(),
+        modus: lagbarKopi({ anbefalingModus: anbefalingModus, anbefalingOriginal: anbefalingOriginal, egetForslag: egetForslag, tilpassetAnbefaling: tilpassetAnbefaling, valgtLagretPakke: valgtLagretPakke })
       };
       try {
         localStorage.setItem(LAGER, JSON.stringify(data));
@@ -4454,6 +4461,57 @@
       $('lagret-tekst').textContent = 'Lagret automatisk kl. ' + String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0');
     }, 700);
   }
+  // Files and blob links cannot be stored, so they are left out. Everything else is plain data.
+  function lagbarKopi(verdi) {
+    return JSON.parse(JSON.stringify(verdi, function (nokkel, x) {
+      if (typeof Blob !== 'undefined' && x instanceof Blob) return undefined;
+      if (typeof Element !== 'undefined' && x instanceof Element) return undefined;
+      if (typeof x === 'string' && x.indexOf('blob:') === 0) return undefined;
+      return x;
+    }) || 'null');
+  }
+  function feltVerdier() {
+    var felt = {};
+    Array.prototype.forEach.call($('skjema').querySelectorAll('input[id], textarea[id], select[id]'), function (el) {
+      if (el.type === 'file' || el.type === 'hidden') return;
+      felt[el.id] = el.type === 'checkbox' || el.type === 'radio' ? { valgt: el.checked } : el.value;
+    });
+    return felt;
+  }
+  // Coming back opens the saved draft on the summary, with the same answers.
+  // It runs in one go, so the approval check (which waits 100 ms) sees the finished draft.
+  function gjenopprettUtkast() {
+    var data = null;
+    try { data = JSON.parse(localStorage.getItem(LAGER) || 'null'); } catch (e) {}
+    if (!data || data.versjon !== 2 || !data.kildeA || !data.tilstand || !data.tilstand.lest) return false;
+    var lagret = data.tilstand;
+    if (lagret.connectId) tilstand.connectId = lagret.connectId;
+    if (lagret.side) tilstand.side = lagret.side;
+    $('lenke').value = data.felt.lenke || ''; $('beskrivelse').value = data.felt.beskrivelse || '';
+    startMed(data.kildeA, (lagret.kilder || [])[0]);
+    Object.keys(data.felt).forEach(function (id) {
+      var el = $(id), verdi = data.felt[id];
+      if (!el) return;
+      if (verdi && typeof verdi === 'object') el.checked = verdi.valgt; else el.value = verdi;
+    });
+    Object.assign(tilstand, lagret);
+    var m = data.modus || {};
+    anbefalingModus = m.anbefalingModus || anbefalingModus; anbefalingOriginal = m.anbefalingOriginal || anbefalingOriginal;
+    egetForslag = m.egetForslag || null; tilpassetAnbefaling = m.tilpassetAnbefaling || null; valgtLagretPakke = m.valgtLagretPakke || null;
+    stilling.set(data.felt.stilling || '');
+    steder.set(data.steder || []);
+    budsjettKontroll.set(data.budsjett || null);
+    tegnKanaler(); tegnPeriode(); oppdater(); v2Tegn();
+    $('lagret-tekst').textContent = 'Utkastet er hentet fram';
+    $('start-ny').hidden = false;
+    return true;
+  }
+  // One unsaved draft at a time. Starting a new one clears it and its approval link.
+  $('start-ny').addEventListener('click', function () {
+    clearTimeout(lagreTimer);
+    try { localStorage.removeItem(LAGER); localStorage.removeItem(approvalKeyStorage); } catch (e) {}
+    location.href = 'ny-kampanje.html';
+  });
   ['input', 'change', 'click'].forEach(function (h) { $('skjema').addEventListener(h, lagreUtkast); });
   $('fortsett').addEventListener('click', function () { setTimeout(lagreUtkast, 3000); });
 
@@ -4683,6 +4741,8 @@
     sideFra('Fortsett kladden', 'Helsesykepleier Kristiansand. Sjekk at det stemmer, og fyll ut resten.');
     startMed({ tittel: 'Helsesykepleier', steder: [FrantzPicker.finnSted('Kristiansand')].filter(Boolean), fristDato: '2026-11-08', arbeidsgiver: 'Sørlandet Helse' }, 'kladden');
     visSteg(2, false); // the draft has the stilling done, like the card on Hjem says
+  } else if (!qp.has('tittel') && !qp.has('steder') && !qp.has('sted') && !qp.has('kladd') && gjenopprettUtkast()) {
+    // The saved draft is open again
   } else if (qp.get('tittel') || qp.get('steder') || qp.get('sted')) {
     var liste = (qp.get('steder') || '').split('|').filter(Boolean);
     if (!liste.length && qp.get('sted')) { var fs = FrantzPicker.finnSted(qp.get('sted')); if (fs) liste = [fs]; }
