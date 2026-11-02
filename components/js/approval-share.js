@@ -43,11 +43,9 @@
           if (state === 'approved') row.append(el('p', 'form-hint', request.round === 'plan' ? (options.ordered ? 'Kampanjeplanen ble godkjent før bestilling.' : 'Planen er godkjent. Bestill kampanjen når dere er klare.') : 'Gjennomgangen er godkjent. Dere må fortsatt gi Frantz klarsignal i portalen.'));
           if (state === 'superseded') row.append(el('p', 'form-hint', 'Innholdet er endret. Send en ny forespørsel.'));
           var actions = el('div', 'del-panel__knapper approval-summary__actions'), open = el('a', 'btn btn--primary btn--sm', 'Se forespørselen'); open.href = url(request); open.target = '_blank'; open.rel = 'noopener'; actions.append(open);
-          var prototype = el('details', 'disclosure approval-test'), testLabel = disclosureLabel('Test i prototypen'), testLinks = el('div', 'disclosure__content del-panel__knapper'), testEmail = el('a', 'link', 'Se e-posten');
-          testEmail.href = url(request, true); testEmail.target = '_blank'; testEmail.rel = 'noopener'; testLinks.append(testEmail); prototype.append(testLabel, testLinks);
           if (state === 'pending') { var revoke = button('Trekk tilbake', 'btn btn--ghost btn--sm'); revoke.addEventListener('click', async function () { revoke.disabled = true; try { await Store.revoke(request.id); } catch (e) { revoke.disabled = false; } await refresh(); }); actions.append(revoke); }
           if (['approved', 'changes', 'expired', 'superseded', 'revoked'].includes(state)) { var again = button('Send ny forespørsel'); again.addEventListener('click', function () { openInline(context, request.round); }); actions.append(again); }
-          row.append(actions, prototype); summary.append(row);
+          row.append(actions); summary.append(row);
         });
         context.renderedSignature = signature;
         if (options.onChange) options.onChange(context.records);
@@ -91,7 +89,6 @@
     var error = el('p', 'del-panel__feil'); error.hidden = true; error.setAttribute('role', 'alert'); form.append(error);
     var actions = el('div', 'approval-inline__actions'), send = button('Send forespørsel', 'btn btn--primary');
     actions.append(send, el('span', 'form-hint', 'Ingen innlogging for mottakeren.')); form.append(actions); editor.append(form);
-    var prototype = el('details', 'disclosure approval-test'); var prototypeContent = el('div', 'disclosure__content'); prototypeContent.append(el('p', 'form-hint', 'E-postsending simuleres. Lenken og materiellet kan testes i samme nettleser.')); prototype.append(disclosureLabel('Om prototypen'), prototypeContent); editor.append(prototype);
     async function submit() {
       error.hidden = true;
       if (!name.field.value.trim()) name.field.setCustomValidity('Skriv navnet på den som skal godkjenne.');

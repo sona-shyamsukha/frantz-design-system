@@ -18,7 +18,7 @@
   function kode(id) {
     return '<script crossorigin="anonymous" async data-r="' + id + '" data-frpixel="' + id + '" src="https://api.frantz.no/scripts/tech/frantzTech.min.js"></script>';
   }
-  // The steps the web developer needs. Used in the email and on sporingskode.html, so both say the same.
+  // The steps the web developer needs. Used in the email and in Firmainnstillinger › Sporingskode, so both say the same.
   var MERKER = [
     { attr: 'applyposition', hvor: 'Søknadsknappen', nar: 'Alltid' },
     { attr: 'gdpraccept', hvor: 'Knappen der brukeren godtar personvern (GDPR)', nar: 'Hvis siden har en slik knapp' },
@@ -51,7 +51,7 @@
       (el.dataset.pikselMail === 'off' ? '' : '<div class="piksel__knapper"><a class="link link--xs" href="' + esc(epost(id, tittel)) + '">Send til den som lager nettsiden</a></div>') +
       '<p class="piksel__hjelp">' + HJELP[status] + (connect
         ? ' Koden hører til stillingen, og står også i <a class="link" href="connect.html">Stillinger</a>.'
-        : ' Koden har samme ID som kampanjen.') + ' <a class="link" href="sporingskode.html">Slik legger dere inn koden</a>.</p>';
+        : ' Koden har samme ID som kampanjen.') + ' <a class="link" href="innstillinger.html#sporingskode">Slik legger dere inn koden</a>.</p>';
     var field = window.FrantzCopyField.create(kodetekst, { label: 'Sporingskoden' });
     field.classList.add('piksel__code-row');
     el.querySelector('[data-piksel-code]').replaceWith(field);
