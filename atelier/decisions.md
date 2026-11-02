@@ -18,3 +18,7 @@
 - 02.11.2026 (Sona): Polish 5–8 from the review: grey empty values in the summary, tracking code once on Bestilt (task block + panel, no folded section), «Følg dem opp» inside the «Meldte interesse» tile, focus to the summary after «Fyll ut skjemaet».
 - 02.11.2026 (Sona): Campaign pages use a back link «‹ Kampanjer» instead of a breadcrumb. Only two levels, and the last breadcrumb item repeated the title.
 - 02.11.2026 (Sona): Free add-ons show «Gratis», not «Inkludert».
+- 02.11.2026 (Sona): In Ny kampanje, «Trekk tilbake» returns the summary to how it was before sending: the request card goes away and «Send planen til godkjenning» comes back.
+- 02.11.2026 (Sona): Sporingskode is a tab in Firmainnstillinger, not a menu item. Old links forward there.
+- 02.11.2026 (Sona): «Test i prototypen» and «Om prototypen» are removed from the customer view. The overview page links to the newest approval email instead.
+- 02.11.2026 (Sona): Calculator: «Få dette som tilbud» removed. «Lagre søk» and «Del søk» sit next to «Opprett kampanje». «Lagre søk» opens a centred modal.

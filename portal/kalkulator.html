@@ -97,6 +97,8 @@
 
   .kilde { margin-top: var(--space-16); color: var(--text-faint); font: var(--type-support); }
   .neste { margin-top: var(--space-24); }
+  /* «Lagre søk» and «Del søk» sit next to «Opprett kampanje»; less side padding keeps the three on one row */
+  .neste .btn--secondary { padding-inline: var(--space-16); }
 
   @media (max-width: 1180px) {
     .inndata { grid-template-columns: 1fr; }
@@ -109,7 +111,6 @@
     .res-kort .results__steps { grid-template-columns: 1fr; }
     .res-kort .results__step + .results__step::before { display: none; }
   }
-  .sok-handlinger { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-12); margin-top: var(--space-16); }
   .sok-status { margin: var(--space-12) 0 0; color: var(--text-muted); font: var(--type-support); }
   .sok-status:empty { display: none; }
   .lagrede-sok { margin-top: var(--space-44); }
@@ -121,7 +122,8 @@
   .lagrede-sok .table-card { border: 0; background: transparent; }
   .lagrede-sok__knapper { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-8); }
   .lagrede-sok [hidden] { display: none; }
-  .calculator-dialog { width: min(560px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); padding: var(--space-24); overflow-y: auto; border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
+  /* margin: auto puts the modal in the middle of the screen; a global reset had removed it */
+  .calculator-dialog { margin: auto; width: min(560px, calc(100vw - var(--space-32))); max-height: calc(100dvh - var(--space-32)); padding: var(--space-24); overflow-y: auto; border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); }
   .calculator-dialog::backdrop { background: var(--scrim-strong); }
   .calculator-dialog__hode { display: flex; justify-content: space-between; align-items: start; gap: var(--space-16); margin-bottom: var(--space-24); }
   .calculator-dialog__hode h2 { margin: 0; font: var(--type-section); color: var(--text-heading); }
@@ -131,7 +133,6 @@
   .calculator-dialog .form-group { margin: 0; }
   .calculator-dialog .feil { color: var(--text-danger-moderate); margin-top: var(--space-12); }
   @media (max-width: 640px) {
-    .sok-handlinger > .btn { flex: 1; }
     .lagrede-sok__knapper { justify-content: flex-start; flex-wrap: wrap; }
     .calculator-dialog { padding: var(--space-20); }
   }
@@ -164,7 +165,6 @@
       <div class="nav__group">Ressurser</div>
       <a class="nav__item" href="mediebibliotek.html"><span class="icon-lucide icon-lucide--image" aria-hidden="true"></span>Mediebibliotek</a>
       <a class="nav__item" href="mine-pakker.html"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagrede pakker</a>
-      <a class="nav__item" href="sporingskode.html"><span class="icon-lucide icon-lucide--target" aria-hidden="true"></span>Sporingskode</a>
       <a class="nav__item" href="innstillinger.html"><span class="icon-lucide icon-lucide--briefcase" aria-hidden="true"></span>Firmainnstillinger</a>
     </nav>
     <div class="konto">
@@ -220,11 +220,6 @@
     </div>
   </section>
 
-  <div class="sok-handlinger" aria-label="Lagre eller dele søket">
-    <button class="btn btn--secondary" id="lagre-sok" type="button"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagre søk</button>
-    <button class="btn btn--secondary" id="del-sok" type="button"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del søk</button>
-  </div>
-  <p class="sok-status" id="sok-status" role="status" aria-live="polite"></p>
 
   <section class="resultat" aria-live="polite" aria-label="Resultat">
     <div class="res-kort">
@@ -254,8 +249,10 @@
 
       <div class="neste btn-row btn-row--stack">
         <a class="btn btn--primary" id="bestill" href="ny-kampanje.html">Opprett kampanje</a>
-        <a class="btn btn--secondary" href="mailto:post@frantz.no?subject=Tilbud%20p%C3%A5%20kampanje" id="tilbud">Få dette som tilbud</a>
+        <button class="btn btn--secondary" id="lagre-sok" type="button"><span class="icon-lucide icon-lucide--bookmark" aria-hidden="true"></span>Lagre søk</button>
+        <button class="btn btn--secondary" id="del-sok" type="button"><span class="icon-lucide icon-lucide--link" aria-hidden="true"></span>Del søk</button>
       </div>
+      <p class="sok-status" id="sok-status" role="status" aria-live="polite"></p>
     </div>
 
     <div class="res-kort kart-kort">
@@ -352,7 +349,7 @@
     var searchContent = document.createElement('div'); searchContent.className = 'disclosure__content';
     searchContent.appendChild(document.querySelector('.inndata'));
     searchEditor.append(searchSummary, searchContent);
-    document.querySelector('.resultat').after(searchEditor, document.querySelector('.sok-handlinger'), $('sok-status'), $('sok-kopi-fallback'));
+    document.querySelector('.resultat').after(searchEditor, $('sok-kopi-fallback'));
 
   }
 
@@ -563,7 +560,7 @@
 </script>
 
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/approval-store.js?v=20261029-mvp"></script>
+<script src="../components/js/approval-store.js?v=20261102-demo"></script>
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
