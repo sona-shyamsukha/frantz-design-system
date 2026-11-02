@@ -5,6 +5,8 @@ Updated 02.11.2026.
 ## In progress
 - Nothing open. The 5 quick fixes from the UX review are merged into `main` (PR 24, 02.11). Kampanjen dialog changes merged (PR 25, 02.11). Polish fixes and back link on campaign pages merged (PR 26, 02.11). Sporingskode in Firmainnstillinger, no prototype boxes, calculator actions (PR 27); «Trekk tilbake» fix (PR 28); «Gratis» (PR 29), all 02.11. Review page: `atelier/05-checks/ux-review/review.html`.
 
+- Branch `atelier/nytt-passord` (02.11, not committed): Nytt passord has live password rules, a «Gjenta passordet» field, an eye button inside each field, a Caps Lock warning and a «Passordene er ikke like» error. Shared styles in `components/form/componentForm.css` (`.form-password`, `.form-krav`, `.form-varsel`). The four rules are placeholders until Frantz confirms theirs.
+
 ## Waiting on Sona
 - Report tiles: how to show if a number is good or bad. A) «normalt»  B) «sist» only  C) «sist», else «normalt». Recommended: C. Needs average numbers from Frantz for A and C.
 1. Stillinger vs Kampanjer: A) Stillinger shows only jobs without a campaign  B) merge Stillinger into Kampanjer. Recommended: A.
@@ -17,6 +19,7 @@ Updated 02.11.2026.
 3. Customers without an integration: how often do they need the tracking code before they order?
 
 ## Next
+- Flow check (02.11): every page and button clicked by a robot. Broken: admin inbox filters and case list do nothing (AI assistant part, not MVP, Sona 02.11); 2 old tests in `tests/dashboard.test.cjs` look for `resultat-panel`, which the page no longer has. No way in from the portal to `landingsside.html` and `ny-kampanje-samlet.html`. Nothing fixed yet.
 - Presentation for the client on Tuesday 3.11.
 - Status one-pager for Frantz (tilbud vs delivered, hours, way forward): `Kunder/Frantz/1-presentasjon/statusrapport-2026-11-02.html`, private preview https://claude.ai/artifact/8sm1V9WWW9YLnAWtVAfUDn. Not sent. Sona decides if the hours section stays.
 

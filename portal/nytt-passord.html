@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Nytt passord — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=214">
+<link rel="stylesheet" href="../frantz-ds.css?v=218">
 <link rel="stylesheet" href="../styles/portal-login.css?v=204">
 </head>
 <body>
@@ -29,16 +29,29 @@
       <form id="skjema" novalidate>
         <div class="form-group">
           <label class="form-label" for="passord" id="passord-etikett">Nytt passord</label>
-          <input class="form-input" type="password" id="passord" name="passord" autocomplete="new-password" aria-describedby="passord-hint passord-feil" required>
-          <!-- [GAP] The password rule must come from Frantz. «Minst 8 tegn» is a placeholder. -->
-          <p class="form-hint" id="passord-hint">Minst 8 tegn.</p>
+          <div class="form-password">
+            <input class="form-input" type="password" id="passord" name="passord" autocomplete="new-password" aria-describedby="passord-krav passord-caps passord-feil" required>
+            <button class="form-password__knapp" type="button" aria-controls="passord" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
+          </div>
+          <p class="form-varsel" id="passord-caps" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
+          <!-- [GAP] The password rules must come from Frantz. These four are placeholders. -->
+          <ul class="form-krav" id="passord-krav" aria-label="Passordet må ha">
+            <li data-krav="lengde"><span class="icon-lucide icon-lucide--circle" aria-hidden="true"></span>Minst 8 tegn<span class="sr-only"></span></li>
+            <li data-krav="bokstaver"><span class="icon-lucide icon-lucide--circle" aria-hidden="true"></span>Én stor og én liten bokstav<span class="sr-only"></span></li>
+            <li data-krav="tall"><span class="icon-lucide icon-lucide--circle" aria-hidden="true"></span>Minst ett tall<span class="sr-only"></span></li>
+            <li data-krav="tegn"><span class="icon-lucide icon-lucide--circle" aria-hidden="true"></span>Minst ett spesialtegn, f.eks. ! ? # %<span class="sr-only"></span></li>
+          </ul>
           <p class="form-error" id="passord-feil" hidden></p>
         </div>
-        <label class="form-check">
-          <input class="form-check__input" type="checkbox" id="vis">
-          <span class="form-check__box"></span>
-          <span class="form-check__label">Vis passordet</span>
-        </label>
+        <div class="form-group">
+          <label class="form-label" for="gjenta">Gjenta passordet</label>
+          <div class="form-password">
+            <input class="form-input" type="password" id="gjenta" name="gjenta" autocomplete="new-password" aria-describedby="gjenta-caps gjenta-feil" required>
+            <button class="form-password__knapp" type="button" aria-controls="gjenta" aria-pressed="false" aria-label="Vis passordet"><span class="icon-lucide icon-lucide--eye icon-lucide--md" aria-hidden="true"></span></button>
+          </div>
+          <p class="form-varsel" id="gjenta-caps" hidden><span class="icon-lucide icon-lucide--triangle-alert" aria-hidden="true"></span>Caps Lock er på.</p>
+          <p class="form-error" id="gjenta-feil" hidden></p>
+        </div>
         <button class="btn btn--primary" type="submit" id="lagre">Lagre og logg inn</button>
       </form>
     </div>
@@ -74,21 +87,73 @@
     $('passord-etikett').textContent = 'Passord';
   }
 
-  function visFeil(tekst) {
-    feil.textContent = tekst;
-    feil.hidden = !tekst;
-    $('passord-hint').hidden = !!tekst; // the error already says the rule
-    felt.classList.toggle('form-input--error', !!tekst);
-    felt.setAttribute('aria-invalid', tekst ? 'true' : 'false');
+  var gjenta = $('gjenta'), gjentaFeil = $('gjenta-feil');
+  // [GAP] Placeholder rules until Frantz confirms theirs.
+  var KRAV = {
+    lengde: function (v) { return v.length >= 8; },
+    bokstaver: function (v) { return /[a-zæøå]/.test(v) && /[A-ZÆØÅ]/.test(v); },
+    tall: function (v) { return /\d/.test(v); },
+    tegn: function (v) { return /[^A-Za-zÆØÅæøå0-9\s]/.test(v); }
+  };
+
+  function visFeil(input, melding, tekst) {
+    melding.textContent = tekst;
+    melding.hidden = !tekst;
+    input.classList.toggle('form-input--error', !!tekst);
+    input.setAttribute('aria-invalid', tekst ? 'true' : 'false');
   }
 
-  $('vis').addEventListener('change', function () { felt.type = this.checked ? 'text' : 'password'; });
-  felt.addEventListener('input', function () { if (!feil.hidden) visFeil(''); });
+  // Each rule turns green as soon as the password meets it.
+  function sjekkKrav() {
+    var alleOk = true;
+    document.querySelectorAll('[data-krav]').forEach(function (li) {
+      var ok = KRAV[li.dataset.krav](felt.value);
+      alleOk = alleOk && ok;
+      li.dataset.ok = String(ok);
+      li.querySelector('.icon-lucide').className = 'icon-lucide icon-lucide--' + (ok ? 'circle-check' : 'circle');
+      li.querySelector('.sr-only').textContent = ok ? ' – oppfylt' : ' – mangler';
+    });
+    return alleOk;
+  }
+
+  function like() { return gjenta.value === felt.value; }
+
+  // The eye button inside each field shows or hides what was typed.
+  document.querySelectorAll('.form-password__knapp').forEach(function (knapp) {
+    knapp.addEventListener('click', function () {
+      var input = $(knapp.getAttribute('aria-controls'));
+      var vis = input.type === 'password';
+      input.type = vis ? 'text' : 'password';
+      knapp.setAttribute('aria-pressed', String(vis));
+      knapp.setAttribute('aria-label', vis ? 'Skjul passordet' : 'Vis passordet');
+      knapp.querySelector('.icon-lucide').className = 'icon-lucide icon-lucide--' + (vis ? 'eye-off' : 'eye') + ' icon-lucide--md';
+    });
+  });
+
+  // Caps Lock warning for both fields.
+  [[felt, 'passord-caps'], [gjenta, 'gjenta-caps']].forEach(function (par) {
+    function caps(e) { if (e.getModifierState) $(par[1]).hidden = !e.getModifierState('CapsLock'); }
+    par[0].addEventListener('keydown', caps);
+    par[0].addEventListener('keyup', caps);
+    par[0].addEventListener('blur', function () { $(par[1]).hidden = true; });
+  });
+
+  felt.addEventListener('input', function () {
+    var ok = sjekkKrav();
+    if (!feil.hidden && ok) visFeil(felt, feil, '');
+    if (!gjentaFeil.hidden && like()) visFeil(gjenta, gjentaFeil, '');
+  });
+  gjenta.addEventListener('input', function () { if (!gjentaFeil.hidden && like()) visFeil(gjenta, gjentaFeil, ''); });
+  // Say it as soon as the user leaves the second field, not only on «Lagre».
+  gjenta.addEventListener('blur', function () { if (gjenta.value && !like()) visFeil(gjenta, gjentaFeil, 'Passordene er ikke like.'); });
 
   $('skjema').addEventListener('submit', function (e) {
     e.preventDefault();
-    if (!felt.value) { visFeil('Skriv et passord.'); felt.focus(); return; }
-    if (felt.value.length < 8) { visFeil('Passordet er for kort. Det må ha minst 8 tegn.'); felt.focus(); return; }
+    var kravOk = sjekkKrav();
+    visFeil(felt, feil, !felt.value ? 'Skriv et passord.' : kravOk ? '' : 'Passordet oppfyller ikke alle kravene over.');
+    visFeil(gjenta, gjentaFeil, !gjenta.value ? 'Skriv passordet en gang til.' : like() ? '' : 'Passordene er ikke like.');
+    if (!feil.hidden) { felt.focus(); return; }
+    if (!gjentaFeil.hidden) { gjenta.focus(); return; }
     location.href = 'dashboard.html';
   });
 })();
