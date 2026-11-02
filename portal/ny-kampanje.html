@@ -902,6 +902,9 @@
   .v2-dialog__innhold--kampanje { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-32); align-items: start; }
   .v2-dialog__innhold--kampanje > .v2-pakkevalg { margin: 0; min-width: 0; }
   .v2-dialog__innhold--kampanje [data-v2-dialog-felt="periode"] { grid-column: 1 / -1; }
+  .v2-dialog__innhold--kampanje > .v2-lagre-pakke { grid-column: 1 / -1; display: grid; gap: var(--space-12); }
+  .v2-lagre-pakke__navn { display: grid; gap: var(--space-label-gap); max-width: 28rem; }
+  .v2-lagre-pakke__navn[hidden] { display: none; }
   .v2-dialog__innhold--kampanje #estimat { margin-top: var(--space-24); }
   /* Keep the reading order row by row, with the period as the final pair. */
   .v2-dialog__innhold--kampanje #blokk-periode { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8) var(--space-24); align-items: start; }
@@ -930,7 +933,7 @@
   .v2-dialog__felt > .form-hint { margin: var(--space-8) 0 0; }
   .v2-dialog .felt > .form-hint { order: 2; margin: 0; }
   .v2-dialog__innhold--kampanje .budsjett-kontroll { display: flex; flex-direction: column; gap: var(--space-label-gap); }
-  .v2-dialog__innhold--kampanje .budsjett-kontroll__topp { align-items: center; justify-content: flex-start; gap: var(--space-16); margin-bottom: 0; }
+  .v2-dialog__innhold--kampanje .budsjett-kontroll__topp { align-items: center; justify-content: space-between; gap: var(--space-16); margin-bottom: 0; }
   .v2-dialog__innhold--kampanje .budsjett-felt .form-input { height: auto; padding-block: var(--space-12); font: var(--type-body); }
   .v2-dialog__felt #blokk-periode { border-top: 0; padding-top: 0; }
   .v2-dialog .form-input, .v2-dialog .picker__felt { max-width: 100%; }
@@ -2352,6 +2355,7 @@
       rot.appendChild(wrapper);
       if (kampanje && felt[0] === 'navn') v2Pakkevelger(rot);
     });
+    if (kampanje) v2LagrePakkeFelt(rot);
     if (seksjon.id === 'kampanje') {
       var estimatHint = document.createElement('p'); estimatHint.className = 'form-hint';
       estimatHint.textContent = 'Illustrasjon – eksempelberegning. Tallene er ikke et tilbud eller en resultatprognose.';
@@ -2425,8 +2429,14 @@
     $('v2-del-hint').hidden = $('v2-del').hidden;
   }
   function v2Pakkevelger(rot) {
-    if (!PAKKER.length) return; // nothing saved yet, so no choice to show
     var felt = document.createElement('div'); felt.className = 'felt v2-pakkevalg';
+    // No packages yet: still show where packages live, so people learn they can save one below
+    if (!PAKKER.length) {
+      var tittel = document.createElement('span'); tittel.className = 'form-label'; tittel.textContent = 'Bruk lagret pakke (valgfritt)';
+      var tom = document.createElement('p'); tom.className = 'form-hint'; tom.textContent = 'Dere har ingen lagrede pakker ennå. Lagre budsjett og kanaler som pakke nederst, så kan dere velge den neste gang.';
+      felt.append(tittel, tom); rot.appendChild(felt);
+      return;
+    }
     var label = document.createElement('label'); label.className = 'form-label'; label.htmlFor = 'v2-pakke'; label.textContent = 'Bruk lagret pakke (valgfritt)';
     var wrap = document.createElement('span'); wrap.className = 'form-select-wrap';
     var select = document.createElement('select'); select.id = 'v2-pakke'; select.className = 'form-select';
@@ -2453,6 +2463,33 @@
     });
     visPakkedetaljer();
     wrap.appendChild(select); felt.append(label, wrap, detaljer); rot.appendChild(felt);
+  }
+  function v2LagrePakkeFelt(rot) {
+    var blokk = document.createElement('div'); blokk.className = 'v2-lagre-pakke';
+    blokk.innerHTML = '<label class="form-check"><input class="form-check__input" type="checkbox" id="v2-lagre-pakke"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Lagre budsjett og kanaler som pakke</span></label>' +
+      '<div class="v2-lagre-pakke__navn" id="v2-pakkenavn-felt" hidden><label class="form-label" for="v2-pakkenavn">Navn på pakken</label>' +
+      '<input class="form-input" type="text" id="v2-pakkenavn" placeholder="F.eks. Sykepleier Sør" aria-describedby="v2-pakkenavn-feil">' +
+      '<p class="feil" id="v2-pakkenavn-feil" role="alert" hidden></p></div>';
+    rot.appendChild(blokk);
+    blokk.querySelector('#v2-lagre-pakke').addEventListener('change', function () {
+      $('v2-pakkenavn-felt').hidden = !this.checked;
+      if (this.checked) $('v2-pakkenavn').focus();
+    });
+  }
+  // Returns false when the package could not be saved, so the dialog stays open
+  function v2LagrePakke() {
+    var boks = $('v2-lagre-pakke');
+    if (!boks || !boks.checked) return true;
+    var navn = $('v2-pakkenavn').value.trim();
+    var feil = FZ_PAKKER.leggTil({ navn: navn, budsjett: budsjett(), kanaler: tilstand.kanaler.slice() });
+    if (feil) {
+      $('v2-pakkenavn-feil').textContent = feil; $('v2-pakkenavn-feil').hidden = false;
+      $('v2-pakkenavn').setAttribute('aria-invalid', 'true'); $('v2-pakkenavn').focus();
+      return false;
+    }
+    PAKKER = FZ_PAKKER.alle(); tegnPakker();
+    tilstand.pakke = navn;
+    return true;
   }
   function v2FeilBestilling() {
     var mangler = V2OBLIGATORISK.filter(function (id) { return !v2VisVerdi(id); });
@@ -2504,6 +2541,7 @@
     // Saving a section updates the draft. Required fields are checked when ordering or sharing.
     ++logoRequest;
     setCropEditing(false);
+    if (lagre && gruppe.id === 'kampanje' && !v2LagrePakke()) return;
     if (lagre) {
       gruppe.felt.forEach(function (felt) { v2Lagre(felt[0]); });
       if (tilstand.forslagSpor) {
