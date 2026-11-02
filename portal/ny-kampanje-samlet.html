@@ -309,7 +309,7 @@ h1[tabindex="-1"]:focus { outline:none; }
 <section class="card card--action receipt" id="receipt-view" hidden aria-labelledby="receipt-heading"><span class="badge badge--active">Eksempel på bestillingsbekreftelse</span><h1 class="text-h2" id="receipt-heading" tabindex="-1">Slik ser bekreftelsen ut</h1><p>Dette er en lokal prototype. Ingen bestilling er sendt.</p><div class="receipt-details" id="receipt-details"></div><div class="btn-group"><button type="button" class="btn btn--primary" id="back-to-order">Tilbake til bestillingen</button></div></section>
 <p id="live-status" class="sr-only" role="status" aria-live="polite"></p>
 <dialog class="calculator-dialog editor" id="edit-dialog" aria-labelledby="editor-title"><form id="edit-form"><header class="calculator-dialog__hode"><h2  id="editor-title"></h2><button class="btn btn--ghost calculator-dialog__lukk" type="button" id="close-editor" aria-label="Lukk redigering"><span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button></header><div id="editor-body" class="form-grid"></div><footer class="calculator-dialog__bunn"><button type="button" class="btn btn--secondary" id="cancel-editor">Avbryt</button><button type="submit" class="btn btn--primary">Lagre endringer</button></footer></form></dialog>
-</main></div></div><script src="data/frantz-data.js"></script><script src="../components/js/picker.js?v=8"></script><script src="data/connect.js?v=4"></script><script src="data/pakker.js?v=19"></script><script src="../components/js/reach-model.js"></script><script>(() => {
+</main></div></div><script src="data/frantz-data.js"></script><script src="../components/js/picker.js?v=8"></script><script src="data/connect.js?v=4"></script><script src="data/pakker.js?v=20"></script><script src="../components/js/reach-model.js"></script><script>(() => {
   'use strict';
   const $ = id => document.getElementById(id);
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -638,5 +638,5 @@ Instrukser: Frantz kan avklare kostnaden for design med oss. Budsjettet må legg
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
-<script src="data/kampanjer.js?v=20261102-names"></script>
+<script src="data/kampanjer.js?v=20261102-channels"></script>
 <script src="../components/js/konto.js?v=20261029-mvp"></script></body></html>

@@ -24,6 +24,14 @@ window.FZ_PAKKER = (function () {
     { navn: 'TikTok', k: 'tiktok', min: 5000, maks: 12000 },
     { navn: 'Nettsteder og aviser', k: 'nettsteder', min: 8000, maks: 65000 }
   ];
+  // Keep channel choices and package summaries in the same order, regardless of click order.
+  function sorter(kanaler) {
+    var navn = KANALER.map(function (c) { return c.navn; });
+    return (kanaler || []).slice().sort(function (a, b) {
+      var ai = navn.indexOf(a), bi = navn.indexOf(b);
+      return (ai < 0 ? navn.length : ai) - (bi < 0 ? navn.length : bi);
+    });
+  }
   // Sum of the minimum (and maximum) spend for the picked channels. No channels: Frantz picks, so no minimum here.
   function rad(kanaler) {
     var valgte = KANALER.filter(function (c) { return (kanaler || []).indexOf(c.navn) !== -1; });
@@ -61,7 +69,7 @@ window.FZ_PAKKER = (function () {
     var tag = opt.valg ? 'button' : 'article';
     var attr = opt.valg ? ' type="button" data-pakke="' + Number(opt.indeks) + '" aria-pressed="' + !!opt.valgt + '"' : '';
     var pris = Math.round(p.budsjett).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' ');
-    var kanaler = p.kanaler && p.kanaler.length ? p.kanaler.map(function (n) {
+    var kanaler = p.kanaler && p.kanaler.length ? sorter(p.kanaler).map(function (n) {
       var k = KANALER.filter(function (c) { return c.navn === n; })[0];
       return '<span class="pakke-kort__kanal">' + (k ? '<span class="kanal-logo kanal-logo--sm kanal-logo--' + k.k + '" aria-hidden="true"></span>' : '') + esc(n) + '</span>';
     }).join('') : '<span>Kanalene Frantz anbefaler</span>';
@@ -76,6 +84,7 @@ window.FZ_PAKKER = (function () {
   return {
     kort: kort,
     KANALER: KANALER,
+    sorter: sorter,
     TILLEGG: TILLEGG,
     rad: rad,
     alle: synlige,
@@ -103,7 +112,7 @@ window.FZ_PAKKER = (function () {
     tilbake: function (p) { var i = p._plass; delete p._plass; liste.splice(i >= 0 ? i : liste.length, 0, p); lagre(); },
     pris: function (p) { return p.budsjett; },
     kanalTekst: function (p) {
-      return p.kanaler ? p.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1') : 'Kanalene Frantz anbefaler';
+      return p.kanaler ? sorter(p.kanaler).join(', ').replace(/, ([^,]*)$/, ' og $1') : 'Kanalene Frantz anbefaler';
     },
     // The channels this package does not include, so a smaller package is an informed choice
     ikkeMed: function (p) {
@@ -112,7 +121,7 @@ window.FZ_PAKKER = (function () {
     },
     linjer: function (p) { return (p.uker ? [p.uker + ' uker'] : []).concat([this.kanalTekst(p)]); },
     logoer: function (p) {
-      return (p.kanaler || []).map(function (n) {
+      return sorter(p.kanaler).map(function (n) {
         var k = KANALER.filter(function (c) { return c.navn === n; })[0];
         return k ? '<span class="kanal-logo kanal-logo--' + k.k + '"></span>' : '';
       }).join('');

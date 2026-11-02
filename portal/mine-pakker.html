@@ -119,15 +119,14 @@
           <div class="skjema__rad">
             <div class="form-group"><label class="form-label" for="p-navn">Navn på pakken</label><input class="form-input" id="p-navn" placeholder="F.eks. Liten, Mellom eller Stor" autocomplete="off"></div>
           </div>
-          <fieldset class="kanal-liste pakke-felt" id="p-kanaler">
-            <legend class="form-label">Kanaler</legend>
-          </fieldset>
-          <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
-          <!-- Budget comes after the channels, so the minimum spend is known when you type it -->
           <div class="skjema__rad pakke-felt">
             <div class="form-group"><label class="form-label" for="p-budsjett">Budsjett (kr)</label><input class="form-input" id="p-budsjett" inputmode="numeric" placeholder="F.eks. 15 000" aria-describedby="p-budsjett-hint">
               <p class="form-hint" id="p-budsjett-hint">Perioden velger du på hver kampanje. Frantz fordeler budsjettet over perioden.</p></div>
           </div>
+          <fieldset class="kanal-liste pakke-felt" id="p-kanaler">
+            <legend class="form-label">Kanaler</legend>
+          </fieldset>
+          <p class="form-hint" style="margin-top: var(--space-6)">Velg ingen hvis Frantz skal velge kanalene for hver stilling.</p>
           <!-- Shown only when the budget is below the minimum for the picked channels -->
           <div class="alert alert--warning pakke-rad" id="p-rad" role="status" aria-live="polite" hidden>
             <span class="icon-lucide icon-lucide--triangle-alert alert__icon" aria-hidden="true"></span>
@@ -152,7 +151,7 @@
   </div>
 </div>
 
-<script src="data/pakker.js?v=19"></script>
+<script src="data/pakker.js?v=20"></script>
 <script>
 // Pakker
 function kr(n) { return 'kr ' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
@@ -236,7 +235,7 @@ tegnPakker();
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
-<script src="data/kampanjer.js?v=20261102-names"></script>
+<script src="data/kampanjer.js?v=20261102-channels"></script>
 <script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>

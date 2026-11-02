@@ -1,5 +1,17 @@
-/* Sharing remains beside the campaign material, with the response in the same area. */
-.approval-inline { margin-top: var(--space-20); padding-top: var(--space-20); border-top: 1px solid var(--border-default); }
+/* Requests open in one shared modal; their status stays beside the campaign material. */
+.approval-dialog { position: fixed; inset: 0; margin: auto; width: min(520px, calc(100vw - 2 * var(--space-16))); max-height: calc(100dvh - 2 * var(--space-32)); padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: var(--shadow-dialog); overflow: auto; }
+.approval-dialog::backdrop { background: color-mix(in srgb, var(--bg-navy-strong) 48%, transparent); }
+.approval-dialog .approval-inline { margin: 0; padding: 0; border: 0; }
+.approval-dialog .approval-inline__head { flex-wrap: nowrap; align-items: flex-start; }
+.approval-dialog .approval-inline__head h3 { flex: 1; }
+.approval-dialog .del-panel__to { grid-template-columns: minmax(0, 1fr); }
+.approval-dialog__close { display: grid; place-items: center; flex: none; width: var(--space-44); height: var(--space-44); margin: calc(var(--space-8) * -1) calc(var(--space-8) * -1) 0 0; padding: 0; border: 0; border-radius: var(--radius-full); background: none; color: var(--text-heading); cursor: pointer; }
+.approval-dialog__close:hover { background: var(--surface-subtle); }
+.approval-dialog__close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.approval-confirm__form { display: grid; gap: var(--space-24); }
+.approval-confirm__form p, .approval-confirm__form .form-group { margin: 0; }
+.approval-confirm__form .form-group { display: grid; gap: var(--space-8); }
+.approval-confirm__actions { justify-content: flex-end; }
 .approval-trigger[hidden], .approval-inline[hidden], .approval-inline [hidden], .approval-summary[hidden], .approval-preview [hidden], .approval-page [hidden] { display: none !important; }
 .approval-inline__head, .approval-summary__head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); }
 .approval-inline__head h3 { margin: 0; font: var(--type-section); }
@@ -53,7 +65,6 @@
 .approval-response { display: grid; gap: var(--space-12); padding: var(--space-24); border: 1px solid var(--border-default); border-radius: var(--radius-16); background: var(--surface-raised); }
 .approval-response h2, .approval-response p { margin: 0; }
 .approval-response .btn-row { margin-top: var(--space-8); }
-.approval-changes { display: grid; gap: var(--space-12); margin-top: var(--space-20); }
 .approval-response-error { color: var(--text-danger-moderate); font: var(--type-support); }
 .approval-landing h3 { margin-top: var(--space-24); font: var(--type-section); }
 .approval-landing p { white-space: pre-wrap; }
@@ -74,6 +85,7 @@
 .approval-demo-creative .icon-lucide { color: var(--text-on-navy); }
 .approval-demo-note { max-width: 420px; margin: var(--space-12) auto 0; }
 @media(max-width: 640px) {
+  .approval-dialog { width: calc(100vw - 2 * var(--space-8)); max-height: calc(100dvh - 2 * var(--space-8)); padding: var(--space-24) var(--space-16); }
   .approval-page { padding: var(--space-24) var(--space-16) var(--space-44); }
   .approval-inline .del-panel__to { grid-template-columns: minmax(0, 1fr); }
   .approval-response { padding: var(--space-16); }

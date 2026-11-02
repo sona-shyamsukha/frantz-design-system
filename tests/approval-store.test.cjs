@@ -14,10 +14,12 @@ test('opening an unexpired request leaves it pending', () => {
   assert.equal(pending.answered, undefined);
 });
 test('approval preserves the invited recipient, version and snapshot', () => {
-  const approved = store.transition(pending, 'approved', '', now);
+  const approved = store.transition(pending, 'approved', '  godkjent  ', now);
   assert.equal(approved.email, pending.email);
   assert.equal(approved.version, 2);
   assert.equal(approved.content.budget, 15000);
+  assert.equal(approved.comment, 'godkjent');
+  assert.equal(approved.responseState, 'approved');
   assert.equal(approved.answered, '2026-10-22T09:00:00.000Z');
   assert.equal(pending.state, 'pending');
 });

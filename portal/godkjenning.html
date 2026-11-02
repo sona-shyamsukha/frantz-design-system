@@ -8,7 +8,7 @@
 <title>Godkjenning — Frantz</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=214">
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
-<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
 </head>
 <body>
 <a class="hopp" href="#innhold">Hopp til innholdet</a>
@@ -30,8 +30,7 @@
     <blockquote class="approval-comment" id="request-message" hidden></blockquote>
     <section class="approval-page__section approval-response" id="request-response-top" data-approval-response aria-labelledby="response-title-top" hidden>
       <h2 id="response-title-top">Ditt svar</h2><p data-response-effect></p>
-      <div class="btn-row"><button class="btn btn--accent" type="button" data-approve-request>Godkjenn</button><button class="btn btn--secondary" type="button" data-request-change aria-expanded="false" aria-controls="change-form-top">Be om endring</button></div>
-      <form class="approval-changes" id="change-form-top" data-change-form hidden><label class="form-label" for="change-comment-top">Hva må endres?</label><textarea class="form-textarea" id="change-comment-top" data-change-comment rows="4" required aria-describedby="response-error-top"></textarea><button class="btn btn--primary" type="submit">Send endringsønske</button></form>
+      <div class="btn-row"><button class="btn btn--accent" type="button" aria-haspopup="dialog" data-approve-request>Godkjenn</button><button class="btn btn--secondary" type="button" data-request-change aria-haspopup="dialog">Be om endring</button></div>
       <p class="approval-response-error" id="response-error-top" data-response-error role="alert" hidden></p>
     </section>
     <section class="approval-page__section" id="request-plan" aria-labelledby="plan-title" hidden>
@@ -51,8 +50,7 @@
     </section>
     <section class="approval-page__section approval-response" id="request-response" data-approval-response aria-labelledby="response-title" hidden>
       <h2 id="response-title">Ditt svar</h2><p id="response-effect" data-response-effect></p>
-      <div class="btn-row"><button class="btn btn--accent" type="button" id="approve-request" data-approve-request>Godkjenn</button><button class="btn btn--secondary" type="button" id="request-change" data-request-change aria-expanded="false" aria-controls="change-form">Be om endring</button></div>
-      <form class="approval-changes" id="change-form" data-change-form hidden><label class="form-label" for="change-comment">Hva må endres?</label><textarea class="form-textarea" id="change-comment" data-change-comment rows="4" required aria-describedby="response-error"></textarea><button class="btn btn--primary" type="submit">Send endringsønske</button></form>
+      <div class="btn-row"><button class="btn btn--accent" type="button" id="approve-request" aria-haspopup="dialog" data-approve-request>Godkjenn</button><button class="btn btn--secondary" type="button" id="request-change" data-request-change aria-haspopup="dialog">Be om endring</button></div>
       <p class="approval-response-error" id="response-error" data-response-error role="alert" hidden></p>
     </section>
     <section class="approval-page__section approval-response" id="request-receipt" role="status" hidden><h2 id="receipt-title" tabindex="-1"></h2><p id="receipt-body"></p><p class="approval-page__meta" id="receipt-time"></p><blockquote class="approval-comment" id="receipt-comment" hidden></blockquote></section>
@@ -60,12 +58,13 @@
   </div>
 </main>
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="../components/js/approval-store.js?v=20261102-demo"></script>
+<script src="../components/js/approval-store.js?v=20261102-confirm"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
 <script src="../components/js/brand-store.js?v=20261029-mvp"></script>
 <script src="../components/js/approval-preview.js?v=3"></script>
-<script src="../components/js/approval-review.js?v=20261102-demo"></script>
+<script src="../components/js/approval-confirm.js?v=20261102-response-modal"></script>
+<script src="../components/js/approval-review.js?v=20261102-response-modal"></script>
 </body>
 </html>

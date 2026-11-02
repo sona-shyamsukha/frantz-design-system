@@ -13,6 +13,22 @@
   }
   function bindContacts() {
     document.querySelectorAll('[data-contact-adviser], a[href="epost-visning.html"]').forEach(function (button) {
+      if (button.dataset.kind === 'endring') {
+        button.textContent = 'Be om endring';
+        button.setAttribute('aria-haspopup', 'dialog');
+        button.addEventListener('click', async function (event) {
+          event.preventDefault();
+          var comment = await root.FrantzApprovalConfirm.open({
+            kind: 'changes',
+            title: 'Be om endring',
+            description: 'Beskriv endringene for «' + document.querySelector('h1').textContent.trim() + '». Neste steg åpner et e-postutkast til Frantz med kommentaren din. Du sender e-posten fra e-postprogrammet.',
+            submitLabel: 'Åpne e-postutkast'
+          });
+          if (comment === null) return;
+          location.href = contactUrl(true, 'Hei,\n\nJeg ønsker disse endringene i annonsene:\n\n' + comment + '\n');
+        });
+        return;
+      }
       var link = document.createElement('a');
       link.className = button.className;
       if (button.id) link.id = button.id;
@@ -24,13 +40,6 @@
       link.innerHTML = button.innerHTML;
       link.href = contactUrl(button.dataset.kind === 'endring');
       link.title = 'Åpner en e-post til Frantz';
-      if (link.dataset.kind === 'endring') {
-        var icon = document.createElement('span');
-        icon.className = 'icon-lucide icon-lucide--mail icon-lucide--sm';
-        icon.setAttribute('aria-hidden', 'true');
-        link.replaceChildren(icon, document.createTextNode('Be om endring på e-post'));
-        link.title = 'Åpner e-postprogrammet ditt med kampanjenummer og emne fylt ut';
-      }
       button.replaceWith(link);
     });
   }
@@ -102,23 +111,34 @@
         document.getElementById('production-description').textContent = 'Kunne ikke hente siste godkjenning. Last siden på nytt før dere gir klarsignal.';
       }
     }
+    var confirmingApproval = false;
     approve.addEventListener('click', async function () {
-      if (approve.disabled) return;
-      approve.disabled = true;
+      if (approve.disabled || confirmingApproval) return;
+      confirmingApproval = true;
       try {
+        var before = await root.FrantzApprovals.list(productionCampaign.approvalKey || productionCampaign.id);
+        var expected = before.find(function (item) { return item.round === 'material'; });
+        if (expected && !['approved', 'revoked'].includes(root.FrantzApprovals.status(expected))) { await refreshProduction(); return; }
+        var comment = await root.FrantzApprovalConfirm.open({
+          title: 'Godkjenn annonsene?',
+          description: 'Du gir Frantz klarsignal til å publisere annonsene for «' + document.querySelector('h1').textContent.trim() + '». Frantz bekrefter oppstart.'
+        });
+        if (comment === null) return;
+        approve.disabled = true;
         var records = await root.FrantzApprovals.list(productionCampaign.approvalKey || productionCampaign.id);
         var request = records.find(function (item) { return item.round === 'material'; });
+        if ((request ? request.id : null) !== (expected ? expected.id : null)) throw new Error('approval-changed');
         if (request && !['approved', 'revoked'].includes(root.FrantzApprovals.status(request))) { await refreshProduction(); return; }
-        root.FrantzCampaignActivity.append(productionCampaign.id, { key: 'material-approved:' + (request ? request.id : 'current'), approvalId: request && request.id, kind: 'material-approved', title: 'Klarsignal for publisering gitt', body: 'Godkjent av bestiller i portalen. Frantz bekrefter oppstart.' });
+        root.FrantzCampaignActivity.append(productionCampaign.id, { key: 'material-approved:' + (request ? request.id : 'current'), approvalId: request && request.id, kind: 'material-approved', title: 'Klarsignal for publisering gitt', comment: comment, body: 'Godkjent av bestiller i portalen. Kommentar: ' + comment + '. Frantz bekrefter oppstart.' });
         await refreshProduction();
         sections.select('kampanje');
         var title = document.getElementById('production-title'); title.tabIndex = -1; title.focus({ preventScroll: true });
         document.getElementById('production-status').scrollIntoView({ block: 'start' });
       } catch (error) {
+        await refreshProduction();
         document.getElementById('material-customer-status').hidden = false;
-        document.getElementById('material-customer-status').textContent = 'Kunne ikke lagre klarsignalet. Prøv igjen.';
-        approve.disabled = false;
-      }
+        document.getElementById('material-customer-status').textContent = error.message === 'approval-changed' ? 'Godkjenningsgrunnlaget er endret. Se gjennom annonsene på nytt før dere gir klarsignal.' : 'Kunne ikke lagre klarsignalet. Prøv igjen.';
+      } finally { confirmingApproval = false; }
     });
     root.addEventListener('frantz:material-review', refreshProduction);
     root.addEventListener('frantz:approval-change', refreshProduction);

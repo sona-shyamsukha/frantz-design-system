@@ -9,7 +9,7 @@
 <title>Helsefagarbeider Tromsø — Frantz kampanjeportal</title>
 <link rel="stylesheet" href="../frantz-ds.css?v=214">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
-<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
 <style>
   body { margin: 0; }
 </style>
@@ -95,8 +95,8 @@
             </div>
             <div class="card__footer grid gap-4">
             <div class="btn-row btn-row--stack" data-campaign-approval-actions>
-              <button class="btn btn--primary" type="button" id="approve-campaign-material" >Godkjenn annonsene</button>
-              <button class="btn btn--secondary" type="button" data-contact-adviser data-kind="endring"><span class="icon-lucide icon-lucide--mail icon-lucide--sm" aria-hidden="true"></span>Be om endring på e-post</button>
+              <button class="btn btn--primary" type="button" id="approve-campaign-material" aria-haspopup="dialog">Godkjenn annonsene</button>
+              <button class="btn btn--secondary" type="button" data-contact-adviser data-kind="endring" aria-haspopup="dialog">Be om endring</button>
               <button class="btn btn--secondary" type="button" data-del-godkjenning="del-panel" data-approval-label="Send videre til godkjenning" aria-expanded="false"><span class="icon-lucide icon-lucide--link icon-lucide--sm" aria-hidden="true"></span> Send videre til godkjenning</button>
             </div>
             <p id="material-customer-status" class="form-hint" role="status" hidden>Materiellet er godkjent. Frantz følger opp publisering i et eget steg.</p>
@@ -150,8 +150,8 @@
 
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="../components/js/approval-store.js?v=20261102-demo"></script>
-<script src="../components/js/approval-share.js?v=20261102-demo"></script>
-<script src="data/kampanjer.js?v=20261102-names"></script>
+<script src="../components/js/approval-share.js?v=20261102-modal"></script>
+<script src="data/kampanjer.js?v=20261102-channels"></script>
 <script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
@@ -169,7 +169,8 @@
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
 <script src="../components/js/campaign-sections.js?v=20261028-fix"></script>
 <script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
-<script src="../components/js/campaign-details.js?v=20261102-innstillinger"></script>
-<script src="../components/js/campaign-page.js?v=20261102-back"></script>
+<script src="../components/js/campaign-details.js?v=20261102-confirm"></script>
+<script src="../components/js/approval-confirm.js?v=20261102-response-modal"></script>
+<script src="../components/js/campaign-page.js?v=20261102-response-modal"></script>
 </body>
 </html>

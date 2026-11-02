@@ -197,7 +197,7 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=20261102-names"></script>
+<script src="data/kampanjer.js?v=20261102-channels"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -215,7 +215,7 @@
       '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span>' +
       (visNavn ? '<span class="table__meta">' + esc(navn) + '</span>' : '') +
       '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + '</span></td>' +
-      '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler ? FZ_KANALER.html(k.kanaler) : (k.status === 'Kladd' ? '—' : 'Frantz anbefaler')) + '</td>' +
+      '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler && k.kanaler.length ? FZ_KANALER.html(k.kanaler) : '—') + '</td>' +
       '<td data-label="Kampanje&shy;periode">' + periode + '</td>' +
       '<td data-label="Budsjett">' + (k.budsjett ? kr(k.budsjett) : '<span class="table__tom">Ikke valgt</span>') + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +

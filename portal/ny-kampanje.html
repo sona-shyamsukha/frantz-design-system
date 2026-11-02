@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../frantz-ds.css?v=214">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
-<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
+<link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
 <style>
   body { margin: 0; }
 
@@ -73,11 +73,6 @@
   .an-intro .icon-lucide { flex: none; margin-top: var(--space-2); color: var(--color-amber-ink); }
   .an-bilde__knapper { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); margin-top: var(--space-4); }
   .an-farger[hidden] { display: none; }
-  .an-mer { padding-top: var(--space-16); }
-
-
-
-
   .an-mer__hva { color: var(--text-muted); font: var(--type-support); }
   .an-mer__innhold, .an-farger { display: grid; gap: var(--space-16); }
   .an-mer__innhold { margin-top: var(--space-16); }
@@ -248,21 +243,6 @@
   #funnet-kort .funnet { gap: var(--space-field-gap); }
   .felt[hidden], #sum-tillegg-rad[hidden], #sum-hjelp-rad[hidden], #sum-pakke-rad[hidden], #sum-kommentar-rad[hidden] { display: none; }
   /* Channels: one list, Frantz's choices ticked first */
-  /* Approval modal matches the simplified campaign flow. */
-  dialog.plan-dialog { position: fixed; inset: 0; margin: auto; height: fit-content; width: min(520px, calc(100vw - 2 * var(--space-16))); max-height: calc(100vh - 2 * var(--space-32)); padding: var(--space-32); border: 0; border-radius: var(--radius-16); background: var(--surface-raised); color: var(--text-body); box-shadow: 0 24px 64px rgb(0 0 0 / 0.24); overflow: auto; }
-  .plan-dialog::backdrop { background: rgb(15 23 42 / 0.48); }
-  .plan-dialog .approval-inline { margin: 0; padding: 0; border: 0; }
-  .plan-dialog .approval-inline__head { flex-wrap: nowrap; align-items: flex-start; }
-  .plan-dialog .approval-inline__head h3 { flex: 1; font: var(--type-section); }
-  .plan-dialog .del-panel__to { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-16); }
-  .plan-dialog .approval-inline__actions { margin-top: var(--space-8); }
-  .plan-dialog .approval-inline__actions .form-hint { display: none; }
-  .plan-dialog__close { display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin: calc(var(--space-8) * -1) calc(var(--space-8) * -1) 0 0; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-heading); cursor: pointer; }
-  .plan-dialog__close:hover { background: var(--surface-subtle); }
-  .plan-dialog__close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-  .plan-dialog .approval-form { margin-top: var(--space-16); }
-  @media (max-width: 600px) { dialog.plan-dialog { margin: auto 0 0; width: 100vw; max-width: 100vw; padding: var(--space-24) var(--space-16); border-radius: var(--radius-16) var(--radius-16) 0 0; } }
-
   /* «Send planen til godkjenning» */
   .del-panel { display: grid; gap: var(--space-8); padding: var(--space-16); border-radius: var(--radius-12); background: var(--surface-subtle); }
   .del-panel[hidden] { display: none; }
@@ -1713,15 +1693,15 @@
 <script src="../components/js/annonse-studio.js?v=2"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
-<script src="data/pakker.js?v=19"></script>
+<script src="data/pakker.js?v=20"></script>
 <script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
 <script src="../components/js/approval-store.js?v=20261102-demo"></script>
-<script src="../components/js/approval-share.js?v=20261102-demo"></script>
+<script src="../components/js/approval-share.js?v=20261102-modal"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
-<script src="data/kampanjer.js?v=20261102-names"></script>
+<script src="data/kampanjer.js?v=20261102-channels"></script>
 <script src="data/connect.js?v=4"></script>
 <script src="../components/js/picker.js?v=8"></script>
 <script src="../components/js/reach-model.js?v=5"></script>
@@ -1742,10 +1722,7 @@
   var R = window.FrantzRekkevidde;
   var $ = function (id) { return document.getElementById(id); };
   var kr = function (n) { return 'kr ' + R.tall(n); };
-  var KANALER = [
-    { navn: 'Meta', k: 'meta' }, { navn: 'LinkedIn', k: 'linkedin' }, { navn: 'Snapchat', k: 'snapchat' },
-    { navn: 'TikTok', k: 'tiktok' }, { navn: 'Nettsteder og aviser', k: 'nettsteder' }
-  ];
+  var KANALER = FZ_PAKKER.KANALER;
   // Lowest spend per channel, from Tore's mail (FZ_PAKKER)
   var KANAL_MIN = {};
   FZ_PAKKER.KANALER.forEach(function (c) { KANAL_MIN[c.navn] = c.min; });
@@ -2065,7 +2042,7 @@
   function v2VisVerdi(id) {
     var ok = tilstand.v2ok || {}, kilde = tilstand.v2kilde || {};
     if (id === 'budsjett') return budsjett() ? kr(budsjett()) : '';
-    if (id === 'kanaler') return tilstand.kanaler.join(', ');
+    if (id === 'kanaler') return FZ_PAKKER.sorter(tilstand.kanaler).join(', ');
     if (id === 'periode') return tilstand.periodeApent ? '' : periodeTekst();
     if (id === 'pakke') return pakkeTekst();
     if (id === 'produkter') return tilleggListe().join(', ') || 'Ingen tilleggsprodukter valgt';
@@ -2301,7 +2278,7 @@
     else if (id === 'arbeidsgiver') ok.arbeidsgiver = $('arbeidsgiver').value.trim();
     else if (id === 'frist') ok.frist = $('frist').value ? kort($('frist').value) : '';
     else if (id === 'budsjett') ok.budsjett = budsjett() ? kr(budsjett()) : '';
-    else if (id === 'kanaler') ok.kanaler = tilstand.kanaler.join(', ');
+    else if (id === 'kanaler') ok.kanaler = FZ_PAKKER.sorter(tilstand.kanaler).join(', ');
     else if (id === 'periode') ok.periode = periodeTekst();
     else if (id === 'materiell') ok.materiell = v2matValg === 'hjelp' ? 'Frantz lager annonsen' : v2matValg === 'bygg' ? 'Lager annonsen selv' : v2matValg === 'ferdig' ? 'Ferdig materiell' : '';
     else if (id === 'fil') ok.fil = v2Filnavn().join(', ');
@@ -2441,14 +2418,14 @@
     var select = document.createElement('select'); select.id = 'v2-pakke'; select.className = 'form-select';
     var standard = document.createElement('option'); standard.value = ''; standard.textContent = 'Eget budsjett og kanaler'; select.appendChild(standard);
     PAKKER.forEach(function (p, index) {
-      var option = document.createElement('option'); option.value = String(index); option.textContent = p.navn + ' · ' + kr(p.budsjett) + ' · ' + (p.kanaler || []).join(', ');
+      var option = document.createElement('option'); option.value = String(index); option.textContent = p.navn + ' · ' + kr(p.budsjett) + ' · ' + FZ_PAKKER.sorter(p.kanaler).join(', ');
       option.selected = p.navn === tilstand.pakke; select.appendChild(option);
     });
     var detaljer = document.createElement('p'); detaljer.className = 'form-hint'; detaljer.id = 'v2-pakke-detaljer'; detaljer.setAttribute('aria-live', 'polite');
     select.setAttribute('aria-describedby', detaljer.id);
     function visPakkedetaljer() {
       var pakke = select.value === '' ? null : PAKKER[Number(select.value)];
-      detaljer.textContent = pakke ? kr(pakke.budsjett) + ' · ' + (pakke.kanaler || []).join(', ') + '. Perioden velger dere separat.' : 'En pakke fyller ut budsjett og kanaler. Perioden velger dere separat.';
+      detaljer.textContent = pakke ? kr(pakke.budsjett) + ' · ' + FZ_PAKKER.sorter(pakke.kanaler).join(', ') + '. Perioden velger dere separat.' : 'En pakke fyller ut budsjett og kanaler. Perioden velger dere separat.';
     }
     select.addEventListener('change', function () {
       visPakkedetaljer();
@@ -2513,6 +2490,7 @@
     $('v2-dialog-feil').textContent = feil.tekst; $('v2-dialog-feil').hidden = false;
     return false;
   }
+  $('v2-del').setAttribute('aria-haspopup', 'dialog');
   $('v2-del').addEventListener('click', function () {
     if (!v2KrevBestilling()) return;
     $('del-knapp').disabled = false; $('del-knapp').click();
@@ -3245,10 +3223,10 @@
     var anb = anbefalt();
     // While the user has not changed anything, the ticks follow Frantz's advice
     if (tilstand.kanalmodus === 'frantz') tilstand.kanaler = anb.slice();
+    tilstand.kanaler = FZ_PAKKER.sorter(tilstand.kanaler);
     if (anb.join('|') !== sisteAnbefalt) {
       sisteAnbefalt = anb.join('|');
-      var rekke = KANALER.filter(function (c) { return anb.indexOf(c.navn) !== -1; }).concat(KANALER.filter(function (c) { return anb.indexOf(c.navn) === -1; }));
-      $('kanal-valg').innerHTML = rekke.map(function (c) {
+      $('kanal-valg').innerHTML = KANALER.map(function (c) {
         // The same checkbox card as the add-ons: logo and name, the channel's lowest spend on the right
         return '<label class="form-check form-check--kort flere__valg"><input class="form-check__input" type="checkbox" data-kanal="' + c.navn + '"><span class="form-check__box" aria-hidden="true"></span>' +
           '<span class="flere__tekst"><b class="kanal-valg__navn"><span class="kanal-logo kanal-logo--' + c.k + '" aria-hidden="true"></span>' + c.navn + '</b></span>' +
@@ -3266,13 +3244,13 @@
     var valgte = kanalListe && kanalListe.length ? kanalListe : tilstand.kanaler;
     var kanaler = !kanalListe && (tilstand.kanalmodus === 'frantz' || !tilstand.kanaler.length)
       ? 'kanalene Frantz anbefaler'
-      : valgte.join(', ').replace(/, ([^,]*)$/, ' og $1');
+      : FZ_PAKKER.sorter(valgte).join(', ').replace(/, ([^,]*)$/, ' og $1');
     return 'Med <strong>kr ' + R.tall(b) + '</strong> over <strong>' + periode + ' på ' + kanaler +
       ' kan dere vente rundt <strong>' + R.spenn(r.visninger) + '</strong> visninger, <strong>' + R.spenn(r.klikk) +
       '</strong> klikk og <strong>' + R.spenn(r.sok) + '</strong> som trykker «Søk».';
   }
   function kanalTekst() {
-    return tilstand.kanaler.join(', ') + (tilstand.kanalmodus === 'frantz' ? ' (Frantz anbefaler)' : '');
+    return FZ_PAKKER.sorter(tilstand.kanaler).join(', ') + (tilstand.kanalmodus === 'frantz' ? ' (Frantz anbefaler)' : '');
   }
   $('kanal-valg').addEventListener('change', function (e) {
     var x = e.target; if (!x.dataset.kanal) return;
@@ -3444,7 +3422,7 @@
     var ferdig = modus === 'ferdig' || (a.erFerdig && harBilde);
     synkFaner($('materiell-valg'), $('materiell-' + valg));
     $('materiell-designinfo').hidden = valg !== 'hjelp';
-    $('materiell-kanaler').textContent = tilstand.kanaler.length ? tilstand.kanaler.join(', ').replace(/, ([^,]*)$/, ' og $1') : 'kanalene dere har valgt';
+    $('materiell-kanaler').textContent = tilstand.kanaler.length ? FZ_PAKKER.sorter(tilstand.kanaler).join(', ').replace(/, ([^,]*)$/, ' og $1') : 'kanalene dere har valgt';
     $('annonse-frantz').hidden = modus !== 'hjelp';
     $('annonse-ferdig').hidden = modus !== 'ferdig';
     $('annonse-bygg').hidden = modus !== 'bygg';
@@ -3495,7 +3473,7 @@
     $('an-bg-hint').textContent = a.logoUrl ? 'Tekstfargen tilpasses automatisk. Logoen beholder originalfargene.' : 'Tekstfargen tilpasses automatisk.';
     $('an-mer').hidden = !harBilde;
     // The preview
-    $('v2-preview-kanaler').textContent = tilstand.kanaler.length ? 'Valgte kanaler: ' + tilstand.kanaler.join(', ') + (tilstand.kanaler.indexOf('Meta') !== -1 ? '. Meta omfatter Facebook og Instagram' + (modus === 'ferdig' ? ', inkludert Stories' : '') + '.' : '.') : 'Eksempelvisning. Velg kanaler under Kampanjen for å se riktige plasseringer.';
+    $('v2-preview-kanaler').textContent = tilstand.kanaler.length ? 'Valgte kanaler: ' + FZ_PAKKER.sorter(tilstand.kanaler).join(', ') + (tilstand.kanaler.indexOf('Meta') !== -1 ? '. Meta omfatter Facebook og Instagram' + (modus === 'ferdig' ? ', inkludert Stories' : '') + '.' : '.') : 'Eksempelvisning. Velg kanaler under Kampanjen for å se riktige plasseringer.';
     var vis = kanalVisninger();
     if (!vis.some(function (v) { return v[0] === a.kanal; })) a.kanal = vis[0][0];
     var kanalNavn = vis.filter(function (v) { return v[0] === a.kanal; })[0][1];
@@ -4023,24 +4001,10 @@
       if (latest && FrantzApprovals.status(latest) === 'revoked' && fokusBorte && !$('v2-del').hidden) $('v2-del').focus();
     }
   });
+  $('v2-del').setAttribute('aria-controls', $('del-knapp').getAttribute('aria-controls'));
   var planSummary = $('blokk-del').querySelector('.approval-summary');
   $('v2-godkjenning').appendChild(planSummary);
-  var editor = $('blokk-del').querySelector('.approval-inline'), dialog = document.createElement('dialog');
-  dialog.className = 'plan-dialog'; document.body.appendChild(dialog); dialog.appendChild(editor);
-  function avbryt() { var b = editor.querySelector('.approval-inline__head button'); if (b) b.click(); }
-  dialog.addEventListener('cancel', function (e) { e.preventDefault(); avbryt(); });
-  dialog.addEventListener('click', function (e) { if (e.target === dialog) avbryt(); });
-  new MutationObserver(function () {
-    if (!editor.hidden && !dialog.open) {
-      // A cross closes the dialog instead of «Avbryt»
-      var lukk = editor.querySelector('.approval-inline__head button');
-      if (lukk) { lukk.className = 'plan-dialog__close'; lukk.setAttribute('aria-label', 'Lukk'); lukk.innerHTML = '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span>'; }
-      dialog.setAttribute('aria-labelledby', editor.id + '-title'); dialog.showModal();
-      var f = editor.querySelector('input'); if (f) f.focus();
-    }
-    else if (editor.hidden && dialog.open) dialog.close();
-  }).observe(editor, { attributes: true, attributeFilter: ['hidden'] });
-  $('del-knapp').setAttribute('aria-haspopup', 'dialog');
+
 
   function checkApprovalVersion() {
     if (materialEditId) return;

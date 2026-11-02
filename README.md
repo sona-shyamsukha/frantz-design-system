@@ -64,10 +64,19 @@ Component changes and remaining integration gaps are tracked in the
 
 ## Approval prototype
 
-`Send planen til godkjenning` and `Send annonsene til godkjenning` expand an inline recipient form beside the campaign material. One name and email are required.
+`Send planen til godkjenning`, `Send annonsene til godkjenning` and `Send ny forespørsel` open the same recipient modal. One name and email are required. Escape, the close button and the backdrop dismiss the modal and return focus to its opener; request status stays beside the campaign material.
 Campaign-plan approval is available on the last creation step; material approval is
 available on campaign pages and on locally submitted orders with creative material.
 The recipient opens `godkjenning.html?request=...` without signing in. Each request
+requires a separate confirmation modal before approval: type `godkjent`, then
+choose `Send godkjenning`. The same confirmation protects the account holder's
+final publication go-ahead. Closing or cancelling the modal records no approval;
+the submitted comment is preserved with the response or campaign event.
+`Be om endring` uses the same modal at both response locations on the recipient page,
+with a required description and an explicit `Send endringsønske` action. On the
+campaign page it uses the same comment dialog before `Åpne e-postutkast`; that
+action prepares an email to Frantz and does not send it or register a reply locally.
+Each request
 stores an immutable version of the plan and creative, including original uploaded
 images, video, custom logos and crop settings. Replies persist and refresh the sender's
 view across tabs. Revised plans require a fresh request; ordering remains a separate action.

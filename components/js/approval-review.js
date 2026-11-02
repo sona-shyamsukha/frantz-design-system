@@ -4,7 +4,7 @@
   var Store = window.FrantzApprovals, params = new URLSearchParams(location.search), requestId = params.get('request'), current, renderedId, expiryTimer;
   var $ = function (id) { return document.getElementById(id); };
   var responseSections = Array.from(document.querySelectorAll('[data-approval-response]'));
-  var submitting = false;
+  var submitting = false, changeDraft = '';
   var money = function (n) { return Math.round(Number(n) || 0).toLocaleString('nb-NO') + ' kr'; };
   var date = function (value) { return new Date(value).toLocaleString('nb-NO', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Oslo' }); };
   function unavailable(state) {
@@ -21,6 +21,7 @@
   function render(request) {
     clearTimeout(expiryTimer); current = request;
     var state = Store.status(request);
+    if (state !== 'pending') window.FrantzApprovalConfirm.cancel();
     if (['missing', 'expired', 'revoked', 'superseded'].includes(state)) { unavailable(state); return; }
     var content = request.content, plan = request.round === 'plan', what = plan ? 'kampanjeplanen' : 'annonsemateriellet';
     document.title = 'Godkjenn ' + what + ': ' + content.title + ' — Frantz';
@@ -52,7 +53,6 @@
     $('ads-hint').textContent = plan ? 'Du godkjenner kampanjeplanen nå. Ferdige annonser godkjennes i en egen runde før publisering.' : 'Godkjenningen gjelder alt materiellet i denne forespørselen, på tvers av kanaler og formater.';
     if (content.ads && content.ads.length) {
       $('ads-hint').textContent = 'Alle ' + content.ads.length + ' annonser nedenfor inngår i forespørselen. Hvis noe må endres, skriv hvilken annonse det gjelder i tilbakemeldingen.';
-      responseSections.forEach(function (section) { section.querySelector('[data-change-comment]').placeholder = 'F.eks. I «' + content.ads[Math.min(1, content.ads.length - 1)].name + '» vil vi endre …'; });
     }
     if (content.example) $('ads-hint').textContent += ' Dette er eksempelinnhold i prototypen.';
     if (renderedId !== request.id) { window.FrantzApprovalPreview.mount($('request-preview'), content); renderedId = request.id; }
@@ -85,28 +85,43 @@
     catch (e) { unavailable('storage'); }
     finally { $('approval-loading').hidden = true; }
   }
-  async function respond(state, section) {
+  async function respond(state, section, comment) {
     if (submitting) return;
-    var error = section.querySelector('[data-response-error]'), field = section.querySelector('[data-change-comment]');
+    var error = section.querySelector('[data-response-error]');
     error.hidden = true;
-    var comment = field.value.trim();
-    if (state === 'changes' && !comment) { error.hidden = false; error.textContent = 'Skriv hva som må endres.'; field.focus(); return; }
+    if (state === 'approved' && !window.FrantzApprovalConfirm.isConfirmed(comment)) return;
+    if (state === 'changes' && !String(comment || '').trim()) return;
     submitting = true;
     var buttons = document.querySelectorAll('[data-approval-response] button'); buttons.forEach(function (button) { button.disabled = true; });
-    try { var saved = await Store.respond(requestId, state, comment); render(saved); $('receipt-title').focus(); }
+    try { var saved = await Store.respond(requestId, state, comment); changeDraft = ''; render(saved); $('receipt-title').focus(); }
     catch (e) {
       if (e.message === 'closed') await load();
       else { error.hidden = false; error.textContent = 'Kunne ikke lagre svaret. Prøv igjen. Svaret er ikke registrert.'; }
     } finally { submitting = false; buttons.forEach(function (button) { button.disabled = false; }); }
   }
   responseSections.forEach(function (section) {
-    var change = section.querySelector('[data-request-change]'), form = section.querySelector('[data-change-form]');
-    section.querySelector('[data-approve-request]').addEventListener('click', function () { respond('approved', section); });
-    change.addEventListener('click', function () { var open = form.hidden; form.hidden = !open; change.setAttribute('aria-expanded', String(open)); if (open) section.querySelector('[data-change-comment]').focus(); });
-    form.addEventListener('submit', function (event) { event.preventDefault(); respond('changes', section); });
+    async function openResponse(state) {
+      if (submitting || !current || Store.status(current) !== 'pending') return;
+      var id = current.id, plan = current.round === 'plan', changes = state === 'changes';
+      section.querySelector('[data-response-error]').hidden = true;
+      var ads = current.content.ads || [];
+      var comment = await window.FrantzApprovalConfirm.open({
+        kind: changes ? 'changes' : 'approved',
+        title: changes ? 'Be om endring' : 'Godkjenn ' + (plan ? 'kampanjeplanen?' : 'annonsene?'),
+        description: changes ? 'Endringsønsket sendes til ' + current.sender + '. ' + (plan ? 'Beskriv hva som må endres i kampanjeplanen.' : 'Beskriv endringene i materiellet. Du får en ny forespørsel når det er klart til gjennomgang.') : section.querySelector('[data-response-effect]').textContent,
+        hint: plan ? 'Beskriv hva som må endres i budsjett, kanaler eller periode.' : '',
+        placeholder: changes && !plan && ads.length ? 'F.eks. I «' + ads[Math.min(1, ads.length - 1)].name + '» vil vi endre …' : '',
+        comment: changes ? changeDraft : ''
+      });
+      if (comment === null || !current || current.id !== id || Store.status(current) !== 'pending') return;
+      if (changes) changeDraft = comment;
+      await respond(state, section, comment);
+    }
+    section.querySelector('[data-approve-request]').addEventListener('click', function () { openResponse('approved'); });
+    section.querySelector('[data-request-change]').addEventListener('click', function () { openResponse('changes'); });
   });
   window.addEventListener('storage', function (event) { if (event.key === 'fzApprovalChanged') load(); });
   window.addEventListener('focus', load);
-  window.addEventListener('pagehide', function () { clearTimeout(expiryTimer); });
+  window.addEventListener('pagehide', function () { clearTimeout(expiryTimer); window.FrantzApprovalConfirm.cancel(); });
   load();
 })();

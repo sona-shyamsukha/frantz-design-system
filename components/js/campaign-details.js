@@ -144,7 +144,11 @@
         requests.forEach(function (request) {
           var type = request.round === 'plan' ? 'kampanjeplan' : 'annonser';
           events.push({ at: request.created, title: 'Godkjenning av ' + type + ' opprettet', body: 'Til ' + request.name + ' · ' + request.email + (request.message ? '\n' + request.message : '') });
-          if (request.answered) events.push({ at: request.answered, title: request.comment ? 'Endringer ønsket i ' + type : 'Godkjenning av ' + type + ' mottatt', body: request.comment || request.name + ' har godkjent versjon ' + request.version + '.' });
+          if (request.answered) {
+            // Older records used comments only for changes; new approvals retain a confirmation comment too.
+            var response = request.responseState || (request.state === 'superseded' ? (request.comment ? 'changes' : 'approved') : request.state);
+            events.push({ at: request.answered, title: response === 'changes' ? 'Endringer ønsket i ' + type : 'Godkjenning av ' + type + ' mottatt', body: response === 'changes' ? request.comment : request.name + ' har godkjent versjon ' + request.version + '.' + (request.comment ? '\nKommentar: ' + request.comment : '') });
+          }
           if (request.revoked) events.push({ at: request.revoked, title: 'Godkjenningsforespørselen er trukket tilbake', body: 'Versjon ' + request.version + ' av ' + type + '.' });
         });
       } catch (error) { /* Other recorded developments remain visible if approval storage is unavailable. */ }

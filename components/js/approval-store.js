@@ -30,7 +30,7 @@
     if (status(request, now) !== 'pending') throw new Error('closed');
     if (state !== 'approved' && state !== 'changes') throw new Error('invalid-response');
     if (state === 'changes' && !String(comment || '').trim()) throw new Error('comment-required');
-    return Object.assign({}, request, { state: state, comment: state === 'changes' ? comment.trim() : '', answered: new Date(now === undefined ? Date.now() : now).toISOString() });
+    return Object.assign({}, request, { state: state, responseState: state, comment: String(comment || '').trim(), answered: new Date(now === undefined ? Date.now() : now).toISOString() });
   }
   async function read(id) {
     var db = await database();
