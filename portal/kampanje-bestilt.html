@@ -7,12 +7,12 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Barnehagelærer Drammen — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=213">
+<link rel="stylesheet" href="../frantz-ds.css?v=214">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=206">
 <style>body { margin: 0; }</style>
-<link rel="stylesheet" href="../styles/campaign.css?v=20261027-interest-mobile">
+<link rel="stylesheet" href="../styles/campaign.css?v=20261102-polish">
 <style>
 /* Bestilt: one status card with numbered next steps and a quiet tracking-code task. */
 .ordered-status__head { flex-wrap: wrap; row-gap: var(--space-12); align-items: flex-start; }
@@ -76,12 +76,7 @@
     <header class="topbar"><div class="topbar__who"><span class="avatar avatar--md" aria-hidden="true">KH</span><span class="topbar__navn"><b>Kari Hansen</b></span></div></header>
 
     <div class="wrap">
-      <nav class="breadcrumb" aria-label="Sti">
-        <ol class="breadcrumb__list">
-          <li class="breadcrumb__item"><a href="campaigns.html">Kampanjer</a></li>
-          <li class="breadcrumb__item"><span aria-current="page" id="b-tittel">Barnehagelærer Drammen</span></li>
-        </ol>
-      </nav>
+      <a class="back-link" href="campaigns.html"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span>Kampanjer</a>
 
       <header class="campaign-header"><div><div class="campaign-title"><h1 class="text-h2" id="k-tittel">Barnehagelærer Drammen</h1><span class="badge badge--ordered">Bestilt</span></div></div></header>
       <div class="alert alert--info status-alert" id="status-alert" hidden><span class="icon-lucide icon-lucide--circle-check" aria-hidden="true"></span><div>Frantz har fått bestillingen. Frantz går gjennom bestillingen og bekrefter videre fremdrift. Dere får en e-post når annonsene er klare.</div></div>
@@ -118,10 +113,11 @@
               <p class="ordered-tracking__text">Be den som drifter nettsiden deres legge inn en kort kode. Da kan vi telle hvor mange som trykker «Søk». Uten den ser dere bare klikk.</p>
               <div class="ordered-tracking__actions">
                 <a class="btn btn--secondary btn--sm" id="tracking-mail" href="mailto:">Send til nettansvarlig</a>
-                <a class="link" href="#tracking-details" data-open-details="tracking-details">Se og kopier koden</a>
+                <a class="link" href="sporingskode.html">Slik legger dere inn koden</a>
               </div>
+              <div data-piksel="129074" data-status="venter" data-piksel-mail="off" hidden></div>
             </div>
-          </section><section class="card card--betjen" data-campaign-history hidden><div class="card__head"><h2 class="card__title">Kampanjeforløp</h2></div></section><details id="original-order" class="disclosure campaign-disclosure"><summary>Kampanjen som bestilt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><div class="grid gap-4"><p class="form-hint" data-submitted-note hidden></p><div class="grid gap-4 campaign-fields" data-submitted-kampanje><p class="form-hint">Laster opplysningene …</p></div></div></div></details><details id="tracking-details" class="disclosure approval-message campaign-disclosure"><summary>Sporingskode<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content summary-panel__block campaign-disclosure__body"><div class="summary-panel__block piksel" id="piksel" data-piksel="129074" data-status="venter" data-piksel-mail="off"></div></div></details></section>
+          </section><section class="card card--betjen" data-campaign-history hidden><div class="card__head"><h2 class="card__title">Kampanjeforløp</h2></div></section><details id="original-order" class="disclosure campaign-disclosure"><summary>Kampanjen som bestilt<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content campaign-disclosure__body"><div class="grid gap-4"><p class="form-hint" data-submitted-note hidden></p><div class="grid gap-4 campaign-fields" data-submitted-kampanje><p class="form-hint">Laster opplysningene …</p></div></div></div></details></section>
 <section class="flow" role="tabpanel" id="panel-annonser" aria-labelledby="fane-annonser" hidden><section class="card card--betjen material-card" data-submitted-material aria-labelledby="material-heading">
             <div class="card__head"><h2 class="card__title" id="material-heading">Annonser og materiell</h2></div>
             <p class="material-empty" id="material-loading" role="status">Laster inn materiellet …</p>
@@ -183,7 +179,7 @@
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
 <script src="../components/js/campaign-sections.js?v=20261028-fix"></script>
 <script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
-<script src="../components/js/campaign-details.js?v=20261029-tracking"></script>
-<script src="../components/js/campaign-page.js?v=20261029-approval-copy"></script>
+<script src="../components/js/campaign-details.js?v=20261102-back"></script>
+<script src="../components/js/campaign-page.js?v=20261102-back"></script>
 </body>
 </html>

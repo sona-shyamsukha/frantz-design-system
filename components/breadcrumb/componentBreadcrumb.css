@@ -46,3 +46,19 @@
   color: var(--color-navy);
   font-weight: var(--font-weight-semibold);
 }
+
+/* Back link: one level up, for flat app pages where a full path would only repeat the page title. */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 24px;
+  color: var(--text-muted);
+  font: var(--type-support);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--color-navy);
+  text-decoration: underline;
+}
