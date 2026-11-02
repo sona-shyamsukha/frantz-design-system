@@ -4,6 +4,7 @@
    Fargen ender i amber på det ene tallet som er et resultat. */
 (function () {
   var lagret = new WeakMap();
+  var ryddOpp = new WeakMap();
   var teller = 0;
 
   function tok(navn) {
@@ -103,6 +104,7 @@
     if (data) lagret.set(el, data);
     var d = lagret.get(el);
     if (!d) return;
+    if (ryddOpp.has(el)) { ryddOpp.get(el)(); ryddOpp.delete(el); }
 
     var v = d.verdier;
     var navn = d.navn || ['Relevante besøk', 'Begynte å lese', 'Leste hele annonsen', 'Trykket på søknad'];
@@ -188,13 +190,16 @@
     var forklaring = '';
     if (visning === 'lagdelt' && lag && lag.length) {
       forklaring = '<div class="funnel__legend">' +
-        lag.map(function (l) { return '<span><i style="' + (l.farge ? 'background:' + l.farge : 'opacity:' + l.o) + '"></i>' + l.navn + '</span>'; }).join('') +
+        lag.map(function (l) {
+          var cost = Number.isFinite(l.kostnadPerSok) && l.kostnadPerSok >= 0 ? '<span class="funnel__channel-cost">kr ' + tall(l.kostnadPerSok) + ' per «Søk»</span>' : '';
+          return '<div class="funnel__legend-item"><span><i style="' + (l.farge ? 'background:' + l.farge : 'opacity:' + l.o) + '"></i>' + l.navn + '</span>' + cost + '</div>';
+        }).join('') +
         '<span style="color:var(--text-faint)">' + (d.lagTekst || 'Lagene er kanaler. Tykkelsen er antall personer.') + '</span></div>';
     }
 
     if (d.interaktiv) {
       /* Calm view: the chart first, small labels under it, the share that went on
-         between the steps, and a card with details on hover or tap. */
+         between the steps, and details opened by click or keyboard focus. */
       var akse = v.map(function (verdi, i) {
         return '<div class="funnel__akse-steg"><span class="funnel__akse-navn"><i style="background:' + farger[i] + '"></i>' + navn[i] + '</span>' +
           '<span class="funnel__akse-tall">' + tall(verdi) + '</span>' +
@@ -209,15 +214,37 @@
         '<div class="funnel__graph funnel__graph--hover"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Fra ' + tall(v[0]) + ' ' + navn[0].toLowerCase() + ' til ' + tall(v[siste]) + ' som trykket «Søk»" style="height:260px">' +
         '<defs>' + gradient + '</defs>' + tegnGraf(visning, graf.v, farger, graf.lag, gradId, W, H, kol, v, true) +
         '</svg>' + soner +
-        '<div class="funnel__kort" role="status" hidden></div></div>' +
+        '<div class="funnel__kort" role="status" tabindex="0" hidden></div></div>' +
         '<div class="funnel__akse">' + akse + '</div>' +
         forklaring +
         '</div>';
 
       var grafEl = el.querySelector('.funnel__graph--hover');
       var kort = grafEl.querySelector('.funnel__kort');
+      var events = new AbortController();
+      var layered = typeof kort.showPopover === 'function';
+      if (layered) kort.setAttribute('popover', 'manual');
+      else document.body.appendChild(kort);
       var aktiv = -1;
       var laast = false;
+      var ignorerFokus = null;
+      function plasserKort() {
+        if (kort.hidden || aktiv < 0) return;
+        var anchor = grafEl.querySelector('[data-sone="' + aktiv + '"]').getBoundingClientRect();
+        var edge = 16, gap = 8;
+        var width = kort.offsetWidth, height = kort.offsetHeight;
+        var right = anchor.right + gap, leftSide = anchor.left - width - gap;
+        var rightFits = right + width <= window.innerWidth - edge, leftFits = leftSide >= edge;
+        var left = aktiv >= n / 2 && leftFits ? leftSide : rightFits ? right : leftSide;
+        var top = anchor.bottom - height;
+        if (!rightFits && !leftFits) {
+          left = (anchor.left + anchor.right - width) / 2;
+          if (anchor.bottom + gap + height <= window.innerHeight - edge) top = anchor.bottom + gap;
+          else if (anchor.top - gap - height >= edge) top = anchor.top - gap - height;
+        }
+        kort.style.left = Math.max(edge, Math.min(left, window.innerWidth - width - edge)) + 'px';
+        kort.style.top = Math.max(edge, Math.min(top, window.innerHeight - height - edge)) + 'px';
+      }
       var vis = function (i) {
         aktiv = i;
         var linjer = [];
@@ -232,17 +259,20 @@
           (d.hjelp && d.hjelp[i] ? '<span class="funnel__kort-hjelp">' + d.hjelp[i] + '</span>' : '') +
           (linjer.length ? '<dl>' + linjer.map(function (x) { return '<div><dt>' + x[0] + '</dt><dd>' + x[1] + '</dd></div>'; }).join('') + '</dl>' : '');
         kort.hidden = false;
-        // Beside the step: to the right in the first half, to the left in the second half
-        var venstre = i >= n / 2;
-        kort.style.left = ((venstre ? i : i + 1) * 100 / n) + '%';
-        kort.classList.toggle('funnel__kort--venstre', venstre);
+        kort.scrollTop = 0;
+        // The top layer escapes the chart's scroll clipping; keep the full card in the viewport.
+        if (layered && !kort.matches(':popover-open')) kort.showPopover();
+        plasserKort();
         Array.prototype.forEach.call(el.querySelectorAll('.funnel__sone'), function (b, k) { b.classList.toggle('funnel__sone--aktiv', k === i); });
         Array.prototype.forEach.call(el.querySelectorAll('.funnel__akse-steg'), function (c, k) { c.classList.toggle('funnel__akse-steg--aktiv', k === i); });
       };
       var skjul = function () {
+        // Closing a popover can restore focus to its trigger; do not reopen it then.
+        ignorerFokus = grafEl.querySelector('[data-sone="' + aktiv + '"]');
         aktiv = -1;
         laast = false;
         kort.classList.remove('funnel__kort--laast');
+        if (layered && kort.matches(':popover-open')) kort.hidePopover();
         kort.hidden = true;
         Array.prototype.forEach.call(el.querySelectorAll('.funnel__sone--aktiv, .funnel__akse-steg--aktiv'), function (x) {
           x.classList.remove('funnel__sone--aktiv', 'funnel__akse-steg--aktiv');
@@ -250,20 +280,26 @@
       };
       Array.prototype.forEach.call(grafEl.querySelectorAll('.funnel__sone'), function (b) {
         var i = Number(b.dataset.sone);
-        b.addEventListener('mouseenter', function () { if (!laast) vis(i); });
-        b.addEventListener('focus', function () { if (!laast) vis(i); });
+        b.addEventListener('focus', function () {
+          var ignore = ignorerFokus === b;
+          ignorerFokus = null;
+          if (!laast && !ignore && b.matches(':focus-visible')) vis(i);
+        });
         // A click pins the card, so it stays while you read. Click the same step again to close it.
         b.addEventListener('click', function () {
+          ignorerFokus = null;
           if (laast && aktiv === i) { skjul(); return; }
           vis(i);
           laast = true;
           kort.classList.add('funnel__kort--laast');
         });
-        b.addEventListener('blur', function () { if (!laast) skjul(); });
+        b.addEventListener('blur', function (e) { if (!laast && !kort.contains(e.relatedTarget)) skjul(); });
       });
-      grafEl.addEventListener('mouseleave', function () { if (!laast) skjul(); });
-      document.addEventListener('click', function (e) { if (laast && !grafEl.contains(e.target)) skjul(); });
-      document.addEventListener('keydown', function (e) { if (laast && e.key === 'Escape') skjul(); });
+      document.addEventListener('click', function (e) { if (laast && !grafEl.contains(e.target) && !kort.contains(e.target)) skjul(); }, { signal: events.signal });
+      document.addEventListener('keydown', function (e) { if (!kort.hidden && e.key === 'Escape') skjul(); }, { signal: events.signal });
+      window.addEventListener('resize', plasserKort, { signal: events.signal });
+      window.addEventListener('scroll', plasserKort, { capture: true, signal: events.signal });
+      ryddOpp.set(el, function () { skjul(); events.abort(); if (!layered) kort.remove(); });
       return;
     }
 
@@ -280,6 +316,20 @@
       forklaring +
       '<div class="funnel__foot">' + fot + '</div>' +
       '</div></div>';
+  };
+
+  // Report figures are the source for costs; do not duplicate them in page templates.
+  // Return false when this chart cannot represent every supplied channel.
+  window.oppdaterTraktKanaler = function (el, channels) {
+    var data = lagret.get(el);
+    if (!data || !data.lag || !Array.isArray(channels) || !channels.length || data.lag.length !== channels.length) return false;
+    var layers = data.lag.map(function (layer) {
+      var channel = channels.find(function (item) { return item.name === layer.navn; });
+      return channel ? Object.assign({}, layer, { kostnadPerSok: channel.cost }) : null;
+    });
+    if (layers.some(function (layer) { return !layer; })) return false;
+    window.tegnTrakt(el, Object.assign({}, data, { lag: layers }));
+    return true;
   };
 
   function velgFane(knapp, fokus) {

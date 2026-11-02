@@ -128,6 +128,9 @@
   background: var(--color-navy-lift);
 }
 
+.funnel__legend-item { display: grid; gap: var(--space-6); min-width: 0; }
+.funnel__legend .funnel__channel-cost { color: var(--text-body); font: var(--type-support-strong); }
+
 /* Frafall under grafen */
 .funnel__foot {
   display: grid;
@@ -255,11 +258,18 @@
 }
 
 .funnel__box--rolig {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
   padding: var(--space-16) var(--space-16) var(--space-8);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-12);
   background: var(--surface-raised);
 }
+
+/* Keep six labelled steps legible; scroll inside the chart on narrow cards. */
+.funnel__box--rolig > .funnel__graph,
+.funnel__box--rolig > .funnel__akse { min-width: 520px; }
 
 .funnel__graph--hover {
   position: relative;
@@ -352,10 +362,14 @@
 }
 
 .funnel__kort {
-  position: absolute;
-  bottom: var(--space-8);
+  position: fixed;
+  inset: auto;
+  margin: 0;
   z-index: var(--z-tooltip);
   width: 270px;
+  max-width: calc(100vw - var(--space-32));
+  max-height: calc(100dvh - var(--space-32));
+  overflow: auto;
   padding: var(--space-12) var(--space-16);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-12);
@@ -363,12 +377,7 @@
   box-shadow: var(--shadow-dialog);
   color: var(--text-body);
   line-height: var(--leading-snug);
-  transform: translateX(8px);
-  pointer-events: none;
-}
-
-.funnel__kort--venstre {
-  transform: translateX(calc(-100% - 8px));
+  pointer-events: auto;
 }
 
 .funnel__kort-navn {
@@ -426,7 +435,6 @@
 
 @media (max-width: 640px) {
   .funnel__akse-navn { font: var(--type-support); }
-  .funnel__kort { width: 180px; }
 }
 
 /* --- Uke for uke: small line charts side by side --- */

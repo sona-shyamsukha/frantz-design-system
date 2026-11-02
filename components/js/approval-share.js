@@ -24,7 +24,9 @@
     async function refresh() {
       try {
         context.records = await Store.list(options.campaign);
-        var latest = ['plan', 'material'].map(function (round) { return context.records.find(function (item) { return item.round === round; }); }).filter(Boolean);
+        // Keep all records for workflow/history; show only the round this part of the page handles.
+        var rounds = (options.rounds || [options.round]).filter(function (round) { return !options.ordered || round !== 'plan'; });
+        var latest = rounds.map(function (round) { return context.records.find(function (item) { return item.round === round; }); }).filter(Boolean);
         // Focus refreshes must not replace the button between pointerdown and click.
         var signature = JSON.stringify(latest.map(function (item) { return [item.id, Store.status(item), item.answered, item.comment]; }));
         if (signature === context.renderedSignature) {
@@ -76,6 +78,7 @@
   function openDialog(context, selectedRound) {
     if (context.dialog.open) return;
     var options = context.options, round = selectedRound || options.round || options.rounds[0], editor = context.editor;
+    if ((options.rounds || [options.round]).indexOf(round) === -1 || (options.ordered && round === 'plan')) return;
     context.returnFocus = document.activeElement;
     editor.replaceChildren(); editor.hidden = false;
     var head = el('div', 'approval-inline__head'), title = el('h3', '', 'Send ' + TITLES[round] + ' til godkjenning'), cancel = button('', 'approval-dialog__close');
@@ -125,6 +128,9 @@
   document.querySelectorAll('[data-del-godkjenning]').forEach(function (trigger) {
     var panel = document.getElementById(trigger.dataset.delGodkjenning); if (!panel) return; panel.hidden = true;
     var data = panel.dataset;
+    // The fixed example creative belongs only to its named demo campaign.
+    var campaignId = new URLSearchParams(location.search).get('id');
+    if (campaignId && campaignId !== data.id) return;
     attach(trigger, { campaign: data.id, rounds: ['material'], round: 'material', host: panel, includeLanding: true, sender: data.fra, company: data.firma,
       onChange: function (records) {
         var approvalButton = document.getElementById('approve-campaign-material');

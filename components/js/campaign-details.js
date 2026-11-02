@@ -185,7 +185,7 @@
     var mail = document.getElementById('tracking-mail');
     if (mail && root.FrantzPiksel) mail.href = root.FrantzPiksel.epost(model.order.connect || campaign && campaign.connect || model.id, model.title);
     var banner = document.getElementById('material-missing');
-    var missing = !model.material || !model.material.modus;
+    var missing = !model.material || !model.material.modus || (model.material.modus !== 'hjelp' && !root.FrantzCampaignMaterial.hasVisual(model.material));
     banner.hidden = !missing;
     var actions = document.getElementById('material-missing-actions'); actions.replaceChildren();
     [['ferdig', 'Last opp annonser'], ['hjelp', 'La Frantz lage annonsene']].forEach(function (choice) {
@@ -194,7 +194,7 @@
     });
     var materialCard = document.querySelector('[data-submitted-material]');
     // The existing order editor opens the same controls and validation in both journeys.
-    var edit = element('a', 'btn btn--secondary btn--sm', 'Endre materiell og filer');
+    var edit = element('a', 'btn btn--secondary btn--sm', missing ? 'Legg til annonser og filer' : 'Endre materiell og filer');
     edit.href = 'ny-kampanje.html?redigerMateriell=' + encodeURIComponent(model.id);
     materialCard.querySelector('.card__head').appendChild(edit);
     materialCard.hidden = false;
@@ -260,6 +260,7 @@
       if (root.FrantzReportSharing && event.key === root.FrantzReportSharing.key) renderLinks();
     });
     document.dispatchEvent(new CustomEvent('frantz:campaign-loaded'));
+    return model;
   }
   root.FrantzCampaignDetails = Object.freeze({ init: init });
 })(window);

@@ -3,6 +3,23 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
+test('an ordered campaign still asks for files when finished ads were selected without an upload', async () => {
+  let material = { modus: 'ferdig', bilde: null, filer: [], tekst: '' };
+  const window = {
+    FrantzApprovals: { status: request => request.state, list: async () => [] },
+    FrantzCampaignActivity: { read: () => [] }
+  };
+  vm.runInNewContext(fs.readFileSync('components/js/campaign-material.js', 'utf8'), { window, document: { addEventListener() {} } });
+  window.FrantzCampaignMaterial.read = async () => ({ materiell: material });
+  vm.runInNewContext(fs.readFileSync('components/js/campaign-status.js', 'utf8'), { window });
+  const campaign = { id: 'test-order', status: 'Bestilt', materiellId: 'material' };
+  assert.equal((await window.FrantzCampaignStatus.read(campaign)).key, 'missing');
+  material = { modus: 'ferdig', bilde: { navn: 'annonse.png' } };
+  assert.equal((await window.FrantzCampaignStatus.read(campaign)).key, 'ordered');
+  material = { modus: 'hjelp', bilde: null, filer: [] };
+  assert.equal((await window.FrantzCampaignStatus.read(campaign)).key, 'ordered');
+});
+
 function status() {
   const window = { FrantzApprovals: { status: request => request.state } };
   vm.runInNewContext(fs.readFileSync('components/js/campaign-status.js', 'utf8'), { window });

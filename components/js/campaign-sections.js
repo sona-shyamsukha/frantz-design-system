@@ -9,7 +9,7 @@
     if (!list) return null;
     var tabs = Array.from(list.querySelectorAll('[data-fane]'));
     function availableTabs() { return tabs.filter(function (tab) { return !tab.hidden; }); }
-    function fallback() { return availableTabs().find(function (tab) { return tab.dataset.fane === defaultTab; }) || availableTabs()[0]; }
+    function fallback() { return availableTabs().find(function (tab) { return tab.dataset.fane === defaultTab; }) || availableTabs().find(function (tab) { return tab.dataset.fane === 'kampanje'; }) || availableTabs()[0]; }
     var aliases = { oversikt: defaultTab, resultater: 'innsikt', detaljer: 'innsikt', rapport: 'innsikt' };
     function select(name, options) {
       options = options || {};

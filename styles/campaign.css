@@ -3,7 +3,17 @@
 .campaign-layout .flow { gap: var(--space-24); }
 .campaign-page .card > .disclosure:not(:first-child) { margin-top: var(--space-16); }
 .campaign-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-24); margin-top: var(--space-24); }
-.campaign-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
+.campaign-header > div:first-child { min-width: 0; max-width: 100%; }
+.campaign-title { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-12); min-width: 0; }
+.campaign-title h1 { max-width: 100%; overflow-wrap: anywhere; }
+/* Chart choices sit on white cards and need their own visible surface. */
+.campaign-page :is(.geo__kanaler, [data-trakt] .funnel__tabs) .filter:not([aria-selected="true"]):not([aria-pressed="true"]) {
+  background: var(--surface-section);
+  color: var(--text-heading);
+}
+.campaign-page :is(.geo__kanaler, [data-trakt] .funnel__tabs) .filter:not([aria-selected="true"]):not([aria-pressed="true"]):hover {
+  background: var(--border-strong);
+}
 .campaign-eyebrow { margin: 0 0 var(--space-8); color: var(--text-muted); font: var(--type-support); }
 .report-summary { container-type: inline-size; }
 /* Result tiles respond to the card width, including beside the campaign sidebar. */

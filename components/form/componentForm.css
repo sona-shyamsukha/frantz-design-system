@@ -206,7 +206,7 @@
 .filter {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--border-default);
+  border: 0;
   border-radius: var(--radius-full);
   padding: var(--space-8) var(--space-16);
   background: var(--surface-raised);
@@ -224,7 +224,6 @@
 .filter[aria-pressed="true"],
 .filter[role="tab"][aria-selected="true"] {
   background: var(--color-navy);
-  border-color: var(--color-navy);
   color: var(--color-white);
 }
 

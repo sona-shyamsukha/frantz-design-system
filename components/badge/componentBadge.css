@@ -4,18 +4,10 @@
   align-items: center;
   gap: var(--space-6);
   padding: var(--space-6) var(--space-12);
+  border: 1px solid currentColor;
   border-radius: var(--radius-full);
   font: var(--type-badge);
   white-space: nowrap;
-}
-
-.badge::before,
-.pill::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: currentColor;
 }
 
 .badge--active,
@@ -34,11 +26,6 @@
 .pill--pause {
   background: var(--bg-info-soft);
   color: var(--text-info-strong);
-}
-
-.badge--paused::before,
-.pill--pause::before {
-  background: var(--status-paused);
 }
 
 /* Bestilt: Frantz har fått bestillingen, men ikke startet. */
@@ -60,11 +47,6 @@
   color: var(--color-amber-ink);
 }
 
-.badge--setup::before,
-.pill--arbeid::before {
-  background: var(--status-setup);
-}
-
 .badge--favourite {
   background: var(--bg-violet-soft);
   color: var(--text-violet-strong);
@@ -78,8 +60,4 @@
 .badge--filled {
   background: var(--color-navy);
   color: var(--color-white);
-}
-
-.badge--filled::before {
-  background: var(--color-white);
 }

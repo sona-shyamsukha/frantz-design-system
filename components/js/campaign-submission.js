@@ -67,7 +67,7 @@
     return {
       id: id, campaign: campaign, order: order, record: record || null,
       found: !!campaign.id, hasSubmission: !!(record || session), submittedAt: record && record.innsendt || order.innsendt || '',
-      title: order.tittel || campaign.tittel || [campaign.stilling, campaign.sted].filter(Boolean).join(' '),
+      title: [order.stilling || campaign.stilling, order.sted || campaign.sted].filter(Boolean).join(' ') || order.tittel || campaign.tittel || '',
       status: campaign.status || 'Bestilt', fields: normalizedFields(order, campaign),
       source: { text: order.kildeTekst || '', url: order.kildeLenke || '' },
       material: record && record.materiell || null,

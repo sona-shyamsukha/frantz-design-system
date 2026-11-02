@@ -84,6 +84,20 @@ test('portal results keep the caveat and comparison source visible with a separa
   assert.doesNotMatch(window.FrantzReportView.overview(report, { internal: true, costs: false }), /Kostnad per|kr\s/);
 });
 
+test('a portal chart can own the channel breakdown while public reports retain it', () => {
+  const window = load('portal/data/rapporter.js');
+  load('components/js/report-view.js', window);
+  for (const id of ['128984', '129041']) {
+    const report = window.FZ_REPORTS[id];
+    const portal = window.FrantzReportView.overview(report, { internal: true, costs: true, channelBreakdown: false });
+    assert.doesNotMatch(portal, /report-channel-section/);
+    assert.match(portal, /Kostnad per «Søk»/);
+    const shared = window.FrantzReportView.overview(report, { costs: true });
+    assert.match(shared, /report-channel-section/);
+    for (const channel of report.channels) assert.ok(shared.includes(channel.name));
+  }
+});
+
 test('public report fixtures contain aggregates and no candidate or account records', () => {
   const window = load('portal/data/rapporter.js');
   const allowed = new Set(['id', 'title', 'employer', 'period', 'active', 'updated', 'budget', 'spend', 'cost', 'visits', 'applications', 'interest', 'impressions', 'goal', 'day', 'totalDays', 'start', 'read', 'readTime', 'assessment', 'channels', 'daily', 'ads', 'placements', 'geography', 'channelNames']);

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Opprett kampanje — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=214">
+<link rel="stylesheet" href="../frantz-ds.css?v=218">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/studio/ad-templates.css?v=205">
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
@@ -1697,10 +1697,10 @@
 <script src="../components/js/kanaler.js?v=2"></script>
 <script src="data/frantz-data.js"></script>
 <script src="data/pakker.js?v=20"></script>
-<script src="../components/js/campaign-material.js?v=20261029-mvp"></script>
-<script src="../components/js/campaign-submission.js?v=20261027-submitted"></script>
+<script src="../components/js/campaign-material.js?v=20261102-visuals"></script>
+<script src="../components/js/campaign-submission.js?v=20261102-scenarios"></script>
 <script src="../components/js/approval-store.js?v=20261102-demo"></script>
-<script src="../components/js/approval-share.js?v=20261102-modal"></script>
+<script src="../components/js/approval-share.js?v=20261102-scenarios"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
 <script src="../components/js/ad-colors.js?v=1"></script>
 <script src="../components/js/ad-crop.js?v=3"></script>
@@ -2625,7 +2625,7 @@
       var mode = v2VisVerdi('materiell') === 'Frantz lager annonsen' ? 'hjelp' : v2VisVerdi('materiell') === 'Ferdig materiell' ? 'ferdig' : v2VisVerdi('materiell') ? 'bygg' : '';
       var now = window.FZ_I_DAG(); // the demo clock, so the order is stamped 30.09.2026
       var order = {
-        flyt: 'forenklet', tittel: $('ref').value.trim(), ref: $('ref').value.trim(),
+        flyt: 'forenklet', tittel: [v2VisVerdi('stilling'), v2VisVerdi('sted')].filter(Boolean).join(' '), ref: $('ref').value.trim(),
         stilling: v2VisVerdi('stilling'), sted: v2VisVerdi('sted'), arbeidsgiver: v2VisVerdi('arbeidsgiver'), frist: v2VisVerdi('frist'),
         kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
         budsjett: budget, total: budget + v2TilleggSum(), tilleggSum: v2TilleggSum(), tillegg: tilleggListe(), kanaler: channels,
@@ -4770,7 +4770,7 @@
 
 <script src="../components/js/campaign-draft-delete.js?v=1"></script>
 <script src="../components/js/interactions.js?v=6"></script>
-<script src="../components/js/campaign-status.js?v=20261029-mvp"></script>
+<script src="../components/js/campaign-status.js?v=20261102-visuals"></script>
 <script src="../components/js/konto.js?v=20261029-mvp"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
