@@ -98,12 +98,17 @@
   .hjem-tall .fakta { background: var(--gradient-hero); border-color: var(--border-navy-strong); }
   .hjem-tall .fakta dt, .hjem-tall .fakta dd span { color: var(--text-on-dark-muted); }
   .hjem-tall .fakta dd { color: var(--text-on-navy); }
-  /* Phone: keep the three numbers side by side, smaller */
+  .hjem-tall .fakta__tall { font-weight: inherit; }
+  .table .meter { min-width: 160px; margin-right: var(--space-24); }
+  /* Phone: one navy panel with a row per number. Label and meaning on the left, the number on the right. */
   @media (max-width: 640px) {
-    .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
-    .hjem-tall .fakta { padding: var(--space-12) var(--space-8); }
-    .hjem-tall .fakta dt { letter-spacing: var(--tracking-none); text-transform: none; overflow-wrap: anywhere; hyphens: auto; }
-    .hjem-tall .fakta dd span { display: block; }
+    .hjem-tall { grid-template-columns: minmax(0, 1fr); gap: 0; background: var(--gradient-hero); border: 1px solid var(--border-navy-strong); border-radius: var(--radius-12); overflow: hidden; }
+    .hjem-tall .fakta { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-16); row-gap: var(--space-2); align-items: center; padding: var(--space-12) var(--space-16); background: none; border: 0; border-radius: 0; }
+    .hjem-tall .fakta + .fakta { border-top: 1px solid var(--border-navy-strong); }
+    .hjem-tall .fakta dt { grid-column: 1; grid-row: 1; color: var(--text-on-navy); font: var(--type-support-strong); letter-spacing: var(--tracking-none); text-transform: none; }
+    .hjem-tall .fakta dd { display: contents; }
+    .hjem-tall .fakta dd span { grid-column: 1; grid-row: 2; }
+    .hjem-tall .fakta__tall { grid-column: 2; grid-row: 1 / span 2; color: var(--text-on-navy); font: var(--type-section); }
   }
   /* Active campaigns: the same table as on Kampanjer */
   .table-card { padding: 0; overflow-x: auto; }
@@ -213,9 +218,9 @@
 
       <!-- What needs attention, not totals: tasks, time left and pace against their own history (Nicolas and Tore, 03.11) -->
       <div class="nokkel hjem-tall">
-        <dl class="fakta"><dt>Venter på deg</dt><dd id="tall-venter">0 <span>oppgaver</span></dd></dl>
-        <dl class="fakta"><dt>Aktive nå</dt><dd id="tall-aktive">0 <span>kampanjer</span></dd></dl>
-        <dl class="fakta"><dt>«Søk» per dag</dt><dd id="tall-tempo">– <span>ingen aktive kampanjer</span></dd></dl>
+        <dl class="fakta"><dt>Venter på deg</dt><dd id="tall-venter"><b class="fakta__tall">0</b> <span>oppgaver</span></dd></dl>
+        <dl class="fakta"><dt>Aktive nå</dt><dd id="tall-aktive"><b class="fakta__tall">0</b> <span>kampanjer</span></dd></dl>
+        <dl class="fakta"><dt>«Søk» per dag</dt><dd id="tall-tempo"><b class="fakta__tall">–</b> <span>ingen aktive kampanjer</span></dd></dl>
       </div>
 
       <div class="cols" id="hjem-kolonner">
@@ -296,12 +301,15 @@
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('') || '<tr><td colspan="4">Ingen kampanjer akkurat nå. <a class="link" href="ny-kampanje.html">Lag en ny kampanje</a>.</td></tr>';
 
+  // A tile value: the number, then what it means
+  function tallHtml(tall, tekst) { return '<b class="fakta__tall">' + esc(tall) + '</b> <span>' + esc(tekst) + '</span>'; }
+
   // Active campaigns, and when the next one ends
   var aktive = na.filter(function (k) { return k.status === 'Aktiv'; });
   var forst = aktive.slice().sort(function (a, b) { return igjen(a) - igjen(b); })[0];
-  document.getElementById('tall-aktive').innerHTML = aktive.length + ' <span>' + (!forst ? 'kampanjer'
+  document.getElementById('tall-aktive').innerHTML = tallHtml(aktive.length, !forst ? 'kampanjer'
     : aktive.length === 1 ? 'kampanje · ' + (igjen(forst) ? dager(igjen(forst)) + ' igjen' : 'siste dag i dag')
-    : 'kampanjer · neste slutter ' + (igjen(forst) ? 'om ' + dager(igjen(forst)) : 'i dag')) + '</span>';
+    : 'kampanjer · neste slutter ' + (igjen(forst) ? 'om ' + dager(igjen(forst)) : 'i dag'));
 
   // Pace: «Søk» per day on active campaigns, against what is normal for this firm.
   // Normal comes from their own ended campaigns, so no Frantz benchmark is needed yet.
@@ -309,14 +317,14 @@
   var historikk = (FZ_KAMPANJER.alle || FZ_KAMPANJER.synlige)().filter(function (k) { return k.status === 'Avsluttet' && k.bestiller === 'Kari Hansen' && k.sok > 0 && k.lengde > 0; });
   var vanlig = historikk.length ? historikk.reduce(function (s, k) { return s + k.sok; }, 0) / historikk.reduce(function (s, k) { return s + k.lengde; }, 0) : null;
   var malt = aktive.filter(function (k) { return k.sok != null && k.dag > 0; });
-  var tempoTekst = '– <span>ingen aktive kampanjer</span>';
+  var tempoTekst = tallHtml('–', 'ingen aktive kampanjer');
   if (malt.length) {
     var tempo = malt.reduce(function (s, k) { return s + k.sok; }, 0) / malt.reduce(function (s, k) { return s + k.dag; }, 0);
     var tregere = vanlig ? malt.filter(function (k) { return k.sok / k.dag < vanlig * 0.8; }).length : 0;
-    tempoTekst = tall(tempo) + ' <span>' + (!vanlig ? 'sammenligning kommer etter første avsluttede kampanje'
+    tempoTekst = tallHtml(tall(tempo), !vanlig ? 'sammenligning kommer etter første avsluttede kampanje'
       : tregere ? (tregere === 1 ? '1 kampanje går' : tregere + ' kampanjer går') + ' tregere enn vanlig'
-      : 'vanlig for dere er ' + tall(vanlig)) + '</span>';
-  } else if (aktive.length) tempoTekst = '– <span>tall kommer de første dagene</span>';
+      : 'vanlig for dere er ' + tall(vanlig));
+  } else if (aktive.length) tempoTekst = tallHtml('–', 'tall kommer de første dagene');
   document.getElementById('tall-tempo').innerHTML = tempoTekst;
 
   // What waits for you: ads to approve, and drafts to finish
@@ -332,9 +340,7 @@
         '<a class="btn btn--secondary btn--sm" href="' + esc(v.href) + '">' + esc(v.knapp) + '</a></li>';
     }).join('');
     document.getElementById('venter-kort').hidden = !items.length;
-    document.getElementById('tall-venter').innerHTML = items.length
-      ? items.length + ' <span>' + (items.length === 1 ? 'oppgave' : 'oppgaver') + '</span>'
-      : '0 <span>alt er i rute</span>';
+    document.getElementById('tall-venter').innerHTML = tallHtml(items.length, items.length === 1 ? 'oppgave' : items.length ? 'oppgaver' : 'alt er i rute');
     visPanel();
   }
   // The right column holds «Venter på dere». The results sit under the campaign table.
