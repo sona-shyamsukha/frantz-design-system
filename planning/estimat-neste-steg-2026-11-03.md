@@ -32,7 +32,7 @@ Hei Tore,
 
 Takk for et godt møte i dag, og takk til Nicolas for gode innspill.
 
-Endringene vi ble enige om i møtet er allerede lagt inn i prototypen: tavlevisning med hvem som har ballen, dager igjen, nye nøkkeltall på Hjem, filter på avtalekunde og arkiv.
+Flere av forslagene fra Nicolas var små endringer som ikke tok lang tid, så dem har jeg allerede gjort i prototypen: tavlevisning med hvem som har ballen, dager igjen, nye nøkkeltall på Hjem, filter på avtalekunde og arkiv.
 
 Her er estimatet for neste steg:
 
