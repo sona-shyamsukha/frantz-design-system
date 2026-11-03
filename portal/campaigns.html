@@ -7,8 +7,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Kampanjer — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=218">
-<link rel="stylesheet" href="../components/filter/componentFilter.css?v=1">
+<link rel="stylesheet" href="../frantz-ds.css?v=220">
+<link rel="stylesheet" href="../components/filter/componentFilter.css?v=2">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -56,7 +56,18 @@
   .verktoy .form-select-wrap { flex: 0 1 220px; }
   .verktoy .form-select { padding-top: var(--space-12); padding-bottom: var(--space-12); border-radius: var(--radius-full); font: var(--type-body); }
   .table tr[hidden], .table__empty[hidden] { display: none; }
-  @media (max-width: 640px) { .verktoy .form-select-wrap { flex: 1 1 100%; } }
+  @media (max-width: 640px) {
+    /* Search on its own row, then customer + sorting, then filter + list/board */
+    /* portal-mobile.css lays out one filter + one select. This page has two selects and the view switch. */
+    .app .verktoy:has(.visning) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .app .verktoy:has(.visning) .sortering { display: block; min-width: 0; }
+    .app .verktoy:has(.visning) .sortering .form-select-wrap { display: block; }
+    .app .verktoy:has(.visning) .filtermeny__knapp { grid-area: 2 / 1; justify-self: start; }
+    .app .verktoy:has(.visning) .visning { grid-area: 2 / 2; justify-self: end; }
+    .app .verktoy:has(.visning) .filtermeny__panel { grid-row: 3; }
+    .app .verktoy:has(.visning) .verktoy__kunde { grid-area: 4 / 1; }
+    .app .verktoy:has(.visning) .verktoy__sort { grid-area: 4 / 2; }
+  }
 
   .table-card { padding: 0; overflow-x: auto; }
   /* Same as Stillinger: cells have one to three lines, so every cell starts at the top of the row. */
@@ -67,6 +78,42 @@
   .pagination-wrap { margin-top: var(--space-24); }
 
   .kladd-varsel { align-items: center; flex-wrap: wrap; margin-top: var(--space-16); }
+  .liste__tall[hidden] { display: none; }
+
+  /* Board view (Nicholas, 03.11): the status drives the columns, like stations on a line.
+     Column heads reuse the status badge; cards reuse table text and the meter. */
+  .tavle { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-16); align-items: start; margin-top: var(--space-24); }
+  .tavle[hidden] { display: none; }
+  .tavle__topp { position: relative; padding: var(--space-24) 0 var(--space-16); }
+  .tavle__topp::before { content: ""; position: absolute; z-index: 1; left: 0; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--surface-default); border: 2px solid var(--border-strong); }
+  .tavle__topp::after { content: ""; position: absolute; left: 0; right: calc(-1 * var(--space-16)); top: 6px; height: 2px; background: var(--border-default); }
+  .tavle__kolonne:last-child .tavle__topp::after { display: none; }
+  .tavle__kolonne--aktiv .tavle__topp::before { border-color: var(--status-active); background: var(--status-active); }
+  .tavle__antall { font-weight: var(--font-weight-normal); opacity: .8; }
+  .table .tavle__ball { max-width: 26ch; }
+  .table .meter { min-width: 160px; }
+  .tavle__tittel { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-support); }
+  .tavle__topp p { margin: var(--space-4) 0 0; font: var(--type-support); }
+  .tavle__kort { display: grid; gap: var(--space-12); margin: 0; padding: 0; list-style: none; }
+  .tavle__kort .card { display: grid; gap: var(--space-12); padding: var(--space-16); color: var(--text-body); text-decoration: none; }
+  .tavle__kort .card:hover { border-color: var(--border-strong); }
+  .tavle__kort .card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .tavle__kort .table__meta { font: var(--type-support); }
+  .tavle__ball { margin: 0; font: var(--type-support); }
+  .tavle__ball--deg { display: flex; gap: var(--space-6); align-items: flex-start; color: var(--text-danger-strong); font-weight: var(--font-weight-semibold); }
+  .tavle__ball--deg .icon-lucide { flex: none; margin-top: 2px; }
+  .tavle__tom { margin: 0; padding: var(--space-16); border: 1px dashed var(--border-default); border-radius: var(--radius-12); color: var(--text-faint); font: var(--type-support); text-align: center; }
+  .tavle__kolonne > .link { margin-top: var(--space-12); }
+  /* Active campaigns pulse, so the eye finds what runs now */
+  .tavle .badge--active::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: puls 1.6s ease-out infinite; }
+  @keyframes puls { 0% { box-shadow: 0 0 0 0 currentColor; } 100% { box-shadow: 0 0 0 6px transparent; } }
+  @media (prefers-reduced-motion: reduce) { .tavle .badge--active::before { animation: none; } }
+  @media (max-width: 1100px) {
+    .tavle { grid-template-columns: 1fr; gap: var(--space-24); }
+    .tavle__topp { padding-top: 0; }
+    .tavle__topp::before, .tavle__topp::after { display: none; }
+    .tavle__kort { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  }
 
 </style>
 </head>
@@ -111,7 +158,8 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Kampanjer</h1>
-          <p class="lede" id="liste-lede">Kampanjene dere har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.</p>
+          <p class="lede"><span id="liste-lede">Kampanjene dere har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.</span>
+            <button type="button" class="link liste__tall" id="venter-lenke" hidden></button></p>
         </div>
       </div>
 
@@ -126,6 +174,11 @@
           <button type="button" class="filtermeny__knapp" id="filter-knapp" aria-expanded="false" aria-controls="filter-panel"><span class="icon-lucide icon-lucide--filter" aria-hidden="true"></span>Filter <span class="filtermeny__antall" id="filter-antall" hidden></span></button>
           <div class="filtermeny__panel" id="filter-panel" role="group" aria-label="Filter" hidden>
             <fieldset><legend class="form-label">Status</legend><div class="filtermeny__valg" id="valg-status"></div></fieldset>
+            <fieldset><legend class="form-label">Arkiv</legend>
+              <div class="filtermeny__valg">
+                <label class="form-check"><input class="form-check__input" type="checkbox" id="vis-arkiv"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">Vis arkiverte kampanjer</span></label>
+              </div>
+            </fieldset>
             <fieldset><legend class="form-label">Bestilt av</legend>
               <div class="filtermeny__valg">
                 <label class="form-radio"><input class="form-radio__input" type="radio" name="hvem" data-hvem="mine" checked><span class="form-radio__dot"></span><span class="form-radio__label">Mine kampanjer</span></label>
@@ -138,9 +191,15 @@
             </div>
           </div>
         </div>
-        <label class="sortering"><span class="chat__sr">Sorter etter</span>
+        <label class="sortering verktoy__kunde"><span class="chat__sr">Kunde</span>
+          <span class="form-select-wrap">
+            <select class="form-select" id="kunde"><option value="">Alle kunder</option></select>
+          </span>
+        </label>
+        <label class="sortering verktoy__sort"><span class="chat__sr">Sorter etter</span>
           <span class="form-select-wrap">
             <select class="form-select" id="sortering">
+              <option value="aktive">Aktive først</option>
               <option value="nyeste">Nyeste først</option>
               <option value="eldste">Eldste først</option>
               <option value="tittel">Stilling A–Å</option>
@@ -148,6 +207,10 @@
             </select>
           </span>
         </label>
+        <div class="visning" role="group" aria-label="Visning">
+          <button type="button" class="visning__knapp" data-vis-som="liste" aria-pressed="true" aria-label="Vis som liste" title="Vis som liste"><span class="icon-lucide icon-lucide--list icon-lucide--md" aria-hidden="true"></span></button>
+          <button type="button" class="visning__knapp" data-vis-som="tavle" aria-pressed="false" aria-label="Vis som tavle" title="Vis som tavle"><span class="icon-lucide icon-lucide--layout-grid icon-lucide--md" aria-hidden="true"></span></button>
+        </div>
       </div>
 
       <div class="aktive" id="aktive" aria-live="polite" hidden></div>
@@ -160,10 +223,13 @@
       </div>
       <p class="alert alert--error kladd-varsel" id="kladd-angre-feil" role="alert" hidden></p>
 
+      <div class="tavle" id="tavle" data-vis="eksisterende" hidden></div>
+
+      <div id="liste-visning">
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Kanaler</th><th>Kampanje&shy;periode</th><th>Budsjett</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Kampanje</th><th>Tid</th><th>Resultat</th><th>Neste steg</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader" data-vis="eksisterende"></tbody>
           <tbody data-vis="ny">
@@ -192,102 +258,208 @@
           </div>
         </nav>
       </div>
+      </div>
     </div>
   </div>
 </div>
 
+<script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=20261102-drafts"></script>
+<script src="data/kampanjer.js?v=20261103-sok"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var sok = $('sok'), sortering = $('sortering'), tbody = $('rader');
   // Rows come from the shared campaign list, so they match Hjem and Stillinger
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[\u00a0\u202f]/g, ' '); };
+  var kr = function (n) { return 'kr ' + Math.round(n).toLocaleString('nb-NO').replace(/[  ]/g, ' '); };
+  var MEG = 'Kari Hansen'; // the logged-in user in the demo
+  var STATUSER = ['Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
+  var VENTER = 'Venter på meg';
+  var ARKIV_ETTER = 14; // an ended campaign moves to the archive 14 days after the ads stop (Tore and Nicholas, 03.11)
+
+  // Demo: who has the ball and what happens next. In the real product this comes from the campaign's tasks.
+  var BALL = {
+    '129070': { hvem: 'deg', neste: 'Velg budsjett og kanaler' },
+    '129074': { hvem: 'frantz', neste: 'Frantz lager kampanjeplanen' },
+    '129072': { hvem: 'deg', neste: 'Godkjenn annonsene' }
+  };
+  function ball(k) {
+    if (BALL[k.id]) return BALL[k.id];
+    if (k.status === 'Kladd') return { hvem: 'deg', neste: 'Fullfør bestillingen' };
+    if (k.status === 'Bestilt' || k.status === 'Under arbeid') return { hvem: 'frantz', neste: 'Frantz gjør kampanjen klar' };
+    if (k.status === 'Avsluttet') return { hvem: 'ferdig', neste: k.rapportKomplett ? 'Sluttrapporten er klar' : 'Svar på om noen ble ansatt' };
+    return { hvem: 'live', neste: 'Følg resultatene' };
+  }
+
+  function iso(x) { var m = x.split('-'); return new Date(+m[0], m[1] - 1, +m[2]); }
+  function idag() { var d = window.FZ_I_DAG ? window.FZ_I_DAG() : new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function dagerTil(x) { return Math.round((iso(x) - idag()) / 86400000); }
+  function dager(n) { return n + (n === 1 ? ' dag' : ' dager'); }
+  function arkivert(k) { return k.status === 'Avsluttet' && k.til && -dagerTil(k.til) > ARKIV_ETTER; }
+
+  var kampanjer = [];
+  var valgt = { hvem: 'mine', status: [], kunde: '', arkiv: false };
+  var vis = 'liste';
+  try { vis = new URLSearchParams(location.search).get('vis') || localStorage.getItem('fzKampanjeVisning') || 'liste'; } catch (e) {}
+  if (vis !== 'tavle') vis = 'liste';
+
   function tegnRader() {
-  tbody.innerHTML = FZ_KAMPANJER.synlige().map(function (k) {
-    var periode = k.periode || (k.frist ? 'Søknadsfrist ' + FZ_KAMPANJER.dato(k.frist) : '—');
+  kampanjer = FZ_KAMPANJER.alle();
+  tbody.innerHTML = kampanjer.map(function (k) {
     // Job title and place lead everywhere (Hjem, Stillinger, the campaign page). The customer's own name sits under it.
     var navn = (k.ref || '').trim();
     var visNavn = navn && navn.toLocaleLowerCase('nb') !== k.tittel.toLocaleLowerCase('nb');
-    return '<tr tabindex="0" data-id="' + esc(k.id) + '" data-href="' + esc(k.side) + '" data-status="' + k.status + '" data-bestiller="' + esc(k.bestiller) + '" data-tittel="' + esc(k.tittel) + '" data-start="' + (k.fra || k.frist || '') + '" data-budsjett="' + (k.budsjett || 0) + '">' +
+    return '<tr tabindex="0" data-id="' + esc(k.id) + '" data-href="' + esc(k.side) + '">' +
       '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span>' +
       (visNavn ? '<span class="table__meta">' + esc(navn) + '</span>' : '') +
-      '<span class="table__meta">' + esc(k.arbeidsgiver) + ' · #' + k.id + '</span></td>' +
-      '<td class="table__valgfri" data-label="Kanaler">' + (k.kanaler && k.kanaler.length ? FZ_KANALER.html(k.kanaler) : '—') + '</td>' +
-      '<td data-label="Kampanje&shy;periode">' + periode + '</td>' +
-      '<td data-label="Budsjett">' + (k.budsjett ? kr(k.budsjett) : '<span class="table__tom">Ikke valgt</span>') + '</td>' +
+      '<span class="table__meta">' + esc([k.arbeidsgiver, '#' + k.id].filter(Boolean).join(' · ')) + '</span></td>' +
+      '<td data-label="Tid">' + (tid(k) || '<span class="table__tom">—</span>') + '</td>' +
+      '<td data-label="Resultat">' + resultat(k) + '</td>' +
+      '<td data-label="Neste steg">' + (neste(k) || '<span class="table__tom">—</span>') + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + (k.status === 'Avsluttet' ? 'Åpne rapporten' : k.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen') + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
-  rader = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
   }
-  var rader = [];
   tegnRader();
-  var MEG = 'Kari Hansen'; // the logged-in user in the demo
-  var STATUSER = ['Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
-  var valgt = { hvem: 'mine', status: [] };
 
-  function sorter() {
-    var f = {
-      nyeste: function (a, b) { return b.dataset.start.localeCompare(a.dataset.start); },
-      eldste: function (a, b) { return a.dataset.start.localeCompare(b.dataset.start); },
-      tittel: function (a, b) { return a.dataset.tittel.localeCompare(b.dataset.tittel, 'nb'); },
-      budsjett: function (a, b) { return Number(b.dataset.budsjett) - Number(a.dataset.budsjett); }
-    }[sortering.value];
-    rader.slice().sort(f).forEach(function (tr) { tbody.appendChild(tr); });
-  }
+  // One customer list for both views, so an agency finds one end customer fast
+  $('kunde').insertAdjacentHTML('beforeend', kampanjer.map(function (k) { return k.arbeidsgiver; })
+    .filter(function (a, i, l) { return a && l.indexOf(a) === i; }).sort(function (a, b) { return a.localeCompare(b, 'nb'); })
+    .map(function (a) { return '<option>' + esc(a) + '</option>'; }).join(''));
+
   function avkrysning(navn, verdi) {
     return '<label class="form-check"><input class="form-check__input" type="checkbox" data-' + navn + '="' + verdi + '"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + verdi + '</span></label>';
   }
-  $('valg-status').innerHTML = STATUSER.map(function (v) { return avkrysning('status', v); }).join('');
+  $('valg-status').innerHTML = [VENTER].concat(STATUSER).map(function (v) { return avkrysning('status', v); }).join('');
 
-  function avHvem(tr) { return valgt.hvem === 'alle' || tr.dataset.bestiller === MEG; }
-  function passer(tr) {
-    return avHvem(tr) && (!valgt.status.length || valgt.status.indexOf(tr.dataset.status) !== -1);
+  var REKKE = { 'Aktiv': 0, 'Kladd': 1, 'Under arbeid': 2, 'Bestilt': 3, 'Avsluttet': 4 };
+  var SORT = {
+    aktive: function (a, b) { return (REKKE[a.status] - REKKE[b.status]) || (b.til || b.fra || b.frist || '').localeCompare(a.til || a.fra || a.frist || ''); },
+    nyeste: function (a, b) { return (b.fra || b.frist || '').localeCompare(a.fra || a.frist || ''); },
+    eldste: function (a, b) { return (a.fra || a.frist || '').localeCompare(b.fra || b.frist || ''); },
+    tittel: function (a, b) { return a.tittel.localeCompare(b.tittel, 'nb'); },
+    budsjett: function (a, b) { return (b.budsjett || 0) - (a.budsjett || 0); }
+  };
+
+  function avHvem(k) { return valgt.hvem === 'alle' || k.bestiller === MEG; }
+  // Ticked statuses widen the list. «Venter på meg» narrows it, so «Kladd» + «Venter på meg» means drafts that wait on me.
+  function passer(k) {
+    var statuser = valgt.status.filter(function (s) { return s !== VENTER; });
+    return avHvem(k) && (!valgt.kunde || k.arbeidsgiver === valgt.kunde) &&
+      (valgt.arkiv || !arkivert(k)) &&
+      (!statuser.length || statuser.indexOf(k.status) !== -1) &&
+      (valgt.status.indexOf(VENTER) === -1 || ball(k).hvem === 'deg');
   }
-  function filtrer() {
-    // Every word must match somewhere in the row, so «sykepleier oslo» narrows the list
+  function treff() {
+    // Every word must match somewhere, so «sykepleier oslo» narrows the list
     var ord = sok.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    var vist = 0;
-    rader.forEach(function (tr) {
-      var tekst = (tr.textContent + ' ' + tr.dataset.bestiller).toLowerCase();
-      var ok = ord.every(function (o) { return tekst.indexOf(o) !== -1; }) && passer(tr);
-      tr.hidden = !ok;
-      if (ok) vist++;
-    });
-    $('ingen-treff').hidden = vist > 0;
+    return kampanjer.filter(function (k) {
+      var tekst = [k.tittel, k.ref, k.arbeidsgiver, k.id, k.bestiller, k.status, (k.kanaler || []).join(' ')].join(' ').toLowerCase();
+      return passer(k) && ord.every(function (o) { return tekst.indexOf(o) !== -1; });
+    }).sort(SORT[sortering.value]);
+  }
+
+  // Time left instead of a date range (Tore and Nicholas, 03.11). Used by the table and the board.
+  function tid(k) {
+    if (k.status === 'Aktiv' && k.til) {
+      var igjen = Math.max(0, dagerTil(k.til));
+      var andel = k.lengde ? Math.min(100, Math.round((k.dag / k.lengde) * 100)) : 0;
+      return '<div class="meter meter--sm"><span class="meter__track" aria-hidden="true"><span class="meter__bar" style="width:' + andel + '%"></span></span><span class="meter__value">' + (igjen ? dager(igjen) + ' igjen' : 'Siste dag i dag') + '</span></div>';
+    }
+    if (k.fra && dagerTil(k.fra) > 0) return '<span class="table__meta">Starter om ' + dager(dagerTil(k.fra)) + '</span>';
+    if (k.status === 'Kladd' && k.frist) return '<span class="table__meta">Søknadsfrist ' + FZ_KAMPANJER.dato(k.frist) + '</span>';
+    if (k.status === 'Avsluttet' && k.til) return '<span class="table__meta">Ferdig ' + FZ_KAMPANJER.dato(k.til) + '</span>';
+    return '';
+  }
+  // The one thing that matters now. Red with an icon when it waits on the customer.
+  function neste(k) {
+    var b = ball(k);
+    if (!b.neste) return '';
+    return b.hvem === 'deg'
+      ? '<p class="tavle__ball tavle__ball--deg"><span class="icon-lucide icon-lucide--circle-alert" aria-hidden="true"></span><span><span class="chat__sr">Venter på deg: </span>' + esc(b.neste) + '</span></p>'
+      : '<p class="tavle__ball text-muted">' + esc(b.neste) + '</p>';
+  }
+  // «Søk» is the last step Frantz can measure, so it says more than clicks or budget.
+  function resultat(k) {
+    if (k.sok == null) return '<span class="table__tom">' + (k.status === 'Aktiv' ? 'Kommer snart' : '—') + '</span>';
+    return '<span class="table__title">' + k.sok + ' «Søk»' + (k.status === 'Aktiv' ? ' så langt' : '') + '</span>' +
+      (k.sok > 0 && k.budsjett ? '<span class="table__meta">' + kr(k.budsjett / k.sok) + ' per «Søk»</span>' : '');
+  }
+
+  // One card = title, who it is for, and the one thing that matters now. The column shows the status.
+  function kort(k) {
+    return '<li><a class="card card--betjen" href="' + esc(k.side) + '">' +
+      '<span><span class="table__title">' + esc(k.tittel) + '</span><span class="table__meta">' + esc([k.arbeidsgiver, '#' + k.id].filter(Boolean).join(' · ')) + '</span></span>' +
+      neste(k) + tid(k) + '</a></li>';
+  }
+
+  var HINT = { 'Kladd': 'Ikke sendt til Frantz ennå', 'Bestilt': 'Frantz har fått bestillingen', 'Under arbeid': 'Plan og annonser gjøres klare', 'Aktiv': 'Annonsene vises nå', 'Avsluttet': 'Flyttes til arkivet etter ' + ARKIV_ETTER + ' dager' };
+  function tegnTavle(liste) {
+    var statuser = valgt.status.filter(function (s) { return s !== VENTER; });
+    $('tavle').innerHTML = STATUSER.filter(function (s) { return !statuser.length || statuser.indexOf(s) !== -1; }).map(function (s) {
+      var her = liste.filter(function (k) { return k.status === s; });
+      var iArkiv = s === 'Avsluttet' && !valgt.arkiv ? kampanjer.filter(function (k) { return arkivert(k) && avHvem(k) && (!valgt.kunde || k.arbeidsgiver === valgt.kunde); }).length : 0;
+      var id = 'kol-' + s.replace(/\s/g, '-').toLowerCase();
+      return '<section class="tavle__kolonne' + (s === 'Aktiv' ? ' tavle__kolonne--aktiv' : '') + '" aria-labelledby="' + id + '">' +
+        '<div class="tavle__topp"><h2 class="tavle__tittel" id="' + id + '"><span class="badge ' + FZ_KAMPANJER.badge(s) + '">' + s + ' <span class="tavle__antall">' + her.length + '<span class="chat__sr"> kampanjer</span></span></span></h2>' +
+        '<p class="text-muted">' + HINT[s] + '</p></div>' +
+        (her.length ? '<ul class="tavle__kort">' + her.map(kort).join('') + '</ul>' : '<p class="tavle__tom">Ingen her nå</p>') +
+        (iArkiv ? '<button type="button" class="link link--xs" data-arkiv>Vis arkivet (' + iArkiv + ')</button>' : '') +
+        '</section>';
+    }).join('');
+  }
+
+  function filtrer() {
+    var liste = treff();
+    var ider = liste.map(function (k) { return k.id; });
+    // The table keeps its rows. Sorting moves them, the filter hides them.
+    ider.forEach(function (id) { var tr = tbody.querySelector('tr[data-id="' + id + '"]'); if (tr) tbody.appendChild(tr); });
+    Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function (tr) { tr.hidden = ider.indexOf(tr.dataset.id) === -1; });
+    tegnTavle(liste);
+    var vist = liste.length;
+    $('ingen-treff').hidden = vist > 0 || vis === 'tavle';
     $('vist-antall').textContent = vist ? 'Viser 1–' + vist + ' av ' + vist + ' kampanjer' : 'Ingen kampanjer';
     document.querySelectorAll('input[data-hvem]').forEach(function (x) { x.checked = x.dataset.hvem === valgt.hvem; });
     document.querySelectorAll('input[data-status]').forEach(function (x) { x.checked = valgt.status.indexOf(x.dataset.status) !== -1; });
+    $('vis-arkiv').checked = valgt.arkiv;
+    $('kunde').value = valgt.kunde;
     $('liste-lede').textContent = valgt.hvem === 'alle'
-      ? 'Alle kampanjene på Nordlys Rekruttering AS. Velg en kampanje for å se resultater og laste ned rapporten.'
-      : 'Kampanjene dere har bestilt. Velg en kampanje for å se resultater og laste ned rapporten.';
+      ? 'Alle kampanjene på Nordlys Rekruttering AS.'
+      : 'Kampanjene dere har bestilt.';
+    // How many wait on the user, as a link in the intro that turns on the filter
+    var venter = kampanjer.filter(function (k) { return avHvem(k) && ball(k).hvem === 'deg'; }).length;
+    $('venter-lenke').hidden = !venter || valgt.status.indexOf(VENTER) !== -1;
+    $('venter-lenke').textContent = venter === 1 ? '1 venter på deg' : venter + ' venter på deg';
     tegnAktive();
   }
   // The default view is «Mine kampanjer». «Alle på Nordlys Rekruttering AS» is a filter and shows as a chip.
   // The active filters as chips. Each chip removes its filter; «Nullstill» removes all.
   function tegnAktive() {
-    var chips = valgt.status.map(function (v) { return ['status', v, 'Status: ' + v]; })
-      .concat(valgt.hvem === 'alle' ? [['hvem', 'alle', 'Alle på Nordlys Rekruttering AS']] : []);
+    var chips = valgt.status.map(function (v) { return ['status', v, v === VENTER ? v : 'Status: ' + v]; })
+      .concat(valgt.hvem === 'alle' ? [['hvem', 'alle', 'Alle på Nordlys Rekruttering AS']] : [])
+      .concat(valgt.kunde ? [['kunde', valgt.kunde, 'Kunde: ' + valgt.kunde]] : [])
+      .concat(valgt.arkiv ? [['arkiv', '1', 'Med arkiverte']] : []);
     var n = chips.length;
     $('filter-antall').hidden = !n; $('filter-antall').textContent = n;
     $('aktive').hidden = !n && !sok.value.trim();
     $('aktive').innerHTML = (n || sok.value.trim() ? '<span>Viser:</span>' : '') +
       (sok.value.trim() ? '<button type="button" class="aktiv-filter" data-fjern="sok" aria-label="Fjern søket">«' + sok.value.trim().replace(/[<>&"]/g, '') + '»<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>' : '') +
-      chips.map(function (c) { return '<button type="button" class="aktiv-filter" data-fjern="' + c[0] + '" data-verdi="' + c[1] + '" aria-label="Fjern ' + c[2] + '">' + c[2] + '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>'; }).join('') +
+      chips.map(function (c) { return '<button type="button" class="aktiv-filter" data-fjern="' + c[0] + '" data-verdi="' + esc(c[1]) + '" aria-label="Fjern ' + esc(c[2]) + '">' + esc(c[2]) + '<span class="icon-lucide icon-lucide--x" aria-hidden="true"></span></button>'; }).join('') +
       (n > 1 || sok.value.trim() ? '<button type="button" class="nullstill" id="nullstill">Nullstill</button>' : '');
   }
   function veksle(liste, verdi, pa) { var i = liste.indexOf(verdi); if (pa && i === -1) liste.push(verdi); if (!pa && i !== -1) liste.splice(i, 1); }
 
-  function nullstill() { valgt.hvem = 'mine'; valgt.status = []; sok.value = ''; filtrer(); }
+  function nullstill() { valgt = { hvem: 'mine', status: [], kunde: '', arkiv: false }; sok.value = ''; filtrer(); }
   $('filter-panel').addEventListener('change', function (e) {
     var x = e.target;
     if (x.dataset.hvem) valgt.hvem = x.dataset.hvem;
     if (x.dataset.status) veksle(valgt.status, x.dataset.status, x.checked);
+    if (x.id === 'vis-arkiv') valgt.arkiv = x.checked;
     filtrer();
   });
+  $('kunde').addEventListener('change', function () { valgt.kunde = this.value; filtrer(); });
+  $('venter-lenke').addEventListener('click', function () { veksle(valgt.status, VENTER, true); filtrer(); sok.focus(); });
   $('panel-nullstill').addEventListener('click', nullstill);
   $('panel-ferdig').addEventListener('click', function () { apne(false); $('filter-knapp').focus(); });
   $('aktive').addEventListener('click', function (e) {
@@ -295,9 +467,29 @@
     if (b.id === 'nullstill') { nullstill(); sok.focus(); return; }
     if (b.dataset.fjern === 'sok') sok.value = '';
     else if (b.dataset.fjern === 'hvem') valgt.hvem = 'mine';
+    else if (b.dataset.fjern === 'kunde') valgt.kunde = '';
+    else if (b.dataset.fjern === 'arkiv') valgt.arkiv = false;
     else veksle(valgt[b.dataset.fjern], b.dataset.verdi, false);
     filtrer();
     ($('aktive').querySelector('.aktiv-filter') || sok).focus();
+  });
+  $('tavle').addEventListener('click', function (e) {
+    if (!e.target.closest('[data-arkiv]')) return;
+    valgt.arkiv = true;
+    filtrer();
+  });
+
+  // List or board. The choice is kept for the next visit.
+  function visSom(v) {
+    vis = v;
+    $('liste-visning').hidden = v === 'tavle';
+    $('tavle').hidden = v !== 'tavle';
+    document.querySelectorAll('[data-vis-som]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.visSom === v)); });
+    try { localStorage.setItem('fzKampanjeVisning', v); } catch (e) {}
+    filtrer();
+  }
+  document.querySelector('.visning').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-vis-som]'); if (b) visSom(b.dataset.visSom);
   });
 
   // Open and close the filter menu
@@ -327,8 +519,8 @@
       $('kladd-angre-feil').hidden = false;
       return;
     }
-    tegnRader(); sorter(); filtrer();
-    var rad = rader.filter(function (r) { return r.dataset.id === sistSlettet.id; })[0];
+    tegnRader(); filtrer();
+    var rad = tbody.querySelector('tr[data-id="' + sistSlettet.id + '"]');
     $('kladd-slettet').hidden = true;
     $('kladd-angre-feil').hidden = true;
     sistSlettet = null;
@@ -339,12 +531,10 @@
   // The whole row is a link. interactions.js opens it with Enter, like a click.
   sok.addEventListener('input', filtrer);
   sok.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
-  sortering.addEventListener('change', sorter);
-  sorter();
-  filtrer();
+  sortering.addEventListener('change', filtrer);
+  visSom(vis);
 })();
 </script>
-<script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/approval-store.js?v=20261102-demo"></script>
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-material.js?v=20261102-visuals"></script>

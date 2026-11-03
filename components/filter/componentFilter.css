@@ -23,3 +23,10 @@
   .aktiv-filter .icon-lucide { width: 14px; height: 14px; }
   .aktiv-filter:hover { border-color: var(--color-navy); }
   .nullstill { padding: 0; border: 0; background: none; color: var(--text-heading); font: var(--type-label); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+  /* List or board: two icon buttons next to the filter menu, same height as the menu button */
+  .visning { display: inline-flex; gap: var(--space-2); padding: 3px; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-raised); }
+  .visning__knapp { display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: var(--radius-full); background: none; color: var(--text-muted); cursor: pointer; }
+  .visning__knapp:hover { color: var(--text-heading); }
+  .visning__knapp[aria-pressed="true"] { background: var(--bg-navy-soft); color: var(--text-heading); }
+  .visning__knapp:focus-visible { outline: none; box-shadow: var(--focus-ring); }
