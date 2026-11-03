@@ -1005,6 +1005,9 @@
   .v2-dialog .form-input[aria-invalid="true"] { border-color: var(--text-danger-moderate); }
   .nk-skjema .form-input[aria-invalid="true"]:focus,
   .v2-dialog .form-input[aria-invalid="true"]:focus { box-shadow: var(--focus-ring-danger); }
+  .v2-felt--feil .picker__felt { border-color: var(--text-danger-moderate); }
+  .v2-felt--feil .picker__felt:focus-within { box-shadow: var(--focus-ring-danger); }
+  .v2-rad__verdi--feil { color: var(--text-danger-moderate); }
   @media (max-width: 640px) {
     .app .nk-skjema > .v2.del { background: var(--surface-raised); border: 1px solid var(--border-default); }
     .v2-rad { grid-template-columns: minmax(0, 1fr); }
@@ -1176,9 +1179,9 @@
               </div>
               <div id="v2-ref-lager" hidden>
               <div class="felt funnet__bred kilde-referanse" id="felt-ref">
-                <label class="form-label" for="ref">Kampanjenavn/deres referansekode <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
-                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" aria-describedby="ref-feil">
-                <p class="feil" id="ref-feil" role="alert" hidden>Gi kampanjen et navn eller oppgi deres referansekode.</p>
+                <label class="form-label" for="ref">Kampanjenavn/deres referansekode <span class="valgfri">(valgfritt)</span> <button type="button" class="tooltip" data-tooltip="Vises i kampanjelisten og i emnet på e-postene fra Frantz." aria-label="Mer info: Vises i kampanjelisten og i emnet på e-postene fra Frantz."><span class="icon-lucide icon-lucide--info" aria-hidden="true"></span></button></label>
+                <input class="form-input" type="text" id="ref" placeholder="F.eks. Sykepleier Kristiansand" aria-describedby="ref-hint">
+                <p class="form-hint" id="ref-hint">Hvis feltet er tomt, bruker vi stillingsnavnet som kampanjenavn.</p>
               </div>
               </div>
               <fieldset class="kildegruppe" id="kildegruppe" aria-labelledby="kilde-tittel" aria-describedby="kilde-veiledning">
@@ -1696,6 +1699,7 @@
 <script src="data/pakker.js?v=20"></script>
 <script src="../components/js/campaign-material.js?v=20261102-visuals"></script>
 <script src="../components/js/campaign-submission.js?v=20261102-scenarios"></script>
+<script src="../components/js/campaign-validation.js?v=20261103-fields"></script>
 <script src="../components/js/approval-store.js?v=20261102-demo"></script>
 <script src="../components/js/approval-share.js?v=20261102-scenarios"></script>
 <script src="../components/js/ad-logo.js?v=1"></script>
@@ -1987,7 +1991,8 @@
     { id: 'ekstra', tittel: 'Tilleggsinformasjon', felt: [['ekstra', 'Tilleggsinformasjon']] },
     { id: 'bestilling', tittel: 'Bestilling', felt: [['faktura', 'Fakturamottaker']] }
   ];
-  var V2OBLIGATORISK = ['navn', 'stilling', 'sted', 'budsjett', 'kanaler'];
+  var V2OBLIGATORISK = ['stilling', 'sted', 'budsjett', 'kanaler'];
+  var v2ValideringProvd = false;
   function v2AlleFelt() {
     return V2SEKSJONER.reduce(function (liste, seksjon) { return liste.concat(seksjon.felt); }, []);
   }
@@ -1996,10 +2001,9 @@
     frist: 'felt-frist', budsjett: 'blokk-budsjett', kanaler: 'blokk-kanal', periode: 'blokk-periode', fil: 'felt-fil', ekstra: 'felt-ekstra', avsender: 'felt-avsender', produkter: 'blokk-tillegg', faktura: 'felt-faktura', studio: 'del-materiell', preview: 'annonse-forhandsvisning', bibliotek: 'bibliotek'
   };
   var v2apen = null, v2matValg = '', v2hjem = {}, v2fokus = false, v2Bestiller = false;
-  // Without a reference of their own, the campaign is named after the job and the first place: «Sykepleier Kristiansand»
-  function autoNavn() {
-    var st = steder.verdi()[0];
-    return [$('stilling').value.trim(), st ? FrantzPicker.delSted(st).navn : ''].filter(Boolean).join(' ');
+  // Keep the optional reference separate from the campaign's job-based title.
+  function kampanjereferanse() {
+    return $('ref').value.trim();
   }
   function v2StedTekst(kilde) {
     if (kilde.steder && kilde.steder.length) return navnListe(kilde.steder);
@@ -2051,6 +2055,7 @@
     if (id === 'avsender') return $('avsender').value.trim();
     if (id === 'arbeidsgiver') return $('arbeidsgiver').value.trim();
     if (id === 'fil') return v2Filnavn().join(', ');
+    if (id === 'navn') return kampanjereferanse();
     if (Object.prototype.hasOwnProperty.call(ok, id)) return ok[id];
     if (id === 'materiell') {
       if (ok.materiell) return ok.materiell;
@@ -2272,7 +2277,7 @@
   }
   function v2Lagre(id) {
     var ok = tilstand.v2ok;
-    if (id === 'navn') { if (!$('ref').value.trim()) $('ref').value = autoNavn(); ok.navn = $('ref').value.trim(); }
+    if (id === 'navn') ok.navn = $('ref').value.trim();
     else if (id === 'stilling') ok.stilling = $('stilling').value.trim();
     else if (id === 'sted') ok.sted = navnListe(steder.verdi());
     else if (id === 'arbeidsgiver') ok.arbeidsgiver = $('arbeidsgiver').value.trim();
@@ -2344,6 +2349,7 @@
     var target = id === seksjon.id ? null : rot.querySelector('[data-v2-dialog-felt="' + id + '"]');
     $('v2-dialog-tittel').focus();
     if (target) target.scrollIntoView({ block: 'nearest' });
+    if (v2ValideringProvd) v2TegnFeltfeil();
   }
   function v2DialogScroll() {
     var innhold = $('v2-dialog-felt');
@@ -2467,44 +2473,81 @@
     tilstand.pakke = navn;
     return true;
   }
-  function v2FeilBestilling() {
-    var mangler = V2OBLIGATORISK.filter(function (id) { return !v2VisVerdi(id); });
-    if (mangler.length) return { felt: mangler[0], tekst: 'Fyll inn ' + ogListe(mangler.map(function (id) { return v2AlleFelt().find(function (f) { return f[0] === id; })[1].toLowerCase(); })) + ' før dere fortsetter.' };
-    if (forLiteBudsjett()) return { felt: 'budsjett', tekst: 'Budsjettet må være minst ' + kr(FZ_PAKKER.rad(tilstand.kanaler).min) + ' for kanalene dere har valgt. Øk budsjettet, eller fjern en kanal.' };
+  function v2Valideringsfeil() {
     var pd = periodeDatoer();
-    if (tilstand.venter || !Number.isFinite(pd.start.getTime()) || !Number.isFinite(pd.slutt.getTime()) || pd.slutt < pd.start) return { felt: 'periode', tekst: 'Velg en gyldig kampanjeperiode.' };
-    return null;
+    return FrantzCampaignValidation.errors({
+      position: $('stilling').value, locations: steder.verdi(), budget: budsjett(),
+      channels: tilstand.kanaler, minimum: FZ_PAKKER.rad(tilstand.kanaler).min,
+      period: { start: pd.start.getTime(), end: pd.slutt.getTime(), open: tilstand.periodeApent, waiting: tilstand.venter }
+    });
+  }
+  function v2FeilBestilling() { return v2Valideringsfeil()[0] || null; }
+  var V2FEILKONTROLLER = {
+    stilling: '#stilling', sted: '#sted', budsjett: '#budsjett',
+    kanaler: '#kanal-valg input', periode: '#startdato, #q-periode-valg [data-uker]'
+  };
+  function v2TegnFeltfeil() {
+    if (!v2ValideringProvd) return;
+    var feil = v2Valideringsfeil();
+    if ($('v2-status').dataset.validation && !feil.some(v2VenterPaForslag)) {
+      $('v2-status').hidden = true;
+      delete $('v2-status').dataset.validation;
+    }
+    Object.keys(V2FEILKONTROLLER).forEach(function (id) {
+      var node = $(V2NODE[id]);
+      var melding = feil.find(function (f) { return f.felt === id; });
+      var errorId = 'v2-feil-' + id, tekst = $(errorId);
+      if (!tekst) { tekst = document.createElement('p'); tekst.id = errorId; tekst.className = 'feil'; node.appendChild(tekst); }
+      tekst.hidden = !melding;
+      if (melding && tekst.textContent !== melding.tekst) tekst.textContent = melding.tekst;
+      node.classList.toggle('v2-felt--feil', !!melding);
+      node.querySelectorAll(V2FEILKONTROLLER[id]).forEach(function (control) {
+        var beskrivelse = (control.getAttribute('aria-describedby') || '').split(/\s+/).filter(function (value) { return value && value !== errorId; });
+        if (melding) { control.setAttribute('aria-invalid', 'true'); beskrivelse.push(errorId); }
+        else control.removeAttribute('aria-invalid');
+        if (beskrivelse.length) control.setAttribute('aria-describedby', beskrivelse.join(' '));
+        else control.removeAttribute('aria-describedby');
+      });
+      var rad = $('v2-rader').querySelector('[data-v2="' + id + '"] .v2-rad__verdi');
+      if (rad) {
+        rad.classList.toggle('v2-rad__verdi--feil', !!melding);
+        rad.textContent = melding ? melding.tekst : v2VisVerdi(id) || 'Ikke oppgitt';
+      }
+    });
+    if ($('v2-dialog').open) {
+      var synlige = feil.filter(function (f) { return v2DialogGroup.felt.some(function (felt) { return felt[0] === f.felt; }); });
+      $('v2-dialog-feil').hidden = !synlige.length;
+      if (synlige.length) $('v2-dialog-feil').textContent = 'Fyll ut de markerte feltene.';
+    }
+  }
+  function v2FokuserFeil(id) {
+    var node = $(V2NODE[id]), control = node.querySelector(V2FEILKONTROLLER[id]);
+    if (control) { control.focus({ preventScroll: true }); node.scrollIntoView({ block: 'center' }); }
   }
   function v2VenterPaForslag(feil) {
     return !!(feil && tilstand.forslagSpor && tilstand.forslagSpor[feil.felt]);
   }
   function v2KrevBestilling() {
+    v2ValideringProvd = true;
     var feil = v2FeilBestilling();
+    v2TegnFeltfeil();
     if (!feil) return true;
     if (v2VenterPaForslag(feil) && $('v2-forslag-tittel')) {
+      $('v2-status').dataset.validation = 'true';
+      $('v2-status').textContent = 'Velg «Bruk forslaget» eller «Velg selv» for å fylle inn budsjett, kanaler og periode.';
+      $('v2-status').hidden = false;
       $('v2-forslag-tittel').scrollIntoView({ block: 'center', behavior: 'smooth' });
       $('v2-forslag-tittel').focus({ preventScroll: true });
       return false;
     }
     v2Apne(feil.felt);
-    $('v2-dialog-feil').textContent = feil.tekst; $('v2-dialog-feil').hidden = false;
+    v2FokuserFeil(feil.felt);
     return false;
   }
   $('v2-del').setAttribute('aria-haspopup', 'dialog');
   $('v2-del').addEventListener('click', function () {
     if (!v2KrevBestilling()) return;
     $('del-knapp').disabled = false; $('del-knapp').click();
-  });
-  function krevKampanjenavn() {
-    var gyldig = !!$('ref').value.trim();
-    $('ref-feil').hidden = gyldig;
-    $('ref').classList.toggle('form-input--error', !gyldig);
-    if (gyldig) $('ref').removeAttribute('aria-invalid');
-    else { $('ref').setAttribute('aria-invalid', 'true'); $('ref').focus(); }
-    return gyldig;
-  }
-  $('ref').addEventListener('input', function () {
-    if (this.value.trim()) { $('ref-feil').hidden = true; this.removeAttribute('aria-invalid'); this.classList.remove('form-input--error'); }
   });
   async function v2Lukk(lagre) {
     if (!$('v2-dialog').open) return;
@@ -2537,9 +2580,6 @@
       steder.set(snapshot.steder);
       budsjettKontroll.set(snapshot.budget);
       tilstand = snapshot.state;
-      $('ref-feil').hidden = true;
-      $('ref').removeAttribute('aria-invalid');
-      $('ref').classList.remove('form-input--error');
       visVedlegg(tilstand.pdf);
       $('an-logo').checked = tilstand.annonse.utseende.logo;
       $('an-mer').open = false;
@@ -2561,6 +2601,7 @@
     if (opener) opener.focus();
   }
   $('v2-dialog-form').addEventListener('submit', function (e) { e.preventDefault(); v2Lukk(true); });
+  ['input', 'change'].forEach(function (event) { $('v2-dialog-felt').addEventListener(event, v2TegnFeltfeil); });
   $('v2-dialog-avbryt').addEventListener('click', function () { v2Lukk(false); });
   $('v2-dialog-lukk').addEventListener('click', function () { v2Lukk(false); });
   $('v2-dialog').addEventListener('cancel', function (e) { e.preventDefault(); v2Lukk(false); });
@@ -2623,7 +2664,7 @@
       var now = window.FZ_I_DAG(); // the demo clock, so the order is stamped 30.09.2026
       var order = {
         prislinjer: prislinjerForBestilling(),
-        flyt: 'forenklet', tittel: [v2VisVerdi('stilling'), v2VisVerdi('sted')].filter(Boolean).join(' '), ref: $('ref').value.trim(),
+        flyt: 'forenklet', tittel: [v2VisVerdi('stilling'), v2VisVerdi('sted')].filter(Boolean).join(' '), ref: kampanjereferanse(),
         stilling: v2VisVerdi('stilling'), sted: v2VisVerdi('sted'), arbeidsgiver: v2VisVerdi('arbeidsgiver'), frist: v2VisVerdi('frist'),
         kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
         budsjett: budget, total: budget + v2TilleggSum(), tilleggSum: v2TilleggSum(), tillegg: tilleggListe(), kanaler: channels,
@@ -2690,7 +2731,7 @@
     var frist = a.fristDato || (a.frist && dato(a.frist));
     if (frist) { $('frist').value = frist; fylt.push('søknadsfrist'); }
     if (a.kampanjenavn) { $('ref').value = a.kampanjenavn; fylt.push('kampanjenavn'); }
-    else if (!$('ref').value.trim()) { $('ref').value = a.ref || autoNavn(); }
+    else if (!$('ref').value.trim()) { $('ref').value = a.ref || ''; }
     if (a.budsjett) fylt.push('budsjett');
     if (a.kanaler) { tilstand.kanalmodus = 'selv'; tilstand.kanaler = a.kanaler.slice(); tegnKanaler(); fylt.push('kanaler'); }
     if (tilstand.funnet.periode) fylt.push('periode');
@@ -2959,8 +3000,8 @@
     $('rad-lenke').hidden = !lenke;
     $('k-lenke').textContent = lenke;
     var ref = $('ref').value.trim();
-    $('rad-ref').hidden = !ref;
-    $('k-ref').textContent = ref;
+    $('rad-ref').hidden = false;
+    $('k-ref').textContent = ref || 'Ikke oppgitt';
     visSporsmal(false);
   }
   function lukkStart() {
@@ -3294,7 +3335,7 @@
     felt.min = iso(tidligstDato());
     if (document.activeElement !== felt) felt.value = iso(pd.start);
     Array.prototype.forEach.call(document.querySelectorAll('[data-uker]'), function (b) {
-      b.setAttribute('aria-pressed', String(!tilstand.til && !tilstand.venter && String(tilstand.uker) === b.dataset.uker));
+      b.setAttribute('aria-pressed', String(!tilstand.periodeApent && !tilstand.til && !tilstand.venter && String(tilstand.uker) === b.dataset.uker));
       if (b.dataset.uker === 'frist') b.hidden = !$('frist').value;
     });
     // Packages have no period. Only an older package with fixed weeks needs a word here.
@@ -3992,7 +4033,7 @@
     }).materiell;
     return { title: $('stilling').value.trim(), employer: $('arbeidsgiver').value.trim(), location: navnListe(st),
       period: periodeTekst(), budget: budsjett(), extras: extras, channels: tilstand.kanaler.slice(), material: material,
-      reference: $('ref').value.trim(), invoice: $('faktura').value, notes: v2VisVerdi('ekstra'), products: tilleggListe() };
+      reference: kampanjereferanse(), invoice: $('faktura').value, notes: v2VisVerdi('ekstra'), products: tilleggListe() };
   }
   function v2AktivForesporsel() {
     var request = planShare && planShare.latest('plan');
@@ -4194,8 +4235,8 @@
     document.body.classList.toggle('nk-har-mobilbestilling', !$('mobilbestilling').hidden);
     // The job, in the order box on every step
     $('sum-stilling').hidden = !tilstand.lest;
-    var navnVerdi = $('ref').value.trim(), agVerdi = $('arbeidsgiver').value.trim();
-    $('sum-navn-rad').hidden = !navnVerdi; $('sum-navn').textContent = navnVerdi;
+    var navnVerdi = kampanjereferanse(), agVerdi = $('arbeidsgiver').value.trim();
+    $('sum-navn-rad').hidden = false; $('sum-navn').textContent = navnVerdi || 'Ikke oppgitt';
     $('sum-stilling-tittel').textContent = tittel || '—';
     $('sum-sted').textContent = stederListe.length ? navnListe(stederListe) : '—';
     $('sum-arbeidsgiver-rad').hidden = !agVerdi; $('sum-arbeidsgiver').textContent = agVerdi;
@@ -4222,6 +4263,7 @@
     visMangler();
     if (tilstand.steg) { tegnOversikt(); tegnStegListe(); tegnStegNav(); }
     if (!$('v2').hidden) v2Pris();
+    if (v2ValideringProvd) v2TegnFeltfeil();
   }
 
   /* ---------- Steps ----------
@@ -4410,7 +4452,7 @@
     $('sum-designbrief').textContent = $('an-designbrief').value.trim();
     $('oversikt').innerHTML =
       gruppe('Stillingen', 1,
-        rad('Kampanjenavn/deres referansekode', esc($('ref').value.trim())) +
+        rad('Kampanjenavn/deres referansekode', esc(kampanjereferanse()) || 'Ikke oppgitt') +
         rad('Stilling', esc($('stilling').value.trim())) + rad('Arbeidssted', esc(navnListe(st))) +
         rad('Søknadsfrist', $('frist').value ? kort($('frist').value) : '') + rad('Arbeidsgiver', esc($('arbeidsgiver').value.trim()))) +
       gruppe('Kampanjen', 2,
@@ -4446,7 +4488,7 @@
     return {
       id: kladdId || undefined,
       stilling: $('stilling').value.trim() || c.stilling || '', sted: sted ? FrantzPicker.delSted(sted).navn : (c.sted || ''),
-      arbeidsgiver: $('arbeidsgiver').value.trim() || c.arbeidsgiver || '', ref: $('ref').value.trim(), connect: tilstand.connectId || c.id || '',
+      arbeidsgiver: $('arbeidsgiver').value.trim() || c.arbeidsgiver || '', ref: kampanjereferanse(), connect: tilstand.connectId || c.id || '',
       kanaler: tilstand.lest && tilstand.kanaler.length ? tilstand.kanaler.slice() : null, fra: '', til: '', frist: $('frist').value, budsjett: tilstand.lest ? budsjett() || 0 : 0,
       endret: 'i dag kl. ' + String(d.getHours()).padStart(2, '0') + '.' + String(d.getMinutes()).padStart(2, '0')
     };
@@ -4570,7 +4612,7 @@
       arbeidsgiver: $('arbeidsgiver').value.trim(), frist: $('frist').value,
       kildeTekst: $('beskrivelse').value, kildeLenke: $('lenke').value.trim(),
       tittel: [$('stilling').value.trim(), stederListe[0] && FrantzPicker.delSted(stederListe[0]).navn].filter(Boolean).join(' ') || 'Ny kampanje',
-      stilling: $('stilling').value.trim(), sted: stederListe.length ? navnListe(stederListe) : '', ref: $('ref').value.trim(),
+      stilling: $('stilling').value.trim(), sted: stederListe.length ? navnListe(stederListe) : '', ref: kampanjereferanse(),
       budsjett: budsjett(), tilleggSum: tilleggSum, tillegg: tilleggListe(),
       kanaler: kanalTekst(), faktura: $('faktura').value,
       materiell: tilstand.materiell ? materiellTekst() : '', periode: kort(iso(periodeDatoer().start)) + ' – ' + kort(iso(periodeDatoer().slutt)), start: kort(iso(periodeDatoer().start)),

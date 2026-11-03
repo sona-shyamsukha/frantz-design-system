@@ -145,7 +145,7 @@
       <div class="liste__topp">
         <div>
           <h1 class="text-h2">Stillinger</h1>
-          <p class="lede">Stillingene hentes automatisk fra deres eget rekrutteringssystem via Connect. Finn stillingen og opprett en kampanje. Dere bestiller først på siste steg. Kopier sporingskoden til stillingssiden her. <a class="link" href="innstillinger.html#sporingskode">Slik legger dere inn koden</a>.</p>
+          <p class="lede">Stillingene hentes automatisk fra deres eget rekrutteringssystem via Connect. Her vises stillinger uten kampanje eller med kampanjekladd. Dere bestiller først på siste steg. Kopier sporingskoden til stillingssiden her. <a class="link" href="innstillinger.html#sporingskode">Slik legger dere inn koden</a>.</p>
         </div>
       </div>
 
@@ -191,7 +191,7 @@
 
       <div class="pagination-wrap">
         <nav class="pagination" aria-label="Paginering">
-          <span class="pagination__meta" id="side-meta" aria-live="polite">Viser <b>9</b> av 9 stillinger</span>
+          <span class="pagination__meta" id="side-meta" aria-live="polite">Laster stillinger…</span>
           <div class="pagination__pages">
             <button class="pagination__btn" type="button" disabled aria-label="Forrige side"><span class="icon-lucide icon-lucide--chevron-left" aria-hidden="true"></span></button>
             <button class="pagination__page" type="button" aria-label="Side 1" aria-current="page">1</button>
@@ -214,16 +214,14 @@
   // Rows come from the shared ConnectID list, so they match the ConnectID page and Ny kampanje
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var mangler = function (t) { return '<span class="mangler">' + t + '</span>'; };
-  // Only jobs whose campaign Kampanjer also shows, so the two lists agree in the demo
-  var synlige = FZ_KAMPANJER.synlige().map(function (k) { return k.id; });
+  // Ordered campaigns belong in Kampanjer. Keep this list for starting or continuing an order.
   document.getElementById('rader').innerHTML = FZ_CONNECT.alle().filter(function (c) {
-    return !c.kampanje || synlige.indexOf(c.kampanje.id) !== -1;
+    return !c.kampanje || c.kampanje.status === 'Kladd';
   }).map(function (c) {
     var k = c.kampanje;
-    // A stilling with a campaign opens that campaign, or the report when it has ended.
-    // One without a campaign opens the order form, already filled from the ConnectID.
+    // Continue an existing draft or prefill a new order from the ConnectID.
     var maal = k ? k.side : 'ny-kampanje.html?connect=' + c.id;
-    var pil = !k ? 'Opprett kampanje' : c.status === 'Avsluttet' ? 'Åpne rapporten' : c.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen';
+    var pil = k ? 'Fortsett kladden' : 'Opprett kampanje';
     return '<tr tabindex="0" data-href="' + maal + '" data-status="' + c.status + '" data-arbeidsgiver="' + esc(c.arbeidsgiver) + '" data-tittel="' + esc(c.tittel) + '" data-start="' + c.start + '">' +
       // The campaign name sits under the job title, only when there is one
       '<td data-label="Stilling"><span class="celle"><span class="table__title">' + esc(c.tittel) + '</span>' + (c.prosjekt ? '<span class="table__meta">' + esc(c.prosjekt) + '</span>' : '') + '</span></td>' +
@@ -238,7 +236,7 @@
   document.querySelectorAll('[data-kode]').forEach(function (el) {
     el.appendChild(FrantzCopyField.create(FrantzPiksel.kode(el.dataset.kode), { label: 'sporingskoden for ' + el.closest('tr').dataset.tittel, text: el.dataset.kode, compact: true }));
   });
-  // A click on the row opens the campaign, the report, or the prefilled order. Links and buttons in the row keep their own target.
+  // Row clicks open a draft or a prefilled order. Links and buttons keep their own target.
   document.getElementById('rader').addEventListener('click', function (e) {
     if (e.target.closest('a, button, .copy-field')) return;
     var tr = e.target.closest('tr[data-href]'); if (tr) location.href = tr.dataset.href;
@@ -278,7 +276,7 @@
   }
 
   var $ = function (id) { return document.getElementById(id); };
-  var statuser = ['Uten kampanje', 'Kladd', 'Bestilt', 'Under arbeid', 'Aktiv', 'Avsluttet'];
+  var statuser = ['Uten kampanje', 'Kladd'];
   $('valg-status').innerHTML = statuser.map(function (verdi) {
     return '<label class="form-check"><input class="form-check__input" type="checkbox" data-status="' + verdi + '"><span class="form-check__box" aria-hidden="true"></span><span class="form-check__label">' + verdi + '</span></label>';
   }).join('');

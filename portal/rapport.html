@@ -86,17 +86,6 @@
             <div id="resultat-trakt" data-trakt data-visning="lagdelt"></div>
             <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p><b>Relevante besøk:</b> hvor mange som kom til kampanjesiden og ble der en stund.</p><p><b>Begynte å lese:</b> hvor mange som begynte å scrolle i stillingsteksten.</p><p><b>Leste stillingsteksten:</b> hvor mange som leste stillingsteksten helt ut.</p><p><b>Trykket «Søk»:</b> hvor mange som gikk videre til søknadsskjemaet. Hvor mange som sendte søknaden, ser dere i deres eget system.</p></div></details>
           </div>
-          <div class="card card--betjen" id="nettsteder">
-            <div class="card__head"><div>
-              <h3 class="card__title">Hvilke nettsteder og aviser viste annonsen?</h3>
-              <p class="card__hint">Annonsene under «Nettsteder og aviser» vises på mange sider samtidig. 19 200 visninger totalt.</p>
-            </div></div>
-            <div class="results__scroll" role="region" aria-label="Nettsteder og aviser" tabindex="0"><table class="table nettsted-tabell">
-              <thead><tr><th>Nettsted</th><th>Visninger</th><th>Klikk</th></tr></thead>
-              <tbody><tr><td data-label="Nettsted"><span class="table__title">An.no (Avisa Nordland)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:23%"></div></div></div></td><td data-label="Visninger">4 400</td><td data-label="Klikk">86</td></tr><tr><td data-label="Nettsted"><span class="table__title">VG.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">3 700</td><td data-label="Klikk">57</td></tr><tr><td data-label="Nettsted"><span class="table__title">Nordlys.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:15%"></div></div></div></td><td data-label="Visninger">2 800</td><td data-label="Klikk">49</td></tr><tr><td data-label="Nettsted"><span class="table__title">Helgelendingen.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:10%"></div></div></div></td><td data-label="Visninger">1 900</td><td data-label="Klikk">34</td></tr><tr><td data-label="Nettsted"><span class="table__title">iTromso.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:8%"></div></div></div></td><td data-label="Visninger">1 500</td><td data-label="Klikk">25</td></tr><tr><td data-label="Nettsted"><span class="table__title">Aftenposten.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:7%"></div></div></div></td><td data-label="Visninger">1 300</td><td data-label="Klikk">19</td></tr><tr><td data-label="Nettsted"><span class="table__title">Andre (37 nettsteder)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">3 600</td><td data-label="Klikk">60</td></tr></tbody>
-            </table></div>
-            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></div></details>
-          </div>
           <div class="card card--betjen" id="geo">
             <div class="card__head"><div>
               <h3 class="card__title">Hvor ble annonsene vist?</h3>
@@ -112,6 +101,17 @@
               <ol class="geo__liste" id="geo-liste"></ol>
             </div>
             <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Viser hvor personene var da de så annonsen. Meta og Nettsteder og aviser rapporterer begge per fylke. Vi viser bare kanalene kampanjen brukte.</p></div></details>
+          </div>
+          <div class="card card--betjen" id="nettsteder">
+            <div class="card__head"><div>
+              <h3 class="card__title">Hvilke nettsteder og aviser viste annonsen?</h3>
+              <p class="card__hint">Annonsene under «Nettsteder og aviser» vises på mange sider samtidig. 19 200 visninger totalt.</p>
+            </div></div>
+            <div class="results__scroll" role="region" aria-label="Nettsteder og aviser" tabindex="0"><table class="table nettsted-tabell">
+              <thead><tr><th>Nettsted</th><th>Visninger</th><th>Klikk</th></tr></thead>
+              <tbody><tr><td data-label="Nettsted"><span class="table__title">An.no (Avisa Nordland)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:23%"></div></div></div></td><td data-label="Visninger">4 400</td><td data-label="Klikk">86</td></tr><tr><td data-label="Nettsted"><span class="table__title">VG.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">3 700</td><td data-label="Klikk">57</td></tr><tr><td data-label="Nettsted"><span class="table__title">Nordlys.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:15%"></div></div></div></td><td data-label="Visninger">2 800</td><td data-label="Klikk">49</td></tr><tr><td data-label="Nettsted"><span class="table__title">Helgelendingen.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:10%"></div></div></div></td><td data-label="Visninger">1 900</td><td data-label="Klikk">34</td></tr><tr><td data-label="Nettsted"><span class="table__title">iTromso.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:8%"></div></div></div></td><td data-label="Visninger">1 500</td><td data-label="Klikk">25</td></tr><tr><td data-label="Nettsted"><span class="table__title">Aftenposten.no</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:7%"></div></div></div></td><td data-label="Visninger">1 300</td><td data-label="Klikk">19</td></tr><tr><td data-label="Nettsted"><span class="table__title">Andre (37 nettsteder)</span><div class="meter meter--sm"><div class="meter__track"><div class="meter__bar" style="width:19%"></div></div></div></td><td data-label="Visninger">3 600</td><td data-label="Klikk">60</td></tr></tbody>
+            </table></div>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p>Tallene kommer fra annonseplattformen vi bruker. «Andre» er mindre nettsteder med færre visninger hver. Klikk er hvor mange som klikket på annonsen på det nettstedet.</p></div></details>
           </div>
 
           </section>
@@ -422,8 +422,8 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
 <script src="../components/js/campaign-sections.js?v=20261102-scenarios"></script>
 <script src="../components/js/campaign-submission.js?v=20261102-scenarios"></script>
-<script src="../components/js/campaign-pricing.js?v=20261102-details-4"></script>
-<script src="../components/js/campaign-details.js?v=20261102-details"></script>
+<script src="../components/js/campaign-pricing.js?v=20261103-disclosure"></script>
+<script src="../components/js/campaign-details.js?v=20261103-ordered-material"></script>
 <script src="../components/js/campaign-page.js?v=20261102-confirm" data-default-campaign="128984"></script>
 </body>
 </html>

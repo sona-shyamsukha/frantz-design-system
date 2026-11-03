@@ -30,7 +30,7 @@
       extras: (Array.isArray(extras) ? extras : [extras]).map(line),
       designPending: !!(submission.material && submission.material.modus === 'hjelp') };
   }
-  function render(submission, report) {
+  function render(submission, report, options) {
     var data = model(submission, report);
     var description = submission.hasSubmission === false ? 'Registrert kampanjebudsjett. Originalbestilling og full prisfordeling er ikke tilgjengelig.' : 'Registrerte priser fra bestillingen. Endringer avklares med Frantz.';
     function fact(label, value) { return '<dl class="summary-row"><dt>' + label + '</dt><dd>' + money(value) + '</dd></dl>'; }
@@ -43,7 +43,8 @@
         return '<tr><th scope="row">' + escape(item.name) + (item.strategy ? '<small>' + escape(item.strategy) + '</small>' : '') + (item.period ? '<small>' + escape(item.period) + '</small>' : '') + '</th><td data-label="Antall">' + (item.quantity === null ? '—' : item.quantity) + '</td><td data-label="Enhetspris">' + (item.unitPrice === null ? '—' : money(item.unitPrice)) + '</td><td data-label="Pris">' + money(item.price) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
-    return '<div class="card__head"><div><h2 class="card__title">Priser og bestilling</h2><p class="form-hint">' + description + '</p></div></div><div class="campaign-price-summary">' + fact('Kampanjebudsjett', data.budget) + (data.extrasTotal !== null ? fact('Tillegg', data.extrasTotal) : '') + (data.total !== null ? fact('Totalsum ved bestilling', data.total) : '') + '</div><h3 class="text-h4">Kanaler og leveranser</h3>' + table(data.channels, 'Kanalpriser') + (data.channels.some(function (line) { return line.price === null; }) ? '<p class="form-hint">Prisfordelingen per kanal er ikke fullstendig registrert. Kostnad per «Søk» i rapporten er ikke en bestillingspris.</p>' : '') + '<h3 class="text-h4 mt-6">Tillegg</h3>' + table(data.extras, 'Tillegg') + (data.designPending ? '<p class="form-hint mt-4">Design fra Frantz kommer i tillegg. Estimat må avklares før arbeidet starter.</p>' : '');
+    var heading = options && options.showTitle === false ? '<p class="form-hint">' + description + '</p>' : '<div class="card__head"><div><h2 class="card__title">Priser og bestilling</h2><p class="form-hint">' + description + '</p></div></div>';
+    return heading + '<div class="campaign-price-summary">' + fact('Kampanjebudsjett', data.budget) + (data.extrasTotal !== null ? fact('Tillegg', data.extrasTotal) : '') + (data.total !== null ? fact('Totalsum ved bestilling', data.total) : '') + '</div><h3 class="text-h4">Kanaler og leveranser</h3>' + table(data.channels, 'Kanalpriser') + (data.channels.some(function (line) { return line.price === null; }) ? '<p class="form-hint">Prisfordelingen per kanal er ikke fullstendig registrert. Kostnad per «Søk» i rapporten er ikke en bestillingspris.</p>' : '') + '<h3 class="text-h4 mt-6">Tillegg</h3>' + table(data.extras, 'Tillegg') + (data.designPending ? '<p class="form-hint mt-4">Design fra Frantz kommer i tillegg. Estimat må avklares før arbeidet starter.</p>' : '');
   }
   root.FrantzCampaignPricing = Object.freeze({ model: model, render: render });
 })(window);

@@ -223,18 +223,21 @@
     renderFields(model, 'stilling'); renderFields(model, 'kampanje'); renderSource(model);
     var prices = document.querySelector('[data-campaign-pricing]');
     if (!prices) {
-      prices = element('section', 'card card--les'); prices.dataset.campaignPricing = '';
-      var panel = document.getElementById('panel-kampanje'), history = panel.querySelector('[data-campaign-history]');
-      panel.insertBefore(prices, history && history.parentNode === panel ? history : null);
+      prices = element('details', 'disclosure campaign-disclosure'); prices.dataset.campaignPricing = '';
+      var panel = document.getElementById('panel-kampanje'), originalOrder = document.getElementById('original-order');
+      panel.insertBefore(prices, originalOrder && originalOrder.parentNode === panel ? originalOrder : null);
     }
-    prices.innerHTML = root.FrantzCampaignPricing.render(model, options.report || root.FZ_REPORTS && root.FZ_REPORTS[model.id]);
+    prices.innerHTML = '<summary>Priser og bestilling<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary>' +
+      '<div class="disclosure__content campaign-disclosure__body">' + root.FrantzCampaignPricing.render(model, options.report || root.FZ_REPORTS && root.FZ_REPORTS[model.id], { showTitle: false }) + '</div>';
     document.querySelectorAll('[data-submitted-date]').forEach(function (node) { node.textContent = model.submittedAt ? 'Bestilt ' + displayDate(model.submittedAt) : ''; });
     document.querySelectorAll('[data-submitted-note]').forEach(function (node) { node.hidden = model.hasSubmission; node.textContent = model.hasSubmission ? '' : 'Viser opplysningene som er lagret for kampanjen. Originalbestillingen er ikke tilgjengelig.'; });
     var materialCard = document.querySelector('[data-submitted-material]');
     materialCard.hidden = !model.material;
     root.FrantzCampaignMaterialView.render(model.record);
-    if (model.record && model.material) {
-      var actions = document.getElementById('ordered-approval-actions');
+    var actions = document.getElementById('ordered-approval-actions');
+    if (actions) actions.hidden = true;
+    // Customer-supplied ads on an ordered campaign are submitted material, not a new review round.
+    if (model.record && model.material && model.status !== 'Bestilt' && actions) {
       actions.hidden = model.material.modus === 'hjelp' || !model.material.bilde;
       root.FrantzApprovalShare.attach(document.getElementById('ordered-share'), {
         campaign: model.approvalKey, rounds: ['material'], host: actions, ordered: true,
