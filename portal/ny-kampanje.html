@@ -817,8 +817,15 @@
   #steg-liste { display: none !important; }
   .v2[hidden] { display: none !important; }
   .v2.del { display: flex; flex-direction: column; gap: 0; align-self: flex-start; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; padding: 0; overflow: visible; }
-  .v2-kilde { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-16); align-items: start; padding: var(--space-24); }
-  .v2-kilde p { margin: 0; max-width: 68ch; color: var(--text-muted); font: var(--type-body); white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .v2-intro { display: grid; gap: var(--space-8); padding: var(--space-32) var(--space-24) var(--space-24); }
+  .v2-intro h2, .v2-intro p { margin: 0; max-width: 60ch; }
+  .v2-intro p { color: var(--text-body); font: var(--type-body); }
+  /* The user's own text reads as a quote, apart from the guide above */
+  .v2-kilde { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4) var(--space-16); align-items: start; margin: 0 var(--space-24) var(--space-24); padding: var(--space-4) 0 var(--space-4) var(--space-16); border-left: 3px solid var(--border-default); }
+  .v2-kilde__navn { grid-column: 1; color: var(--text-muted); font: var(--type-support); font-weight: var(--font-weight-semibold); }
+  .v2-kilde p { grid-column: 1; }
+  .v2-kilde .link { grid-column: 2; grid-row: 1 / span 2; }
+  .v2-kilde p { margin: 0; max-width: 68ch; color: var(--text-muted); font: var(--type-body); white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .v2-seksjon__tittel { margin: 0; padding: var(--space-16) var(--space-24); border-top: 1px solid var(--border-subtle); background: var(--surface-section); color: var(--text-heading); font: var(--type-label); }
   .v2-seksjon:first-child .v2-seksjon__tittel { border-top: 0; }
   .v2-rad { display: grid; grid-template-columns: 11.5rem minmax(0, 1fr) auto; gap: var(--space-12) var(--space-16); align-items: center; padding: var(--space-16) var(--space-24); border-top: 1px solid var(--border-subtle); }
@@ -865,6 +872,9 @@
   }
   @media (max-width: 640px) {
     .v2-kilde, .v2-rad, .v2-rad--apen, .v2-seksjon__tittel { grid-template-columns: minmax(0, 1fr); padding-inline: var(--space-16); }
+    .v2-intro { padding: var(--space-24) var(--space-16) var(--space-16); }
+    .v2-kilde { margin-inline: var(--space-16); padding-inline: var(--space-12) 0; }
+    .v2-kilde .link { grid-column: 1; grid-row: auto; justify-self: start; }
     .v2-rad--apen .v2-rad__navn { padding-top: 0; }
     .v2-bunn { padding: var(--space-16); }
     .v2-bunn .btn { width: 100%; }
@@ -1602,8 +1612,14 @@
           </section>
           </div>
 
-          <section class="del v2" id="v2" hidden aria-label="Det vi leste ut av teksten" tabindex="-1">
+          <section class="del v2" id="v2" hidden aria-labelledby="v2-tittel" aria-describedby="v2-intro-tekst" tabindex="-1">
+            <!-- Tells the user what this page is and what to do, before the rows -->
+            <div class="v2-intro">
+              <h2 class="text-h3" id="v2-tittel">Se over kampanjen</h2>
+              <p id="v2-intro-tekst">Vi har fylt ut det vi fant. Er noe feil eller mangler, trykk «Endre».</p>
+            </div>
             <div class="v2-kilde">
+              <span class="v2-kilde__navn">Det dere skrev</span>
               <p id="v2-kilde-tekst"></p>
               <button class="link" type="button" id="v2-endre">Endre teksten</button>
             </div>
@@ -1867,7 +1883,13 @@
   }
   function lesTilleggsinformasjon(tekst) {
     var kjente = BEHOV_TEMAER.filter(function (tema) { return tema !== 'Tilleggsinformasjon'; }).concat(['Kampanjenavn', 'Deres referansekode', 'Referansekode']);
-    return rensBehovTekst(tekst).split(/\r?\n/).filter(function (linje) {
+    var linjer = rensBehovTekst(tekst).split(/\r?\n/);
+    // Free text already shows at the top of the summary, so only the template's leftover lines count as extra info.
+    var brukerMal = linjer.some(function (linje) {
+      return kjente.concat(['Tilleggsinformasjon']).some(function (tema) { return linje.trim().toLocaleLowerCase('nb').startsWith((tema + ':').toLocaleLowerCase('nb')); });
+    });
+    if (!brukerMal) return '';
+    return linjer.filter(function (linje) {
       return !kjente.some(function (tema) { return linje.trim().toLocaleLowerCase('nb').startsWith((tema + ':').toLocaleLowerCase('nb')); });
     }).map(function (linje) { return linje.replace(/^tilleggsinformasjon:[ \t]*/i, ''); }).join('\n').trim();
   }
@@ -1982,10 +2004,10 @@
       ['kanaler', 'Kanaler'],
       ['periode', 'Periode']
     ]},
-    { id: 'materiell', tittel: 'Materiell og filer', felt: [
+    { id: 'materiell', tittel: 'Materiell og vedlegg', felt: [
       ['materiell', 'Materiell'],
       ['avsender', 'Avsender'],
-      ['fil', 'Filer']
+      ['fil', 'Vedlegg']
     ]},
     { id: 'produkter', tittel: 'Tilleggsprodukter', felt: [['produkter', 'Valgte produkter']] },
     { id: 'ekstra', tittel: 'Tilleggsinformasjon', felt: [['ekstra', 'Tilleggsinformasjon']] },
@@ -2238,7 +2260,7 @@
         navn.textContent = felt[1];
         var tekst = document.createElement('p');
         tekst.className = 'v2-rad__verdi';
-        tekst.textContent = verdi || (felt[0] === 'fil' ? 'Ingen fil lagt til' : mangler ? 'Mangler' : 'Ikke oppgitt');
+        tekst.textContent = verdi || (felt[0] === 'fil' ? 'Ingen PDF eller Word lagt ved' : mangler ? 'Mangler' : 'Ikke oppgitt');
         // An empty optional value is grey, so it does not read like an answer
         if (!verdi && !mangler) tekst.classList.add('v2-rad__verdi--tom');
         if (mangler) {
@@ -2792,8 +2814,9 @@
     tegnKanaler(); tegnPeriode();
     var spor = {};
     var original = anbefalingOriginal || {};
-    if (!a.budsjett && original.budsjett) spor.budsjett = original.budsjett;
     if (!harKanaler) spor.kanaler = (original.kanaler && original.kanaler.length ? original.kanaler : anbefalt()).slice();
+    // The suggestion always has a budget, also when the job or place is unknown
+    if (!a.budsjett) spor.budsjett = original.budsjett || reserveBudsjett(spor.kanaler || tilstand.kanaler);
     if (!harPeriode) spor.periode = { uker: 3 };
     tilstand.forslagSpor = (spor.budsjett || spor.kanaler || spor.periode) ? spor : null;
     tilstand.forslag = {};
@@ -4332,6 +4355,11 @@
     if (!tilstand.rolle || !stederListe.length) return null;
     var anb = Math.min(R.beregn({ rolle: tilstand.rolle, steder: stederListe }).anbefalt, FORSLAG_TAK);
     return Math.ceil(Math.max(anb, FZ_PAKKER.rad(tilstand.kanaler).min) / 1000) * 1000;
+  }
+  // Like forslagBudsjett, but the model uses its average when the job or place is missing
+  function reserveBudsjett(kanaler) {
+    var anb = Math.min(R.beregn({ rolle: tilstand.rolle, steder: steder.verdi() }).anbefalt, FORSLAG_TAK);
+    return Math.ceil(Math.max(anb, FZ_PAKKER.rad(kanaler).min) / 1000) * 1000;
   }
   function forLiteBudsjett() {
     var b = budsjett();

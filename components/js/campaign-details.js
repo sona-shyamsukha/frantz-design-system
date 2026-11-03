@@ -42,10 +42,6 @@
     var text = source.querySelector('[data-source-text]'); text.textContent = model.source.text;
     text.closest('[data-source-text-block]').hidden = !model.source.text;
   }
-  function campaignUrl(model) {
-    var side = model.campaign.side || location.pathname.split('/').pop() + '?id=' + model.id;
-    var url = new URL(side, location.href); url.hash = ''; return url.href;
-  }
   function renderOverview(model) {
     var host = document.querySelector('[data-campaign-facts]'); host.replaceChildren();
     function fact(label, value) {
@@ -94,7 +90,6 @@
       });
       tracking.appendChild(setup); host.appendChild(tracking);
     }
-    var portal = campaignUrl(model); row('Kampanje i portalen', portal, portal);
     var landing = safeUrl(model.campaign.kampanjelenke || (model.status !== 'Bestilt' ? 'https://frantz.no/k/' + model.id : ''));
     row('Kampanjeside', landing, landing, 'Lenken kommer når kampanjesiden er klar.');
     var source = safeUrl(model.source.url); if (source) row('Stillingsannonse', source, source);
