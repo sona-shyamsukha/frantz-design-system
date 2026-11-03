@@ -26,6 +26,8 @@ Ikke med (eget prosjekt, sa Kenneth og Tore): analysemodul med samlede tall på 
 
 ## Utkast til e-post
 
+Emne: Estimat for neste steg – Frantz-portalen
+
 Hei Tore,
 
 Takk for et godt møte i dag, og takk til Nicolas for gode innspill.
@@ -34,15 +36,21 @@ Endringene vi ble enige om i møtet er allerede lagt inn i prototypen: tavlevisn
 
 Her er estimatet for neste steg:
 
-- Spørsmål etter endt kampanje («ble noen ansatt?» og antall relevante søkere) med påminnelse: 4–6 timer
-- Utvidet sluttrapport med benchmark mot lignende stillinger: 6–8 timer
-- Brukertest med 2–3 personer: 11–12 timer
-- Justeringer etter testen: inntil 8–12 timer for mindre og mellomstore endringer. Hvis testen viser behov for større endringer, som nye flyter eller sider, sender jeg et eget estimat for dem sammen med oppsummeringen fra testen. Da bestemmer dere om vi skal gå videre med det.
-- Møter og oppfølging: 4 timer
+| Oppgave | Timer |
+|---------|-------|
+| Spørsmål etter endt kampanje («ble noen ansatt?» og antall relevante søkere), med påminnelse | 4–6 |
+| Utvidet sluttrapport med benchmark mot lignende stillinger | 6–8 |
+| Brukertest med 2–3 personer | 11–12 |
+| Justeringer etter testen (mindre og mellomstore endringer) | inntil 8–12 |
+| Møter og oppfølging | 4 |
+| **Totalt** | **33–42** |
+| **Pris (1 500 kr/t, eks. mva)** | **49 500–63 000 kr** |
 
-Totalt 33–42 timer. Med timepris 1 500 kr blir det 49 500–63 000 kr eks. mva.
+Hvis testen viser behov for større endringer, som nye flyter eller sider, sender jeg et eget estimat for dem sammen med oppsummeringen fra testen. Da bestemmer dere om vi skal gå videre med det.
 
 Analysemodul og tilgangsstyring for avtalekunder holder jeg utenfor. Det kan vi ta som et eget løp.
+
+Her er statusen for prosjektet så langt, med timer og leveranser: https://claude.ai/artifact/8sm1V9WWW9YLnAWtVAfUDn
 
 Jeg sender timeoversikt hver uke fremover, så du har kontroll underveis. Faktura for oktober kommer i løpet av få dager.
 
