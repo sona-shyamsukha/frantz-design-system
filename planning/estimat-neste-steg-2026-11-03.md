@@ -1,7 +1,7 @@
 # Estimat neste steg — Frantz portal (utkast, ikke sendt)
 
 Kilde: Jamie, «Designendringer gjennomgang», 03.11.2026 (Tore V. Hjerde, Kenneth Nordland Johansen, Nicolas Tidhammar, Sona).
-Status: utkast til e-post til Tore. Timepris er ikke satt inn. [GAP: timepris]
+Status: utkast til e-post til Tore. Timepris 1 500 kr eks. mva (Sona, 03.11). Opprinnelig tilbud hadde fastpris 225 000 kr for 157 timer inkl. reise, ca. 1 433 kr/t.
 
 ## Oppgaver som gjenstår
 
@@ -13,6 +13,7 @@ Status: utkast til e-post til Tore. Timepris er ikke satt inn. [GAP: timepris]
 | 4 | Justeringer etter brukertest | Sona | 8–12 |
 | 5 | Møter og oppfølging | — | 4 |
 | | **Totalt** | | **33–42** |
+| | **Pris (1 500 kr/t, eks. mva)** | | **49 500–63 000 kr** |
 
 Allerede gjort etter møtet (ikke i estimatet): kampanjeoversikt som tavle med «hvem har ballen», «3 dager igjen» i stedet for dato fra–til, nøkkeltall på Hjem som viser oppgaver og tempo, filter på avtalekunde, regel for avsluttet og arkiv, kortere hjelpetekst i Ny kampanje. Statusnavnene beholdes (Sona, 03.11).
 
@@ -39,7 +40,7 @@ Her er estimatet for neste steg:
 - Justeringer etter testen: 8–12 timer
 - Møter og oppfølging: 4 timer
 
-Totalt 33–42 timer. Med timepris [GAP] blir det [GAP] kr eks. mva.
+Totalt 33–42 timer. Med timepris 1 500 kr blir det 49 500–63 000 kr eks. mva.
 
 Analysemodul og tilgangsstyring for avtalekunder holder jeg utenfor. Det kan vi ta som et eget løp.
 
