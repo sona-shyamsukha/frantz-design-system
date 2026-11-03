@@ -147,13 +147,7 @@
   .app .table .btn--sm { white-space: normal; padding-left: var(--space-12); padding-right: var(--space-12); }
 }
 @media (max-width: 640px) {
-  .app .hjem-tall .fakta dt { font: var(--type-support); overflow-wrap: normal; hyphens: none; }
   .app .hjem-tall .fakta dd span { font: var(--type-support); }
-}
-@media (max-width: 380px) {
-  .app .hjem-tall { grid-template-columns: minmax(0, 1fr); }
-  .app .hjem-tall .fakta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); }
-  .app .hjem-tall .fakta dd { margin: 0; text-align: right; }
 }
 @media (max-width: 860px) {
   .rail .nav__item { min-height: var(--space-44); }

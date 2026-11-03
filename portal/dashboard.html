@@ -98,12 +98,17 @@
   .hjem-tall .fakta { background: var(--gradient-hero); border-color: var(--border-navy-strong); }
   .hjem-tall .fakta dt, .hjem-tall .fakta dd span { color: var(--text-on-dark-muted); }
   .hjem-tall .fakta dd { color: var(--text-on-navy); }
-  /* Phone: keep the three numbers side by side, smaller */
+  .hjem-tall .fakta__tall { font-weight: inherit; }
+  .table .meter { min-width: 160px; margin-right: var(--space-24); }
+  /* Phone: one navy panel with a row per number. Label and meaning on the left, the number on the right. */
   @media (max-width: 640px) {
-    .hjem-tall { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
-    .hjem-tall .fakta { padding: var(--space-12) var(--space-8); }
-    .hjem-tall .fakta dt { letter-spacing: var(--tracking-none); text-transform: none; overflow-wrap: anywhere; hyphens: auto; }
-    .hjem-tall .fakta dd span { display: block; }
+    .hjem-tall { grid-template-columns: minmax(0, 1fr); gap: 0; background: var(--gradient-hero); border: 1px solid var(--border-navy-strong); border-radius: var(--radius-12); overflow: hidden; }
+    .hjem-tall .fakta { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-16); row-gap: var(--space-2); align-items: center; padding: var(--space-12) var(--space-16); background: none; border: 0; border-radius: 0; }
+    .hjem-tall .fakta + .fakta { border-top: 1px solid var(--border-navy-strong); }
+    .hjem-tall .fakta dt { grid-column: 1; grid-row: 1; color: var(--text-on-navy); font: var(--type-support-strong); letter-spacing: var(--tracking-none); text-transform: none; }
+    .hjem-tall .fakta dd { display: contents; }
+    .hjem-tall .fakta dd span { grid-column: 1; grid-row: 2; }
+    .hjem-tall .fakta__tall { grid-column: 2; grid-row: 1 / span 2; color: var(--text-on-navy); font: var(--type-section); }
   }
   /* Active campaigns: the same table as on Kampanjer */
   .table-card { padding: 0; overflow-x: auto; }
@@ -211,10 +216,11 @@
       <h1 class="text-h2">Hei Kari</h1>
       <p class="lede">Her ser dere hva som skjer med kampanjene til Nordlys Rekruttering AS i dag. <button type="button" class="link" onclick="FrantzTour.start()">Vis meg rundt</button></p>
 
+      <!-- What needs attention, not totals: tasks, time left and pace against their own history (Nicolas and Tore, 03.11) -->
       <div class="nokkel hjem-tall">
-        <dl class="fakta"><dt>Aktive nå</dt><dd>1 <span>kampanje</span></dd></dl>
-        <dl class="fakta"><dt>Trykket «Søk»</dt><dd>52 <span>på aktive kampanjer</span></dd></dl>
-        <dl class="fakta"><dt>Interessenter</dt><dd>9 <span>på aktive kampanjer</span></dd></dl>
+        <dl class="fakta"><dt>Venter på deg</dt><dd id="tall-venter"><b class="fakta__tall">0</b> <span>oppgaver</span></dd></dl>
+        <dl class="fakta"><dt>Aktive nå</dt><dd id="tall-aktive"><b class="fakta__tall">0</b> <span>kampanjer</span></dd></dl>
+        <dl class="fakta"><dt>«Søk» per dag</dt><dd id="tall-tempo"><b class="fakta__tall">–</b> <span>ingen aktive kampanjer</span></dd></dl>
       </div>
 
       <div class="cols" id="hjem-kolonner">
@@ -226,7 +232,7 @@
           <div class="card card--betjen table-card">
             <table class="table">
               <thead>
-                <tr><th>Kampanje</th><th>Kampanje&shy;periode</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+                <tr><th>Kampanje</th><th>Tid</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
               </thead>
               <tbody id="na-rader"></tbody>
             </table>
@@ -273,14 +279,53 @@
   var REKKE = { 'Aktiv': 0, 'Under arbeid': 1, 'Bestilt': 2 };
   var na = alle.filter(function (k) { return k.status in REKKE && k.bestiller === 'Kari Hansen'; })
     .sort(function (a, b) { return REKKE[a.status] - REKKE[b.status]; });
+  // Time left instead of a date range, the same as on Kampanjer (Tore and Nicolas, 03.11)
+  function idag() { var d = typeof window !== 'undefined' && window.FZ_I_DAG ? window.FZ_I_DAG() : new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function dagerTil(x) { var m = String(x || '').split('-'); return m.length === 3 ? Math.round((new Date(+m[0], m[1] - 1, +m[2]) - idag()) / 86400000) : null; }
+  function dager(n) { return n + (n === 1 ? ' dag' : ' dager'); }
+  function igjen(k) { return Math.max(0, k.lengde - k.dag); }
+  function tid(k) {
+    if (k.status === 'Aktiv' && k.lengde) {
+      var andel = Math.min(100, Math.round((k.dag / k.lengde) * 100));
+      return '<div class="meter meter--sm"><span class="meter__track" aria-hidden="true"><span class="meter__bar" style="width:' + andel + '%"></span></span><span class="meter__value">' + (igjen(k) ? dager(igjen(k)) + ' igjen' : 'Siste dag i dag') + '</span></div>';
+    }
+    var start = dagerTil(k.fra);
+    if (start > 0) return '<span class="table__meta">Starter om ' + dager(start) + '</span>';
+    return '<span class="table__tom">—</span>';
+  }
   document.getElementById('na-rader').innerHTML = na.map(function (k) {
-    var naar = k.status === 'Aktiv' ? 'Dag ' + k.dag + ' av ' + k.lengde : 'Starter ' + FZ_KAMPANJER.dato(k.fra).slice(0, 5);
     return '<tr tabindex="0" onclick="location.href=\'' + k.side + '\'">' +
-      '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span><span class="table__meta">' + esc(k.arbeidsgiver) + ' · ' + naar + '</span></td>' +
-      '<td data-label="Kampanje&shy;periode">' + esc(k.periode) + '</td>' +
+      '<td data-label="Kampanje"><span class="table__title">' + esc(k.tittel) + '</span><span class="table__meta">' + esc(k.arbeidsgiver) + '</span></td>' +
+      '<td data-label="Tid">' + tid(k) + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">Åpne kampanjen</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('') || '<tr><td colspan="4">Ingen kampanjer akkurat nå. <a class="link" href="ny-kampanje.html">Lag en ny kampanje</a>.</td></tr>';
+
+  // A tile value: the number, then what it means
+  function tallHtml(tall, tekst) { return '<b class="fakta__tall">' + esc(tall) + '</b> <span>' + esc(tekst) + '</span>'; }
+
+  // Active campaigns, and when the next one ends
+  var aktive = na.filter(function (k) { return k.status === 'Aktiv'; });
+  var forst = aktive.slice().sort(function (a, b) { return igjen(a) - igjen(b); })[0];
+  document.getElementById('tall-aktive').innerHTML = tallHtml(aktive.length, !forst ? 'kampanjer'
+    : aktive.length === 1 ? 'kampanje · ' + (igjen(forst) ? dager(igjen(forst)) + ' igjen' : 'siste dag i dag')
+    : 'kampanjer · neste slutter ' + (igjen(forst) ? 'om ' + dager(igjen(forst)) : 'i dag'));
+
+  // Pace: «Søk» per day on active campaigns, against what is normal for this firm.
+  // Normal comes from their own ended campaigns, so no Frantz benchmark is needed yet.
+  var tall = function (n) { return n.toLocaleString('nb-NO', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); };
+  var historikk = (FZ_KAMPANJER.alle || FZ_KAMPANJER.synlige)().filter(function (k) { return k.status === 'Avsluttet' && k.bestiller === 'Kari Hansen' && k.sok > 0 && k.lengde > 0; });
+  var vanlig = historikk.length ? historikk.reduce(function (s, k) { return s + k.sok; }, 0) / historikk.reduce(function (s, k) { return s + k.lengde; }, 0) : null;
+  var malt = aktive.filter(function (k) { return k.sok != null && k.dag > 0; });
+  var tempoTekst = tallHtml('–', 'ingen aktive kampanjer');
+  if (malt.length) {
+    var tempo = malt.reduce(function (s, k) { return s + k.sok; }, 0) / malt.reduce(function (s, k) { return s + k.dag; }, 0);
+    var tregere = vanlig ? malt.filter(function (k) { return k.sok / k.dag < vanlig * 0.8; }).length : 0;
+    tempoTekst = tallHtml(tall(tempo), !vanlig ? 'sammenligning kommer etter første avsluttede kampanje'
+      : tregere ? (tregere === 1 ? '1 kampanje går' : tregere + ' kampanjer går') + ' tregere enn vanlig'
+      : 'vanlig for dere er ' + tall(vanlig));
+  } else if (aktive.length) tempoTekst = tallHtml('–', 'tall kommer de første dagene');
+  document.getElementById('tall-tempo').innerHTML = tempoTekst;
 
   // What waits for you: ads to approve, and drafts to finish
   var venter = [];
@@ -295,6 +340,7 @@
         '<a class="btn btn--secondary btn--sm" href="' + esc(v.href) + '">' + esc(v.knapp) + '</a></li>';
     }).join('');
     document.getElementById('venter-kort').hidden = !items.length;
+    document.getElementById('tall-venter').innerHTML = tallHtml(items.length, items.length === 1 ? 'oppgave' : items.length ? 'oppgaver' : 'alt er i rute');
     visPanel();
   }
   // The right column holds «Venter på dere». The results sit under the campaign table.
