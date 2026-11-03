@@ -5,15 +5,15 @@ Status: utkast til e-post til Tore. Timepris 1 500 kr eks. mva (Sona, 03.11). Op
 
 ## Oppgaver som gjenstår
 
-| # | Oppgave | Hvem tok det opp | Timer |
-|---|---------|------------------|-------|
-| 1 | Spørsmål etter endt kampanje: kunden svarer «ble noen ansatt?» og «antall relevante søkere». Påminnelse på e-post og i varslene 14 dager etter slutt, og et kort skjema i portalen | Nicolas, Tore | 4–6 |
-| 2 | Utvidet sluttrapport med benchmark: låses opp når kunden har svart. Sammenligner med lignende stillinger (kostnad per relevant kandidat, ansettelsesrate) basert på Frantz sine tall | Nicolas, Tore | 6–8 |
-| 3 | Brukertest med 2–3 personer (forslag: Lise, Thomas fra Headley): plan og oppgaver, gjennomføring, oppsummering | Sona, Kenneth | 11–12 |
-| 4 | Justeringer etter brukertest | Sona | 8–12 |
-| 5 | Møter og oppfølging | — | 4 |
-| | **Totalt** | | **33–42** |
-| | **Pris (1 500 kr/t, eks. mva)** | | **49 500–63 000 kr** |
+| # | Oppgave | Timer |
+|---|---------|-------|
+| 1 | Spørsmål etter endt kampanje: kunden svarer «ble noen ansatt?» og «antall relevante søkere». Påminnelse på e-post og i varslene 14 dager etter slutt, og et kort skjema i portalen | 4–6 |
+| 2 | Utvidet sluttrapport med benchmark: låses opp når kunden har svart. Sammenligner med lignende stillinger (kostnad per relevant kandidat, ansettelsesrate) basert på Frantz sine tall | 6–8 |
+| 3 | Brukertest med 2–3 personer (forslag: Lise, Thomas fra Headley): plan og oppgaver, gjennomføring, oppsummering | 11–12 |
+| 4 | Justeringer etter brukertest | 8–12 |
+| 5 | Møter og oppfølging | 4 |
+| | **Totalt** | **33–42** |
+| | **Pris (1 500 kr/t, eks. mva)** | **49 500–63 000 kr** |
 
 Allerede gjort etter møtet (ikke i estimatet): kampanjeoversikt som tavle med «hvem har ballen», «3 dager igjen» i stedet for dato fra–til, nøkkeltall på Hjem som viser oppgaver og tempo, filter på avtalekunde, regel for avsluttet og arkiv, kortere hjelpetekst i Ny kampanje. Statusnavnene beholdes (Sona, 03.11).
 
