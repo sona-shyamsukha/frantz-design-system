@@ -10,7 +10,7 @@ Status: utkast til e-post til Tore. Timepris 1 500 kr eks. mva (Sona, 03.11). Op
 | 1 | Spørsmål etter endt kampanje: kunden svarer «ble noen ansatt?» og «antall relevante søkere». Påminnelse på e-post og i varslene 14 dager etter slutt, og et kort skjema i portalen | 4–6 |
 | 2 | Utvidet sluttrapport med benchmark: låses opp når kunden har svart. Sammenligner med lignende stillinger (kostnad per relevant kandidat, ansettelsesrate) basert på Frantz sine tall | 6–8 |
 | 3 | Brukertest med 2–3 personer (forslag: Lise, Thomas fra Headley): plan og oppgaver, gjennomføring, oppsummering | 11–12 |
-| 4 | Justeringer etter brukertest | 8–12 |
+| 4 | Justeringer etter brukertest: inntil 8–12 timer for mindre og mellomstore endringer (tekst, rekkefølge, oppsett, små flytendringer). Større funn, som nye flyter eller sider, beskrives i oppsummeringen fra testen med eget estimat, som Frantz godkjenner før vi starter | 8–12 |
 | 5 | Møter og oppfølging | 4 |
 | | **Totalt** | **33–42** |
 | | **Pris (1 500 kr/t, eks. mva)** | **49 500–63 000 kr** |
@@ -37,7 +37,7 @@ Her er estimatet for neste steg:
 - Spørsmål etter endt kampanje («ble noen ansatt?» og antall relevante søkere) med påminnelse: 4–6 timer
 - Utvidet sluttrapport med benchmark mot lignende stillinger: 6–8 timer
 - Brukertest med 2–3 personer: 11–12 timer
-- Justeringer etter testen: 8–12 timer
+- Justeringer etter testen: inntil 8–12 timer for mindre og mellomstore endringer. Hvis testen viser behov for større endringer, som nye flyter eller sider, sender jeg et eget estimat for dem sammen med oppsummeringen fra testen. Da bestemmer dere om vi skal gå videre med det.
 - Møter og oppfølging: 4 timer
 
 Totalt 33–42 timer. Med timepris 1 500 kr blir det 49 500–63 000 kr eks. mva.
