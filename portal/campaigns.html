@@ -91,6 +91,8 @@
   .tavle__kolonne--aktiv .tavle__topp::before { border-color: var(--status-active); background: var(--status-active); }
   .tavle__antall { font-weight: var(--font-weight-normal); opacity: .8; }
   .table .tavle__ball { max-width: 26ch; }
+  .naa__resultat { display: grid; }
+  .naa__resultat + .tavle__ball, .tavle__ball + .naa__resultat { margin-top: var(--space-6); }
   .table .meter { min-width: 160px; }
   .tavle__tittel { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-support); }
   .tavle__topp p { margin: var(--space-4) 0 0; font: var(--type-support); }
@@ -229,7 +231,7 @@
       <div class="card card--betjen table-card" style="margin-top: var(--space-16)">
         <table class="table">
           <thead>
-            <tr><th>Kampanje</th><th>Tid</th><th>Resultat</th><th>Neste steg</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
+            <tr><th>Kampanje</th><th>Tid</th><th>Resultat og neste steg</th><th>Status</th><th><span class="chat__sr">Åpne</span></th></tr>
           </thead>
           <tbody id="rader" data-vis="eksisterende"></tbody>
           <tbody data-vis="ny">
@@ -315,8 +317,7 @@
       (visNavn ? '<span class="table__meta">' + esc(navn) + '</span>' : '') +
       '<span class="table__meta">' + esc([k.arbeidsgiver, '#' + k.id].filter(Boolean).join(' · ')) + '</span></td>' +
       '<td data-label="Tid">' + (tid(k) || '<span class="table__tom">—</span>') + '</td>' +
-      '<td data-label="Resultat">' + resultat(k) + '</td>' +
-      '<td data-label="Neste steg">' + (neste(k) || '<span class="table__tom">—</span>') + '</td>' +
+      '<td data-label="Resultat og neste steg">' + naa(k) + '</td>' +
       '<td data-label="Status"><span class="badge ' + FZ_KAMPANJER.badge(k.status) + '">' + k.status + '</span></td>' +
       '<td class="table__pil" data-label=""><span class="table__pil-tekst" aria-hidden="true">' + (k.status === 'Avsluttet' ? 'Åpne rapporten' : k.status === 'Kladd' ? 'Fortsett kladden' : 'Åpne kampanjen') + '</span><span class="icon-lucide icon-lucide--chevron-right" aria-hidden="true"></span></td></tr>';
   }).join('');
@@ -385,6 +386,16 @@
     if (k.sok == null) return '<span class="table__tom">' + (k.status === 'Aktiv' ? 'Kommer snart' : '—') + '</span>';
     return '<span class="table__title">' + k.sok + ' «Søk»' + (k.status === 'Aktiv' ? ' så langt' : '') + '</span>' +
       (k.sok > 0 && k.budsjett ? '<span class="table__meta">' + kr(k.budsjett / k.sok) + ' per «Søk»</span>' : '');
+  }
+
+  // Results and next step share one column (Sona, 03.11). A task for the customer always shows, in red.
+  // Otherwise the result leads once there is one, and the next step fills in before that.
+  function naa(k) {
+    var b = ball(k), deler = [];
+    if (b.hvem === 'deg') deler.push(neste(k));
+    if (k.sok != null || k.status === 'Aktiv') deler.push('<span class="naa__resultat">' + resultat(k) + '</span>');
+    if (b.hvem === 'frantz' || (b.hvem === 'ferdig' && !k.rapportKomplett)) deler.push(neste(k));
+    return deler.filter(Boolean).join('') || '<span class="table__tom">—</span>';
   }
 
   // One card = title, who it is for, and the one thing that matters now. The column shows the status.
