@@ -1,7 +1,7 @@
 /* Every campaign the firm has. Kampanjer, Hjem and Stillinger all read this list,
    so a campaign shows the same name, period, budget and status everywhere.
    connect: the ConnectID (job) the campaign belongs to.
-   sok: how many pressed «Søk». Only ended campaigns have it. Bodø matches rapport.html.
+   sok: how many pressed «Søk». Ended campaigns, and the active one so far (30 + 14 + 8 on campaign.html). Bodø matches rapport.html.
    A new draft or order is kept in this browser only (demo). It shows first: a draft as «Kladd», an order as «Bestilt». */
 window.FZ_KAMPANJER = (function () {
   var NYE = 'fzKampanjerNye';
@@ -13,7 +13,7 @@ window.FZ_KAMPANJER = (function () {
     { id: '129074', radgiver: 'Martin Karlsen', connect: '', stilling: 'Barnehagelærer', sted: 'Drammen', arbeidsgiver: 'Drammen Barnehager', ref: 'Oppdrag 22 41',
       kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-10-07', til: '2026-11-04', budsjett: 32000, status: 'Bestilt', bestiller: 'Kari Hansen', side: 'kampanje-bestilt.html' },
     { id: '129041', radgiver: 'Martin Karlsen', connect: '777689', stilling: 'Sykepleier', sted: 'Oslo', arbeidsgiver: 'Oslo Sykehusdrift', ref: 'Oppdrag 22 31',
-      kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-09-03', til: '2026-10-03', budsjett: 48200, status: 'Aktiv', bestiller: 'Kari Hansen', side: 'campaign.html' },
+      kanaler: ['Meta', 'Nettsteder og aviser'], fra: '2026-09-03', til: '2026-10-03', budsjett: 48200, sok: 52, status: 'Aktiv', bestiller: 'Kari Hansen', side: 'campaign.html' },
     { id: '129070', connect: '777845', stilling: 'Helsesykepleier', sted: 'Kristiansand', arbeidsgiver: 'Sørlandet Helse', ref: 'Oppdrag 22 52',
       kanaler: null, fra: '', til: '', frist: '2026-11-08', budsjett: 0, status: 'Kladd', bestiller: 'Kari Hansen', side: 'ny-kampanje.html?kladd=129070',
       endret: 'i går kl. 14.12' },
