@@ -1197,7 +1197,7 @@
               </div>
               </div>
               <fieldset class="kildegruppe" id="kildegruppe" aria-labelledby="kilde-tittel" aria-describedby="kilde-veiledning">
-                <p class="form-hint" id="kilde-veiledning">Legg til informasjon i minst ett felt for å gå videre. Vi bruker det du skriver til å sette opp kampanjen. Resten kan avklares med Frantz.</p>
+                <p class="form-hint" id="kilde-veiledning">Fyll ut minst ett felt. Resten kan dere avklare med Frantz.</p>
                 <p class="alert alert--error" id="feil-start" role="alert" hidden></p>
               <div class="kilde-felter">
               <div class="felt connect-valg" id="connect-valg">
@@ -3103,7 +3103,7 @@
   // Connect is only for some customers. Without it, the field is not there at all.
   if (!(window.FZ_BRUKER && FZ_BRUKER.harConnect)) {
     $('connect-valg').remove();
-    $('kilde-veiledning').textContent = 'Legg til informasjon i minst ett felt for å gå videre. Vi bruker det du skriver til å sette opp kampanjen. Resten kan avklares med Frantz.';
+    $('kilde-veiledning').textContent = 'Fyll ut minst ett felt. Resten kan dere avklare med Frantz.';
   }
   $('fortsett').addEventListener('click', function () {
     if (tilstand.pdfFil && !tilstand.pdfLest) {

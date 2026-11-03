@@ -76,8 +76,24 @@ window.FZ_KAMPANJER = (function () {
     try { localStorage.setItem(NYE, JSON.stringify(liste)); return true; } catch (e) { return false; }
   }
 
+  // Who has the ball, and the one next step. Kampanjer and Hjem show the same text.
+  // The three with their own text are demo data until the real status comes from Frantz.
+  var BALL = {
+    '129070': { hvem: 'deg', neste: 'Velg budsjett og kanaler' },
+    '129074': { hvem: 'frantz', neste: 'Frantz lager kampanjeplanen' },
+    '129072': { hvem: 'deg', neste: 'Godkjenn annonsene' }
+  };
+  function ball(k) {
+    if (BALL[k.id]) return BALL[k.id];
+    if (k.status === 'Kladd') return { hvem: 'deg', neste: 'Fullfør bestillingen' };
+    if (k.status === 'Bestilt' || k.status === 'Under arbeid') return { hvem: 'frantz', neste: 'Frantz gjør kampanjen klar' };
+    if (k.status === 'Avsluttet') return { hvem: 'ferdig', neste: k.rapportKomplett ? 'Sluttrapporten er klar' : 'Svar på om noen ble ansatt' };
+    return { hvem: 'live', neste: 'Følg resultatene' };
+  }
+
   return {
     alle: alle,
+    ball: ball,
     // Keep partial examples addressable, but only show complete ended reports in demo lists.
     synlige: function () { return alle().filter(function (k) { return k.status !== 'Avsluttet' || k.rapportKomplett === true; }); },
     finn: function (id) { return alle().filter(function (k) { return k.id === String(id); })[0] || null; },

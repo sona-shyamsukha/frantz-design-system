@@ -30,6 +30,21 @@
   white-space: nowrap;
 }
 
+/* Stacked: the value on top, the bar under it. For narrow cells, like «3 dager igjen» in a table. */
+.meter--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-6);
+}
+
+.meter--stack .meter__track {
+  flex: none;
+}
+
+.meter--stack .meter__value {
+  color: inherit;
+}
+
 .meter--sm .meter__track,
 .meter__track--sm {
   height: 6px;

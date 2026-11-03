@@ -71,6 +71,10 @@
   font: var(--type-body);
 }
 
+.table .meter--stack {
+  max-width: 160px;
+}
+
 .table .badge,
 .table .tag {
   font: var(--type-badge);

@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Hjem — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=218">
+<link rel="stylesheet" href="../frantz-ds.css?v=221">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <style>
   body { margin: 0; }
@@ -99,7 +99,6 @@
   .hjem-tall .fakta dt, .hjem-tall .fakta dd span { color: var(--text-on-dark-muted); }
   .hjem-tall .fakta dd { color: var(--text-on-navy); }
   .hjem-tall .fakta__tall { font-weight: inherit; }
-  .table .meter { min-width: 160px; margin-right: var(--space-24); }
   /* Phone: one navy panel with a row per number. Label and meaning on the left, the number on the right. */
   @media (max-width: 640px) {
     .hjem-tall { grid-template-columns: minmax(0, 1fr); gap: 0; background: var(--gradient-hero); border: 1px solid var(--border-navy-strong); border-radius: var(--radius-12); overflow: hidden; }
@@ -265,7 +264,9 @@
 </div>
 
 <script src="../components/js/kanaler.js?v=2"></script>
-<script src="data/kampanjer.js?v=20261102-drafts"></script>
+<!-- interactions.js sets the demo date, so it loads before the campaign data -->
+<script src="../components/js/interactions.js?v=6"></script>
+<script src="data/kampanjer.js?v=20261103-ball"></script>
 <script src="../components/js/approval-store.js?v=20261102-drafts"></script>
 <script src="../components/js/campaign-activity.js?v=20261029-mvp"></script>
 <script src="../components/js/campaign-material.js?v=20261102-visuals"></script>
@@ -287,10 +288,10 @@
   function tid(k) {
     if (k.status === 'Aktiv' && k.lengde) {
       var andel = Math.min(100, Math.round((k.dag / k.lengde) * 100));
-      return '<div class="meter meter--sm"><span class="meter__track" aria-hidden="true"><span class="meter__bar" style="width:' + andel + '%"></span></span><span class="meter__value">' + (igjen(k) ? dager(igjen(k)) + ' igjen' : 'Siste dag i dag') + '</span></div>';
+      return '<div class="meter meter--sm meter--stack"><span class="meter__value">' + (igjen(k) ? dager(igjen(k)) + ' igjen' : 'Siste dag i dag') + '</span><span class="meter__track" aria-hidden="true"><span class="meter__bar" style="width:' + andel + '%"></span></span></div>';
     }
     var start = dagerTil(k.fra);
-    if (start > 0) return '<span class="table__meta">Starter om ' + dager(start) + '</span>';
+    if (start > 0) return '<span>Starter om ' + dager(start) + '</span>';
     return '<span class="table__tom">—</span>';
   }
   document.getElementById('na-rader').innerHTML = na.map(function (k) {
@@ -397,7 +398,6 @@
   visPanel();
 })();
 </script>
-<script src="../components/js/interactions.js?v=6"></script>
 <script src="../components/js/konto.js?v=20261102-drafts"></script>
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
