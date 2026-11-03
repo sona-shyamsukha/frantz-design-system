@@ -130,15 +130,28 @@
 
 .funnel__legend-item { display: grid; gap: var(--space-6); min-width: 0; }
 .funnel__legend .funnel__channel-cost { color: var(--text-body); font: var(--type-support-strong); }
-.funnel__channel-details { margin-top: var(--space-16); }
-.funnel__channel-measurements { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--space-16); }
-.funnel__measurements-group { min-width: 0; padding: var(--space-16); border-radius: var(--radius-8); background: var(--surface-subtle); }
-.funnel__measurements-group h4 { margin: 0 0 var(--space-12); font: var(--type-label); color: var(--text-heading); }
-.funnel__measurement { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-12); margin: 0; padding-block: var(--space-8); border-bottom: 1px solid var(--border-default); }
-.funnel__measurement dt { font: var(--type-support); color: var(--text-muted); }
-.funnel__measurement dd { margin: 0; font: var(--type-support-strong); color: var(--text-heading); }
-.funnel__strategy-details { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--border-strong); }
-.funnel__strategy-details h5 { margin: 0 0 var(--space-8); font: var(--type-support-strong); color: var(--text-heading); }
+
+.funnel__legend-toggle {
+  position: relative;
+  min-height: 44px;
+  padding: var(--space-12) var(--space-44) var(--space-12) var(--space-12);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-8);
+  background: var(--surface-subtle);
+  color: var(--text-heading);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.funnel__legend-toggle:hover { border-color: var(--text-muted); }
+.funnel__legend-toggle:focus-visible { outline: 3px solid var(--border-focus); outline-offset: 3px; }
+.funnel__legend-toggle[aria-pressed="false"] { background: transparent; color: var(--text-muted); }
+.funnel__legend-toggle[aria-pressed="false"] .funnel__channel-name { text-decoration: line-through; }
+.funnel__legend-toggle[aria-pressed="false"] .funnel__channel-name i { opacity: 0.3; }
+.funnel__legend .funnel__channel-check { position: absolute; top: var(--space-12); right: var(--space-12); }
+.funnel__legend-toggle[aria-pressed="false"] .funnel__channel-check { visibility: hidden; }
+
 
 /* Frafall under grafen */
 .funnel__foot {
@@ -278,7 +291,7 @@
 
 /* Keep six labelled steps legible; scroll inside the chart on narrow cards. */
 .funnel__box--rolig > .funnel__graph,
-.funnel__box--rolig > .funnel__akse { min-width: 520px; }
+.funnel__box--rolig > .funnel__akse { min-width: var(--funnel-min-width, 520px); }
 
 .funnel__graph--hover {
   position: relative;
@@ -321,10 +334,14 @@
 .funnel__akse {
   display: grid;
   grid-template-columns: repeat(var(--funnel-steg, 4), minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
   margin-top: var(--space-8);
 }
 
 .funnel__akse-steg {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
   padding: var(--space-8);
   border-radius: var(--radius-8);
   text-align: center;
@@ -335,16 +352,19 @@
 }
 
 .funnel__akse-navn {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   gap: var(--space-6);
   color: var(--text-muted);
   font: var(--type-support);
 }
 
 .funnel__akse-navn i {
-  width: 8px;
-  height: 8px;
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  margin-top: 0.45em;
   border-radius: var(--radius-full);
 }
 

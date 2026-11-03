@@ -49,7 +49,8 @@ test('unsupported ranking and normal-level claims are absent from campaign templ
   for (const name of ['campaign.html', 'rapport.html']) {
     const html = fs.readFileSync('portal/' + name, 'utf8');
     assert.doesNotMatch(html, /Beste annonse|\d+ % lavere enn normalt|mot \d+ % normalt|Video ga \d+ ganger|ad-card--best/);
-    assert.match(html, /Dag for dag/);
+    assert.doesNotMatch(html, /id="dag-for-dag"|id="dagsgraf"|tegnUkegraf/);
+    assert.match(html, /visStegRater: false/);
     assert.match(html, /Hvor ble annonsene vist/);
   }
 });

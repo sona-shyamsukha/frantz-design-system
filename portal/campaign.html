@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Sykepleier Oslo — Frantz kampanjeportal</title>
-<link rel="stylesheet" href="../frantz-ds.css?v=225">
+<link rel="stylesheet" href="../frantz-ds.css?v=229">
 <script src="../components/js/brukerflyt.js?v=20261027-client"></script>
 <link rel="stylesheet" href="../components/del-godkjenning/approval.css?v=208">
 <style>
@@ -102,20 +102,11 @@
           <div class="card card--les">
             <div class="card__head">
               <div><h3 class="card__title">Resultater</h3>
-              <p class="card__hint">57 % av besøkende har lest hele stillingsteksten. De bruker i snitt 1 min 42 s på siden.</p></div>
+              <p class="card__hint">Samlet for kampanjen: 57 % av besøkende har lest hele stillingsteksten. De bruker i snitt 1 min 42 s på siden.</p></div>
             </div>
-            <div id="resultat-trakt" data-trakt data-visning="trakt"></div>
-            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p><b>Visninger:</b> hvor mange ganger annonsene ble vist.</p><p><b>Klikk:</b> hvor mange som klikket på en annonse.</p><p><b>Besøk på siden:</b> hvor mange som kom til kampanjesiden og ble der en stund.</p><p><b>Begynte å lese:</b> hvor mange som begynte å scrolle i stillingsteksten.</p><p><b>Leste hele annonsen:</b> hvor mange som leste stillingsteksten helt ut.</p><p><b>Trykket «Søk»:</b> hvor mange som gikk videre til søknadsskjemaet. Hvor mange som sendte søknaden, ser dere i deres eget system.</p></div></details>
+            <div id="resultat-trakt" data-trakt data-visning="lagdelt"></div>
+            <details class="disclosure"><summary>Hva betyr dette?<span class="icon-lucide icon-lucide--chevron-down icon-lucide--md" aria-hidden="true"></span></summary><div class="disclosure__content"><p><b>Relevante besøk:</b> hvor mange som kom til kampanjesiden og ble der en stund.</p><p><b>Begynte å lese:</b> hvor mange som begynte å scrolle i stillingsteksten.</p><p><b>Leste stillingsteksten:</b> hvor mange som leste stillingsteksten helt ut.</p><p><b>Trykket «Søk»:</b> hvor mange som gikk videre til søknadsskjemaet. Hvor mange som sendte søknaden, ser dere i deres eget system.</p></div></details>
           </div>
-          <div class="card card--betjen" id="dag-for-dag">
-            <div class="card__head"><div>
-              <h3 class="card__title">Dag for dag</h3>
-              <p class="card__hint">Siden start 03.09. Tallene for i går kommer kl. 06.00 hver morgen.</p>
-            </div></div>
-            <div id="dagsgraf"></div>
-          </div>
-
-
           <div class="card card--betjen" id="nettsteder">
             <div class="card__head"><div>
               <h3 class="card__title">Hvilke nettsteder og aviser viste annonsen?</h3>
@@ -339,32 +330,19 @@
 })();
 </script>
 
-<script src="../components/js/week-chart.js?v=2"></script>
-<script>
-// Day by day: visninger and «Søk», one small chart each
-(function () {
-  var start = new Date(2026, 8, 3), dager = [];
-  for (var i = 0; i < 27; i++) { var d = new Date(start); d.setDate(d.getDate() + i); dager.push(String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0')); }
-  tegnUkegraf(document.getElementById('dagsgraf'), { enhet: 'dag', uker: dager, serier: [
-    { navn: 'Visninger', farge: 'var(--color-navy)', v: [1410, 3670, 5610, 6620, 7250, 5740, 6030, 7640, 5950, 5560, 6780, 5750, 4850, 3710, 5300, 5790, 5110, 6560, 6810, 4390, 4590, 7050, 8110, 7020, 6660, 7190, 6850] },
-    { navn: 'Trykket «Søk»', farge: 'var(--color-green)', v: [0, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 2] }
-  ] });
-})();
-</script>
-<script src="../components/js/funnel.js?v=20261102-details-3"></script>
+<script src="../components/js/funnel.js?v=20261102-independent-channel-toggle"></script>
 
 <script>
 tegnTrakt(document.getElementById('resultat-trakt'), {
-  navn: ['Visninger', 'Klikk', 'Besøk på siden', 'Begynte å lese', 'Leste hele annonsen', 'Trykket «Søk»'],
+  navn: ['Visninger', 'Klikk', 'Relevante besøk', 'Begynte å lese', 'Leste stillingsteksten', 'Trykket «Søk»'],
   verdier: [158000, 2370, 2020, 1700, 1150, 52],
   lag: [
     { navn: 'Meta', v: [117000, 2000, 1710, 1440, 970, 44], o: 1, farge: 'var(--kanal-meta)' },
     { navn: 'Nettsteder og aviser', v: [41000, 370, 310, 260, 180, 8], o: 0.62, farge: 'var(--kanal-nettsteder)' }
   ],
-  visninger: ['trakt', 'lagdelt'],
-  lagNavn: 'Per kanal',
-  lagTekst: 'Hver farge er en kanal. Jo tykkere, jo flere personer.',
-  skala: 'rot',
+  kanalvalg: true,
+  stegIndekser: [2, 3, 4, 5],
+  visStegRater: false,
   interaktiv: true,
   hjelp: [
     'Hvor mange ganger annonsen ble vist. Det er visningene dere betaler for.',
@@ -484,7 +462,7 @@ tegnTrakt(document.getElementById('resultat-trakt'), {
 <script src="../components/js/assistant-widget.js?v=5"></script>
 <script src="../components/js/assistant.js?v=9"></script>
 <script src="data/rapporter.js?v=20261102-details"></script>
-<script src="../components/js/report-view.js?v=20261102-channel-merge"></script>
+<script src="../components/js/report-view.js?v=20261102-channel-filter"></script>
 <script src="../components/js/report-sharing.js?v=20261027-simple-report"></script>
 <script src="../components/js/campaign-sections.js?v=20261102-scenarios"></script>
 <script src="../components/js/campaign-submission.js?v=20261102-scenarios"></script>
