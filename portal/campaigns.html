@@ -208,6 +208,10 @@
             </div>
           </div>
         </div>
+        <div class="visning" role="group" aria-label="Visning">
+          <button type="button" class="visning__knapp" data-vis-som="tavle" aria-pressed="true" aria-label="Vis som tavle" title="Vis som tavle"><span class="icon-lucide icon-lucide--layout-grid icon-lucide--md" aria-hidden="true"></span></button>
+          <button type="button" class="visning__knapp" data-vis-som="liste" aria-pressed="false" aria-label="Vis som liste" title="Vis som liste"><span class="icon-lucide icon-lucide--list icon-lucide--md" aria-hidden="true"></span></button>
+        </div>
         <label class="sortering verktoy__kunde"><span class="chat__sr">Kunde</span>
           <span class="form-select-wrap">
             <select class="form-select" id="kunde"><option value="">Alle kunder</option></select>
@@ -224,10 +228,6 @@
             </select>
           </span>
         </label>
-        <div class="visning" role="group" aria-label="Visning">
-          <button type="button" class="visning__knapp" data-vis-som="tavle" aria-pressed="true" aria-label="Vis som tavle" title="Vis som tavle"><span class="icon-lucide icon-lucide--layout-grid icon-lucide--md" aria-hidden="true"></span></button>
-          <button type="button" class="visning__knapp" data-vis-som="liste" aria-pressed="false" aria-label="Vis som liste" title="Vis som liste"><span class="icon-lucide icon-lucide--list icon-lucide--md" aria-hidden="true"></span></button>
-        </div>
       </div>
 
       <div class="aktive" id="aktive" aria-live="polite" hidden></div>
